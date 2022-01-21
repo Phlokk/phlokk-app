@@ -36,7 +36,7 @@ const Modal = () => {
             snapPoints={["75%"]}
             index={-1}
             onClose={onClose}
-            handleHeight={60}
+            handleHeight={50}
             enablePanDownToClose>
             {renderContent()}
         </BottomSheet>

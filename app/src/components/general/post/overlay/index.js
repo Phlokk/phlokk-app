@@ -56,7 +56,10 @@ export default function PostSingleOverlay({ user, post }) {
           onPress={() => navigation.navigate('profileOther', { initialUserId: user?.uid })}>
           <Image style={styles.avatar} source={{ uri: user?.photoURL }} />
         </TouchableOpacity>
+        <View style={styles.verifiedContainer}>
         <Text style={styles.username}>@{user?.username}</Text>
+        <Image style={styles.phlokkVerified} source={require('../../../../../../app/assets/verified.png')} />
+        </View>
         <Text style={styles.description}>{post.description}</Text>
       </View>
 

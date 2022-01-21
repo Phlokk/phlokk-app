@@ -3,7 +3,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 30,
-        backgroundColor: 'black',
+        
         padding: 10,
         flexDirection: 'row',
         alignItems: 'center',

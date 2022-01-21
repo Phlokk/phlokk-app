@@ -34,6 +34,7 @@ export const saveUserBioField = (field, value) => new Promise((resolve, reject) 
         .then(() => resolve())
         .catch(() => reject())
 })
+
 export const saveUserLinkField = (field, value) => new Promise((resolve, reject) => {
     let obj = {};
     obj[field] = value
@@ -45,16 +46,15 @@ export const saveUserLinkField = (field, value) => new Promise((resolve, reject)
         .catch(() => reject())
 })
 
-
-export const queryUsersByEmail = (email) => new Promise((resolve, reject) => {
-    if (email === '') {
+export const queryUsersByUsername = (username) => new Promise((resolve, reject) => {
+    if (username === '') {
         resolve([])
     }
 
     firebase.firestore()
         .collection('user')
-        .where('email', '>=', email)
-        .where('email', '<=', email + '\uf8ff')
+        .where('username', '>=', username)
+        .where('username', '<=', username)
         .get()
         .then((snapshot) => {
             let users = snapshot.docs.map(doc => {

@@ -10,5 +10,6 @@ export default function ProfilePostListItem({ item }) {
             onPress={() => navigation.navigate('userPosts', { creator: item.creator, profile: true })}>
             <Image style={styles.image} source={{ uri: item.media[1] }} />
         </TouchableOpacity>
+        
     )
 }

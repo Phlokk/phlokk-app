@@ -1,18 +1,24 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, SafeAreaView, Image } from 'react-native'
 import styles from './styles'
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { Feather } from '@expo/vector-icons'; 
 
 
 
 export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.containerMain}>
-                <Text style={styles.headerText}>{authPage === 0 ? 'sign in' : 'sign up'}</Text>
+           <View style={styles.logoContainer}>
+        <Image
+        source={require('../../../../../app/assets/phlokk_logo.png')}/>
+         <Image style={styles.phlokkLogo} source={require('../../../../../app/assets/small.png')} />
+         </View> 
+            
+                <Text style={styles.headerText}>{authPage === 0 ? 'Sign in' : 'Create Account'}</Text>
                 <TouchableOpacity style={styles.providerButton}
                     onPress={() => setDetailsPage(true)}>
-                    <FontAwesome5 name="user-circle" size={24} color="black" />
+                    <Feather name="user" size={24} color="white" />
                     <Text style={styles.providerButtonText}>Use Email</Text>
                     <View />
                 </TouchableOpacity>
@@ -28,6 +34,6 @@ export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
                 }
             </TouchableOpacity>
 
-        </View>
+        </SafeAreaView>
     )
 }

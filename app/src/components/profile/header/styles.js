@@ -76,6 +76,18 @@ const styles = StyleSheet.create({
         marginBottom: 20,
 
     },
+    phlokkVerified: {
+        width: 12,
+        height: 12,
+        bottom: 4,
+        marginHorizontal: 3,
+        
+    },
+    usernameView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    
+    },
 
 });
 

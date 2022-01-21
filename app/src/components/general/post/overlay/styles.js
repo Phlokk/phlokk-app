@@ -41,6 +41,17 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         marginTop: 4
+    },
+    verifiedContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+
+    },
+    phlokkVerified: {
+        width: 12,
+        height: 12,
+        top: 2,
+        marginHorizontal: 3,
     }
 })
 

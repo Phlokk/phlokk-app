@@ -1,17 +1,25 @@
 
 
 import React, { useEffect, useRef, useState } from "react";
-import { Dimensions, View, FlatList, AppState } from "react-native";
+import { Dimensions, View, FlatList, } from "react-native";
+
 import PostSingle from "../../components/general/post";
 import { getFeed, getPostsByUserId } from "../../services/posts";
 import styles from "./styles";
+import { FULLSCREEN_UPDATE_PLAYER_DID_PRESENT } from "expo-av/build/Video";
 
 export default function FeedScreen({ route }) {
   const { setCurrentUserProfileItemInView, creator, profile } = route.params;
   const [posts, setPosts] = useState([]);
   const mediaRefs = useRef([]);
 
+
   
+
+
+
+
+ 
  
   useEffect(() => {
     if (profile) {
@@ -19,7 +27,11 @@ export default function FeedScreen({ route }) {
     } else {
       getFeed().then(setPosts);
     }
-  }, []);
+  }, [profile.creator]);
+
+  
+
+  
 
   const onViewableItemsChanged = useRef(({ changed }) => {
     changed.forEach((element) => {
@@ -36,6 +48,7 @@ export default function FeedScreen({ route }) {
       }
     });
   });
+  
 
   const renderItem = ({ item, index }) => {
     return (
@@ -52,6 +65,8 @@ export default function FeedScreen({ route }) {
       </View>
     );
   };
+
+  
 
   return (
     <View style={styles.container}>

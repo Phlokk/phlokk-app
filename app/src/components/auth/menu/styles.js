@@ -2,6 +2,8 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        
+        backgroundColor: '#131313'
     },
     containerMain: {
         flex: 1,
@@ -11,7 +13,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 25,
         marginBottom: 25,
-        color: 'darkslategray',
+        color: 'white',
         textAlign: 'center'
     },
     providerButton: {
@@ -24,7 +26,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     providerButtonText: {
-        paddingRight: 20
+        paddingRight: 20,
+        color: '#fff',
     },
     containerBottomButton: {
         backgroundColor: 'ghostwhite',
@@ -36,8 +39,15 @@ const styles = StyleSheet.create({
     },
     bottomButtonText: {
         fontWeight: 'bold',
-        color: 'red'
+        color: 'red',
     },
+
+    logoContainer: {
+        alignItems: 'center'
+    },
+    phlokkLogo: {
+        marginBottom: 20,
+    }
    
 });
 

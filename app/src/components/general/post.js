@@ -1,6 +1,7 @@
 
 import { Video } from 'expo-av'
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
+import { View } from 'react-native'
 import { useUser } from '../../hooks/useUser'
 import PostSingleOverlay from '../general/post/overlay'
 import styles from './styles'
@@ -67,6 +68,8 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
     }
 
     
+
+    
     
       
 
@@ -84,6 +87,7 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
                 posterStyle={{ resizeMode: 'cover', height: '100%' }}
                 source={{ uri: item.media[0] }} />
         </>
+        
     )
 })
 
