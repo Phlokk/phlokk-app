@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import { getPostsByUser } from './post'
+import { getAuth, signOut } from "firebase/auth";
 require('firebase/firebase-auth')
 
 
@@ -42,6 +43,10 @@ export const login = (email, password) => dispatch => new Promise((resolve, reje
         })
 })
 
+
+
+
+
 export const register = (email, password) => dispatch => new Promise((resolve, reject) => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
@@ -51,3 +56,5 @@ export const register = (email, password) => dispatch => new Promise((resolve, r
             reject(error)
         })
 })
+
+

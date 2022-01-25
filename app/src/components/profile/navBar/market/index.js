@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { MaterialIcons } from '@expo/vector-icons'; 
-import { SimpleLineIcons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons'; 
 import styles from './styles';
 
 
@@ -20,7 +20,7 @@ export default function MarketNavBar({ title = 'Phlokk Market', leftButton = { d
 
             <TouchableOpacity style={styles.button} 
             onPress={() => navigation.navigate('seller', { title: 'Ad Account', field: 'Seller Dashboard'})}>
-            <SimpleLineIcons  name="settings" size={24} color="white" />
+            <Ionicons name="settings-sharp" size={24} color="lightgray" />
             </TouchableOpacity>
         </View>
 

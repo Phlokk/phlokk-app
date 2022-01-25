@@ -6,9 +6,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#131313',
     },
     mainContainer: {
-        padding: 20,
-        
-        
+        padding: 20,   
     },
     divider: {
         backgroundColor: 'gray',
@@ -20,7 +18,6 @@ const styles = StyleSheet.create({
     infoTextGreen: {
         color: 'green',
     },
-    
     title: {
         color: 'gray',
         

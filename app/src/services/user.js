@@ -46,6 +46,50 @@ export const saveUserLinkField = (field, value) => new Promise((resolve, reject)
         .catch(() => reject())
 })
 
+export const saveUserAdmission = (field, value) => new Promise((resolve, reject) => {
+    let obj = {};
+    obj[field] = value
+    firebase.firestore()
+        .collection('user')
+        .doc(firebase.auth().currentUser.uid)
+        .update(obj)
+        .then(() => resolve())
+        .catch(() => reject())
+})
+
+export const saveUserBuyLink = (field, value) => new Promise((resolve, reject) => {
+    let obj = {};
+    obj[field] = value
+    firebase.firestore()
+        .collection('user')
+        .doc(firebase.auth().currentUser.uid)
+        .update(obj)
+        .then(() => resolve())
+        .catch(() => reject())
+})
+
+export const saveUserDonateLink = (field, value) => new Promise((resolve, reject) => {
+    let obj = {};
+    obj[field] = value
+    firebase.firestore()
+        .collection('user')
+        .doc(firebase.auth().currentUser.uid)
+        .update(obj)
+        .then(() => resolve())
+        .catch(() => reject())
+})
+
+export const saveUserReviews = (field, value) => new Promise((resolve, reject) => {
+    let obj = {};
+    obj[field] = value
+    firebase.firestore()
+        .collection('user')
+        .doc(firebase.auth().currentUser.uid)
+        .update(obj)
+        .then(() => resolve())
+        .catch(() => reject())
+})
+
 export const queryUsersByUsername = (username) => new Promise((resolve, reject) => {
     if (username === '') {
         resolve([])

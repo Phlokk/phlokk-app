@@ -8,6 +8,28 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: 'lightgray',
     },
+    imageContainer: {
+        alignItems: 'center',
+        marginTop: 20
+    },
+    imageViewContainer: {
+        backgroundColor: 'gray',
+        height: 100,
+        width: 100,
+        borderRadius: 50,
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    image: {
+        height: 100,
+        width: 100,
+        position: 'absolute'
+    },
+    imageOverlay: {
+        backgroundColor: 'rgba(0,0,0, 0.5)',
+        ...StyleSheet.absoluteFill
+    },
     counterContainer: {
         paddingBottom: 20,
         flexDirection: 'row',
@@ -39,8 +61,8 @@ const styles = StyleSheet.create({
         height: 100,
         width: 100,
         borderRadius: 50,
-        borderWidth: 3,
-      
+        borderWidth: 1,
+        borderColor: 'lightgray',
     },
     reviews: {
         color: 'yellow',

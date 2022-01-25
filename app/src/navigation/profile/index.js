@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
@@ -7,6 +8,9 @@ import styles from './styles'
 
 
 export default function DisplayMenuScreen() {
+
+    const navigation = useNavigation()
+    
     return (
         <View style={styles.container}>
             <View style={styles.menuContainer}>
@@ -23,7 +27,7 @@ export default function DisplayMenuScreen() {
                 <FontAwesome name="lock" size={24} color="lightgray" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.itemContainer}>
-                <MaterialIcons name="admin-panel-settings" size={24} color="lightgray" />
+                <MaterialIcons name="admin-panel-settings" size={24} color="lightgray" onPress={() => navigation.navigate('settingsScreen')} />
                 </TouchableOpacity>
             </View>
         </View>

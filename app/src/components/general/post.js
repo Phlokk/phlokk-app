@@ -67,12 +67,6 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
         }
     }
 
-    
-
-    
-    
-      
-
     return (
         <>
             <PostSingleOverlay user={user} post={item} />

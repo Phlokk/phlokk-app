@@ -11,6 +11,7 @@ import MessageScreen from '../../screens/messages';
 import SearchScreen from '../../screens/search';
 import FeedNavigation from '../feed';
 import firebase from 'firebase';
+import { EvilIcons } from '@expo/vector-icons'; 
 import styles from './styles';
 
 
@@ -34,7 +35,7 @@ export default function HomeScreen() {
                 component={FeedNavigation}
                 options={{
                     tabBarIcon: ({ color }) => (
-                        <Ionicons name="md-home" size={26} color='#fff' />
+                        <Ionicons name="md-home" size={22} color='lightgray' />
                     )
                     
 
@@ -45,7 +46,7 @@ export default function HomeScreen() {
                 component={SearchScreen}
                 options={{
                     tabBarIcon: ({ color }) => (
-                        <Feather name="search" size={26} color='#fff' />
+                        <EvilIcons name="search" size={30} color='lightgray' />
                     )
                     
                     
@@ -66,7 +67,7 @@ export default function HomeScreen() {
                 component={MessageScreen}
                 options={{
                     tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="message-processing" size={26} color='#fff' />
+                        <MaterialCommunityIcons name="message-processing" size={22} color='lightgray' />
                     )
                 }}
             />
@@ -75,7 +76,7 @@ export default function HomeScreen() {
                 component={UserProfileScreen}
                 options={{
                     tabBarIcon: ({ color }) => (
-                        <Feather name="user" size={26} color='#fff' />
+                        <Feather name="user" size={22} color='lightgray' />
                     )
                 }}
                 initialParams={{ initialUserId: firebase.auth().currentUser.uid }}

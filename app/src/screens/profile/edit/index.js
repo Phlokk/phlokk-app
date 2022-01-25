@@ -42,6 +42,9 @@ export default function EditProfileScreen() {
             </View>
 
             <View style={styles.fieldsContainer}>
+
+
+
                 <TouchableOpacity
                     style={styles.fieldItemContainer}
                     autoCapitalize="none"
@@ -53,6 +56,10 @@ export default function EditProfileScreen() {
                     </View>
                 </TouchableOpacity>
 
+
+
+
+
                 <TouchableOpacity
                     style={styles.fieldItemContainer}
                     autoCapitalize="none"
@@ -63,6 +70,10 @@ export default function EditProfileScreen() {
                     </View>
                 </TouchableOpacity>
 
+
+
+
+
                 <TouchableOpacity
                     style={styles.fieldItemContainer}
                     autoCapitalize="none"
@@ -72,6 +83,9 @@ export default function EditProfileScreen() {
                         <Feather name='chevron-right' size={28} color='gray' />
                     </View>
                 </TouchableOpacity>
+
+
+                
             </View>
 
             

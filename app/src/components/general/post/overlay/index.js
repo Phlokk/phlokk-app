@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Share } from "react-native";
 import styles from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 import { getLikeById, updateLike } from "../../../../services/posts";
@@ -27,13 +27,6 @@ export default function PostSingleOverlay({ user, post }) {
     });
   }, []);
 
-  /**
-   * Handles the like button action.
-   *
-   * In order to make the action more snappy the like action
-   * is optimistic, meaning we don't wait for a response from the
-   * server and always assume the write/delete action is successful
-   */
   const handleUpdateLike = useMemo(
     () =>
       throttle(500, true, (currentLikeStateInst) => {
@@ -48,64 +41,97 @@ export default function PostSingleOverlay({ user, post }) {
     []
   );
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: "Check out this new video I posted on Phlokk!",
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View>
-        
         <TouchableOpacity
-          onPress={() => navigation.navigate('profileOther', { initialUserId: user?.uid })}>
+          onPress={() =>
+            navigation.navigate("profileOther", { initialUserId: user?.uid })
+          }
+        >
           <Image style={styles.avatar} source={{ uri: user?.photoURL }} />
         </TouchableOpacity>
         <View style={styles.verifiedContainer}>
-        <Text style={styles.username}>@{user?.username}</Text>
-        <Image style={styles.phlokkVerified} source={require('../../../../../../app/assets/verified.png')} />
+          <Text style={styles.username}>@{user?.username}</Text>
+          <Image
+            style={styles.phlokkVerified}
+            source={require("../../../../../../app/assets/verified.png")}
+          />
         </View>
-        <Text style={styles.description}>{post.description}</Text>
+        <View style={styles.wrapText}>
+          <Text style={styles.description}>{post.description}</Text>
+        </View>
       </View>
 
       <View style={styles.leftContainer}>
-        
-      <TouchableOpacity 
-      onPress={() => handleUpdateLike(currentLikeState)}
-    >
-      <MaterialCommunityIcons 
-      
-        color="white"
-        size={40}
-        name={currentLikeState.state ? "star" : "star-outline"}
-      />
+        <View style={styles.likesBox}>
+          <TouchableOpacity onPress={() => handleUpdateLike(currentLikeState)}>
+            <MaterialCommunityIcons
+              color="white"
+              size={40}
+              name={currentLikeState.state ? "star" : "star-outline"}
+            />
 
-      <Text style={styles.actionButtonText}>
-        {currentLikeState.counter}
-      </Text>
-    </TouchableOpacity>
+            <Text style={styles.actionButtonText}>
+              {currentLikeState.counter}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-    <TouchableOpacity
-      style={styles.iconContainer}
-      onPress={() => dispatch(openCommentModal(true, post))}
-    >
-      <Ionicons name="md-chatbubble-ellipses-outline" size={35} color="white" />
-      <Text style={styles.actionButtonText}>
-        {post.commentsCount}
-      </Text>
-    </TouchableOpacity>
+        <View style={styles.commentBox}>
+          <TouchableOpacity
+            style={styles.iconContainer}
+            onPress={() => dispatch(openCommentModal(true, post))}
+          >
+            <Ionicons
+              name="md-chatbubble-ellipses-outline"
+              size={35}
+              color="white"
+            />
+            <Text style={styles.actionButtonText}>{post.commentsCount}</Text>
+          </TouchableOpacity>
+        </View>
 
-    <TouchableOpacity style={styles.iconContainer}>
-       <MaterialCommunityIcons name="share-all-outline" size={30} color="white" />
-       <Text style={styles.actionButtonText}>
-         Share
-       </Text>
-       </TouchableOpacity>
+        <View style={styles.shareBox}>
+          <TouchableOpacity style={styles.iconContainer} onPress={onShare}>
+            <MaterialCommunityIcons
+              name="share-all-outline"
+              size={30}
+              color="white"
+            />
+            <Text style={styles.actionButtonText}>Share</Text>
+          </TouchableOpacity>
+        </View>
 
-       <Text>
-       <MaterialCommunityIcons name="music-circle-outline" size={34} color='white' />
-       </Text>
-    
+        <View style={styles.musicBox}>
+          <Text>
+            <MaterialCommunityIcons
+              name="music-circle-outline"
+              size={34}
+              color="white"
+            />
+          </Text>
+        </View>
       </View>
     </View>
   );
 }
-
-    
-
-      
