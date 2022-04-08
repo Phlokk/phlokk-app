@@ -1,32 +1,33 @@
-import React, { createContext, useState } from 'react'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import FeedScreen from '../../screens/videoFeed'
-import ProfileScreen from '../../screens/profile'
+import React, { createContext, useState } from "react";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import FeedScreen from "../../screens/videoFeed";
+import ProfileScreen from "../../screens/profile";
 
-const { Screen, Navigator } = createMaterialTopTabNavigator()
+const { Screen, Navigator } = createMaterialTopTabNavigator();
 
-export const CurrentUserProfileItemInViewContext = createContext(null)
+export const CurrentUserProfileItemInViewContext = createContext(null);
 
 const FeedNavigation = () => {
-    const [currentUserProfileItemInView, setCurrentUserProfileItemInView] = useState(null)
-    return (
-        <CurrentUserProfileItemInViewContext.Provider value={currentUserProfileItemInView}>
-            <Navigator
-                initialRouteName="feedList"
-                tabBar={() => <></>}>
-                <Screen
-                    name="feedList"
-                    component={FeedScreen}
-                    initialParams={{ setCurrentUserProfileItemInView, profile: false }} />
-                <Screen
-                    name="feedProfile"
-                    component={ProfileScreen}
-                    initialParams={{ initialUserId: null }}
-                />
-            </Navigator>
-        </CurrentUserProfileItemInViewContext.Provider>
+  const [currentUserProfileItemInView, setCurrentUserProfileItemInView] =
+    useState(null);
+  return (
+    <CurrentUserProfileItemInViewContext.Provider
+      value={currentUserProfileItemInView}
+    >
+      <Navigator initialRouteName="feedList" tabBar={() => <></>}>
+        <Screen
+          name="feedList"
+          component={FeedScreen}
+          initialParams={{ setCurrentUserProfileItemInView, profile: false }}
+        />
+        <Screen
+          name="feedProfile"
+          component={ProfileScreen}
+          initialParams={{ initialUserId: null }}
+        />
+      </Navigator>
+    </CurrentUserProfileItemInViewContext.Provider>
+  );
+};
 
-    )
-}
-
-export default FeedNavigation
+export default FeedNavigation;

@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { Video } from "expo-av";
 import React, {
   forwardRef,
@@ -8,11 +7,13 @@ import React, {
 } from "react";
 import { useUser } from "../../../hooks/useUser";
 import PostSingleOverlay from "./overlay";
-import styles from "./styles";
+
+
 
 export const PostSingle = forwardRef(({ item }, parentRef) => {
+
+  
   const ref = useRef(null);
-  const navigation = useNavigation();
   const user = useUser(item.creator).data;
   useImperativeHandle(parentRef, () => ({
     play,
@@ -87,6 +88,13 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
       />
     </>
   );
+});
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,       
+  },
+ 
 });
 
 export default PostSingle;

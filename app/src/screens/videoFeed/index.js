@@ -1,73 +1,209 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Dimensions, View, FlatList } from "react-native";
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
+import {
+  Dimensions,
+  View,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+  Image,
+  Platform,
+} from "react-native";
 import PostSingle from "../../components/general/post";
-import { getFeed, getPostsByUserId } from "../../services/posts";
-import styles from "./styles";
+import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
+import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
+import {
+  useFeed,
+  useUserPosts,
+} from "../../services/posts";
+
+import colors from "../../../config/colors";
 
 export default function FeedScreen({ route }) {
-  const { setCurrentUserProfileItemInView, creator, profile } = route.params;
-  const [posts, setPosts] = useState([]);
-  const mediaRefs = useRef([]);
+  const { setCurrentUserProfileItemInView, creator, profile, selectedVideo } =
+    route.params;
+ 
+  const feed = useFeed(profile);
 
-  useEffect(() => {
-    if (profile) {
-      getPostsByUserId(creator).then(setPosts);
+  const userPosts = useUserPosts(creator, {
+    enabled: Boolean(profile) || Boolean(creator),
+  });
+
+  const isLoading = feed.isLoading || userPosts.isLoading;
+  useRefreshOnFocus(profile ? userPosts.refetch : feed.refetch);
+
+
+  let posts = useMemo(() => {
+    if (profile || creator) {
+      return userPosts?.data || [];
     } else {
-      getFeed().then(setPosts);
+      return feed?.data || [];
     }
-  }, [profile.creator]);
+  }, [profile, feed.data, userPosts.data, creator]);
+  // console.log("posts", posts.length);
+  // console.log(posts)
 
+
+  
+// todo - what are we blocking??????
+  let blocked = ['id here'];
+  posts = posts.filter(function (i) {
+    return !blocked.includes(i.id);
+  });
+
+
+  // to do - where is the video coming in? 
+
+//  posts = shuffleArray(posts) 
+
+// function shuffleArray(array) {
+//   console.log(array);
+//     for (let i = array.length - 1; i > 0; i--) {
+//         const j = Math.floor(Math.random() * (i + 1));
+//         [array[i], array[j]] = [array[j], array[i]];
+//     }
+//     return array;
+// }
+  
+  const mediaRefs = useRef([]);
+  const selectedVideoIndex = useMemo(() => {
+
+    const videoIndex = posts.findIndex(
+      
+      (post) => post.media[0] === selectedVideo
+    );
+    return videoIndex > 0 ? videoIndex : 0;
+  }, [selectedVideo, posts.length]);
+
+  const [viewablePostId, setViewablePostId] = useState(posts[0]?.id);
   const onViewableItemsChanged = useRef(({ changed }) => {
     changed.forEach((element) => {
       const cell = mediaRefs.current[element.key];
-      if (cell) {
-        if (element.isViewable) {
-          if (!profile) {
-            setCurrentUserProfileItemInView(element.item.creator);
-          }
-          cell.play();
-        } else {
-          cell.stop();
+      console.log("cell", cell);
+
+      if (element.isViewable) {
+        console.log("visiable element", element.item.id);
+        if (!profile) {
+          setCurrentUserProfileItemInView(element.item.creator);
+        }
+        setViewablePostId(element.item.id);
+        // cell.setViewable(true);
+        if (cell?.play) {
+          cell?.play();
+        }
+      } else {
+        if (cell?.stop) {
+          cell?.stop();
         }
       }
     });
   });
 
-  const renderItem = ({ item, index }) => {
-    return (
-      <View
-        style={{
-          height: Dimensions.get("window").height - 115,
-          backgroundColor: "black",
-        }}
-      >
-        <PostSingle
-          item={item}
-          ref={(PostSingleRef) => (mediaRefs.current[item.id] = PostSingleRef)}
-        />
-      </View>
-    );
-  };
+  const feedItemHeight =
+    Dimensions.get("window").height - useMaterialNavBarHeight(profile);
+  const getItemLayout = (data, index) => ({
+    length: feedItemHeight,
+    offset: feedItemHeight * index,
+    index,
+  });
+  const renderItem = useCallback(
+    ({ item }) => {
+      if (Platform.OS === "ios") {
+        return (
+          <View style={{ height: feedItemHeight }}>
+            <PostSingle
+              item={item}
+              ref={(PostSingleRef) =>
+                (mediaRefs.current[item.id] = PostSingleRef)
+              }
+            />
+          </View>
+        );
+      }
+      if (Platform.OS === "android") {
+        return viewablePostId === item.id ? (
+          <View style={{ height: feedItemHeight }}>
+            <PostSingle
+              item={item}
+              ref={(PostSingleRef) =>
+                (mediaRefs.current[item.id] = PostSingleRef)
+              }
+            />
+          </View>
+        ) : (
+          <View
+            style={{
+              height: feedItemHeight,
+            }}
+          >
+            <Image
+              source={{ uri: item.media[1] }}
+              style={{
+                resizeMode: "cover",
+                height: feedItemHeight,
+                width: "100%",
+              }}
+            />
+          </View>
+        );
+      }
+    },
+    [viewablePostId]
+  );
 
   return (
     <View style={styles.container}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={posts}
-        windowSize={4}
-        initialNumToRender={0}
-        maxToRenderPerBatch={2}
+        windowSize={Platform.OS === "android" ? 1 : 5}
+        initialNumToRender={Platform.OS === "android" ? 1 : 5}
+        maxToRenderPerBatch={Platform.OS === "android" ? 1 : 5}
         removeClippedSubviews
+        initialScrollIndex={selectedVideoIndex}
         viewabilityConfig={{
-          itemVisiblePercentThreshold: 0,
+          itemVisiblePercentThreshold: 60,
         }}
         renderItem={renderItem}
         pagingEnabled
+        getItemLayout={getItemLayout}
         keyExtractor={(item) => item.id}
-        snapToInterval={Dimensions.get("window").height - 115}
-        snapToAlignment="start"
+        snapToInterval={
+          Dimensions.get("window").height - useMaterialNavBarHeight(profile)
+        }
         decelerationRate={"fast"}
         onViewableItemsChanged={onViewableItemsChanged.current}
       />
+      {isLoading && (
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color={colors.green} />
+        </View>
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
+  text: {
+    color: colors.white,
+    marginTop: 30,
+    padding: 20,
+  },
+});

@@ -1,15 +1,23 @@
-import React, { useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import React from "react";
+import { View, FlatList, StyleSheet } from "react-native";
 import ProfilePostListItem from "./item";
-import styles from "./styles";
+
+import colors from "../../../../config/colors";
 
 export default function ProfilePostList({ posts }) {
+
+  
   return (
-    <View style={styles.container}>
+    <View>
       <FlatList
+        showsVerticalScrollIndicator={false}
+        windowSize={4}
         numColumns={3}
+        initialNumToRender={0}
+        maxToRenderPerBatch={6}
         removeClippedSubviews
-        nestedScrollEnabled
+        snapToAlignment="start"
+        nestedScrollEnabled={false}
         data={posts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ProfilePostListItem item={item} />}
@@ -17,3 +25,17 @@ export default function ProfilePostList({ posts }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    backgroundColor: colors.primary,
+    bottom: 30,
+  },
+  text: {
+    alignItems: "center",
+    backgroundColor: colors.primary,
+    bottom: 1,
+    color: "white",
+  },
+});

@@ -1,35 +1,52 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, TextInput, FlatList } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import SearchUserItem from '../../components/search/userItem'
-import { queryUsersByUsername } from '../../services/user'
-import styles from './styles'
+import React, { useEffect, useState } from "react";
+import { TextInput, FlatList, View, StyleSheet } from "react-native";
+import SearchUserItem from "../../components/search/userItem";
+import { queryUsersByUsername } from "../../services/user";
 
-const SearchScreen = () => {
-    const [textInput, setTextInput] = useState('')
-    const [searchUsers, setSearchUsers] = useState([])
+import colors from "../../../config/colors";
+import SearchRowScreen from "./searchRow";
 
-    useEffect(() => {
-        queryUsersByUsername(textInput)
-            .then(setSearchUsers)
-    }, [textInput])
+const SearchScreen = (props) => {
+  const [textInput, setTextInput] = useState("");
+  const [searchUsers, setSearchUsers] = useState([]);
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <TextInput
-                autoCapitalize="none"
-                onChangeText={setTextInput}
-                style={styles.textInput}
-                placeholder={'Search'}
-            />
-            <FlatList
-                data={searchUsers}
-                renderItem={({ item }) => <SearchUserItem item={item} />}
-                keyExtractor={(item) => item.id}
+  useEffect(() => {
+    queryUsersByUsername(textInput).then(setSearchUsers);
+  }, [textInput]);
 
-            />
-        </SafeAreaView>
-    )
-}
+  return (
+    <View style={styles.container}>
+     <SearchRowScreen />
+      <TextInput
+        autoCapitalize="none"
+        onChangeText={setTextInput}
+        style={styles.textInput}
+        placeholder={"Search"}
+      />
+      <FlatList
+        data={searchUsers}
+        renderItem={({ item }) => <SearchUserItem item={item} />}
+        keyExtractor={(item) => item.id}
+      />
+    </View>
+  );
+};
 
-export default SearchScreen
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.primary,
+    paddingTop: 40,
+    padding: 20,
+  },
+  textInput: {
+    backgroundColor: colors.secondary,
+    borderRadius: 5,
+    flexDirection: "row",
+    width: "100%",
+    padding: 10,
+    marginVertical: 10,
+  },
+});
+
+export default SearchScreen;

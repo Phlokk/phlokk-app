@@ -1,8 +1,11 @@
-import { useQuery } from 'react-query'
-import { getUserById } from '../services/user'
-import { USER_KEY } from './queryKeys'
-
+import { useQuery } from "react-query";
+import { getUserById, getUserRealtime } from "../services/user";
+import { keys } from "./queryKeys";
 
 export const useUser = (userId, options = {}) => {
-    return useQuery([USER_KEY, userId], () => getUserById(userId), options)
-}
+  return useQuery(keys.user(userId), () => getUserById(userId), options);
+};
+
+export const useUserRealtime = (userId, cb) => {
+  return getUserRealtime(userId, cb);
+};

@@ -1,27 +1,28 @@
-import { useNavigation } from '@react-navigation/native'
-import { SafeAreaView } from 'react-native'
-import styles from './styles'
-import React from 'react'
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import MarketNavBar from "../../components/profile/navBar/market";
+import { View, StyleSheet } from "react-native";
 
-import MarketNavBar from '../../components/profile/navBar/market'
-
-
-
-    
+import colors from "../../../config/colors"
 
 export default function Market() {
-    const navigation = useNavigation()
+  const navigation = useNavigation();
 
-  
-    
-    
-    return (
-        <SafeAreaView style={styles.container}>
-            
-            <MarketNavBar />
-       
-        
-    </SafeAreaView>
-        
-    )
+  return (
+    <View style={styles.container}>
+      <MarketNavBar title={"Phlokk Market"} />
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      backgroundColor: colors.primary,
+      paddingVertical: 2,
+      paddingTop: 25,
+      
+      
+  },
+  
+});

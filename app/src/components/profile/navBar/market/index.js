@@ -1,28 +1,60 @@
-import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { MaterialIcons } from '@expo/vector-icons'; 
-import { Ionicons } from '@expo/vector-icons'; 
-import styles from './styles';
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 
+import routes from "../../../../navigation/routes";
+import colors from "../../../../../config/colors"
 
+export default function PhlokkMarketNavBar({
+  title = "Phlokk Market",
+  leftButton = { display: true },
+}) {
+  const navigation = useNavigation();
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.goBack()}
+      >
+        <MaterialIcons name="keyboard-arrow-left" size={28} color="lightgray" />
+      </TouchableOpacity>
 
+      <Text style={styles.title}>{title}</Text>
 
-export default function MarketNavBar({ title = 'Phlokk Market', leftButton = { display: true } }) {
-    const navigation = useNavigation()
-    return (
-        <View style={styles.container}>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
-            <MaterialIcons  name="keyboard-arrow-left" size={28} color="lightgray" />
-            </TouchableOpacity>
-
-            <Text style={styles.title}>{title}</Text>
-
-            <TouchableOpacity style={styles.button} 
-            onPress={() => navigation.navigate('seller', { title: 'Ad Account', field: 'Seller Dashboard'})}>
-            <Ionicons name="settings-sharp" size={24} color="lightgray" />
-            </TouchableOpacity>
-        </View>
-
-    )
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate(routes.SELLER, {
+            title: "Ad Account",
+            field: "Seller Dashboard",
+          })
+        }
+      >
+        <Octicons name="settings" size={24} color="lightgray" />
+      </TouchableOpacity>
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingTop: 20,
+  },
+  button: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.white,
+  },
+  text: {
+    color: colors.white,
+  },
+});

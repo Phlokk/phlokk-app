@@ -1,45 +1,203 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, Image, Linking } from "react-native";
-import { useSelector } from "react-redux";
-import { Ionicons } from "@expo/vector-icons";
-import DisplayMenuScreen from "../../../navigation/profile";
-import styles from "./styles";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import DisplayMenuScreen from "../../../screens/profile/displayMenu";
+import firebase from "firebase";
+import { useFollowing } from "../../../hooks/useFollowing";
+import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
+import UserProfile from "../userProfile";
 
-export default function ProfileHeader({ user }) {
+import routes from "../../../navigation/routes";
+import colors from "../../../../config/colors";
+import ProfileStatsContainer from "../profileStats";
+
+function ProfileHeader({ user }) {
   const navigation = useNavigation();
-  const auth = useSelector((state) => state.auth);
+
+  const isFollowing = useFollowing(
+    firebase.auth().currentUser.uid,
+    user.uid
+  ).data;
+  const isFollowingMutation = useFollowingMutation();
+  const renderFollowButton = () => {
+    if (isFollowing) {
+      return (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={styles.profileIconButton}
+            onPress={() =>
+              navigation.navigate(routes.CHAT_SINGLE, { contactId: user.uid })
+            }
+          >
+            <MaterialCommunityIcons
+              name="message-processing-outline"
+              size={22}
+              color="lightgray"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.profileIconButton}
+            onPress={() =>
+              isFollowingMutation.mutate({ otherUserId: user.uid, isFollowing })
+            }
+          >
+            <Feather name="user-check" size={20} color={colors.green} />
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          style={styles.filledButton}
+          onPress={() =>
+            isFollowingMutation.mutate({ otherUserId: user.uid, isFollowing })
+          }
+        >
+          <Text style={styles.text}>
+            <Feather name="user-plus" size={20} color="white" />
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.counterContainer}>
-        <View style={styles.counterItemContainer}>
-          <Text style={styles.counterNumberText}>20k</Text>
-          <Text style={styles.counterLabelText}>Following</Text>
-        </View>
-        <View style={styles.counterItemContainer}>
-          <Text style={styles.counterNumberText}>40k</Text>
-          <Text style={styles.counterLabelText}>Friends</Text>
-        </View>
-        <View style={styles.counterItemContainer}>
-          <Text style={styles.counterNumberText}>100k</Text>
-          <Text style={styles.counterLabelText}>Stars</Text>
-        </View>
-      </View>
+
+      <ProfileStatsContainer />
+
+      {firebase.auth().currentUser.uid === user.uid ? (
+        <TouchableOpacity></TouchableOpacity>
+      ) : (
+        renderFollowButton()
+      )}
+
       <View>
-        <DisplayMenuScreen />
+        <UserProfile
+          photoURL={user.photoURL}
+          username={user.username}
+          relationship={user.relationship}
+          relationshipName={user.relationshipName}
+          creator={user.creator}
+          link={user.link}
+          verified={user.verified}
+          youtubeLink={user.youtubeLink}
+          instagramLink={user.instagramLink}
+        />
       </View>
 
-      <Image style={styles.avatar} source={{ uri: user.photoURL }} />
-      <View style={styles.usernameView}>
-      <Text style={styles.username}>@{user.username}</Text>
-      <Image style={styles.phlokkVerified} source={require('../../../../../app/assets/verified.png')} />
-      </View>
-      <Text style={styles.bioText}>{user.Bio}</Text>
-      <Text style={styles.linkText}>
-        <Ionicons style={styles.link} name="link" size={15} color="green" />
-        {user.link}
-      </Text>
+      {firebase.auth().currentUser.uid === user.uid ? (
+        <View>
+          <DisplayMenuScreen />
+        </View>
+      ) : (
+        <TouchableOpacity></TouchableOpacity>
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    paddingHorizontal: 50,
+    backgroundColor: colors.primary,
+  },
+  creatorText: {
+    padding: 20,
+    color: colors.white,
+  },
+
+  bioText: {
+    color: colors.white,
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 30,
+  },
+
+  display: {
+    flexDirection: "row",
+    alignItems: "center",
+    fontWeight: "bold",
+    padding: 20,
+    color: colors.white,
+  },
+  text: {
+    color: colors.secondary,
+    fontWeight: "bold",
+  },
+  linkText: {
+    color: colors.secondary,
+    marginBottom: 30,
+  },
+  link: {
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  avatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+  },
+  username: {
+    color: colors.white,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  phlokkVerified: {
+    width: 12,
+    height: 12,
+    bottom: 4,
+    marginHorizontal: 3,
+  },
+  usernameView: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  followButton: {
+    borderColor: colors.secondary,
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+  },
+  profileIconButton: {
+    borderColor: colors.secondary,
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingVertical: 7,
+    marginBottom: 5,
+    paddingHorizontal: 30,
+    marginHorizontal: 5,
+  },
+  filledButton: {
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    paddingVertical: 7,
+    paddingHorizontal: 50,
+    marginBottom: 5,
+  },
+  messageText: {
+    color: colors.black,
+    fontWeight: "700",
+  },
+  optionsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#8a2be2",
+    padding: 3,
+    borderRadius: 25,
+    color: colors.primary,
+  },
+});
+
+export default ProfileHeader;
+
+
+

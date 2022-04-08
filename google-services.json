@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "793274127105",
+    "firebase_url": "https://phlokk-app-default-rtdb.firebaseio.com",
+    "project_id": "phlokk-app",
+    "storage_bucket": "phlokk-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793274127105:android:4ec0bc005dab08bd9a8100",
+        "android_client_info": {
+          "package_name": "host.exp.exponent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793274127105-cmplhal41cf40qe34ut51b0hlmkuv5ko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI2sQ9__42Vfdeivl4LcJLa5kfB0nHQBc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793274127105-cmplhal41cf40qe34ut51b0hlmkuv5ko.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "793274127105-di7dohu1o9mko0pv0f7h85g7e4t2kpae.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.phlokkproject.phlokkapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
