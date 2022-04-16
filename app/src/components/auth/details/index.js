@@ -5,40 +5,72 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   Image,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
-import { login, register } from "../../../redux/actions";
+// import { useDispatch } from "react-redux";
+// import { login, register } from "../../../redux/actions";
 import { useNavigation } from "@react-navigation/native";
 
+import axios from "axios";
+// import { LOGIN, REGISTER } from "@env";
 import colors from "../../../../config/colors";
 
 export default function AuthDetails({ authPage, setDetailsPage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+
+
   const navigation = useNavigation;
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleLogin = () => {
-    dispatch(login(email, password))
-      .then(() => {
-        console.log("login successful");
+    axios
+      .post("https://dev.phlokk.com/test/login", {
+        email: email,
+        password: password,
+        // headers: {"Authorization": localStorage.getItem('token')}
+      //   headers: {
+      //     Authorization: 'Bearer '+token
+      // }
       })
-      .catch(() => {
-        alert("Wrong email or password");
+      .then(function (response) {
+        // navigation.navigate("feed");
+        // 2 seconds later...
+
+        console.log("------------ Response XXX ---------");
+        // console.log(response);
+        console.log(response.data);
+        console.log("------------ Response XXX ---------");
+      })
+      .catch(function (error) {
+        console.log("------------ Back from Server ----------");
+        console.log("------------ ERROR -------------");
+        console.log(error);
       });
   };
+
   const handleRegister = () => {
-    dispatch(register(email, password))
-      .then(() => {
-        console.log("register successful");
+    console.log(email, password, username, name);
+    axios
+      .post("https://dev.phlokk.com/test/register", {
+        name: name,
+        username: username,
+        email: email,
+        password: password,
       })
-      .catch(() => {
-        console.log("register unsuccessful");
-        alert("register unsuccessful");
+      .then(function (response) {
+        console.log("------------ Response XXX ---------");
+        console.log(response.data);
+        console.log("------------ Response XXX ---------");
+      })
+      .catch(function (error) {
+        console.log("------------ Back from Server ----------");
+        console.log("------------ ERROR -------------");
+        console.log(error);
       });
   };
 
@@ -58,6 +90,51 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       </View>
 
       <View style={styles.fields}>
+      {authPage === 0 ? (
+        <>
+          <TextInput
+          style={styles.textInput}
+          keyboardType="email-address"
+          placeholderTextColor={"lightgray"}
+          autoCapitalize="none"
+          autoCorrect={false}
+          textContentType="emailAddress"
+          maxLength={50}
+          onChangeText={(text) => setEmail(text)}
+          placeholder="Email"
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholderTextColor={"lightgray"}
+          autoCapitalize="none"
+          autoCorrect={false}
+          textContentType="password"
+          maxLength={24}
+          onChangeText={(text) => setPassword(text)}
+          secureTextEntry
+          placeholder="Password"
+        />
+        </>
+        ) : (
+          <>
+          <TextInput
+          style={styles.textInput}
+          placeholderTextColor={"lightgray"}
+          autoCapitalize="words"
+          autoCorrect={false}
+          maxLength={50}
+          onChangeText={(text) => setName(text)}
+          placeholder="Name"
+        />
+      <TextInput
+          style={styles.textInput}
+          placeholderTextColor={"lightgray"}
+          autoCapitalize="none"
+          autoCorrect={false}
+          maxLength={24}
+          onChangeText={(text) => setUsername(text)}
+          placeholder="Username"
+        />
         <TextInput
           style={styles.textInput}
           keyboardType="email-address"
@@ -80,6 +157,8 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
           secureTextEntry
           placeholder="Password"
         />
+        </>
+        )}
         <TouchableOpacity
           style={styles.button}
           onPress={() => (authPage === 0 ? handleLogin() : handleRegister())}

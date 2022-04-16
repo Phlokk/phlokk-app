@@ -8,15 +8,35 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import SettingsNavBar from "../../components/general/settings";
-import firebase from "firebase";
+// import firebase from "firebase";
 
+import axios from "axios";
+import { LOGOUT } from "@env";
 import routes from "../../navigation/routes"
 import colors from "../../../config/colors"
 
 export default function SettingsScreen() {
   const logout = () => {
-    firebase.auth().signOut();
+    axios
+      .post(`${LOGOUT}`)
+      .then(function (response) {
+        // navigation.navigate("auth");
+        // 2 seconds later...
+
+        console.log("------------ Response XXX ---------");
+        // console.log(response);
+        console.log(response.data);
+        console.log("------------ Response XXX ---------");
+      })
+      .catch(function (error) {
+        console.log("------------ Back from Server ----------");
+        console.log("------------ ERROR -------------");
+        console.log(error);
+      });
   };
+
+
+
 
   const auth = useSelector((state) => state.auth);
   const navigation = useNavigation();
