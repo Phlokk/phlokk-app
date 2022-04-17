@@ -6,12 +6,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Alert
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-// import { useDispatch } from "react-redux";
-// import { login, register } from "../../../redux/actions";
 import { useNavigation } from "@react-navigation/native";
-
 import axios from "axios";
 // import { LOGIN, REGISTER } from "@env";
 import colors from "../../../../config/colors";
@@ -21,21 +19,29 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
-
+  
 
   const navigation = useNavigation;
 
-  // const dispatch = useDispatch();
+  function resetTextInput() {
+    console.log("reset forum");
+    setName("");
+    setEmail("");
+    setPassword("");
+    setUsername("");
+    
+    }
+  
 
   const handleLogin = () => {
     axios
       .post("https://dev.phlokk.com/test/login", {
         email: email,
         password: password,
-        // headers: {"Authorization": localStorage.getItem('token')}
-      //   headers: {
-      //     Authorization: 'Bearer '+token
-      // }
+        headers: {
+          Authorization : `Bearer ${token}`,
+          Accept: "application/json" 
+        }
       })
       .then(function (response) {
         // navigation.navigate("feed");
@@ -63,8 +69,15 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         password: password,
       })
       .then(function (response) {
+        
+
         console.log("------------ Response XXX ---------");
         console.log(response.data);
+        resetTextInput();
+        Alert.alert('You registered successfully');  
+        
+
+        // navigation.navigate("auth");
         console.log("------------ Response XXX ---------");
       })
       .catch(function (error) {
@@ -90,74 +103,86 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       </View>
 
       <View style={styles.fields}>
-      {authPage === 0 ? (
-        <>
-          <TextInput
-          style={styles.textInput}
-          keyboardType="email-address"
-          placeholderTextColor={"lightgray"}
-          autoCapitalize="none"
-          autoCorrect={false}
-          textContentType="emailAddress"
-          maxLength={50}
-          onChangeText={(text) => setEmail(text)}
-          placeholder="Email"
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholderTextColor={"lightgray"}
-          autoCapitalize="none"
-          autoCorrect={false}
-          textContentType="password"
-          maxLength={24}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry
-          placeholder="Password"
-        />
-        </>
+        {authPage === 0 ? (
+          <>
+            <TextInput
+              style={styles.textInput}
+              keyboardType="email-address"
+              placeholderTextColor={"lightgray"}
+              autoCapitalize="none"
+              autoCorrect={false}
+              textContentType="emailAddress"
+              maxLength={50}
+              onChangeText={(text) => setEmail(text)}
+              placeholder="Email"
+              value={email}
+              
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholderTextColor={"lightgray"}
+              autoCapitalize="none"
+              autoCorrect={false}
+              textContentType="password"
+              maxLength={24}
+              onChangeText={(text) => setPassword(text)}
+              secureTextEntry
+              placeholder="Password"
+              value={password}
+              
+            />
+          </>
         ) : (
           <>
-          <TextInput
-          style={styles.textInput}
-          placeholderTextColor={"lightgray"}
-          autoCapitalize="words"
-          autoCorrect={false}
-          maxLength={50}
-          onChangeText={(text) => setName(text)}
-          placeholder="Name"
-        />
-      <TextInput
-          style={styles.textInput}
-          placeholderTextColor={"lightgray"}
-          autoCapitalize="none"
-          autoCorrect={false}
-          maxLength={24}
-          onChangeText={(text) => setUsername(text)}
-          placeholder="Username"
-        />
-        <TextInput
-          style={styles.textInput}
-          keyboardType="email-address"
-          placeholderTextColor={"lightgray"}
-          autoCapitalize="none"
-          autoCorrect={false}
-          textContentType="emailAddress"
-          maxLength={50}
-          onChangeText={(text) => setEmail(text)}
-          placeholder="Email"
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholderTextColor={"lightgray"}
-          autoCapitalize="none"
-          autoCorrect={false}
-          textContentType="password"
-          maxLength={24}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry
-          placeholder="Password"
-        />
-        </>
+            <TextInput
+              style={styles.textInput}
+              placeholderTextColor={"lightgray"}
+              autoCapitalize="words"
+              autoCorrect={false}
+              maxLength={50}
+              onChangeText={(text) => setName(text)}
+              placeholder="Name"
+              value={name}
+              
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholderTextColor={"lightgray"}
+              autoCapitalize="none"
+              autoCorrect={false}
+              maxLength={24}
+              onChangeText={(text) => setUsername(text)}
+              placeholder="Username"
+              value={username}
+              
+            />
+            <TextInput
+              style={styles.textInput}
+              keyboardType="email-address"
+              placeholderTextColor={"lightgray"}
+              autoCapitalize="none"
+              autoCorrect={false}
+              textContentType="emailAddress"
+              maxLength={50}
+              onChangeText={(text) => setEmail(text)}
+              placeholder="Email"
+              value={email}
+             
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholderTextColor={"lightgray"}
+              autoCapitalize="none"
+              autoCorrect={false}
+              textContentType="password"
+              maxLength={24}
+              onChangeText={(text) => setPassword(text)}
+              secureTextEntry
+              placeholder="Password"
+              value={password}
+              
+            />
+          </>
         )}
         <TouchableOpacity
           style={styles.button}

@@ -29,15 +29,15 @@ export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
           />
         </View>
 
-        <Text style={styles.headerText}>
+        {/* <Text style={styles.headerText}>
           {authPage === 0 ? "Sign in" : "Create Account"}
-        </Text>
+        </Text> */}
         <TouchableOpacity
           style={styles.providerButton}
           onPress={() => setDetailsPage(true)}
         >
           <Feather name="user" size={24} color="white" />
-          <Text style={styles.providerButtonText}>Use Email</Text>
+          <Text style={styles.providerButtonText}>{authPage === 0 ? "Sign in" : "Create Account"}</Text>
           <View />
         </TouchableOpacity>
       </View>
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     providerButtonText: {
         paddingRight: 20,
         color: colors.white,
+        fontSize: 18,
     },
     containerBottomButton: {
         backgroundColor: 'ghostwhite',
