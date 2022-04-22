@@ -36,7 +36,7 @@ export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
           style={styles.providerButton}
           onPress={() => setDetailsPage(true)}
         >
-          <Feather name="user" size={24} color="white" />
+          <Feather name="user" size={20} color="white" />
           <Text style={styles.providerButtonText}>{authPage === 0 ? "Sign in" : "Create Account"}</Text>
           <View />
         </TouchableOpacity>
@@ -47,12 +47,12 @@ export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
         onPress={() => (authPage === 0 ? setAuthPage(1) : setAuthPage(0))}
       >
         {authPage === 0 ? (
-          <Text>
+          <Text style={styles.authText}>
             Don't have an account?{" "}
             <Text style={styles.bottomButtonText}>Sign up</Text>
           </Text>
         ) : (
-          <Text>
+          <Text style={styles.authText}>
             Already have an account?{" "}
             <Text style={styles.bottomButtonText}>Sign in</Text>
           </Text>
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
         padding: 30,
         marginTop: '40%',
         padding: 20,
+        paddingHorizontal: 30,
         
     },
     headerText: {
@@ -86,6 +87,7 @@ const styles = StyleSheet.create({
     providerButton: {
         borderColor: colors.secondary,
         borderWidth: 1,
+        borderRadius: 10,
         borderStyle: 'solid',
         padding: 10,
         flexDirection: 'row',
@@ -98,12 +100,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     containerBottomButton: {
-        backgroundColor: 'ghostwhite',
+        // backgroundColor: colors.secondary,
         padding: 20,
         alignItems: 'center',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: colors.secondary,
+        // borderStyle: 'solid',
+        // borderWidth: 1,
+        // borderColor: colors.secondary,
+    },
+    authText:{
+      color: colors.secondary,
     },
     bottomButtonText: {
         fontWeight: 'bold',

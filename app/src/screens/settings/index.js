@@ -9,29 +9,27 @@ import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import SettingsNavBar from "../../components/general/settings";
 // import firebase from "firebase";
-
+import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
-import { LOGOUT } from "@env";
+// import { LOGOUT } from "@env";
 import routes from "../../navigation/routes"
 import colors from "../../../config/colors"
 
 export default function SettingsScreen() {
-  const logout = () => {
-    axios
-      .post(`${LOGOUT}`)
-      .then(function (response) {
-        // navigation.navigate("auth");
-        // 2 seconds later...
 
-        console.log("------------ Response XXX ---------");
-        // console.log(response);
-        console.log(response.data);
-        console.log("------------ Response XXX ---------");
+
+  const handleLogout = () => {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+    axios
+      .post("https://dev.phlokk.com/api/logout")
+      .then(response => {
+        setUser(null);
+        SecureStore.deleteItemAsync('user')
+
+
       })
-      .catch(function (error) {
-        console.log("------------ Back from Server ----------");
-        console.log("------------ ERROR -------------");
-        console.log(error);
+      .catch(error => {
+        console.log(error.response);
       });
   };
 
@@ -149,7 +147,7 @@ export default function SettingsScreen() {
         <View style={styles.divider}></View>
         <Text style={styles.socialText}>LOGIN</Text>
 
-        <TouchableOpacity style={styles.fieldItemContainer} onPress={logout}>
+        <TouchableOpacity style={styles.fieldItemContainer} onPress={handleLogout}>
           <Text style={styles.text}>
             <MaterialIcons name="logout" size={14} color="white" /> Logout
           </Text>

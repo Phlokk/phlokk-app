@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     // padding: 20,
     backgroundColor: colors.primary,
 
-    // justifyContent: 'space-between'
   },
   iconContainer: {
     flexDirection: "row",

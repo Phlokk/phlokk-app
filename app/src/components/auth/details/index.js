@@ -6,20 +6,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  Alert
+  Alert,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import * as SecureStore from 'expo-secure-store';
 // import { LOGIN, REGISTER } from "@env";
 import colors from "../../../../config/colors";
+// import { getMediaLibraryPermissionsAsync } from "expo-image-picker";
 
 export default function AuthDetails({ authPage, setDetailsPage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
-  
+  const [user, setUser] = useState(null)
 
   const navigation = useNavigation;
 
@@ -29,35 +31,37 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
     setEmail("");
     setPassword("");
     setUsername("");
-    
-    }
+  }
+
   
+
 
   const handleLogin = () => {
     axios
-      .post("https://dev.phlokk.com/test/login", {
+      .post("https://dev.phlokk.com/api/sanctum/login", {
         email: email,
         password: password,
-        headers: {
-          Authorization : `Bearer ${token}`,
-          Accept: "application/json" 
+        device_name: 'mobile',  
+      })
+      .then(response => {
+        const userResponse = {
+          // email: response.data.user.email,
+          token: response.data.token,
         }
+        setUser(userResponse);
+        SecureStore.setItemAsync('user', JSON.stringify(userResponse));
+        console.log("------------ Response-> Logged In ---------");
       })
-      .then(function (response) {
-        // navigation.navigate("feed");
-        // 2 seconds later...
-
-        console.log("------------ Response XXX ---------");
-        // console.log(response);
-        console.log(response.data);
-        console.log("------------ Response XXX ---------");
-      })
-      .catch(function (error) {
+      .catch(error => {
         console.log("------------ Back from Server ----------");
         console.log("------------ ERROR -------------");
-        console.log(error);
+        console.log(error.response);
       });
   };
+
+  
+
+
 
   const handleRegister = () => {
     console.log(email, password, username, name);
@@ -69,13 +73,10 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         password: password,
       })
       .then(function (response) {
-        
-
         console.log("------------ Response XXX ---------");
         console.log(response.data);
         resetTextInput();
-        Alert.alert('You registered successfully');  
-        
+        Alert.alert("You registered successfully");
 
         // navigation.navigate("auth");
         console.log("------------ Response XXX ---------");
@@ -101,6 +102,11 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       <View style={styles.logoContainer}>
         <Image source={require("../../../../../app/assets/phlokk_logo.png")} />
       </View>
+      {/* <TouchableOpacity 
+      onPress={handleLogout}
+      >
+      <Text>Logout</Text>
+      </TouchableOpacity> */}
 
       <View style={styles.fields}>
         {authPage === 0 ? (
@@ -116,7 +122,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               onChangeText={(text) => setEmail(text)}
               placeholder="Email"
               value={email}
-              
             />
             <TextInput
               style={styles.textInput}
@@ -129,7 +134,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               secureTextEntry
               placeholder="Password"
               value={password}
-              
             />
           </>
         ) : (
@@ -143,7 +147,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               onChangeText={(text) => setName(text)}
               placeholder="Name"
               value={name}
-              
             />
             <TextInput
               style={styles.textInput}
@@ -154,7 +157,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               onChangeText={(text) => setUsername(text)}
               placeholder="Username"
               value={username}
-              
             />
             <TextInput
               style={styles.textInput}
@@ -167,7 +169,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               onChangeText={(text) => setEmail(text)}
               placeholder="Email"
               value={email}
-             
             />
             <TextInput
               style={styles.textInput}
@@ -180,7 +181,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               secureTextEntry
               placeholder="Password"
               value={password}
-              
             />
           </>
         )}
@@ -221,6 +221,7 @@ const styles = StyleSheet.create({
     marginTop: 80,
     borderColor: colors.secondary,
     borderWidth: 1,
+    borderRadius: 10,
     borderStyle: "solid",
     paddingVertical: 10,
     paddingHorizontal: 20,

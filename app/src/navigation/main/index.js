@@ -45,11 +45,10 @@ import ChatSingleScreen from "../../screens/messages/single";
 import PhlokkMarketToolsScreen from "../../screens/market/sellerTools";
 import EditCreatorFieldScreen from "../../screens/profile/creator";
 import RelationshipCategoryScreen from "../../screens/profile/relationships";
-import GiftingModal from '../../components/modal/GiftingModal'
-import SettingsSheetModal from '../../components/modal/settingsSheetModal'
+import GiftingModal from "../../components/modal/GiftingModal";
+import SettingsSheetModal from "../../components/modal/settingsSheetModal";
 import EndUserAgreementScreen from "../../screens/policies/eulaPolicy";
 import ReportScreen from "../../screens/reports";
-
 
 const Stack = createNativeStackNavigator();
 

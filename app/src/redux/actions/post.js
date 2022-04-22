@@ -37,7 +37,6 @@ export const createPost =
         saveMediaToStorage(
           source, 
           description, 
-          // `post/${firebase.auth().currentUser.uid}/${storagePostId}/video.mp4`
         ),
         // saveMediaToStorage(
         //   thumbnail,
@@ -45,30 +44,11 @@ export const createPost =
         // ),
       ]);
 
-      // return false;
-
-      // this runs after all promises have returned
       allSavePromises
         .then((media) => {
           // console.log("Promises have returned..........");
           // console.log(media);
 
-          // firebase
-          //   .firestore()
-          //   .collection("post")
-          //   .add({
-          //     creator: firebase.auth().currentUser.uid,
-          //     media,
-          //     description,
-          //     likesCount: 0,
-          //     commentsCount: 0,
-          //     videoViews: 0,
-          //     creation: firebase.firestore.FieldValue.serverTimestamp(),
-          //   })
-          //   .then((response) => {
-          //     resolve();
-          //   })
-          //   .catch(() => reject());
         })
         .catch((err) => {
           // save the error
@@ -114,7 +94,6 @@ function sendVideoOLD(files) {
 
   // call our laravel API
   axios
-    // .post("https://dev.phlokk.com/test/post", formData, headers)
     .post(
       "https://dev.phlokk.com/test/post",
       {
@@ -154,59 +133,16 @@ async function sendVideo(videoUrl) {
     let response = await fetch(url, {
       method: "post",
       headers: {
-        "Content-Type": "multipart/form-data",
+        ContentType: "multipart/form-data",
         Accept: "multipart/form-data",
       },
       body: formData,
     });
-
     console.log(response);
-    // let json = await response.json();
-
     console.log("JSON - -----------------------");
     // console.log(json);
   } catch (error) {
     console.log("error : " + error);
     // return error;
   }
-
-  // let res = await fetch(url, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "multipart/form-data",
-  //     Accept: "multipart/form-data",
-  //   },
-  //   body: formData,
-  // });
-
-  // console.log("RES ------------------");
-  // console.log(res);
-
-  // .then((response) => {
-  //   console.log("the first response -------=============");
-  //   console.log(response);
-
-  //   console.log(response.json());
-  //   return response.json();
-  //   // return response.blob();
-  // })
-  // .then((blob) => {
-  //   console.log("blob");
-  //   console.log("the blob ------");
-  //   console.log(blob);
-  //   console.log("the blob ------");
-
-  //   // return fileRef.put(blob);
-  // })
-  // .then((task) => {
-  //   console.log("task");
-  //   return task.ref.getDownloadURL();
-  // })
-  // .then((downloadUrl) => {
-  //   resolve(downloadUrl);
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  //   // reject(err)
-  // });
 }
