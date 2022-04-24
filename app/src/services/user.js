@@ -1,5 +1,5 @@
 import { saveMediaToStorage } from "./saveMedia";
-import firebase from "firebase";
+
 
 export const saveUserProfileImage = (image) =>
   new Promise((resolve, reject) => {

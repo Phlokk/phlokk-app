@@ -11,19 +11,23 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
+import { useDispatch } from "react-redux";
+import { USER_STATE_CHANGE } from "../../../redux/constants";
 // import { LOGIN, REGISTER } from "@env";
 import colors from "../../../../config/colors";
-// import { getMediaLibraryPermissionsAsync } from "expo-image-picker";
+
 
 export default function AuthDetails({ authPage, setDetailsPage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
-  const navigation = useNavigation;
+  
 
   function resetTextInput() {
     console.log("reset forum");
@@ -33,35 +37,29 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
     setUsername("");
   }
 
-  
-
-
   const handleLogin = () => {
     axios
       .post("https://dev.phlokk.com/api/sanctum/login", {
         email: email,
         password: password,
-        device_name: 'mobile',  
+        device_name: "mobile",
       })
-      .then(response => {
-        const userResponse = {
-          // email: response.data.user.email,
-          token: response.data.token,
-        }
-        setUser(userResponse);
-        SecureStore.setItemAsync('user', JSON.stringify(userResponse));
-        console.log("------------ Response-> Logged In ---------");
+      .then((response) => {
+        console.log('back from login')
+        
+        console.log(response.data);
+        const user = response.data.user;
+        user.token = response.data.token;
+
+        setUser(user);
+        SecureStore.setItemAsync('user', JSON.stringify(user));
+        // console.log(user)
+        dispatch({ type: USER_STATE_CHANGE, currentUser: user, loaded: true });
       })
-      .catch(error => {
-        console.log("------------ Back from Server ----------");
-        console.log("------------ ERROR -------------");
-        console.log(error.response);
+      .catch((error) => {
+        // console.log(error.response);
       });
   };
-
-  
-
-
 
   const handleRegister = () => {
     console.log(email, password, username, name);
@@ -73,18 +71,21 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         password: password,
       })
       .then(function (response) {
+        const user = response.data.user;
+        user.token = response.data.token;
+        
         console.log("------------ Response XXX ---------");
-        console.log(response.data);
+        // console.log(response.data);
         resetTextInput();
-        Alert.alert("You registered successfully");
-
-        // navigation.navigate("auth");
-        console.log("------------ Response XXX ---------");
+        setUser(user);
+        console.log(user.token)
+        SecureStore.setItemAsync('user', JSON.stringify(user));
+        dispatch({ type: USER_STATE_CHANGE, currentUser: user, loaded: true });
       })
       .catch(function (error) {
-        console.log("------------ Back from Server ----------");
-        console.log("------------ ERROR -------------");
-        console.log(error);
+        // console.log("------------ Back from Server ----------");
+        // console.log("------------ ERROR -------------");
+        // console.log(error);
       });
   };
 
@@ -102,12 +103,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       <View style={styles.logoContainer}>
         <Image source={require("../../../../../app/assets/phlokk_logo.png")} />
       </View>
-      {/* <TouchableOpacity 
-      onPress={handleLogout}
-      >
-      <Text>Logout</Text>
-      </TouchableOpacity> */}
-
       <View style={styles.fields}>
         {authPage === 0 ? (
           <>
@@ -206,6 +201,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
     paddingTop: 40,
+    width: 40,
     backgroundColor: colors.primary,
   },
   textInput: {

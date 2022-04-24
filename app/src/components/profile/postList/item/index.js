@@ -8,49 +8,46 @@ import {
   ActivityIndicator,
   View
 } from "react-native";
-import firebase from "firebase";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
-import { deletePostById } from "../../../../services/posts";
+// import { deletePostById } from "../../../../services/posts";
 import { useQueryClient } from "react-query";
-
-// import Swal from 'sweetalert2'
 
 export default function ProfilePostListItem({ item }) {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
-  const deleteUserPost = async () => {
-    try {
-      setIsLoading(true);
-      await deletePostById(item.id);
-      queryClient.invalidateQueries(["userPosts", item.creator]);
+  // const deleteUserPost = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     await deletePostById(item.id);
+  //     queryClient.invalidateQueries(["userPosts", item.creator]);
 
-      setIsLoading(false);
-      alert("Video Deleted Successfully");
-    } catch (err) {
-      alert(err?.message);
-      setIsLoading(false);
-    }
-  };
-  const deletePost = () => {
-    const uid = firebase.auth().currentUser.uid;
-    console.log("uid, item.creator", uid, item.creator);
-    if (item.creator === uid) {
-      Alert.alert(
-        "Delete Video",
-        "Are you sure you want to delete this video?",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: deleteUserPost },
-        ]
-      );
-    }
-  };
+  //     setIsLoading(false);
+  //     alert("Video Deleted Successfully");
+  //   } catch (err) {
+  //     alert(err?.message);
+  //     setIsLoading(false);
+  //   }
+  // };
+  // const deletePost = () => {
+  //   const uid = firebase.auth().currentUser.uid;
+  //   console.log("uid, item.creator", uid, item.creator);
+  //   if (item.creator === uid) {
+  //     Alert.alert(
+  //       "Delete Video",
+  //       "Are you sure you want to delete this video?",
+  //       [
+  //         {
+  //           text: "Cancel",
+  //           onPress: () => console.log("Cancel Pressed"),
+  //           style: "cancel",
+  //         },
+  //         { text: "OK", onPress: deleteUserPost },
+  //       ]
+  //     );
+  //   }
+  // };
   return (
     <TouchableOpacity
       style={styles.container}

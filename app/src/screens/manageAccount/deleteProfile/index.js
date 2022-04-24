@@ -1,21 +1,21 @@
 import React from "react";
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import firebase from "firebase";
+
 import AccountNavBar from "../../../components/general/manageAccount";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import colors from "../../../../config/colors"
 
 export default function DeleteProfileScreen() {
-  const deleteUser = async () => {
-    const dbRef = firebase
-      .firestore()
-      .collection("user")
-      .doc(firebase.auth().currentUser.uid);
-    await dbRef.delete();
-    firebase.auth().signOut();
-  };
+//   const deleteUser = async () => {
+//     const dbRef = firebase
+//       .firestore()
+//       .collection("user")
+//       .doc(firebase.auth().currentUser.uid);
+//     await dbRef.delete();
+//     firebase.auth().signOut();
+//   };
 
   return (
     <SafeAreaView style={styles.container}>

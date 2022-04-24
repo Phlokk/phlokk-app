@@ -31,21 +31,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/adaptive-icon.png",
-      
-      "config": {
-        "firebase": {
-          "apiKey": "AIzaSyBqF4QFGuUmV0V5tn8p5pPWUHzw99xfA6Q",
-          "authDomain": "phlokk-app.firebaseapp.com",
-          "projectId": "phlokk-app",
-          "storageBucket": "phlokk-app.appspot.com",
-          "messagingSenderId": "793274127105",
-          "appId": "1:793274127105:web:029262ad86a48e8e9a8100",
-          "measurementId": "G-E9YYCZWCKN"
-        }
-
-      }
-
+      "favicon": "./assets/adaptive-icon.png"
     }
   }
 }

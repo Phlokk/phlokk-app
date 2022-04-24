@@ -6,7 +6,6 @@ import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileScreen from "../../screens/profile";
-import firebase from "firebase";
 import CameraScreen from "../../screens/camera";
 import SearchScreen from "../../screens/search";
 import FeedNavigation from "../feed";
@@ -30,7 +29,7 @@ const TabBar = ({ state, navigation }) => {
       navigation.navigate(route.name);
     }
   };
-  useChats();
+  // useChats();
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -80,11 +79,8 @@ const ExampleTabs = () => {
       <Tab.Screen name="Discover" component={SearchScreen} />
       <Tab.Screen name="Cam" component={CameraScreen} />
       <Tab.Screen name="Inbox" component={ActivityScreen} />
-      <Tab.Screen
-        initialParams={{ initialUserId: firebase.auth().currentUser.uid }}
-        name="Me"
-        component={ProfileScreen}
-      />
+      <Tab.Screen name="profileOther" component={ProfileScreen} />
+
     </Tab.Navigator>
   );
 };

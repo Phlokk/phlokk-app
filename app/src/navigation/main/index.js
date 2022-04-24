@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { userAuthStateListener } from "../../redux/actions";
 import { NavigationContainer } from "@react-navigation/native";
@@ -49,6 +48,7 @@ import GiftingModal from "../../components/modal/GiftingModal";
 import SettingsSheetModal from "../../components/modal/settingsSheetModal";
 import EndUserAgreementScreen from "../../screens/policies/eulaPolicy";
 import ReportScreen from "../../screens/reports";
+import FeedNavigation from "../feed";
 
 const Stack = createNativeStackNavigator();
 
@@ -61,10 +61,6 @@ export default function Route() {
     dispatch(userAuthStateListener());
   }, []);
 
-  if (!currentUserObj.loaded) {
-    return <View></View>;
-  }
-
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
@@ -74,11 +70,16 @@ export default function Route() {
             component={AuthScreen}
             options={{ headerShown: false }}
           />
-        ) : (
+        ):(
           <>
-            <Stack.Screen
+          <Stack.Screen
               name="home"
               component={ExampleTabs}
+              options={{ headerShown: false }}
+            />
+          <Stack.Screen
+              name="feed"
+              component={FeedNavigation}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -271,7 +272,7 @@ export default function Route() {
               component={ReportScreen}
               options={{ headerShown: false }}
             />
-          </>
+            </>
         )}
       </Stack.Navigator>
       <Modal />

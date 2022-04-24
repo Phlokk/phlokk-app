@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { useUser } from "../../../../hooks/useUser";
 import { generalStyles } from "../../../../styles";
-import firebase from "firebase";
 
 import colors from "../../../../../config/colors";
 
@@ -12,7 +11,9 @@ const ChatSingleItem = ({ item }) => {
   if (isLoading) {
     return <></>;
   }
-  const isCurrentUser = item.creator === firebase.auth().currentUser.uid;
+  // old firebase call
+  // const isCurrentUser = item.creator === firebase.auth().currentUser.uid;
+  const isCurrentUser = item.creator === user;
 
   return (
     <View

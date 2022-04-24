@@ -9,7 +9,6 @@ import {
   Alert,
   Platform,
 } from "react-native";
-import firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -44,33 +43,33 @@ export default function PostSingleOverlay({ user, post}) {
 
 
 
-  const [currentLikeState, setCurrentLikeState] = useState({
-    state: false,
-    counter: post.likesCount,
-  });
+  // const [currentLikeState, setCurrentLikeState] = useState({
+  //   state: false,
+  //   counter: post.likesCount,
+  // });
 
-  useEffect(() => {
-    getLikeById(post.id, currentUser.uid).then((res) => {
-      setCurrentLikeState({
-        ...currentLikeState,
-        state: res,
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   getLikeById(post.id, currentUser.uid).then((res) => {
+  //     setCurrentLikeState({
+  //       ...currentLikeState,
+  //       state: res,
+  //     });
+  //   });
+  // }, []);
 
-  const handleUpdateLike = useMemo(
-    () =>
-      throttle(500, true, (currentLikeStateInst) => {
-        setCurrentLikeState({
-          state: !currentLikeStateInst.state,
-          counter:
-            currentLikeStateInst.counter +
-            (currentLikeStateInst.state ? -1 : 1),
-        });
-        updateLike(post.id, currentUser.uid, currentLikeStateInst.state);
-      }),
-    []
-  );
+  // const handleUpdateLike = useMemo(
+  //   () =>
+  //     throttle(500, true, (currentLikeStateInst) => {
+  //       setCurrentLikeState({
+  //         state: !currentLikeStateInst.state,
+  //         counter:
+  //           currentLikeStateInst.counter +
+  //           (currentLikeStateInst.state ? -1 : 1),
+  //       });
+  //       updateLike(post.id, currentUser.uid, currentLikeStateInst.state);
+  //     }),
+  //   []
+  // );
 
   const rotate = useRotation();
   const animatedStyle = { transform: [{ rotate }] };
@@ -150,7 +149,7 @@ export default function PostSingleOverlay({ user, post}) {
         </View>
         <View style={styles.bottomContainer}>
           <View>
-            {firebase.auth().currentUser.uid === user?.uid ? (
+            {user === user ? (
               <Image style={styles.avatar} source={{ uri: user?.photoURL }} />
             ) : (
               <View style={styles.avatarContainer}>

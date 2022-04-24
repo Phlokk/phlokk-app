@@ -4,7 +4,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import DisplayMenuScreen from "../../../screens/profile/displayMenu";
-import firebase from "firebase";
 import { useFollowing } from "../../../hooks/useFollowing";
 import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
 import UserProfile from "../userProfile";
@@ -16,63 +15,63 @@ import ProfileStatsContainer from "../profileStats";
 function ProfileHeader({ user }) {
   const navigation = useNavigation();
 
-  const isFollowing = useFollowing(
-    firebase.auth().currentUser.uid,
-    user.uid
-  ).data;
-  const isFollowingMutation = useFollowingMutation();
-  const renderFollowButton = () => {
-    if (isFollowing) {
-      return (
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity
-            style={styles.profileIconButton}
-            onPress={() =>
-              navigation.navigate(routes.CHAT_SINGLE, { contactId: user.uid })
-            }
-          >
-            <MaterialCommunityIcons
-              name="message-processing-outline"
-              size={22}
-              color="lightgray"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.profileIconButton}
-            onPress={() =>
-              isFollowingMutation.mutate({ otherUserId: user.uid, isFollowing })
-            }
-          >
-            <Feather name="user-check" size={20} color={colors.green} />
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return (
-        <TouchableOpacity
-          style={styles.filledButton}
-          onPress={() =>
-            isFollowingMutation.mutate({ otherUserId: user.uid, isFollowing })
-          }
-        >
-          <Text style={styles.text}>
-            <Feather name="user-plus" size={20} color="white" />
-          </Text>
-        </TouchableOpacity>
-      );
-    }
-  };
+  // const isFollowing = useFollowing(
+  //   firebase.auth().currentUser.uid,
+  //   user.uid
+  // ).data;
+  // const isFollowingMutation = useFollowingMutation();
+  // const renderFollowButton = () => {
+  //   if (isFollowing) {
+  //     return (
+  //       <View style={{ flexDirection: "row" }}>
+  //         <TouchableOpacity
+  //           style={styles.profileIconButton}
+  //           onPress={() =>
+  //             navigation.navigate(routes.CHAT_SINGLE, { contactId: user.uid })
+  //           }
+  //         >
+  //           <MaterialCommunityIcons
+  //             name="message-processing-outline"
+  //             size={22}
+  //             color="lightgray"
+  //           />
+  //         </TouchableOpacity>
+  //         <TouchableOpacity
+  //           style={styles.profileIconButton}
+  //           onPress={() =>
+  //             isFollowingMutation.mutate({ otherUserId: user.uid, isFollowing })
+  //           }
+  //         >
+  //           <Feather name="user-check" size={20} color={colors.green} />
+  //         </TouchableOpacity>
+  //       </View>
+  //     );
+  //   } else {
+  //     return (
+  //       <TouchableOpacity
+  //         style={styles.filledButton}
+  //         onPress={() =>
+  //           isFollowingMutation.mutate({ otherUserId: user.uid, isFollowing })
+  //         }
+  //       >
+  //         <Text style={styles.text}>
+  //           <Feather name="user-plus" size={20} color="white" />
+  //         </Text>
+  //       </TouchableOpacity>
+  //     );
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
 
       <ProfileStatsContainer />
 
-      {firebase.auth().currentUser.uid === user.uid ? (
+      {/* {firebase.auth().currentUser.uid === user.uid ? (
         <TouchableOpacity></TouchableOpacity>
       ) : (
         renderFollowButton()
-      )}
+      )} */}
 
       <View>
         <UserProfile
@@ -88,13 +87,13 @@ function ProfileHeader({ user }) {
         />
       </View>
 
-      {firebase.auth().currentUser.uid === user.uid ? (
+      {/* {firebase.auth().currentUser.uid === user.uid ? (
         <View>
           <DisplayMenuScreen />
         </View>
       ) : (
         <TouchableOpacity></TouchableOpacity>
-      )}
+      )} */}
     </View>
   );
 }

@@ -10,6 +10,10 @@ export const CurrentUserProfileItemInViewContext = createContext(null);
 const FeedNavigation = () => {
   const [currentUserProfileItemInView, setCurrentUserProfileItemInView] =
     useState(null);
+
+
+
+
   return (
     <CurrentUserProfileItemInViewContext.Provider
       value={currentUserProfileItemInView}
@@ -20,11 +24,11 @@ const FeedNavigation = () => {
           component={FeedScreen}
           initialParams={{ setCurrentUserProfileItemInView, profile: false }}
         />
-        <Screen
+        {/* <Screen
           name="feedProfile"
           component={ProfileScreen}
-          initialParams={{ initialUserId: null }}
-        />
+          // initialParams={{ initialUserId: null }}
+        /> */}
       </Navigator>
     </CurrentUserProfileItemInViewContext.Provider>
   );

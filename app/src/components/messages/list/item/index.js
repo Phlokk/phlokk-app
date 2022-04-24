@@ -1,7 +1,6 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
 import { useUser } from "../../../../hooks/useUser";
-import firebase from "firebase";
 import { useNavigation } from "@react-navigation/native";
 
 import routes from "../../../../navigation/routes";
@@ -9,8 +8,14 @@ import colors from "../../../../../config/colors";
 
 const MessageListItem = ({ chat, user }) => {
   const navigation = useNavigation();
+  //old firebase call
+  // const { data: userData } = useUser(
+  //   chat.members[0] === firebase.auth().currentUser.uid
+  //     ? chat.members[1]
+  //     : chat.members[0]
+  // );
   const { data: userData } = useUser(
-    chat.members[0] === firebase.auth().currentUser.uid
+    chat.members[0] === user
       ? chat.members[1]
       : chat.members[0]
   );

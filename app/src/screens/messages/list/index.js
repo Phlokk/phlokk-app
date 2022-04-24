@@ -5,7 +5,7 @@ import MessagesNavBar from "../../../components/general/messagesNav";
 import { useSelector } from "react-redux";
 import { deleteMessageById } from "../../../services/posts";
 import { useQueryClient } from "react-query";
-import firebase from "firebase";
+
 
 
 import colors from "../../../../config/colors"

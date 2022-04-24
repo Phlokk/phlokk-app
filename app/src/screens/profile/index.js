@@ -9,7 +9,6 @@ import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
 import { useUserPosts } from "../../services/posts";
 import { FlatList, View, StyleSheet, ActivityIndicator } from "react-native";
 import ProfilePostListItem from "../../components/profile/postList/item";
-import firebase from "firebase";
 
 import colors from "../../../config/colors";
 
@@ -56,31 +55,57 @@ export default function ProfileScreen({ route, posts }) {
   };
 
   return (
+    //     <SafeAreaView style={styles.container} edges={["top"]}>
+    //       <ProfileNavBar user={user} />
+    //       {userPosts.isLoading ? (
+    //         <View
+    //           style={{
+    //             height: "100%",
+    //             width: "100%",
+    //             justifyContent: "center",
+    //             alignItems: "center",
+    //           }}
+    //         >
+    //           <ActivityIndicator size="large" color={colors.green} />
+    //         </View>
+    //       ) : (
+    //         <FlatList
+    //           numColumns={3}
+    //           removeClippedSubviews
+    //           nestedScrollEnabled={false}
+    //           data={posts}
+    //           keyExtractor={(item) => item.id}
+    //           ListHeaderComponent={ListHeader}
+    //           renderItem={({ item }) => <ProfilePostListItem item={item} />}
+    //         />
+    //       )}
+    //     </SafeAreaView>
+    //   );
+    // }
+
     <SafeAreaView style={styles.container} edges={["top"]}>
       <ProfileNavBar user={user} />
-      {userPosts.isLoading ? (
-        <View
-          style={{
-            height: "100%",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <ActivityIndicator size="large" color={colors.green} />
-        </View>
-      ) : (
-        <FlatList
-          numColumns={3}
-          removeClippedSubviews
-          nestedScrollEnabled={false}
-          data={posts}
-          keyExtractor={(item) => item.id}
-          ListHeaderComponent={ListHeader}
-          renderItem={({ item }) => <ProfilePostListItem item={item} />}
-        />
-      )}
-      {firebase.auth().currentUser.uid === user.uid ? <></> : null}
+
+      <View
+        style={{
+          height: "100%",
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color={colors.green} />
+      </View>
+
+      <FlatList
+        numColumns={3}
+        removeClippedSubviews
+        nestedScrollEnabled={false}
+        data={posts}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={ListHeader}
+        renderItem={({ item }) => <ProfilePostListItem item={item} />}
+      />
     </SafeAreaView>
   );
 }

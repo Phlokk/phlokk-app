@@ -1,7 +1,4 @@
-import firebase from "firebase";
 import { saveMediaToStorage } from "../../services/saveMedia";
-require("firebase/firebase-auth");
-require("firebase/firestore");
 import uuid from "uuid-random";
 import { CURRENT_USER_POSTS_UPDATE } from "../constants";
 import axios from "axios";
@@ -57,27 +54,27 @@ export const createPost =
     });
 
     // TODO Must get Auth set up before implementing 
-export const getPostsByUser =
-  (uid = firebase.auth().currentUser.uid) =>
-  (dispatch) =>
-    new Promise((resolve, reject) => {
-      firebase
-        .firestore()
-        .collection("post")
-        .where("creator", "==", uid)
-        .orderBy("creation", "desc")
-        .onSnapshot((snapshot) => {
-          let posts = snapshot.docs.map((doc) => {
-            const data = doc.data();
-            const id = doc.id;
-            return { id, ...data };
-          });
-          dispatch({
-            type: CURRENT_USER_POSTS_UPDATE,
-            currentUserPosts: posts,
-          });
-        });
-    });
+// export const getPostsByUser =
+//   (uid = firebase.auth().currentUser.uid) =>
+//   (dispatch) =>
+//     new Promise((resolve, reject) => {
+//       firebase
+//         .firestore()
+//         .collection("post")
+//         .where("creator", "==", uid)
+//         .orderBy("creation", "desc")
+//         .onSnapshot((snapshot) => {
+//           let posts = snapshot.docs.map((doc) => {
+//             const data = doc.data();
+//             const id = doc.id;
+//             return { id, ...data };
+//           });
+//           dispatch({
+//             type: CURRENT_USER_POSTS_UPDATE,
+//             currentUserPosts: posts,
+//           });
+//         });
+//     });
 
 function sendVideoOLD(files) {
   // formData.append("video", video);

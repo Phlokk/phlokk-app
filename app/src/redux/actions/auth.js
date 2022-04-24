@@ -1,33 +1,38 @@
-import firebase from "firebase";
 import { getPostsByUser } from "./post";
-require("firebase/firebase-auth");
-
+import * as SecureStore from "expo-secure-store";
 import { USER_STATE_CHANGE } from "../constants";
 
 export const userAuthStateListener = () => (dispatch) => {
-  firebase.auth().onAuthStateChanged((user) => {
+  // console.log("here............");
+
+  SecureStore.getItemAsync("user").then((user) => {
+    console.log("async user");
+    console.log(user);
     if (user) {
-      dispatch(getCurrentUserData());
-      dispatch(getPostsByUser(firebase.auth().currentUser.uid));
+      dispatch({
+        type: USER_STATE_CHANGE,
+        currentUser: JSON.parse(user),
+        loaded: true,
+      });
     } else {
       dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
     }
   });
+
 };
 
-export const getCurrentUserData = () => (dispatch) => {
-  firebase
-    .firestore()
-    .collection("user")
-    .doc(firebase.auth().currentUser.uid)
-    .onSnapshot((res) => {
-      if (res.exists) {
-        return dispatch({
-          type: USER_STATE_CHANGE,
-          currentUser: res.data(),
-          loaded: true,
-        });
-      }
-    });
-};
-
+// export const getCurrentUserData = () => (dispatch) => {
+//   firebase
+//     .firestore()
+//     .collection("user")
+//     .doc(firebase.auth().currentUser.uid)
+//     .onSnapshot((res) => {
+//       if (res.exists) {
+//         return dispatch({
+//           type: USER_STATE_CHANGE,
+//           currentUser: res.data(),
+//           loaded: true,
+//         });
+//       }
+//     });
+// };

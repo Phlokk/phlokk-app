@@ -1,6 +1,4 @@
 import 'react-native-gesture-handler';
-import Constants from "expo-constants";
-import * as firebase from "firebase";
 import { React } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
@@ -14,19 +12,12 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 LogBox.ignoreLogs(["Setting a timer"]);
 LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"])
-
 LogBox.ignoreLogs(["Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle."])
-
 LogBox.ignoreLogs(["AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native"])
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(Constants.manifest.web.config.firebase);
-} else {
-  firebase.app();
-}
 
 
 

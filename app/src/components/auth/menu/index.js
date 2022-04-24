@@ -28,10 +28,6 @@ export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
             source={require("../../../../../app/assets/small.png")}
           />
         </View>
-
-        {/* <Text style={styles.headerText}>
-          {authPage === 0 ? "Sign in" : "Create Account"}
-        </Text> */}
         <TouchableOpacity
           style={styles.providerButton}
           onPress={() => setDetailsPage(true)}

@@ -8,7 +8,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import SettingsNavBar from "../../components/general/settings";
-// import firebase from "firebase";
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 // import { LOGOUT } from "@env";
