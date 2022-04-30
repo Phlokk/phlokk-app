@@ -1,24 +1,26 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
+import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import DisplayMenuScreen from "../../../screens/profile/displayMenu";
 import { useFollowing } from "../../../hooks/useFollowing";
 import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
 import UserProfile from "../userProfile";
-
+import ProfileStatsContainer from "../profileStats";
+import { useSelector } from "react-redux";
+import { Feather } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
-import ProfileStatsContainer from "../profileStats";
+
 
 function ProfileHeader({ user }) {
   const navigation = useNavigation();
 
+  const auth = useSelector((state) => state.auth);
+
   // const isFollowing = useFollowing(
-  //   firebase.auth().currentUser.uid,
-  //   user.uid
-  // ).data;
+  //   auth.currentUser.user,
+  //   user);
   // const isFollowingMutation = useFollowingMutation();
   // const renderFollowButton = () => {
   //   if (isFollowing) {
@@ -27,7 +29,7 @@ function ProfileHeader({ user }) {
   //         <TouchableOpacity
   //           style={styles.profileIconButton}
   //           onPress={() =>
-  //             navigation.navigate(routes.CHAT_SINGLE, { contactId: user.uid })
+  //             navigation.navigate(routes.CHAT_SINGLE, { contactId: user.id })
   //           }
   //         >
   //           <MaterialCommunityIcons
@@ -39,7 +41,7 @@ function ProfileHeader({ user }) {
   //         <TouchableOpacity
   //           style={styles.profileIconButton}
   //           onPress={() =>
-  //             isFollowingMutation.mutate({ otherUserId: user.uid, isFollowing })
+  //             isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
   //           }
   //         >
   //           <Feather name="user-check" size={20} color={colors.green} />
@@ -51,7 +53,7 @@ function ProfileHeader({ user }) {
   //       <TouchableOpacity
   //         style={styles.filledButton}
   //         onPress={() =>
-  //           isFollowingMutation.mutate({ otherUserId: user.uid, isFollowing })
+  //           isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
   //         }
   //       >
   //         <Text style={styles.text}>
@@ -64,36 +66,25 @@ function ProfileHeader({ user }) {
 
   return (
     <View style={styles.container}>
-
       <ProfileStatsContainer />
 
-      {/* {firebase.auth().currentUser.uid === user.uid ? (
+      {/* {auth.currentUser.user != user ? (
         <TouchableOpacity></TouchableOpacity>
       ) : (
         renderFollowButton()
       )} */}
 
       <View>
-        <UserProfile
-          photoURL={user.photoURL}
-          username={user.username}
-          relationship={user.relationship}
-          relationshipName={user.relationshipName}
-          creator={user.creator}
-          link={user.link}
-          verified={user.verified}
-          youtubeLink={user.youtubeLink}
-          instagramLink={user.instagramLink}
-        />
+        <UserProfile />
       </View>
 
-      {/* {firebase.auth().currentUser.uid === user.uid ? (
+      {auth.currentUser.user === user ? (
         <View>
           <DisplayMenuScreen />
         </View>
       ) : (
         <TouchableOpacity></TouchableOpacity>
-      )} */}
+      )}
     </View>
   );
 }
@@ -102,7 +93,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     paddingHorizontal: 50,
-    backgroundColor: colors.primary,
+    // backgroundColor: colors.primary,
   },
   creatorText: {
     padding: 20,
@@ -197,6 +188,3 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileHeader;
-
-
-

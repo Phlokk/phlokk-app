@@ -8,31 +8,27 @@ import verifiedCheck from "../../../../assets/verified.png";
 
 // import FastImage from 'react-native-fast-image';
 import colors from "../../../../config/colors";
+import { useSelector } from "react-redux";
+import { userAuthStateListener } from "../../../redux/actions";
 
-function UserProfile({
-  photoURL,
-  username,
-  creator,
-  link,
-  youtubeLink,
-  instagramLink,
-  verified,
-  relationship,
-  relationshipName,
-}) {
+function UserProfile() {
+
+
   const navigation = useNavigation();
+  const auth = useSelector((state) => state.auth);
+
+   
 
 
-
-  userLink = async () => {
+  const userLink = async () => {
     try {
-      await Linking.openURL(link);
+      await Linking.openURL(auth.currentUser.link);
     } catch (err) {
       null;
     }
   };
 
-  youtubeUser = async () => {
+  const youtubeUser = async () => {
     try {
       await Linking.openURL(youtubeLink);
     } catch (err) {
@@ -40,7 +36,7 @@ function UserProfile({
     }
   };
 
-  instagramUser = async () => {
+  const instagramUser = async () => {
     try {
       await Linking.openURL(instagramLink);
     } catch (err) {
@@ -52,32 +48,32 @@ function UserProfile({
 
   return (
     <View style={styles.container}>
-      {photoURL !== null ? (
-        <Image 
+      {/* {photoURL !== null ? ( */}
+        {/* <Image 
         style={styles.avatar} 
         source={{ uri: photoURL}} 
-        />
-      ) : (
+        /> */}
+      {/* ) : ( */}
         <Image
           style={styles.avatar}
           source={require("../../../../assets/userImage.png")}
         />
-      )}
+      {/* )} */}
 
       <View style={styles.usernameView}>
-        {username !== undefined ? (
-          <Text style={styles.username}>@{username}</Text>
+        {auth.currentUser.username !== undefined ? (
+          <Text style={styles.username}>@{auth.currentUser.username}</Text>
         ) : (
           <Text style={styles.username}>@user</Text>
-        )}
+        )} 
 
-        {verified === true ? (
+        {auth.currentUser.verified === 1 ? (
           <Image 
           style={styles.phlokkVerified} 
           source={verifiedCheck} />
         ) : (
           <TouchableOpacity></TouchableOpacity>
-        )}
+        )} 
       </View>
       <View style={styles.linkRow}>
         <TouchableOpacity style={styles.linkText}>
@@ -107,8 +103,8 @@ function UserProfile({
         </TouchableOpacity>
       </View>
       <View style={styles.relationshipContainer}>
-        <Text style={styles.relationshipText}>{relationship}</Text>
-        <Text style={styles.relationshipText}>{relationshipName}</Text>
+        <Text style={styles.relationshipText}>{auth.currentUser.relationship_type}</Text>
+        <Text style={styles.relationshipText}>{auth.currentUser.relationship_name}</Text>
       </View>
     </View>
   );

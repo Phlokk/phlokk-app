@@ -10,7 +10,7 @@ import CameraScreen from "../../screens/camera";
 import SearchScreen from "../../screens/search";
 import FeedNavigation from "../feed";
 import ActivityScreen from "../../screens/activity";
-import { useChats } from "../../hooks/useChats";
+// import { useChats } from "../../hooks/useChats";
 
 import colors from "../../../config/colors";
 
@@ -80,7 +80,6 @@ const ExampleTabs = () => {
       <Tab.Screen name="Cam" component={CameraScreen} />
       <Tab.Screen name="Inbox" component={ActivityScreen} />
       <Tab.Screen name="profileOther" component={ProfileScreen} />
-
     </Tab.Navigator>
   );
 };

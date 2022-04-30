@@ -157,69 +157,71 @@ export default function FeedScreen({ route }) {
     // [viewablePostId]
   );
 
-  const handleLogout = async () => {
-    console.log("handling logout");
-    let user = await SecureStore.getItemAsync("user");
-    user = JSON.parse(user);
-    console.log(user.token);
+  // const handleLogout = async () => {
+  //   console.log("handling logout");
+  //   let user = await SecureStore.getItemAsync("user");
+  //   user = JSON.parse(user);
+  //   console.log(user.token);
 
-    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-    axios
-      .post("https://dev.phlokk.com/api/logout")
-      .then((response) => {
-        console.log("back from logout");
-        setUser(null);
-        SecureStore.deleteItemAsync("user");
-        dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
-      })
-      .catch((error) => {
-        setUser(null);
-        SecureStore.deleteItemAsync("user");
-        dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
-        console.log(error.response);
-      });
-  };
+  //   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+  //   axios
+  //     .post("https://dev.phlokk.com/api/logout")
+  //     .then((response) => {
+  //       console.log("back from logout");
+  //       setUser(null);
+  //       SecureStore.deleteItemAsync("user");
+  //       dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
+  //     })
+  //     .catch((error) => {
+  //       setUser(null);
+  //       SecureStore.deleteItemAsync("user");
+  //       dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
+  //       console.log(error.response);
+  //     });
+  // };
 
   return (
-    <TouchableOpacity style={styles.fieldItemContainer} onPress={handleLogout}>
-      <Text style={styles.text}>Logout</Text>
-    </TouchableOpacity>
-    // <View style={styles.container}>
-    //   <FlatList
-    //     showsVerticalScrollIndicator={false}
-    //     data={posts}
-    //     windowSize={Platform.OS === "android" ? 1 : 5}
-    //     initialNumToRender={Platform.OS === "android" ? 1 : 5}
-    //     maxToRenderPerBatch={Platform.OS === "android" ? 1 : 5}
-    //     removeClippedSubviews
-    //     initialScrollIndex={selectedVideoIndex}
-    //     viewabilityConfig={{
-    //       itemVisiblePercentThreshold: 60,
-    //     }}
-    //     renderItem={renderItem}
-    //     pagingEnabled
-    //     getItemLayout={getItemLayout}
-    //     keyExtractor={(item) => item.id}
-    //     snapToInterval={
-    //       Dimensions.get("window").height - useMaterialNavBarHeight(profile)
-    //     }
-    //     decelerationRate={"fast"}
-    //     onViewableItemsChanged={onViewableItemsChanged.current}
-    //   />
-    //   {isLoading && (
-    //     <View
-    //       style={{
-    //         position: "absolute",
-    //         height: "100%",
-    //         width: "100%",
-    //         justifyContent: "center",
-    //         alignItems: "center",
-    //       }}
-    //     >
-    //       <ActivityIndicator size="large" color={colors.green} />
-    //     </View>
-    //   )}
-    // </View>
+
+    
+    <View style={styles.container}>
+      {/* <TouchableOpacity style={styles.fieldItemContainer} onPress={handleLogout}>
+    <Text style={styles.text}>Logout</Text>
+    </TouchableOpacity> */}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        // data={posts}
+        windowSize={Platform.OS === "android" ? 1 : 5}
+        initialNumToRender={Platform.OS === "android" ? 1 : 5}
+        maxToRenderPerBatch={Platform.OS === "android" ? 1 : 5}
+        removeClippedSubviews
+        // initialScrollIndex={selectedVideoIndex}
+        viewabilityConfig={{
+          itemVisiblePercentThreshold: 60,
+        }}
+        renderItem={renderItem}
+        pagingEnabled
+        getItemLayout={getItemLayout}
+        keyExtractor={(item) => item.id}
+        snapToInterval={
+          Dimensions.get("window").height - useMaterialNavBarHeight(profile)
+        }
+        decelerationRate={"fast"}
+        // onViewableItemsChanged={onViewableItemsChanged.current}
+      />
+      {/* {isLoading && (
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color={colors.green} />
+        </View>
+      )} */}
+    </View>
   );
 }
 

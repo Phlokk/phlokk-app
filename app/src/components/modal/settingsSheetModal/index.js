@@ -5,8 +5,8 @@ import SettingsSheetModalScreen from "../settingsSheetModalScreen";
 
 const SettingsSheetModal = (props, post) => {
 
-  console.log('POST SHOULD BE HERE -------> ')
-  console.log('settings Sheet Modal')
+  // console.log('POST SHOULD BE HERE -------> ')
+  // console.log('settings Sheet Modal')
 
 
   const modalState = useSelector((state) => state.settingsSheetModal);

@@ -16,7 +16,7 @@ const SearchScreen = (props) => {
 
   return (
     <View style={styles.container}>
-     <SearchRowScreen />
+      <SearchRowScreen />
       <TextInput
         autoCapitalize="none"
         onChangeText={setTextInput}

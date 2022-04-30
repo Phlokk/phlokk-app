@@ -1,21 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AccountNavBar from "../../../components/general/manageAccount";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import * as SecureStore from "expo-secure-store";
+import { useDispatch } from "react-redux";
+import { USER_STATE_CHANGE } from "../../../redux/constants";
+import axios from "axios";
 import colors from "../../../../config/colors"
 
 export default function DeleteProfileScreen() {
-//   const deleteUser = async () => {
-//     const dbRef = firebase
-//       .firestore()
-//       .collection("user")
-//       .doc(firebase.auth().currentUser.uid);
-//     await dbRef.delete();
-//     firebase.auth().signOut();
-//   };
+
+  const [user, setUser] = useState("");
+  const dispatch = useDispatch();
+
+ const handleDelete = async () => {
+    console.log("delete account");
+    let user = await SecureStore.getItemAsync("user");
+    user = JSON.parse(user);
+    console.log(user.token);
+
+    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+    axios
+      .post("https://dev.phlokk.com/api/delete")
+      .then((response) => {
+        console.log("back from delete");
+        setUser(null);
+        SecureStore.deleteItemAsync("user");
+        dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
+      })
+      .catch((error) => {
+        setUser(null);
+        SecureStore.deleteItemAsync("user");
+        dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
+        console.log(error.response);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,7 +50,7 @@ export default function DeleteProfileScreen() {
 
         <TouchableOpacity
           style={styles.fieldItemContainer}
-          onPress={() => deleteUser()}
+          onPress={() => handleDelete()}
         >
           <View style={styles.fieldValueContainer}>
             

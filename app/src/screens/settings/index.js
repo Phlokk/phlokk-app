@@ -1,42 +1,54 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React from "react";
+import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import SettingsNavBar from "../../components/general/settings";
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
+import { USER_STATE_CHANGE } from "../../redux/constants";
+
+
+
+
 // import { LOGOUT } from "@env";
 import routes from "../../navigation/routes"
 import colors from "../../../config/colors"
 
 export default function SettingsScreen() {
+  const auth = useSelector((state) => state.auth);
+  const navigation = useNavigation();
+  const [user, setUser] = useState("");
+  const dispatch = useDispatch();
 
 
-  const handleLogout = () => {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+  const handleLogout = async () => {
+    console.log("handling logout");
+    let user = await SecureStore.getItemAsync("user");
+    user = JSON.parse(user);
+    console.log(user.token);
+
+    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
     axios
       .post("https://dev.phlokk.com/api/logout")
-      .then(response => {
+      .then((response) => {
+        console.log("back from logout");
         setUser(null);
-        SecureStore.deleteItemAsync('user')
-
-
+        SecureStore.deleteItemAsync("user");
+        dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
       })
-      .catch(error => {
+      .catch((error) => {
+        setUser(null);
+        SecureStore.deleteItemAsync("user");
+        dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
         console.log(error.response);
       });
   };
 
-
-
-
-  const auth = useSelector((state) => state.auth);
-  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>

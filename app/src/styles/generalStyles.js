@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
 import colors from "../../config/colors";
+
 const generalStyles = StyleSheet.create({
   textInput: {
-    
     backgroundColor: "#131313",
     borderColor: colors.secondary,
     borderBottomWidth: 1,

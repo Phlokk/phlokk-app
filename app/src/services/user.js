@@ -5,7 +5,7 @@ export const saveUserProfileImage = (image) =>
   new Promise((resolve, reject) => {
     saveMediaToStorage(
       image,
-      `profileImage/${firebase.auth().currentUser.uid}`
+      `profileImage/${auth.currentUser.id}`
     ).then((res) => {
       firebase
         .firestore()
@@ -18,6 +18,9 @@ export const saveUserProfileImage = (image) =>
         .catch(() => reject());
     });
   });
+
+  
+ 
 
 export const saveUserField = (field, value) =>
   new Promise((resolve, reject) => {
@@ -234,20 +237,20 @@ export const getUserById = (id) => {
   });
 };
 
-export const getIsFollowing = (userId, otherUserId) =>
-  new Promise((resolve, reject) => {
-    firebase
-      .firestore()
-      .collection("user")
-      .doc(userId)
-      .collection("following")
-      .doc(otherUserId)
-      .get()
-      .then((doc) => {
-        resolve(doc.exists);
-      })
-      .catch(() => reject());
-  });
+// export const getIsFollowing = (userId, otherUserId) =>
+//   new Promise((resolve, reject) => {
+//     firebase
+//       .firestore()
+//       .collection("user")
+//       .doc(userId)
+//       .collection("following")
+//       .doc(otherUserId)
+//       .get()
+//       .then((doc) => {
+//         resolve(doc.exists);
+//       })
+//       .catch(() => reject());
+//   });
 
 export const changeFollowState = ({ otherUserId, isFollowing }) =>
   new Promise((resolve, reject) => {

@@ -38,7 +38,7 @@ export default function EditProfileScreen() {
         >
           <Image
             style={styles.image}
-            source={{ uri: auth.currentUser.photoURL }}
+            source={{ uri: auth.currentUser.photo_url }}
           />
           <View style={styles.imageOverlay} />
           <Feather name="camera" size={26} color={colors.white} />
@@ -73,14 +73,14 @@ export default function EditProfileScreen() {
             navigation.navigate(routes.CREATOR, {
               title: "Creator",
               field: "Creator",
-              // value: auth.currentUser.creator,
+              value: auth.currentUser.creator_type,
             })
           }
         >
           <Text style={styles.text}>Creator</Text>
           <View style={styles.fieldValueContainer}>
             <Text numberOfLines={1} style={styles.authText}>
-              {auth.currentUser.creator}
+              {auth.currentUser.creator_type}
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
@@ -113,14 +113,14 @@ export default function EditProfileScreen() {
             navigation.navigate(routes.RELATIONSHIP, {
               title: "Relationship",
               field: "relationship",
-              value: auth.currentUser.relationship,
+              value: auth.currentUser.relationship_type,
             })
           }
         >
           <Text style={styles.text}>Relationship</Text>
           <View style={styles.fieldValueContainer}>
             <Text numberOfLines={1} style={styles.authText}>
-              {auth.currentUser.relationship}
+              {auth.currentUser.relationship_type}
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>

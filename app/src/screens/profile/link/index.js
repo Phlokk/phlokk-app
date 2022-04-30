@@ -5,7 +5,7 @@ import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../components/general/navBar";
 import { saveUserLinkField } from "../../../services/user";
-import { generalStyles } from "../../../styles/generalStyles";
+import generalStyles from "../../../styles/generalStyles";
 
 import colors from "../../../../config/colors"
 
