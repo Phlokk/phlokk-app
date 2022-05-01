@@ -18,7 +18,7 @@ export default function ProfilePostList({ posts }) {
         removeClippedSubviews
         snapToAlignment="start"
         nestedScrollEnabled={false}
-        // data={posts}
+        data={posts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ProfilePostListItem item={item} />}
       />

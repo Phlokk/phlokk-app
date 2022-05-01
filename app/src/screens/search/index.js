@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { TextInput, FlatList, View, StyleSheet } from "react-native";
 import SearchUserItem from "../../components/search/userItem";
 import { queryUsersByUsername } from "../../services/user";
-
+// import axios from "axios";
+// import * as SecureStore from "expo-secure-store";
+// import { USER_STATE_CHANGE } from "../../redux/constants";
 import colors from "../../../config/colors";
 import SearchRowScreen from "./searchRow";
 
@@ -10,9 +12,9 @@ const SearchScreen = (props) => {
   const [textInput, setTextInput] = useState("");
   const [searchUsers, setSearchUsers] = useState([]);
 
-  useEffect(() => {
-    queryUsersByUsername(textInput).then(setSearchUsers);
-  }, [textInput]);
+  // useEffect(() => {
+  //   queryUsersByUsername(textInput).then(setSearchUsers);
+  // }, [textInput]);
 
   return (
     <View style={styles.container}>

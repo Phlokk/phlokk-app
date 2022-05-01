@@ -1,4 +1,8 @@
 import { saveMediaToStorage } from "./saveMedia";
+import axios from "axios";
+import * as SecureStore from "expo-secure-store";
+// import { useDispatch } from "react-redux";
+import { USER_STATE_CHANGE } from "../redux/constants";
 
 
 export const saveUserProfileImage = (image) =>
@@ -191,28 +195,53 @@ export const saveUserPassword = (field, value) =>
       .catch(() => reject());
   });
 
-export const queryUsersByUsername = (username) =>
-  new Promise((resolve, reject) => {
-    if (username === '') {
-      resolve([]);
-    }
+// export const queryUsersByUsername = (username) =>
+//   new Promise((resolve, reject) => {
+//     if (username === '') {
+//       resolve([]);
+//     }
 
-    firebase
-      .firestore()
-      .collection("user")
-      .where("username", ">=", username)
+//     firebase
+//       .firestore()
+//       .collection("user")
+//       .where("username", ">=", username)
       
-      .get()
-      .then((snapshot) => {
-        let users = snapshot.docs.map(doc => {
-          const data = doc.data();
-          const id = doc.id;
-          return { id, ...data };
-        })
-        resolve(users);
-      })
-      .catch(() => reject());
-  });
+//       .get()
+//       .then((snapshot) => {
+//         let users = snapshot.docs.map(doc => {
+//           const data = doc.data();
+//           const id = doc.id;
+//           return { id, ...data };
+//         })
+//         resolve(users);
+//       })
+//       .catch(() => reject());
+//   });
+
+export const queryUsersByUsername = () => {
+  axios
+    .post("https://dev.phlokk.com/search", {
+      // username: username,
+      // id: id,
+    })
+    .then((response) => {
+      console.log('back from login')
+      
+      console.log(response.data);
+      const user = response.data.user;
+      user.token = response.data.token;
+
+      setUser(user);
+      SecureStore.setItemAsync('user', JSON.stringify(user));
+      console.log(user)
+      dispatch({ type: USER_STATE_CHANGE, currentUser: user, loaded: true });
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
+
+
 
 export const getUserRealtime = (id, cb) => {
   return firebase

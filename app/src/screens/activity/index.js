@@ -6,27 +6,24 @@ import axios from "axios";
 import colors from "../../../config/colors";
 
 export default function ActivityScreen({ navigation }) {
-  console.log("Call API...aaaa");
+  // console.log("Call API...aaaa");
 
-  axios
-    .post("https://dev.phlokk.com/test/post", {
-      title: "titleValue",
-    })
-    .then(function (response) {
-      // 2 seconds later...
-      console.log("------------ Response");
-      // console.log(response);
-      console.log(response.data);
-      console.log("alsdkjfasdlkfj");
-    })
-    .catch(function (error) {
-      console.log("------------ Back from Server ----------");
-      console.log("------------ ERROR -------------");
-      console.log(error);
-    });
-
-  console.log("Continuing on with code......");
-  console.log("Doing shit....");
+  // axios
+  //   .post("https://dev.phlokk.com/test/post", {
+  //     title: "titleValue",
+  //   })
+  //   .then(function (response) {
+  //     // 2 seconds later...
+  //     console.log("------------ Response");
+  //     // console.log(response);
+  //     console.log(response.data);
+  //     console.log("alsdkjfasdlkfj");
+  //   })
+  //   .catch(function (error) {
+  //     console.log("------------ Back from Server ----------");
+  //     console.log("------------ ERROR -------------");
+  //     console.log(error);
+  //   });
 
   return (
     <View style={styles.container}>

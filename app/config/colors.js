@@ -12,6 +12,7 @@ export default {
     green: '#00cec9',
     linkGreen: '#00b894',
     yellow: '#ffeaa7',
+    greenCheck: '#00e640'
     
 
 

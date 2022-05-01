@@ -30,7 +30,7 @@ function UserProfile() {
 
   const youtubeUser = async () => {
     try {
-      await Linking.openURL(youtubeLink);
+      await Linking.openURL(auth.currentUser.youtubeLink);
     } catch (err) {
       null;
     }
@@ -38,7 +38,7 @@ function UserProfile() {
 
   const instagramUser = async () => {
     try {
-      await Linking.openURL(instagramLink);
+      await Linking.openURL(auth.currentUser.instagramLink);
     } catch (err) {
       null;
     }

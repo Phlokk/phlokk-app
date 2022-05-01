@@ -157,36 +157,10 @@ export default function FeedScreen({ route }) {
     // [viewablePostId]
   );
 
-  // const handleLogout = async () => {
-  //   console.log("handling logout");
-  //   let user = await SecureStore.getItemAsync("user");
-  //   user = JSON.parse(user);
-  //   console.log(user.token);
-
-  //   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-  //   axios
-  //     .post("https://dev.phlokk.com/api/logout")
-  //     .then((response) => {
-  //       console.log("back from logout");
-  //       setUser(null);
-  //       SecureStore.deleteItemAsync("user");
-  //       dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
-  //     })
-  //     .catch((error) => {
-  //       setUser(null);
-  //       SecureStore.deleteItemAsync("user");
-  //       dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
-  //       console.log(error.response);
-  //     });
-  // };
-
   return (
 
     
     <View style={styles.container}>
-      {/* <TouchableOpacity style={styles.fieldItemContainer} onPress={handleLogout}>
-    <Text style={styles.text}>Logout</Text>
-    </TouchableOpacity> */}
       <FlatList
         showsVerticalScrollIndicator={false}
         // data={posts}

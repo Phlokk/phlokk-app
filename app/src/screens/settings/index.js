@@ -163,6 +163,9 @@ export default function SettingsScreen() {
             <MaterialIcons name="logout" size={14} color="white" /> Logout
           </Text>
         </TouchableOpacity>
+        <View style={styles.versionContainer}>
+        <Text style={styles.versionText}>v01.0.0</Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -215,6 +218,12 @@ const styles = StyleSheet.create({
       color: colors.white,
       fontSize: 12,
   },
+  versionText: {
+      color: colors.green,
+      textAlign: "center",
+      fontSize: 10,
+      paddingTop: 200,
+  },
   authText: {
       color: colors.secondary,
   },
@@ -229,5 +238,8 @@ const styles = StyleSheet.create({
       marginTop: 10,
       
 
-   }
+   },
+   versionContainer: {
+    flex: 1,
+  },
 });

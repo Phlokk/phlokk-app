@@ -170,8 +170,8 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
         posterSource={{ uri: item.media[1] }}
         posterStyle={{ resizeMode: "cover", height: "100%" }}
         source={{
-          // uri: "https://dev.phlokk.com/storage/app/public/videos/33/Q8oVsYGU29tWMmN9M76cM7oVH41fITxXn3zC5pno.qt",
-          uri: item.media[0],
+          uri: "https://dev.phlokk.com/storage/app/public/videos/33/Q8oVsYGU29tWMmN9M76cM7oVH41fITxXn3zC5pno.qt",
+          // uri: item.media[0],
         }}
       />
       <PostSingleOverlay user={user} post={item} />

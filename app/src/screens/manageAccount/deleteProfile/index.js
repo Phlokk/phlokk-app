@@ -8,14 +8,13 @@ import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 import { USER_STATE_CHANGE } from "../../../redux/constants";
 import axios from "axios";
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 
 export default function DeleteProfileScreen() {
-
   const [user, setUser] = useState("");
   const dispatch = useDispatch();
 
- const handleDelete = async () => {
+  const handleDelete = async () => {
     console.log("delete account");
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
@@ -45,7 +44,8 @@ export default function DeleteProfileScreen() {
       <View style={styles.fieldsContainer}>
         <Text style={styles.text}>
           If you delete your account, you will lose the services stated in our
-          Terms Of Service agreement permanently. All data will be deleted. You will not be able to recover it.
+          Terms Of Service agreement permanently. All data will be deleted. You
+          will not be able to recover it.
         </Text>
 
         <TouchableOpacity
@@ -53,11 +53,10 @@ export default function DeleteProfileScreen() {
           onPress={() => handleDelete()}
         >
           <View style={styles.fieldValueContainer}>
-            
             <Text style={styles.text}>
               <Text style={styles.danger}>Delete account!</Text>
             </Text>
-            
+
             <MaterialCommunityIcons
               name="delete-circle"
               size={40}
@@ -74,13 +73,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    
   },
   fieldItemContainer: {
     flexDirection: "row",
   },
   fieldsContainer: {
-    marginTop: '50%',
+    marginTop: "50%",
     padding: 20,
     alignItems: "center",
   },
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
   },
   danger: {
     color: colors.red,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
   },
   warningWhite: {

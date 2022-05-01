@@ -4,7 +4,7 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../components/general/navBar";
-import { generalStyles } from "../../../styles/generalStyles";
+import generalStyles from "../../../styles/generalStyles";
 import { saveInstagramField } from "../../../services/user";
 
 import colors from "../../../../config/colors"

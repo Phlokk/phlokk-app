@@ -61,7 +61,7 @@ export default function EditProfileScreen() {
             Username
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Text style={styles.authText}>{auth.currentUser.username}</Text>
+            <Text style={styles.text}>{auth.currentUser.username}</Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
@@ -79,7 +79,7 @@ export default function EditProfileScreen() {
         >
           <Text style={styles.text}>Creator</Text>
           <View style={styles.fieldValueContainer}>
-            <Text numberOfLines={1} style={styles.authText}>
+            <Text numberOfLines={1} style={styles.text}>
               {auth.currentUser.creator_type}
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
@@ -99,7 +99,7 @@ export default function EditProfileScreen() {
         >
           <Text style={styles.text}>Website</Text>
           <View style={styles.fieldValueContainer}>
-            <Text numberOfLines={1} style={styles.authText}>
+            <Text numberOfLines={1} style={styles.text}>
               {auth.currentUser.link}
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
@@ -119,7 +119,7 @@ export default function EditProfileScreen() {
         >
           <Text style={styles.text}>Relationship</Text>
           <View style={styles.fieldValueContainer}>
-            <Text numberOfLines={1} style={styles.authText}>
+            <Text numberOfLines={1} style={styles.text}>
               {auth.currentUser.relationship_type}
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
@@ -139,12 +139,21 @@ export default function EditProfileScreen() {
           }
         >
           <Text style={styles.text}>Youtube</Text>
+          {auth.currentUser.youtubeLink === null  ? (
           <View style={styles.fieldValueContainer}>
-            <Text numberOfLines={1} style={styles.authText}>
+            <Text numberOfLines={1} style={styles.text}>
               Add Youtube Channel
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
+          ):(
+          <View>
+            <Text numberOfLines={1} style={styles.text}>  
+            </Text>
+            <Feather name="check-circle" size={16} color={colors.greenCheck} />
+          </View>
+          )}
+
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -159,12 +168,20 @@ export default function EditProfileScreen() {
           }
         >
           <Text style={styles.text}>Instagram</Text>
+          {auth.currentUser.instagramLink === null  ? (
           <View style={styles.fieldValueContainer}>
             <Text numberOfLines={1} style={styles.authText}>
               Add Instagram Account
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
+          ):(
+          <View>
+            <Text numberOfLines={1} style={styles.authText}>  
+            </Text>
+            <Feather name="check-circle" size={16} color={colors.greenCheck} />
+          </View>
+          )}
         </TouchableOpacity>
       </View>
     </SafeAreaView>
