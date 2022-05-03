@@ -1,30 +1,54 @@
 import { saveMediaToStorage } from "./saveMedia";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { USER_STATE_CHANGE } from "../redux/constants";
 
 
-export const saveUserProfileImage = (image) =>
-  new Promise((resolve, reject) => {
-    saveMediaToStorage(
-      image,
-      `profileImage/${auth.currentUser.id}`
-    ).then((res) => {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(firebase.auth().currentUser.uid)
-        .update({
-          photoURL: res,
-        })
-        .then(() => resolve())
-        .catch(() => reject());
-    });
-  });
+// export const saveUserProfileImage = (image) =>
+//   new Promise((resolve, reject) => {
+//     saveMediaToStorage(
+//       image,
+//       `profileImage/${auth.currentUser.id}`
+//     ).then((res) => {
+//       firebase
+//         .firestore()
+//         .collection("user")
+//         .doc(firebase.auth().currentUser.uid)
+//         .update({
+//           photoURL: res,
+//         })
+//         .then(() => resolve())
+//         .catch(() => reject());
+//     });
+//   });
 
-  
- 
+// export const saveUserProfileImage = async () => {
+
+//   console.log("upload image");
+//   let user = await SecureStore.getItemAsync("user");
+//   user = JSON.parse(user);
+//   console.log(user.token);
+
+//   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+//   axios
+//     .post("https://dev.phlokk.com/api/update-profile")
+//     .then((response) => {
+//         console.log(response.data);
+//         const user = response.data.user;
+//         user.token = response.data.token;
+
+//         setUser(user);
+//         SecureStore.setItemAsync('user', JSON.stringify(user));
+//         dispatch({ type: USER_STATE_CHANGE, currentUser: user, loaded: true });
+      
+//     })
+//     .catch((error) => {
+      
+//       console.log(error.response);
+//     });
+// };
+
 
 export const saveUserField = (field, value) =>
   new Promise((resolve, reject) => {

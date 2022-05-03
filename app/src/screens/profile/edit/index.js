@@ -1,48 +1,97 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { saveUserProfileImage } from "../../../services/user";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import NavBarGeneral from "../../../../src/components/general/navBar";
-
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
-
+import FormData from "form-data";
+import * as SecureStore from "expo-secure-store";
+// import axios from 'axios'
 
 export default function EditProfileScreen() {
   const auth = useSelector((state) => state.auth);
   const navigation = useNavigation();
+  const [image, setImage] = useState(null);
+  const [user, setUser] = useState("");
 
   const chooseImage = async () => {
+    console.log("START UPLOADING...");
+    let user = await SecureStore.getItemAsync("user");
+    user = JSON.parse(user);
+    console.log(user.token);
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
     });
+
     if (!result.cancelled) {
-      saveUserProfileImage(result.uri);
+      setImage(result.uri);
     }
+
+    let formData = new FormData();
+    formData.append("photo_url", {
+      name: "photo_url",
+      uri: image,
+      type: "image/jpeg",
+    });
+
+    let res = await fetch("https://dev.phlokk.com/api/update-profile", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${user.token}`,
+        ContentType: "application/json",
+      },
+    }).catch((err) => {
+      console.log(err);
+    });
+    console.log(res.status);
+    let test = await res.json();
+    console.log(test);
+    console.log("RESULT --------------------");
   };
+
+  // useEffect(() => {
+  //   setImage
+  // }, [image]);
 
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral />
       <View style={styles.imageContainer}>
-        <TouchableOpacity
-          style={styles.imageViewContainer}
-          onPress={() => chooseImage()}
-        >
-          <Image
-            style={styles.image}
-            source={{ uri: auth.currentUser.photo_url }}
-          />
-          <View style={styles.imageOverlay} />
-          <Feather name="camera" size={26} color={colors.white} />
-        </TouchableOpacity>
+        {auth.currentUser.photo_url !== null ? (
+          <TouchableOpacity
+            style={styles.imageViewContainer}
+            onPress={() => chooseImage()}
+          >
+            <Image
+              style={styles.image}
+              source={{ uri: auth.currentUser.photo_url }}
+            />
+            <View style={styles.imageOverlay} />
+            <Feather name="camera" size={26} color={colors.white} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.imageViewContainer}
+            onPress={() => chooseImage()}
+          >
+            <Image
+              style={styles.image}
+              source={require("../../../../assets/userImage.png")}
+            />
+            <View style={styles.imageOverlay} />
+            <Feather name="camera" size={26} color={colors.white} />
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={styles.fieldsContainer}>
@@ -139,21 +188,23 @@ export default function EditProfileScreen() {
           }
         >
           <Text style={styles.text}>Youtube</Text>
-          {auth.currentUser.youtubeLink === null  ? (
-          <View style={styles.fieldValueContainer}>
-            <Text numberOfLines={1} style={styles.text}>
-              Add Youtube Channel
-            </Text>
-            <Feather name="chevron-right" size={28} color={colors.white} />
-          </View>
-          ):(
-          <View>
-            <Text numberOfLines={1} style={styles.text}>  
-            </Text>
-            <Feather name="check-circle" size={16} color={colors.greenCheck} />
-          </View>
+          {auth.currentUser.youtubeLink === null ? (
+            <View style={styles.fieldValueContainer}>
+              <Text numberOfLines={1} style={styles.text}>
+                Add Youtube Channel
+              </Text>
+              <Feather name="chevron-right" size={28} color={colors.white} />
+            </View>
+          ) : (
+            <View>
+              <Text numberOfLines={1} style={styles.text}></Text>
+              <Feather
+                name="check-circle"
+                size={16}
+                color={colors.greenCheck}
+              />
+            </View>
           )}
-
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -168,19 +219,22 @@ export default function EditProfileScreen() {
           }
         >
           <Text style={styles.text}>Instagram</Text>
-          {auth.currentUser.instagramLink === null  ? (
-          <View style={styles.fieldValueContainer}>
-            <Text numberOfLines={1} style={styles.authText}>
-              Add Instagram Account
-            </Text>
-            <Feather name="chevron-right" size={28} color={colors.white} />
-          </View>
-          ):(
-          <View>
-            <Text numberOfLines={1} style={styles.authText}>  
-            </Text>
-            <Feather name="check-circle" size={16} color={colors.greenCheck} />
-          </View>
+          {auth.currentUser.instagramLink === null ? (
+            <View style={styles.fieldValueContainer}>
+              <Text numberOfLines={1} style={styles.authText}>
+                Add Instagram Account
+              </Text>
+              <Feather name="chevron-right" size={28} color={colors.white} />
+            </View>
+          ) : (
+            <View>
+              <Text numberOfLines={1} style={styles.authText}></Text>
+              <Feather
+                name="check-circle"
+                size={16}
+                color={colors.greenCheck}
+              />
+            </View>
           )}
         </TouchableOpacity>
       </View>
@@ -244,5 +298,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 60,
     fontWeight: "600",
+  },
+  avatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: "lightgray",
   },
 });

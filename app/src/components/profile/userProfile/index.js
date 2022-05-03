@@ -5,11 +5,9 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 import verifiedCheck from "../../../../assets/verified.png";
-
-// import FastImage from 'react-native-fast-image';
 import colors from "../../../../config/colors";
 import { useSelector } from "react-redux";
-import { userAuthStateListener } from "../../../redux/actions";
+
 
 function UserProfile() {
 
@@ -48,17 +46,17 @@ function UserProfile() {
 
   return (
     <View style={styles.container}>
-      {/* {photoURL !== null ? ( */}
-        {/* <Image 
+      {auth.currentUser.photo_url !== null ? (
+        <Image 
         style={styles.avatar} 
-        source={{ uri: photoURL}} 
-        /> */}
-      {/* ) : ( */}
+        source={{ uri: auth.currentUser.photo_url }} 
+        />
+       ) : ( 
         <Image
           style={styles.avatar}
           source={require("../../../../assets/userImage.png")}
         />
-      {/* )} */}
+        )}
 
       <View style={styles.usernameView}>
         {auth.currentUser.username !== undefined ? (
