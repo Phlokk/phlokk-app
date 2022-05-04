@@ -17,20 +17,20 @@ function ProfileHeader({ user }) {
   const navigation = useNavigation();
 
   const auth = useSelector((state) => state.auth);
+  
 
   // const isFollowing = useFollowing(
-  //   auth.currentUser.user,
-  //   user);
-  // const isFollowingMutation = useFollowingMutation();
+  //   auth.currentUser.user)
+  // // const isFollowingMutation = useFollowingMutation();
   // const renderFollowButton = () => {
-  //   if (isFollowing) {
+  //   if (isFollowing === null) {
   //     return (
   //       <View style={{ flexDirection: "row" }}>
   //         <TouchableOpacity
   //           style={styles.profileIconButton}
-  //           onPress={() =>
-  //             navigation.navigate(routes.CHAT_SINGLE, { contactId: user.id })
-  //           }
+  //           // onPress={() =>
+  //           //   navigation.navigate(routes.CHAT_SINGLE, { contactId: user.id })
+  //           // }
   //         >
   //           <MaterialCommunityIcons
   //             name="message-processing-outline"
@@ -40,9 +40,9 @@ function ProfileHeader({ user }) {
   //         </TouchableOpacity>
   //         <TouchableOpacity
   //           style={styles.profileIconButton}
-  //           onPress={() =>
-  //             isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
-  //           }
+  //           // onPress={() =>
+  //           //   isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
+  //           // }
   //         >
   //           <Feather name="user-check" size={20} color={colors.green} />
   //         </TouchableOpacity>
@@ -52,9 +52,9 @@ function ProfileHeader({ user }) {
   //     return (
   //       <TouchableOpacity
   //         style={styles.filledButton}
-  //         onPress={() =>
-  //           isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
-  //         }
+  //         // onPress={() =>
+  //         //   isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
+  //         // }
   //       >
   //         <Text style={styles.text}>
   //           <Feather name="user-plus" size={20} color="white" />
@@ -68,7 +68,7 @@ function ProfileHeader({ user }) {
     <View style={styles.container}>
       <ProfileStatsContainer />
 
-      {/* {auth.currentUser.user != user ? (
+      {/* {auth.currentUser.user != null ? (
         <TouchableOpacity></TouchableOpacity>
       ) : (
         renderFollowButton()
@@ -78,7 +78,7 @@ function ProfileHeader({ user }) {
         <UserProfile />
       </View>
 
-      {auth.currentUser.user === user ? (
+      {auth.currentUser.user !== null ? (
         <View>
           <DisplayMenuScreen />
         </View>

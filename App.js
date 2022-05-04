@@ -2,10 +2,8 @@ import 'react-native-gesture-handler';
 import { React } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
-import { applyMiddleware, createStore } from "redux";
-import thunk from "redux-thunk";
+import { Store } from './app/src/redux/reducers/store'
 import Route from "./app/src/navigation/main";
-import rootReducer from "./app/src/redux/reducers";
 import { LogBox } from "react-native";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -16,11 +14,6 @@ LogBox.ignoreLogs(["Require cycles are allowed, but can result in uninitialized 
 LogBox.ignoreLogs(["AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native"])
 
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
-
-
-
-
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: false, staleTime: Infinity } },
 });
@@ -28,7 +21,7 @@ const queryClient = new QueryClient({
 export default function App() {
   return (
     <GestureHandlerRootView style={{flex:1}}>
-    <Provider store={store}>
+    <Provider store={Store}>
       <QueryClientProvider client={queryClient}>
         <Route />
       </QueryClientProvider>

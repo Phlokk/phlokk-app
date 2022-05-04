@@ -290,19 +290,9 @@ export const getUserById = (id) => {
   });
 };
 
-// export const getIsFollowing = (userId, otherUserId) =>
+// export const getIsFollowing = (currentUser, otherUserId) =>
 //   new Promise((resolve, reject) => {
-//     firebase
-//       .firestore()
-//       .collection("user")
-//       .doc(userId)
-//       .collection("following")
-//       .doc(otherUserId)
-//       .get()
-//       .then((doc) => {
-//         resolve(doc.exists);
-//       })
-//       .catch(() => reject());
+    
 //   });
 
 export const changeFollowState = ({ otherUserId, isFollowing }) =>

@@ -3,20 +3,44 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import NavBarGeneral from "../../../../src/components/general/navBar";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
 import * as SecureStore from "expo-secure-store";
+import { 
+  setUsername, 
+  setCreatorType, 
+  setWebsiteURL, 
+  setYoutubeURL, 
+  setInstagramURL } 
+  from "../../../redux/actions/user";
 // import axios from 'axios'
 
 export default function EditProfileScreen() {
+
   const auth = useSelector((state) => state.auth);
+
+  const {
+    username,
+    creatorType,
+    websiteURL,
+    relationshipType,
+    youtubeURL,
+    instagramURL
+  } = useSelector(state => state.userReducer)
+  const dispatch = useDispatch();
+
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
   const [user, setUser] = useState("");
+
+//   useEffect(() => {
+//     setImage(image)
+// }, [image]);
+
 
   const chooseImage = async () => {
     console.log("START UPLOADING...");
@@ -35,10 +59,10 @@ export default function EditProfileScreen() {
       setImage(result.uri);
     }
 
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append("photo_url", {
       name: "photo_url",
-      uri: image,
+      uri: result.uri,
       type: "image/jpeg",
     });
 
@@ -53,15 +77,15 @@ export default function EditProfileScreen() {
     }).catch((err) => {
       console.log(err);
     });
-    console.log(res.status);
+
+    console.log(formData)
+    console.log('The status was',+ res.status);
     let test = await res.json();
     console.log(test);
-    console.log("RESULT --------------------");
+    console.log("RESULT -------------------->");
+    
   };
 
-  // useEffect(() => {
-  //   setImage
-  // }, [image]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -74,9 +98,11 @@ export default function EditProfileScreen() {
           >
             <Image
               style={styles.image}
-              source={{ uri: auth.currentUser.photo_url }}
+              source={{ uri: image ? image : auth.currentUser.photo_url }}
             />
+          
             <View style={styles.imageOverlay} />
+            {/* <Text>{image ? 'Edit' : 'Upload'} Image</Text> */}
             <Feather name="camera" size={26} color={colors.white} />
           </TouchableOpacity>
         ) : (

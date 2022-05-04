@@ -1,22 +1,34 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React from "react";
+import React, { useReducer } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 import verifiedCheck from "../../../../assets/verified.png";
 import colors from "../../../../config/colors";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setUsername,
+  setCreatorType,
+  setWebsiteURL,
+  setYoutubeURL,
+  setInstagramURL,
+} from "../../../redux/actions/user";
 
 function UserProfile() {
-
-
   const navigation = useNavigation();
   const auth = useSelector((state) => state.auth);
 
-   
+  const {
+    username,
+    creatorType,
+    websiteURL,
+    relationshipType,
+    youtubeURL,
+    instagramURL,
+  } = useSelector((state) => state.userReducer);
 
+  const dispatch = useDispatch();
 
   const userLink = async () => {
     try {
@@ -42,36 +54,32 @@ function UserProfile() {
     }
   };
 
- 
-
   return (
     <View style={styles.container}>
       {auth.currentUser.photo_url !== null ? (
-        <Image 
-        style={styles.avatar} 
-        source={{ uri: auth.currentUser.photo_url }} 
+        <Image
+          style={styles.avatar}
+          source={{ uri: auth.currentUser.photo_url }}
         />
-       ) : ( 
+      ) : (
         <Image
           style={styles.avatar}
           source={require("../../../../assets/userImage.png")}
         />
-        )}
+      )}
 
       <View style={styles.usernameView}>
         {auth.currentUser.username !== undefined ? (
-          <Text style={styles.username}>@{auth.currentUser.username}</Text>
+          <Text style={styles.username}>@{username}</Text>
         ) : (
           <Text style={styles.username}>@user</Text>
-        )} 
+        )}
 
         {auth.currentUser.verified === 1 ? (
-          <Image 
-          style={styles.phlokkVerified} 
-          source={verifiedCheck} />
+          <Image style={styles.phlokkVerified} source={verifiedCheck} />
         ) : (
           <TouchableOpacity></TouchableOpacity>
-        )} 
+        )}
       </View>
       <View style={styles.linkRow}>
         <TouchableOpacity style={styles.linkText}>
@@ -101,8 +109,12 @@ function UserProfile() {
         </TouchableOpacity>
       </View>
       <View style={styles.relationshipContainer}>
-        <Text style={styles.relationshipText}>{auth.currentUser.relationship_type}</Text>
-        <Text style={styles.relationshipText}>{auth.currentUser.relationship_name}</Text>
+        <Text style={styles.relationshipText}>
+          {auth.currentUser.relationship_type}
+        </Text>
+        <Text style={styles.relationshipText}>
+          {auth.currentUser.relationship_name}
+        </Text>
       </View>
     </View>
   );

@@ -1,4 +1,8 @@
-import { combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware} from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import watcherSaga from '../reducers/saga'
+import thunk from 'redux-thunk';
+import userReducer from './users';
 import { auth } from "./auth";
 import { profileImageUpdate } from "./auth";
 import { posts } from "./posts";
@@ -16,7 +20,9 @@ import {
   setInstagramURL,
 } from "../actions/user";
 
-const Reducers = combineReducers({
+
+const rootReducer = combineReducers({ 
+  userReducer,
   auth,
   profileImageUpdate,
   posts,
@@ -30,7 +36,14 @@ const Reducers = combineReducers({
   setWebsiteURL,
   setRelationshipType,
   setYoutubeURL,
-  setInstagramURL,
+  setInstagramURL
 });
 
-export default Reducers;
+
+const sagaMiddleware = createSagaMiddleware();
+const middleware = [thunk, sagaMiddleware ];
+
+sagaMiddleware.run(watcherSaga)
+export const Store = createStore(rootReducer, applyMiddleware(...middleware));
+
+

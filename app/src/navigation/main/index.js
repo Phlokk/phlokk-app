@@ -53,7 +53,7 @@ import FeedNavigation from "../feed";
 const Stack = createNativeStackNavigator();
 
 export default function Route() {
-  const currentUserObj = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -64,7 +64,7 @@ export default function Route() {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
-        {currentUserObj.currentUser == null ? (
+        {auth.currentUser === null ? (
           <Stack.Screen
             name="auth"
             component={AuthScreen}
