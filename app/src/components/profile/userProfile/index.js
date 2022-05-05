@@ -1,34 +1,32 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet, Button } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useReducer } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 import verifiedCheck from "../../../../assets/verified.png";
 import colors from "../../../../config/colors";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setUsername,
-  setCreatorType,
-  setWebsiteURL,
-  setYoutubeURL,
-  setInstagramURL,
-} from "../../../redux/actions/user";
+// import { getUsersFetch} from "../../../redux/actions/users"
+
+
 
 function UserProfile() {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const auth = useSelector((state) => state.auth);
 
-  const {
-    username,
-    creatorType,
-    websiteURL,
-    relationshipType,
-    youtubeURL,
-    instagramURL,
-  } = useSelector((state) => state.userReducer);
+  // useEffect(() => {
+  //    dispatch(getUsersFetch());
+  // }, [dispatch]);
 
-  const dispatch = useDispatch();
+  // const users = useSelector((state) => state.usersReducer.users);
+ 
+
+
+
+  
+  
 
   const userLink = async () => {
     try {
@@ -69,8 +67,8 @@ function UserProfile() {
       )}
 
       <View style={styles.usernameView}>
-        {auth.currentUser.username !== undefined ? (
-          <Text style={styles.username}>@{username}</Text>
+        {auth.currentUser.username !== null ? (
+          <Text style={styles.username}>@{auth.currentUser.username}</Text>
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
@@ -119,6 +117,8 @@ function UserProfile() {
     </View>
   );
 }
+
+export default UserProfile;
 
 const styles = StyleSheet.create({
   container: {
@@ -186,6 +186,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserProfile;
+
 
 // https://www.echowaves.com/post/implementing-fast-image-for-react-native-expo-apps

@@ -10,27 +10,12 @@ import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
 import * as SecureStore from "expo-secure-store";
-import { 
-  setUsername, 
-  setCreatorType, 
-  setWebsiteURL, 
-  setYoutubeURL, 
-  setInstagramURL } 
-  from "../../../redux/actions/user";
+
 // import axios from 'axios'
 
 export default function EditProfileScreen() {
 
   const auth = useSelector((state) => state.auth);
-
-  const {
-    username,
-    creatorType,
-    websiteURL,
-    relationshipType,
-    youtubeURL,
-    instagramURL
-  } = useSelector(state => state.userReducer)
   const dispatch = useDispatch();
 
   const navigation = useNavigation();

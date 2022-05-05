@@ -1,43 +1,24 @@
-import { 
-    SET_USERNAME, 
-    SET_CREATOR_TYPE, 
-    SET_WEBSITE_URL, 
-    SET_RELATIONSHIP_TYPE,
-    SET_YOUTUBE_URL,
-    SET_INSTAGRAM_URL,
-    GET_ALL_POST_DATA
- } from "../actions/user";
+import GET_USERS_REQUESTED from "../actions/users";
+import GET_USERS_SUCCESS from "../actions/users";
+import GET_USERS_FAILED from '../actions/users'
 
+const initialState = {
+  users: [],
+  loading: false,
+  error: null,
+};
 
- const initialState = {
-     username: "",
-     creatorType: "",
-     websiteURL: "",
-     relationshipType: "",
-     youtubeURL: "",
-     instagramURL: "",
-     postData: [],
- }
+const users = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_USERS_REQUESTED:
+      return { ...state, loading: true };
+    case GET_USERS_SUCCESS:
+      return { ...state, loading: false, users: action.users };
+    case GET_USERS_FAILED:
+      return { ...state, loading: false, error: action.message };
+    default:
+      return state;
+  }
+};
 
- function userReducer(state = initialState, action) {
-     switch (action.type) {
-         case SET_USERNAME:
-             return { ...state, username: action.payload};
-         case SET_CREATOR_TYPE:
-             return { ...state, creatorType: action.payload};
-         case SET_WEBSITE_URL:
-             return { ...state, websiteURL: action.payload};
-         case SET_RELATIONSHIP_TYPE:
-             return { ...state, relationshipType: action.payload};
-         case SET_YOUTUBE_URL:
-             return { ...state, youtubeURL: action.payload};
-         case SET_INSTAGRAM_URL:
-             return { ...state, instagramURL: action.payload};
-         case GET_ALL_POST_DATA:
-             return { ...state, postData: action.payload};
-         default: 
-             return state;
-     }
- }
-
- export default userReducer;
+export default users;

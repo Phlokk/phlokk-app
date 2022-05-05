@@ -7,14 +7,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../../components/general/navBar";
 import { saveUserField } from "../../../../../src/services/user";
 import { generalStyles } from "../../../../../src/styles";
-import { setUsername } from "../../../../redux/actions/user";
 
 import colors from "../../../../../config/colors";
 
 export default function EditProfileFieldScreen({ route }) {
   const { title, field, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
-  const { username } = useSelector(state => state.userReducer)
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -31,7 +29,6 @@ export default function EditProfileFieldScreen({ route }) {
       />
       <Divider />
       <View style={styles.mainContainer}>
-        
         <TextInput
           style={generalStyles.textInput}
           placeholder="username"
@@ -41,7 +38,7 @@ export default function EditProfileFieldScreen({ route }) {
           textContentType="username"
           maxLength={24}
           value={textInputValue}
-          onChangeText={(value) => dispatch(setUsername(value))}
+          onChangeText={setTextInputValue}
         />
       </View>
       <View style={styles.infoView}>
