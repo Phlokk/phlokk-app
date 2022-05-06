@@ -1,24 +1,20 @@
-import GET_USERS_REQUESTED from "../actions/users";
-import GET_USERS_SUCCESS from "../actions/users";
-import GET_USERS_FAILED from '../actions/users'
-
 const initialState = {
-  users: [],
+  user: [],
   loading: false,
   error: null,
 };
 
-const users = (state = initialState, action) => {
+const user = (state = initialState, action) => {
   switch (action.type) {
-    case GET_USERS_REQUESTED:
+    case "GET_USERS_REQUESTED":
       return { ...state, loading: true };
-    case GET_USERS_SUCCESS:
-      return { ...state, loading: false, users: action.users };
-    case GET_USERS_FAILED:
+    case "GET_USERS_SUCCESS":
+      return { ...state, loading: false, user: action.user };
+    case "GET_USERS_FAILED":
       return { ...state, loading: false, error: action.message };
     default:
       return state;
   }
 };
 
-export default users;
+export default user;

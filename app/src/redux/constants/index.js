@@ -1,6 +1,11 @@
 export const USER_STATE_CHANGE = "USER_STATE_CHANGE";
 export const GET_ALL_POST_DATA = "GET_ALL_POST_DATA";
 // User Post and Feed screen
+export const GET_USERS_REQUESTED = "GET_USERS_REQUESTED";
+export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
+export const GET_USERS_FAILED = "GET_USERS_FAILED";
+
+
 export const CURRENT_USER_POSTS_UPDATE = "CURRENT_USER_POSTS_UPDATE";
 export const CHATS_SET = "CHATS_SET";
 // Models

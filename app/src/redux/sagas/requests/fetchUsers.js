@@ -1,12 +1,12 @@
 import * as SecureStore from "expo-secure-store";
+const url = "https://dev.phlokk.com/api/user";
 
-const url = "https://jsonplaceholder.typicode.com/users";
-
-const fetchGetUsers = () => {
+const fetchGetUsers = async () => {
+  console.log("FETCH API CALL...");
   let user = SecureStore.getItemAsync("user");
   user = JSON.parse(user);
-  console.log(user.token);
-  return fetch(url, {
+
+  return await fetch(url, {
     method: "GET",
     headers: {
       Accept: "application/json",

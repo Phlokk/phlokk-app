@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet, Button } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -7,30 +7,36 @@ import * as Linking from "expo-linking";
 import verifiedCheck from "../../../../assets/verified.png";
 import colors from "../../../../config/colors";
 import { useSelector, useDispatch } from "react-redux";
-// import { getUsersFetch} from "../../../redux/actions/users"
-
-
+import { getUsers } from "../../../redux/actions/users";
 
 function UserProfile() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
+  
+  console.log('ERROR BELOW ')
+  console.log(user)
+  console.log('ERROR ABOVE')
 
-  // useEffect(() => {
-  //    dispatch(getUsersFetch());
-  // }, [dispatch]);
 
-  // const users = useSelector((state) => state.usersReducer.users);
+
+  // JSON.stringify to convert objects into JSON.
+  // JSON.parse to convert JSON back into an object.
+
+  
+
+
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
  
-
-
-
-  
-  
+ 
 
   const userLink = async () => {
     try {
-      await Linking.openURL(auth.currentUser.link);
+      await Linking.openURL(user.link);
     } catch (err) {
       null;
     }
@@ -38,7 +44,7 @@ function UserProfile() {
 
   const youtubeUser = async () => {
     try {
-      await Linking.openURL(auth.currentUser.youtubeLink);
+      await Linking.openURL(user.youtubeLink);
     } catch (err) {
       null;
     }
@@ -46,19 +52,18 @@ function UserProfile() {
 
   const instagramUser = async () => {
     try {
-      await Linking.openURL(auth.currentUser.instagramLink);
+      await Linking.openURL(user.instagramLink);
     } catch (err) {
       null;
     }
   };
 
+
+
   return (
     <View style={styles.container}>
-      {auth.currentUser.photo_url !== null ? (
-        <Image
-          style={styles.avatar}
-          source={{ uri: auth.currentUser.photo_url }}
-        />
+      {user.photo_url !== null ? (
+        <Image style={styles.avatar} source={{ uri: user.photo_url }} />
       ) : (
         <Image
           style={styles.avatar}
@@ -67,13 +72,13 @@ function UserProfile() {
       )}
 
       <View style={styles.usernameView}>
-        {auth.currentUser.username !== null ? (
-          <Text style={styles.username}>@{auth.currentUser.username}</Text>
+        {user.username !== null ? (
+          <Text style={styles.username}>@{user.username}</Text>
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
 
-        {auth.currentUser.verified === 1 ? (
+        {user.verified === 1 ? (
           <Image style={styles.phlokkVerified} source={verifiedCheck} />
         ) : (
           <TouchableOpacity></TouchableOpacity>
@@ -107,12 +112,8 @@ function UserProfile() {
         </TouchableOpacity>
       </View>
       <View style={styles.relationshipContainer}>
-        <Text style={styles.relationshipText}>
-          {auth.currentUser.relationship_type}
-        </Text>
-        <Text style={styles.relationshipText}>
-          {auth.currentUser.relationship_name}
-        </Text>
+        <Text style={styles.relationshipText}>{user.relationship_type}</Text>
+        <Text style={styles.relationshipText}>{user.relationship_name}</Text>
       </View>
     </View>
   );
@@ -185,7 +186,3 @@ const styles = StyleSheet.create({
     width: 20,
   },
 });
-
-
-
-// https://www.echowaves.com/post/implementing-fast-image-for-react-native-expo-apps
