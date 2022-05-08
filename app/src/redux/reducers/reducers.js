@@ -1,4 +1,4 @@
-import user from "./users";
+import users from "./users";
 import { auth } from "./auth";
 import { posts } from "./posts";
 import { modal } from "./modal";
@@ -9,7 +9,7 @@ import { chat } from "./chat";
 import { combineReducers } from "redux";
 
 const reducers = combineReducers({
-  user,
+  users: users,
   auth,
   posts,
   modal,

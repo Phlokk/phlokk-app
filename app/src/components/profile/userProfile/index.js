@@ -12,31 +12,20 @@ import { getUsers } from "../../../redux/actions/users";
 function UserProfile() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const user = useSelector((state) => state.user);
-  
-  console.log('ERROR BELOW ')
-  console.log(user)
-  console.log('ERROR ABOVE')
+  const users = useSelector((state) => state.users.users);
 
-
-
-  // JSON.stringify to convert objects into JSON.
-  // JSON.parse to convert JSON back into an object.
-
-  
-
-
+  console.log('This is the user info below')
+  console.log(users);
+  console.log(users.username)
+  console.log('why is it diosapearing?')
 
   useEffect(() => {
     dispatch(getUsers());
-  }, [dispatch]);
-
- 
- 
+  }, []);
 
   const userLink = async () => {
     try {
-      await Linking.openURL(user.link);
+      await Linking.openURL(users.link);
     } catch (err) {
       null;
     }
@@ -44,7 +33,7 @@ function UserProfile() {
 
   const youtubeUser = async () => {
     try {
-      await Linking.openURL(user.youtubeLink);
+      await Linking.openURL(users.youtubeLink);
     } catch (err) {
       null;
     }
@@ -52,33 +41,30 @@ function UserProfile() {
 
   const instagramUser = async () => {
     try {
-      await Linking.openURL(user.instagramLink);
+      await Linking.openURL(users.instagramLink);
     } catch (err) {
       null;
     }
   };
 
-
-
   return (
     <View style={styles.container}>
-      {user.photo_url !== null ? (
-        <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+      {users.photo_url !== null ? (
+        <Image style={styles.avatar} source={{ uri: users.photo_url }} />
       ) : (
         <Image
           style={styles.avatar}
           source={require("../../../../assets/userImage.png")}
         />
       )}
-
+      {/* <View><Text>Hello</Text></View> */}
       <View style={styles.usernameView}>
-        {user.username !== null ? (
-          <Text style={styles.username}>@{user.username}</Text>
+        {users.username !== null ? (
+          <Text style={styles.username}>@{users.username}</Text>
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
-
-        {user.verified === 1 ? (
+        {users.verified === 1 ? (
           <Image style={styles.phlokkVerified} source={verifiedCheck} />
         ) : (
           <TouchableOpacity></TouchableOpacity>
@@ -112,14 +98,14 @@ function UserProfile() {
         </TouchableOpacity>
       </View>
       <View style={styles.relationshipContainer}>
-        <Text style={styles.relationshipText}>{user.relationship_type}</Text>
-        <Text style={styles.relationshipText}>{user.relationship_name}</Text>
+        <Text style={styles.relationshipText}>{users.relationship_type}</Text>
+        <Text style={styles.relationshipText}>{users.relationship_name}</Text>
       </View>
     </View>
   );
 }
 
-export default UserProfile;
+
 
 const styles = StyleSheet.create({
   container: {
@@ -186,3 +172,6 @@ const styles = StyleSheet.create({
     width: 20,
   },
 });
+
+export default UserProfile;
+
