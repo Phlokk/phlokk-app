@@ -10,21 +10,23 @@ import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
 import * as SecureStore from "expo-secure-store";
+import { getUsers } from "../../../redux/actions/users";
 
 // import axios from 'axios'
 
 export default function EditProfileScreen() {
 
-  const auth = useSelector((state) => state.auth);
+  // const auth = useSelector((state) => state.auth);
+  const users = useSelector((state) => state.users.users);
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
-  const [user, setUser] = useState("");
 
-//   useEffect(() => {
-//     setImage(image)
-// }, [image]);
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [getUsers]);
 
 
   const chooseImage = async () => {
@@ -76,14 +78,14 @@ export default function EditProfileScreen() {
     <SafeAreaView style={styles.container}>
       <NavBarGeneral />
       <View style={styles.imageContainer}>
-        {auth.currentUser.photo_url !== null ? (
+        {users.photo_url !== null ? (
           <TouchableOpacity
             style={styles.imageViewContainer}
             onPress={() => chooseImage()}
           >
             <Image
               style={styles.image}
-              source={{ uri: image ? image : auth.currentUser.photo_url }}
+              source={{ uri: image ? image : users.photo_url }}
             />
           
             <View style={styles.imageOverlay} />
@@ -113,7 +115,7 @@ export default function EditProfileScreen() {
             navigation.navigate(routes.EDIT_PROFILE_FIELD, {
               title: "Username",
               field: "username",
-              value: auth.currentUser.username,
+              value: users.username,
             })
           }
         >
@@ -121,7 +123,7 @@ export default function EditProfileScreen() {
             Username
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Text style={styles.text}>{auth.currentUser.username}</Text>
+            <Text style={styles.text}>{users.username}</Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
@@ -133,14 +135,14 @@ export default function EditProfileScreen() {
             navigation.navigate(routes.CREATOR, {
               title: "Creator",
               field: "Creator",
-              value: auth.currentUser.creator_type,
+              value: users.creator_type,
             })
           }
         >
           <Text style={styles.text}>Creator</Text>
           <View style={styles.fieldValueContainer}>
             <Text numberOfLines={1} style={styles.text}>
-              {auth.currentUser.creator_type}
+              {users.creator_type}
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
@@ -153,14 +155,14 @@ export default function EditProfileScreen() {
             navigation.navigate(routes.LINK, {
               title: "Link",
               field: "link",
-              value: auth.currentUser.link,
+              value: users.link,
             })
           }
         >
           <Text style={styles.text}>Website</Text>
           <View style={styles.fieldValueContainer}>
             <Text numberOfLines={1} style={styles.text}>
-              {auth.currentUser.link}
+              {users.link}
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
@@ -173,14 +175,14 @@ export default function EditProfileScreen() {
             navigation.navigate(routes.RELATIONSHIP, {
               title: "Relationship",
               field: "relationship",
-              value: auth.currentUser.relationship_type,
+              value: users.relationship_type,
             })
           }
         >
           <Text style={styles.text}>Relationship</Text>
           <View style={styles.fieldValueContainer}>
             <Text numberOfLines={1} style={styles.text}>
-              {auth.currentUser.relationship_type}
+              {users.relationship_type}
             </Text>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
@@ -194,12 +196,12 @@ export default function EditProfileScreen() {
             navigation.navigate(routes.YOUTUBE_LINK, {
               title: "Youtube",
               field: "youtubeLink",
-              value: auth.currentUser.youtubeLink,
+              value: users.youtubeLink,
             })
           }
         >
           <Text style={styles.text}>Youtube</Text>
-          {auth.currentUser.youtubeLink === null ? (
+          {users.youtubeLink === null ? (
             <View style={styles.fieldValueContainer}>
               <Text numberOfLines={1} style={styles.text}>
                 Add Youtube Channel
@@ -225,12 +227,12 @@ export default function EditProfileScreen() {
             navigation.navigate(routes.INSTAGRAM_LINK, {
               title: "Instagram",
               field: "instagramLink",
-              value: auth.currentUser.instagramLink,
+              value: users.instagramLink,
             })
           }
         >
           <Text style={styles.text}>Instagram</Text>
-          {auth.currentUser.instagramLink === null ? (
+          {users.instagramLink === null ? (
             <View style={styles.fieldValueContainer}>
               <Text numberOfLines={1} style={styles.authText}>
                 Add Instagram Account

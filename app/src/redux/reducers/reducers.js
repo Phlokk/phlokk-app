@@ -9,7 +9,7 @@ import { chat } from "./chat";
 import { combineReducers } from "redux";
 
 const reducers = combineReducers({
-  users: users,
+  users,
   auth,
   posts,
   modal,

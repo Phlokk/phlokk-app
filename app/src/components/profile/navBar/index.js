@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect }from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -6,19 +6,26 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import ProfileHeader from "../../profile/header/"
+import { getUsers } from "../../../redux/actions/users";
 
 
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function ProfileNavBar({ user }) {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
-  const auth = useSelector((state) => state.auth);
+  const users = useSelector((state) => state.users.users);
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
+
 
   return (
     <View style={styles.container}>
-      {auth.currentUser.user === user ? ( 
+      {users.user === user ? ( 
         <TouchableOpacity>
           <Entypo
             name="shop"
@@ -38,8 +45,8 @@ export default function ProfileNavBar({ user }) {
           />
         </TouchableOpacity> 
        )} 
-      <Text style={styles.middleText}>{auth.currentUser.creator_type}</Text>
-      {auth.currentUser.user === user ? (
+      <Text style={styles.middleText}>{users.creator_type}</Text>
+      {users.user === user ? (
         <TouchableOpacity>
           <MaterialCommunityIcons
             name="menu"

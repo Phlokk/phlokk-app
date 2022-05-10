@@ -7,27 +7,31 @@ import {
   StyleSheet,
   Image,
   Alert,
+  Pressable,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 import { USER_STATE_CHANGE } from "../../../redux/constants";
+import { useTogglePasswordVisibility } from "../../../services/passwordVisibility";
 // import { LOGIN, REGISTER } from "@env";
 import colors from "../../../../config/colors";
 
-
 export default function AuthDetails({ authPage, setDetailsPage }) {
-  const [email, setEmail] = useState("");
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+    useTogglePasswordVisibility();
   const [password, setPassword] = useState("");
+
+  const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  
 
   function resetTextInput() {
     console.log("reset forum");
@@ -45,20 +49,20 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         device_name: "mobile",
       })
       .then((response) => {
-        console.log('back from login')
-        
+        console.log("back from login");
+
         console.log(response.data);
         const user = response.data.user;
         user.token = response.data.token;
 
         setUser(user);
-        SecureStore.setItemAsync('user', JSON.stringify(user));
+        SecureStore.setItemAsync("user", JSON.stringify(user));
         // console.log(user)
         dispatch({ type: USER_STATE_CHANGE, currentUser: user, loaded: true });
       })
       .catch((error) => {
         // console.log(error.response);
-        Alert.alert('Wrong username or password!')
+        Alert.alert("Wrong username or password!");
       });
   };
 
@@ -74,13 +78,13 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       .then(function (response) {
         const user = response.data.user;
         user.token = response.data.token;
-        
+
         console.log("------------ Response XXX ---------");
         // console.log(response.data);
         resetTextInput();
         setUser(user);
-        console.log(user.token)
-        SecureStore.setItemAsync('user', JSON.stringify(user));
+        console.log(user.token);
+        SecureStore.setItemAsync("user", JSON.stringify(user));
         dispatch({ type: USER_STATE_CHANGE, currentUser: user, loaded: true });
       })
       .catch(function (error) {
@@ -119,18 +123,30 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               placeholder="Email"
               value={email}
             />
-            <TextInput
-              style={styles.textInput}
-              placeholderTextColor={"lightgray"}
-              autoCapitalize="none"
-              autoCorrect={false}
-              textContentType="password"
-              maxLength={24}
-              onChangeText={(text) => setPassword(text)}
-              secureTextEntry
-              placeholder="Password"
-              value={password}
-            />
+            <View>
+              <TextInput
+                style={styles.textInput}
+                placeholderTextColor={"lightgray"}
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="password"
+                maxLength={24}
+                onChangeText={(text) => setPassword(text)}
+                secureTextEntry={passwordVisibility}
+                placeholder="Password"
+                value={password}
+              />
+              <TouchableOpacity
+                onPress={handlePasswordVisibility}
+                style={styles.eye}
+              >
+                <MaterialCommunityIcons
+                  name={rightIcon}
+                  size={22}
+                  color={colors.white}
+                />
+              </TouchableOpacity>
+            </View>
           </>
         ) : (
           <>
@@ -174,9 +190,9 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               textContentType="password"
               maxLength={24}
               onChangeText={(text) => setPassword(text)}
-              secureTextEntry
               placeholder="Password"
               value={password}
+              enablesReturnKeyAutomatically
             />
           </>
         )}
@@ -262,5 +278,10 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: "center",
+  },
+  eye: {
+    position: "absolute",
+    right: 10,
+    top: 30,
   },
 });

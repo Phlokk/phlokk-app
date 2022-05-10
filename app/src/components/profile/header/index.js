@@ -1,23 +1,28 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import DisplayMenuScreen from "../../../screens/profile/displayMenu";
 import { useFollowing } from "../../../hooks/useFollowing";
 import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
 import UserProfile from "../userProfile";
 import ProfileStatsContainer from "../profileStats";
-import { useSelector } from "react-redux";
-import { Feather } from '@expo/vector-icons'; 
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { Feather } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
+import { useSelector, useDispatch } from "react-redux";
+import { getUsers } from "../../../redux/actions/users";
 import colors from "../../../../config/colors";
 
-
 function ProfileHeader({ user }) {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const users = useSelector((state) => state.users.users);
 
-  const auth = useSelector((state) => state.auth);
-  
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
+
+  // const auth = useSelector((state) => state.auth);
 
   // const isFollowing = useFollowing(
   //   auth.currentUser.user)
@@ -78,7 +83,7 @@ function ProfileHeader({ user }) {
         <UserProfile />
       </View>
 
-      {auth.currentUser.user !== null ? (
+      {users.user !== null ? (
         <View>
           <DisplayMenuScreen />
         </View>

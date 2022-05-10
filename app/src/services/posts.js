@@ -40,6 +40,10 @@ export const useFeed = (profile) =>
 //   await firebase.firestore().collection("post").doc(postId).delete();
 // };
 
+export const deletePostById = async (postId) => {
+  await fetch('')
+};
+
 
 
 // export const getLikeById = (postId, uid) =>

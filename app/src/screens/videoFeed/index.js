@@ -33,14 +33,14 @@ export default function FeedScreen({ route }) {
   const [user, setUser] = useState("");
   const dispatch = useDispatch();
 
-  //   const feed = useFeed(profile);
+    // const feed = useFeed(profile);
 
   //   // const userPosts = useUserPosts(creator, {
   //   //   enabled: Boolean(profile) || Boolean(creator),
   //   // });
 
-  //   const isLoading = feed.isLoading || userPosts.isLoading;
-  // //   useRefreshOnFocus(profile ? userPosts.refetch : feed.refetch);
+    // const isLoading = feed.isLoading || userPosts.isLoading;
+  //   useRefreshOnFocus(profile ? userPosts.refetch : feed.refetch);
 
   //   let posts = useMemo(() => {
   //     if (profile || creator) {
@@ -192,7 +192,7 @@ export default function FeedScreen({ route }) {
             alignItems: "center",
           }}
         >
-          <ActivityIndicator size="large" color={colors.green} />
+          <ActivityIndicator size="small" color={colors.green} />
         </View>
       )} */}
     </View>
