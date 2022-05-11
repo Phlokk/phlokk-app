@@ -12,22 +12,16 @@ import FormData from "form-data";
 import * as SecureStore from "expo-secure-store";
 import { getUsers } from "../../../redux/actions/users";
 
-// import axios from 'axios'
-
 export default function EditProfileScreen() {
-
-  // const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.users.users);
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
 
-
   useEffect(() => {
     dispatch(getUsers());
-  }, [getUsers]);
-
+  }, []);
 
   const chooseImage = async () => {
     console.log("START UPLOADING...");
@@ -65,14 +59,12 @@ export default function EditProfileScreen() {
       console.log(err);
     });
 
-    console.log(formData)
-    console.log('The status was',+ res.status);
+    console.log(formData);
+    console.log("The status was", +res.status);
     let test = await res.json();
     console.log(test);
     console.log("RESULT -------------------->");
-    
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -87,7 +79,7 @@ export default function EditProfileScreen() {
               style={styles.image}
               source={{ uri: image ? image : users.photo_url }}
             />
-          
+
             <View style={styles.imageOverlay} />
             {/* <Text>{image ? 'Edit' : 'Upload'} Image</Text> */}
             <Feather name="camera" size={26} color={colors.white} />
@@ -211,11 +203,7 @@ export default function EditProfileScreen() {
           ) : (
             <View>
               <Text numberOfLines={1} style={styles.text}></Text>
-              <Feather
-                name="check-circle"
-                size={16}
-                color={colors.greenCheck}
-              />
+              <Feather name="check-circle" size={16} color={colors.green} />
             </View>
           )}
         </TouchableOpacity>
@@ -242,11 +230,7 @@ export default function EditProfileScreen() {
           ) : (
             <View>
               <Text numberOfLines={1} style={styles.authText}></Text>
-              <Feather
-                name="check-circle"
-                size={16}
-                color={colors.greenCheck}
-              />
+              <Feather name="check-circle" size={16} color={colors.green} />
             </View>
           )}
         </TouchableOpacity>

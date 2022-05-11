@@ -9,8 +9,7 @@ import verifiedCheck from "../../../../assets/verified.png";
 import colors from "../../../../config/colors";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers } from "../../../redux/actions/users";
-import * as SecureStore from "expo-secure-store";
-import axios from "axios";
+
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -22,68 +21,10 @@ function UserProfile() {
 
   useEffect(() => {
     dispatch(getUsers());
-  }, [getUsers]);
+  }, []);
 
-  // old data above
+  // API call above
 
-  // const url = "https://dev.phlokk.com/api/creators";
-
-  // const fetchCreatorsProfileInfo = async () => {
-  //   const token = JSON.parse(await SecureStore.getItemAsync('user'));
-  //   const response = await fetch(url, {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${token.token}`,
-  //     }
-  //   })
-  //   return response.json()
-
-  // }
-
-  // // const url = "https://dev.phlokk.com/api/creators/test/work";
-  
-  // const fetchCreatorsProfileInfo = async () => {
-  //   let user = await SecureStore.getItemAsync("user");
-  //   user = JSON.parse(user);
-  //   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-  //   axios
-  //     .get("https://dev.phlokk.com/api/creators/working/results", {
-        
-  //         responseType: "json",
-  //       })
-      
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.response);
-  //     });
-  // };
-
-  // const { data, status } = useQuery("users", fetchCreatorsProfileInfo);
-
-
-  // const fetchCreatorsProfileInfo = async () => {
-  //   const response = await fetch("https://jsonplaceholder.typicode.com/users")
-  //   return response.json();
-  // };
-
-  
-  // if (status === "loading") {
-  //   return (
-  //     <View>
-  //       <Text style={styles.users}>Loading...</Text>
-  //     </View>
-  //   );
-  // }
-
-  // if (status === "error") {
-  //   return (
-  //     <View>
-  //       <Text style={styles.error}>ERROR</Text>
-  //     </View>
-  //   );
-  // }
 
   const userLink = async () => {
     try {
@@ -110,15 +51,6 @@ function UserProfile() {
   };
 
   return (
-    // <View>
-    //   {data={}.map((users, i) => (
-    //     <View>
-    //       <Text style={styles.users} key={i}>
-    //         {users.username}
-    //       </Text>
-    //     </View>
-    //   ))}
-    // </View>
     <View style={styles.container}>
       {users.photo_url !== null ? (
         <Image style={styles.avatar} source={{ uri: users.photo_url }} />

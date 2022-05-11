@@ -1,7 +1,7 @@
 import "react-native-gesture-handler";
 import { React } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./app/src/redux/reducers/reducers";
 import { Provider } from "react-redux";
@@ -27,7 +27,7 @@ const middleware = [sagaMiddleware, thunk];
 
 
 
-const store = compose(applyMiddleware(...middleware))(createStore)(reducers);
+const store = (createStore)(reducers, applyMiddleware(...middleware));
 
 sagaMiddleware.run(rootSaga);
 

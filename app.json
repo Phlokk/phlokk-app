@@ -9,7 +9,7 @@
     "icon": "./app/assets/Phlokk_App_Logo_2022_1024x1024.png",
     
     "splash": {
-      "image": "./app/assets/splash.png",
+      "image": "./app/assets/phlokk_splash_screen_2022.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

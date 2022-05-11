@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Image,
   Alert,
-  Pressable,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -114,7 +113,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             <TextInput
               style={styles.textInput}
               keyboardType="email-address"
-              placeholderTextColor={"lightgray"}
+              placeholderTextColor={colors.green}
               autoCapitalize="none"
               autoCorrect={false}
               textContentType="emailAddress"
@@ -126,7 +125,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             <View>
               <TextInput
                 style={styles.textInput}
-                placeholderTextColor={"lightgray"}
+                placeholderTextColor={colors.green}
                 autoCapitalize="none"
                 autoCorrect={false}
                 textContentType="password"
@@ -143,7 +142,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
                 <MaterialCommunityIcons
                   name={rightIcon}
                   size={22}
-                  color={colors.white}
+                  color={colors.green}
                 />
               </TouchableOpacity>
             </View>
@@ -152,7 +151,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
           <>
             <TextInput
               style={styles.textInput}
-              placeholderTextColor={"lightgray"}
+              placeholderTextColor={colors.green}
               autoCapitalize="words"
               autoCorrect={false}
               maxLength={50}
@@ -162,7 +161,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             />
             <TextInput
               style={styles.textInput}
-              placeholderTextColor={"lightgray"}
+              placeholderTextColor={colors.green}
               autoCapitalize="none"
               autoCorrect={false}
               maxLength={24}
@@ -173,7 +172,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             <TextInput
               style={styles.textInput}
               keyboardType="email-address"
-              placeholderTextColor={"lightgray"}
+              placeholderTextColor={colors.green}
               autoCapitalize="none"
               autoCorrect={false}
               textContentType="emailAddress"
@@ -184,7 +183,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             />
             <TextInput
               style={styles.textInput}
-              placeholderTextColor={"lightgray"}
+              placeholderTextColor={colors.green}
               autoCapitalize="none"
               autoCorrect={false}
               textContentType="password"
@@ -232,7 +231,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 80,
-    borderColor: colors.secondary,
+    borderColor: colors.green,
     borderWidth: 1,
     borderRadius: 10,
     borderStyle: "solid",
@@ -243,7 +242,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: "bold",
     fontSize: 16,
-    color: colors.white,
+    color: colors.green,
   },
   buttonForgotPassword: {
     marginTop: 20,
