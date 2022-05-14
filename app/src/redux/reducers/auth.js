@@ -1,4 +1,4 @@
-import { USER_STATE_CHANGE } from "../constants";
+import { types } from "../constants";
 
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
 
 export const auth = (state = initialState, action) => {
   switch (action.type) {
-    case USER_STATE_CHANGE:
+    case types.USER_STATE_CHANGE:
       return {
         ...state,
         currentUser: action.currentUser,

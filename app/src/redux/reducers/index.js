@@ -1,22 +1,20 @@
-import users from "./users";
+import { combineReducers } from "redux";
 import { auth } from "./auth";
 import { posts } from "./posts";
 import { modal } from "./modal";
+import { chat } from "./chat";
 import { settingsModal } from "./modal";
 import { giftingModal } from "./modal";
 import { settingsSheetModal } from "./modal";
-import { chat } from "./chat";
-import { combineReducers } from "redux";
+import userReducer from "../reducers/userReducer";
 
-const reducers = combineReducers({
-  users,
+export default combineReducers({
   auth,
   posts,
   modal,
-  settingsModal,
   chat,
+  settingsModal,
   giftingModal,
   settingsSheetModal,
+  userReducer,
 });
-
-export default reducers;

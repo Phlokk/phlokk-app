@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import NavBarGeneral from "../../../../src/components/general/navBar";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
+import { fetchUserData } from "../../../redux/actions/users";
 import * as SecureStore from "expo-secure-store";
-import { getUsers } from "../../../redux/actions/users";
 
 export default function EditProfileScreen() {
-  const users = useSelector((state) => state.users.users);
   const dispatch = useDispatch();
-
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
 
+  const users = useSelector((state) => state.userReducer.user);
+  // const loading = useSelector(state => state.userReducer.user);
+
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(fetchUserData());
   }, []);
 
   const chooseImage = async () => {
@@ -66,6 +67,10 @@ export default function EditProfileScreen() {
     console.log("RESULT -------------------->");
   };
 
+  {
+    /* <Text>{image ? 'Edit' : 'Upload'} Image</Text> */
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral />
@@ -81,7 +86,7 @@ export default function EditProfileScreen() {
             />
 
             <View style={styles.imageOverlay} />
-            {/* <Text>{image ? 'Edit' : 'Upload'} Image</Text> */}
+
             <Feather name="camera" size={26} color={colors.white} />
           </TouchableOpacity>
         ) : (
@@ -115,7 +120,9 @@ export default function EditProfileScreen() {
             Username
           </Text>
           <View style={styles.fieldValueContainer}>
+
             <Text style={styles.text}>{users.username}</Text>
+
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>

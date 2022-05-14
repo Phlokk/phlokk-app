@@ -1,4 +1,4 @@
-import { CHATS_SET } from '../constants';
+import { types } from '../constants';
 
 const initialState = {
     list: [],
@@ -6,7 +6,7 @@ const initialState = {
 
 export const chat = (state = initialState, action) => {
     switch (action.type) {
-        case CHATS_SET:
+        case types.CHATS_SET:
             return {
                 ...state,
                 list: action.data

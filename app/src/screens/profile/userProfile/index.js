@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useQuery } from "react-query";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -8,22 +7,18 @@ import * as Linking from "expo-linking";
 import verifiedCheck from "../../../../assets/verified.png";
 import colors from "../../../../config/colors";
 import { useSelector, useDispatch } from "react-redux";
-import { getUsers } from "../../../redux/actions/users";
-
+import { fetchUserData } from "../../../redux/actions/users";
 
 function UserProfile() {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
-  const users = useSelector((state) => state.users.users);
-  console.log("Fetch Object Below");
-  console.log(users);
-  console.log("Fetch Object Above");
+
+  const users = useSelector((state) => state.userReducer.user);
+  // const loading = useSelector(state => state.userReducer.user);
+  // const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(fetchUserData({}));
   }, []);
-
-  // API call above
 
 
   const userLink = async () => {
@@ -52,7 +47,10 @@ function UserProfile() {
 
   return (
     <View style={styles.container}>
-      {users.photo_url !== null ? (
+
+{users && users.map((user, i) => <Text style={styles.users} key={i}>{user.username}</Text>)}
+
+      {/* {users.photo_url !== null ? (
         <Image style={styles.avatar} source={{ uri: users.photo_url }} />
       ) : (
         <Image
@@ -99,10 +97,14 @@ function UserProfile() {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.relationshipContainer}>
-        <Text style={styles.relationshipText}>{users.relationship_type}</Text>
-        <Text style={styles.relationshipText}>{users.relationship_name}</Text>
-      </View>
+      <>
+        <View style={styles.relationshipContainer}>
+          <Text style={styles.relationshipText}>{users.relationship_type}</Text>
+
+          <Text style={styles.relationshipText}>{users.relationship_name}</Text>
+        </View>
+      </>
+    </View> */}
     </View>
   );
 }

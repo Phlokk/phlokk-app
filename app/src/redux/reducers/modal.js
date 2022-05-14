@@ -1,4 +1,4 @@
-import { CLEAR_MODAL, MODAL_OPEN_COMMENT_SECTION, MODAL_OPEN_SETTINGS, MODAL_OPEN_GIFTING_SECTION, MODAL_OPEN_SETTINGS_SHEET_SECTION  } from '../constants';
+import { types } from '../constants';
 
 const initialState = {
     open: false,
@@ -8,14 +8,14 @@ const initialState = {
 
 export const modal = (state = initialState, action) => {
     switch (action.type) {
-        case MODAL_OPEN_COMMENT_SECTION:
+        case types.MODAL_OPEN_COMMENT_SECTION:
             return {
                 ...state,
                 open: action.open,
                 data: action.data,
                 modalType: action.modalType,
             }
-        case CLEAR_MODAL:
+        case types.CLEAR_MODAL:
             return initialState;
         default:
             return state;
@@ -24,14 +24,14 @@ export const modal = (state = initialState, action) => {
 
 export const settingsModal = (state = initialState, action) => {
     switch (action.type) {
-        case MODAL_OPEN_SETTINGS:
+        case types.MODAL_OPEN_SETTINGS:
             return {
                 ...state,
                 open: action.open,
                 data: action.data,
                 modalType: action.modalType,
             }
-        case CLEAR_MODAL:
+        case types.CLEAR_MODAL:
             return initialState;
         default:
             return state;
@@ -40,14 +40,14 @@ export const settingsModal = (state = initialState, action) => {
 
 export const giftingModal = (state = initialState, action) => {
     switch (action.type) {
-        case MODAL_OPEN_GIFTING_SECTION:
+        case types.MODAL_OPEN_GIFTING_SECTION:
             return {
                 ...state,
                 open: action.open,
                 data: action.data,
                 modalType: action.modalType,
             }
-        case CLEAR_MODAL:
+        case types.CLEAR_MODAL:
             return initialState;
         default:
             return state;
@@ -56,14 +56,14 @@ export const giftingModal = (state = initialState, action) => {
 
 export const settingsSheetModal = (state = initialState, action) => {
     switch (action.type) {
-        case MODAL_OPEN_SETTINGS_SHEET_SECTION:
+        case types.MODAL_OPEN_SETTINGS_SHEET_SECTION:
             return {
                 ...state,
                 open: action.open,
                 data: action.data,
                 modalType: action.modalType,
             }
-        case CLEAR_MODAL:
+        case types.CLEAR_MODAL:
             return initialState;
         default:
             return state;

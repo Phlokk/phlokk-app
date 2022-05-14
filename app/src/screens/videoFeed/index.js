@@ -24,7 +24,7 @@ import colors from "../../../config/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
-import { USER_STATE_CHANGE } from "../../redux/constants";
+import { types } from "../../redux/constants";
 import axios from "axios";
 
 export default function FeedScreen({ route }) {

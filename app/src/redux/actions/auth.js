@@ -1,6 +1,6 @@
 // import { getPostsByUser } from "./post";
 import * as SecureStore from "expo-secure-store";
-import { USER_STATE_CHANGE } from "../constants";
+import { types } from "../constants";
 
 export const userAuthStateListener = () => (dispatch) => {
 
@@ -11,12 +11,12 @@ export const userAuthStateListener = () => (dispatch) => {
     console.log(user);
     if (user) {
       dispatch({
-        type: USER_STATE_CHANGE,
+        type: types.USER_STATE_CHANGE,
         currentUser: JSON.parse(user),
         loaded: true,
       });
     } else {
-      dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
+      dispatch({ type: types.USER_STATE_CHANGE, currentUser: null, loaded: true });
     }
   });
 

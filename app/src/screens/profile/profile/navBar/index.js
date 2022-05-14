@@ -1,41 +1,42 @@
-import React, { useEffect }from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import ProfileHeader from "../../profile/header/"
-import { getUsers } from "../../../redux/actions/users";
-
-
-import routes from "../../../navigation/routes";
-import colors from "../../../../config/colors"
+import routes from "../../../../navigation/routes";
 import { useSelector, useDispatch } from "react-redux";
+import colors from "../../../../../config/colors";
+import { fetchUserData } from "../../../../redux/actions/users";
 
-export default function ProfileNavBar({ user }) {
-  const dispatch = useDispatch();
+export default function ProfileNavBar() {
   const navigation = useNavigation();
-  const users = useSelector((state) => state.users.users);
+  const dispatch = useDispatch();
+
+  const users = useSelector((state) => state.userReducer.user);
+  // const loading = useSelector(state => state.userReducer.user);
+  // const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(fetchUserData());
   }, []);
-
 
   return (
     <View style={styles.container}>
-      {users.user === user ? ( 
+      {/* {users.users !== null ? (
         <TouchableOpacity>
           <Entypo
             name="shop"
             size={26}
             color={colors.white}
             // onPress={() => navigation.navigate(routes.MARKET)}
-            onPress={() => (Alert.alert("Phlokk Market", "Coming in beta version 3!"))}
+            onPress={() =>
+              Alert.alert("Phlokk Market", "Coming in beta version 3!")
+            }
           />
         </TouchableOpacity>
-       ) : ( 
+      ) : (
         <TouchableOpacity style={styles.button}>
           <MaterialIcons
             name="keyboard-arrow-left"
@@ -43,10 +44,10 @@ export default function ProfileNavBar({ user }) {
             color={colors.white}
             onPress={() => navigation.goBack()}
           />
-        </TouchableOpacity> 
-       )} 
+        </TouchableOpacity>
+      )}
       <Text style={styles.middleText}>{users.creator_type}</Text>
-      {users.user === user ? (
+      {users.users !== null ? (
         <TouchableOpacity>
           <MaterialCommunityIcons
             name="menu"
@@ -55,16 +56,16 @@ export default function ProfileNavBar({ user }) {
             onPress={() => navigation.navigate(routes.EDIT)}
           />
         </TouchableOpacity>
-      ) : ( 
-         <TouchableOpacity>
+      ) : (
+        <TouchableOpacity>
           <Ionicons
             name="ellipsis-horizontal"
             size={28}
             color={colors.white}
-              onPress={() => navigation.navigate("edit")}
+            onPress={() => navigation.navigate("edit")}
           />
-        </TouchableOpacity> 
-       )} 
+        </TouchableOpacity>
+      )} */}
     </View>
   );
 }
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     flex: 1,
     textAlign: "center",
-    alignSelf: 'center',
+    alignSelf: "center",
     fontWeight: "bold",
   },
 });

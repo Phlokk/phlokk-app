@@ -1,6 +1,4 @@
-
-   
-import { CURRENT_USER_POSTS_UPDATE } from '../constants'
+import { types } from '../constants'
 
 const initialState = {
     currentUserPosts: null,
@@ -8,7 +6,7 @@ const initialState = {
 
 export const posts = (state = initialState, action) => {
     switch (action.type) {
-        case CURRENT_USER_POSTS_UPDATE:
+        case types.CURRENT_USER_POSTS_UPDATE:
             return {
                 ...state,
                 currentUserPosts: action.currentUserPosts,

@@ -1,26 +1,20 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
-import DisplayMenuScreen from "../../../screens/profile/displayMenu";
-import { useFollowing } from "../../../hooks/useFollowing";
-import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
-import UserProfile from "../userProfile";
+import DisplayMenuScreen from "../../displayMenu";
+// import { useFollowing } from "../../../hooks/useFollowing";
+// import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
+import UserProfile from "../../../../screens/profile/userProfile";
 import ProfileStatsContainer from "../profileStats";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import routes from "../../../navigation/routes";
-import { useSelector, useDispatch } from "react-redux";
-import { getUsers } from "../../../redux/actions/users";
-import colors from "../../../../config/colors";
+// import routes from "../../../navigation/routes";
 
-function ProfileHeader({ user }) {
-  const dispatch = useDispatch();
+import colors from "../../../../../config/colors";
+
+function ProfileHeader(props) {
   const navigation = useNavigation();
-  const users = useSelector((state) => state.users.users);
 
-  useEffect(() => {
-    dispatch(getUsers());
-  }, []);
 
   // const auth = useSelector((state) => state.auth);
 
@@ -70,10 +64,12 @@ function ProfileHeader({ user }) {
   // };
 
   return (
+
     <View style={styles.container}>
+      
       <ProfileStatsContainer />
 
-      {/* {auth.currentUser.user != null ? (
+      {/* {users !== null ? (
         <TouchableOpacity></TouchableOpacity>
       ) : (
         renderFollowButton()
@@ -83,13 +79,13 @@ function ProfileHeader({ user }) {
         <UserProfile />
       </View>
 
-      {users.user !== null ? (
+      {/* {users !== null ? ( */}
         <View>
           <DisplayMenuScreen />
         </View>
-      ) : (
-        <TouchableOpacity></TouchableOpacity>
-      )}
+      {/* ) : ( */}
+        {/* <TouchableOpacity></TouchableOpacity> */}
+      {/* )} */}
     </View>
   );
 }

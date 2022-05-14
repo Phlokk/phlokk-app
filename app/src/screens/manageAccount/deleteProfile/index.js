@@ -6,7 +6,7 @@ import AccountNavBar from "../../../components/general/manageAccount";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
-import { USER_STATE_CHANGE } from "../../../redux/constants";
+import { types } from "../../../redux/constants";
 import axios from "axios";
 import colors from "../../../../config/colors";
 
@@ -27,12 +27,12 @@ export default function DeleteProfileScreen() {
         console.log("back from delete");
         setUser(null);
         SecureStore.deleteItemAsync("user");
-        dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
+        dispatch({ type: types.USER_STATE_CHANGE, currentUser: null, loaded: true });
       })
       .catch((error) => {
         setUser(null);
         SecureStore.deleteItemAsync("user");
-        dispatch({ type: USER_STATE_CHANGE, currentUser: null, loaded: true });
+        dispatch({ type: types.USER_STATE_CHANGE, currentUser: null, loaded: true });
         console.log(error.response);
       });
   };

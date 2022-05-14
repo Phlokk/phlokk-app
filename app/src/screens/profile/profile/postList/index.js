@@ -2,7 +2,7 @@ import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import ProfilePostListItem from "./item";
 
-import colors from "../../../../config/colors";
+import colors from "../../../../../config/colors";
 
 export default function ProfilePostList({ posts }) {
 

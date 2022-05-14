@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useRef, useState, useMemo } from "react";
-import ProfileHeader from "../../components/profile/header";
-import ProfileNavBar from "../../components/profile/navBar";
-import ProfilePostList from "../../components/profile/postList";
+import ProfileHeader from "../../screens/profile/profile/header";
+import ProfileNavBar from "../../screens/profile/profile/navBar";
+import ProfilePostList from "../../screens/profile/profile/postList";
 import { SafeAreaView } from "react-native-safe-area-context";
 // import { CurrentUserProfileItemInViewContext } from "../../../src/navigation/feed";
 // import { useUserRealtime } from "../../hooks/useUser";
 // import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
 // import { useUserPosts } from "../../services/posts";
 import { FlatList, View, StyleSheet, ActivityIndicator, Text } from "react-native";
-import ProfilePostListItem from "../../components/profile/postList/item";
+import ProfilePostListItem from "../../screens/profile/profile/postList";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 // import { getFeed } from "../../services/posts"

@@ -1,6 +1,9 @@
-import { all } from "redux-saga/effects";
-import watcherUserSaga from "./handlers/fetchUsers";
+import { spawn } from "redux-saga/effects";
 
+// Sagas
+import userSaga from "../sagas/userSaga";
+
+// Export the root saga
 export default function* rootSaga() {
-  yield all([watcherUserSaga()]);
+  yield spawn(userSaga);
 }

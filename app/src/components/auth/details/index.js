@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
-import { USER_STATE_CHANGE } from "../../../redux/constants";
+import { types } from "../../../redux/constants";
 import { useTogglePasswordVisibility } from "../../../services/passwordVisibility";
 // import { LOGIN, REGISTER } from "@env";
 import colors from "../../../../config/colors";
@@ -22,10 +22,9 @@ import colors from "../../../../config/colors";
 export default function AuthDetails({ authPage, setDetailsPage }) {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
-  const [password, setPassword] = useState("");
 
   const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [user, setUser] = useState(null);
@@ -57,7 +56,11 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         setUser(user);
         SecureStore.setItemAsync("user", JSON.stringify(user));
         // console.log(user)
-        dispatch({ type: USER_STATE_CHANGE, currentUser: user, loaded: true });
+        dispatch({
+          type: types.USER_STATE_CHANGE,
+          currentUser: user,
+          loaded: true,
+        });
       })
       .catch((error) => {
         // console.log(error.response);
@@ -84,12 +87,16 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         setUser(user);
         console.log(user.token);
         SecureStore.setItemAsync("user", JSON.stringify(user));
-        dispatch({ type: USER_STATE_CHANGE, currentUser: user, loaded: true });
+        dispatch({
+          type: types.USER_STATE_CHANGE,
+          currentUser: user,
+          loaded: true,
+        });
       })
       .catch(function (error) {
-        // console.log("------------ Back from Server ----------");
-        // console.log("------------ ERROR -------------");
-        // console.log(error);
+        console.log("------------ Back from Server ----------");
+        console.log("------------ ERROR -------------");
+        console.log(error);
       });
   };
 

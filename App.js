@@ -1,12 +1,8 @@
 import "react-native-gesture-handler";
 import { React } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import reducers from "./app/src/redux/reducers/reducers";
+import store from "./app/src/redux/reducers/configureStore";
 import { Provider } from "react-redux";
-import createSagaMiddleware from "redux-saga";
-import rootSaga from "./app/src/redux/sagas/rootSaga";
 import Route from "./app/src/navigation/main";
 import { LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -21,15 +17,6 @@ LogBox.ignoreLogs([
 // LogBox.ignoreLogs([
 //   "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native",
 // ]);
-
-const sagaMiddleware = createSagaMiddleware();
-const middleware = [sagaMiddleware, thunk];
-
-
-
-const store = (createStore)(reducers, applyMiddleware(...middleware));
-
-sagaMiddleware.run(rootSaga);
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: false, staleTime: Infinity } },

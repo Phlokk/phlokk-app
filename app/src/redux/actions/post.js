@@ -1,6 +1,6 @@
 import { saveMediaToStorage } from "../../services/saveMedia";
 import uuid from "uuid-random";
-import { CURRENT_USER_POSTS_UPDATE } from "../constants";
+import { types } from "../constants";
 import axios from "axios";
 import FormData from "form-data";
 
@@ -60,7 +60,7 @@ export const createPost =
 //     new Promise((resolve, reject) => {
 //       
 //           dispatch({
-//             type: CURRENT_USER_POSTS_UPDATE,
+//             type: types.CURRENT_USER_POSTS_UPDATE,
 //             currentUserPosts: posts,
 //           });
 //         });

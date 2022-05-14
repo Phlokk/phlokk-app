@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 
-import colors from "../../../../config/colors";
+import colors from "../../../../../config/colors";
 
 export default function ProfileStatsContainer(props) {
   const [following, setFollowing] = useState("20k");

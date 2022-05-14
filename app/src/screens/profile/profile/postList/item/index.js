@@ -8,8 +8,8 @@ import {
   ActivityIndicator,
   View
 } from "react-native";
-import routes from "../../../../navigation/routes";
-import colors from "../../../../../config/colors";
+import routes from "../../../../../navigation/routes";
+import colors from "../../../../../../config/colors";
 // import { deletePostById } from "../../../../services/posts";
 import { useQueryClient } from "react-query";
 

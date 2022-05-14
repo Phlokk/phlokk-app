@@ -1,4 +1,4 @@
-import { CHATS_SET } from '../constants';
+import { types } from '../constants';
 
 export const setChats = data => dispatch =>
-    dispatch({ data, type: CHATS_SET })
+    dispatch({ data, type: types.CHATS_SET })
