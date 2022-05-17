@@ -18,14 +18,14 @@ const CommentItem = ({ item }) => {
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
           <Text style={styles.username}>{user?.username}</Text>
-          {user?.verified === true ? (
+          {/* {user?.verified === true ? (
             <Image
               style={styles.verifiedBadge}
               source={require("../../../../../assets/verified.png")}
             />
           ) : (
             <TouchableOpacity></TouchableOpacity>
-          )}
+          )} */}
           <View style={styles.starRow}>
           <MaterialCommunityIcons
           onPress={() => (Alert.alert("Stars", "Coming in beta version 3!"))}

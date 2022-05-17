@@ -45,7 +45,7 @@ export default function EditProfileScreen() {
     formData.append("photo_url", {
       name: "photo_url",
       uri: result.uri,
-      type: "image/jpeg",
+      type: "image/png",
     });
 
     let res = await fetch("https://dev.phlokk.com/api/update-profile", {
@@ -80,10 +80,11 @@ export default function EditProfileScreen() {
             style={styles.imageViewContainer}
             onPress={() => chooseImage()}
           >
-            <Image
+            {users && users.map((user, i) => <Image
               style={styles.image}
-              source={{ uri: image ? image : users.photo_url }}
-            />
+              key={i}
+              source={{ uri: image ? image : user.photo_url }}
+            />)}
 
             <View style={styles.imageOverlay} />
 
@@ -105,14 +106,15 @@ export default function EditProfileScreen() {
       </View>
 
       <View style={styles.fieldsContainer}>
-        <TouchableOpacity
+      {users && users.map((user, i) =>  <TouchableOpacity
           style={styles.fieldItemContainer}
+          key={i}
           autoCapitalize="none"
           onPress={() =>
             navigation.navigate(routes.EDIT_PROFILE_FIELD, {
               title: "Username",
               field: "username",
-              value: users.username,
+              value: user.username,
             })
           }
         >
@@ -121,57 +123,60 @@ export default function EditProfileScreen() {
           </Text>
           <View style={styles.fieldValueContainer}>
 
-            <Text style={styles.text}>{users.username}</Text>
+          {users && users.map((user, i) => <Text style={styles.text} key={i}>{user.username}</Text>)}
 
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>)}
 
-        <TouchableOpacity
+        {users && users.map((user, i) => <TouchableOpacity
           style={styles.fieldItemContainer}
+          key={i}
           autoCapitalize="none"
           onPress={() =>
             navigation.navigate(routes.CREATOR, {
               title: "Creator",
               field: "Creator",
-              value: users.creator_type,
+              value: user.creator_type,
             })
           }
         >
           <Text style={styles.text}>Creator</Text>
           <View style={styles.fieldValueContainer}>
-            <Text numberOfLines={1} style={styles.text}>
-              {users.creator_type}
-            </Text>
+          {users && users.map((user, i) => <Text numberOfLines={1} style={styles.text} key={i}>
+              {user.creator_type}
+            </Text>)}
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>)}
 
-        <TouchableOpacity
+        {users && users.map((user, i) => <TouchableOpacity
           style={styles.fieldItemContainer}
+          key={i}
           autoCapitalize="none"
           onPress={() =>
             navigation.navigate(routes.LINK, {
               title: "Link",
               field: "link",
-              value: users.link,
+              value: user.link,
             })
           }
         >
           <Text style={styles.text}>Website</Text>
           <View style={styles.fieldValueContainer}>
-            <Text numberOfLines={1} style={styles.text}>
-              {users.link}
-            </Text>
+          {users && users.map((user, i) => <Text numberOfLines={1} style={styles.text} key={i}>
+              {user.link}
+            </Text>)}
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>)}
 
-        <TouchableOpacity
+        {users && users.map((user, i) =>  <TouchableOpacity
           style={styles.fieldItemContainer}
+          key={i}
           autoCapitalize="none"
           onPress={() =>
-            navigation.navigate(routes.RELATIONSHIP, {
+            navigation.navigate(routes.RELATIONSHIP,{
               title: "Relationship",
               field: "relationship",
               value: users.relationship_type,
@@ -180,22 +185,23 @@ export default function EditProfileScreen() {
         >
           <Text style={styles.text}>Relationship</Text>
           <View style={styles.fieldValueContainer}>
-            <Text numberOfLines={1} style={styles.text}>
-              {users.relationship_type}
-            </Text>
+          {users && users.map((user, i) =><Text numberOfLines={1} style={styles.text} key={i}>
+              {user.relationship_type}
+            </Text>)}
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>)}
 
         <Text style={styles.socialText}>Social Media</Text>
-        <TouchableOpacity
+        {users && users.map((user, i) => <TouchableOpacity
           style={styles.fieldItemContainer}
+          key={i}
           autoCapitalize="none"
           onPress={() =>
             navigation.navigate(routes.YOUTUBE_LINK, {
               title: "Youtube",
               field: "youtubeLink",
-              value: users.youtubeLink,
+              value: user.youtubeLink,
             })
           }
         >
@@ -213,16 +219,17 @@ export default function EditProfileScreen() {
               <Feather name="check-circle" size={16} color={colors.green} />
             </View>
           )}
-        </TouchableOpacity>
+        </TouchableOpacity>)}
 
-        <TouchableOpacity
+        {users && users.map((user, i) => <TouchableOpacity
           style={styles.fieldItemContainer}
+          key={i}
           autoCapitalize="none"
           onPress={() =>
             navigation.navigate(routes.INSTAGRAM_LINK, {
               title: "Instagram",
               field: "instagramLink",
-              value: users.instagramLink,
+              value: user.instagramLink,
             })
           }
         >
@@ -240,7 +247,7 @@ export default function EditProfileScreen() {
               <Feather name="check-circle" size={16} color={colors.green} />
             </View>
           )}
-        </TouchableOpacity>
+        </TouchableOpacity>)}
       </View>
     </SafeAreaView>
   );

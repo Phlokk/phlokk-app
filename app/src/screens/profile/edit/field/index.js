@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../../components/general/navBar";
@@ -14,14 +13,13 @@ import colors from "../../../../../config/colors";
 
 export default function EditProfileFieldScreen({ route }) {
   const { title, field, value } = route.params;
-  // const [username, setUsername] = useState("")
   const [textInputValue, setTextInputValue] = useState(value);
-
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const onSave = () => {
-    saveUserField(field, textInputValue).then(() => navigation.goBack());
+    saveUserField(field, textInputValue)
+    .then(() => navigation.goBack());
   };
 
   return (

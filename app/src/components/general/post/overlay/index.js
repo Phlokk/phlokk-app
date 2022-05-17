@@ -39,7 +39,7 @@ export default function PostSingleOverlay({ user, post}) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const songTicker = "Artist and song name";
-  const verifiedPNG = require("../../../../../assets/verified.png");
+
 
 
 
@@ -170,11 +170,11 @@ export default function PostSingleOverlay({ user, post}) {
             <View style={styles.verifiedContainer}>
               <Text style={styles.username}>@{user?.username}</Text>
 
-              {user?.verified === true ? (
+              {/* {user?.verified === true ? (
                 <Image style={styles.verifiedBadge} source={verifiedPNG} />
               ) : (
                 <TouchableOpacity></TouchableOpacity>
-              )}
+              )} */}
             </View>
 
             <Text style={styles.description}>{post.description}</Text>

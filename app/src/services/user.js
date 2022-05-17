@@ -5,62 +5,36 @@ import { useDispatch } from "react-redux";
 import { types } from "../redux/constants";
 
 
-// export const saveUserProfileImage = (image) =>
-//   new Promise((resolve, reject) => {
-//     saveMediaToStorage(
-//       image,
-//       `profileImage/${auth.currentUser.id}`
-//     ).then((res) => {
-//       firebase
-//         .firestore()
-//         .collection("user")
-//         .doc(firebase.auth().currentUser.uid)
-//         .update({
-//           photoURL: res,
-//         })
-//         .then(() => resolve())
-//         .catch(() => reject());
-//     });
-//   });
 
-// export const saveUserProfileImage = async () => {
+export const saveUserField = async (field, value) => {
+  console.log(field);
+  let obj = {};
+   obj[field] = value;
+  console.log("Saving username");
+  let user = await SecureStore.getItemAsync("user");
+  user = JSON.parse(user);
+  console.log(user.token);
 
-//   console.log("upload image");
-//   let user = await SecureStore.getItemAsync("user");
-//   user = JSON.parse(user);
-//   console.log(user.token);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+  axios
+    .put("https://dev.phlokk.com/api/creators/update")
+    .then((response) => {
+      console.log(response.data)
+      // dispatch({ type: types.USER_STATE_CHANGE, currentUser: null, loaded: true });
+    })
+    .catch((error) => {
+      // dispatch({ type: types.USER_STATE_CHANGE, currentUser: null, loaded: true });
+      console.log(error.response);
+    });
+};
 
-//   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-//   axios
-//     .post("https://dev.phlokk.com/api/update-profile")
-//     .then((response) => {
-//         console.log(response.data);
-//         const user = response.data.user;
-//         user.token = response.data.token;
-
-//         setUser(user);
-//         SecureStore.setItemAsync('user', JSON.stringify(user));
-//         dispatch({ type: USER_STATE_CHANGE, currentUser: user, loaded: true });
-      
-//     })
-//     .catch((error) => {
-      
-//       console.log(error.response);
-//     });
-// };
 
 
 // export const saveUserField = (field, value) =>
 //   new Promise((resolve, reject) => {
 //     let obj = {};
 //     obj[field] = value;
-//     firebase
-//       .firestore()
-//       .collection("user")
-//       .doc(firebase.auth().currentUser.uid)
-//       .update(obj)
-//       .then(() => resolve())
-//       .catch(() => reject());
+//     
 //   });
 
 // export const saveYouTubeField = (field, value) =>
@@ -128,6 +102,8 @@ import { types } from "../redux/constants";
 //       .catch(() => reject());
 //   });
 
+// PHLOKK MARKET FUNC/LINKS BELOW
+
 // export const saveUserAdmission = (field, value) =>
 //   new Promise((resolve, reject) => {
 //     let obj = {};
@@ -179,6 +155,8 @@ import { types } from "../redux/constants";
 //       .then(() => resolve())
 //       .catch(() => reject());
 //   });
+
+// SETTINGS FUNC/LINKS BELOW
 
 // export const saveUserPhone = (field, value) =>
 //   new Promise((resolve, reject) => {

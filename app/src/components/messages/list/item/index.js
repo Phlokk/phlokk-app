@@ -29,7 +29,7 @@ const MessageListItem = ({ chat, user }) => {
     >
       <Image style={styles.image} source={{ uri: userData?.photoURL }} />
       <View style={{ flex: 1 }}>
-        <View style={styles.verifiedRow}>
+        {/* <View style={styles.verifiedRow}>
           <Text style={styles.usernameText}>{userData?.username}</Text>
           {userData?.verified === true ? (
             <Image
@@ -39,7 +39,7 @@ const MessageListItem = ({ chat, user }) => {
           ) : (
             <TouchableOpacity></TouchableOpacity>
           )}
-        </View>
+        </View> */}
         <Text style={styles.lastMessage}>{chat.lastMessage}</Text>
       </View>
       <Text style={styles.date}>

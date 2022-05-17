@@ -4,22 +4,29 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as Linking from "expo-linking";
-import verifiedCheck from "../../../../assets/verified.png";
 import colors from "../../../../config/colors";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserData } from "../../../redux/actions/users";
 
 function UserProfile() {
+  // useEffect(() => {
+  //   SecureStore.getItemAsync("user")
+  //     .then((user) => {
+  //       axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
   const dispatch = useDispatch();
 
   const users = useSelector((state) => state.userReducer.user);
   // const loading = useSelector(state => state.userReducer.user);
   // const navigation = useNavigation();
-
   useEffect(() => {
     dispatch(fetchUserData({}));
   }, []);
-
 
   const userLink = async () => {
     try {
@@ -47,64 +54,114 @@ function UserProfile() {
 
   return (
     <View style={styles.container}>
-
-{users && users.map((user, i) => <Text style={styles.users} key={i}>{user.username}</Text>)}
-
-      {/* {users.photo_url !== null ? (
-        <Image style={styles.avatar} source={{ uri: users.photo_url }} />
+      {users.photo_url !== null ? (
+        <Text>
+          {users &&
+            users.map((user, i) => (
+              <Image
+                style={styles.avatar}
+                key={i}
+                source={{ uri: user.photo_url }}
+              />
+            ))}{" "}
+        </Text>
       ) : (
         <Image
           style={styles.avatar}
           source={require("../../../../assets/userImage.png")}
         />
       )}
+
       <View style={styles.usernameView}>
         {users.username !== null ? (
-          <Text style={styles.username}>@{users.username}</Text>
+          <Text>
+            {users &&
+              users.map((user, i) => (
+                <Text style={styles.username} key={i}>
+                  @{user.username}
+                </Text>
+              ))}
+          </Text>
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
-        {users.verified === 1 ? (
-          <Image style={styles.phlokkVerified} source={verifiedCheck} />
+
+        {users.is_verified !== null ? (
+          <Text style={styles.phlokkVerified}>
+            {users &&
+              users.map((user, i) => (
+                <Image
+                  style={styles.phlokkVerified}
+                  key={i}
+                  source={{ uri: user.is_verified }}
+                />
+              ))}
+          </Text>
         ) : (
           <TouchableOpacity></TouchableOpacity>
         )}
       </View>
-      <View style={styles.linkRow}>
-        <TouchableOpacity style={styles.linkText}>
-          <Feather
-            onPress={youtubeUser}
-            name="youtube"
-            size={20}
-            color={colors.green}
-          />
-        </TouchableOpacity>
 
-        <TouchableOpacity style={styles.linkText}>
-          <MaterialCommunityIcons
-            onPress={userLink}
-            name="link"
-            size={25}
-            color={colors.green}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.linkText}>
-          <Feather
-            onPress={instagramUser}
-            name="instagram"
-            size={18}
-            color={colors.green}
-          />
-        </TouchableOpacity>
+      <>
+        <View style={styles.linkRow}>
+          <TouchableOpacity style={styles.linkText}>
+            <Feather
+              onPress={youtubeUser}
+              name="youtube"
+              size={20}
+              color={colors.green}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.linkText}>
+            <MaterialCommunityIcons
+              onPress={userLink}
+              name="link"
+              size={25}
+              color={colors.green}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.linkText}>
+            <Feather
+              onPress={instagramUser}
+              name="instagram"
+              size={18}
+              color={colors.green}
+            />
+          </TouchableOpacity>
+        </View>
+      </>
+      <View style={styles.quotesView}>
+        {users.quote !== null ? (
+          <Text>
+            {users &&
+              users.map((user, i) => (
+                <Text style={styles.quotes} key={i}>
+                  {user.quote}
+                </Text>
+              ))}
+          </Text>
+        ) : (
+          <TouchableOpacity></TouchableOpacity>
+        )}
       </View>
       <>
         <View style={styles.relationshipContainer}>
-          <Text style={styles.relationshipText}>{users.relationship_type}</Text>
+          {users &&
+            users.map((user, i) => (
+              <Text style={styles.relationshipText} key={i}>
+                {user.relationship_type}
+              </Text>
+            ))}
 
-          <Text style={styles.relationshipText}>{users.relationship_name}</Text>
+          {users &&
+            users.map((user, i) => (
+              <Text style={styles.relationshipText} key={i}>
+                {user.relationship_name}
+              </Text>
+            ))}
         </View>
       </>
-    </View> */}
     </View>
   );
 }
@@ -155,6 +212,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
+  quotes: {
+    color: colors.white,
+    marginBottom: 20,
+    textAlign: 'center'
+  },
   users: {
     color: colors.white,
   },
@@ -164,12 +226,21 @@ const styles = StyleSheet.create({
   phlokkVerified: {
     width: 12,
     height: 12,
-    bottom: 4,
+    top: 3,
     marginHorizontal: 3,
   },
   usernameView: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  quotesView: {
+    flexDirection: "row",
+    alignItems: "center",
+    textAlign: 'center',
+    paddingBottom: 10,
+    paddingRight: 25,
+    paddingLeft: 25,
+
   },
   messageText: {
     color: colors.black,

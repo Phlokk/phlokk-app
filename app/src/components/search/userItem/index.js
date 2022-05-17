@@ -7,7 +7,6 @@ import colors from "../../../../config/colors";
 
 export default function SearchUserItem({ item }) {
   const navigation = useNavigation();
-  const verifiedPNG = require("../../../../assets/verified.png");
 
   return (
     <TouchableOpacity
@@ -19,11 +18,11 @@ export default function SearchUserItem({ item }) {
       <View style={styles.verifiedRow}>
         <Text style={styles.text}>{item.username}</Text>
         <View style={{ flex: 1 }}>
-          {item?.verified === true ? (
+          {/* {item?.verified === true ? (
             <Image style={styles.verifiedBadge} source={verifiedPNG} />
           ) : (
             <TouchableOpacity></TouchableOpacity>
-          )}
+          )} */}
         </View>
         <Image style={styles.image} source={{ uri: item.photoURL }} />
       </View>

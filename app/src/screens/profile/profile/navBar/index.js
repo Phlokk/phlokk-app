@@ -24,7 +24,7 @@ export default function ProfileNavBar() {
 
   return (
     <View style={styles.container}>
-      {/* {users.users !== null ? (
+      {users.users !== null ? (
         <TouchableOpacity>
           <Entypo
             name="shop"
@@ -46,7 +46,7 @@ export default function ProfileNavBar() {
           />
         </TouchableOpacity>
       )}
-      <Text style={styles.middleText}>{users.creator_type}</Text>
+      {users && users.map((user, i) => <Text style={styles.middleText} key={i}>{user.creator_type}</Text>)}
       {users.users !== null ? (
         <TouchableOpacity>
           <MaterialCommunityIcons
@@ -65,7 +65,7 @@ export default function ProfileNavBar() {
             onPress={() => navigation.navigate("edit")}
           />
         </TouchableOpacity>
-      )} */}
+      )}
     </View>
   );
 }

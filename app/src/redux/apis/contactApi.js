@@ -1,25 +1,21 @@
-import axios from "./axiosDeclaration";
+import axios from './axiosDeclaration';
 
 export const getAllUsers = async () => {
   try {
-    const users = await axios.get("users");
+    const users = await axios.get('api/creators');
     return users.data;
   } catch (err) {
     return console.error(err);
   }
 };
 
-// export function getAllUsers () {
-//     let user = SecureStore.getItemAsync("user");
+// let user = await SecureStore.getItemAsync("user");
+  // user = JSON.parse(user);
+  // axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+  // axios
 
-//     axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-//     axios
-//       .get("https://dev.phlokk.com/api/creators")
 
-//       .then((response) => {
-//         console.log(response);
-//       })
-//       .catch((error) => {
-//         console.log(error.response);
-//       });
-//   };
+
+
+
+
