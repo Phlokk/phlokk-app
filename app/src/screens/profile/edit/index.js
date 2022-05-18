@@ -10,6 +10,7 @@ import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
 import { fetchUserData } from "../../../redux/actions/users";
+import { saveUserField } from "../../../services/user";
 import * as SecureStore from "expo-secure-store";
 
 export default function EditProfileScreen() {
@@ -67,13 +68,17 @@ export default function EditProfileScreen() {
     console.log("RESULT -------------------->");
   };
 
-  {
-    /* <Text>{image ? 'Edit' : 'Upload'} Image</Text> */
-  }
+  const onSave = () => {
+    saveUserField(field, textInputValue)
+    .then(() => navigation.goBack());
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBarGeneral />
+      <NavBarGeneral 
+      leftButton={{ display: false, name: "save", action: onSave }}
+      
+      />
       <View style={styles.imageContainer}>
         {users.photo_url !== null ? (
           <TouchableOpacity
@@ -115,6 +120,7 @@ export default function EditProfileScreen() {
               title: "Username",
               field: "username",
               value: user.username,
+              id: user.id
             })
           }
         >
@@ -138,6 +144,7 @@ export default function EditProfileScreen() {
               title: "Creator",
               field: "Creator",
               value: user.creator_type,
+              id: user.id
             })
           }
         >
@@ -159,6 +166,7 @@ export default function EditProfileScreen() {
               title: "Link",
               field: "link",
               value: user.link,
+              id: user.id
             })
           }
         >
@@ -171,6 +179,30 @@ export default function EditProfileScreen() {
           </View>
         </TouchableOpacity>)}
 
+
+        {users && users.map((user, i) =>  <TouchableOpacity
+          style={styles.fieldItemContainer}
+          key={i}
+          autoCapitalize="none"
+          onPress={() =>
+            navigation.navigate(routes.QUOTES,{
+              title: "Quotes",
+              field: "quotes",
+              value: user.quote,
+              id: user.id
+            })
+          }
+        >
+          <Text style={styles.text}>Quote</Text>
+          <View style={styles.fieldValueContainer}>
+          {users && users.map((user, i) =><Text numberOfLines={1} style={styles.text} key={i}>
+          {user.quote}
+            </Text>)}
+            <Feather name="chevron-right" size={28} color={colors.white} />
+          </View>
+        </TouchableOpacity>)}
+
+
         {users && users.map((user, i) =>  <TouchableOpacity
           style={styles.fieldItemContainer}
           key={i}
@@ -180,6 +212,7 @@ export default function EditProfileScreen() {
               title: "Relationship",
               field: "relationship",
               value: users.relationship_type,
+              id: user.id
             })
           }
         >
@@ -202,6 +235,7 @@ export default function EditProfileScreen() {
               title: "Youtube",
               field: "youtubeLink",
               value: user.youtubeLink,
+              id: user.id
             })
           }
         >
@@ -230,6 +264,7 @@ export default function EditProfileScreen() {
               title: "Instagram",
               field: "instagramLink",
               value: user.instagramLink,
+              id: user.id
             })
           }
         >

@@ -10,12 +10,14 @@ import { saveInstagramField } from "../../../services/user";
 import colors from "../../../../config/colors"
 
 export default function EditInstagramScreen({ route }) {
-  const { title, field, value } = route.params;
+  const { title, field, value, id } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const onSave = () => {
-    saveInstagramField(field, textInputValue).then(() => navigation.goBack());
+    saveInstagramField(field, textInputValue, id).then(() => navigation.goBack());
   };
+
+  console.log(id)
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral

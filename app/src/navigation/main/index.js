@@ -49,6 +49,7 @@ import SettingsSheetModal from "../../components/modal/settingsSheetModal";
 import EndUserAgreementScreen from "../../screens/policies/eulaPolicy";
 import ReportScreen from "../../screens/reports";
 import FeedNavigation from "../feed";
+import EditQuotesFieldScreen from "../../screens/profile/quotes/quotes";
 
 const Stack = createNativeStackNavigator();
 
@@ -270,6 +271,11 @@ export default function Route() {
             <Stack.Screen
               name="reports"
               component={ReportScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="quotes"
+              component={EditQuotesFieldScreen}
               options={{ headerShown: false }}
             />
             </>

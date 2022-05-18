@@ -7,7 +7,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 import colors from "../../../../config/colors";
 
-export default function SearchRowScreen(props) {
+export default function SearchRowScreen() {
   return (
     <View style={styles.searchRow}>
       <TouchableOpacity

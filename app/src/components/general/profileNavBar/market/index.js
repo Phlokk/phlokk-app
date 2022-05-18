@@ -4,8 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 
-import routes from "../../../../../navigation/routes";
-import colors from "../../../../../../config/colors"
+import routes from "../../../../navigation/routes";
+import colors from "../../../../../config/colors"
 
 export default function PhlokkMarketNavBar({
   title = "Phlokk Market",

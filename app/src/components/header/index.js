@@ -1,18 +1,18 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
-import DisplayMenuScreen from "../../displayMenu";
+import DisplayMenuScreen from "../../screens/profile/displayMenu";
 // import { useFollowing } from "../../../hooks/useFollowing";
 // import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
-import UserProfile from "../../../../screens/profile/userProfile";
-import ProfileStatsContainer from "../profileStats";
+import UserProfile from "../../screens/profile/userProfile";
+import ProfileStatsContainer from "../profile/profileStats";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 // import routes from "../../../navigation/routes";
 
-import colors from "../../../../../config/colors";
+import colors from "../../../config/colors";
 
-function ProfileHeader(props) {
+function ProfileHeader() {
   const navigation = useNavigation();
 
 

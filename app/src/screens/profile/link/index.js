@@ -11,12 +11,14 @@ import colors from "../../../../config/colors"
 
 
 export default function EditLinkFieldScreen({ route }) {
-  const { title, field, value } = route.params;
+  const { title, field, value, id } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const onSave = () => {
-    saveUserLinkField(field, textInputValue).then(() => navigation.goBack());
+    saveUserLinkField(field, textInputValue, id).then(() => navigation.goBack());
   };
+
+  console.log(id)
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral

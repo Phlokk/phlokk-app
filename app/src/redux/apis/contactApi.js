@@ -10,9 +10,10 @@ export const getAllUsers = async () => {
 };
 
 // let user = await SecureStore.getItemAsync("user");
-  // user = JSON.parse(user);
-  // axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-  // axios
+//   user = JSON.parse(user);
+//   console.log(user.token);
+
+//   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
 
 

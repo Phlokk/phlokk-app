@@ -49,13 +49,15 @@ export default function RelationshipCategoryScreen({ route, props }) {
     },
   ]);
 
-  const { title, field, value } = route.params;
+  const { title, field, value, id } = route.params;
   const navigation = useNavigation();
   const onSave = () => {
-    saveRelationshipField(field, textInputValue).then(() =>
+    saveRelationshipField(field, textInputValue, id).then(() =>
       navigation.goBack()
     );
   };
+
+  console.log(id)
 
   const onRadioBtnClick = (item) => {
     console.log("radio click");

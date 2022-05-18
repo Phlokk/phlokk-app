@@ -1,40 +1,38 @@
 import { saveMediaToStorage } from "./saveMedia";
-import axios from "axios";
-import * as SecureStore from "expo-secure-store";
+// import axios from "axios";
 import { useDispatch } from "react-redux";
 import { types } from "../redux/constants";
-
-
+import axios from '../redux/apis/axiosDeclaration'
 
 export const saveUserField = async (field, value) => {
   console.log(field);
   let obj = {};
-   obj[field] = value;
+  obj[field] = value;
   console.log("Saving username");
-  let user = await SecureStore.getItemAsync("user");
-  user = JSON.parse(user);
-  console.log(user.token);
-
-  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
   axios
-    .put("https://dev.phlokk.com/api/creators/update")
+    .put("/api/creators/update")
     .then((response) => {
-      console.log(response.data)
-      // dispatch({ type: types.USER_STATE_CHANGE, currentUser: null, loaded: true });
+      console.log(response.data);
     })
     .catch((error) => {
-      // dispatch({ type: types.USER_STATE_CHANGE, currentUser: null, loaded: true });
       console.log(error.response);
     });
 };
 
+// body FormData
+// send username
 
+// body 
+// {
+// newUsername: "nathan", user.username JSON.parse user
+// id: 52
+// }
 
 // export const saveUserField = (field, value) =>
 //   new Promise((resolve, reject) => {
 //     let obj = {};
 //     obj[field] = value;
-//     
+//
 //   });
 
 // export const saveYouTubeField = (field, value) =>
@@ -75,19 +73,19 @@ export const saveUserField = async (field, value) => {
 //       .then(() => resolve())
 //       .catch(() => reject());
 //   });
-  
-  // export const saveRelationshipField = (field, value) =>
-  // new Promise((resolve, reject) => {
-  //   let obj = {};
-  //   obj[field] = value;
-  //   firebase
-  //     .firestore()
-  //     .collection("user")
-  //     .doc(firebase.auth().currentUser.uid)
-  //     .update(obj)
-  //     .then(() => resolve())
-  //     .catch(() => reject());
-  // });
+
+// export const saveRelationshipField = (field, value) =>
+// new Promise((resolve, reject) => {
+//   let obj = {};
+//   obj[field] = value;
+//   firebase
+//     .firestore()
+//     .collection("user")
+//     .doc(firebase.auth().currentUser.uid)
+//     .update(obj)
+//     .then(() => resolve())
+//     .catch(() => reject());
+// });
 
 // export const saveUserLinkField = (field, value) =>
 //   new Promise((resolve, reject) => {
@@ -207,7 +205,7 @@ export const saveUserField = async (field, value) => {
 //       .firestore()
 //       .collection("user")
 //       .where("username", ">=", username)
-      
+
 //       .get()
 //       .then((snapshot) => {
 //         let users = snapshot.docs.map(doc => {
@@ -220,30 +218,28 @@ export const saveUserField = async (field, value) => {
 //       .catch(() => reject());
 //   });
 
-export const queryUsersByUsername = () => {
-  axios
-    .post("https://dev.phlokk.com/search", {
-      // username: username,
-      // id: id,
-    })
-    .then((response) => {
-      console.log('back from login')
-      
-      console.log(response.data);
-      const user = response.data.user;
-      user.token = response.data.token;
+// export const queryUsersByUsername = () => {
+//   axios
+//     .post("https://dev.phlokk.com/search", {
+//       // username: username,
+//       // id: id,
+//     })
+//     .then((response) => {
+//       console.log('back from login')
 
-      setUser(user);
-      SecureStore.setItemAsync('user', JSON.stringify(user));
-      console.log(user)
-      dispatch({ type: types.USER_STATE_CHANGE, currentUser: user, loaded: true });
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-};
+//       console.log(response.data);
+//       const user = response.data.user;
+//       user.token = response.data.token;
 
-
+//       setUser(user);
+//       SecureStore.setItemAsync('user', JSON.stringify(user));
+//       console.log(user)
+//       dispatch({ type: types.USER_STATE_CHANGE, currentUser: user, loaded: true });
+//     })
+//     .catch((error) => {
+//       console.log(error.response);
+//     });
+// };
 
 // export const getUserRealtime = (id, cb) => {
 //   return firebase
@@ -270,7 +266,7 @@ export const queryUsersByUsername = () => {
 
 // export const getIsFollowing = (currentUser, otherUserId) =>
 //   new Promise((resolve, reject) => {
-    
+
 //   });
 
 // export const changeFollowState = ({ otherUserId, isFollowing }) =>

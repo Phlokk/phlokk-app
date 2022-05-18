@@ -5,10 +5,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import routes from "../../../../navigation/routes";
+import routes from "../../../navigation/routes";
 import { useSelector, useDispatch } from "react-redux";
-import colors from "../../../../../config/colors";
-import { fetchUserData } from "../../../../redux/actions/users";
+import colors from "../../../../config/colors";
+import { fetchUserData } from "../../../redux/actions/users";
 
 export default function ProfileNavBar() {
   const navigation = useNavigation();

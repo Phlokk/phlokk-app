@@ -4,26 +4,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import NavBarGeneral from "../../../../components/general/navBar";
-import { saveUserField } from "../../../../../src/services/user";
-import { generalStyles } from "../../../../../src/styles";
+import NavBarGeneral from "../../../components/general/navBar/";
+import { saveUserField } from "../../../services/user";
+import { generalStyles } from "../../../../src/styles";
 import * as SecureStore from "expo-secure-store";
 
-import colors from "../../../../../config/colors";
+import colors from "../../../../config/colors";
 
-export default function EditProfileFieldScreen({ route }) {
+export default function EditQuotesFieldScreen({ route }) {
   const { title, field, value, id } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  console.log(id)
-
-
   const onSave = () => {
-    saveUserField(field, textInputValue)
-    .then(() => navigation.goBack());
+    saveUserField(field, textInputValue, id).then(() => navigation.goBack());
   };
+
+  console.log(id)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,21 +33,21 @@ export default function EditProfileFieldScreen({ route }) {
       <View style={styles.mainContainer}>
         <TextInput
           style={generalStyles.textInput}
-          placeholder="username"
+          placeholder="quote"
           placeholderTextColor={"gray"}
           autoCapitalize="none"
           autoCorrect={false}
-          textContentType="username"
-          maxLength={24}
+          textContentType="none"
+          maxLength={40}
           value={textInputValue}
           onChangeText={setTextInputValue}
         />
       </View>
       <View style={styles.infoView}>
         <Text style={styles.info}>
-          <Text style={styles.infoTextGreen}>Info:</Text> Can only contain
-          letters, numbers,underscores, and periods. When you change your
-          username it will update the link to your profile.
+          <Text style={styles.infoTextGreen}>Info:</Text> Inspire someone today
+          with a favorite daily quote or inspire us with your vast wisdom in 40
+          characters or less.
         </Text>
       </View>
     </SafeAreaView>

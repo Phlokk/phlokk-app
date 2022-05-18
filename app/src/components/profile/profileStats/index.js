@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 
-import colors from "../../../../../config/colors";
+import colors from "../../../../config/colors";
 
-export default function ProfileStatsContainer(props) {
+export default function ProfileStatsContainer() {
   const [following, setFollowing] = useState("20k");
   const [friends, setFriends] = useState("40k");
   const [starCount, setStarCount] = useState("500k");

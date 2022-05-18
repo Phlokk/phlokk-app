@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 import { types } from "../../../redux/constants";
-import axios from "axios";
+import axios from "../../../redux/apis/axiosDeclaration";
 import colors from "../../../../config/colors";
 
 export default function DeleteProfileScreen() {
@@ -16,23 +16,26 @@ export default function DeleteProfileScreen() {
 
   const handleDelete = async () => {
     console.log("delete account");
-    let user = await SecureStore.getItemAsync("user");
-    user = JSON.parse(user);
-    console.log(user.token);
-
-    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
     axios
-      .post("https://dev.phlokk.com/api/delete")
+      .post("/api/delete")
       .then((response) => {
         console.log("back from delete");
         setUser(null);
         SecureStore.deleteItemAsync("user");
-        dispatch({ type: types.USER_STATE_CHANGE, currentUser: null, loaded: true });
+        dispatch({
+          type: types.USER_STATE_CHANGE,
+          currentUser: null,
+          loaded: true,
+        });
       })
       .catch((error) => {
         setUser(null);
         SecureStore.deleteItemAsync("user");
-        dispatch({ type: types.USER_STATE_CHANGE, currentUser: null, loaded: true });
+        dispatch({
+          type: types.USER_STATE_CHANGE,
+          currentUser: null,
+          loaded: true,
+        });
         console.log(error.response);
       });
   };

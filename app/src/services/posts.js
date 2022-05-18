@@ -1,17 +1,13 @@
-
 import { useQuery } from "react-query";
-import axios from "axios";
+import axios from "../redux/apis/axiosDeclaration";
 
 let commentListenerInstance = null;
 
 export const getFeed = () =>
-  new Promise((resolve, reject) => {
-    axios
-    .post("https://dev.phlokk.com/test/getPost" ,
-      {
-        testing: 'testing',
-      },
-    )
+  axios
+    .post("/test/getPost", {
+      testing: "testing",
+    })
     .then(function (response) {
       // 2 seconds later...
 
@@ -25,8 +21,6 @@ export const getFeed = () =>
       console.log("------------ ERROR -------------");
       console.log(error);
     });
-  });
-
 
 export const useFeed = (profile) =>
   useQuery(["feed"], () => getFeed(), {
@@ -41,10 +35,8 @@ export const useFeed = (profile) =>
 // };
 
 export const deletePostById = async (postId) => {
-  await fetch('')
+  await fetch("");
 };
-
-
 
 // export const getLikeById = (postId, uid) =>
 //   new Promise((resolve, reject) => {

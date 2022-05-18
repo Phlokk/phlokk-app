@@ -10,12 +10,14 @@ import { saveYouTubeField } from "../../../services/user";
 import colors from "../../../../config/colors"
 
 export default function EditYoutubeScreen({ route }) {
-  const { title, field, value } = route.params;
+  const { title, field, value, id } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const onSave = () => {
-    saveYouTubeField(field, textInputValue).then(() => navigation.goBack());
+    saveYouTubeField(field, textInputValue, id).then(() => navigation.goBack());
   };
+
+  console.log(id)
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral

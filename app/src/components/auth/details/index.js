@@ -7,17 +7,18 @@ import {
   StyleSheet,
   Image,
   Alert,
+  KeyboardAvoidingView,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 import { types } from "../../../redux/constants";
 import { useTogglePasswordVisibility } from "../../../services/passwordVisibility";
 // import { LOGIN, REGISTER } from "@env";
 import colors from "../../../../config/colors";
+import axios from "../../../redux/apis/axiosDeclaration";
 
 export default function AuthDetails({ authPage, setDetailsPage }) {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
@@ -41,7 +42,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
 
   const handleLogin = () => {
     axios
-      .post("https://dev.phlokk.com/api/sanctum/login", {
+      .post("/api/sanctum/login", {
         email: email,
         password: password,
         device_name: "mobile",
@@ -71,7 +72,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const handleRegister = () => {
     console.log(email, password, username, name);
     axios
-      .post("https://dev.phlokk.com/test/register", {
+      .post("/test/register", {
         name: name,
         username: username,
         email: email,
@@ -114,7 +115,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       <View style={styles.logoContainer}>
         <Image source={require("../../../../../app/assets/phlokk_logo.png")} />
       </View>
-      <View style={styles.fields}>
+      <View style={styles.fields} behavior="padding">
         {authPage === 0 ? (
           <>
             <TextInput
@@ -156,50 +157,52 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
           </>
         ) : (
           <>
-            <TextInput
-              style={styles.textInput}
-              placeholderTextColor={colors.green}
-              autoCapitalize="words"
-              autoCorrect={false}
-              maxLength={50}
-              onChangeText={(text) => setName(text)}
-              placeholder="Name"
-              value={name}
-            />
-            <TextInput
-              style={styles.textInput}
-              placeholderTextColor={colors.green}
-              autoCapitalize="none"
-              autoCorrect={false}
-              maxLength={24}
-              onChangeText={(text) => setUsername(text)}
-              placeholder="Username"
-              value={username}
-            />
-            <TextInput
-              style={styles.textInput}
-              keyboardType="email-address"
-              placeholderTextColor={colors.green}
-              autoCapitalize="none"
-              autoCorrect={false}
-              textContentType="emailAddress"
-              maxLength={50}
-              onChangeText={(text) => setEmail(text)}
-              placeholder="Email"
-              value={email}
-            />
-            <TextInput
-              style={styles.textInput}
-              placeholderTextColor={colors.green}
-              autoCapitalize="none"
-              autoCorrect={false}
-              textContentType="password"
-              maxLength={24}
-              onChangeText={(text) => setPassword(text)}
-              placeholder="Password"
-              value={password}
-              enablesReturnKeyAutomatically
-            />
+            <KeyboardAvoidingView behavior="padding">
+              <TextInput
+                style={styles.textInput}
+                placeholderTextColor={colors.green}
+                autoCapitalize="words"
+                autoCorrect={false}
+                maxLength={50}
+                onChangeText={(text) => setName(text)}
+                placeholder="Name"
+                value={name}
+              />
+              <TextInput
+                style={styles.textInput}
+                placeholderTextColor={colors.green}
+                autoCapitalize="none"
+                autoCorrect={false}
+                maxLength={24}
+                onChangeText={(text) => setUsername(text)}
+                placeholder="Username"
+                value={username}
+              />
+              <TextInput
+                style={styles.textInput}
+                keyboardType="email-address"
+                placeholderTextColor={colors.green}
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="emailAddress"
+                maxLength={50}
+                onChangeText={(text) => setEmail(text)}
+                placeholder="Email"
+                value={email}
+              />
+              <TextInput
+                style={styles.textInput}
+                placeholderTextColor={colors.green}
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="password"
+                maxLength={24}
+                onChangeText={(text) => setPassword(text)}
+                placeholder="Password"
+                value={password}
+                enablesReturnKeyAutomatically
+              />
+            </KeyboardAvoidingView>
           </>
         )}
         <TouchableOpacity
@@ -210,6 +213,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             {authPage === 0 ? "Sign In" : "Sign Up"}
           </Text>
         </TouchableOpacity>
+
         {authPage === 0 ? (
           <></>
         ) : (

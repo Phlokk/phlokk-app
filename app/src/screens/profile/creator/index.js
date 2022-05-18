@@ -17,20 +17,20 @@ let categoryId = null;
 
 export default function EditCreatorFieldScreen({ route, props }) {
   const [categories, setCategories] = useState([
-    { id: 1,  value: false, category: "Actor", selected: false },
-    { id: 2,  value: false, category: "Actress", selected: false },
-    { id: 3,  value: false, category: "Artist", selected: false },
-    { id: 4,  value: false, category: "Athlete", selected: false },
-    { id: 5,  value: false, category: "Brand", selected: false },
+    { id: 1, value: false, category: "Actor", selected: false },
+    { id: 2, value: false, category: "Actress", selected: false },
+    { id: 3, value: false, category: "Artist", selected: false },
+    { id: 4, value: false, category: "Athlete", selected: false },
+    { id: 5, value: false, category: "Brand", selected: false },
     {
       id: 6,
       value: false,
       category: "Black Sheep",
       selected: false,
     },
-    { id: 7,  value: false, category: "Comedian", selected: false },
-    { id: 8,  value: false, category: "Cosplay", selected: false },
-    { id: 9,  value: false, category: "Dancer", selected: false },
+    { id: 7, value: false, category: "Comedian", selected: false },
+    { id: 8, value: false, category: "Cosplay", selected: false },
+    { id: 9, value: false, category: "Dancer", selected: false },
     {
       id: 10,
       value: false,
@@ -44,7 +44,7 @@ export default function EditCreatorFieldScreen({ route, props }) {
       category: "Health & Beauty",
       selected: false,
     },
-    { id: 13,  value: false, category: "Model", selected: false },
+    { id: 13, value: false, category: "Model", selected: false },
     {
       id: 14,
       value: false,
@@ -82,13 +82,12 @@ export default function EditCreatorFieldScreen({ route, props }) {
       selected: false,
     },
   ]);
-  
 
   const onRadioBtnClick = (item) => {
     console.log("radio click");
     console.log(item);
     categoryId = item.id;
-    
+
     setCategories(item);
 
     let updatedState = categories.map((i) =>
@@ -98,16 +97,19 @@ export default function EditCreatorFieldScreen({ route, props }) {
   };
 
   const onSave = () => {
-    saveCreatorField(field,  ).then(() => navigation.goBack());
+    saveCreatorField(field, id).then(() => navigation.goBack());
   };
-  const { title, field, value } = route.params;
+  const { title, field, value, id } = route.params;
   const navigation = useNavigation();
+
+  console.log(id)
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBarGeneral title={title} 
-      // changed left button to false (white)
-      leftButton={{ display: false, name: "save", action: onSave }}
+      <NavBarGeneral
+        title={title}
+        // changed left button to false (white)
+        leftButton={{ display: false, name: "save", action: onSave }}
       />
       <ScrollView>
         {categories.map((item) => (

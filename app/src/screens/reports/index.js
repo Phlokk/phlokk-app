@@ -10,13 +10,13 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../../redux/apis/axiosDeclaration";
 
 import colors from "../../../config/colors";
 import PostNavBar from "../../components/general/postNav";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { generalStyles } from "../../styles";
-import {REPORT_TICKET} from "@env"
+import { REPORT_TICKET } from "@env";
 
 let categoryId = null;
 
@@ -84,8 +84,6 @@ const ReportScreen = ({ route, navigation }) => {
   const [titleValue, setTitleValue] = useState("");
   const [messageValue, setMessageValue] = useState("");
 
-
-
   const onRadioBtnClick = (item) => {
     console.log("radio click");
     console.log(item);
@@ -101,7 +99,7 @@ const ReportScreen = ({ route, navigation }) => {
 
   const submitForm = function () {
     let post = route.params.post;
-    console.log('reports view---------')
+    console.log("reports view---------");
     console.log(post);
     console.log(post.id);
     console.log(categoryId);
@@ -110,8 +108,6 @@ const ReportScreen = ({ route, navigation }) => {
       Alert.alert("Please fill out all of the fields.");
       return false;
     }
-
-
     axios
       .post(`${REPORT_TICKET}`, {
         title: titleValue,
@@ -119,8 +115,7 @@ const ReportScreen = ({ route, navigation }) => {
         postId: post.id,
         media: post.media,
         category_id: categoryId,
-        // customer_id: currentUser.uid 
-        
+        // customer_id: currentUser.uid
       })
       .then(function (response) {
         Alert.alert(
@@ -129,8 +124,7 @@ const ReportScreen = ({ route, navigation }) => {
         );
         navigation.goBack();
       })
-      .catch(function (error) {
-      });
+      .catch(function (error) {});
   };
 
   return (

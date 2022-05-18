@@ -31,5 +31,6 @@ export default Object.freeze({
     RELATIONSHIP: 'relationship',
     REPORTS: 'reports',
     SETTING_SHEET: 'settingsSheet',
+    QUOTES: 'quotes'
     
 })

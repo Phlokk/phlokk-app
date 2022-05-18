@@ -1,7 +1,7 @@
 import { saveMediaToStorage } from "../../services/saveMedia";
 import uuid from "uuid-random";
 import { types } from "../constants";
-import axios from "axios";
+import axios from "../../redux/apis/axiosDeclaration";
 import FormData from "form-data";
 
 export const createPost =
@@ -53,7 +53,7 @@ export const createPost =
         });
     });
 
-    // TODO Must get Auth set up before implementing 
+     
 // export const getPostsByUser =
 //   (auth.currentUser) =>
 //   (dispatch) =>
@@ -82,7 +82,7 @@ function sendVideoOLD(files) {
   // call our laravel API
   axios
     .post(
-      "https://dev.phlokk.com/test/post",
+      "/test/post",
       {
         videos: videos,
       },
@@ -115,7 +115,7 @@ async function sendVideo(videoUrl) {
     type: "video/mp4",
   });
 
-  let url = "https://dev.phlokk.com/test/post";
+  let url = "/test/post";
   try {
     let response = await fetch(url, {
       method: "post",

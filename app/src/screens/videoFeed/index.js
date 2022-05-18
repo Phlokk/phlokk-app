@@ -25,7 +25,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 import { types } from "../../redux/constants";
-import axios from "axios";
 
 export default function FeedScreen({ route }) {
   const { setCurrentUserProfileItemInView, creator, profile, selectedVideo } =

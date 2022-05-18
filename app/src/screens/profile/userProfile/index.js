@@ -7,20 +7,11 @@ import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserData } from "../../../redux/actions/users";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
 function UserProfile() {
-  // useEffect(() => {
-  //   SecureStore.getItemAsync("user")
-  //     .then((user) => {
-  //       axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
   const dispatch = useDispatch();
-
   const users = useSelector((state) => state.userReducer.user);
   // const loading = useSelector(state => state.userReducer.user);
   // const navigation = useNavigation();
@@ -28,29 +19,13 @@ function UserProfile() {
     dispatch(fetchUserData({}));
   }, []);
 
-  const userLink = async () => {
-    try {
-      Linking.openURL(users.link);
-    } catch (err) {
-      null;
-    }
-  };
+  const [fontsLoaded] = useFonts({
+    "Tangerine-Regular": require("../../../../assets/fonts/Tangerine-Regular.ttf"),
+  });
 
-  const youtubeUser = async () => {
-    try {
-      await Linking.openURL(users.youtubeLink);
-    } catch (err) {
-      null;
-    }
-  };
-
-  const instagramUser = async () => {
-    try {
-      await Linking.openURL(users.instagramLink);
-    } catch (err) {
-      null;
-    }
-  };
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <View style={styles.container}>
@@ -104,31 +79,40 @@ function UserProfile() {
 
       <>
         <View style={styles.linkRow}>
-          <TouchableOpacity style={styles.linkText}>
-            <Feather
-              onPress={youtubeUser}
-              name="youtube"
-              size={20}
-              color={colors.green}
-            />
-          </TouchableOpacity>
+          {users &&
+            users.map((user, i) => (
+              <TouchableOpacity style={styles.linkText} key={i}>
+                <Feather
+                  onPress={() => Linking.openURL(user.youtubeLink)}
+                  name="youtube"
+                  size={20}
+                  color={colors.green}
+                />
+              </TouchableOpacity>
+            ))}
 
-          <TouchableOpacity style={styles.linkText}>
-            <MaterialCommunityIcons
-              onPress={userLink}
-              name="link"
-              size={25}
-              color={colors.green}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.linkText}>
-            <Feather
-              onPress={instagramUser}
-              name="instagram"
-              size={18}
-              color={colors.green}
-            />
-          </TouchableOpacity>
+          {users &&
+            users.map((user, i) => (
+              <TouchableOpacity style={styles.linkText} key={i}>
+                <MaterialCommunityIcons
+                  onPress={() => Linking.openURL(user.link)}
+                  name="link"
+                  size={25}
+                  color={colors.green}
+                />
+              </TouchableOpacity>
+            ))}
+          {users &&
+            users.map((user, i) => (
+              <TouchableOpacity style={styles.linkText} key={i}>
+                <Feather
+                  onPress={() => Linking.openURL(user.instagramLink)}
+                  name="instagram"
+                  size={18}
+                  color={colors.green}
+                />
+              </TouchableOpacity>
+            ))}
         </View>
       </>
       <View style={styles.quotesView}>
@@ -153,11 +137,14 @@ function UserProfile() {
                 {user.relationship_type}
               </Text>
             ))}
-
+        </View>
+      </>
+      <>
+        <View style={styles.relationshipNameContainer}>
           {users &&
             users.map((user, i) => (
               <Text style={styles.relationshipText} key={i}>
-                {user.relationship_name}
+                &#x1F48D; {user.relationship_name}
               </Text>
             ))}
         </View>
@@ -172,9 +159,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.primary,
   },
-  relationshipContainer: {
+  relationshipNameContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    bottom: 2,
   },
   creatorText: {
     color: colors.white,
@@ -183,7 +171,7 @@ const styles = StyleSheet.create({
   },
   relationshipText: {
     color: colors.white,
-    marginBottom: 20,
+    marginBottom: 10,
     marginHorizontal: 2,
   },
   link: {
@@ -215,7 +203,9 @@ const styles = StyleSheet.create({
   quotes: {
     color: colors.white,
     marginBottom: 20,
-    textAlign: 'center'
+    textAlign: "center",
+    fontFamily: "Tangerine-Regular",
+    fontSize: 28,
   },
   users: {
     color: colors.white,
@@ -232,15 +222,15 @@ const styles = StyleSheet.create({
   usernameView: {
     flexDirection: "row",
     alignItems: "center",
+    paddingTop: 5,
   },
   quotesView: {
     flexDirection: "row",
     alignItems: "center",
-    textAlign: 'center',
+    textAlign: "center",
     paddingBottom: 10,
     paddingRight: 25,
     paddingLeft: 25,
-
   },
   messageText: {
     color: colors.black,

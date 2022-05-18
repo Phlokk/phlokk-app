@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import MarketNavBar from "../../screens/profile/profile/navBar/market";
+import MarketNavBar from "../../components/general/profileNavBar/market/";
 import { View, StyleSheet } from "react-native";
 
 import colors from "../../../config/colors"
