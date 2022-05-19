@@ -2,22 +2,30 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
 import { useUser } from "../../../../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";
-
+import { useSelector, useDispatch } from "react-redux";
 import routes from "../../../../navigation/routes";
+
+// import { fetchUserData } from "../../../../redux/actions/users";
 import colors from "../../../../../config/colors";
 
 const MessageListItem = ({ chat, user }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  // const users = useSelector((state) => state.userReducer.user);
+  // const loading = useSelector(state => state.userReducer.user);
+  // const navigation = useNavigation();
+  useEffect(() => {
+    dispatch(fetchUserData({}));
+  }, []);
+
   //old firebase call
   // const { data: userData } = useUser(
-  //   chat.members[0] === firebase.auth().currentUser.uid
+  //   chat.members[0] === user.id
   //     ? chat.members[1]
   //     : chat.members[0]
   // );
   const { data: userData } = useUser(
-    chat.members[0] === user
-      ? chat.members[1]
-      : chat.members[0]
+    chat.members[0] === user ? chat.members[1] : chat.members[0]
   );
 
   return (
@@ -30,17 +38,21 @@ const MessageListItem = ({ chat, user }) => {
       <Image style={styles.image} source={{ uri: userData?.photoURL }} />
       <View style={{ flex: 1 }}>
         {/* <View style={styles.verifiedRow}>
-          <Text style={styles.usernameText}>{userData?.username}</Text>
-          {userData?.verified === true ? (
-            <Image
+           {users &&
+              users.map((user, i) => <Text style={styles.usernameText} key={i}>{user.username}</Text>)}
+          {users.is_verified === true ? (
+            {users &&
+              users.map((user, i) => <Image
               style={styles.verifiedBadge}
-              source={require("../../../../../assets/verified.png")}
-            />
+              key={i}
+              source={{ uri: user.is_verified }}
+            />)}
           ) : (
             <TouchableOpacity></TouchableOpacity>
           )}
         </View> */}
-        <Text style={styles.lastMessage}>{chat.lastMessage}</Text>
+        {/* {chats &&
+              chats.map((chat, i) => <Text style={styles.lastMessage} key={i}>{chat.lastMessage}</Text>)} */}
       </View>
       <Text style={styles.date}>
         {chat.lastUpdate

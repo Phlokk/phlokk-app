@@ -15,7 +15,7 @@ import { keys } from './queryKeys'
 //         ...options,
 //         onMutate: variables => {
 //             queryClient.setQueryData(
-//                 keys.userFollowing(auth.currentUser.user.id, variables.otherUserId),
+//                 keys.userFollowing(user.id, variables.otherUserId),
 //                 !variables.isFollowing)
 //         }
 //     })

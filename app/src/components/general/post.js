@@ -10,10 +10,10 @@ import { Dimensions, StyleSheet, Pressable } from "react-native";
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
 import { useUser } from "../../hooks/useUser";
 import PostSingleOverlay from "../general/post/overlay";
-
 import { useRoute } from "@react-navigation/native";
-import colors from "../../../config/colors";
 import { Platform } from "expo-modules-core";
+
+import colors from "../../../config/colors";
 
 /**
  * This component is responsible for displaying a post and playing the
@@ -124,7 +124,6 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
    * This component is responsible for muting a post when blur effect takes place.
    */
   const isFocused = useIsFocused();
-  // console.log("status", status, status.isLoaded);
   const feedItemHeight =
     Dimensions.get("window").height -
     useMaterialNavBarHeight(route.params.profile);

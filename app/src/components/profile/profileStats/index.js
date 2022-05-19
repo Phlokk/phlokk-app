@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import colors from "../../../../config/colors";
 
 export default function ProfileStatsContainer() {
-  const [following, setFollowing] = useState("20k");
-  const [friends, setFriends] = useState("40k");
-  const [starCount, setStarCount] = useState("500k");
+  const [following, setFollowing] = useState("0");
+  const [friends, setFriends] = useState("0");
+  const [starCount, setStarCount] = useState("0");
 
     // format a number so that we show K at the end if it’s a thousand or more and return the show number if it’s less than 1000
   // const kFormatter = (num) => {

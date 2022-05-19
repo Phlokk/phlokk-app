@@ -12,16 +12,17 @@ const CommentItem = ({ item }) => {
     <View style={styles.container}>
       <Image
         style={generalStyles.avatarSmall}
-        source={{ uri: user?.photoURL }}
+        source={{ uri: user.photo_url }}
       />
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
-          <Text style={styles.username}>{user?.username}</Text>
-          {/* {user?.verified === true ? (
+          <Text style={styles.username}>{user.username}</Text>
+          {/* {users.is_verified === true ? (
             <Image
               style={styles.verifiedBadge}
-              source={require("../../../../../assets/verified.png")}
+              key={i}
+              source={{ uri: user.is_verified }}
             />
           ) : (
             <TouchableOpacity></TouchableOpacity>

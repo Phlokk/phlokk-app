@@ -10,9 +10,12 @@ import { fetchUserData } from "../../../redux/actions/users";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
+import verifiedCheck from "../../../../assets/verified.png";
+
 function UserProfile() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
+
   // const loading = useSelector(state => state.userReducer.user);
   // const navigation = useNavigation();
   useEffect(() => {
@@ -29,26 +32,24 @@ function UserProfile() {
 
   return (
     <View style={styles.container}>
-      {users.photo_url !== null ? (
-        <Text>
-          {users &&
-            users.map((user, i) => (
-              <Image
-                style={styles.avatar}
-                key={i}
-                source={{ uri: user.photo_url }}
-              />
-            ))}{" "}
-        </Text>
-      ) : (
-        <Image
-          style={styles.avatar}
-          source={require("../../../../assets/userImage.png")}
-        />
-      )}
+      {users &&
+        users.map((user, i) =>
+          user.photo_url !== null || !undefined ? (
+            <Image
+              style={styles.avatar}
+              key={i}
+              source={{ uri: user.photo_url }}
+            />
+          ) : (
+            <Image
+              style={styles.avatar}
+              source={require("../../../../assets/userImage.png")}
+            />
+          )
+        )}
 
       <View style={styles.usernameView}>
-        {users.username !== null ? (
+        {users.username !== null || undefined ? (
           <Text>
             {users &&
               users.map((user, i) => (
@@ -56,27 +57,17 @@ function UserProfile() {
                   @{user.username}
                 </Text>
               ))}
+              <View>
+              {users[0] && users[0].is_verified === 1 && (
+        <Image style={styles.phlokkVerified} source={verifiedCheck} />
+      )}
+      </View>
           </Text>
+          
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
-
-        {users.is_verified !== null ? (
-          <Text style={styles.phlokkVerified}>
-            {users &&
-              users.map((user, i) => (
-                <Image
-                  style={styles.phlokkVerified}
-                  key={i}
-                  source={{ uri: user.is_verified }}
-                />
-              ))}
-          </Text>
-        ) : (
-          <TouchableOpacity></TouchableOpacity>
-        )}
       </View>
-
       <>
         <View style={styles.linkRow}>
           {users &&
@@ -116,7 +107,7 @@ function UserProfile() {
         </View>
       </>
       <View style={styles.quotesView}>
-        {users.quote !== null ? (
+        {users.quote !== null || undefined ? (
           <Text>
             {users &&
               users.map((user, i) => (
@@ -126,7 +117,7 @@ function UserProfile() {
               ))}
           </Text>
         ) : (
-          <TouchableOpacity></TouchableOpacity>
+          <></>
         )}
       </View>
       <>
@@ -163,6 +154,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     bottom: 2,
+  },
+  verifiedRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    // bottom: 2,
   },
   creatorText: {
     color: colors.white,
@@ -216,7 +212,7 @@ const styles = StyleSheet.create({
   phlokkVerified: {
     width: 12,
     height: 12,
-    top: 3,
+    top: 1,
     marginHorizontal: 3,
   },
   usernameView: {

@@ -68,7 +68,7 @@ const TabBar = ({ state, navigation }) => {
   );
 };
 
-const ExampleTabs = () => {
+const UserTabs = () => {
   return (
     <Tab.Navigator
       initialRoute="feed"
@@ -86,10 +86,7 @@ const ExampleTabs = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // flexDirection: 'row',
-    // padding: 20,
     backgroundColor: colors.primary,
-
   },
   iconContainer: {
     flexDirection: "row",
@@ -99,4 +96,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExampleTabs;
+export default UserTabs;

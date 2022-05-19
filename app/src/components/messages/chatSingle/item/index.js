@@ -6,13 +6,12 @@ import { generalStyles } from "../../../../styles";
 import colors from "../../../../../config/colors";
 
 const ChatSingleItem = ({ item }) => {
-  const { data: userData, isLoading } = useUser(item.creator);
+  const { data: user, isLoading } = useUser(item.creator);
 
   if (isLoading) {
     return <></>;
   }
-  // old firebase call
-  // const isCurrentUser = item.creator === firebase.auth().currentUser.uid;
+  // const isCurrentUser = item.creator === user.id;
   const isCurrentUser = item.creator === user;
 
   return (
@@ -21,7 +20,7 @@ const ChatSingleItem = ({ item }) => {
     >
       <Image
         style={generalStyles.avatarSmall}
-        source={{ uri: userData?.photoURL }}
+        source={{ uri: user.photo_url }}
       />
 
       <View

@@ -5,26 +5,30 @@ import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 
-export default function SearchUserItem({ item }) {
+export default function SearchUserItem() {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() =>
-        navigation.navigate(routes.PROFILE_OTHER, { initialUserId: item?.uid })
+        navigation.navigate(routes.PROFILE_OTHER, { initialUserId: user.id })
       }
     >
       <View style={styles.verifiedRow}>
-        <Text style={styles.text}>{item.username}</Text>
+        <Text style={styles.text}>{user.username}</Text>
         <View style={{ flex: 1 }}>
-          {/* {item?.verified === true ? (
-            <Image style={styles.verifiedBadge} source={verifiedPNG} />
+          {/* {users.is_verified === true ? (
+            <Image 
+            style={styles.verifiedBadge} 
+            key={i}
+            source={{ uri: user.is_verified }} 
+            />
           ) : (
             <TouchableOpacity></TouchableOpacity>
           )} */}
         </View>
-        <Image style={styles.image} source={{ uri: item.photoURL }} />
+        <Image style={styles.image} key={i} source={{ uri: user.photo_url }} />
       </View>
     </TouchableOpacity>
   );

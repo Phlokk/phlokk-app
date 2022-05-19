@@ -10,7 +10,12 @@ export const saveUserField = async (field, value) => {
   obj[field] = value;
   console.log("Saving username");
   axios
-    .put("/api/creators/update")
+    .put("/api/creators/update") 
+    //   body:
+    //     usernameUpdate: 'username', user.username,
+    //     id: user.id,
+    // }),
+    
     .then((response) => {
       console.log(response.data);
     })

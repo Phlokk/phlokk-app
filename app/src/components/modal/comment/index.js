@@ -5,11 +5,12 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserData } from "../../../redux/actions/users";
 import {
   BottomSheetTextInput,
   BottomSheetFlatList,
 } from "@gorhom/bottom-sheet";
-import { useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import {
   addComment,
@@ -24,7 +25,8 @@ import colors from "../../../../config/colors"
 const CommentModal = ({ post }) => {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState("");
-  const currentUser = useSelector((state) => state.auth.currentUser);
+  const users = useSelector((state) => state.userReducer.user);
+
 
   useEffect(() => {
     commentListener(post.id, setCommentList);
@@ -36,7 +38,7 @@ const CommentModal = ({ post }) => {
       return;
     }
     setComment("");
-    addComment(post.id, currentUser.uid, comment);
+    addComment(post.id, user.id, comment);
   };
 
   const renderItem = ({ item }) => {
@@ -54,7 +56,7 @@ const CommentModal = ({ post }) => {
       <View style={styles.containerInput}>
         <Image
           style={generalStyles.avatarSmall}
-          source={{ uri: currentUser.photoURL }}
+          source={{ uri: user.photo_url }}
         />
         <BottomSheetTextInput 
           style={styles.input}

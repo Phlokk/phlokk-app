@@ -34,7 +34,7 @@ import EditPasswordScreen from "../../screens/manageAccount/profilePassword";
 import EditYoutubeScreen from "../../screens/profile/youtube";
 import EditInstagramScreen from "../../screens/profile/instagram";
 import { navigationRef } from "../rootNavigation.js";
-import ExampleTabs from "../exampleTabs";
+import UserTabs from "../userTabs";
 import DeleteProfileScreen from "../../screens/manageAccount/deleteProfile";
 import SoundScreen from "../../screens/sounds";
 import DraftsScreen from "../../screens/savePost/drafts";
@@ -75,7 +75,7 @@ export default function Route() {
           <>
           <Stack.Screen
               name="home"
-              component={ExampleTabs}
+              component={UserTabs}
               options={{ headerShown: false }}
             />
           <Stack.Screen

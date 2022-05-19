@@ -26,22 +26,20 @@ import { Animated } from "react-native";
 import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 
+import { fetchUserData } from "../../../../redux/actions/users";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 
 
 export default function PostSingleOverlay({ user, post}) {
-  // console.log('post single overlay----->', post)
-  
-  // console.log(post)
-
-  const currentUser = useSelector((state) => state.auth.currentUser);
+  const users = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const songTicker = "Artist and song name";
 
-
-
+  useEffect(() => {
+    dispatch(fetchUserData({}));
+  }, []);
 
   // const [currentLikeState, setCurrentLikeState] = useState({
   //   state: false,
@@ -49,7 +47,7 @@ export default function PostSingleOverlay({ user, post}) {
   // });
 
   // useEffect(() => {
-  //   getLikeById(post.id, currentUser.uid).then((res) => {
+  //   getLikeById(post.id, user.id).then((res) => {
   //     setCurrentLikeState({
   //       ...currentLikeState,
   //       state: res,
@@ -66,7 +64,7 @@ export default function PostSingleOverlay({ user, post}) {
   //           currentLikeStateInst.counter +
   //           (currentLikeStateInst.state ? -1 : 1),
   //       });
-  //       updateLike(post.id, currentUser.uid, currentLikeStateInst.state);
+  //       updateLike(post.id, user.id, currentLikeStateInst.state);
   //     }),
   //   []
   // );
@@ -149,35 +147,52 @@ export default function PostSingleOverlay({ user, post}) {
         </View>
         <View style={styles.bottomContainer}>
           <View>
-            {user === user ? (
-              <Image style={styles.avatar} source={{ uri: user?.photoURL }} />
+            {users.photo_url !== null ? (
+              <Text>
+              {users &&
+                users.map((user, i) => <Image 
+                style={styles.avatar} 
+                key={i}
+                source={{ uri: user.photo_url }} />)}
+                </Text>
             ) : (
               <View style={styles.avatarContainer}>
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate(routes.PROFILE_OTHER, {
-                      initialUserId: user?.uid,
+                      initialUserId: user.id,
                     })
                   }
                 >
                   <Image
                     style={styles.avatar}
-                    source={{ uri: user?.photoURL }}
+                    source={{ uri: user.photo_url }}
                   />
                 </TouchableOpacity>
               </View>
             )}
             <View style={styles.verifiedContainer}>
-              <Text style={styles.username}>@{user?.username}</Text>
+            {users &&
+                users.map((user, i) => <Text style={styles.username} key={i}>@{user.username}</Text>)}
 
-              {/* {user?.verified === true ? (
-                <Image style={styles.verifiedBadge} source={verifiedPNG} />
-              ) : (
-                <TouchableOpacity></TouchableOpacity>
-              )} */}
+              {users.is_verified !== null ? (
+          <Text style={styles.phlokkVerified}>
+            {users &&
+              users.map((user, i) => (
+                <Image
+                  style={styles.phlokkVerified}
+                  key={i}
+                  source={{ uri: user.is_verified }}
+                />
+              ))}
+          </Text>
+        ) : (
+          <TouchableOpacity></TouchableOpacity>
+        )}
             </View>
 
-            <Text style={styles.description}>{post.description}</Text>
+            {/* {post &&
+                post.map((posts, i) => <Text style={styles.description} key={i}>{posts.description}</Text>)} */}
             <View style={styles.songRow}>
               <Entypo name="beamed-note" size={15} color="white" />
 

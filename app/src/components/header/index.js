@@ -15,7 +15,6 @@ import colors from "../../../config/colors";
 function ProfileHeader() {
   const navigation = useNavigation();
 
-
   // const auth = useSelector((state) => state.auth);
 
   // const isFollowing = useFollowing(
@@ -64,9 +63,7 @@ function ProfileHeader() {
   // };
 
   return (
-
     <View style={styles.container}>
-      
       <ProfileStatsContainer />
 
       {/* {users !== null ? (
@@ -80,11 +77,11 @@ function ProfileHeader() {
       </View>
 
       {/* {users !== null ? ( */}
-        <View>
-          <DisplayMenuScreen />
-        </View>
+      <View>
+        <DisplayMenuScreen />
+      </View>
       {/* ) : ( */}
-        {/* <TouchableOpacity></TouchableOpacity> */}
+      {/* <TouchableOpacity></TouchableOpacity> */}
       {/* )} */}
     </View>
   );

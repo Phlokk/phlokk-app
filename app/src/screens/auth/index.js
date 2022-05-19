@@ -5,14 +5,16 @@ import AuthMenu from "../../components/auth/menu";
 
 import colors from "../../../config/colors"
 
-
 export default function AuthScreen() {
   const [authPage, setAuthPage] = useState(0);
   const [detailsPage, setDetailsPage] = useState(false);
   return (
     <View style={styles.container}>
       {detailsPage ? (
-        <AuthDetails authPage={authPage} setDetailsPage={setDetailsPage} />
+        <AuthDetails 
+        authPage={authPage} 
+        setDetailsPage={setDetailsPage} 
+        />
       ) : (
         <AuthMenu
           authPage={authPage}
