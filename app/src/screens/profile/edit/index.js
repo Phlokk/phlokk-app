@@ -23,7 +23,7 @@ export default function EditProfileScreen() {
 
   useEffect(() => {
     dispatch(fetchUserData());
-  }, []);
+  }, [dispatch]);
 
   const chooseImage = async () => {
     console.log("START UPLOADING...");

@@ -20,7 +20,7 @@ export default function ProfileNavBar() {
 
   useEffect(() => {
     dispatch(fetchUserData());
-  }, []);
+  }, [dispatch]);
 
   return (
     <View style={styles.container}>

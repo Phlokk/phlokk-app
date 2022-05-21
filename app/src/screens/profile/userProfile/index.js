@@ -20,10 +20,10 @@ function UserProfile() {
   // const navigation = useNavigation();
   useEffect(() => {
     dispatch(fetchUserData({}));
-  }, []);
+  }, [dispatch]);
 
   const [fontsLoaded] = useFonts({
-    "Tangerine-Regular": require("../../../../assets/fonts/Tangerine-Regular.ttf"),
+    "Waterfall-Regular": require("../../../../assets/fonts/Waterfall-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -49,7 +49,7 @@ function UserProfile() {
         )}
 
       <View style={styles.usernameView}>
-        {users.username !== null || undefined ? (
+        {users.username !== null || !undefined ? (
           <Text>
             {users &&
               users.map((user, i) => (
@@ -57,57 +57,46 @@ function UserProfile() {
                   @{user.username}
                 </Text>
               ))}
-              <View>
+            <View>
               {users[0] && users[0].is_verified === 1 && (
-        <Image style={styles.phlokkVerified} source={verifiedCheck} />
-      )}
-      </View>
+                <Image style={styles.phlokkVerified} source={verifiedCheck} />
+              )}
+            </View>
           </Text>
-          
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
       </View>
-      <>
-        <View style={styles.linkRow}>
-          {users &&
-            users.map((user, i) => (
-              <TouchableOpacity style={styles.linkText} key={i}>
-                <Feather
-                  onPress={() => Linking.openURL(user.youtubeLink)}
-                  name="youtube"
-                  size={20}
-                  color={colors.green}
-                />
-              </TouchableOpacity>
-            ))}
+      
+      <View style={styles.linkRow}>
+          <View style={styles.linkText}>
+          <Feather
+            onPress={users[0] && users[0].youtubeLink ? () => Linking.openURL(users[0].youtubeLink) : null}
+            name="youtube"
+            size={18}
+            color={users[0] && users[0].youtubeLink  ? colors.green : colors.gray}
+          />
+          </View>
+          <View style={styles.linkText}>
+          <MaterialCommunityIcons
+            onPress={users[0] && users[0].link ? () => Linking.openURL(users[0].link) : null}
+            name="link"
+            size={23}
+            color={users[0] && users[0].link  ? colors.green : colors.gray}
+          />
+          </View>
+          <View style={styles.linkText}>
+          <Feather
+            onPress={users[0] && users[0].instagramLink ? () => Linking.openURL(users[0].instagramLink) : null}
+            name="instagram"
+            size={16}
+            color={users[0] && users[0].instagramLink  ? colors.green : colors.gray}
+          />
+          </View>
+      </View>
 
-          {users &&
-            users.map((user, i) => (
-              <TouchableOpacity style={styles.linkText} key={i}>
-                <MaterialCommunityIcons
-                  onPress={() => Linking.openURL(user.link)}
-                  name="link"
-                  size={25}
-                  color={colors.green}
-                />
-              </TouchableOpacity>
-            ))}
-          {users &&
-            users.map((user, i) => (
-              <TouchableOpacity style={styles.linkText} key={i}>
-                <Feather
-                  onPress={() => Linking.openURL(user.instagramLink)}
-                  name="instagram"
-                  size={18}
-                  color={colors.green}
-                />
-              </TouchableOpacity>
-            ))}
-        </View>
-      </>
       <View style={styles.quotesView}>
-        {users.quote !== null || undefined ? (
+        {users.quote !== null || !undefined ? (
           <Text>
             {users &&
               users.map((user, i) => (
@@ -200,7 +189,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     marginBottom: 20,
     textAlign: "center",
-    fontFamily: "Tangerine-Regular",
+    fontFamily: "Waterfall-Regular",
     fontSize: 28,
   },
   users: {

@@ -1,27 +1,25 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../../components/general/navBar";
-import { saveUserField } from "../../../../../src/services/user";
+import { saveUsername } from "../../../../../src/services/user";
 import { generalStyles } from "../../../../../src/styles";
-import * as SecureStore from "expo-secure-store";
 
 import colors from "../../../../../config/colors";
 
 export default function EditProfileFieldScreen({ route }) {
-  const { title, field, value, id } = route.params;
+  const { title, field, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
-  const dispatch = useDispatch();
+
 
   console.log(id)
 
 
   const onSave = () => {
-    saveUserField(field, textInputValue)
+    saveUsername(field, textInputValue)
     .then(() => navigation.goBack());
   };
 

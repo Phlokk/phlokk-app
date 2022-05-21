@@ -3,19 +3,23 @@ import { saveMediaToStorage } from "./saveMedia";
 import { useDispatch } from "react-redux";
 import { types } from "../redux/constants";
 import axios from '../redux/apis/axiosDeclaration'
+import FormData from "form-data";
 
-export const saveUserField = async (field, value) => {
-  console.log(field);
+const formData = new FormData();
+    formData.append("username", {
+      name: "username",
+      
+    });
+
+export const saveUsername = async (value) => {
+  // console.log(field);
   let obj = {};
   obj[field] = value;
   console.log("Saving username");
   axios
-    .put("/api/creators/update") 
-    //   body:
-    //     usernameUpdate: 'username', user.username,
-    //     id: user.id,
-    // }),
-    
+    .put("/api/creators/update", {
+      body: formData,
+    })
     .then((response) => {
       console.log(response.data);
     })
@@ -23,22 +27,6 @@ export const saveUserField = async (field, value) => {
       console.log(error.response);
     });
 };
-
-// body FormData
-// send username
-
-// body 
-// {
-// newUsername: "nathan", user.username JSON.parse user
-// id: 52
-// }
-
-// export const saveUserField = (field, value) =>
-//   new Promise((resolve, reject) => {
-//     let obj = {};
-//     obj[field] = value;
-//
-//   });
 
 // export const saveYouTubeField = (field, value) =>
 //   new Promise((resolve, reject) => {
