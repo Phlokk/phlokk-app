@@ -67,32 +67,48 @@ function UserProfile() {
           <Text style={styles.username}>@user</Text>
         )}
       </View>
-      
+
       <View style={styles.linkRow}>
-          <View style={styles.linkText}>
+        <View style={styles.linkText}>
           <Feather
-            onPress={users[0] && users[0].youtubeLink ? () => Linking.openURL(users[0].youtubeLink) : null}
+            onPress={
+              users[0] && users[0].youtubeLink
+                ? () => Linking.openURL(users[0].youtubeLink)
+                : null
+            }
             name="youtube"
             size={18}
-            color={users[0] && users[0].youtubeLink  ? colors.green : colors.gray}
+            color={
+              users[0] && users[0].youtubeLink ? colors.green : colors.gray
+            }
           />
-          </View>
-          <View style={styles.linkText}>
+        </View>
+        <View style={styles.linkText}>
           <MaterialCommunityIcons
-            onPress={users[0] && users[0].link ? () => Linking.openURL(users[0].link) : null}
+            onPress={
+              users[0] && users[0].link
+                ? () => Linking.openURL(users[0].link)
+                : null
+            }
             name="link"
             size={23}
-            color={users[0] && users[0].link  ? colors.green : colors.gray}
+            color={users[0] && users[0].link ? colors.green : colors.gray}
           />
-          </View>
-          <View style={styles.linkText}>
+        </View>
+        <View style={styles.linkText}>
           <Feather
-            onPress={users[0] && users[0].instagramLink ? () => Linking.openURL(users[0].instagramLink) : null}
+            onPress={
+              users[0] && users[0].instagramLink
+                ? () => Linking.openURL(users[0].instagramLink)
+                : null
+            }
             name="instagram"
             size={16}
-            color={users[0] && users[0].instagramLink  ? colors.green : colors.gray}
+            color={
+              users[0] && users[0].instagramLink ? colors.green : colors.gray
+            }
           />
-          </View>
+        </View>
       </View>
 
       <View style={styles.quotesView}>

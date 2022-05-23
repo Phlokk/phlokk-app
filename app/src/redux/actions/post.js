@@ -12,29 +12,13 @@ export const createPost =
       console.log(source);
       let storagePostId = uuid();
 
-      // const headers = {
-      //   // Authorization: `Bearer ${token}`,
-      //   "Content-Type": "multipart/form-data",
-      // };
-
-      // reader.onload = () => {
-      //   // add the file to the array
-      //   videos.push(reader.result);
-      //   console.log("Sending videos......");
-      //   sendVideo(videos);
-      // };
-      // orig, under -------------------
-
       let allSavePromises = Promise.all([
         // saveMediaToStorage(
         //   video,
         //   `post/${firebase.auth().currentUser.uid}/${storagePostId}/video.mp4`
         // ),
 
-        saveMediaToStorage(
-          source, 
-          description, 
-        ),
+        saveMediaToStorage(source, description),
         // saveMediaToStorage(
         //   thumbnail,
         //   `post/${firebase.auth().currentUser.uid}/${storagePostId}/thumbnail`
@@ -45,7 +29,6 @@ export const createPost =
         .then((media) => {
           // console.log("Promises have returned..........");
           // console.log(media);
-
         })
         .catch((err) => {
           // save the error
@@ -53,12 +36,11 @@ export const createPost =
         });
     });
 
-     
 // export const getPostsByUser =
 //   (auth.currentUser) =>
 //   (dispatch) =>
 //     new Promise((resolve, reject) => {
-//       
+//
 //           dispatch({
 //             type: types.CURRENT_USER_POSTS_UPDATE,
 //             currentUserPosts: posts,
@@ -66,70 +48,33 @@ export const createPost =
 //         });
 //     });
 
-function sendVideoOLD(files) {
-  // formData.append("video", video);
-  // formData.append("video", {
-  // ...image,
-  // video,
-  // uri:
-  //   Platform.OS === "android"
-  //     ? video.uri
-  //     : video.uri.replace("file://", ""),
-  // name: `image-${i}`,
-  // type: 'image/jpeg', // it may be necessary in Android.
-  // });
+// async function sendVideo(videoUrl) {
+//   console.log("media..............");
+//   console.log(videoUrl);
 
-  // call our laravel API
-  axios
-    .post(
-      "/test/post",
-      {
-        videos: videos,
-      },
-      headers
-    )
-    .then(function (response) {
-      // 2 seconds later...
+//   let formData = new FormData();
+//   formData.append("testing", videoUrl);
+//   formData.append("videoFile", {
+//     name: "name.mp4",
+//     uri: videoUrl,
+//     type: "video/mp4",
+//   });
 
-      console.log("------------ Response ---------");
-      // console.log(response);
-      console.log(response.data);
-      console.log("------------ Response ---------");
-    })
-    .catch(function (error) {
-      console.log("------------ Back from Server ----------");
-      console.log("------------ ERROR -------------");
-      console.log(error);
-    });
-}
-
-async function sendVideo(videoUrl) {
-  console.log("media..............");
-  console.log(videoUrl);
-
-  let formData = new FormData();
-  formData.append("testing", videoUrl);
-  formData.append("videoFile", {
-    name: "name.mp4",
-    uri: videoUrl,
-    type: "video/mp4",
-  });
-
-  let url = "/test/post";
-  try {
-    let response = await fetch(url, {
-      method: "post",
-      headers: {
-        ContentType: "multipart/form-data",
-        Accept: "multipart/form-data",
-      },
-      body: formData,
-    });
-    console.log(response);
-    console.log("JSON - -----------------------");
-    // console.log(json);
-  } catch (error) {
-    console.log("error : " + error);
-    // return error;
-  }
-}
+//   let url = "/test/post";
+//   try {
+//     let response = await fetch(url, {
+//       method: "post",
+//       headers: {
+//         ContentType: "multipart/form-data",
+//         Accept: "multipart/form-data",
+//       },
+//       body: formData,
+//     });
+//     console.log(response);
+//     console.log("JSON - -----------------------");
+//     // console.log(json);
+//   } catch (error) {
+//     console.log("error : " + error);
+//     // return error;
+//   }
+// }

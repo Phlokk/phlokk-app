@@ -1,4 +1,5 @@
 import FormData from "form-data";
+import axios from "../redux/apis/axiosDeclaration";
 
 export const saveMediaToStorage = (source, description) => {
   new Promise(async (resolve, reject) => {
@@ -17,12 +18,8 @@ export const saveMediaToStorage = (source, description) => {
     console.log(formData);
     console.log("------------------");
 
-    let url = "https://dev.phlokk.com/test/post";
-    let res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    let url = "/test/post";
+    let res = await axios.post(url, {
       body: formData,
     }).catch((err) => {
       console.log(err);
