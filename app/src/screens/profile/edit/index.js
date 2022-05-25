@@ -49,7 +49,7 @@ export default function EditProfileScreen() {
       type: "image/png",
     });
 
-    let res = await fetch("https://dev.phlokk.com/api/update-profile", {
+    let res = await fetch("https://phlokk.com/api/update-profile", {
       method: "POST",
       body: formData,
       headers: {

@@ -27,9 +27,8 @@ import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import LottieView from "lottie-react-native";
 
-export default function SavePostScreen({ nav, route} ) {
+export default function SavePostScreen({ nav, route }) {
   console.log("Loading Post Screen");
-
 
   const [description, setDescription] = useState("");
   const [requestRunning, setRequestRunning] = useState(false);
@@ -41,28 +40,26 @@ export default function SavePostScreen({ nav, route} ) {
   const handleSavePost = () => {
     setRequestRunning(true);
 
+    // Save video to camera Roll...
 
-// Save video to camera Roll...
-
-  // MediaLibrary = async (uri) => {
-  //   await MediaLibrary.saveToLibraryAsync(uri, 'video')
-  //   } 
-  // answer link: https://stackoverflow.com/questions/59602848/how-to-save-image-to-camera-roll-using-expo
-
+    // MediaLibrary = async (uri) => {
+    //   await MediaLibrary.saveToLibraryAsync(uri, 'video')
+    //   }
+    // answer link: https://stackoverflow.com/questions/59602848/how-to-save-image-to-camera-roll-using-expo
 
     dispatch(
       createPost(
         description,
         route.params.source,
         route.params.sourceThumb,
-        route.params.source,
+        route.params.source
       )
     )
       .then((res) => {
         console.log("res", res);
         // MediaLibrary = async (uri) => {
-  //   await MediaLibrary.saveToLibraryAsync(uri, 'video')
-  //   } 
+        //   await MediaLibrary.saveToLibraryAsync(uri, 'video')
+        //   }
         navigation.navigate("feed");
       })
       .catch((err) => {
