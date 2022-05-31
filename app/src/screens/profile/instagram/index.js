@@ -5,16 +5,16 @@ import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../components/general/navBar";
 import generalStyles from "../../../styles/generalStyles";
-import { saveInstagramField } from "../../../services/user";
+import { saveInstagramLink } from "../../../services/user";
 
 import colors from "../../../../config/colors"
 
 export default function EditInstagramScreen({ route }) {
-  const { title, field, value, id } = route.params;
+  const { title, value} = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const onSave = () => {
-    saveInstagramField(field, textInputValue, id).then(() => navigation.goBack());
+    saveInstagramLink(textInputValue).then(() => navigation.goBack());
   };
 
   console.log(id)
@@ -34,7 +34,7 @@ export default function EditInstagramScreen({ route }) {
           autoCapitalize="none"
           autoCorrect={false}
           multiline
-          maxLength={24}
+          maxLength={255}
           value={textInputValue}
           onChangeText={setTextInputValue}
           keyboardType="url"

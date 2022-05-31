@@ -5,23 +5,21 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../components/general/navBar/";
-import { saveUserField } from "../../../services/user";
+import { saveQuote } from "../../../services/user";
 import { generalStyles } from "../../../../src/styles";
 import * as SecureStore from "expo-secure-store";
 
 import colors from "../../../../config/colors";
 
 export default function EditQuotesFieldScreen({ route }) {
-  const { title, field, value, id } = route.params;
+  const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const onSave = () => {
-    saveUserField(field, textInputValue, id).then(() => navigation.goBack());
+    saveQuote(textInputValue).then(() => navigation.goBack());
   };
-
-  console.log(id)
 
   return (
     <SafeAreaView style={styles.container}>

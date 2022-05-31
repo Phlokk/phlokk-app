@@ -85,6 +85,7 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
         posterSource={{ uri: item.media[1] }}
         posterStyle={{ resizeMode: "cover", height: "100%" }}
         source={{ uri: item.media[0] }}
+       
       />
     </>
   );

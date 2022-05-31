@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,18 +10,19 @@ import { generalStyles } from "../../../../../src/styles";
 import colors from "../../../../../config/colors";
 
 export default function EditProfileFieldScreen({ route }) {
-  const { title, field, value } = route.params;
+  const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
-
-
-  console.log(id)
-
+  
 
   const onSave = () => {
-    saveUsername(field, textInputValue)
+
+    saveUsername(textInputValue)
     .then(() => navigation.goBack());
   };
+
+
+
 
   return (
     <SafeAreaView style={styles.container}>

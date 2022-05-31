@@ -5,16 +5,16 @@ import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../components/general/navBar";
 import generalStyles from "../../../styles/generalStyles";
-import { saveYouTubeField } from "../../../services/user";
+import { saveYoutubeLink } from "../../../services/user";
 
 import colors from "../../../../config/colors"
 
 export default function EditYoutubeScreen({ route }) {
-  const { title, field, value, id } = route.params;
+  const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const onSave = () => {
-    saveYouTubeField(field, textInputValue, id).then(() => navigation.goBack());
+    saveYoutubeLink(textInputValue).then(() => navigation.goBack());
   };
 
   console.log(id)
@@ -33,7 +33,7 @@ export default function EditYoutubeScreen({ route }) {
           dataDetectorTypes={"link"}
           autoCapitalize="none"
           autoCorrect={false}
-          maxLength={24}
+          maxLength={255}
           value={textInputValue}
           onChangeText={setTextInputValue}
           clearTextOnFocus={true}

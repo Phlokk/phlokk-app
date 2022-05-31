@@ -4,21 +4,21 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../components/general/navBar";
-import { saveUserLinkField } from "../../../services/user";
+import { saveUserLink } from "../../../services/user";
 import generalStyles from "../../../styles/generalStyles";
 
 import colors from "../../../../config/colors"
 
 
 export default function EditLinkFieldScreen({ route }) {
-  const { title, field, value, id } = route.params;
+  const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const onSave = () => {
-    saveUserLinkField(field, textInputValue, id).then(() => navigation.goBack());
+    saveUserLink(textInputValue).then(() => navigation.goBack());
   };
 
-  console.log(id)
+  
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral

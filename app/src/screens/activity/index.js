@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import ActivityNavBar from "../../components/general/activityNav";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
 import colors from "../../../config/colors";
 
@@ -31,4 +32,5 @@ const styles = StyleSheet.create({
     color: colors.white,
     marginTop: 30,
   },
+  
 });

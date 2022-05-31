@@ -1,14 +1,13 @@
 import FormData from "form-data";
-import axios, {axiosVideo} from "../redux/apis/axiosDeclaration";
+import axios, { axiosVideo } from "../redux/apis/axiosDeclaration";
 
 export const saveMediaToStorage = (source, description) => {
   new Promise(async (resolve, reject) => {
     console.log("----------------------");
     console.log("save source", source);
 
-
     let formData = new FormData();
-    formData.append("video", {
+    formData.append("file", source, {
       name: source,
       type: "video/mp4",
       uri: source.replace("file://", ""),
@@ -18,19 +17,14 @@ export const saveMediaToStorage = (source, description) => {
     console.log(formData);
     console.log("------------------");
 
-
-    let url = "api/test/post";
-    axiosVideo.post(url, {
-      body: formData,
-    })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-
+    let url = "/api/test/post";
+    axiosVideo
+      .post(url, formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   });
 };
-
-

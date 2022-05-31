@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../components/general/navBar";
 
 import colors from "../../../../config/colors";
-import saveCreatorField from "../../../services/user";
+import saveCreatorType from "../../../services/user";
 
 let categoryId = null;
 
@@ -97,9 +97,9 @@ export default function EditCreatorFieldScreen({ route, props }) {
   };
 
   const onSave = () => {
-    saveCreatorField(field, id).then(() => navigation.goBack());
+    saveCreatorType(field, id).then(() => navigation.goBack());
   };
-  const { title, field, value, id } = route.params;
+  const { title, value, } = route.params;
   const navigation = useNavigation();
 
   console.log(id)

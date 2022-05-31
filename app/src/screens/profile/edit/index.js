@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import NavBarGeneral from "../../../../src/components/general/navBar";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
@@ -17,7 +17,7 @@ export default function EditProfileScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
-
+  const isFocused = useIsFocused();
   const users = useSelector((state) => state.userReducer.user);
   // const loading = useSelector(state => state.userReducer.user);
 
@@ -25,7 +25,16 @@ export default function EditProfileScreen() {
     dispatch(fetchUserData());
   }, [dispatch]);
 
+ 
+
+ 
+
   const chooseImage = async () => {
+
+    useEffect(() => {
+      useIsFocused();
+    }, [isFocused]);
+
     console.log("START UPLOADING...");
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
@@ -123,7 +132,7 @@ export default function EditProfileScreen() {
                   title: "Username",
                   field: "username",
                   value: user.username,
-                  id: user.id,
+                  userId: user.id
                 })
               }
             >
@@ -154,7 +163,7 @@ export default function EditProfileScreen() {
                   title: "Creator",
                   field: "Creator",
                   value: user.creator_type,
-                  id: user.id,
+                  
                 })
               }
             >
@@ -182,7 +191,7 @@ export default function EditProfileScreen() {
                   title: "Link",
                   field: "link",
                   value: user.link,
-                  id: user.id,
+                  
                 })
               }
             >
@@ -210,7 +219,7 @@ export default function EditProfileScreen() {
                   title: "Quotes",
                   field: "quotes",
                   value: user.quote,
-                  id: user.id,
+                  
                 })
               }
             >
@@ -238,7 +247,7 @@ export default function EditProfileScreen() {
                   title: "Relationship",
                   field: "relationship",
                   value: users.relationship_type,
-                  id: user.id,
+                  
                 })
               }
             >
@@ -267,7 +276,7 @@ export default function EditProfileScreen() {
                   title: "Youtube",
                   field: "youtubeLink",
                   value: user.youtubeLink,
-                  id: user.id,
+                  
                 })
               }
             >
@@ -303,7 +312,7 @@ export default function EditProfileScreen() {
                   title: "Instagram",
                   field: "instagramLink",
                   value: user.instagramLink,
-                  id: user.id,
+                  
                 })
               }
             >

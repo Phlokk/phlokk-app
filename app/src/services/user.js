@@ -2,22 +2,17 @@ import { saveMediaToStorage } from "./saveMedia";
 import { useDispatch } from "react-redux";
 import { types } from "../redux/constants";
 import axios from '../redux/apis/axiosDeclaration'
-import FormData from "form-data";
 
-const formData = new FormData();
-    formData.append("username", {
-      name: "username",
-      
-    });
 
-export const saveUsername = async (value) => {
-  // console.log(field);
-  let obj = {};
-  obj[field] = value;
+
+    // value = what user types in field
+export const saveUsername = async ( value, id ) => {
+
   console.log("Saving username");
   axios
-    .put("/api/creators/update", {
-      body: formData,
+    .put("/api/creators/update/ +userId", {
+      username: value,
+      userId: id,
     })
     .then((response) => {
       console.log(response.data);
@@ -27,44 +22,69 @@ export const saveUsername = async (value) => {
     });
 };
 
-// export const saveYouTubeField = (field, value) =>
-//   new Promise((resolve, reject) => {
-//     let obj = {};
-//     obj[field] = value;
-//     firebase
-//       .firestore()
-//       .collection("user")
-//       .doc(firebase.auth().currentUser.uid)
-//       .update(obj)
-//       .then(() => resolve())
-//       .catch(() => reject());
-//   });
+export const saveQuote = async ( value, id ) => {
 
-// export const saveInstagramField = (field, value) =>
-//   new Promise((resolve, reject) => {
-//     let obj = {};
-//     obj[field] = value;
-//     firebase
-//       .firestore()
-//       .collection("user")
-//       .doc(firebase.auth().currentUser.uid)
-//       .update(obj)
-//       .then(() => resolve())
-//       .catch(() => reject());
-//   });
+  console.log("Saving Quote");
+  axios
+    .put("/api/creators/update/ +userId", {
+      quote: value,
+      userId: id,
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
 
-// export const saveCreatorField = (field, value) =>
-//   new Promise((resolve, reject) => {
-//     let obj = {};
-//     obj[field] = value;
-//     firebase
-//       .firestore()
-//       .collection("user")
-//       .doc(firebase.auth().currentUser.uid)
-//       .update(obj)
-//       .then(() => resolve())
-//       .catch(() => reject());
-//   });
+export const saveYoutubeLink = async ( value, id ) => {
+
+  console.log("Saving Quote");
+  axios
+    .put("/api/creators/update/ +userId", {
+      youtubeLink: value,
+      userId: id,
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
+
+export const saveInstagramLink = async ( value, id ) => {
+
+  console.log("Saving IG link");
+  axios
+    .put("/api/creators/update/ +userId", {
+      instagramLink: value,
+      userId: id,
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
+
+export const saveCreatorType = async ( value, id ) => {
+
+  console.log("Saving IG link");
+  axios
+    .put("/api/creators/update/ +userId", {
+      instagramLink: value,
+      userId: id,
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
 
 // export const saveRelationshipField = (field, value) =>
 // new Promise((resolve, reject) => {
@@ -79,18 +99,21 @@ export const saveUsername = async (value) => {
 //     .catch(() => reject());
 // });
 
-// export const saveUserLinkField = (field, value) =>
-//   new Promise((resolve, reject) => {
-//     let obj = {};
-//     obj[field] = value;
-//     firebase
-//       .firestore()
-//       .collection("user")
-//       .doc(firebase.auth().currentUser.uid)
-//       .update(obj)
-//       .then(() => resolve())
-//       .catch(() => reject());
-//   });
+export const saveUserLink = async ( value, id ) => {
+
+  console.log("Saving website link");
+  axios
+    .put("/api/creators/update/ +userId", {
+      link: value,
+      userId: id,
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+};
 
 // PHLOKK MARKET FUNC/LINKS BELOW
 
