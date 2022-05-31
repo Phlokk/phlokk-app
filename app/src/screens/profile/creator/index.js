@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../components/general/navBar";
 
 import colors from "../../../../config/colors";
-import saveCreatorType from "../../../services/user";
+import { saveCreatorType } from "../../../services/user";
 
 let categoryId = null;
 
@@ -42,25 +42,25 @@ export default function EditCreatorFieldScreen({ route }) {
   ]);
 
   const onRadioBtnClick = (item) => {
-    console.log(item);
-    categoryId = item.id;
+    categoryId = item.category;
 
     setCategories(item);
 
     let updatedState = categories.map((i) =>
       i.id === item.id ? { ...i, selected: true } : { ...i, selected: false }
     );
+    console.log(updatedState);
     setCategories(updatedState);
     // categories[(item.id-1)].selected = true;
     // setCategories(categories)
     
-    // onSave();
+    onSave();
   };
   
 
 
   const onSave = () => {
-    saveCreatorType(categoryId, item)
+    saveCreatorType(categoryId)
     .then(() => navigation.goBack());
   };
   
