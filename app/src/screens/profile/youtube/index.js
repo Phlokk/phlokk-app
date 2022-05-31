@@ -16,8 +16,6 @@ export default function EditYoutubeScreen({ route }) {
   const onSave = () => {
     saveYoutubeLink(textInputValue).then(() => navigation.goBack());
   };
-
-  console.log(id)
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral

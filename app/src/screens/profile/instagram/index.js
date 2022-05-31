@@ -16,8 +16,7 @@ export default function EditInstagramScreen({ route }) {
   const onSave = () => {
     saveInstagramLink(textInputValue).then(() => navigation.goBack());
   };
-
-  console.log(id)
+  
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral

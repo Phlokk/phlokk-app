@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NavBarGeneral from "../../../components/general/navBar";
 
@@ -15,76 +16,32 @@ import saveCreatorType from "../../../services/user";
 
 let categoryId = null;
 
-export default function EditCreatorFieldScreen({ route, props }) {
+export default function EditCreatorFieldScreen({ route }) {
+  const { title } = route.params;
+  const navigation = useNavigation();
   const [categories, setCategories] = useState([
-    { id: 1, value: false, category: "Actor", selected: false },
-    { id: 2, value: false, category: "Actress", selected: false },
-    { id: 3, value: false, category: "Artist", selected: false },
-    { id: 4, value: false, category: "Athlete", selected: false },
-    { id: 5, value: false, category: "Brand", selected: false },
-    {
-      id: 6,
-      value: false,
-      category: "Black Sheep",
-      selected: false,
-    },
-    { id: 7, value: false, category: "Comedian", selected: false },
-    { id: 8, value: false, category: "Cosplay", selected: false },
-    { id: 9, value: false, category: "Dancer", selected: false },
-    {
-      id: 10,
-      value: false,
-      category: "Gym & Fitness",
-      selected: false,
-    },
-    { id: 11, value: false, category: "Foodie", selected: false },
-    {
-      id: 12,
-      value: false,
-      category: "Health & Beauty",
-      selected: false,
-    },
-    { id: 13, value: false, category: "Model", selected: false },
-    {
-      id: 14,
-      value: false,
-      category: "Musician",
-      selected: false,
-    },
-    {
-      id: 15,
-      value: false,
-      category: "Producer",
-      selected: false,
-    },
-    {
-      id: 16,
-      value: true,
-      category: "Public Figure",
-      selected: false,
-    },
-    {
-      id: 17,
-      value: true,
-      category: "Education",
-      selected: false,
-    },
-    {
-      id: 18,
-      value: false,
-      category: "Watcher",
-      selected: false,
-    },
-    {
-      id: 19,
-      value: false,
-      category: "Youtuber",
-      selected: false,
-    },
+    { id: 1,  category: "Actor", selected: false },
+    { id: 2,  category: "Actress", selected: false },
+    { id: 3,  category: "Artist", selected: false },
+    { id: 4,  category: "Athlete", selected: false },
+    { id: 5,  category: "Brand", selected: false },
+    { id: 6,  category: "Black Sheep",selected: false},
+    { id: 7,  category: "Comedian", selected: false },
+    { id: 8,  category: "Cosplay", selected: false },
+    { id: 9,  category: "Dancer", selected: false },
+    { id: 10, category: "Gym & Fitness",selected: false},
+    { id: 11, category: "Foodie", selected: false },
+    { id: 12, category: "Health & Beauty",selected: false},
+    { id: 13, category: "Model", selected: false },
+    { id: 14, category: "Musician",selected: false},
+    { id: 15, category: "Producer",selected: false},
+    { id: 16, category: "Public Figure",selected: false},
+    { id: 17, category: "Education",selected: false},
+    { id: 18, category: "Watcher",selected: false},
+    { id: 19, category: "Youtuber",selected: false },
   ]);
 
   const onRadioBtnClick = (item) => {
-    console.log("radio click");
     console.log(item);
     categoryId = item.id;
 
@@ -94,21 +51,24 @@ export default function EditCreatorFieldScreen({ route, props }) {
       i.id === item.id ? { ...i, selected: true } : { ...i, selected: false }
     );
     setCategories(updatedState);
+    // categories[(item.id-1)].selected = true;
+    // setCategories(categories)
+    
+    // onSave();
   };
+  
+
 
   const onSave = () => {
-    saveCreatorType(field, id).then(() => navigation.goBack());
+    saveCreatorType(categoryId, item)
+    .then(() => navigation.goBack());
   };
-  const { title, value, } = route.params;
-  const navigation = useNavigation();
-
-  console.log(id)
+  
 
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral
         title={title}
-        // changed left button to false (white)
         leftButton={{ display: false, name: "save", action: onSave }}
       />
       <ScrollView>
@@ -117,9 +77,12 @@ export default function EditCreatorFieldScreen({ route, props }) {
             <TouchableOpacity onPress={() => onRadioBtnClick(item)}>
               <Text style={styles.radioButtonText}>{item.category}</Text>
             </TouchableOpacity>
-            <View style={{ flex: 1 }}></View>
+            <View style={{ flex: 1 }}>
+            </View>
             <TouchableOpacity
-              onPress={() => onRadioBtnClick(item)}
+              onPress={
+                () => onRadioBtnClick(item)
+              }
               style={styles.radioButton}
             >
               {item.selected ? <View style={styles.radioButtonIcon} /> : null}
@@ -155,7 +118,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 45,
+    marginRight: 15,
     marginHorizontal: 5,
   },
   radioButton: {
@@ -171,12 +134,15 @@ const styles = StyleSheet.create({
     height: 12,
     width: 12,
     borderRadius: 6,
-    backgroundColor: colors.red,
+    backgroundColor: colors.green,
   },
   radioButtonText: {
     color: colors.secondary,
     fontSize: 14,
 
     marginLeft: 16,
+  },
+  divider: {
+    backgroundColor: "gray",
   },
 });

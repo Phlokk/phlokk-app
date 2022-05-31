@@ -11,56 +11,24 @@ let categoryId = null;
 
 export default function RelationshipCategoryScreen({ route, props }) {
   const [categories, setCategories] = useState([
-    {
-      id: 1,
-      value: false,
-      category: "Single",
-      selected: false,
-    },
-    {
-      id: 2,
-      value: false,
-      category: "Married",
-      selected: false,
-    },
-    {
-      id: 3,
-      value: false,
-      category: "Taken",
-      selected: false,
-    },
-    {
-      id: 4,
-      value: false,
-      category: "Looking",
-      selected: false,
-    },
-    {
-      id: 5,
-      value: false,
-      category: "Divorced",
-      selected: false,
-    },
-    {
-      id: 6,
-      value: false,
-      category: "Widow",
-      selected: false,
-    },
+    {id: 1,category: "Single",selected: false},
+    {id: 2,category: "Married",selected: false},
+    {id: 3,category: "Taken",selected: false},
+    {id: 4,category: "Looking",selected: false},
+    {id: 5,category: "Divorced",selected: false},
+    {id: 6,category: "Widow",selected: false},
   ]);
 
-  const { title, field, value, id } = route.params;
+  const { title, id } = route.params;
   const navigation = useNavigation();
+
   const onSave = () => {
     saveRelationshipField(field, textInputValue, id).then(() =>
       navigation.goBack()
     );
   };
 
-  console.log(id)
-
   const onRadioBtnClick = (item) => {
-    console.log("radio click");
     console.log(item);
     categoryId = item.id;
     // item.selected = item.selected ? false : true;
@@ -70,6 +38,7 @@ export default function RelationshipCategoryScreen({ route, props }) {
       i.id === item.id ? { ...i, selected: true } : { ...i, selected: false }
     );
     setCategories(updatedState);
+
   };
 
   return (
@@ -123,7 +92,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 45,
+    marginRight: 5,
     marginHorizontal: 5,
   },
   radioButton: {
@@ -139,12 +108,12 @@ const styles = StyleSheet.create({
     height: 12,
     width: 12,
     borderRadius: 6,
-    backgroundColor: colors.red,
+    backgroundColor: colors.green,
   },
   radioButtonText: {
     color: colors.secondary,
     fontSize: 14,
 
-    marginLeft: 16,
+    marginLeft: 5,
   },
 });

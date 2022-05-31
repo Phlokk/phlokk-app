@@ -70,12 +70,12 @@ export const saveInstagramLink = async ( value, id ) => {
     });
 };
 
-export const saveCreatorType = async ( value, id ) => {
+export const saveCreatorType = async ( categoryId, item ) => {
 
-  console.log("Saving IG link");
+  console.log("Saving Creator type");
   axios
     .put("/api/creators/update/ +userId", {
-      instagramLink: value,
+      creator_type: categoryId,
       userId: id,
     })
     .then((response) => {

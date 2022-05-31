@@ -19,7 +19,6 @@ export default function EditProfileScreen() {
   const [image, setImage] = useState(null);
   const isFocused = useIsFocused();
   const users = useSelector((state) => state.userReducer.user);
-  // const loading = useSelector(state => state.userReducer.user);
 
   useEffect(() => {
     dispatch(fetchUserData());
@@ -30,10 +29,6 @@ export default function EditProfileScreen() {
  
 
   const chooseImage = async () => {
-
-    useEffect(() => {
-      useIsFocused();
-    }, [isFocused]);
 
     console.log("START UPLOADING...");
     let user = await SecureStore.getItemAsync("user");
@@ -143,9 +138,10 @@ export default function EditProfileScreen() {
                 {users &&
                   users.map((user, i) => (
                     <Text style={styles.text} key={i}>
-                      {user.username}
+                       {user.username}
                     </Text>
                   ))}
+        
 
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
