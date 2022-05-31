@@ -13,12 +13,23 @@ import { fetchUserData } from "../../../redux/actions/users";
 import { saveUserField } from "../../../services/user";
 import * as SecureStore from "expo-secure-store";
 
+
+import { useFocusEffect } from '@react-navigation/native';
+
+
 export default function EditProfileScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
   const isFocused = useIsFocused();
   const users = useSelector((state) => state.userReducer.user);
+
+
+  useFocusEffect(
+      React.useCallback(() => {
+        dispatch(fetchUserData());
+      }, [])
+  );
 
   useEffect(() => {
     dispatch(fetchUserData());
