@@ -32,70 +32,71 @@ export default function FeedScreen({ route }) {
   const [user, setUser] = useState("");
   const dispatch = useDispatch();
 
-    // const feed = useFeed(profile);
+    const feed = useFeed(profile);
 
+    const userPosts = {};
   //   // const userPosts = useUserPosts(creator, {
   //   //   enabled: Boolean(profile) || Boolean(creator),
   //   // });
 
-    // const isLoading = feed.isLoading || userPosts.isLoading;
-  //   useRefreshOnFocus(profile ? userPosts.refetch : feed.refetch);
+    const isLoading = feed.isLoading || userPosts.isLoading;
+    useRefreshOnFocus(profile ? userPosts.refetch : feed.refetch);
 
-  //   let posts = useMemo(() => {
-  //     if (profile || creator) {
-  //       return userPosts?.data || [];
-  //     } else {
-  //       return feed?.data || [];
-  //     }
-  //   }, [profile, feed.data, userPosts.data, creator]);
+    let posts = useMemo(() => {
+      if (profile || creator) {
+        return userPosts?.data || [];
+      } else {
+        return feed?.data || [];
+      }
+    }, [profile, feed.data, userPosts.data, creator]);
   //   console.log("posts", posts.length);
   //   console.log(posts)
 
 
-  //   posts = shuffleArray(posts)
+    posts = shuffleArray(posts)
 
-  //  function shuffleArray(array) {
-  //    console.log(array);
-  //      for (let i = array.length - 1; i > 0; i--) {
-  //          const j = Math.floor(Math.random() * (i + 1));
-  //          [array[i], array[j]] = [array[j], array[i]];
-  //      }
-  //     return array;
-  // }
+   function shuffleArray(array) {
+     console.log(array);
+       for (let i = array.length - 1; i > 0; i--) {
+           const j = Math.floor(Math.random() * (i + 1));
+           [array[i], array[j]] = [array[j], array[i]];
+       }
+      return array;
+  }
 
-  // const mediaRefs = useRef([]);
-  // const selectedVideoIndex = useMemo(() => {
+  const mediaRefs = useRef([]);
+  const selectedVideoIndex = useMemo(() => {
+  //
+    const videoIndex = posts.findIndex(
 
-  //   const videoIndex = posts.findIndex(
+      (post) => post.media[0] === selectedVideo
+    );
+    return videoIndex > 0 ? videoIndex : 0;
+  }, [selectedVideo, posts.length]);
 
-  //     (post) => post.media[0] === selectedVideo
-  //   );
-  //   return videoIndex > 0 ? videoIndex : 0;
-  // }, [selectedVideo, posts.length]);
-
-  // const [viewablePostId, setViewablePostId] = useState(posts[0]?.id);
-  // const onViewableItemsChanged = useRef(({ changed }) => {
-  //   changed.forEach((element) => {
-  //     const cell = mediaRefs.current[element.key];
-  //     console.log("cell", cell);
-
-  //     if (element.isViewable) {
-  //       console.log("visiable element", element.item.id);
-  //       if (!profile) {
-  //         setCurrentUserProfileItemInView(element.item.creator);
-  //       }
-  //       setViewablePostId(element.item.id);
-  //       cell.setViewable(true);
-  //       if (cell?.play) {
-  //         cell?.play();
-  //       }
-  //     } else {
-  //       if (cell?.stop) {
-  //         cell?.stop();
-  //       }
-  //     }
-  //   });
-  //  });
+  const [viewablePostId, setViewablePostId] = useState(posts[0]?.id);
+  const onViewableItemsChanged = useRef(({ changed }) => {
+    changed.forEach((element) => {
+      const cell = mediaRefs.current[element.key];
+      console.log("cell", cell);
+  //
+      if (element.isViewable) {
+        console.log("visiable element", element.item.id);
+        if (!profile) {
+          setCurrentUserProfileItemInView(element.item.creator);
+        }
+        setViewablePostId(element.item.id);
+        cell.setViewable(true);
+        if (cell?.play) {
+          cell?.play();
+        }
+      } else {
+        if (cell?.stop) {
+          cell?.stop();
+        }
+      }
+    });
+   });
 
   const feedItemHeight =
     Dimensions.get("window").height - useMaterialNavBarHeight(profile);
@@ -151,11 +152,11 @@ export default function FeedScreen({ route }) {
 
   return (
 
-    
+
     <View style={styles.container}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        // data={posts}
+        data={posts}
         windowSize={Platform.OS === "android" ? 1 : 5}
         initialNumToRender={Platform.OS === "android" ? 1 : 5}
         maxToRenderPerBatch={Platform.OS === "android" ? 1 : 5}

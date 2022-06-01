@@ -77,17 +77,17 @@ export default function PostSingleOverlay({ user, post}) {
       <View style={styles.uiContainer}>
         <View style={styles.sideContainer}>
           <View style={styles.iconContainer}>
-            <TouchableOpacity
-              onPress={() => handleUpdateLike(currentLikeState)}
-            >
-              <MaterialCommunityIcons
-                color={colors.white}
-                size={40}
-                name={currentLikeState.state ? "star" : "star-outline"}
-              />
+            {/*<TouchableOpacity*/}
+            {/*  onPress={() => handleUpdateLike(currentLikeState)}*/}
+            {/*>*/}
+            {/*  <MaterialCommunityIcons*/}
+            {/*    color={colors.white}*/}
+            {/*    size={40}*/}
+            {/*    name={currentLikeState?.state ? "star" : "star-outline"}*/}
+            {/*  />*/}
 
-              <Text style={styles.statsLabel}>{currentLikeState.counter}</Text>
-            </TouchableOpacity>
+            {/*  <Text style={styles.statsLabel}>{currentLikeState?.counter ? currentLikeState?.counter : 0}</Text>*/}
+            {/*</TouchableOpacity>*/}
           </View>
 
           <View style={styles.iconContainer}>
@@ -120,6 +120,7 @@ export default function PostSingleOverlay({ user, post}) {
               <Text style={styles.statsLabel}>Fire</Text>
             </TouchableOpacity>
           </View>
+
           <View style={styles.iconContainer}>
             <TouchableOpacity
               style={styles.globeIcon}
@@ -131,6 +132,7 @@ export default function PostSingleOverlay({ user, post}) {
               <Text style={styles.statsLabel}>CKT</Text>
             </TouchableOpacity>
           </View>
+
           <View style={styles.iconContainer}>
             <TouchableOpacity
               style={styles.reportIcon}
@@ -144,6 +146,7 @@ export default function PostSingleOverlay({ user, post}) {
               />
             </TouchableOpacity>
           </View>
+
         </View>
 
         <View style={styles.bottomContainer}>
@@ -166,14 +169,14 @@ export default function PostSingleOverlay({ user, post}) {
                 >
             <Image
               style={styles.avatar}
-              source={require("../../../../assets/userImage.png")}
+              source={require("../../../../../assets/userImage.png")}
             />
             </TouchableOpacity>
-            </View>
+            </View>)
         )}
 
             <View style={styles.verifiedContainer}>
-             {users.username !== null || !undefined ? (
+             {users?.username !== null ? (
           <Text>
             {users &&
               users.map((user, i) => (
@@ -205,10 +208,9 @@ export default function PostSingleOverlay({ user, post}) {
               />
             </View>
           </View>
-        </View>
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({

@@ -5,16 +5,17 @@ let commentListenerInstance = null;
 
 export const getFeed = () =>
   axios
-    .post("/test/getPost", {
+    .get("/test/getPost", {
       testing: "testing",
     })
     .then(function (response) {
+        return response.data;
       // 2 seconds later...
 
-      console.log("------------ Response XXX ---------");
+      // console.log("------------ Response XXX ---------");
       // console.log(response);
-      console.log(response.data);
-      console.log("------------ Response XXX ---------");
+      // console.log(response.data);
+      // console.log("------------ Response XXX ---------");
     })
     .catch(function (error) {
       console.log("------------ Back from Server ----------");
@@ -28,6 +29,15 @@ export const useFeed = (profile) =>
     notifyOnChangeProps: "tracked",
     refetchInterval: 5000,
   });
+
+export const useUserPosts = (userId, { enabled }) =>
+    useQuery(["feed"], () => getFeed(), {
+        enabled: !userId,
+        notifyOnChangeProps: "tracked",
+        refetchInterval: 5000,
+    });
+
+
 
 // TODO change to mongoDB call
 // export const deletePostById = async (postId) => {
