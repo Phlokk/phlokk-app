@@ -39,7 +39,6 @@ export default function PostSingleOverlay({ user, post}) {
   const songTicker = "Artist and song name";
 
   useEffect(() => {
-    console.log('effect');
     dispatch(fetchUserData({}));
   }, [dispatch]);
 

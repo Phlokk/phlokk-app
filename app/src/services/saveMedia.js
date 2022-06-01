@@ -26,7 +26,8 @@ export const saveMediaToStorage = (source, description) => {
       const parsedUser = JSON.parse(user);
 
       let url = "/api/test/post";
-      fetch("https://phlokk.com"+url,
+      console.log("https://phlokk.konkolewski.me"+url);
+      fetch("https://phlokk.konkolewski.me"+url,
           {
             method: 'POST',
             body: formData,
