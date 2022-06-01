@@ -21,6 +21,7 @@ import {
   openGiftingModal
 } from "../../../../redux/actions/modal";
 import { useNavigation } from "@react-navigation/core";
+import verifiedCheck from "../../../../../assets/verified.png";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
@@ -32,14 +33,15 @@ import colors from "../../../../../config/colors";
 
 
 export default function PostSingleOverlay({ user, post}) {
-  const users = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
+  const users = useSelector((state) => state.userReducer.user);
   const navigation = useNavigation();
   const songTicker = "Artist and song name";
 
   useEffect(() => {
+    console.log('effect');
     dispatch(fetchUserData({}));
-  }, []);
+  }, [dispatch]);
 
   // const [currentLikeState, setCurrentLikeState] = useState({
   //   state: false,
@@ -150,6 +152,8 @@ export default function PostSingleOverlay({ user, post}) {
         </View>
 
         <View style={styles.bottomContainer}>
+
+          <View style={styles.verifiedRow}>
         {users &&
         users.map((user, i) =>
           user.photo_url !== null || !undefined ? (
@@ -184,11 +188,9 @@ export default function PostSingleOverlay({ user, post}) {
                   @{user.username}
                 </Text>
               ))}
-            <View>
               {users[0] && users[0].is_verified === 1 && (
-                <Image style={styles.phlokkVerified} source={verifiedCheck} />
+                <Image style={styles.verifiedBadge} source={verifiedCheck} />
               )}
-            </View>
           </Text>
         ) : (
           <Text style={styles.username}>@user</Text>
@@ -208,6 +210,7 @@ export default function PostSingleOverlay({ user, post}) {
               />
             </View>
           </View>
+        </View>
       </View>
     </View>
   )
