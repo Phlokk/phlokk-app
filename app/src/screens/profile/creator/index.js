@@ -51,9 +51,6 @@ export default function EditCreatorFieldScreen({ route }) {
     );
     console.log(updatedState);
     setCategories(updatedState);
-    // categories[(item.id-1)].selected = true;
-    // setCategories(categories)
-    
     onSave();
   };
   

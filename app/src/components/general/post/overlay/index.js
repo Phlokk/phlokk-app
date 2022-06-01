@@ -145,51 +145,53 @@ export default function PostSingleOverlay({ user, post}) {
             </TouchableOpacity>
           </View>
         </View>
+
         <View style={styles.bottomContainer}>
-          <View>
-            {users.photo_url !== null ? (
-              <Text>
-              {users &&
-                users.map((user, i) => <Image 
-                style={styles.avatar} 
-                key={i}
-                source={{ uri: user.photo_url }} />)}
-                </Text>
-            ) : (
-              <View style={styles.avatarContainer}>
-                <TouchableOpacity
+        {users &&
+        users.map((user, i) =>
+          user.photo_url !== null || !undefined ? (
+            <Image
+              style={styles.avatar}
+              key={i}
+              source={{ uri: user.photo_url }}
+            />
+          ) : (
+            <View style={styles.avatarContainer}>
+              <TouchableOpacity
                   onPress={() =>
                     navigation.navigate(routes.PROFILE_OTHER, {
                       initialUserId: user.id,
                     })
                   }
                 >
-                  <Image
-                    style={styles.avatar}
-                    source={{ uri: user.photo_url }}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-            <View style={styles.verifiedContainer}>
-            {users &&
-                users.map((user, i) => <Text style={styles.username} key={i}>@{user.username}</Text>)}
+            <Image
+              style={styles.avatar}
+              source={require("../../../../assets/userImage.png")}
+            />
+            </TouchableOpacity>
+            </View>
+        )}
 
-              {users.is_verified !== null ? (
-          <Text style={styles.phlokkVerified}>
+            <View style={styles.verifiedContainer}>
+             {users.username !== null || !undefined ? (
+          <Text>
             {users &&
               users.map((user, i) => (
-                <Image
-                  style={styles.phlokkVerified}
-                  key={i}
-                  source={{ uri: user.is_verified }}
-                />
+                <Text style={styles.username} key={i}>
+                  @{user.username}
+                </Text>
               ))}
+            <View>
+              {users[0] && users[0].is_verified === 1 && (
+                <Image style={styles.phlokkVerified} source={verifiedCheck} />
+              )}
+            </View>
           </Text>
         ) : (
-          <TouchableOpacity></TouchableOpacity>
-        )}
+          <Text style={styles.username}>@user</Text>
+          )}
             </View>
+
 
             {/* {post &&
                 post.map((posts, i) => <Text style={styles.description} key={i}>{posts.description}</Text>)} */}

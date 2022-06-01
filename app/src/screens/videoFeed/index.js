@@ -51,13 +51,6 @@ export default function FeedScreen({ route }) {
   //   console.log("posts", posts.length);
   //   console.log(posts)
 
-  // // todo - what are we blocking??????
-  //   let blocked = ['id here'];
-  //   posts = posts.filter(function (i) {
-  //     return !blocked.includes(i.id);
-  //   });
-
-  //   // to do - where is the video coming in?
 
   //   posts = shuffleArray(posts)
 

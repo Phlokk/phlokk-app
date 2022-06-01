@@ -1,5 +1,5 @@
 import FormData from "form-data";
-import axios, { axiosVideo } from "../redux/apis/axiosDeclaration";
+// import axios, { axiosVideo } from "../redux/apis/axiosDeclaration";
 import * as SecureStore from "expo-secure-store";
 
 export const saveMediaToStorage = (source, description) => {
