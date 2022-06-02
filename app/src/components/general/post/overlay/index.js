@@ -32,7 +32,7 @@ import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 
 
-export default function PostSingleOverlay({ user, post}) {
+export default function PostSingleOverlay({ post}) {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
   const navigation = useNavigation();

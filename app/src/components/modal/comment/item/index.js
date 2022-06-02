@@ -1,32 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useUser } from "../../../../hooks/useUser";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { generalStyles } from "../../../../styles";
-
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserData } from "../../../../redux/actions/users";
 import colors from "../../../../../config/colors";
+import verifiedCheck from "../../../../../assets/verified.png";
 
 const CommentItem = ({ item }) => {
-  const user = useUser(item.creator).data;
+  // const user = useUser(item.creator).data;
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.userReducer.user);
+
+  // const navigation = useNavigation();
+  useEffect(() => {
+    dispatch(fetchUserData({}));
+  }, [dispatch]);
+
+
   return (
     <View style={styles.container}>
-      <Image
-        style={generalStyles.avatarSmall}
-        source={{ uri: user.photo_url }}
-      />
+      {users &&
+        users.map((user, i) =>
+          user.photo_url !== null || !undefined ? (
+            <Image
+              style={styles.avatar}
+              key={i}
+              source={{ uri: user.photo_url }}
+            />
+          ) : (
+            <Image
+              style={styles.avatar}
+              source={require("../../../../../assets/userImage.png")}
+            />
+          )
+        )}
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
-          <Text style={styles.username}>{user.username}</Text>
-          {/* {users.is_verified === true ? (
-            <Image
-              style={styles.verifiedBadge}
-              key={i}
-              source={{ uri: user.is_verified }}
-            />
-          ) : (
-            <TouchableOpacity></TouchableOpacity>
-          )} */}
+        {users.username !== null || !undefined ? (
+          <Text>
+            {users &&
+              users.map((user, i) => (
+                <Text style={styles.username} key={i}>
+                  @{user.username}
+                </Text>
+              ))}
+            <View>
+              {users[0] && users[0].is_verified === 1 && (
+                <Image style={styles.phlokkVerified} source={verifiedCheck} />
+              )}
+            </View>
+          </Text>
+        ) : (
+          <></>
+        )}
+      
           <View style={styles.starRow}>
           <MaterialCommunityIcons
           onPress={() => (Alert.alert("Stars", "Coming in beta version 3!"))}

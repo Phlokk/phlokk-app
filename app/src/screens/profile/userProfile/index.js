@@ -16,7 +16,6 @@ function UserProfile() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
 
-  // const loading = useSelector(state => state.userReducer.user);
   // const navigation = useNavigation();
   useEffect(() => {
     dispatch(fetchUserData({}));

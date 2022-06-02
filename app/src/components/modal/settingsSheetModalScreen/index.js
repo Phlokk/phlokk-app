@@ -72,7 +72,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         }}
       >
         <Text style={styles.text}>
-          <AntDesign name="exclamationcircleo" size={12} color={colors.red} />{" "}
+          <AntDesign name="exclamationcircleo" size={12} color={colors.secondary} />{" "}
           Report
         </Text>
       </TouchableOpacity>
@@ -86,7 +86,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         }}
       >
         <Text style={styles.text}>
-          <Feather name="download-cloud" size={14} color={colors.blue} />{" "}
+          <Feather name="download-cloud" size={14} color={colors.secondary} />{" "}
           Download
         </Text>
       </TouchableOpacity>
@@ -103,7 +103,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
           <MaterialIcons
             name="bookmark-outline"
             size={14}
-            color={colors.yellow}
+            color={colors.secondary}
           />{" "}
           Add to Favorites
         </Text>
@@ -120,7 +120,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
           <MaterialCommunityIcons
             name="account-box-multiple-outline"
             size={14}
-            color={colors.purpleTabs}
+            color={colors.secondary}
           />{" "}
           Duo
         </Text>
@@ -134,7 +134,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         }}
       >
         <Text style={styles.text}>
-          <Feather name="link" size={14} color={colors.linkGreen} /> Link
+          <Feather name="link" size={14} color={colors.secondary} /> Link
         </Text>
       </TouchableOpacity>
 
