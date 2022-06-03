@@ -50,9 +50,9 @@ import ReportScreen from "../../screens/reports";
 import FeedNavigation from "../feed";
 import EditQuotesFieldScreen from "../../screens/profile/quotes/quotes";
 import ComedyScreen from "../../screens/risingStars/comedy";
-import CookingScreen from "../../screens/risingStars/cooking";
+import FoodiesScreen from "../../screens/risingStars/foodies";
 import CosplayScreen from "../../screens/risingStars/cosplay";
-import DancerScreen from "../../screens/risingStars/dancer";
+import DancersScreen from "../../screens/risingStars/dancer";
 import DesignScreen from "../../screens/risingStars/design";
 import FashionScreen from "../../screens/risingStars/fashion";
 import FitnessScreen from "../../screens/risingStars/fitness";
@@ -289,8 +289,8 @@ export default function Route() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="cookingScreen"
-              component={CookingScreen}
+              name="foodiesScreen"
+              component={FoodiesScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -299,8 +299,8 @@ export default function Route() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="dancerScreen"
-              component={DancerScreen}
+              name="dancersScreen"
+              component={DancersScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen

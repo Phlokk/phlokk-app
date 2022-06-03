@@ -4,12 +4,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
 import RisingStarsNavBar from "../../components/general/profileNavBar/risingStarNavBar";
 
-export default function LipSyncScreen() {
+export default function FoodieScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <RisingStarsNavBar title="Rising Stars of Lip-Syncing " />
-      <Text style={styles.text}>Find your favorite rising stars of lip-syncing on this channel:</Text>
+      <RisingStarsNavBar title="Rising Stars of Foodies" />
+      <Text style={styles.text}>Find your favorite rising star foodies on this channel:</Text>
     </SafeAreaView>
   );
 }
