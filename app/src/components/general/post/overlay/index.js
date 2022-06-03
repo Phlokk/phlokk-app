@@ -36,7 +36,7 @@ export default function PostSingleOverlay({ post}) {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
   const navigation = useNavigation();
-  const songTicker = "Artist and song name";
+  const songTicker = post?.description ? post?.description : "Artist and song name";
 
   useEffect(() => {
     dispatch(fetchUserData({}));
@@ -179,15 +179,12 @@ export default function PostSingleOverlay({ post}) {
         )}
 
             <View style={styles.verifiedContainer}>
-             {users?.username !== null ? (
+             {post?.user !== null ? (
           <Text>
-            {users &&
-              users.map((user, i) => (
-                <Text style={styles.username} key={i}>
-                  @{user.username}
+                <Text style={styles.username} key={post._id}>
+                  @{post.user.username}
                 </Text>
-              ))}
-              {users[0] && users[0].is_verified === 1 && (
+              {post.user.is_verified === 1 && (
                 <Image style={styles.verifiedBadge} source={verifiedCheck} />
               )}
           </Text>
