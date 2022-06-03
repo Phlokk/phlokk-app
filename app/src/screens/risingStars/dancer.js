@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
 import RisingStarsNavBar from "../../components/general/profileNavBar/risingStarNavBar";
 
-export default function DancerScreen() {
+export default function DancersScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
