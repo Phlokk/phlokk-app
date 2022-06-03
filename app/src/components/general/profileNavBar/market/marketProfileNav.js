@@ -7,9 +7,8 @@ import { Octicons } from "@expo/vector-icons";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors"
 
-export default function PhlokkMarketNavBar({
+export default function MarketProfileNavBar({
   title = "Phlokk Market",
-  leftButton = { display: false },
 }) {
   const navigation = useNavigation();
   return (
@@ -23,17 +22,9 @@ export default function PhlokkMarketNavBar({
 
       <Text style={styles.title}>{title}</Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate(routes.SELLER, {
-            title: "Ad Account",
-            field: "Seller Dashboard",
-          })
-        }
-      >
-        <Octicons name="settings" size={24} color="lightgray" />
-      </TouchableOpacity>
+      <View style={styles.button} >
+        <Octicons name="settings" size={24} color={colors.primary} />
+      </View>
     </View>
   );
 }

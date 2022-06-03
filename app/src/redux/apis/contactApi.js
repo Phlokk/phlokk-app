@@ -10,6 +10,16 @@ export const getAllUsers = async () => {
 };
 
 
+export const getAllMarketCreators = async () => {
+  try {
+    const creators = await axios.get('api/market/creators');
+    return creators.data;
+  } catch (err) {
+    return console.error(err);
+  }
+};
+
+
 
 
 

@@ -9,6 +9,7 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from "react-native";
+import Checkbox from 'expo-checkbox';
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -29,6 +30,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [user, setUser] = useState(null);
+  const [isChecked, setChecked] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -209,15 +211,26 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
           style={styles.button}
           onPress={() => (authPage === 0 ? handleLogin() : handleRegister())}
         >
+          
           <Text style={styles.buttonText}>
-            {authPage === 0 ? "Sign In" : "Sign Up"}
+            {authPage === 0 ? "Sign In" : "Sign Up "}
           </Text>
+          
         </TouchableOpacity>
 
         {authPage === 0 ? (
           <></>
         ) : (
-          <Text style={styles.eulaText}>Accept "EULA" on sign-up!</Text>
+          <View style={styles.checkboxRow}>
+           <Checkbox
+          // onPress={() => acceptOnCheck()}
+          style={styles.checkbox}
+          value={isChecked}
+          onValueChange={setChecked}
+          color={isChecked ? '#00cec9' : undefined}
+        />
+          <Text style={styles.eulaText}>Accept "EULA"</Text>
+          </View>
         )}
       </View>
     </>
@@ -230,6 +243,11 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     width: 40,
     backgroundColor: colors.primary,
+  },
+  checkboxRow: {
+  flexDirection: 'row',
+  alignSelf: "center",
+  paddingTop: 10,
   },
   textInput: {
     borderColor: colors.secondary,
@@ -279,7 +297,7 @@ const styles = StyleSheet.create({
   eulaText: {
     textAlign: "center",
     marginTop: 10,
-    color: colors.danger,
+    color: colors.secondary,
   },
   welcomeText: {
     textAlign: "center",
@@ -293,5 +311,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 30,
+  },
+  checkbox: {
+    margin: 8,
+    width: 15,
+    height: 15,
   },
 });

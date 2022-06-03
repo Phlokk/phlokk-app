@@ -11,14 +11,9 @@ export const getFeed = () =>
     .then(function (response) {
         return response.data;
       // 2 seconds later...
-
-      // console.log("------------ Response XXX ---------");
-      // console.log(response);
-      // console.log(response.data);
-      // console.log("------------ Response XXX ---------");
     })
     .catch(function (error) {
-      console.log("------------ Back from Server ----------");
+      console.log("------------ Back from server  GET FEED FUNCT ----------");
       console.log("------------ ERROR -------------");
       console.log(error);
     });

@@ -1,10 +1,9 @@
-import { View, Text } from 'react-native'
 import React from 'react'
-import SellerNavScreen from '../../../screens/market/seller'
+import SellerDashboardScreen from '../sellerDashboard'
 
 
 export default function PhlokkMarketToolsScreen() {
   return (
-    <SellerNavScreen />
+    <SellerDashboardScreen />
   )
 }

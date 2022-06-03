@@ -24,16 +24,16 @@ export default function ProfileNavBar() {
 
   return (
     <View style={styles.container}>
-      {users !== null ? (
+      {users !== null || !undefined ? (
         <TouchableOpacity>
           <Entypo
             name="shop"
             size={26}
             color={colors.white}
-            // onPress={() => navigation.navigate(routes.MARKET)}
-            onPress={() =>
-              Alert.alert("Phlokk Market", "Coming in beta version 3!")
-            }
+            onPress={() => navigation.navigate(routes.MARKET)}
+            // onPress={() =>
+            //   Alert.alert("Phlokk Market", "Coming in beta version 3!")
+            // }
           />
         </TouchableOpacity>
       ) : (

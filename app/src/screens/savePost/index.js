@@ -76,6 +76,16 @@ export default function SavePostScreen({ nav, route }) {
   const [isReviewsEnabled, setIsReviewsEnabled] = useState(false);
   const [text, setText] = useState("Click");
 
+
+
+  // inputStr.replace(/(?<=#).*?(?=( |$))/g, hashtag => {
+  //     // do something with hashtag
+  //     return hashtag;
+  // });
+
+
+
+
   const togglePublic = () => {
     if (isPublicEnabled) {
       setText("Inactive");

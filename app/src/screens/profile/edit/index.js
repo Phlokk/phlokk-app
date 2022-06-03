@@ -13,9 +13,7 @@ import { fetchUserData } from "../../../redux/actions/users";
 import { saveUserField } from "../../../services/user";
 import * as SecureStore from "expo-secure-store";
 
-
-import { useFocusEffect } from '@react-navigation/native';
-
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function EditProfileScreen() {
   const dispatch = useDispatch();
@@ -24,23 +22,17 @@ export default function EditProfileScreen() {
   const isFocused = useIsFocused();
   const users = useSelector((state) => state.userReducer.user);
 
-
   useFocusEffect(
-      React.useCallback(() => {
-        dispatch(fetchUserData());
-      }, [])
+    React.useCallback(() => {
+      dispatch(fetchUserData());
+    }, [])
   );
 
   useEffect(() => {
     dispatch(fetchUserData());
   }, [dispatch]);
 
- 
-
- 
-
   const chooseImage = async () => {
-
     console.log("START UPLOADING...");
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
@@ -90,6 +82,7 @@ export default function EditProfileScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <NavBarGeneral
+        title="Edit Profile"
         leftButton={{ display: false, name: "save", action: onSave }}
       />
       <View style={styles.imageContainer}>
@@ -138,7 +131,7 @@ export default function EditProfileScreen() {
                   title: "Username",
                   field: "username",
                   value: user.username,
-                  userId: user.id
+                  userId: user.id,
                 })
               }
             >
@@ -146,14 +139,9 @@ export default function EditProfileScreen() {
                 Username
               </Text>
               <View style={styles.fieldValueContainer}>
-                {users &&
-                  users.map((user, i) => (
-                    <Text style={styles.text} key={i}>
-                       {user.username}
-                    </Text>
-                  ))}
-        
-
+                <Text style={styles.text} key={i}>
+                  {user.username}
+                </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
@@ -170,18 +158,14 @@ export default function EditProfileScreen() {
                   title: "Creator",
                   field: "Creator",
                   value: user.creator_type,
-                  
                 })
               }
             >
               <Text style={styles.text}>Creator</Text>
               <View style={styles.fieldValueContainer}>
-                {users &&
-                  users.map((user, i) => (
-                    <Text numberOfLines={1} style={styles.text} key={i}>
-                      {user.creator_type}
-                    </Text>
-                  ))}
+                <Text numberOfLines={1} style={styles.text} key={i}>
+                  {user.creator_type}
+                </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
@@ -198,18 +182,14 @@ export default function EditProfileScreen() {
                   title: "Link",
                   field: "link",
                   value: user.link,
-                  
                 })
               }
             >
               <Text style={styles.text}>Website</Text>
               <View style={styles.fieldValueContainer}>
-                {users &&
-                  users.map((user, i) => (
-                    <Text numberOfLines={1} style={styles.text} key={i}>
-                      {user.link}
-                    </Text>
-                  ))}
+                <Text numberOfLines={1} style={styles.text} key={i}>
+                  {user.link}
+                </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
@@ -226,18 +206,14 @@ export default function EditProfileScreen() {
                   title: "Quotes",
                   field: "quotes",
                   value: user.quote,
-                  
                 })
               }
             >
               <Text style={styles.text}>Quote</Text>
               <View style={styles.fieldValueContainer}>
-                {users &&
-                  users.map((user, i) => (
-                    <Text numberOfLines={1} style={styles.text} key={i}>
-                      {user.quote}
-                    </Text>
-                  ))}
+                <Text numberOfLines={1} style={styles.text} key={i}>
+                  {user.quote}
+                </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
@@ -253,19 +229,15 @@ export default function EditProfileScreen() {
                 navigation.navigate(routes.RELATIONSHIP, {
                   title: "Relationship",
                   field: "relationship",
-                  value: users.relationship_type,
-                  
+                  value: user.relationship_type,
                 })
               }
             >
-              <Text style={styles.text}>Relationship</Text>
+              <Text style={styles.text}>Status</Text>
               <View style={styles.fieldValueContainer}>
-                {users &&
-                  users.map((user, i) => (
-                    <Text numberOfLines={1} style={styles.text} key={i}>
-                      {user.relationship_type}
-                    </Text>
-                  ))}
+                <Text numberOfLines={1} style={styles.text} key={i}>
+                  {user.relationship_type}
+                </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
@@ -283,7 +255,6 @@ export default function EditProfileScreen() {
                   title: "Youtube",
                   field: "youtubeLink",
                   value: user.youtubeLink,
-                  
                 })
               }
             >
@@ -319,7 +290,6 @@ export default function EditProfileScreen() {
                   title: "Instagram",
                   field: "instagramLink",
                   value: user.instagramLink,
-                  
                 })
               }
             >

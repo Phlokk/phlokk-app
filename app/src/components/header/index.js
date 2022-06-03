@@ -66,7 +66,7 @@ function ProfileHeader() {
     <View style={styles.container}>
       <ProfileStatsContainer />
 
-      {/* {users !== null ? (
+      {/* {users !== null || !undefined ? (
         <TouchableOpacity></TouchableOpacity>
       ) : (
         renderFollowButton()

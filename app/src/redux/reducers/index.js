@@ -7,6 +7,7 @@ import { settingsModal } from "./modal";
 import { giftingModal } from "./modal";
 import { settingsSheetModal } from "./modal";
 import userReducer from "../reducers/userReducer";
+import creatorReducer from "./creatorReducer";
 
 export default combineReducers({
   auth,
@@ -17,4 +18,5 @@ export default combineReducers({
   giftingModal,
   settingsSheetModal,
   userReducer,
+  creatorReducer,
 });
