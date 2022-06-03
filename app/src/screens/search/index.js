@@ -55,7 +55,7 @@ const SearchScreen = () => {
   // }, [textInput]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       
       
       <SearchInput placeholder="Search" />
@@ -84,7 +84,7 @@ const SearchScreen = () => {
         horizontal={true}
       />
         </View> 
-    </View>      
+    </SafeAreaView>      
   );
 };
 
