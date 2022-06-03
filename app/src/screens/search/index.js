@@ -76,7 +76,7 @@ const SearchScreen = () => {
         </View>
         <FlatList
         data={Categories}
-        renderItem={({ item }) => <ItemRender name={item.name} />}
+        renderItem={({ item }) => <ItemRender name={item.name} navigateTo={item.navigateTo} />}
         keyExtractor={item => item.id}
         initialNumToRender={5}
         ItemSeparatorComponent={Separator}
