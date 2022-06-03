@@ -13,7 +13,8 @@ export default {
     linkGreen: '#00b894',
     yellow: '#ffeaa7',
     greenCheck: '#00e640',
-    gray: '#dfe6e9'
+    gray: '#dfe6e9',
+    lightBlack: '#181818',
     
 
 

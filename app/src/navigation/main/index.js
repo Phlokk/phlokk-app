@@ -11,7 +11,6 @@ import EditProfileFieldScreen from "../../screens/profile/edit/field";
 import FeedScreen from "../../screens/videoFeed";
 import ProfileScreen from "../../screens/profile";
 import Market from "../../screens/market";
-import SellerToolsScreen from "../../screens/market/seller";
 import DisplayMenuScreen from "../../screens/profile/displayMenu";
 import SettingsScreen from "../../screens/settings";
 import PrivacyPolicyScreen from "../../screens/policies/privacy";
@@ -50,6 +49,17 @@ import EndUserAgreementScreen from "../../screens/policies/eulaPolicy";
 import ReportScreen from "../../screens/reports";
 import FeedNavigation from "../feed";
 import EditQuotesFieldScreen from "../../screens/profile/quotes/quotes";
+import ComedyScreen from "../../screens/risingStars/comedy";
+import CookingScreen from "../../screens/risingStars/cooking";
+import CosplayScreen from "../../screens/risingStars/cosplay";
+import DancerScreen from "../../screens/risingStars/dancer";
+import DesignScreen from "../../screens/risingStars/design";
+import FashionScreen from "../../screens/risingStars/fashion";
+import FitnessScreen from "../../screens/risingStars/fitness";
+import InventionScreen from "../../screens/risingStars/invention";
+import LipSyncScreen from "../../screens/risingStars/lipSync";
+import MusicianScreen from "../../screens/risingStars/musician";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -116,11 +126,6 @@ export default function Route() {
             <Stack.Screen
               name="market"
               component={Market}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="seller"
-              component={SellerToolsScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -276,6 +281,56 @@ export default function Route() {
             <Stack.Screen
               name="quotes"
               component={EditQuotesFieldScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="comedyScreen"
+              component={ComedyScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="cookingScreen"
+              component={CookingScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="cosplayScreen"
+              component={CosplayScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="dancerScreen"
+              component={DancerScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="designScreen"
+              component={DesignScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="fashionScreen"
+              component={FashionScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="fitnessScreen"
+              component={FitnessScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="inventionScreen"
+              component={InventionScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="lipSyncScreen"
+              component={LipSyncScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="musicianScreen"
+              component={MusicianScreen}
               options={{ headerShown: false }}
             />
             </>

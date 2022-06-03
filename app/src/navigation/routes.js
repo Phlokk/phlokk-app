@@ -32,6 +32,21 @@ export default Object.freeze({
     REPORTS: 'reports',
     SETTING_SHEET: 'settingsSheet',
     QUOTES: 'quotes',
-    CAMERA: 'Cam'
+    CAMERA: 'Cam',
+    // Flatlist Screens
+    COMEDY_SCREEN: 'comedyScreen',
+    MUSICIAN_SCREEN: 'musicianScreen',
+    DANCER_SCREEN: 'dancerScreen',
+    LIP_SYNC_SCREEN: 'lipSyncScreen',
+    COOKING_SCREEN: 'cookingScreen',
+    COSPLAY_SCREEN: 'cosplayScreen',
+    FASHION_SCREEN: 'fashionScreen',
+    DESIGN_SCREEN: 'designScreen',
+    FITNESS_SCREEN: 'fitnessScreen',
+    INVENTION_SCREEN: 'inventionScreen',
+
+
+
+
     
 })
