@@ -44,18 +44,21 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
 
   const handleLogin = () => {
     axios
-      .post("/api/login", {
+      .post("/api/sanctum/login", {
         email: email,
         password: password,
+        device_name: "mobile",
       })
       .then((response) => {
+        console.log("back from login");
 
         console.log(response.data);
         const user = response.data.user;
-        user.token = response.data.token.plainTextToken;
+        user.token = response.data.token;
+
         setUser(user);
         SecureStore.setItemAsync("user", JSON.stringify(user));
-        console.log(user)
+        // console.log(user)
         dispatch({
           type: types.USER_STATE_CHANGE,
           currentUser: user,
@@ -71,7 +74,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const handleRegister = () => {
     console.log(email, password, username, name);
     axios
-      .post("/api/register", {
+      .post("/test/register", {
         name: name,
         username: username,
         email: email,

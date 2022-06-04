@@ -24,35 +24,28 @@ export default function SettingsScreen() {
 
   const handleLogout = async () => {
     console.log("handling logout");
-    setUser(null);
-    SecureStore.deleteItemAsync("user");
-    dispatch({
-      type: types.USER_STATE_CHANGE,
-      currentUser: null,
-      loaded: true,
-    });
-    // axios
-    //   .post("/api/logout")
-    //   .then((response) => {
-    //     console.log("back from logout");
-    //     setUser(null);
-    //     SecureStore.deleteItemAsync("user");
-    //     dispatch({
-    //       type: types.USER_STATE_CHANGE,
-    //       currentUser: null,
-    //       loaded: true,
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     setUser(null);
-    //     SecureStore.deleteItemAsync("user");
-    //     dispatch({
-    //       type: types.USER_STATE_CHANGE,
-    //       currentUser: null,
-    //       loaded: true,
-    //     });
-    //     console.log(error.response);
-    //   });
+    axios
+      .post("/api/logout")
+      .then((response) => {
+        console.log("back from logout");
+        setUser(null);
+        SecureStore.deleteItemAsync("user");
+        dispatch({
+          type: types.USER_STATE_CHANGE,
+          currentUser: null,
+          loaded: true,
+        });
+      })
+      .catch((error) => {
+        setUser(null);
+        SecureStore.deleteItemAsync("user");
+        dispatch({
+          type: types.USER_STATE_CHANGE,
+          currentUser: null,
+          loaded: true,
+        });
+        console.log(error.response);
+      });
   };
 
   return (

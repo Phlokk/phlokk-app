@@ -24,9 +24,9 @@ export const saveMediaToStorage = (source, description) => {
     const user = await SecureStore.getItemAsync("user");
     if (user) {
       const parsedUser = JSON.parse(user);
-      console.log(parsedUser);
 
-      let url = "/api/post/create";
+      let url = "/api/test/post";
+      
       fetch(url,
           {
             method: 'POST',
