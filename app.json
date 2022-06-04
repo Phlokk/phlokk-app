@@ -7,7 +7,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/Phlokk_App_Logo_2022_1024x1024.png",
-    
     "splash": {
       "image": "./app/assets/phlokk_splash_screen_2022.png",
       "resizeMode": "contain",
@@ -28,7 +27,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.phlokkllc.phlokkapp"
     },
     "web": {
       "favicon": "./assets/adaptive-icon.png"

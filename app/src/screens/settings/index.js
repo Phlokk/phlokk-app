@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import SettingsNavBar from "../../components/general/settings";
 import * as SecureStore from "expo-secure-store";
+import DeviceInfo from 'react-native-device-info';
 import axios from "../../redux/apis/axiosDeclaration";
 import { types } from "../../redux/constants";
 

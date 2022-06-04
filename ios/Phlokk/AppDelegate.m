@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#if RCT_DEV #import <React/RCTDevLoadingView.h> #endif
 
 #if defined(EX_DEV_MENU_ENABLED)
 @import EXDevMenu;
@@ -10,6 +11,9 @@
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
+#if RCT_DEV
+[bridge moduleForClass:[RCTDevLoadingView class]];
+#endif
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import <React/RCTConvert.h>
