@@ -43,13 +43,13 @@ export default function FeedScreen({ route }) {
     const isLoading = feed.isLoading || userPosts.isLoading;
     // useRefreshOnFocus(profile ? userPosts.refetch : feed.refetch);
 
-    // let posts = useMemo(() => {
-    //   if (profile || creator) {
-    //     return userPosts?.data || [];
-    //   } else {
-    //     return feed?.data || [];
-    //   }
-    // }, [profile, feed.data, userPosts.data, creator]);
+    let posts = useMemo(() => {
+      if (profile || creator) {
+        return userPosts?.data || [];
+      } else {
+        return feed?.data || [];
+      }
+    }, [profile, feed.data, userPosts.data, creator]);
   //   console.log("posts", posts.length);
   //   console.log(posts)
 

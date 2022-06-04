@@ -1,6 +1,7 @@
 import FormData from "form-data";
 // import axios, { axiosVideo } from "../redux/apis/axiosDeclaration";
 import * as SecureStore from "expo-secure-store";
+import axios from "../redux/apis/axiosDeclaration";
 
 export const saveMediaToStorage = (source, description) => {
   new Promise(async (resolve, reject) => {
@@ -24,17 +25,17 @@ export const saveMediaToStorage = (source, description) => {
     const user = await SecureStore.getItemAsync("user");
     if (user) {
       const parsedUser = JSON.parse(user);
-      console.log(parsedUser);
+      console.log('create post');
 
-      let url = "/api/post/create";
+      let url = "https://dev-api.phlokk.com/api/post/create";
       fetch(url,
-          {
-            method: 'POST',
-            body: formData,
-            headers: {
-              Authorization: 'Bearer '+parsedUser.token
-            }
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Authorization: 'Bearer '+parsedUser.token
           }
+        }
       )
     } else {
       console.log('no bearer')

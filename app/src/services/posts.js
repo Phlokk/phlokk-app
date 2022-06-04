@@ -12,8 +12,8 @@ export const getFeed = () =>
     })
     .catch(function (error) {
       console.log("------------ Back from server  GET FEED FUNCT ----------");
-      console.log("------------ ERROR -------------");
       console.log(error);
+      console.log("------------ ERROR -------------");
     });
 
 export const useFeed = (profile) =>

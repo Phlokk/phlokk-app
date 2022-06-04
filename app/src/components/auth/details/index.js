@@ -40,22 +40,21 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
     setEmail("");
     setPassword("");
     setUsername("");
+    setChecked(false);
   }
 
   const handleLogin = () => {
+    console.log('Attempt User Login :: ' + email)
     axios
       .post("/api/login", {
         email: email,
         password: password,
       })
       .then((response) => {
-
-        console.log(response.data);
         const user = response.data.user;
         user.token = response.data.token.plainTextToken;
         setUser(user);
         SecureStore.setItemAsync("user", JSON.stringify(user));
-        console.log(user)
         dispatch({
           type: types.USER_STATE_CHANGE,
           currentUser: user,
@@ -69,20 +68,19 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   };
 
   const handleRegister = () => {
-    console.log(email, password, username, name);
+    console.log('Attempt User Registration :: ' + username)
     axios
       .post("/api/register", {
         name: name,
         username: username,
         email: email,
         password: password,
+        acceptTerms: isChecked
       })
       .then(function (response) {
         const user = response.data.user;
-        user.token = response.data.token;
-
-        console.log("------------ Response XXX ---------");
-        // console.log(response.data);
+        user.token = response.data.token.plainTextToken; // new way for token being sent
+        console.log('Register Success');
         resetTextInput();
         setUser(user);
         console.log(user.token);
@@ -94,7 +92,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch(function (error) {
-        console.log("------------ Back from Server ----------");
         console.log("------------ ERROR -------------");
         console.log(error);
       });
