@@ -1,7 +1,5 @@
 import FormData from "form-data";
-// import axios, { axiosVideo } from "../redux/apis/axiosDeclaration";
 import * as SecureStore from "expo-secure-store";
-import axios from "../redux/apis/axiosDeclaration";
 
 export const saveMediaToStorage = (source, description) => {
   new Promise(async (resolve, reject) => {
@@ -33,7 +31,9 @@ export const saveMediaToStorage = (source, description) => {
           method: 'POST',
           body: formData,
           headers: {
-            Authorization: 'Bearer '+parsedUser.token
+            'Accept': 'application/json',
+            Authorization: 'Bearer '+parsedUser.token,
+            'Content-Type': 'application/json'
           }
         }
       )
