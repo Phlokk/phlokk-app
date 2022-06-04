@@ -36,9 +36,9 @@ export default Object.freeze({
     // Flatlist Screens
     COMEDY_SCREEN: 'comedyScreen',
     MUSICIAN_SCREEN: 'musicianScreen',
-    DANCER_SCREEN: 'dancerScreen',
+    DANCERS_SCREEN: 'dancersScreen',
     LIP_SYNC_SCREEN: 'lipSyncScreen',
-    COOKING_SCREEN: 'cookingScreen',
+    FOODIES_SCREEN: 'foodiesScreen',
     COSPLAY_SCREEN: 'cosplayScreen',
     FASHION_SCREEN: 'fashionScreen',
     DESIGN_SCREEN: 'designScreen',

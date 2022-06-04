@@ -20,9 +20,9 @@ const SearchScreen = () => {
   const Categories = [
     { id: 1, name: 'Comedy', navigateTo: routes.COMEDY_SCREEN,},
     { id: 2, name: 'Musician', navigateTo: routes.MUSICIAN_SCREEN},
-    { id: 3, name: 'Dancer', navigateTo: routes.DANCER_SCREEN},
+    { id: 3, name: 'Dancers', navigateTo: routes.DANCERS_SCREEN},
     { id: 4, name: 'Lip-sync', navigateTo: routes.LIP_SYNC_SCREEN},
-    { id: 5, name: 'Cooking', navigateTo: routes.COOKING_SCREEN},
+    { id: 5, name: 'Foodies', navigateTo: routes.FOODIES_SCREEN},
     { id: 6, name: 'Cosplay', navigateTo: routes.COSPLAY_SCREEN},
     { id: 7, name: 'Fashion', navigateTo: routes.FASHION_SCREEN},
     { id: 8, name: 'Design', navigateTo: routes.DESIGN_SCREEN},
@@ -55,7 +55,7 @@ const SearchScreen = () => {
   // }, [textInput]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       
       
       <SearchInput placeholder="Search" />
@@ -76,7 +76,7 @@ const SearchScreen = () => {
         </View>
         <FlatList
         data={Categories}
-        renderItem={({ item }) => <ItemRender name={item.name} />}
+        renderItem={({ item }) => <ItemRender name={item.name} navigateTo={item.navigateTo} />}
         keyExtractor={item => item.id}
         initialNumToRender={5}
         ItemSeparatorComponent={Separator}
@@ -84,7 +84,7 @@ const SearchScreen = () => {
         horizontal={true}
       />
         </View> 
-    </View>      
+    </SafeAreaView>      
   );
 };
 
