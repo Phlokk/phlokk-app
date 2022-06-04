@@ -59,6 +59,8 @@ import FitnessScreen from "../../screens/risingStars/fitness";
 import InventionScreen from "../../screens/risingStars/invention";
 import LipSyncScreen from "../../screens/risingStars/lipSync";
 import MusicianScreen from "../../screens/risingStars/musician";
+import RecordingScreen from "../../screens/sounds/recorder/recording"
+import AudioPlay from "../../screens/sounds/recorder/playAudio"
 
 
 const Stack = createNativeStackNavigator();
@@ -333,6 +335,17 @@ export default function Route() {
               component={MusicianScreen}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="recording"
+              component={RecordingScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="audioPlay"
+              component={AudioPlay}
+              options={{ headerShown: false }}
+            />
+            
             </>
         )}
       </Stack.Navigator>

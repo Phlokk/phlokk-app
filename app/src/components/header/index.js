@@ -2,75 +2,84 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import DisplayMenuScreen from "../../screens/profile/displayMenu";
-// import { useFollowing } from "../../../hooks/useFollowing";
+import { useSelector, useDispatch } from "react-redux";
+import { Feather } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFollowing } from "../../hooks/useFollowing";
 // import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
 import UserProfile from "../../screens/profile/userProfile";
 import ProfileStatsContainer from "../profile/profileStats";
-import { Feather } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { fetchUserData } from "../../redux/actions/users";
+
 // import routes from "../../../navigation/routes";
 
 import colors from "../../../config/colors";
 
 function ProfileHeader() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.userReducer.user);
+
+  // const navigation = useNavigation();
+  useEffect(() => {
+    dispatch(fetchUserData({}));
+  }, [dispatch]);
 
   // const auth = useSelector((state) => state.auth);
 
-  // const isFollowing = useFollowing(
-  //   auth.currentUser.user)
+  const isFollowing = useFollowing(users)
   // // const isFollowingMutation = useFollowingMutation();
-  // const renderFollowButton = () => {
-  //   if (isFollowing === null) {
-  //     return (
-  //       <View style={{ flexDirection: "row" }}>
-  //         <TouchableOpacity
-  //           style={styles.profileIconButton}
-  //           // onPress={() =>
-  //           //   navigation.navigate(routes.CHAT_SINGLE, { contactId: user.id })
-  //           // }
-  //         >
-  //           <MaterialCommunityIcons
-  //             name="message-processing-outline"
-  //             size={22}
-  //             color="lightgray"
-  //           />
-  //         </TouchableOpacity>
-  //         <TouchableOpacity
-  //           style={styles.profileIconButton}
-  //           // onPress={() =>
-  //           //   isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
-  //           // }
-  //         >
-  //           <Feather name="user-check" size={20} color={colors.green} />
-  //         </TouchableOpacity>
-  //       </View>
-  //     );
-  //   } else {
-  //     return (
-  //       <TouchableOpacity
-  //         style={styles.filledButton}
-  //         // onPress={() =>
-  //         //   isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
-  //         // }
-  //       >
-  //         <Text style={styles.text}>
-  //           <Feather name="user-plus" size={20} color="white" />
-  //         </Text>
-  //       </TouchableOpacity>
-  //     );
-  //   }
-  // };
+  const renderFollowButton = () => {
+    if (isFollowing === null) {
+      return (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={styles.profileIconButton}
+            // onPress={() =>
+            //   navigation.navigate(routes.CHAT_SINGLE, { contactId: user.id })
+            // }
+          >
+            <MaterialCommunityIcons
+              name="message-processing-outline"
+              size={22}
+              color="lightgray"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.profileIconButton}
+            // onPress={() =>
+            //   isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
+            // }
+          >
+            <Feather name="user-check" size={20} color={colors.green} />
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          style={styles.filledButton}
+          // onPress={() =>
+          //   isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
+          // }
+        >
+          <Text style={styles.text}>
+            <Feather name="user-plus" size={20} color="white" />
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
       <ProfileStatsContainer />
 
-      {/* {users !== null || !undefined ? (
+      {users !== null || !undefined ? (
         <TouchableOpacity></TouchableOpacity>
       ) : (
         renderFollowButton()
-      )} */}
+      )}
 
       <View>
         <UserProfile />

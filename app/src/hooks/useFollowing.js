@@ -3,6 +3,6 @@ import { getIsFollowing } from '../services/user'
 import { keys } from './queryKeys'
 
 
-export const useFollowing = (currentUser, otherUserId, options = {}) => {
-    return useQuery(keys.userFollowing(currentUser, otherUserId), () => getIsFollowing(currentUser, otherUserId), options)
+export const useFollowing = (user, otherUserId, options = {}) => {
+    return useQuery(keys.userFollowing(user, otherUserId), () => getIsFollowing(user, otherUserId), options)
 }

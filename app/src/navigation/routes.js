@@ -33,6 +33,9 @@ export default Object.freeze({
     SETTING_SHEET: 'settingsSheet',
     QUOTES: 'quotes',
     CAMERA: 'Cam',
+    SOUNDS: 'sounds',
+    RECORDING_SCREEN: 'recording',
+    AUDIO_PLAYER: 'audioPlay',
     // Flatlist Screens
     COMEDY_SCREEN: 'comedyScreen',
     MUSICIAN_SCREEN: 'musicianScreen',

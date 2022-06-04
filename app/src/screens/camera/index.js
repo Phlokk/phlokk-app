@@ -14,6 +14,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import * as VideoThumbnails from "expo-video-thumbnails";
+import routes from "../../navigation/routes"
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -237,7 +238,8 @@ export default function CameraScreen() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sideBarButton}
-          onPress={() => Alert.alert("Sound Bar", "Coming in beta version 3!")}
+          onPress={() => navigation.navigate(routes.SOUNDS)}
+          // onPress={() => Alert.alert("Sound Bar", "Coming in beta version 3!")}
         >
           <Entypo name="beamed-note" size={24} color={colors.green} />
           <Text style={styles.iconText}>Sounds</Text>

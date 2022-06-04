@@ -4,8 +4,6 @@ import { types } from "../redux/constants";
 import axios from '../redux/apis/axiosDeclaration'
 
 
-
-    // value = what user types in field
 export const saveUsername = async ( value, id ) => {
 
   console.log("Saving username");
@@ -278,10 +276,10 @@ export const saveUserLink = async ( value, id ) => {
 //   });
 // };
 
-// export const getIsFollowing = (currentUser, otherUserId) =>
-//   new Promise((resolve, reject) => {
+export const getIsFollowing = (user, otherUserId) =>
+  new Promise((resolve, reject) => {
 
-//   });
+  });
 
 // export const changeFollowState = ({ otherUserId, isFollowing }) =>
 //   new Promise((resolve, reject) => {

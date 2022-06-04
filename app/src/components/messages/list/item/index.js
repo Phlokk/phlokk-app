@@ -12,18 +12,10 @@ const MessageListItem = ({ chat, user }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   // const users = useSelector((state) => state.userReducer.user);
-  // const loading = useSelector(state => state.userReducer.user);
-  // const navigation = useNavigation();
   useEffect(() => {
     dispatch(fetchUserData({}));
   }, []);
 
-  //old firebase call
-  // const { data: userData } = useUser(
-  //   chat.members[0] === user.id
-  //     ? chat.members[1]
-  //     : chat.members[0]
-  // );
   const { data: userData } = useUser(
     chat.members[0] === user ? chat.members[1] : chat.members[0]
   );
