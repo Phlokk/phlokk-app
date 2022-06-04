@@ -2,11 +2,11 @@
 import { View, StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
 import colors from "../../../config/colors";
 
-export default function LipSyncScreen() {
+export default function CookingScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>Lip-Sync Screen</Text>
+      <Text>Cooking Screen</Text>
     </View>
   );
 }
