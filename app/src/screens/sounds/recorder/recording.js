@@ -1,165 +1,151 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Animated, Pressable } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-//3rd party packages
-import { Audio } from 'expo-av';
-import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-import routes from "../../../navigation/routes"
-import colors from '../../../../config/colors';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Animated, Pressable } from "react-native";
 
+//3rd party packages
+import { Audio } from "expo-av";
+import LinearGradient from "react-native-linear-gradient";
+import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
+import routes from "../../../navigation/routes";
+import colors from "../../../../config/colors";
 
 const RecordingScreen = ({ navigation }) => {
-const [recording, setRecording] = useState();
-const [isPlaying, setPlaying] = useState(false);
-const [consTime, setConstTime] = useState(60)
-const [recordedTime, setRecordedTime] = useState(0)
-const [spinnerKey, setSpinnerKey] = useState(false)
+  const [recording, setRecording] = useState();
+  const [isPlaying, setPlaying] = useState(false);
+  const [consTime, setConstTime] = useState(30);
+  const [recordedTime, setRecordedTime] = useState(0);
+  const [spinnerKey, setSpinnerKey] = useState(false);
 
-useEffect(() => {
-    const blur = navigation.addListener('blur', async () => {
-        if (!!recording) {
-            await recordedTime.stopAndUnloadAsync();
-        }
-        setSpinnerKey(true)
-    })
-    const focus = navigation.addListener('focus', async () => {
-        if (!!recording) {
-            await recordedTime.stopAndUnloadAsync();
-        }
-        setSpinnerKey(true)
-    })
-    return blur, focus;
-}, [navigation])
+  useEffect(() => {
+    (async () => {
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS:true,
+        playsInSilentModeIOS: true,
+      });
+    })();
+  }, []);
 
-
-const _onPressIn = async () => {
+  const _onLongPress = async () => {
     try {
-        console.log('Requesting permissions..');
-        console.log('Starting recording..');
-        const recording = new Audio.Recording();
-        await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
-        await recording.startAsync();
-        setRecording(recording);
-        setPlaying(true)
-        console.log('Recording started');
+      console.log("Requesting permissions..");
+      console.log("Starting recording..");
+      const recording = new Audio.Recording();
+      await recording.prepareToRecordAsync(
+        Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+      );
+      await recording.startAsync();
+      setRecording(recording);
+      setPlaying(true);
+      console.log("Recording started");
     } catch (err) {
-        console.error('Failed to start recording', err);
+      console.error("Failed to start recording", err);
     }
-}
-const _onPressOut = async () => {
-    console.log('Stopping recording..');
-    setPlaying(false)
+  };
+  const _onPressOut = async () => {
+    console.log("Stopping recording..");
+    setPlaying(false);
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
+    await Audio.setAudioModeAsync({
+        allowsRecordingIOS:false,
+      });
     const uri = recording.getURI();
-    console.log(uri);
+    console.log("Recording stopped and stored at", uri);
     if (!!uri) {
-        navigation.navigate(routes.AUDIO_PLAYER, { data: { uri: uri, time: recordedTime } })
+      navigation.navigate(routes.AUDIO_PLAYER, {
+        data: { uri: uri, time: recordedTime },
+        
+      });
     }
-}
+  };
 
-useEffect(() => {
-    (async () => {
-        await Audio.requestPermissionsAsync();
-        await Audio.setAudioModeAsync({
-            allowsRecordingIOS: true,
-            playsInSilentModeIOS: true
-        })
-    })();
-}, [])
+ 
 
-const checkTime = (time, elapsedTime) => {
-    setRecordedTime(elapsedTime)
-    if (!isPlaying && time !== 60 && !!recording || time == 0) {
-        if (!!recording) {
-            _onPressOut()
-        }
+  const checkTime = (time, elapsedTime) => {
+    setRecordedTime(elapsedTime);
+    if ((!isPlaying && time !== 30 && !!recording) || time == 0) {
+      if (!!recording) {
+        _onPressOut();
+      }
     }
-}
+  };
 
-return (
+  return (
     <View style={styles.container}>
-        <View style={styles.infoRow}>
-        <Text style={styles.mic}>
-        <MaterialCommunityIcons 
-            name="microphone-settings" 
-            size={20} 
-            color={colors.secondary} /></Text>
-            
-        </View>
-        <CountdownCircleTimer
-            isPlaying={isPlaying}
-            duration={consTime}
-            key={spinnerKey}
-            colors={colors.red}
-        >
-            {({ remainingTime, elapsedTime }) => (
-                <Pressable
-                    onPressIn={_onPressIn}
-                    onPressOut={_onPressOut}
-                >
-                    {checkTime(remainingTime, elapsedTime)}
-                        <Animated.Text style={styles.textStyle}>
-                            {remainingTime}
-                        </Animated.Text>
-                        <Text style={styles.secsStyle}>secs left</Text>
-                    {/* </LinearGradient> */}
-                </Pressable>
-            )}
-        </CountdownCircleTimer>
-        <View>
-        <Text style={styles.recordInfo}>Create audio file</Text>
-      </View>
+      <CountdownCircleTimer
+        isPlaying={isPlaying}
+        duration={consTime}
+        key={spinnerKey}
+        colors="#a29bfe"
+      >
+        {({ remainingTime, elapsedTime }) => (
+          <Pressable onLongPress={_onLongPress} onPressOut={_onPressOut}>
+            {checkTime(remainingTime, elapsedTime)}
+            <LinearGradient
+              colors={["#00cec9", "#00cec9"]}
+              style={styles.linearGradient}
+            >
+              <Animated.Text style={styles.textStyle}>
+                {remainingTime}
+              </Animated.Text>
+              <Text style={styles.secsStyle}>secs left</Text>
+            </LinearGradient>
+          </Pressable>
+        )}
+      </CountdownCircleTimer>
     </View>
-);
+  );
 };
 
-
 const styles = StyleSheet.create({
-container: {
+  container: {
     backgroundColor: colors.primary,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-},
-infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-},
-linearGradient: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  infoRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  linearGradient: {
     width: 170,
     height: 170,
     borderRadius: 170 / 2,
-    alignItems: 'center',
-    justifyContent: 'center'
-},
-textStyle: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  textStyle: {
     fontSize: 50,
     textAlign: "center",
-    color: 'white',
-    
-},
-secsStyle: {
+    color: "white",
+  },
+  secsStyle: {
     fontSize: 18,
     textAlign: "center",
-    color: 'white',
+    color: "white",
     opacity: 0.7,
-    
-},
-infotext: {
+  },
+  infotext: {
     color: colors.secondary,
-    fontWeight: 'bold',
-
-},
-mic: {
+    fontWeight: "bold",
+  },
+  mic: {
     top: 45,
-},
-recordInfo: {
+  },
+  recordInfo: {
     color: colors.secondary,
     marginTop: 50,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  linearGradient: {
+    width: 170,
+    height: 170,
+    borderRadius: 170 / 2,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

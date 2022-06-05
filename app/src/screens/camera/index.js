@@ -87,8 +87,6 @@ export default function CameraScreen() {
           const source = data.uri;
           let sourceThumb = await generateThumbnail(source);
           setIsRecording(false);
-
-          console.log('TEST 1')
           console.log(source)
           navigation.navigate("savePost", { source, sourceThumb });
         }
@@ -257,7 +255,7 @@ export default function CameraScreen() {
                 styles.recordButton,
                 { backgroundColor: isRecording ? colors.red : colors.green },
                 { borderWidth: isRecording ? 4 : 3 },
-                { borderColor: isRecording ? colors.redBorder : colors.white },
+                { borderColor: isRecording ? colors.danger : colors.white },
               ];
             }}
           />

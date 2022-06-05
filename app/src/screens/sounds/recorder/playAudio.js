@@ -9,9 +9,6 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-import { Entypo } from "@expo/vector-icons";
-
 //3rd party packages
 import { Audio } from "expo-av";
 import colors from "../../../../config/colors";
@@ -30,18 +27,21 @@ const AudioPlay = ({ navigation, route }) => {
     );
     setSound(sound);
     setPlaying(true);
+
     console.log("Playing Sound");
     await sound.playAsync();
-  };
+  }
 
   return (
     <View style={styles.container}>
       <CountdownCircleTimer
         key={isPlaying}
-        isPlaying={isPlaying}
-        duration={constTime}
-        colors={colors.green}
-        onComplete={() => setPlaying(false)}
+          isPlaying={isPlaying}
+          duration={constTime}
+          colors={colors.green}
+          onComplete={() => setPlaying(false)}
+          
+          
       >
         {({ remainingTime, elapsedTime }) => (
           <Pressable onPress={playAudio}>

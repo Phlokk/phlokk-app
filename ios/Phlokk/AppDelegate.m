@@ -1,4 +1,7 @@
 #import "AppDelegate.h"
+#if RCT_DEV
+#import <React/RCTDevLoadingView.h>
+#endif
 #if RCT_DEV #import <React/RCTDevLoadingView.h> #endif
 
 #if defined(EX_DEV_MENU_ENABLED)

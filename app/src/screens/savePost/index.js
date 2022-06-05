@@ -28,14 +28,21 @@ import colors from "../../../config/colors";
 import LottieView from "lottie-react-native";
 
 export default function SavePostScreen({ nav, route }) {
-  console.log("Loading Post Screen");
-
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [description, setDescription] = useState("");
   const [requestRunning, setRequestRunning] = useState(false);
-  const navigation = useNavigation();
   const lottieAnimation = require("../../../assets/animations/loader.json");
   const phlokkLogo = require("../../../assets/phlokk_logo.png");
-  const dispatch = useDispatch();
+  
+  // switches setState
+  const [isPublicEnabled, setIsPublicEnabled] = useState(false);
+  const [isPrivateEnabled, setIsPrivateEnabled] = useState(false);
+  const [isMarketEnabled, setIsMarketEnabled] = useState(false);
+  const [isCommentsEnabled, setIsCommentsEnabled] = useState(false);
+  const [isDuetsEnabled, setIsDuetsEnabled] = useState(false);
+  const [isReviewsEnabled, setIsReviewsEnabled] = useState(false);
+  const [text, setText] = useState("Click");
 
   const handleSavePost = () => {
     setRequestRunning(true);
@@ -67,23 +74,6 @@ export default function SavePostScreen({ nav, route }) {
         setRequestRunning(false);
       });
   };
-
-  const [isPublicEnabled, setIsPublicEnabled] = useState(false);
-  const [isPrivateEnabled, setIsPrivateEnabled] = useState(false);
-  const [isMarketEnabled, setIsMarketEnabled] = useState(false);
-  const [isCommentsEnabled, setIsCommentsEnabled] = useState(false);
-  const [isDuetsEnabled, setIsDuetsEnabled] = useState(false);
-  const [isReviewsEnabled, setIsReviewsEnabled] = useState(false);
-  const [text, setText] = useState("Click");
-
-
-
-  // inputStr.replace(/(?<=#).*?(?=( |$))/g, hashtag => {
-  //     // do something with hashtag
-  //     return hashtag;
-  // });
-
-
 
 
   const togglePublic = () => {
