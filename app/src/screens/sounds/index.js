@@ -15,8 +15,7 @@ import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-const SampleTrack = require("../../../assets/songs/yellow_brick_road.mp3");
+import {current} from "@reduxjs/toolkit";
 
 const Sounds = [
   {
@@ -24,7 +23,7 @@ const Sounds = [
     name: "Yellow Brick Road",
     artist: "Drama",
     duration: "1:00",
-    url: require("../../../assets/songs/yellow_brick_road.mp3"),
+    url: require("../../../assets/songs/dead_inside.wav"),
     artwork: require("../../../assets/yellowbrickroad.png"),
   },
   {
@@ -32,7 +31,7 @@ const Sounds = [
     name: "Dead Inside",
     artist: "Drama",
     duration: "1:00",
-    url: require("../../../assets/songs/dead_inside.wav"),
+    url: require("../../../assets/songs/yellow_brick_road.mp3"),
     artwork: require("../../../assets/yellowbrickroad.png"),
   },
   {
@@ -51,17 +50,21 @@ export default function SoundScreen() {
   const [Loaded, SetLoaded] = React.useState(false);
   const [Loading, SetLoading] = React.useState(false);
   const sound = React.useRef(new Audio.Sound());
+  let currentPlayingIndex = 0; // 0 is default
 
   React.useEffect(() => {
     LoadAudio();
   }, []);
 
-  const PlayAudio = async () => {
+  const PlayAudio = async (soundIndex) => {
+    currentPlayingIndex = soundIndex;
     try {
+      await UnloadAudio();
+      await LoadAudio(soundIndex);
       const result = await sound.current.getStatusAsync();
       if (result.isLoaded) {
         if (result.isPlaying === false) {
-          sound.current.playAsync();
+          await sound.current.playAsync();
           Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
           });
@@ -69,6 +72,10 @@ export default function SoundScreen() {
       }
     } catch (error) {}
   };
+
+  const UnloadAudio = async () => {
+    await sound.current.unloadAsync();
+  }
 
   const ReplayAudio = async () => {
     try {
@@ -81,12 +88,16 @@ export default function SoundScreen() {
     } catch (error) {}
   };
 
-  const LoadAudio = async () => {
+  let isPlayingSound = async (soundIndex) => {
+    return (currentPlayingIndex === soundIndex);
+  }
+
+  let LoadAudio = async (soundIndex = 0) => {
     SetLoading(true);
     const checkLoading = await sound.current.getStatusAsync();
     if (checkLoading.isLoaded === false) {
       try {
-        const result = await sound.current.loadAsync(Sounds[0].id.url, {}, true);
+        const result = await sound.current.loadAsync(Sounds[soundIndex].url, {}, true);
         if (result.isLoaded === false) {
           SetLoading(false);
           console.log("Error in Loading Audio");
@@ -103,7 +114,7 @@ export default function SoundScreen() {
     }
   };
 
-  const ItemRender = ({ name, artist, duration, artwork }) => (
+  const ItemRender = ({ name, artist, duration, artwork, soundIndex }) => (
     <View style={styles.item}>
       <View>
         <Image style={styles.avatar} source={artwork} />
@@ -120,19 +131,23 @@ export default function SoundScreen() {
               </>
             ) : (
               <>
-                 <View style={{flexDirection: 'row'}}>
-                  <Entypo
-                    onPress={PlayAudio}
-                    name="controller-play"
-                    size={30}
-                    color={colors.secondary}
-                  />
-                  <MaterialCommunityIcons
-                    onPress={ReplayAudio}
-                    name="replay"
-                    size={30}
-                    color={colors.secondary}
-                  />
+                <View style={{flexDirection: 'row'}}>
+                  {isPlayingSound(soundIndex) === true ? (
+                    <Entypo
+                      onPress={() => PlayAudio(soundIndex)}
+                      name="controller-play"
+                      size={30}
+                      color={colors.secondary}
+                    />
+                    ) : (
+                      <MaterialCommunityIcons
+                          onPress={ReplayAudio}
+                          name="replay"
+                          size={30}
+                          color={colors.secondary}
+                      />
+                    )
+                  }
                 </View>
               </>
             )}
@@ -166,12 +181,13 @@ export default function SoundScreen() {
       <View>
         <FlatList
           data={Sounds}
-          renderItem={({ item }) => (
+          renderItem={({ item,index }) => (
             <ItemRender
               name={item.name}
               artist={item.artist}
               duration={item.duration}
               artwork={item.artwork}
+              soundIndex={index}
             />
           )}
           keyExtractor={(item) => item.id}
