@@ -36,6 +36,7 @@ export default Object.freeze({
     SOUNDS: 'sounds',
     RECORDING_SCREEN: 'recording',
     AUDIO_PLAYER: 'audioPlay',
+    PLAY_SOUND: 'playSound',
     // Flatlist Screens
     COMEDY_SCREEN: 'comedyScreen',
     MUSICIAN_SCREEN: 'musicianScreen',

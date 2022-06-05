@@ -5,25 +5,18 @@ import {
   StyleSheet,
   Text,
   FlatList,
-  TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
+import { Audio } from "expo-av";
 import RecordingNavBar from "../../components/general/navBar/recordingNav";
 import { Entypo } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-// native dep
-// import TrackPlayer, {
-//   Capability,
-//   Event,
-//   RepeatMode,
-//   State,
-//   usePlaybackState,
-//   useProgress,
-//   useTrackPlayerEvents
-// } from "react-native-track-player";
+const SampleTrack = require("../../../assets/songs/yellow_brick_road.mp3");
 
 const Sounds = [
   {
@@ -31,68 +24,122 @@ const Sounds = [
     name: "Yellow Brick Road",
     artist: "Drama",
     duration: "1:00",
-    url: require("../../../assets/songs/yellow explicit mix w fade radio.mp3"),
+    url: require("../../../assets/songs/yellow_brick_road.mp3"),
+    artwork: require("../../../assets/yellowbrickroad.png"),
   },
   {
     id: 2,
     name: "Dead Inside",
     artist: "Drama",
     duration: "1:00",
-    url: require("../../../assets/songs/dead inside explicit edit l2.wav"),
+    url: require("../../../assets/songs/dead_inside.wav"),
+    artwork: require("../../../assets/yellowbrickroad.png"),
   },
   {
     id: 3,
     name: "Long Road",
     artist: "Drama",
     duration: "1:00",
-    url: require("../../../assets/songs/long road final no phill.mp3"),
+    url: require("../../../assets/songs/long_road.mp3"),
+    artwork: require("../../../assets/yellowbrickroad.png"),
   },
 ];
-// TrackPlayer.updateOptions({
-//   stopWithApp: true,
-//   capabilities: [TrackPlayer.CAPABILITY_PLAY, TrackPlayer.CAPABILITY_PAUSE],
-//   compactCapabilities: [
-//     TrackPlayer.CAPABILITY_PLAY,
-//     TrackPlayer.CAPABILITY_PAUSE,
-//   ],
-// });
 
 export default function SoundScreen() {
   const navigation = useNavigation();
 
-  // const setUpTrackPlayer = async () => {
-  //   try {
-  //     await TrackPlayer.setupPlayer();
-  //     await TrackPlayer.add(tracks);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const [Loaded, SetLoaded] = React.useState(false);
+  const [Loading, SetLoading] = React.useState(false);
+  const sound = React.useRef(new Audio.Sound());
 
-  // useEffect(() => {
-  //   setUpTrackPlayer();
+  React.useEffect(() => {
+    LoadAudio();
+  }, []);
 
-  //   return () => TrackPlayer.destroy();
-  // }, []);
+  const PlayAudio = async () => {
+    try {
+      const result = await sound.current.getStatusAsync();
+      if (result.isLoaded) {
+        if (result.isPlaying === false) {
+          sound.current.playAsync();
+          Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+          });
+        }
+      }
+    } catch (error) {}
+  };
 
-  const ItemRender = ({ name, artist, duration }) => (
+  const ReplayAudio = async () => {
+    try {
+      const result = await sound.current.getStatusAsync();
+      if (result.isLoaded) {
+        if (result.isPlaying === true) {
+          sound.current.replayAsync();
+        }
+      }
+    } catch (error) {}
+  };
+
+  const LoadAudio = async () => {
+    SetLoading(true);
+    const checkLoading = await sound.current.getStatusAsync();
+    if (checkLoading.isLoaded === false) {
+      try {
+        const result = await sound.current.loadAsync(Sounds[0].id.url, {}, true);
+        if (result.isLoaded === false) {
+          SetLoading(false);
+          console.log("Error in Loading Audio");
+        } else {
+          SetLoading(false);
+          SetLoaded(true);
+        }
+      } catch (error) {
+        console.log(error);
+        SetLoading(false);
+      }
+    } else {
+      SetLoading(false);
+    }
+  };
+
+  const ItemRender = ({ name, artist, duration, artwork }) => (
     <View style={styles.item}>
       <View>
-        <Image
-          style={styles.avatar}
-          source={require("../../../assets/yellowbrickroad.png")}
-        />
+        <Image style={styles.avatar} source={artwork} />
       </View>
       <TouchableWithoutFeedback>
-        <Text>
-          <Entypo
-            onPress={() => TrackPlayer.play}
-            name="controller-play"
-            size={30}
-            color={colors.secondary}
-          />
-        </Text>
+        {Loading ? (
+          <ActivityIndicator size={"small"} color={colors.secondary} />
+        ) : (
+          <>
+            {Loaded === false ? (
+              <>
+                <ActivityIndicator />
+                <Text style={styles.itemLoad}>Loading</Text>
+              </>
+            ) : (
+              <>
+                 <View style={{flexDirection: 'row'}}>
+                  <Entypo
+                    onPress={PlayAudio}
+                    name="controller-play"
+                    size={30}
+                    color={colors.secondary}
+                  />
+                  <MaterialCommunityIcons
+                    onPress={ReplayAudio}
+                    name="replay"
+                    size={30}
+                    color={colors.secondary}
+                  />
+                </View>
+              </>
+            )}
+          </>
+        )}
       </TouchableWithoutFeedback>
+
       <TouchableWithoutFeedback>
         <Text style={styles.itemText}>{name}</Text>
         <Text style={styles.artistText}>{artist}</Text>
@@ -124,6 +171,7 @@ export default function SoundScreen() {
               name={item.name}
               artist={item.artist}
               duration={item.duration}
+              artwork={item.artwork}
             />
           )}
           keyExtractor={(item) => item.id}
@@ -164,6 +212,11 @@ const styles = StyleSheet.create({
   },
   itemText: {
     color: colors.white,
+  },
+  itemLoad: {
+    color: colors.white,
+    marginHorizontal: 30,
+    textAlign: "center",
   },
   artistText: {
     color: colors.gray,

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Animated, Pressable } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 //3rd party packages
+import { Entypo } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import LinearGradient from "react-native-linear-gradient";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
@@ -9,6 +10,7 @@ import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 
 const RecordingScreen = ({ navigation }) => {
+  
   const [recording, setRecording] = useState();
   const [isPlaying, setPlaying] = useState(false);
   const [consTime, setConstTime] = useState(30);
@@ -93,6 +95,14 @@ const RecordingScreen = ({ navigation }) => {
           </Pressable>
         )}
       </CountdownCircleTimer>
+      <Text style={styles.playBtn}>
+          <Entypo
+            onPress={() => navigation.navigate(routes.PLAY_SOUND)}
+            name="controller-play"
+            size={60}
+            color={colors.secondary}
+          />
+        </Text>
     </View>
   );
 };
@@ -147,6 +157,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  playBtn: {
+    padding: 20,
+  }
 });
 
 export default RecordingScreen;
