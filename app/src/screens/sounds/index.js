@@ -25,6 +25,7 @@ const Sounds = [
     artist: "Drama",
     duration: "1:00",
     url: require("../../../assets/songs/yellow_brick_road.mp3"),
+    // album: 
     artwork: require("../../../assets/yellowbrickroad.png"),
   },
   {
@@ -33,6 +34,7 @@ const Sounds = [
     artist: "Drama",
     duration: "1:00",
     url: require("../../../assets/songs/dead_inside.wav"),
+    // album: 
     artwork: require("../../../assets/yellowbrickroad.png"),
   },
   {
@@ -41,6 +43,7 @@ const Sounds = [
     artist: "Drama",
     duration: "1:00",
     url: require("../../../assets/songs/long_road.mp3"),
+    // album: 
     artwork: require("../../../assets/yellowbrickroad.png"),
   },
 ];
@@ -86,7 +89,7 @@ export default function SoundScreen() {
     const checkLoading = await sound.current.getStatusAsync();
     if (checkLoading.isLoaded === false) {
       try {
-        const result = await sound.current.loadAsync(Sounds[0].id.url, {}, true);
+        const result = await sound.current.loadAsync(Sounds, {}, true);
         if (result.isLoaded === false) {
           SetLoading(false);
           console.log("Error in Loading Audio");
@@ -102,8 +105,8 @@ export default function SoundScreen() {
       SetLoading(false);
     }
   };
-
-  const ItemRender = ({ name, artist, duration, artwork }) => (
+// // add album it Item render: 
+  const ItemRender = ({ name, artist, duration, artwork,  }) => (
     <View style={styles.item}>
       <View>
         <Image style={styles.avatar} source={artwork} />
@@ -120,7 +123,32 @@ export default function SoundScreen() {
               </>
             ) : (
               <>
-                 <View style={{flexDirection: 'row'}}>
+                 
+                  <Entypo
+                    onPress={PlayAudio}
+                    name="controller-play"
+                    size={30}
+                    color={colors.secondary}
+                  />
+                  <MaterialCommunityIcons
+                    onPress={ReplayAudio}
+                    name="replay"
+                    size={30}
+                    color={colors.secondary}
+                  />
+               
+              </>
+            )}
+          </>
+        )}
+      </TouchableWithoutFeedback>
+
+      <TouchableWithoutFeedback>
+        <Text style={styles.itemText}>{name}</Text>
+        <Text style={styles.artistText}>{artist}</Text>
+        <Text style={styles.mins}>{duration}</Text>
+      </TouchableWithoutFeedback>
+      <View style={{flexDirection: 'row'}}>
                   <Entypo
                     onPress={PlayAudio}
                     name="controller-play"
@@ -134,17 +162,6 @@ export default function SoundScreen() {
                     color={colors.secondary}
                   />
                 </View>
-              </>
-            )}
-          </>
-        )}
-      </TouchableWithoutFeedback>
-
-      <TouchableWithoutFeedback>
-        <Text style={styles.itemText}>{name}</Text>
-        <Text style={styles.artistText}>{artist}</Text>
-        <Text style={styles.mins}>{duration}</Text>
-      </TouchableWithoutFeedback>
     </View>
   );
 
@@ -172,6 +189,7 @@ export default function SoundScreen() {
               artist={item.artist}
               duration={item.duration}
               artwork={item.artwork}
+              // album={item.album}
             />
           )}
           keyExtractor={(item) => item.id}
