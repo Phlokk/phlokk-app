@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import { Audio } from "expo-av";
 import RecordingNavBar from "../../components/general/navBar/recordingNav";
@@ -15,8 +16,8 @@ import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import {current} from "@reduxjs/toolkit";
 
+const smallLogo = require("../../../assets/pmd_logo_green.png");
 const Sounds = [
   {
     id: 1,
@@ -31,7 +32,7 @@ const Sounds = [
     name: "Dead Inside",
     artist: "Drama",
     duration: "1:00",
-    url: require("../../../assets/songs/yellow_brick_road.mp3"),
+    url: require("../../../assets/songs/dead_inside.wav"),
     artwork: require("../../../assets/yellowbrickroad.png"),
   },
   {
@@ -46,7 +47,6 @@ const Sounds = [
 
 export default function SoundScreen() {
   const navigation = useNavigation();
-
   const [Loaded, SetLoaded] = React.useState(false);
   const [Loading, SetLoading] = React.useState(false);
   const sound = React.useRef(new Audio.Sound());
@@ -75,7 +75,7 @@ export default function SoundScreen() {
 
   const UnloadAudio = async () => {
     await sound.current.unloadAsync();
-  }
+  };
 
   const ReplayAudio = async () => {
     try {
@@ -88,16 +88,20 @@ export default function SoundScreen() {
     } catch (error) {}
   };
 
-  let isPlayingSound = async (soundIndex) => {
-    return (currentPlayingIndex === soundIndex);
-  }
+  // let isPlayingSound = async (soundIndex) => {
+  //   return currentPlayingIndex === soundIndex;
+  // };
 
   let LoadAudio = async (soundIndex = 0) => {
     SetLoading(true);
     const checkLoading = await sound.current.getStatusAsync();
     if (checkLoading.isLoaded === false) {
       try {
-        const result = await sound.current.loadAsync(Sounds[soundIndex].url, {}, true);
+        const result = await sound.current.loadAsync(
+          Sounds[soundIndex].url,
+          {},
+          true
+        );
         if (result.isLoaded === false) {
           SetLoading(false);
           console.log("Error in Loading Audio");
@@ -116,100 +120,99 @@ export default function SoundScreen() {
 
   const ItemRender = ({ name, artist, duration, artwork, soundIndex }) => (
     <View style={styles.item}>
-      <View>
-        <Image style={styles.avatar} source={artwork} />
-      </View>
-      <TouchableWithoutFeedback>
-        {Loading ? (
-          <ActivityIndicator size={"small"} color={colors.secondary} />
-        ) : (
-          <>
-            {Loaded === false ? (
-              <>
-                <ActivityIndicator />
-                <Text style={styles.itemLoad}>Loading</Text>
-              </>
-            ) : (
-              <>
-                <View style={{flexDirection: 'row'}}>
-                  {isPlayingSound(soundIndex) === true ? (
-                    <Entypo
-                      onPress={() => PlayAudio(soundIndex)}
-                      name="controller-play"
-                      size={30}
-                      color={colors.secondary}
-                    />
-                    ) : (
-                      <MaterialCommunityIcons
-                          onPress={ReplayAudio}
-                          name="replay"
-                          size={30}
-                          color={colors.secondary}
+      <View style={styles.albumRow}>
+        <Image style={styles.album} source={artwork} />
+        <View>
+          {Loading ? (
+            <ActivityIndicator
+            style={styles.activity}
+            size={"small"}
+            color={colors.secondary} />
+          ) : (
+            <>
+              {Loaded === false ? (
+                <>
+                  <ActivityIndicator />
+                </>
+              ) : (
+                <>
+                  <View style={styles.btnRow}>
+                      <Entypo
+                        onPress={() => PlayAudio(soundIndex)}
+                        name="controller-play"
+                        size={30}
+                        color={colors.secondary}
                       />
-                    )
-                  }
-                </View>
-              </>
-            )}
-          </>
-        )}
-      </TouchableWithoutFeedback>
+                      <MaterialCommunityIcons
+                        onPress={ReplayAudio}
+                        name="replay"
+                        size={30}
+                        color={colors.secondary}
+                      />
+                    
+                  </View>
+                </>
+              )}
+            </>
+          )}
+        </View>
+      </View>
 
       <TouchableWithoutFeedback>
-        <Text style={styles.itemText}>{name}</Text>
+        <Text style={styles.itemText}>
+        <View style={styles.logoRow}>
+        <Image style={styles.logo} source={smallLogo} />
+        </View>
+        {name}</Text>
         <Text style={styles.artistText}>{artist}</Text>
         <Text style={styles.mins}>{duration}</Text>
       </TouchableWithoutFeedback>
     </View>
   );
 
-  const Separator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: 1,
-          padding: 1,
-        }}
-      />
-    );
-  };
+  
+
+  const renderItem = useCallback(({ item, index }) => (
+    <ItemRender
+      name={item.name}
+      artist={item.artist}
+      duration={item.duration}
+      artwork={item.artwork}
+      soundIndex={index}
+    />
+  ));
+
+  const keyExtractor = useCallback((item) => item.id);
 
   return (
     <SafeAreaView style={styles.container}>
       <RecordingNavBar title="Sound Bar" />
-      <View>
         <FlatList
           data={Sounds}
-          renderItem={({ item,index }) => (
-            <ItemRender
-              name={item.name}
-              artist={item.artist}
-              duration={item.duration}
-              artwork={item.artwork}
-              soundIndex={index}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-          ItemSeparatorComponent={Separator}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
           showsVerticalScrollIndicator={false}
         />
-      </View>
+     
     </SafeAreaView>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    paddingTop: 25,
+    
   },
-  soundBarRow: {
+  btnRow: {
     flexDirection: "row",
-    margin: 5,
-    paddingTop: 10,
-    paddingHorizontal: 15,
+    zIndex: -9999,
+    top: -50,
+    justifyContent: 'center',
+    alignItems: "center",
+
   },
   text: {
     color: colors.secondary,
@@ -218,35 +221,53 @@ const styles = StyleSheet.create({
   },
   item: {
     flexDirection: "row",
-    backgroundColor: colors.lightBlack,
-    borderRadius: 15,
-    padding: 10,
     color: colors.secondary,
     paddingHorizontal: 15,
-    margin: 10,
     alignItems: "center",
   },
   itemText: {
-    color: colors.white,
+    color: colors.green,
+    fontWeight: 'bold',
+    bottom: 26,
+    fontSize: 11,
+    paddingLeft: 5,
   },
   itemLoad: {
     color: colors.white,
-    marginHorizontal: 30,
-    textAlign: "center",
   },
   artistText: {
+    bottom: 15,
     color: colors.gray,
+    paddingLeft: 10,
     fontSize: 10,
   },
   mins: {
+    bottom: 10,
     color: colors.gray,
+    paddingLeft: 10,
     fontSize: 10,
   },
-  avatar: {
-    height: 35,
-    width: 35,
+  album: {
+    height: 65,
+    width: 65,
+
   },
-  playBtn: {
-    // move play icon over album
+  logo: {
+    height: 12,
+    width: 12,
+
   },
+  logoRow:{
+    bottom: 12,
+    paddingLeft: 5,
+
+  },
+  topBarPadding: {
+    marginTop: 40,
+  },
+  activity: {
+    top: -45,
+    zIndex: 9999,
+  },
+
 });
