@@ -95,14 +95,6 @@ const RecordingScreen = ({ navigation }) => {
           </Pressable>
         )}
       </CountdownCircleTimer>
-      <Text style={styles.playBtn}>
-          <Entypo
-            onPress={() => navigation.navigate(routes.PLAY_SOUND)}
-            name="controller-play"
-            size={60}
-            color={colors.secondary}
-          />
-        </Text>
     </View>
   );
 };

@@ -19,7 +19,7 @@ const SearchInput = ({placeholder}) => {
         onChangeText={setTextInput}
         style={styles.textInput}
         placeholder={placeholder}
-        placeholderTextColor={colors.black}
+        placeholderTextColor={colors.green}
         underlineColorAndroid="transparent"
         clearButtonMode="always"
       />
@@ -35,12 +35,18 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   textInput: {
-    backgroundColor: colors.secondary,
+    color: colors.green,
+    backgroundColor: colors.lightBlack,
     borderRadius: 5,
     flexDirection: "row",
     width: "100%",
     padding: 10,
     marginVertical: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOpacity: 0.8,
+    elevation: 6,
+    shadowRadius: 15 ,
+    shadowOffset : { width: 1, height: 13},
   },
 });
 

@@ -13,7 +13,7 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
-  Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { Audio } from "expo-av";
 import RecordingNavBar from "../../components/general/navBar/recordingNav";
@@ -22,6 +22,7 @@ import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import SearchAudio from "./searchAudio/searchAudio";
 
 const smallLogo = require("../../../assets/pmd_logo_green.png");
 const Sounds = [
@@ -49,17 +50,9 @@ const Sounds = [
     url: require("../../../assets/songs/long_road.mp3"),
     artwork: require("../../../assets/yellowbrickroad.png"),
   },
-  {
-    id: 4,
-    name: "Long Road",
-    artist: "Drama",
-    duration: "1:00",
-    url: require("../../../assets/songs/long_road.mp3"),
-    artwork: require("../../../assets/yellowbrickroad.png"),
-  },
 ];
 
-export default function SoundScreen() {
+export default function SoundScreen({placeholder}) {
   const navigation = useNavigation();
   const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
@@ -168,22 +161,34 @@ export default function SoundScreen() {
         </View> */
   }
 
-  const ItemRender = ({ soundIndex, item }) => (
+  const ItemRender = ({ item }) => (
     <View style={styles.item}>
       <View style={styles.albumRow}>
         <Image style={styles.album} source={item.artwork} />
       </View>
-
+      <View style={styles.albumInfoRow}>
       <TouchableWithoutFeedback>
-        <Text style={styles.itemText}>
+        
+        <Text style={styles.itemInfo}>
           <View style={styles.logoRow}>
             <Image style={styles.logo} source={smallLogo} />
           </View>
           {item.name}
         </Text>
         <Text style={styles.artistText}>{item.artist}</Text>
+        <View style={styles.dotRow}>
+        <TouchableOpacity>
+          <MaterialCommunityIcons 
+          style={styles.infoDots}
+          name="dots-vertical" 
+          size={30} 
+          color={colors.secondary} />
+          </TouchableOpacity>
+          </View>
         <Text style={styles.mins}>{item.duration}</Text>
+        
       </TouchableWithoutFeedback>
+      </View>
     </View>
   );
 
@@ -196,6 +201,7 @@ export default function SoundScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <RecordingNavBar title="Sound Bar" />
+      <SearchAudio placeholder={placeholder} />
       <FlatList
         style={styles.paddingFlat}
         data={Sounds}
@@ -212,9 +218,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-  },
-  paddingFlat: {
-    paddingTop: 35,
   },
   btnRow: {
     flexDirection: "row",
@@ -233,11 +236,12 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     paddingHorizontal: 15,
     alignItems: "center",
+    marginTop: 5,
   },
-  itemText: {
+  itemInfo: {
     color: colors.green,
     fontWeight: "bold",
-    bottom: 12,
+    bottom: 3,
     fontSize: 11,
     paddingLeft: 5,
   },
@@ -245,13 +249,13 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   artistText: {
-    bottom: 2,
+    top: 6,
     color: colors.gray,
     paddingLeft: 10,
     fontSize: 10,
   },
   mins: {
-    top: 7,
+    bottom: 12,
     color: colors.gray,
     paddingLeft: 10,
     fontSize: 10,
@@ -259,6 +263,16 @@ const styles = StyleSheet.create({
   album: {
     height: 65,
     width: 65,
+  },
+  albumRow: {
+    paddingBottom: 10,
+    width: 70,
+    justifyContent: "center",
+    alignItems: "center",
+
+  },
+  albumInfoRow: {
+    flex: 1
   },
   logo: {
     height: 12,
@@ -275,10 +289,18 @@ const styles = StyleSheet.create({
   seperator: {
     height: 1,
     width: "90%",
-    opacity: 0.2,
-    backgroundColor: "#CCC",
+    opacity: 0.1,
+    backgroundColor: colors.secondary,
     alignSelf: "center",
     justifyContent: "center",
-    marginBottom: 5,
+    marginBottom: 10,
+    
   },
+  infoDots: {
+    opacity: 0.3,
+  },
+  dotRow: {
+    flexDirection: 'row-reverse',
+    bottom: 12,
+  }
 });
