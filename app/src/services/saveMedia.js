@@ -4,7 +4,7 @@ import * as SecureStore from "expo-secure-store";
 export const saveMediaToStorage = (source, description) => {
   new Promise(async (resolve, reject) => {
     console.log("----------------------");
-    console.log("save source", source);
+    // console.log("save source", source);
     let formData = new FormData();
     let split = source.split('/');
     let fileName = split[(split.length - 1)];

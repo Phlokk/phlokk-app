@@ -28,7 +28,6 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
   const ref = useRef(null);
 
   const route = useRoute();
-  // console.log(route.params)
 
   const user = useUser(item.creator).data;
   useImperativeHandle(parentRef, () => ({

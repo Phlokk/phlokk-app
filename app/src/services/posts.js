@@ -13,8 +13,7 @@ export const getFeed = () =>
       // 2 seconds later...
     })
     .catch(function (error) {
-      console.log("------------ Back from server  GET FEED FUNCT ----------");
-      console.log("------------ ERROR -------------");
+      console.log("------------ Back from server Error  GET FEED FUNC ----------");
       console.log(error);
     });
 
@@ -32,12 +31,6 @@ export const useUserPosts = (userId, { enabled }) =>
         refetchInterval: 5000,
     });
 
-
-
-// TODO change to mongoDB call
-// export const deletePostById = async (postId) => {
-//   await firebase.firestore().collection("post").doc(postId).delete();
-// };
 
 export const deletePostById = async (postId) => {
   await fetch("");

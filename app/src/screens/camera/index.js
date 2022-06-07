@@ -83,15 +83,15 @@ export default function CameraScreen() {
         setIsRecording(true);
         if (videoRecordPromise) {
           const data = await videoRecordPromise;
-          console.log("data", data);
+          // console.log("data", data);
           const source = data.uri;
           let sourceThumb = await generateThumbnail(source);
           setIsRecording(false);
-          console.log(source)
+          // console.log(source)
           navigation.navigate("savePost", { source, sourceThumb });
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         setIsRecording(false);
       }
     }

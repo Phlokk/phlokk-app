@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import routes from "../../../navigation/routes";
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 
 export default function ActivityNavBar(props) {
   const navigation = useNavigation();

@@ -4,7 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import routes from "../../../navigation/routes";
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 
 export default function PostNavBar(props) {
   const navigation = useNavigation();

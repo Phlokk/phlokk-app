@@ -12,7 +12,7 @@ export default function EditPostScreen(props) {
 }
 
 const styles = StyleSheet.create({
-  constainer: {
+  container: {
     flex: 1
 
   },

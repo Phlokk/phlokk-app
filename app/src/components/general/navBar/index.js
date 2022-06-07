@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 
 export default function NavBarGeneral({
   title = "Edit profile",

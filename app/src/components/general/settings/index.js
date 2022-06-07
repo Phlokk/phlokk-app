@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 
 export default function SettingsNavBar({ title = "Settings" }) {
   const navigation = useNavigation();
@@ -14,7 +14,11 @@ export default function SettingsNavBar({ title = "Settings" }) {
         style={styles.button}
         onPress={() => navigation.goBack()}
       >
-        <MaterialIcons name="keyboard-arrow-left" size={28} color={colors.secondary} />
+        <MaterialIcons
+          name="keyboard-arrow-left"
+          size={28}
+          color={colors.secondary}
+        />
       </TouchableOpacity>
 
       <Text style={styles.title}>{title}</Text>

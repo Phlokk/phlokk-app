@@ -24,11 +24,11 @@ export default function SettingsScreen() {
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
-    console.log("handling logout");
+    // console.log("handling logout");
     axios
       .post("/api/logout")
       .then((response) => {
-        console.log("back from logout");
+        // console.log("back from logout");
         setUser(null);
         SecureStore.deleteItemAsync("user");
         dispatch({
@@ -45,7 +45,7 @@ export default function SettingsScreen() {
           currentUser: null,
           loaded: true,
         });
-        console.log(error.response);
+        // console.log(error.response);
       });
   };
 

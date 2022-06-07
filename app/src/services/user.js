@@ -5,8 +5,6 @@ import axios from '../redux/apis/axiosDeclaration'
 
 
 export const saveUsername = async ( value, id ) => {
-
-  console.log("Saving username");
   axios
     .put("/api/creators/update/ +userId", {
       username: value,
@@ -21,8 +19,6 @@ export const saveUsername = async ( value, id ) => {
 };
 
 export const saveQuote = async ( value, id ) => {
-
-  console.log("Saving Quote");
   axios
     .put("/api/creators/update/ +userId", {
       quote: value,
@@ -37,8 +33,6 @@ export const saveQuote = async ( value, id ) => {
 };
 
 export const saveYoutubeLink = async ( value, id ) => {
-
-  console.log("Saving Quote");
   axios
     .put("/api/creators/update/ +userId", {
       youtubeLink: value,
@@ -53,8 +47,6 @@ export const saveYoutubeLink = async ( value, id ) => {
 };
 
 export const saveInstagramLink = async ( value, id ) => {
-
-  console.log("Saving IG link");
   axios
     .put("/api/creators/update/ +userId", {
       instagramLink: value,
@@ -69,8 +61,6 @@ export const saveInstagramLink = async ( value, id ) => {
 };
 
 export const saveCreatorType = async ( categoryId ) => {
-
-  console.log("Saving Creator type");
   axios
     .put("/api/creators/update", {
       creator_type: categoryId,
@@ -97,8 +87,6 @@ export const saveCreatorType = async ( categoryId ) => {
 // });
 
 export const saveUserLink = async ( value, id ) => {
-
-  console.log("Saving website link");
   axios
     .put("/api/creators/update/ +userId", {
       link: value,

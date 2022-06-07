@@ -4,7 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 
 export default function DraftsNavBar(props) {
   const navigation = useNavigation();

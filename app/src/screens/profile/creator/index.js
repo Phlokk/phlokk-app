@@ -49,7 +49,7 @@ export default function EditCreatorFieldScreen({ route }) {
     let updatedState = categories.map((i) =>
       i.id === item.id ? { ...i, selected: true } : { ...i, selected: false }
     );
-    console.log(updatedState);
+    // console.log(updatedState);
     setCategories(updatedState);
     onSave();
   };

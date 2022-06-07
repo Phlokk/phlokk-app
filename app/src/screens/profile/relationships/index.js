@@ -29,7 +29,7 @@ export default function RelationshipCategoryScreen({ route, props }) {
   };
 
   const onRadioBtnClick = (item) => {
-    console.log(item);
+    // console.log(item);
     categoryId = item.id;
     // item.selected = item.selected ? false : true;
     setCategories(item);

@@ -46,12 +46,6 @@ export default function SavePostScreen({ nav, route }) {
 
   const handleSavePost = () => {
     setRequestRunning(true);
-
-    // Save video to camera Roll...
-
-    // MediaLibrary = async (uri) => {
-    //   await MediaLibrary.saveToLibraryAsync(uri, 'video')
-    //   }
     // answer link: https://stackoverflow.com/questions/59602848/how-to-save-image-to-camera-roll-using-expo
 
     dispatch(
@@ -74,7 +68,6 @@ export default function SavePostScreen({ nav, route }) {
         setRequestRunning(false);
       });
   };
-
 
   const togglePublic = () => {
     if (isPublicEnabled) {

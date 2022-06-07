@@ -5,17 +5,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-import colors from "../../../../config/colors"
-
-
-
+import colors from "../../../../config/colors";
 
 export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerMain}>
@@ -33,7 +29,9 @@ export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
           onPress={() => setDetailsPage(true)}
         >
           <Feather name="user" size={20} color="white" />
-          <Text style={styles.providerButtonText}>{authPage === 0 ? "Sign in" : "Create Account"}</Text>
+          <Text style={styles.providerButtonText}>
+            {authPage === 0 ? "Sign in" : "Create Account"}
+          </Text>
           <View />
         </TouchableOpacity>
       </View>
@@ -53,70 +51,65 @@ export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
             <Text style={styles.bottomButtonText}>Sign in</Text>
           </Text>
         )}
-        
-
       </TouchableOpacity>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.primary
-    },
-    containerMain: {
-        flex: 1,
-        padding: 30,
-        marginTop: '40%',
-        padding: 20,
-        paddingHorizontal: 30,
-        
-    },
-    headerText: {
-        fontWeight: 'bold',
-        fontSize: 25,
-        marginBottom: 25,
-        color: colors.white,
-        textAlign: 'center'
-    },
-    providerButton: {
-        borderColor: colors.secondary,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderStyle: 'solid',
-        padding: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    providerButtonText: {
-        paddingRight: 20,
-        color: colors.white,
-        fontSize: 18,
-    },
-    containerBottomButton: {
-        // backgroundColor: colors.secondary,
-        padding: 20,
-        alignItems: 'center',
-        // borderStyle: 'solid',
-        // borderWidth: 1,
-        // borderColor: colors.secondary,
-    },
-    authText:{
-      color: colors.secondary,
-    },
-    bottomButtonText: {
-        fontWeight: 'bold',
-        color: colors.green,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: colors.primary,
+  },
+  containerMain: {
+    flex: 1,
+    padding: 30,
+    marginTop: "40%",
+    padding: 20,
+    paddingHorizontal: 30,
+  },
+  headerText: {
+    fontWeight: "bold",
+    fontSize: 25,
+    marginBottom: 25,
+    color: colors.white,
+    textAlign: "center",
+  },
+  providerButton: {
+    borderColor: colors.secondary,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderStyle: "solid",
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  providerButtonText: {
+    paddingRight: 20,
+    color: colors.white,
+    fontSize: 18,
+  },
+  containerBottomButton: {
+    // backgroundColor: colors.secondary,
+    padding: 20,
+    alignItems: "center",
+    // borderStyle: 'solid',
+    // borderWidth: 1,
+    // borderColor: colors.secondary,
+  },
+  authText: {
+    color: colors.secondary,
+  },
+  bottomButtonText: {
+    fontWeight: "bold",
+    color: colors.green,
+  },
 
-    logoContainer: {
-        alignItems: 'center'
-    },
-    phlokkLogo: {
-        marginBottom: 20,
-    }
-   
+  logoContainer: {
+    alignItems: "center",
+  },
+  phlokkLogo: {
+    marginBottom: 20,
+  },
 });
-

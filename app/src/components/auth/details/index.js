@@ -35,7 +35,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const navigation = useNavigation();
 
   function resetTextInput() {
-    console.log("reset forum");
     setName("");
     setEmail("");
     setPassword("");
@@ -50,15 +49,11 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         device_name: "mobile",
       })
       .then((response) => {
-        console.log("back from login");
-
-        console.log(response.data);
         const user = response.data.user;
         user.token = response.data.token;
 
         setUser(user);
         SecureStore.setItemAsync("user", JSON.stringify(user));
-        // console.log(user)
         dispatch({
           type: types.USER_STATE_CHANGE,
           currentUser: user,
@@ -66,13 +61,11 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch((error) => {
-        // console.log(error.response);
         Alert.alert("Wrong username or password!");
       });
   };
 
   const handleRegister = () => {
-    console.log(email, password, username, name);
     axios
       .post("/test/register", {
         name: name,
@@ -83,12 +76,8 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       .then(function (response) {
         const user = response.data.user;
         user.token = response.data.token;
-
-        console.log("------------ Response XXX ---------");
-        // console.log(response.data);
         resetTextInput();
         setUser(user);
-        console.log(user.token);
         SecureStore.setItemAsync("user", JSON.stringify(user));
         dispatch({
           type: types.USER_STATE_CHANGE,
@@ -97,9 +86,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch(function (error) {
-        console.log("------------ Back from Server ----------");
-        console.log("------------ ERROR -------------");
-        console.log(error);
+        Alert.alert("Registration was not successful", error);
       });
   };
 

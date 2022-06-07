@@ -33,10 +33,10 @@ export default function EditProfileScreen() {
   }, [dispatch]);
 
   const chooseImage = async () => {
-    console.log("START UPLOADING...");
+    // console.log("START UPLOADING...");
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
-    console.log(user.token);
+    // console.log(user.token);
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -68,11 +68,11 @@ export default function EditProfileScreen() {
       console.log(err);
     });
 
-    console.log(formData);
-    console.log("The status was", +res.status);
+    // console.log(formData);
+    // console.log("The status was", +res.status);
     let test = await res.json();
-    console.log(test);
-    console.log("RESULT -------------------->");
+    // console.log(test);
+    // console.log("RESULT -------------------->");
   };
 
   const onSave = () => {

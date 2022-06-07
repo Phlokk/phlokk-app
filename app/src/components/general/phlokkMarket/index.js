@@ -5,7 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 
 export default function MarketNavBar(props) {
   const navigation = useNavigation();

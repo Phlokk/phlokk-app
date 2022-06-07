@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 
 export default function AccountNavBar({ title = "Manage Account" }) {
   const navigation = useNavigation();
