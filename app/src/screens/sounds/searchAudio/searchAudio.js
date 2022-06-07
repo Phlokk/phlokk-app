@@ -1,8 +1,7 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import SearchInput from "../../../components/search/searchInput";
 
-import colors from "../../../../config/colors";
 
 const SearchAudio = () => {
   const [textInput, setTextInput] = useState("");
@@ -23,8 +22,6 @@ export default SearchAudio;
 
 const styles = StyleSheet.create({
   container: {
-    height: '20%',
-
-    
+    height: '20%',  
   },
 });

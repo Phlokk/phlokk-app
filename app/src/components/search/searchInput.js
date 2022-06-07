@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TextInput, FlatList, View, StyleSheet } from "react-native";
+import { TextInput, View, StyleSheet } from "react-native";
 // import axios from "../../redux/apis/axiosDeclaration";
 // import * as SecureStore from "expo-secure-store";
 import colors from "../../../config/colors";

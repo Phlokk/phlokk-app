@@ -25,7 +25,7 @@ import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import SearchAudio from "./searchAudio/searchAudio";
+import SearchAudio from "../../screens/sounds/searchAudio/searchAudio";
 import { openSettingsAudioModal } from "../../redux/actions/modal";
 
 const smallLogo = require("../../../assets/pmd_logo_green.png");
