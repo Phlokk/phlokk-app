@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import routes from "../../../navigation/routes"
-import colors from "../../../../config/colors"
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import routes from "../../../navigation/routes";
+import colors from "../../../../config/colors";
 
 export default function RecordingNavBar({
   title = "Edit profile",
@@ -27,12 +27,15 @@ export default function RecordingNavBar({
         style={styles.button}
         onPress={() => (leftButton.display ? leftButton.action() : null)}
       >
-        <MaterialCommunityIcons 
-        // onPress={() => navigation.navigate(routes.RECORDING_SCREEN)}
-        onPress={() => Alert.alert("Custom Audio Center", "Coming in official release!")}
-        name="microphone-settings" 
-        size={24} 
-        color={colors.secondary} />
+        <MaterialCommunityIcons
+          // onPress={() => navigation.navigate(routes.RECORDING_SCREEN)}
+          onPress={() =>
+            Alert.alert("Custom Audio Center", "Coming in official release!")
+          }
+          name="microphone-settings"
+          size={24}
+          color={colors.secondary}
+        />
       </TouchableOpacity>
     </View>
   );

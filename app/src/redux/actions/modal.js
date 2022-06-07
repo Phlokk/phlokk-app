@@ -37,6 +37,16 @@ export const openSettingsSheetModal = (open, data) => (dispatch) => {
     })
 }
 
+export const openSettingsAudioModal = (open, data) => (dispatch) => {
+    return dispatch({
+        data,
+        open,
+        modalType: 4,
+        type: types.MODAL_OPEN_SETTINGS_AUDIO_SECTION
+    })
+}
+
+
 
 
 export const clearModal = () => (dispatch) => {

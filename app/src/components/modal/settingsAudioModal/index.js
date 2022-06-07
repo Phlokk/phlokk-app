@@ -1,10 +1,10 @@
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import React, { useEffect, useRef, useCallback } from "react";
 import { useSelector } from "react-redux";
-import SettingsModalScreen from "../settingsModalScreen";
+import SettingsAudioModalScreen from "../settingsAudioModalScreen";
 
-const SettingsModal = (props) => {
-  const modalState = useSelector((state) => state.settingsModal);
+const SettingsAudioModal = (props) => {
+  const modalState = useSelector((state) => state.settingsAudioModal);
   const bottomSheetRef = useRef(null);
 
   useEffect(() => {
@@ -15,8 +15,10 @@ const SettingsModal = (props) => {
 
   const renderContent = () => {
     switch (modalState.modalType) {
-      case 1:
-        return <SettingsModalScreen bottomSheetRef={bottomSheetRef} />;
+      case 4:
+        return <SettingsAudioModalScreen 
+        bottomSheetRef={bottomSheetRef} 
+        />;
       default:
         return <></>;
     }
@@ -36,7 +38,7 @@ const SettingsModal = (props) => {
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      snapPoints={["20%"]}
+      snapPoints={["60%"]}
       index={-1}
       handleHeight={15}
       enablePanDownToClose
@@ -44,11 +46,10 @@ const SettingsModal = (props) => {
       handleIndicatorStyle={{ color: "#fff" }}
       backdropComponent={renderBackdrop}
       pressBehavior={"close"}
-      
     >
       {renderContent()}
     </BottomSheet>
   );
 };
 
-export default SettingsModal;
+export default SettingsAudioModal;

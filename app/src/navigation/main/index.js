@@ -45,6 +45,8 @@ import EditCreatorFieldScreen from "../../screens/profile/creator";
 import RelationshipCategoryScreen from "../../screens/profile/relationships";
 import GiftingModal from "../../components/modal/GiftingModal";
 import SettingsSheetModal from "../../components/modal/settingsSheetModal";
+import SettingsAudioModal from "../../components/modal/settingsAudioModal";
+
 import EndUserAgreementScreen from "../../screens/policies/eulaPolicy";
 import ReportScreen from "../../screens/reports";
 import FeedNavigation from "../feed";
@@ -353,6 +355,8 @@ export default function Route() {
       <SettingsModal />
       <GiftingModal />
       <SettingsSheetModal />
+      <SettingsAudioModal />
+
     </NavigationContainer>
   );
 }

@@ -6,6 +6,8 @@ import { chat } from "./chat";
 import { settingsModal } from "./modal";
 import { giftingModal } from "./modal";
 import { settingsSheetModal } from "./modal";
+import { settingsAudioModal } from "./modal";
+
 import userReducer from "../reducers/userReducer";
 import creatorReducer from "./creatorReducer";
 
@@ -17,6 +19,7 @@ export default combineReducers({
   settingsModal,
   giftingModal,
   settingsSheetModal,
+  settingsAudioModal,
   userReducer,
   creatorReducer,
 });

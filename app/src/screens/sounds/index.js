@@ -5,6 +5,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useDispatch } from "react-redux";
+
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -14,6 +16,7 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { Audio } from "expo-av";
 import RecordingNavBar from "../../components/general/navBar/recordingNav";
@@ -23,6 +26,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SearchAudio from "./searchAudio/searchAudio";
+import { openSettingsAudioModal } from "../../redux/actions/modal";
 
 const smallLogo = require("../../../assets/pmd_logo_green.png");
 const Sounds = [
@@ -53,6 +57,7 @@ const Sounds = [
 ];
 
 export default function SoundScreen({placeholder}) {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
@@ -174,18 +179,19 @@ export default function SoundScreen({placeholder}) {
           {item.name}
         </Text>
         <Text style={styles.artistText}>{item.artist}</Text>
-        <View style={styles.dotRow}>
+        <Text style={styles.mins}>{item.duration}</Text>
+      </TouchableWithoutFeedback>
+      <View style={styles.dotRow}>
         <TouchableOpacity>
           <MaterialCommunityIcons 
           style={styles.infoDots}
           name="dots-vertical" 
           size={30} 
-          color={colors.secondary} />
+          color={colors.secondary}
+          onPress={() => dispatch(openSettingsAudioModal(true))} 
+          />
           </TouchableOpacity>
           </View>
-        <Text style={styles.mins}>{item.duration}</Text>
-        
-      </TouchableWithoutFeedback>
       </View>
     </View>
   );
@@ -253,7 +259,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   mins: {
-    bottom: 12,
+    top: 20,
     color: colors.gray,
     paddingLeft: 10,
     fontSize: 10,

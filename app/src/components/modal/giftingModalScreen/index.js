@@ -54,7 +54,7 @@ const GiftingModalScreen = (props, route) => {
           name="fire"
           size={20}
           color="orange"
-        />{" "}
+        />
         = $1
       </Text>
         </View>

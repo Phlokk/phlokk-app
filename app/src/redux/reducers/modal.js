@@ -70,4 +70,21 @@ export const settingsSheetModal = (state = initialState, action) => {
     }
 }
 
+export const settingsAudioModal = (state = initialState, action) => {
+    switch (action.type) {
+        case types.MODAL_OPEN_SETTINGS_AUDIO_SECTION:
+            return {
+                ...state,
+                open: action.open,
+                data: action.data,
+                modalType: action.modalType,
+            }
+        case types.CLEAR_MODAL:
+            return initialState;
+        default:
+            return state;
+    }
+}
+
+
 
