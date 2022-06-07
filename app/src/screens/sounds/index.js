@@ -305,6 +305,6 @@ const styles = StyleSheet.create({
   },
   dotRow: {
     flexDirection: 'row-reverse',
-    bottom: 12,
+    bottom: 25,
   }
 });

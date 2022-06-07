@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 18,
-    color: colors.gray,
+    color: colors.green,
     textAlign: 'center',
     
   }

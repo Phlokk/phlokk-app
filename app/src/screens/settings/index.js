@@ -65,10 +65,10 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="user" size={12} color="white" /> Manage Account
+            <Feather name="user" size={12} color={colors.green} /> Manage Account
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color="gray" />
+            <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
 
@@ -84,11 +84,10 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <AntDesign name="exclamationcircleo" size={12} color="white" />{" "}
-            Community Guidelines
+            <AntDesign name="exclamationcircleo" size={12} color={colors.green} /> Community Guidelines
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color="gray" />
+            <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
 
@@ -100,11 +99,11 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="file-text" size={12} color="white" /> Terms of
+            <Feather name="file-text" size={12} color={colors.green} /> Terms of
             Service
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color="gray" />
+            <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
 
@@ -114,10 +113,10 @@ export default function SettingsScreen() {
           onPress={() => navigation.navigate(routes.EULA, { title: "EULA" })}
         >
           <Text style={styles.text}>
-            <Feather name="file-text" size={12} color="white" /> EULA
+            <Feather name="file-text" size={12} color={colors.green} /> EULA
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color="gray" />
+            <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
 
@@ -129,10 +128,10 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="file" size={12} color="white" /> Privacy Policy
+            <Feather name="file" size={12} color={colors.green} /> Privacy Policy
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color="gray" />
+            <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
 
@@ -147,11 +146,11 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <FontAwesome5 name="copyright" size={12} color="white" /> Copyright
+            <FontAwesome5 name="copyright" size={12} color={colors.green} /> Copyright
             Policy
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color="gray" />
+            <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
 
@@ -163,7 +162,7 @@ export default function SettingsScreen() {
           onPress={handleLogout}
         >
           <Text style={styles.text}>
-            <MaterialIcons name="logout" size={14} color="white" /> Logout
+            <MaterialIcons name="logout" size={14} color={colors.green} /> Logout
           </Text>
         </TouchableOpacity>
         <View style={styles.versionContainer}>
@@ -179,29 +178,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primary,
   },
-  imageContainer: {
-    alignItems: "center",
-    marginTop: 20,
-  },
-  imageViewContainer: {
-    backgroundColor: "gray",
-    height: 100,
-    width: 100,
-    borderRadius: 50,
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    height: 100,
-    width: 100,
-    position: "absolute",
-  },
-  imageOverlay: {
-    backgroundColor: "rgba(0,0,0, 0.5)",
-    ...StyleSheet.absoluteFill,
-  },
-
   fieldsContainer: {
     marginTop: 20,
     padding: 20,
@@ -218,7 +194,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: colors.white,
+    color: colors.green,
     fontSize: 12,
   },
   versionText: {
@@ -232,6 +208,7 @@ const styles = StyleSheet.create({
   },
   socialText: {
     color: colors.secondary,
+    fontWeight: 'bold',
     fontSize: 8,
     marginTop: 20,
   },

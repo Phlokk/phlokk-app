@@ -23,7 +23,7 @@ const SettingsModalScreen = (props) => {
         }}
       >
         <Text style={styles.text}>
-          <MaterialIcons name="settings" size={14} color="lightgray" /> Settings
+          <MaterialIcons name="settings" size={14} color={colors.green} /> Settings
           and privacy
         </Text>
 
@@ -43,7 +43,7 @@ const SettingsModalScreen = (props) => {
         }
       >
         <Text style={styles.text}>
-          <Entypo name="shop" size={14} color="lightgray" /> Phlokk Market
+          <Entypo name="shop" size={14} color={colors.green} /> Phlokk Market
         </Text>
 
         <View style={styles.fieldValueContainer}>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   text: {
-    color: colors.secondary,
+    color: colors.green,
   },
 
   fieldItemContainer: {

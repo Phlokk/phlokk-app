@@ -17,28 +17,28 @@ export default function DisplayMenuScreen() {
     <View style={styles.container}>
       <View style={styles.menuContainer}>
         <TouchableOpacity style={styles.itemContainer}>
-          <MaterialIcons name="cloud-upload" size={24} color={colors.white} />
+          <MaterialIcons name="cloud-upload" size={24} color={colors.green} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.itemContainer}
          onPress={() => (Alert.alert("Star videos", "Coming in beta version 2!"))}
         >
-          <AntDesign name="star" size={24} color={colors.white} />
+          <AntDesign name="star" size={24} color={colors.green} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.itemContainer}
         onPress={() => (Alert.alert("Favorite videos", "Coming in beta version 2!"))}
         >
-          <MaterialIcons name="bookmark" size={24} color={colors.white} />
+          <MaterialIcons name="bookmark" size={24} color={colors.green} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.itemContainer}
         onPress={() => (Alert.alert("Private videos", "Coming in beta version 2!"))}
         >
-          <FontAwesome name="lock" size={24} color={colors.white} />
+          <FontAwesome name="lock" size={24} color={colors.green} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.itemContainer}>
           <MaterialIcons
             name="admin-panel-settings"
             size={24}
-            color={colors.white}
+            color={colors.green}
             onPress={() => dispatch(openSettingsModal(true))}
           />
         </TouchableOpacity>

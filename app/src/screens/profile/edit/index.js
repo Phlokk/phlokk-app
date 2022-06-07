@@ -4,8 +4,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
-import NavBarGeneral from "../../../../src/components/general/navBar";
+import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
@@ -14,13 +13,13 @@ import { saveUserField } from "../../../services/user";
 import * as SecureStore from "expo-secure-store";
 
 import { useFocusEffect } from "@react-navigation/native";
+import EditProfileNav from "../../../components/general/navBar/editProfile";
 
 export default function EditProfileScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
-  const isFocused = useIsFocused();
-  const users = useSelector((state) => state.userReducer.user);
+  const users = useSelector((state) => state.userReducer.user); 
 
   useFocusEffect(
     useCallback(() => {
@@ -81,7 +80,7 @@ export default function EditProfileScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBarGeneral
+      <EditProfileNav
         title="Edit Profile"
         leftButton={{ display: false, name: "save", action: onSave }}
       />
@@ -363,7 +362,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: colors.white,
+    color: colors.green,
     fontSize: 12,
   },
   authText: {
@@ -371,6 +370,7 @@ const styles = StyleSheet.create({
   },
   socialText: {
     color: colors.secondary,
+    fontWeight: 'bold',
     fontSize: 13,
     marginTop: 60,
     fontWeight: "600",

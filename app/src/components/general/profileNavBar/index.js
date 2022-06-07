@@ -29,7 +29,7 @@ export default function ProfileNavBar() {
           <Entypo
             name="shop"
             size={26}
-            color={colors.white}
+            color={colors.green}
             onPress={() => navigation.navigate(routes.MARKET)}
             // onPress={() =>
             //   Alert.alert("Phlokk Market", "Coming in beta version 3!")
@@ -50,9 +50,9 @@ export default function ProfileNavBar() {
       {users !== null ? (
         <TouchableOpacity>
           <MaterialCommunityIcons
-            name="menu"
+            name="account-settings"
             size={28}
-            color={colors.white}
+            color={colors.green}
             onPress={() => navigation.navigate(routes.EDIT)}
           />
         </TouchableOpacity>

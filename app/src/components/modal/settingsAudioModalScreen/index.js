@@ -53,7 +53,7 @@ const SettingsAudioModalScreen = ( props ) => {
             name="music-circle-outline"
             size={16}
             color={colors.green}
-          /> Buy music </Text>
+          /> Buy song </Text>
       </TouchableOpacity>
     </View>
   );
