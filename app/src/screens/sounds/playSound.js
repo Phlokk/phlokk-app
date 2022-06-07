@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  ActivityIndicator,
-} from "react-native";
+import { Text, View, StyleSheet, ActivityIndicator } from "react-native";
 import { Audio } from "expo-av";
 import colors from "../../../config/colors";
 import { Entypo } from "@expo/vector-icons";
@@ -26,11 +21,11 @@ export default function PlaySoundScreen() {
       const result = await sound.current.getStatusAsync();
       if (result.isLoaded) {
         if (result.isPlaying === false) {
-          sound.current.playAsync()
+          sound.current.playAsync();
           Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
           });
-        } 
+        }
       }
     } catch (error) {}
   };
@@ -40,7 +35,7 @@ export default function PlaySoundScreen() {
       const result = await sound.current.getStatusAsync();
       if (result.isLoaded) {
         if (result.isPlaying === true) {
-          sound.current.replayAsync(); 
+          sound.current.replayAsync();
         }
       }
     } catch (error) {}
@@ -82,19 +77,19 @@ export default function PlaySoundScreen() {
               </>
             ) : (
               <>
-              <View style={{flexDirection: 'row'}}>
-                <Entypo
-                  onPress={PlayAudio}
-                  name="controller-play"
-                  size={55}
-                  color={colors.secondary}
-                />
-                <MaterialCommunityIcons
-                  onPress={ReplayAudio}
-                  name="replay"
-                  size={55}
-                  color={colors.secondary}
-                />
+                <View style={{ flexDirection: "row" }}>
+                  <Entypo
+                    onPress={PlayAudio}
+                    name="controller-play"
+                    size={55}
+                    color={colors.secondary}
+                  />
+                  <MaterialCommunityIcons
+                    onPress={ReplayAudio}
+                    name="replay"
+                    size={55}
+                    color={colors.secondary}
+                  />
                 </View>
               </>
             )}

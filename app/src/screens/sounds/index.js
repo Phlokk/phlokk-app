@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -43,16 +49,23 @@ const Sounds = [
     url: require("../../../assets/songs/long_road.mp3"),
     artwork: require("../../../assets/yellowbrickroad.png"),
   },
+  {
+    id: 4,
+    name: "Long Road",
+    artist: "Drama",
+    duration: "1:00",
+    url: require("../../../assets/songs/long_road.mp3"),
+    artwork: require("../../../assets/yellowbrickroad.png"),
+  },
 ];
 
 export default function SoundScreen() {
   const navigation = useNavigation();
-  const [Loaded, SetLoaded] = React.useState(false);
-  const [Loading, SetLoading] = React.useState(false);
-  const sound = React.useRef(new Audio.Sound());
-  let currentPlayingIndex = 0; // 0 is default
+  const [Loaded, SetLoaded] = useState(false);
+  const [Loading, SetLoading] = useState(false);
+  const sound = useRef(new Audio.Sound());
 
-  React.useEffect(() => {
+  useEffect(() => {
     LoadAudio();
   }, []);
 
@@ -118,16 +131,14 @@ export default function SoundScreen() {
     }
   };
 
-  const ItemRender = ({ name, artist, duration, artwork, soundIndex }) => (
-    <View style={styles.item}>
-      <View style={styles.albumRow}>
-        <Image style={styles.album} source={artwork} />
-        <View>
+  {
+    /* <View>
           {Loading ? (
             <ActivityIndicator
-            style={styles.activity}
-            size={"small"}
-            color={colors.secondary} />
+              style={styles.activity}
+              size={"small"}
+              color={colors.secondary}
+            />
           ) : (
             <>
               {Loaded === false ? (
@@ -137,82 +148,80 @@ export default function SoundScreen() {
               ) : (
                 <>
                   <View style={styles.btnRow}>
-                      <Entypo
-                        onPress={() => PlayAudio(soundIndex)}
-                        name="controller-play"
-                        size={30}
-                        color={colors.secondary}
-                      />
-                      <MaterialCommunityIcons
-                        onPress={ReplayAudio}
-                        name="replay"
-                        size={30}
-                        color={colors.secondary}
-                      />
-                    
+                    <Entypo
+                      onPress={() => PlayAudio(soundIndex)}
+                      name="controller-play"
+                      size={30}
+                      color={colors.secondary}
+                    />
+                    <MaterialCommunityIcons
+                      onPress={ReplayAudio}
+                      name="replay"
+                      size={30}
+                      color={colors.secondary}
+                    />
                   </View>
                 </>
               )}
             </>
           )}
-        </View>
+        </View> */
+  }
+
+  const ItemRender = ({ soundIndex, item }) => (
+    <View style={styles.item}>
+      <View style={styles.albumRow}>
+        <Image style={styles.album} source={item.artwork} />
       </View>
 
       <TouchableWithoutFeedback>
         <Text style={styles.itemText}>
-        <View style={styles.logoRow}>
-        <Image style={styles.logo} source={smallLogo} />
-        </View>
-        {name}</Text>
-        <Text style={styles.artistText}>{artist}</Text>
-        <Text style={styles.mins}>{duration}</Text>
+          <View style={styles.logoRow}>
+            <Image style={styles.logo} source={smallLogo} />
+          </View>
+          {item.name}
+        </Text>
+        <Text style={styles.artistText}>{item.artist}</Text>
+        <Text style={styles.mins}>{item.duration}</Text>
       </TouchableWithoutFeedback>
     </View>
   );
 
-  
-
-  const renderItem = useCallback(({ item, index }) => (
-    <ItemRender
-      name={item.name}
-      artist={item.artist}
-      duration={item.duration}
-      artwork={item.artwork}
-      soundIndex={index}
-    />
-  ));
+  ItemSeparator = () => {
+    return <View style={styles.seperator}></View>;
+  };
 
   const keyExtractor = useCallback((item) => item.id);
 
   return (
     <SafeAreaView style={styles.container}>
       <RecordingNavBar title="Sound Bar" />
-        <FlatList
-          data={Sounds}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          showsVerticalScrollIndicator={false}
-        />
-     
+      <FlatList
+        style={styles.paddingFlat}
+        data={Sounds}
+        renderItem={ItemRender}
+        keyExtractor={keyExtractor}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={ItemSeparator}
+      />
     </SafeAreaView>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    
+  },
+  paddingFlat: {
+    paddingTop: 35,
   },
   btnRow: {
     flexDirection: "row",
     zIndex: -9999,
     top: -50,
-    justifyContent: 'center',
+    justifyContent: "center",
     alignItems: "center",
-
   },
   text: {
     color: colors.secondary,
@@ -227,8 +236,8 @@ const styles = StyleSheet.create({
   },
   itemText: {
     color: colors.green,
-    fontWeight: 'bold',
-    bottom: 26,
+    fontWeight: "bold",
+    bottom: 12,
     fontSize: 11,
     paddingLeft: 5,
   },
@@ -236,13 +245,13 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   artistText: {
-    bottom: 15,
+    bottom: 2,
     color: colors.gray,
     paddingLeft: 10,
     fontSize: 10,
   },
   mins: {
-    bottom: 10,
+    top: 7,
     color: colors.gray,
     paddingLeft: 10,
     fontSize: 10,
@@ -250,24 +259,26 @@ const styles = StyleSheet.create({
   album: {
     height: 65,
     width: 65,
-
   },
   logo: {
     height: 12,
     width: 12,
-
   },
-  logoRow:{
+  logoRow: {
     bottom: 12,
     paddingLeft: 5,
-
-  },
-  topBarPadding: {
-    marginTop: 40,
   },
   activity: {
     top: -45,
     zIndex: 9999,
   },
-
+  seperator: {
+    height: 1,
+    width: "90%",
+    opacity: 0.2,
+    backgroundColor: "#CCC",
+    alignSelf: "center",
+    justifyContent: "center",
+    marginBottom: 5,
+  },
 });
