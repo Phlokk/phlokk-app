@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -28,7 +28,8 @@ export default function RecordingNavBar({
         onPress={() => (leftButton.display ? leftButton.action() : null)}
       >
         <MaterialCommunityIcons 
-        onPress={() => navigation.navigate(routes.RECORDING_SCREEN)}
+        // onPress={() => navigation.navigate(routes.RECORDING_SCREEN)}
+        onPress={() => Alert.alert("Custom Audio Center", "Coming in official release!")}
         name="microphone-settings" 
         size={24} 
         color={colors.secondary} />

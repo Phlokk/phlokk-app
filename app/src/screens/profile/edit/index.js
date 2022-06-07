@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,7 +23,7 @@ export default function EditProfileScreen() {
   const users = useSelector((state) => state.userReducer.user);
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       dispatch(fetchUserData());
     }, [])
   );

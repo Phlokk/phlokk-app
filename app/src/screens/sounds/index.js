@@ -94,9 +94,7 @@ export default function SoundScreen({placeholder}) {
     } catch (error) {}
   };
 
-  // let isPlayingSound = async (soundIndex) => {
-  //   return currentPlayingIndex === soundIndex;
-  // };
+  
 
   let LoadAudio = async (soundIndex = 0) => {
     SetLoading(true);
