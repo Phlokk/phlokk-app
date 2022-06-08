@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React from "react";
+import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import AccountNavBar from "../../components/general/manageAccount";
@@ -10,8 +10,10 @@ import { useNavigation } from "@react-navigation/native";
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import AccountInformation from "./accountInformation";
+import CustomAlert from "../../components/Alerts/customAlert"
 
 const AccountControl = () => {
+  const [businessAccount, setBusinessAccount] = useState(false);
   const navigation = useNavigation();
   return (
     <View style={styles.fieldsContainer}>
@@ -19,12 +21,17 @@ const AccountControl = () => {
 
       <View style={styles.divider}></View>
       <Text style={styles.socialText}>Account control</Text>
-
+      <CustomAlert
+        alertTitle="Alert!"
+        customAlertMessage="Business & Analytics coming in official release!"
+        positiveBtn="Ok"
+        modalVisible={businessAccount}
+        dismissAlert={setBusinessAccount}
+        animationType="fade"
+      />
       <TouchableOpacity
         style={styles.fieldItemContainer}
-        onPress={() =>
-          Alert.alert("Business & Analytics", "Coming in official release!")
-        }
+        onPress={() => setBusinessAccount(true)}
       >
         <Text style={styles.text}>Switch to Business Account</Text>
         <View style={styles.fieldValueContainer}>
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
   },
   socialText: {
     color: colors.secondary,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 10,
     marginTop: 20,
   },

@@ -1,19 +1,30 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors"
+import CustomAlert from "../../components/Alerts/customAlert"
 
 const AccountInformation = () => {
+  const [phoneNumber, setPhoneNumber] = useState(false)
+  const [email, setEmail] = useState(false)
+  const [password, setPassword] = useState(false)
  
   return (
     <View>
       <Text style={styles.socialText}>Account Information</Text>
-
+      <CustomAlert
+        alertTitle="Alert!"
+        customAlertMessage="Add Phone number coming in beta version 3!"
+        positiveBtn="Ok"
+        modalVisible={phoneNumber}
+        dismissAlert={setPhoneNumber}
+        animationType="fade"
+      />
         <TouchableOpacity
-        onPress={() => (Alert.alert("Add Phone number", "Coming in beta version 3!"))}
+        onPress={() => setPhoneNumber(true)}
           style={styles.fieldItemContainer}
           autoCapitalize="none"
           
@@ -28,9 +39,16 @@ const AccountInformation = () => {
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
-
+        <CustomAlert
+        alertTitle="Alert!"
+        customAlertMessage="Edit Email coming in beta version 3!"
+        positiveBtn="Ok"
+        modalVisible={email}
+        dismissAlert={setEmail}
+        animationType="fade"
+      />
         <TouchableOpacity
-        onPress={() => (Alert.alert("Edit Email", "Coming in beta version 3!"))}
+        onPress={() => setEmail(true)}
           style={styles.fieldItemContainer}
           autoCapitalize="none"
           
@@ -45,9 +63,16 @@ const AccountInformation = () => {
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
         </TouchableOpacity>
-
+        <CustomAlert
+        alertTitle="Alert!"
+        customAlertMessage="Edit Password coming in beta version 3!"
+        positiveBtn="Ok"
+        modalVisible={password}
+        dismissAlert={setPassword}
+        animationType="fade"
+      />
         <TouchableOpacity
-         onPress={() => (Alert.alert("Edit Password", "Coming in beta version 3!"))}
+         onPress={() =>setPassword(true)}
           style={styles.fieldItemContainer}
           autoCapitalize="none"
           
