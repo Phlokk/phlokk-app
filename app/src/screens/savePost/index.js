@@ -1,9 +1,3 @@
-import { MaterialIcons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -16,16 +10,21 @@ import {
   Keyboard,
   Switch,
   StyleSheet,
-  Alert,
 } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { createPost } from "../../redux/actions";
 import PostNavBar from "../../components/general/postNav";
-
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import LottieView from "lottie-react-native";
+import CustomAlert from "../../components/Alerts/customAlert";
 
 export default function SavePostScreen({ nav, route }) {
   const navigation = useNavigation();
@@ -34,15 +33,12 @@ export default function SavePostScreen({ nav, route }) {
   const [requestRunning, setRequestRunning] = useState(false);
   const lottieAnimation = require("../../../assets/animations/loader.json");
   const phlokkLogo = require("../../../assets/phlokk_logo.png");
-  
-  // switches setState
-  const [isPublicEnabled, setIsPublicEnabled] = useState(false);
-  const [isPrivateEnabled, setIsPrivateEnabled] = useState(false);
-  const [isMarketEnabled, setIsMarketEnabled] = useState(false);
-  const [isCommentsEnabled, setIsCommentsEnabled] = useState(false);
-  const [isDuetsEnabled, setIsDuetsEnabled] = useState(false);
-  const [isReviewsEnabled, setIsReviewsEnabled] = useState(false);
+
+  const [activeSwitch, setActiveSwitch] = useState(null);
+
   const [text, setText] = useState("Click");
+
+  const [drafts, setDrafts] = useState(false);
 
   const handleSavePost = () => {
     setRequestRunning(true);
@@ -69,58 +65,31 @@ export default function SavePostScreen({ nav, route }) {
       });
   };
 
-  const togglePublic = () => {
-    if (isPublicEnabled) {
-      setText("Inactive");
-    } else {
-      setText("Active");
-    }
-    setIsPublicEnabled((previousState) => !previousState);
+  toggleSwitch = (switchNumber) => {
+    setActiveSwitch(switchNumber === activeSwitch ? null : switchNumber);
   };
 
-  const togglePrivate = () => {
-    if (isPrivateEnabled) {
-      setText("Inactive");
-    } else {
-      setText("Active");
-    }
-    setIsPrivateEnabled((previousState) => !previousState);
+  togglePublic = (value) => {
+    toggleSwitch(1);
+  };
+  togglePrivate = (value) => {
+    toggleSwitch(2);
   };
 
-  const toggleMarket = () => {
-    if (isMarketEnabled) {
-      setText("Inactive");
-    } else {
-      setText("Active");
-    }
-    setIsMarketEnabled((previousState) => !previousState);
+  toggleComments = (value) => {
+    toggleSwitch(3);
   };
 
-  const toggleComments = () => {
-    if (isCommentsEnabled) {
-      setText("Inactive");
-    } else {
-      setText("Active");
-    }
-    setIsCommentsEnabled((previousState) => !previousState);
+  toggleMarket = (value) => {
+    toggleSwitch(4);
   };
 
-  const toggleDuets = () => {
-    if (isDuetsEnabled) {
-      setText("Inactive");
-    } else {
-      setText("Active");
-    }
-    setIsDuetsEnabled((previousState) => !previousState);
+  toggleDuets = (value) => {
+    toggleSwitch(5);
   };
 
-  const toggleReviews = () => {
-    if (isReviewsEnabled) {
-      setText("Inactive");
-    } else {
-      setText("Active");
-    }
-    setIsReviewsEnabled((previousState) => !previousState);
+  toggleReviews = (value) => {
+    toggleSwitch(6);
   };
 
   if (requestRunning) {
@@ -188,9 +157,9 @@ export default function SavePostScreen({ nav, route }) {
                 <Switch
                   style={styles.switch}
                   trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={isPublicEnabled ? "f4f3f4" : "f4f3f4"}
+                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
                   onValueChange={togglePublic}
-                  value={isPublicEnabled}
+                  value={activeSwitch === 1}
                 />
               </View>
             </View>
@@ -211,9 +180,9 @@ export default function SavePostScreen({ nav, route }) {
                 <Switch
                   style={styles.switch}
                   trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={isPrivateEnabled ? "f4f3f4" : "f4f3f4"}
+                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
                   onValueChange={togglePrivate}
-                  value={isPrivateEnabled}
+                  value={activeSwitch === 2}
                 />
               </View>
             </View>
@@ -241,9 +210,9 @@ export default function SavePostScreen({ nav, route }) {
                 <Switch
                   style={styles.switch}
                   trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={isCommentsEnabled ? "f4f3f4" : "f4f3f4"}
+                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
                   onValueChange={toggleComments}
-                  value={isCommentsEnabled}
+                  value={activeSwitch === 3}
                 />
               </View>
             </View>
@@ -269,9 +238,9 @@ export default function SavePostScreen({ nav, route }) {
                 <Switch
                   style={styles.switch}
                   trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={isDuetsEnabled ? "f4f3f4" : "f4f3f4"}
-                  onValueChange={toggleDuets}
-                  value={isDuetsEnabled}
+                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
+                  onValueChange={toggleMarket}
+                  value={activeSwitch === 4}
                 />
               </View>
             </View>
@@ -294,9 +263,9 @@ export default function SavePostScreen({ nav, route }) {
                 <Switch
                   style={styles.switch}
                   trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={isMarketEnabled ? "f4f3f4" : "f4f3f4"}
-                  onValueChange={toggleMarket}
-                  value={isMarketEnabled}
+                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
+                  onValueChange={toggleDuets}
+                  value={activeSwitch === 5}
                 />
               </View>
             </View>
@@ -316,9 +285,9 @@ export default function SavePostScreen({ nav, route }) {
                 <Switch
                   style={styles.switch}
                   trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={isReviewsEnabled ? "f4f3f4" : "f4f3f4"}
+                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
                   onValueChange={toggleReviews}
-                  value={isReviewsEnabled}
+                  value={activeSwitch === 6}
                 />
               </View>
             </View>
@@ -346,9 +315,21 @@ export default function SavePostScreen({ nav, route }) {
           </TouchableOpacity>
         </View>
         <View style={styles.buttonsContainer}>
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Drafts{"\n"}coming in beta 3</Text>}
+            positiveBtn="Ok"
+            modalVisible={drafts}
+            dismissAlert={setDrafts}
+            animationType="fade"
+          />
           <TouchableOpacity
             // onPress={() => navigation.navigate(routes.DRAFTS)}
-            onPress={() => Alert.alert("Drafts", "Coming in Beta version 3")}
+            onPress={() => setDrafts(true)}
             style={styles.draftsButton}
           >
             <Feather name="inbox" size={20} color={colors.white} />
@@ -447,7 +428,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     borderColor: colors.white,
-    borderWidth: 1,
+    borderWidth: 0.5,
     flexDirection: "row",
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -458,7 +439,8 @@ const styles = StyleSheet.create({
   postButton: {
     alignItems: "center",
     flex: 1,
-    backgroundColor: colors.green,
+    borderColor: colors.green,
+    borderWidth: 0.5,
     flexDirection: "row",
     paddingVertical: 10,
     paddingHorizontal: 20,

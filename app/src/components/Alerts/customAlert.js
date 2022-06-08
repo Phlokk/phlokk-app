@@ -119,7 +119,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     marginVertical: 8,
     borderRadius: 10,
-    backgroundColor: colors.green,
+    borderColor: colors.green,
+    borderWidth: 1,
+    backgroundColor: colors.lightBlack,
     justifyContent: "center",
   },
   alertMessageButtonText: {

@@ -65,7 +65,7 @@ const AccountInformation = () => {
         </TouchableOpacity>
         <CustomAlert
         alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Edit password{"\n"}coming in beta version 3</Text>}
+        customAlertMessage={<Text>Edit password{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={password}
         dismissAlert={setPassword}
