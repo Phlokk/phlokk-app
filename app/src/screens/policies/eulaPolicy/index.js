@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 
 import colors from "../../../../config/colors";
-import SettingsNavBar from "../../../components/general/settings";
+import PostNavBar from "../../../components/general/navBar";
 
 
 export default function EndUserAgreementScreen({ route, props }) {
@@ -12,7 +12,7 @@ export default function EndUserAgreementScreen({ route, props }) {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
-        <SettingsNavBar title="EULA" />
+        <PostNavBar title="EULA" />
       <ScrollView style={styles.spacer}>
         <Text style={styles.middlePar}>
           End-User License Agreement (EULA) of Phlokk

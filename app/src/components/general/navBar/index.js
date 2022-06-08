@@ -24,13 +24,8 @@ export default function NavBarGeneral({
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => (leftButton.display ? leftButton.action() : null)}
       >
-        <Feather
-          name={leftButton.name}
-          size={26}
-          color={leftButton.display ? colors.red : "white"}
-        />
+        <MaterialIcons name="info" size={24} color={colors.green} />
       </TouchableOpacity>
     </View>
   );
