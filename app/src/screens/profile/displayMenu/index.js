@@ -9,7 +9,7 @@ import CustomAlert from "../../../components/Alerts/customAlert";
 
 import colors from "../../../../config/colors";
 
-export default function DisplayMenuScreen() {
+function DisplayMenuScreen() {
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
   const [isBookmark, setIsBookmark] = useState(false);
@@ -97,3 +97,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
+
+export default React.memo(DisplayMenuScreen)

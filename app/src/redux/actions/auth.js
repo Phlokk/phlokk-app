@@ -4,11 +4,7 @@ import { types } from "../constants";
 
 export const userAuthStateListener = () => (dispatch) => {
 
-  // console.log("here............");
-
-  SecureStore.getItemAsync("user").then((user) => {
-    // console.log("async user");
-    console.log(user);
+  SecureStore.getItemAsync("user").then((user) => { 
     if (user) {
       dispatch({
         type: types.USER_STATE_CHANGE,

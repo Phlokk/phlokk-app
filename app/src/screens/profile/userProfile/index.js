@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserData } from "../../../redux/actions/users";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
-
 import verifiedCheck from "../../../../assets/verified.png";
 
 function UserProfile() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
 
-  // const navigation = useNavigation();
   useEffect(() => {
     dispatch(fetchUserData({}));
   }, [dispatch]);
@@ -242,4 +239,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserProfile;
+export default React.memo(UserProfile);

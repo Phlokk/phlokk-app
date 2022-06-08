@@ -85,8 +85,8 @@ const ReportScreen = ({ route, navigation }) => {
   const [messageValue, setMessageValue] = useState("");
 
   const onRadioBtnClick = (item) => {
-    console.log("radio click");
-    console.log(item);
+    // console.log("radio click");
+    // console.log(item);
     categoryId = item.id;
     // item.selected = item.selected ? false : true;
     setCategories(item);
@@ -99,10 +99,10 @@ const ReportScreen = ({ route, navigation }) => {
 
   const submitForm = function () {
     let post = route.params.post;
-    console.log("reports view---------");
-    console.log(post);
-    console.log(post.id);
-    console.log(categoryId);
+    // console.log("reports view---------");
+    // console.log(post);
+    // console.log(post.id);
+    // console.log(categoryId);
 
     if (titleValue.trim() === "" || messageValue.trim() === "") {
       Alert.alert("Please fill out all of the fields.");

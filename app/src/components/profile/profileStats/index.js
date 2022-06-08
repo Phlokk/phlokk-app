@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import colors from "../../../../config/colors";
 
-export default function ProfileStatsContainer() {
+function ProfileStatsContainer() {
   const [following, setFollowing] = useState("40k");
   const [friends, setFriends] = useState("500k");
   const [starCount, setStarCount] = useState("10m");
@@ -54,3 +54,5 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
 });
+
+export default React.memo(ProfileStatsContainer)
