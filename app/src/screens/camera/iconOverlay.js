@@ -28,8 +28,8 @@ function IconOverlay() {
   return (
     <View>
       <CustomAlert
-        alertTitle="Alert!"
-        customAlertMessage="Text w/ keyframes coming in beta version 3!"
+        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Text w/ keyframes{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={textFrames}
         dismissAlert={setTextFrames}
@@ -43,8 +43,8 @@ function IconOverlay() {
         <Text style={styles.iconText}>Text</Text>
       </TouchableOpacity>
       <CustomAlert
-        alertTitle="Alert!"
-        customAlertMessage="Digital Timing coming in beta version 3!"
+        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Digital Timing{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={digitalTiming}
         dismissAlert={setDigitalTiming}
@@ -62,8 +62,8 @@ function IconOverlay() {
         <Text style={styles.iconText}>Timing</Text>
       </TouchableOpacity>
       <CustomAlert
-        alertTitle="Alert!"
-        customAlertMessage="Speed coming in beta version 3!"
+        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Speed{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={speed}
         dismissAlert={setSpeed}
@@ -77,8 +77,8 @@ function IconOverlay() {
         <Text style={styles.iconText}>Speed</Text>
       </TouchableOpacity>
       <CustomAlert
-        alertTitle="Alert!"
-        customAlertMessage="FX coming in beta version 3!"
+        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>FX{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={fX}
         dismissAlert={setFx}
@@ -92,8 +92,8 @@ function IconOverlay() {
         <Text style={styles.iconText}>FX</Text>
       </TouchableOpacity>
       <CustomAlert
-        alertTitle="Alert!"
-        customAlertMessage="Replies coming in beta version 3!"
+        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Replies{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={replies}
         dismissAlert={setReplies}

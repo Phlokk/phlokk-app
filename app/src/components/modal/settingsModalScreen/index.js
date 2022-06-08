@@ -34,8 +34,8 @@ const SettingsModalScreen = (props) => {
         </View>
       </TouchableOpacity>
       <CustomAlert
-        alertTitle="Alert!"
-        customAlertMessage="Phlokk Market coming in official release!"
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Phlokk Market{"\n"}coming in official release</Text>}
         positiveBtn="Ok"
         modalVisible={marketAlert}
         dismissAlert={setMarketAlert}

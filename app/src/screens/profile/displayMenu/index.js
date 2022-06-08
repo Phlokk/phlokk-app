@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, StyleSheet, Modal } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -19,8 +19,8 @@ export default function DisplayMenuScreen() {
     <View style={styles.container}>
       <View style={styles.menuContainer}>
         <CustomAlert
-          alertTitle="Alert!"
-          customAlertMessage="Star videos coming in beta version 2!"
+          alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+          customAlertMessage={<Text>Star videos{"\n"}coming in beta version 2</Text>}
           positiveBtn="Ok"
           modalVisible={isVisible}
           dismissAlert={setIsVisible}
@@ -36,8 +36,8 @@ export default function DisplayMenuScreen() {
           <AntDesign name="star" size={24} color={colors.green} />
         </TouchableOpacity>
         <CustomAlert
-          alertTitle="Alert!"
-          customAlertMessage="Favorite videos coming in beta version 2!"
+          alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+          customAlertMessage={<Text>Favorite videos{"\n"}coming in beta version 2</Text>}
           positiveBtn="Ok"
           modalVisible={isBookmark}
           dismissAlert={setIsBookmark}
@@ -50,8 +50,8 @@ export default function DisplayMenuScreen() {
           <MaterialIcons name="bookmark" size={24} color={colors.green} />
         </TouchableOpacity>
         <CustomAlert
-          alertTitle="Alert!"
-          customAlertMessage="Private videos coming in beta version 2!"
+          alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+          customAlertMessage={<Text>Private videos{"\n"}coming in beta version 2</Text>}
           positiveBtn="Ok"
           modalVisible={isPrivate}
           dismissAlert={setIsPrivate}
