@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   title: {
-    color: "gray",
+    color: colors.secondary,
   },
   reportView: {
     marginTop: 30,
@@ -140,6 +140,6 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   divider: {
-    backgroundColor: "gray",
+    backgroundColor: colors.secondary,
   },
 });

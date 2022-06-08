@@ -59,18 +59,18 @@ const styles = StyleSheet.create({
       
   },
   divider: {
-      backgroundColor: 'gray',
+      backgroundColor: colors.secondary,
   },
   info: {
       color: colors.secondary,
       fontSize: 12,
   },
   infoTextGreen: {
-      color: 'green',
+      color: colors.green
   },
   
   title: {
-      color: 'gray',
+      color: colors.secondary,
       
   },
   infoView: {

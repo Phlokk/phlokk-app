@@ -46,7 +46,7 @@ export default function EditProfileFieldScreen({ route }) {
       </View>
       <View style={styles.infoView}>
         <Text style={styles.info}>
-          <Text style={styles.infoTextGreen}>Info:</Text> Can only contain
+          <Text style={styles.infoText}>Info:</Text> Can only contain
           letters, numbers,underscores, and periods. When you change your
           username it will update the link to your profile.
         </Text>
@@ -64,17 +64,17 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   divider: {
-    backgroundColor: "gray",
+    backgroundColor: colors.secondary,
   },
   info: {
     color: colors.secondary,
     fontSize: 12,
   },
-  infoTextGreen: {
-    color: "green",
+  infoText: {
+    color: colors.green,
   },
   title: {
-    color: "gray",
+    color: colors.secondary,
   },
   infoView: {
     paddingHorizontal: 20,

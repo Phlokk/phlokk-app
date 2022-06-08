@@ -34,7 +34,7 @@ export default function EditLinkFieldScreen({ route }) {
           autoCapitalize="none"
           dataDetectorTypes={"link"}
           autoCorrect={false}
-          maxLength={24}
+          maxLength={50}
           value={textInputValue}
           onChangeText={setTextInputValue}
           
@@ -44,7 +44,7 @@ export default function EditLinkFieldScreen({ route }) {
 
       <View style={styles.infoView}>
         <Text style={styles.info}>
-          <Text style={styles.infoTextRed}>Add your business link. You must use "http or https" before all links. 0/24</Text>{" "}
+          <Text style={styles.infoText}>Add your online store link. You must use "http or https" before all links.</Text>{" "}
         </Text>
       </View>
     </SafeAreaView>
@@ -62,18 +62,18 @@ const styles = StyleSheet.create({
       
   },
   divider: {
-      backgroundColor: 'gray',
+      backgroundColor: colors.secondary,
   },
   info: {
       color: colors.secondary,
       fontSize: 12,
   },
-  infoTextRed: {
-      color: colors.white,
+  infoText: {
+      color: colors.green,
   },
   
   title: {
-      color: 'gray',
+      color: colors.secondary,
       
   },
   infoView: {
