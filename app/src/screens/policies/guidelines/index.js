@@ -1177,7 +1177,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   largeText: {
-    color: colors.white,
+    color: colors.green,
     paddingTop: 10,
     padding: 10,
     fontWeight: "bold",

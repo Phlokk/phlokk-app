@@ -1,17 +1,17 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import routes from "../../../navigation/routes";
-import CustomAlert from "../../Alerts/customAlert"
+import CustomAlert from "../../Alerts/customAlert";
 import colors from "../../../../config/colors";
 
 const SettingsModalScreen = (props) => {
   const navigation = useNavigation();
-  const [marketAlert, setMarketAlert] = useState(false)
+  const [marketAlert, setMarketAlert] = useState(false);
   const handleClosePress = () => props.bottomSheetRef.current.close();
 
   return (
@@ -25,8 +25,8 @@ const SettingsModalScreen = (props) => {
         }}
       >
         <Text style={styles.text}>
-          <MaterialIcons name="settings" size={14} color={colors.green} /> Settings
-          and privacy
+          <MaterialIcons name="settings" size={14} color={colors.green} />{" "}
+          Settings and privacy
         </Text>
 
         <View style={styles.fieldValueContainer}>
@@ -34,13 +34,13 @@ const SettingsModalScreen = (props) => {
         </View>
       </TouchableOpacity>
       <CustomAlert
-          alertTitle="Alert!"
-          customAlertMessage="Phlokk Market coming in official release!"
-          positiveBtn="Ok"
-          modalVisible={marketAlert}
-          dismissAlert={setMarketAlert}
-          animationType="fade"
-        />
+        alertTitle="Alert!"
+        customAlertMessage="Phlokk Market coming in official release!"
+        positiveBtn="Ok"
+        modalVisible={marketAlert}
+        dismissAlert={setMarketAlert}
+        animationType="fade"
+      />
       <TouchableOpacity
         style={styles.fieldItemContainer}
         autoCapitalize="none"
@@ -48,9 +48,7 @@ const SettingsModalScreen = (props) => {
         //   handleClosePress()
 
         // }}
-        onPress={() =>
-          setMarketAlert(true)
-        }
+        onPress={() => setMarketAlert(true)}
       >
         <Text style={styles.text}>
           <Entypo name="shop" size={14} color={colors.green} /> Phlokk Market

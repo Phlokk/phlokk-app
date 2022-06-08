@@ -70,19 +70,19 @@ export default function EndUserAgreementScreen({ route, props }) {
           otherwise change the whole or any part of the Software nor permit the
           whole or any part of the Software to be combined with or become
           incorporated in any other software, nor decompile, disassemble or
-          reverse engineer the Software or attempt to do any such things 
+          reverse engineer the Software or attempt to do any such things{"\n"} 
           
-          * Reproduce, copy, distribute, resell or otherwise use the Software for
-          any commercial purpose 
+          {"\n"}* Reproduce, copy, distribute, resell or otherwise use the Software for
+          any commercial purpose{"\n"} 
           
-          * Allow any third party to use the Software on
-          behalf of or for the benefit of any third party 
+          {"\n"}* Allow any third party to use the Software on
+          behalf of or for the benefit of any third party {"\n"}
           
-          * Use the Software in any way which breaches any applicable local, national or international
-          law 
+          {"\n"}* Use the Software in any way which breaches any applicable local, national or international
+          law {"\n"}
           
-          * use the Software for any purpose that Phlokk LLC considers is a
-          breach of this EULA agreement 
+          {"\n"}* use the Software for any purpose that Phlokk LLC considers is a
+          breach of this EULA agreement {"\n"}
           </Text>
           
           <Text style={styles.largeText}>Intellectual Property and Ownership</Text>
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   largeText: {
-    color: colors.white,
+    color: colors.green,
     padding: 10,
     fontWeight: "bold",
     fontSize: 15,
