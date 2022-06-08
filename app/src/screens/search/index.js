@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.gray,
-    fontSize: 15,
+    fontSize: 12,
     marginBottom: 5,
     marginHorizontal: 3,
   },
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 13 },
   },
   itemText: {
-    fontSize: 12,
+    fontSize: 10,
     color: colors.green,
     textAlign: "center",
   },

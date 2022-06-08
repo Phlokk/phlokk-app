@@ -1,15 +1,17 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import React from "react";
+import React, {useState} from "react";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import routes from "../../../navigation/routes";
+import CustomAlert from "../../Alerts/customAlert"
 import colors from "../../../../config/colors";
 
 const SettingsModalScreen = (props) => {
   const navigation = useNavigation();
+  const [marketAlert, setMarketAlert] = useState(false)
   const handleClosePress = () => props.bottomSheetRef.current.close();
 
   return (
@@ -31,6 +33,14 @@ const SettingsModalScreen = (props) => {
           <Feather name="chevron-right" size={28} color="#131313" />
         </View>
       </TouchableOpacity>
+      <CustomAlert
+          alertTitle="Alert!"
+          customAlertMessage="Phlokk Market coming in official release!"
+          positiveBtn="Ok"
+          modalVisible={marketAlert}
+          dismissAlert={setMarketAlert}
+          animationType="fade"
+        />
       <TouchableOpacity
         style={styles.fieldItemContainer}
         autoCapitalize="none"
@@ -39,7 +49,7 @@ const SettingsModalScreen = (props) => {
 
         // }}
         onPress={() =>
-          Alert.alert("Phlokk Market", "Coming in beta version 3!")
+          setMarketAlert(true)
         }
       >
         <Text style={styles.text}>

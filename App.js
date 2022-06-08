@@ -2,7 +2,6 @@ import "react-native-gesture-handler";
 import { React } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import store from "./app/src/redux/reducers/configureStore";
-// import store from "./app/src/reduxTK/configureStore.js"
 import { Provider } from "react-redux";
 import Route from "./app/src/navigation/main";
 import { LogBox } from "react-native";

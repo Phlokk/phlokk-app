@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
 import colors from "../../../config/colors";
+import CustomAlert from "../../components/Alerts/customAlert";
 
 export default function ActivityScreen({ navigation }) {
   const dispatch = useDispatch();

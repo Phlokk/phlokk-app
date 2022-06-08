@@ -86,7 +86,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch(function (error) {
-        Alert.alert("Registration was not successful", error);
+        Alert.alert("Registration was not successful");
       });
   };
 

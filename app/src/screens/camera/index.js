@@ -9,22 +9,16 @@ import {
   Image,
   Platform,
   StyleSheet,
-  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import * as VideoThumbnails from "expo-video-thumbnails";
-import routes from "../../navigation/routes"
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import colors from "../../../config/colors";
+import IconOverlay from "./iconOverlay";
 
 export default function CameraScreen() {
   const [hasCameraPermissions, setHasCameraPermissions] = useState(false);
@@ -37,6 +31,7 @@ export default function CameraScreen() {
   const [cameraFlash, setCameraFlash] = useState(
     Camera.Constants.FlashMode.off
   );
+
   // const [cameraVideoStabilization, setCameraVideoStabilization ] = useState(
   //   Camera.Constants.VideoStabilization.auto
   // )
@@ -44,7 +39,6 @@ export default function CameraScreen() {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-
 
   useEffect(() => {
     (async () => {
@@ -107,9 +101,9 @@ export default function CameraScreen() {
 
   const pickFromGallery = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos, 
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       includeBase64: true,
-      mediaType: 'video',
+      mediaType: "video",
       allowsEditing: true,
       aspect: [16, 9],
       quality: 1,
@@ -130,7 +124,6 @@ export default function CameraScreen() {
       console.warn(e);
     }
   };
-
 
   if (!hasCameraPermissions || !hasAudioPermissions || !hasGalleryPermissions) {
     return <View></View>;
@@ -185,65 +178,8 @@ export default function CameraScreen() {
           <Feather name="zap" size={24} color={colors.green} />
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() =>
-            Alert.alert("Text w/ keyframes", "Coming in beta version 3!")
-          }
-        >
-          <Feather name="align-left" size={24} color={colors.green} />
-          <Text style={styles.iconText}>Text</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() =>
-            Alert.alert("Digital Timing", "Coming in beta version 3!")
-          }
-        >
-          <MaterialCommunityIcons
-            name="account-clock-outline"
-            size={24}
-            color={colors.green}
-          />
-          <Text style={styles.iconText}>Timing</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => Alert.alert("Speed", "Coming in beta version 3!")}
-        >
-          <Octicons name="dashboard" size={24} color={colors.green} />
-          <Text style={styles.iconText}>Speed</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => Alert.alert("FX", "Coming in beta version 3!")}
-        >
-          <FontAwesome name="magic" size={24} color={colors.green} />
-          <Text style={styles.iconText}>FX</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => Alert.alert("Replies", "Coming in beta version 3!")}
-        >
-          <MaterialIcons
-            name="chat-bubble-outline"
-            size={24}
-            color={colors.green}
-          />
-          <Text style={styles.iconText}>Replies</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => navigation.navigate(routes.SOUNDS)}
-          // onPress={() => Alert.alert("Sound Bar", "Coming in beta version 3!")}
-        >
-          <Entypo name="beamed-note" size={24} color={colors.green} />
-          <Text style={styles.iconText}>Sounds</Text>
-        </TouchableOpacity>
+        <IconOverlay />
       </View>
-
       <View style={styles.bottomBarContainer}>
         <View style={{ flex: 1 }}></View>
         <View style={styles.recordButtonContainer}>
@@ -299,9 +235,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 30,
     marginHorizontal: 30,
-  },
-  speedText: {
-    color: colors.black,
   },
   recordButton: {
     borderWidth: 3,

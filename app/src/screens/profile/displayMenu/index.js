@@ -1,36 +1,65 @@
-import React from "react";
-import { View, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import React, { useState } from "react";
+import { View, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { openSettingsModal } from "../../../redux/actions/modal";
+import CustomAlert from "../../../components/Alerts/customAlert";
 
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 
 export default function DisplayMenuScreen() {
   const dispatch = useDispatch();
-
-
+  const [isVisible, setIsVisible] = useState(false);
+  const [isBookmark, setIsBookmark] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   return (
     <View style={styles.container}>
       <View style={styles.menuContainer}>
+        <CustomAlert
+          alertTitle="Alert!"
+          customAlertMessage="Star videos coming in beta version 2!"
+          positiveBtn="Ok"
+          modalVisible={isVisible}
+          dismissAlert={setIsVisible}
+          animationType="fade"
+        />
         <TouchableOpacity style={styles.itemContainer}>
           <MaterialIcons name="cloud-upload" size={24} color={colors.green} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.itemContainer}
-         onPress={() => (Alert.alert("Star videos", "Coming in beta version 2!"))}
+        <TouchableOpacity
+          style={styles.itemContainer}
+          onPress={() => setIsVisible(true)}
         >
           <AntDesign name="star" size={24} color={colors.green} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.itemContainer}
-        onPress={() => (Alert.alert("Favorite videos", "Coming in beta version 2!"))}
+        <CustomAlert
+          alertTitle="Alert!"
+          customAlertMessage="Favorite videos coming in beta version 2!"
+          positiveBtn="Ok"
+          modalVisible={isBookmark}
+          dismissAlert={setIsBookmark}
+          animationType="fade"
+        />
+        <TouchableOpacity
+          style={styles.itemContainer}
+          onPress={() => setIsBookmark(true)}
         >
           <MaterialIcons name="bookmark" size={24} color={colors.green} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.itemContainer}
-        onPress={() => (Alert.alert("Private videos", "Coming in beta version 2!"))}
+        <CustomAlert
+          alertTitle="Alert!"
+          customAlertMessage="Private videos coming in beta version 2!"
+          positiveBtn="Ok"
+          modalVisible={isPrivate}
+          dismissAlert={setIsPrivate}
+          animationType="fade"
+        />
+        <TouchableOpacity
+          style={styles.itemContainer}
+          onPress={() => setIsPrivate(true)}
         >
           <FontAwesome name="lock" size={24} color={colors.green} />
         </TouchableOpacity>
@@ -49,24 +78,22 @@ export default function DisplayMenuScreen() {
 
 const styles = StyleSheet.create({
   container: {
-      flexDirection: 'row',
-      paddingHorizontal: 0,
-      paddingVertical: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
+    flexDirection: "row",
+    paddingHorizontal: 0,
+    paddingVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
-      color: colors.white,
+    color: colors.white,
   },
   itemContainer: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'space-between',
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   menuContainer: {
-      paddingBottom: 5,
-      flexDirection: 'row',
+    paddingBottom: 5,
+    flexDirection: "row",
   },
-  
-
 });
