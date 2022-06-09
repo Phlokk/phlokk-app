@@ -34,23 +34,23 @@ function UserProfile(user) {
 
   return (
     <View style={styles.container}>
-      <CustomImageModal
-        alertTitle="About me"
-        customAlertMessage={<Text>User Bio</Text>}
-        positiveBtn="Back"
-        modalVisible={popUpImage}
-        dismissAlert={setPopUpImage}
-        animationType="fade"
-      />
       {users &&
         users.map((user, i) =>
           user.photo_url !== null || !undefined ? (
-            <TouchableOpacity onPress={() => setPopUpImage(true)}>
-            <Image
-              style={styles.avatar}
-              key={i}
-              source={{ uri: user.photo_url }}
-            />
+            <TouchableOpacity key={i} onPress={() => setPopUpImage(true)}>
+              <CustomImageModal
+                alertTitle="About me"
+                customAlertMessage={<Text>User Bio</Text>}
+                positiveBtn="Back"
+                modalVisible={popUpImage}
+                dismissAlert={setPopUpImage}
+                animationType="fade"
+              />
+              <Image
+                style={styles.avatar}
+                // key={i}
+                source={{ uri: user.photo_url }}
+              />
             </TouchableOpacity>
           ) : (
             <Image
@@ -114,25 +114,32 @@ function UserProfile(user) {
               </Text>
             ))}
         </View>
-        <TouchableOpacity>
-          <CustomAlert
-            alertTitle={
-              <Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-            customAlertMessage={
-              <Text>Top Favorite 5{"\n"}coming in beta 3</Text>
-            }
-            positiveBtn="Ok"
-            modalVisible={topFavFive}
-            dismissAlert={setTopFavFive}
-            animationType="fade"
-          />
-          <MaterialCommunityIcons
-            name="diamond-stone"
-            size={25}
-            color={colors.diamondBlue}
-            onPress={() => setTopFavFive(true)}
-          />
-        </TouchableOpacity>
+        {users &&
+          users.map((user, i) => (
+            <TouchableOpacity key={i}>
+              <CustomAlert
+                alertTitle={
+                  <Text>
+                    <MaterialIcons name="info" size={24} color={colors.green} />
+                  </Text>
+                }
+                customAlertMessage={
+                  <Text>Top Favorite 5{"\n"}coming in beta 3</Text>
+                }
+                positiveBtn="Ok"
+                modalVisible={topFavFive}
+                dismissAlert={setTopFavFive}
+                animationType="fade"
+              />
+              <MaterialCommunityIcons
+                name="diamond-stone"
+                size={25}
+                color={colors.diamondBlue}
+                onPress={() => setTopFavFive(true)}
+              />
+            </TouchableOpacity>
+          ))}
+         
       </>
     </View>
   );

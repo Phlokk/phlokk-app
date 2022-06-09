@@ -4,6 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import routes from "../../../navigation/routes";
 import CustomAlert from "../../Alerts/customAlert";
@@ -30,12 +31,38 @@ const SettingsModalScreen = (props) => {
         </Text>
 
         <View style={styles.fieldValueContainer}>
-          <Feather name="chevron-right" size={28} color="#131313" />
+          <Feather 
+            name="chevron-right" 
+            size={28} 
+            color="#131313" />
         </View>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.fieldItemContainer}
+        autoCapitalize="none"
+        onPress={() => {
+          navigation.navigate(routes.EDIT);
+          handleClosePress();
+        }}
+      >
+        <Text style={styles.text}>
+          <MaterialCommunityIcons
+            name="account-settings"
+            size={17}
+            color={colors.green}
+          />{" "}
+          Edit profile
+        </Text>
+      </TouchableOpacity>
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Phlokk Market{"\n"}coming in official release</Text>}
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={
+          <Text>Phlokk Market{"\n"}coming in official release</Text>
+        }
         positiveBtn="Ok"
         modalVisible={marketAlert}
         dismissAlert={setMarketAlert}

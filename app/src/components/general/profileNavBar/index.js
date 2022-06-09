@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { Entypo } from "@expo/vector-icons";
+import React, { useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -31,9 +30,6 @@ export default function ProfileNavBar() {
             size={29}
             color={colors.green}
             onPress={() => navigation.navigate(routes.BUY_GIFTS)}
-            // onPress={() =>
-            //   Alert.alert("Phlokk Market", "Coming in beta version 3!")
-            // }
           />
         </TouchableOpacity>
       ) : (
@@ -47,13 +43,13 @@ export default function ProfileNavBar() {
         </TouchableOpacity>
       )}
       {users && users.map((user, i) => <Text style={styles.middleText} key={i}>{user.creator_type}</Text>)}
-      {users !== null ? (
+      
+      {users !== null || !undefined ? (
         <TouchableOpacity>
           <MaterialCommunityIcons
-            name="account-settings"
-            size={28}
+            name="information"
+            size={25}
             color={colors.green}
-            onPress={() => navigation.navigate(routes.EDIT)}
           />
         </TouchableOpacity>
       ) : (
@@ -62,7 +58,6 @@ export default function ProfileNavBar() {
             name="ellipsis-horizontal"
             size={28}
             color={colors.white}
-            onPress={() => navigation.navigate("edit")}
           />
         </TouchableOpacity>
       )}

@@ -36,7 +36,7 @@ const SettingsModal = (props) => {
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      snapPoints={["20%"]}
+      snapPoints={["30%"]}
       index={-1}
       handleHeight={15}
       enablePanDownToClose
