@@ -3,11 +3,11 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import NavBarGeneral from "../../../../components/general/navBar";
 import { saveUsername } from "../../../../../src/services/user";
 import { generalStyles } from "../../../../../src/styles";
 
 import colors from "../../../../../config/colors";
+import InfoScreenNav from "../../../../components/general/navBar/infoScreenNav";
 
 export default function EditProfileFieldScreen({ route }) {
   const { title, value } = route.params;
@@ -26,7 +26,7 @@ export default function EditProfileFieldScreen({ route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBarGeneral
+      <InfoScreenNav
         title={title}
         leftButton={{ display: true, name: "save", action: onSave }}
       />

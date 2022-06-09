@@ -2,10 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import NavBarGeneral from "../../../components/general/navBar";
 
 import colors from "../../../../config/colors";
 import saveRelationshipField from "../../../services/user";
+import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
 
 let categoryId = null;
 
@@ -43,7 +43,7 @@ export default function RelationshipCategoryScreen({ route, props }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBarGeneral
+      <InfoScreenNav
         title={title}
         // changed left button to false (white)
         leftButton={{ display: false, name: "save", action: onSave }}

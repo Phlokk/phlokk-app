@@ -9,10 +9,10 @@ import {
 } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import NavBarGeneral from "../../../components/general/navBar";
 
 import colors from "../../../../config/colors";
 import { saveCreatorType } from "../../../services/user";
+import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
 
 let categoryId = null;
 
@@ -64,7 +64,7 @@ export default function EditCreatorFieldScreen({ route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBarGeneral
+      <InfoScreenNav
         title={title}
         leftButton={{ display: false, name: "save", action: onSave }}
       />

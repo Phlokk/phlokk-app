@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import NavBarGeneral from "../../../components/general/navBar";
 import generalStyles from "../../../styles/generalStyles";
 import { saveYoutubeLink } from "../../../services/user";
 
 import colors from "../../../../config/colors"
+import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
 
 export default function EditYoutubeScreen({ route }) {
   const { title, value } = route.params;
@@ -18,7 +18,7 @@ export default function EditYoutubeScreen({ route }) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <NavBarGeneral
+      <InfoScreenNav
         title={title}
         leftButton={{ display: true, name: "save", action: onSave }}
       />
