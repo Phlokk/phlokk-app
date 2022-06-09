@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -13,10 +13,12 @@ import { fetchUserData } from "../../redux/actions/users";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 
 import * as Linking from "expo-linking";
-import routes from "../../navigation/routes"
+import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function CustomImageModal({
   alertTitle,
@@ -41,6 +43,13 @@ export default function CustomImageModal({
       animationType={"fade"}
       onRequestClose={() => setModalVisible(false)}
     >
+      <LinearGradient
+        colors={['#00cec9', '#ffffff']}
+        // start={{ x: 0.0, y: 0.25 }}
+        // end={{ x: 0.5, y: 1.0 }}
+        // locations={[0, 0.5, 0.6]}
+        style={styles.box}
+        >
       <View style={styles.mainContainer}>
         <View style={styles.container}>
           <View style={styles.top}>
@@ -64,85 +73,99 @@ export default function CustomImageModal({
           </View>
 
           <View style={styles.middle}>
+          <View style={styles.goBackView}>
+                <Feather
+                  onPress={() => dismissAlert(false)}
+                  style={styles.alertMessageButtonText}
+                  name="x-square"
+                  size={25}
+                />
+              </View>
             <Text style={styles.alertMessageTextStyle}>
-              <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text>{"\n"}{"\n"}
-              
+              <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text>
+              {"\n"}
+              {"\n"}
               {/* {customAlertMessage} */}
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
-              type and 
+              type and
             </Text>
             <View style={styles.seperator}></View>
             <View style={styles.linkRow}>
-        <View style={styles.linkText}>
-          <Feather
-            onPress={
-              users[0] && users[0].youtubeLink
-                ? () => Linking.openURL(users[0].youtubeLink)
-                : null
-            }
-            name="youtube"
-            size={24}
-            color={
-              users[0] && users[0].youtubeLink ? colors.green : colors.gray
-            }
-          />
-        </View>
-        <View style={styles.linkText}>
-          <MaterialCommunityIcons
-            onPress={
-              users[0] && users[0].link
-                ? () => Linking.openURL(users[0].link)
-                : null
-            }
-            name="link"
-            size={29}
-            color={users[0] && users[0].link ? colors.green : colors.gray}
-          />
-        </View>
-        <View style={styles.linkText}>
-          <Feather
-            onPress={
-              users[0] && users[0].instagramLink
-                ? () => Linking.openURL(users[0].instagramLink)
-                : null
-            }
-            name="instagram"
-            size={23}
-            color={
-              users[0] && users[0].instagramLink ? colors.green : colors.gray
-            }
-          />
-        </View>
-        {users !== null || !undefined ? (
-        <TouchableOpacity style={styles.linkText}>
-          <Entypo
-            name="shop"
-            size={25}
-            color={colors.green}
-            onPress={() => navigation.navigate(routes.MARKET)}
-            // onPress={() =>
-            //   Alert.alert("Phlokk Market", "Coming in beta version 3!")
-            // }
-          />
-        </TouchableOpacity>
-      ) : (
-        <></>
-      )}
-      </View>
+              <View style={styles.linkText}>
+                <Feather
+                  onPress={
+                    users[0] && users[0].youtubeLink
+                      ? () => Linking.openURL(users[0].youtubeLink)
+                      : null
+                  }
+                  name="youtube"
+                  size={28}
+                  color={
+                    users[0] && users[0].youtubeLink
+                      ? colors.diamondBlue
+                      : colors.gray
+                  }
+                />
+              </View>
+              <View style={styles.linkText}>
+                <MaterialCommunityIcons
+                  onPress={
+                    users[0] && users[0].link
+                      ? () => Linking.openURL(users[0].link)
+                      : null
+                  }
+                  name="link-box-variant"
+                  size={29}
+                  color={
+                    users[0] && users[0].link ? colors.diamondBlue : colors.gray
+                  }
+                />
+              </View>
+              <View style={styles.linkText}>
+                <Feather
+                  onPress={
+                    users[0] && users[0].instagramLink
+                      ? () => Linking.openURL(users[0].instagramLink)
+                      : null
+                  }
+                  name="instagram"
+                  size={23}
+                  color={
+                    users[0] && users[0].instagramLink
+                      ? colors.diamondBlue
+                      : colors.gray
+                  }
+                />
+              </View>
+              {users !== null || !undefined ? (
+                <TouchableOpacity style={styles.linkText}>
+                  <Entypo
+                    name="shop"
+                    size={25}
+                    color={colors.diamondBlue}
+                    onPress={() => navigation.navigate(routes.MARKET)}
+                    // onPress={() =>
+                    //   Alert.alert("Phlokk Market", "Coming in beta version 3!")
+                    // }
+                  />
+                </TouchableOpacity>
+              ) : (
+                <></>
+              )}
+            </View>
           </View>
 
           <View style={styles.bottom}>
-          <TouchableOpacity
-              onPress={() => dismissAlert(false)}
-              style={styles.alertMessageButtonStyle}
-            >
-                <Text style={styles.alertMessageButtonText}>{positiveBtn}</Text>  
-            </TouchableOpacity>
           </View>
+      
+          
         </View>
+        
       </View>
+      
+      </LinearGradient>
     </Modal>
   );
 }
@@ -151,7 +174,7 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     width: "100%",
-    backgroundColor: colors.primary,
+    // backgroundColor: colors.primary,
     borderRadius: 15,
     padding: 4,
   },
@@ -193,6 +216,7 @@ const styles = StyleSheet.create({
   },
   alertTitleTextStyle: {
     flex: 1,
+    justifyContent: 'center',
     textAlign: "center",
     color: colors.green,
     fontSize: 18,
@@ -211,15 +235,15 @@ const styles = StyleSheet.create({
     height: "20%",
     paddingHorizontal: 6,
     marginVertical: 20,
-    borderRadius: 10,
-    borderColor: colors.green,
-    borderWidth: 1,
-    backgroundColor: colors.lightBlack,
+    // borderRadius: 10,
+    // borderColor: colors.green,
+    // borderWidth: 1,
+    // backgroundColor: colors.lightBlack,
     justifyContent: "center",
   },
   alertMessageButtonText: {
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 25,
     fontWeight: "bold",
     color: colors.white,
   },
@@ -232,7 +256,7 @@ const styles = StyleSheet.create({
   },
   linkRow: {
     flexDirection: "row",
-    paddingTop: 70,
+    paddingTop: 35,
   },
   linkText: {
     color: colors.secondary,
@@ -249,7 +273,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     marginBottom: 10,
-    top: 70,
+    top: 50,
+  },
+  goBackView: {
     
+    margin: 10,
+    right: 150,
+    bottom: 15,
+    
+  },
+  box: {
+    width: '100%',
+    height: '100%',
   },
 });
