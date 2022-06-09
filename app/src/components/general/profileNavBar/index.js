@@ -90,4 +90,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontWeight: "bold",
   },
+  
 });

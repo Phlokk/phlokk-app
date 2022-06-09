@@ -174,7 +174,10 @@ export default function SoundScreen({placeholder}) {
         
         <Text style={styles.itemInfo}>
           <View style={styles.logoRow}>
-            <Image style={styles.logo} source={smallLogo} />
+            <Image style={styles.logo} 
+            source={smallLogo} 
+            cache='only-if-cached'
+            />
           </View>
           {item.name}
         </Text>

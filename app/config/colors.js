@@ -15,6 +15,7 @@ export default {
     greenCheck: '#00e640',
     gray: '#dfe6e9',
     lightBlack: '#181818',
+    diamondBlue: '#c5eff7',
     
 
 

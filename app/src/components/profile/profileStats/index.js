@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   counterLabelText: {
-    color: colors.white,
+    color: colors.diamondBlue,
     fontSize: 11,
   },
 });

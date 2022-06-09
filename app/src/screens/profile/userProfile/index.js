@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,10 +10,13 @@ import { fetchUserData } from "../../../redux/actions/users";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import verifiedCheck from "../../../../assets/verified.png";
+import CustomAlert from "../../../components/Alerts/customAlert";
 
 function UserProfile() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
+
+  const [topFavFive, setTopFavFive] = useState(false)
 
   useEffect(() => {
     dispatch(fetchUserData({}));
@@ -40,6 +44,7 @@ function UserProfile() {
             <Image
               style={styles.avatar}
               source={require("../../../../assets/userImage.png")}
+              cache='only-if-cached'
             />
           )
         )}
@@ -136,10 +141,26 @@ function UserProfile() {
           {users &&
             users.map((user, i) => (
               <Text style={styles.relationshipText} key={i}>
-                &#x1F48D; {user.relationship_name}
+                 {user.relationship_name}
               </Text>
             ))}
         </View>
+        <TouchableOpacity>
+        <CustomAlert
+        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Top Favorite 5{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={topFavFive}
+        dismissAlert={setTopFavFive}
+        animationType="fade"
+      />
+      <MaterialCommunityIcons
+            name="diamond-stone"
+            size={25}
+            color={colors.diamondBlue}
+            onPress={() => setTopFavFive(true)}
+          />
+      </TouchableOpacity>
       </>
     </View>
   );

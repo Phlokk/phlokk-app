@@ -36,31 +36,31 @@ const TabBar = ({ state, navigation }) => {
         <AntDesign
           name="home"
           size={25}
-          color={state.index === 0 ? colors.green : colors.secondary}
+          color={state.index === 0 ? colors.green : colors.diamondBlue}
           onPress={() => onPress(0)}
         />
         <EvilIcons
           name="search"
           size={33}
-          color={state.index === 1 ? colors.green : colors.secondary}
+          color={state.index === 1 ? colors.green : colors.diamondBlue}
           onPress={() => onPress(1)}
         />
         <MaterialCommunityIcons
           name="fingerprint"
           size={40}
-          color={state.index === 2 ? colors.green : colors.secondary}
+          color={state.index === 2 ? colors.green : colors.diamondBlue}
           onPress={() => onPress(2)}
         />
         <Feather
           name="message-square"
           size={25}
-          color={state.index === 3 ? colors.green : colors.secondary}
+          color={state.index === 3 ? colors.green : colors.diamondBlue}
           onPress={() => onPress(3)}
         />
         <Feather
           name="user"
           size={25}
-          color={state.index === 4 ? colors.green : colors.secondary}
+          color={state.index === 4 ? colors.green : colors.diamondBlue}
           onPress={() => onPress(4)}
         />
       </View>

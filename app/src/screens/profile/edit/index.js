@@ -96,6 +96,7 @@ export default function EditProfileScreen() {
                   style={styles.image}
                   key={i}
                   source={{ uri: image ? image : user.photo_url }}
+                  cache='only-if-cached'
                 />
               ))}
 
