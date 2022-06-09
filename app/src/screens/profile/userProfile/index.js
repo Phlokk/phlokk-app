@@ -11,12 +11,14 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import verifiedCheck from "../../../../assets/verified.png";
 import CustomAlert from "../../../components/Alerts/customAlert";
+import CustomImageModal from "../../../components/Image/customImage";
 
-function UserProfile() {
+function UserProfile(user) {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
 
-  const [topFavFive, setTopFavFive] = useState(false)
+  const [topFavFive, setTopFavFive] = useState(false);
+  const [popUpImage, setPopUpImage] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUserData({}));
@@ -32,19 +34,29 @@ function UserProfile() {
 
   return (
     <View style={styles.container}>
+      <CustomImageModal
+        alertTitle="About me"
+        customAlertMessage={<Text>User Bio</Text>}
+        positiveBtn="Back"
+        modalVisible={popUpImage}
+        dismissAlert={setPopUpImage}
+        animationType="fade"
+      />
       {users &&
         users.map((user, i) =>
           user.photo_url !== null || !undefined ? (
+            <TouchableOpacity onPress={() => setPopUpImage(true)}>
             <Image
               style={styles.avatar}
               key={i}
               source={{ uri: user.photo_url }}
             />
+            </TouchableOpacity>
           ) : (
             <Image
               style={styles.avatar}
               source={require("../../../../assets/userImage.png")}
-              cache='only-if-cached'
+              cache="only-if-cached"
             />
           )
         )}
@@ -67,49 +79,6 @@ function UserProfile() {
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
-      </View>
-
-      <View style={styles.linkRow}>
-        <View style={styles.linkText}>
-          <Feather
-            onPress={
-              users[0] && users[0].youtubeLink
-                ? () => Linking.openURL(users[0].youtubeLink)
-                : null
-            }
-            name="youtube"
-            size={18}
-            color={
-              users[0] && users[0].youtubeLink ? colors.green : colors.gray
-            }
-          />
-        </View>
-        <View style={styles.linkText}>
-          <MaterialCommunityIcons
-            onPress={
-              users[0] && users[0].link
-                ? () => Linking.openURL(users[0].link)
-                : null
-            }
-            name="link"
-            size={23}
-            color={users[0] && users[0].link ? colors.green : colors.gray}
-          />
-        </View>
-        <View style={styles.linkText}>
-          <Feather
-            onPress={
-              users[0] && users[0].instagramLink
-                ? () => Linking.openURL(users[0].instagramLink)
-                : null
-            }
-            name="instagram"
-            size={16}
-            color={
-              users[0] && users[0].instagramLink ? colors.green : colors.gray
-            }
-          />
-        </View>
       </View>
 
       <View style={styles.quotesView}>
@@ -141,26 +110,29 @@ function UserProfile() {
           {users &&
             users.map((user, i) => (
               <Text style={styles.relationshipText} key={i}>
-                 {user.relationship_name}
+                {user.relationship_name}
               </Text>
             ))}
         </View>
         <TouchableOpacity>
-        <CustomAlert
-        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Top Favorite 5{"\n"}coming in beta 3</Text>}
-        positiveBtn="Ok"
-        modalVisible={topFavFive}
-        dismissAlert={setTopFavFive}
-        animationType="fade"
-      />
-      <MaterialCommunityIcons
+          <CustomAlert
+            alertTitle={
+              <Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+            customAlertMessage={
+              <Text>Top Favorite 5{"\n"}coming in beta 3</Text>
+            }
+            positiveBtn="Ok"
+            modalVisible={topFavFive}
+            dismissAlert={setTopFavFive}
+            animationType="fade"
+          />
+          <MaterialCommunityIcons
             name="diamond-stone"
             size={25}
             color={colors.diamondBlue}
             onPress={() => setTopFavFive(true)}
           />
-      </TouchableOpacity>
+        </TouchableOpacity>
       </>
     </View>
   );
@@ -174,6 +146,7 @@ const styles = StyleSheet.create({
   },
   relationshipNameContainer: {
     flexDirection: "row",
+    paddingTop: 5,
     justifyContent: "space-between",
     bottom: 2,
   },
@@ -191,20 +164,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     marginBottom: 10,
     marginHorizontal: 2,
-  },
-  link: {
-    alignItems: "center",
-    marginVertical: 5,
-  },
-  linkRow: {
-    flexDirection: "row",
-  },
-  linkText: {
-    color: colors.secondary,
-    marginBottom: 20,
-    padding: 2,
-    justifyContent: "center",
-    margin: 15,
   },
   avatar: {
     height: 100,
@@ -246,6 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     textAlign: "center",
+    paddingTop: 10,
     paddingBottom: 10,
     paddingRight: 25,
     paddingLeft: 25,

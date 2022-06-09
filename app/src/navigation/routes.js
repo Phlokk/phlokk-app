@@ -32,11 +32,13 @@ export default Object.freeze({
     REPORTS: 'reports',
     SETTING_SHEET: 'settingsSheet',
     QUOTES: 'quotes',
+    BIO: 'bio',
     CAMERA: 'Cam',
     SOUNDS: 'sounds',
     RECORDING_SCREEN: 'recording',
     AUDIO_PLAYER: 'audioPlay',
     PLAY_SOUND: 'playSound',
+    BUY_GIFTS: 'buyGifts',
     // Flatlist Screens
     COMEDY_SCREEN: 'comedyScreen',
     MUSICIAN_SCREEN: 'musicianScreen',

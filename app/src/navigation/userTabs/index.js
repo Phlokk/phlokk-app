@@ -15,6 +15,7 @@ import ActivityScreen from "../../screens/activity";
 import colors from "../../../config/colors";
 
 const Tab = createBottomTabNavigator();
+
 const TabBar = ({ state, navigation }) => {
   const onPress = (index) => {
     const route = state.routes[index];

@@ -62,6 +62,8 @@ import LipSyncScreen from "../../screens/risingStars/lipSync";
 import MusicianScreen from "../../screens/risingStars/musician";
 import RecordingScreen from "../../screens/sounds/recorder/recording"
 import AudioPlay from "../../screens/sounds/recorder/playAudio"
+import BioFieldScreen from "../../screens/profile/bio/bio";
+import GiftingScreen from "../../screens/gifting/gifting";
 
 
 const Stack = createNativeStackNavigator();
@@ -287,6 +289,11 @@ export default function Route() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name="bio"
+              component={BioFieldScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name="comedyScreen"
               component={ComedyScreen}
               options={{ headerShown: false }}
@@ -344,6 +351,11 @@ export default function Route() {
             <Stack.Screen
               name="audioPlay"
               component={AudioPlay}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="buyGifts"
+              component={GiftingScreen}
               options={{ headerShown: false }}
             />
             

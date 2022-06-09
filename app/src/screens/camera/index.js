@@ -211,6 +211,7 @@ export default function CameraScreen() {
             )}
           </TouchableOpacity>
         </View>
+        
       </View>
     </View>
   );
@@ -229,7 +230,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     flexDirection: "row",
-    marginBottom: 10,
   },
   recordButtonContainer: {
     flex: 1,

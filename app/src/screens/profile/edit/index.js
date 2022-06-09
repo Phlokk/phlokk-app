@@ -15,11 +15,14 @@ import * as SecureStore from "expo-secure-store";
 import { useFocusEffect } from "@react-navigation/native";
 import EditProfileNav from "../../../components/general/navBar/editProfile";
 
+
 export default function EditProfileScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
   const users = useSelector((state) => state.userReducer.user); 
+
+  
 
   useFocusEffect(
     useCallback(() => {
@@ -213,6 +216,31 @@ export default function EditProfileScreen() {
               <View style={styles.fieldValueContainer}>
                 <Text numberOfLines={1} style={styles.text} key={i}>
                   {user.quote}
+                </Text>
+                <Feather name="chevron-right" size={28} color={colors.white} />
+              </View>
+            </TouchableOpacity>
+          ))}
+
+         
+          {users &&
+          users.map((user, i) => (
+            <TouchableOpacity
+              style={styles.fieldItemContainer}
+              key={i}
+              autoCapitalize="none"
+              onPress={() =>
+                navigation.navigate(routes.BIO, {
+                  title: "Bio",
+                  field: "bio",
+                  value: user.bio,
+                })
+              }
+            >
+              <Text style={styles.text}>Bio</Text>
+              <View style={styles.fieldValueContainer}>
+                <Text numberOfLines={1} style={styles.text} key={i}>
+                  {user.bio}
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>

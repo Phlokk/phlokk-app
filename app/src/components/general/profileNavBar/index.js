@@ -16,7 +16,7 @@ export default function ProfileNavBar() {
 
   const users = useSelector((state) => state.userReducer.user);
   // const loading = useSelector(state => state.userReducer.user);
-  // const navigation = useNavigation();
+ 
 
   useEffect(() => {
     dispatch(fetchUserData());
@@ -26,11 +26,11 @@ export default function ProfileNavBar() {
     <View style={styles.container}>
       {users !== null || !undefined ? (
         <TouchableOpacity>
-          <Entypo
-            name="shop"
-            size={26}
+          <MaterialCommunityIcons
+            name="fire"
+            size={29}
             color={colors.green}
-            onPress={() => navigation.navigate(routes.MARKET)}
+            onPress={() => navigation.navigate(routes.BUY_GIFTS)}
             // onPress={() =>
             //   Alert.alert("Phlokk Market", "Coming in beta version 3!")
             // }
