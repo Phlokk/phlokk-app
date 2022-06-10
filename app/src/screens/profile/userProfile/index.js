@@ -139,7 +139,6 @@ function UserProfile(user) {
               />
             </TouchableOpacity>
           ))}
-         
       </>
     </View>
   );

@@ -1,7 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 
-const url = "https://dev.phlokk.com/api/creators";
-// const url_one= "https://jsonplaceholder.typicode.com/users"
+const url = "https://phlokk.com/api/creators";
+
 
 const fetchGetUsers = async () => {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
