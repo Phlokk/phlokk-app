@@ -31,7 +31,7 @@ export default function CustomImageModal({
   const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(fetchUserData([]));
+    dispatch(fetchUserData(['photo_url','youtube_link', 'link', 'instagram_link']));
   }, [dispatch]);
 
   const users = useSelector((state) => state.userReducer.user);
@@ -96,14 +96,14 @@ export default function CustomImageModal({
               <View style={styles.linkText}>
                 <Feather
                   onPress={
-                    users[0] && users[0].youtubeLink
-                      ? () => Linking.openURL(users[0].youtubeLink)
+                    users[0] && users[0].youtube_link
+                      ? () => Linking.openURL(users[0].youtube_link)
                       : null
                   }
                   name="youtube"
                   size={28}
                   color={
-                    users[0] && users[0].youtubeLink
+                    users[0] && users[0].youtube_link
                       ? colors.diamondBlue
                       : colors.gray
                   }
@@ -126,14 +126,14 @@ export default function CustomImageModal({
               <View style={styles.linkText}>
                 <Feather
                   onPress={
-                    users[0] && users[0].instagramLink
-                      ? () => Linking.openURL(users[0].instagramLink)
+                    users[0] && users[0].instagram_link
+                      ? () => Linking.openURL(users[0].instagram_link)
                       : null
                   }
                   name="instagram"
                   size={23}
                   color={
-                    users[0] && users[0].instagramLink
+                    users[0] && users[0].instagram_link
                       ? colors.diamondBlue
                       : colors.gray
                   }

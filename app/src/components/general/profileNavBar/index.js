@@ -18,7 +18,7 @@ export default function ProfileNavBar() {
  
 
   useEffect(() => {
-    dispatch(fetchUserData());
+    dispatch(fetchUserData(['creator_type']));
   }, [dispatch]);
 
   return (

@@ -297,13 +297,13 @@ export default function EditProfileScreen() {
               onPress={() =>
                 navigation.navigate(routes.YOUTUBE_LINK, {
                   title: "Youtube",
-                  field: "youtubeLink",
+                  field: "youtube_link",
                   value: user.youtube_link,
                 })
               }
             >
               <Text style={styles.text}>Youtube</Text>
-              {users.youtubeLink === null ? (
+              {users.youtube_link === null ? (
                 <View style={styles.fieldValueContainer}>
                   <Text numberOfLines={1} style={styles.text}>
                     Add Youtube Channel
@@ -332,13 +332,13 @@ export default function EditProfileScreen() {
               onPress={() =>
                 navigation.navigate(routes.INSTAGRAM_LINK, {
                   title: "Instagram",
-                  field: "instagramLink",
+                  field: "instagram_link",
                   value: user.instagram_link,
                 })
               }
             >
               <Text style={styles.text}>Instagram</Text>
-              {users.instagramLink === null ? (
+              {users.instagram_link === null ? (
                 <View style={styles.fieldValueContainer}>
                   <Text numberOfLines={1} style={styles.authText}>
                     Add Instagram Account
