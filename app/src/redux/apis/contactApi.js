@@ -1,6 +1,6 @@
 import axios from './axiosDeclaration';
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (data) => {
   try {
     const users = await axios.get('api/creators');
     return users.data;

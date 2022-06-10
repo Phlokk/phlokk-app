@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { saveUsername } from "../../../../../src/services/user";
+import { updateCreator } from "../../../../../src/services/user";
 import { generalStyles } from "../../../../../src/styles";
 
 import colors from "../../../../../config/colors";
@@ -17,7 +17,7 @@ export default function EditProfileFieldScreen({ route }) {
 
   const onSave = () => {
 
-    saveUsername(textInputValue)
+    updateCreator({username: textInputValue})
     .then(() => navigation.goBack());
   };
 

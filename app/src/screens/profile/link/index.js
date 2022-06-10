@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { saveUserLink } from "../../../services/user";
+import { updateCreator } from "../../../services/user";
 import generalStyles from "../../../styles/generalStyles";
 
 import colors from "../../../../config/colors"
@@ -15,7 +15,7 @@ export default function EditLinkFieldScreen({ route }) {
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const onSave = () => {
-    saveUserLink(textInputValue).then(() => navigation.goBack());
+    updateCreator({link: textInputValue}).then(() => navigation.goBack());
   };
 
   

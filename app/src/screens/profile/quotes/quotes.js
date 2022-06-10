@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { saveQuote } from "../../../services/user";
+import { updateCreator } from "../../../services/user";
 import { generalStyles } from "../../../../src/styles";
 import * as SecureStore from "expo-secure-store";
 
@@ -18,7 +18,7 @@ export default function EditQuotesFieldScreen({ route }) {
   const dispatch = useDispatch();
 
   const onSave = () => {
-    saveQuote(textInputValue).then(() => navigation.goBack());
+    updateCreator({quote: textInputValue}).then(() => navigation.goBack());
   };
 
   return (

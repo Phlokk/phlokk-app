@@ -4,7 +4,7 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import generalStyles from "../../../styles/generalStyles";
-import { saveInstagramLink } from "../../../services/user";
+import { updateCreator } from "../../../services/user";
 
 import colors from "../../../../config/colors"
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
@@ -14,7 +14,7 @@ export default function EditInstagramScreen({ route }) {
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const onSave = () => {
-    saveInstagramLink(textInputValue).then(() => navigation.goBack());
+    updateCreator({instagram_link: textInputValue}).then(() => navigation.goBack());
   };
   
   return (

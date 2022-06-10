@@ -4,74 +4,47 @@ import { types } from "../redux/constants";
 import axios from '../redux/apis/axiosDeclaration'
 
 
-export const saveUsername = async ( value, id ) => {
-  axios
-    .put("/api/creators/update/ +userId", {
-      username: value,
-      userId: id,
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-};
 
-export const saveQuote = async ( value, id ) => {
-  axios
-    .put("/api/creators/update/ +userId", {
-      quote: value,
-      userId: id,
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-};
+export const updateCreator = async ( data ) => {
+  axios.patch('/api/creators/update', data).then((response) => {});
+}
 
-export const saveYoutubeLink = async ( value, id ) => {
-  axios
-    .put("/api/creators/update/ +userId", {
-      youtubeLink: value,
-      userId: id,
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-};
 
-export const saveInstagramLink = async ( value, id ) => {
-  axios
-    .put("/api/creators/update/ +userId", {
-      instagramLink: value,
-      userId: id,
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-};
+// export const updateUserInfo = async ( value ) => {
+//   axios
+//     .patch("/api/creators/update", {
+//       username: value,
+//       quote: value,
+//       youtubeLink: value,
+//       instagramLink: value,
+//       creator_type: categoryId,
+//       link: value,
+//     })
+//     .then((response) => {
+//       console.log(response.data);
+//     })
+//     .catch((error) => {
+//       console.log(error.response);
+//     });
+// };
 
-export const saveCreatorType = async ( categoryId ) => {
-  axios
-    .put("/api/creators/update", {
-      creator_type: categoryId,
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-};
+// export const saveQuote = async ( value ) => {
+//   axios
+//     .patch("/api/creators/update", {
+//       quote: value,
+//     })
+//     .then((response) => {
+//       console.log(response.data);
+//     })
+//     .catch((error) => {
+//       console.log(error.response);
+//     });
+// };
+
+
+
+
+
 
 // export const saveRelationshipField = (field, value) =>
 // new Promise((resolve, reject) => {
@@ -86,19 +59,7 @@ export const saveCreatorType = async ( categoryId ) => {
 //     .catch(() => reject());
 // });
 
-export const saveUserLink = async ( value, id ) => {
-  axios
-    .put("/api/creators/update/ +userId", {
-      link: value,
-      userId: id,
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-};
+
 
 // PHLOKK MARKET FUNC/LINKS BELOW
 

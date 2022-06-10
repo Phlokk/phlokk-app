@@ -34,8 +34,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const [user, setUser] = useState(null);
   const [isChecked, setChecked] = useState(false);
 
-  const [policyModal, setPolicyModal] = useState(false)
-
+  const [policyModal, setPolicyModal] = useState(false);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -220,18 +219,17 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               onValueChange={setChecked}
               color={isChecked ? "#00cec9" : undefined}
             />
-            <CustomPolicyModal 
-            positiveBtn="Back"
-            modalVisible={policyModal}
-            dismissAlert={setPolicyModal}
-            animationType="fade"
-            
+            <CustomPolicyModal
+              positiveBtn="Back"
+              modalVisible={policyModal}
+              dismissAlert={setPolicyModal}
+              animationType="fade"
             />
-            <Text 
-            style={styles.eulaText}
-            >Accept <Text
-              onPress={() => setPolicyModal(true)} 
-              style={styles.eulaInfoText}
+            <Text style={styles.eulaText}>
+              Accept{" "}
+              <Text
+                onPress={() => setPolicyModal(true)}
+                style={styles.eulaInfoText}
               >
                 EULA
               </Text>

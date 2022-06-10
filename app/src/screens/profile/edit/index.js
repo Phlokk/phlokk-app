@@ -15,23 +15,33 @@ import * as SecureStore from "expo-secure-store";
 import { useFocusEffect } from "@react-navigation/native";
 import EditProfileNav from "../../../components/general/navBar/editProfile";
 
-
 export default function EditProfileScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
-  const users = useSelector((state) => state.userReducer.user); 
-
-  
+  const users = useSelector((state) => state.userReducer.user);
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(fetchUserData());
+      dispatch(fetchUserData([]));
     }, [])
   );
 
   useEffect(() => {
-    dispatch(fetchUserData());
+    dispatch(
+      fetchUserData({
+        photo_url,
+        username,
+        bio,
+        quote,
+        relationship_type,
+        relationship_name,
+        creator_type,
+        link,
+        youtube_link,
+        instagram_link,
+      })
+    );
   }, [dispatch]);
 
   const chooseImage = async () => {
@@ -99,7 +109,7 @@ export default function EditProfileScreen() {
                   style={styles.image}
                   key={i}
                   source={{ uri: image ? image : user.photo_url }}
-                  cache='only-if-cached'
+                  cache="only-if-cached"
                 />
               ))}
 
@@ -222,8 +232,7 @@ export default function EditProfileScreen() {
             </TouchableOpacity>
           ))}
 
-         
-          {users &&
+        {users &&
           users.map((user, i) => (
             <TouchableOpacity
               style={styles.fieldItemContainer}
@@ -282,7 +291,7 @@ export default function EditProfileScreen() {
                 navigation.navigate(routes.YOUTUBE_LINK, {
                   title: "Youtube",
                   field: "youtubeLink",
-                  value: user.youtubeLink,
+                  value: user.youtube_link,
                 })
               }
             >
@@ -317,7 +326,7 @@ export default function EditProfileScreen() {
                 navigation.navigate(routes.INSTAGRAM_LINK, {
                   title: "Instagram",
                   field: "instagramLink",
-                  value: user.instagramLink,
+                  value: user.instagram_link,
                 })
               }
             >
@@ -399,7 +408,7 @@ const styles = StyleSheet.create({
   },
   socialText: {
     color: colors.secondary,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 13,
     marginTop: 60,
     fontWeight: "600",
