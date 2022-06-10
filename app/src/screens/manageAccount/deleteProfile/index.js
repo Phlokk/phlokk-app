@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-import AccountNavBar from "../../../components/general/manageAccount";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 import { types } from "../../../redux/constants";
 import axios from "../../../redux/apis/axiosDeclaration";
+import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
+import { useNavigation } from "@react-navigation/native";
+import NavBarGeneral from "../../../components/general/navBar";
 
 export default function DeleteProfileScreen() {
   const [user, setUser] = useState("");
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const handleDelete = async (user_id) => {
@@ -20,7 +22,7 @@ export default function DeleteProfileScreen() {
       .delete("/creators/delete" + user_id)
       .then((response) => {
         console.log("back from delete");
-        console.log(response)
+        console.log(response);
         setUser(null);
         SecureStore.deleteItemAsync("user");
         dispatch({
@@ -43,13 +45,21 @@ export default function DeleteProfileScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <AccountNavBar title={"Account deletion"} />
+      <NavBarGeneral title={"Account deletion"} />
 
       <View style={styles.fieldsContainer}>
         <Text style={styles.text}>
-          If you delete your account, you will lose the services stated in our
-          Terms Of Service agreement permanently. All data will be deleted. You
-          will not be able to recover it.
+          If you delete your user account you will lose all services stated in
+          our{" "}
+          <Text
+            onPress={() => navigation.navigate(routes.TERMS)}
+            style={styles.termsText}
+          >
+            (Terms Of Service)
+          </Text>{" "}
+          agreement. We recommend that you download all of your data before permanently deleting your
+          account. {"\n"}Your content, links & user profile will be unaccesible to other users once you have deleted your
+          account. After 30 days of an inactive account, all of your data will no longer exist on our servers.
         </Text>
 
         <TouchableOpacity
@@ -58,7 +68,7 @@ export default function DeleteProfileScreen() {
         >
           <View style={styles.fieldValueContainer}>
             <Text style={styles.text}>
-              <Text style={styles.danger}>Delete account!</Text>
+              <Text style={styles.danger}>Delete account</Text>
             </Text>
 
             <MaterialCommunityIcons
@@ -79,12 +89,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   fieldItemContainer: {
-    flexDirection: "row",
+    width: "80%",
+    borderRadius: 15,
   },
   fieldsContainer: {
-    marginTop: "50%",
+    height: "50%",
+    width: "90%",
+    borderRadius: 15,
+    borderColor: colors.green,
+    borderWidth: 1,
+    backgroundColor: colors.lightBlack,
+    marginTop: "25%",
     padding: 20,
+    alignSelf: "center",
     alignItems: "center",
+    justifyContent: "center",
   },
   fieldValueContainer: {
     justifyContent: "center",
@@ -93,14 +112,21 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     padding: 10,
+    
   },
   danger: {
-    color: colors.red,
+    color: colors.green,
     fontWeight: "bold",
     fontSize: 18,
+    textAlign: 'center',
+    justifyContent: 'center',
   },
   warningWhite: {
     marginBottom: 30,
     color: colors.white,
+  },
+  termsText: {
+    color: colors.green,
+    fontWeight: 'bold',
   },
 });

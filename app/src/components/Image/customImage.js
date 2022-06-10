@@ -197,6 +197,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     borderRadius: 15,
     borderWidth: 1,
+    borderColor: colors.diamondBlue,
     backgroundColor: colors.lightBlack,
   },
   bottom: {

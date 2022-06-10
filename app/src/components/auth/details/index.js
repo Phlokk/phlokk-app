@@ -9,7 +9,7 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from "react-native";
-import Checkbox from 'expo-checkbox';
+import Checkbox from "expo-checkbox";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +20,8 @@ import { useTogglePasswordVisibility } from "../../../services/passwordVisibilit
 // import { LOGIN, REGISTER } from "@env";
 import colors from "../../../../config/colors";
 import axios from "../../../redux/apis/axiosDeclaration";
+import routes from "../../../navigation/routes";
+import CustomPolicyModal from "../../eulaScreenModal/eulaModal";
 
 export default function AuthDetails({ authPage, setDetailsPage }) {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
@@ -31,6 +33,10 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const [name, setName] = useState("");
   const [user, setUser] = useState(null);
   const [isChecked, setChecked] = useState(false);
+
+  const [policyModal, setPolicyModal] = useState(false)
+
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -198,25 +204,38 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
           style={styles.button}
           onPress={() => (authPage === 0 ? handleLogin() : handleRegister())}
         >
-          
           <Text style={styles.buttonText}>
             {authPage === 0 ? "Sign In" : "Sign Up "}
           </Text>
-          
         </TouchableOpacity>
 
         {authPage === 0 ? (
           <></>
         ) : (
           <View style={styles.checkboxRow}>
-           <Checkbox
-          // onPress={() => acceptOnCheck()}
-          style={styles.checkbox}
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#00cec9' : undefined}
-        />
-          <Text style={styles.eulaText}>Accept "EULA"</Text>
+            <Checkbox
+              // onPress={() => acceptOnCheck()}
+              style={styles.checkbox}
+              value={isChecked}
+              onValueChange={setChecked}
+              color={isChecked ? "#00cec9" : undefined}
+            />
+            <CustomPolicyModal 
+            positiveBtn="Back"
+            modalVisible={policyModal}
+            dismissAlert={setPolicyModal}
+            animationType="fade"
+            
+            />
+            <Text 
+            style={styles.eulaText}
+            >Accept <Text
+              onPress={() => setPolicyModal(true)} 
+              style={styles.eulaInfoText}
+              >
+                EULA
+              </Text>
+            </Text>
           </View>
         )}
       </View>
@@ -232,9 +251,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   checkboxRow: {
-  flexDirection: 'row',
-  alignSelf: "center",
-  paddingTop: 10,
+    flexDirection: "row",
+    alignSelf: "center",
+    paddingTop: 30,
   },
   textInput: {
     borderColor: colors.secondary,
@@ -300,8 +319,12 @@ const styles = StyleSheet.create({
     top: 30,
   },
   checkbox: {
+    bottom: 1,
     margin: 8,
-    width: 15,
-    height: 15,
+    width: 20,
+    height: 20,
+  },
+  eulaInfoText: {
+    color: colors.green,
   },
 });

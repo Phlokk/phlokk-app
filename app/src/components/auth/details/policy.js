@@ -4,11 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 
 import colors from "../../../../config/colors";
-import PostNavBar from "../../../components/general/navBar";
+import PostNavBar from "../../general/navBar";
 
 
-export default function EndUserAgreementScreen({ route, props }) {
-  const { title, field, value } = route.params;
+export default function EndUserLicenseAgreement({ route, props }) {
+  // const { title, field, value } = route.params;
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>

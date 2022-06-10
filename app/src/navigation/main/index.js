@@ -46,7 +46,7 @@ import RelationshipCategoryScreen from "../../screens/profile/relationships";
 import GiftingModal from "../../components/modal/GiftingModal";
 import SettingsSheetModal from "../../components/modal/settingsSheetModal";
 import SettingsAudioModal from "../../components/modal/settingsAudioModal";
-import EndUserAgreementScreen from "../../screens/policies/eulaPolicy";
+import EndUserLicenseAgreement from "../../components/auth/details/policy";
 import ReportScreen from "../../screens/reports";
 import FeedNavigation from "../feed";
 import EditQuotesFieldScreen from "../../screens/profile/quotes/quotes";
@@ -85,7 +85,7 @@ export default function Route() {
             name="auth"
             component={AuthScreen}
             options={{ headerShown: false }}
-          />
+          />       
         ):(
           <>
           <Stack.Screen
@@ -275,7 +275,7 @@ export default function Route() {
             />
             <Stack.Screen
               name="eula"
-              component={EndUserAgreementScreen}
+              component={EndUserLicenseAgreement}
               options={{ headerShown: false }}
             />
             <Stack.Screen
