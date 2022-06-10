@@ -21,7 +21,16 @@ function UserProfile(user) {
   const [popUpImage, setPopUpImage] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchUserData({username, photo_url, quote, is_verified, relationship_name, relationship_type}));
+    dispatch(
+      fetchUserData([
+        "username",
+        "photo_url",
+        "quote",
+        "is_verified",
+        "relationship_name",
+        "relationship_type",
+      ])
+    );
   }, [dispatch]);
 
   const [fontsLoaded] = useFonts({
@@ -139,7 +148,6 @@ function UserProfile(user) {
               />
             </TouchableOpacity>
           ))}
-         
       </>
     </View>
   );

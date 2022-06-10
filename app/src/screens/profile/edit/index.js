@@ -29,18 +29,18 @@ export default function EditProfileScreen() {
 
   useEffect(() => {
     dispatch(
-      fetchUserData({
-        photo_url,
-        username,
-        bio,
-        quote,
-        relationship_type,
-        relationship_name,
-        creator_type,
-        link,
-        youtube_link,
-        instagram_link,
-      })
+      fetchUserData([
+        'photo_url',
+        'username',
+        'bio',
+        'quote',
+        'relationship_type',
+        'relationship_name',
+        'creator_type',
+        'link',
+        'youtube_link',
+        'instagram_link',
+      ])
     );
   }, [dispatch]);
 

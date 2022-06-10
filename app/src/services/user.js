@@ -6,27 +6,8 @@ import axios from '../redux/apis/axiosDeclaration'
 
 
 export const updateCreator = async ( data ) => {
-  axios.patch('/api/creators/update', data).then((response) => {});
+  axios.patch('/api/creator/update', data).then((response) => {});
 }
-
-
-// export const updateUserInfo = async ( value ) => {
-//   axios
-//     .patch("/api/creators/update", {
-//       username: value,
-//       quote: value,
-//       youtubeLink: value,
-//       instagramLink: value,
-//       creator_type: categoryId,
-//       link: value,
-//     })
-//     .then((response) => {
-//       console.log(response.data);
-//     })
-//     .catch((error) => {
-//       console.log(error.response);
-//     });
-// };
 
 // export const saveQuote = async ( value ) => {
 //   axios
