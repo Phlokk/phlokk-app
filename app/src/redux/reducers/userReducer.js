@@ -11,6 +11,7 @@ export default userReducer = (state = initialState, { type, payload }) => {
     case types.SEND_REQUEST_GET_USER:
       return {
         ...state,
+        data: payload,
         loading: true,
       };
     case types.SEND_REQUEST_GET_USER_SUCCESS:

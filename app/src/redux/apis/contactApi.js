@@ -2,7 +2,12 @@ import axios from './axiosDeclaration';
 
 export const getAllUsers = async (data) => {
   try {
-    const users = await axios.get('api/creators');
+    let users;
+    if (data.payload instanceof Array) {
+      users = await axios.post('api/creators-filter', data.payload);
+    } else {
+      users = await axios.get('api/creators');
+    }
     return users.data;
   } catch (err) {
     return console.error(err);
