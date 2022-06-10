@@ -31,7 +31,7 @@ export default function CustomImageModal({
   const navigation = useNavigation();
 
   useEffect(() => {
-    dispatch(fetchUserData({}));
+    dispatch(fetchUserData([]));
   }, [dispatch]);
 
   const users = useSelector((state) => state.userReducer.user);

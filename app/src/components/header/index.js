@@ -22,7 +22,7 @@ function ProfileHeader() {
 
   // const navigation = useNavigation();
   useEffect(() => {
-    dispatch(fetchUserData({}));
+    dispatch(fetchUserData([]));
   }, [dispatch]);
 
   // const auth = useSelector((state) => state.auth);

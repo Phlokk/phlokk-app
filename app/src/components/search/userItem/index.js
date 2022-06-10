@@ -14,7 +14,7 @@ export default function SearchUserItem() {
   const users = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
-    dispatch(fetchUserData({}));
+    dispatch(fetchUserData(['username','is_verified','photo_url']));
   }, [dispatch]);
 
   return (

@@ -33,7 +33,7 @@ export default function EditProfileScreen() {
         'youtubeLink',
         'instagramLink',
       ]));
-    }, [])
+    }, [dispatch])
   );
 
   useEffect(() => {

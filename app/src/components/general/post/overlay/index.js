@@ -39,7 +39,7 @@ export default function PostSingleOverlay({ post}) {
   const songTicker = "Artist and song name";
 
   useEffect(() => {
-    dispatch(fetchUserData({}));
+    dispatch(fetchUserData(['photo_url','username','is_verified']));
   }, [dispatch]);
 
   // const [currentLikeState, setCurrentLikeState] = useState({
