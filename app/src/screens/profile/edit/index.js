@@ -23,7 +23,16 @@ export default function EditProfileScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(fetchUserData([]));
+      dispatch(fetchUserData([
+        'photo_url',
+        'username',
+        'relationship_type',
+        'relationship_name',
+        'creator_type',
+        'link',
+        'youtubeLink',
+        'instagramLink',
+      ]));
     }, [])
   );
 
@@ -32,14 +41,12 @@ export default function EditProfileScreen() {
       fetchUserData([
         'photo_url',
         'username',
-        'bio',
-        'quote',
         'relationship_type',
         'relationship_name',
         'creator_type',
         'link',
-        'youtube_link',
-        'instagram_link',
+        'youtubeLink',
+        'instagramLink',
       ])
     );
   }, [dispatch]);
