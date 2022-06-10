@@ -1,6 +1,6 @@
 import axios from './axiosDeclaration';
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (data) => {
   try {
     let users;
     if (data.payload instanceof Array) {
