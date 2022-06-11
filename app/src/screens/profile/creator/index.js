@@ -11,7 +11,7 @@ import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import colors from "../../../../config/colors";
-import { saveCreatorType } from "../../../services/user";
+import { updateCreator } from "../../../services/user";
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
 
 let categoryId = null;
@@ -57,7 +57,7 @@ export default function EditCreatorFieldScreen({ route }) {
 
 
   const onSave = () => {
-    saveCreatorType(categoryId)
+    updateCreator({creator_type: categoryId})
     .then(() => navigation.goBack());
   };
   

@@ -14,7 +14,7 @@ export default function EditYoutubeScreen({ route }) {
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
   const onSave = () => {
-    updateCreator(textInputValue).then(() => navigation.goBack());
+    updateCreator({youtube_link: textInputValue}).then(() => navigation.goBack());
   };
   return (
     <SafeAreaView style={styles.container}>
