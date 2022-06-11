@@ -1,7 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet, Modal, ScrollView, TouchableOpacity } from "react-native";
-import { Feather } from "@expo/vector-icons";
-import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 

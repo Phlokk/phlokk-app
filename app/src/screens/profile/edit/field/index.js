@@ -5,7 +5,7 @@ import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { updateCreator } from "../../../../../src/services/user";
 import { generalStyles } from "../../../../../src/styles";
-
+import routes from "../../../../navigation/routes"
 import colors from "../../../../../config/colors";
 import InfoScreenNav from "../../../../components/general/navBar/infoScreenNav";
 
@@ -13,16 +13,13 @@ export default function EditProfileFieldScreen({ route }) {
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
-  
 
   const onSave = () => {
 
     updateCreator({username: textInputValue})
-    .then(() => navigation.goBack());
+    // .then(() => navigation.goBack());
+    
   };
-
-
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,7 +44,7 @@ export default function EditProfileFieldScreen({ route }) {
       <View style={styles.infoView}>
         <Text style={styles.info}>
           <Text style={styles.infoText}>Info:</Text> Can only contain
-          letters, numbers,underscores, and periods. When you change your
+          lowercase letters, numbers, underscores and periods. When you change your
           username it will update the link to your profile.
         </Text>
       </View>

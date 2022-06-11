@@ -4,39 +4,23 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
 import { fetchUserData } from "../../../redux/actions/users";
-import { saveUserField } from "../../../services/user";
 import * as SecureStore from "expo-secure-store";
-
 import { useFocusEffect } from "@react-navigation/native";
 import EditProfileNav from "../../../components/general/navBar/editProfile";
 
 export default function EditProfileScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const [image, setImage] = useState(null);
+
   const users = useSelector((state) => state.userReducer.user);
 
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(fetchUserData([
-        'photo_url',
-        'username',
-        'relationship_type',
-        'relationship_name',
-        'quote',
-        'creator_type',
-        'is_verified',
-        'link',
-        'youtube_link',
-        'instagram_link',
-      ]));
-    }, [dispatch])
-  );
 
   useEffect(() => {
     dispatch(
@@ -53,13 +37,33 @@ export default function EditProfileScreen() {
         'instagram_link',
       ])
     );
-  }, [dispatch]);
+  }, [isFocused]);
+
+  
+
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     dispatch(fetchUserData([
+  //       'photo_url',
+  //       'username',
+  //       'relationship_type',
+  //       'relationship_name',
+  //       'quote',
+  //       'creator_type',
+  //       'is_verified',
+  //       'link',
+  //       'youtube_link',
+  //       'instagram_link',
+  //     ]));
+  //   }, [isFocused])
+  // );
+
+ 
 
   const chooseImage = async () => {
-    // console.log("START UPLOADING...");
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
-    // console.log(user.token);
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -90,23 +94,15 @@ export default function EditProfileScreen() {
     }).catch((err) => {
       console.log(err);
     });
-
-    // console.log(formData);
-    // console.log("The status was", +res.status);
     let test = await res.json();
-    // console.log(test);
-    // console.log("RESULT -------------------->");
-  };
 
-  const onSave = () => {
-    saveUserField(field, textInputValue).then(() => navigation.goBack());
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <EditProfileNav
         title="Edit Profile"
-        leftButton={{ display: false, name: "save", action: onSave }}
+        leftButton={{ display: false }}
       />
       <View style={styles.imageContainer}>
         {users.photo_url !== null ? (
@@ -155,7 +151,6 @@ export default function EditProfileScreen() {
                   title: "Username",
                   field: "username",
                   value: user.username,
-                  userId: user.id,
                 })
               }
             >

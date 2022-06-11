@@ -3,8 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-
-import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors"
 
 export default function RisingStarsNavBar({
