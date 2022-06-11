@@ -4,13 +4,12 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
 import { fetchUserData } from "../../../redux/actions/users";
 import * as SecureStore from "expo-secure-store";
-
 import { useFocusEffect } from "@react-navigation/native";
 import EditProfileNav from "../../../components/general/navBar/editProfile";
 
@@ -18,12 +17,9 @@ export default function EditProfileScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
-  const isFocused = useIsFocused();
+
   const users = useSelector((state) => state.userReducer.user);
 
-
-
-  
 
   useEffect(() => {
     dispatch(
@@ -40,7 +36,7 @@ export default function EditProfileScreen() {
         'instagram_link',
       ])
     );
-  }, [fetchUserData]);
+  }, [dispatch]);
 
   useFocusEffect(
     useCallback(() => {
@@ -56,7 +52,7 @@ export default function EditProfileScreen() {
         'youtube_link',
         'instagram_link',
       ]));
-    }, [fetchUserData])
+    }, [dispatch])
   );
 
  
@@ -151,7 +147,6 @@ export default function EditProfileScreen() {
                   title: "Username",
                   field: "username",
                   value: user.username,
-                  userId: user.id,
                 })
               }
             >

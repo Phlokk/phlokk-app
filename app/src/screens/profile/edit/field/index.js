@@ -5,7 +5,7 @@ import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { updateCreator } from "../../../../../src/services/user";
 import { generalStyles } from "../../../../../src/styles";
-
+import routes from "../../../../navigation/routes"
 import colors from "../../../../../config/colors";
 import InfoScreenNav from "../../../../components/general/navBar/infoScreenNav";
 
@@ -13,16 +13,12 @@ export default function EditProfileFieldScreen({ route }) {
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
-  
 
   const onSave = () => {
 
     updateCreator({username: textInputValue})
     .then(() => navigation.goBack());
   };
-
-
-
 
   return (
     <SafeAreaView style={styles.container}>

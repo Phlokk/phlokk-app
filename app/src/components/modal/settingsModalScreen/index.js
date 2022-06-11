@@ -17,43 +17,31 @@ const SettingsModalScreen = (props) => {
 
   return (
     <View style={styles.container}>
+
       <TouchableOpacity
         style={styles.fieldItemContainer}
-        autoCapitalize="none"
         onPress={() => {
           navigation.navigate(routes.SETTINGS_SCREEN);
           handleClosePress();
         }}
       >
-        <Text style={styles.text}>
-          <MaterialIcons name="settings" size={14} color={colors.green} />{" "}
-          Settings and privacy
-        </Text>
-
-        <View style={styles.fieldValueContainer}>
-          <Feather 
-            name="chevron-right" 
-            size={28} 
-            color="#131313" />
-        </View>
+          <MaterialIcons name="settings-applications" size={17} color={colors.green} /> 
+          <Text style={styles.text}> Settings and privacy</Text>
+       
       </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.fieldItemContainer}
-        autoCapitalize="none"
         onPress={() => {
           navigation.navigate(routes.EDIT);
           handleClosePress();
         }}
       >
         <Text style={styles.text}>
-          <MaterialCommunityIcons
-            name="account-settings"
-            size={17}
-            color={colors.green}
-          />{" "}
-          Edit profile
-        </Text>
+        <Text><Feather name="user" size={14} color={colors.green} /> Edit profile</Text>
+          </Text>
       </TouchableOpacity>
+
       <CustomAlert
         alertTitle={
           <Text>
@@ -70,7 +58,6 @@ const SettingsModalScreen = (props) => {
       />
       <TouchableOpacity
         style={styles.fieldItemContainer}
-        autoCapitalize="none"
         // onPress={() => { navigation.navigate(routes.MARKET)
         //   handleClosePress()
 
@@ -78,12 +65,7 @@ const SettingsModalScreen = (props) => {
         onPress={() => setMarketAlert(true)}
       >
         <Text style={styles.text}>
-          <Entypo name="shop" size={14} color={colors.green} /> Phlokk Market
-        </Text>
-
-        <View style={styles.fieldValueContainer}>
-          <Feather name="chevron-right" size={28} color="#131313" />
-        </View>
+          <Entypo name="shop" size={14} color={colors.green} /> Phlokk Market</Text>
       </TouchableOpacity>
     </View>
   );
@@ -97,18 +79,17 @@ const styles = StyleSheet.create({
   text: {
     color: colors.green,
   },
+  textSettingsIcon:{
+    color: colors.green,
+  },
 
   fieldItemContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginTop: 15,
     padding: 5,
     marginLeft: 10,
-  },
-  fieldValueContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    color: colors.green
   },
 });
 
