@@ -539,7 +539,7 @@ export default function PrivacyPolicyScreen() {
           {"\n"}
           privacy@phlokk.com{"\n"}
           {"\n"}
-          This document was last updated on June 8, 2022
+          
         </Text>
       </ScrollView>
     </SafeAreaView>

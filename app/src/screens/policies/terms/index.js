@@ -406,7 +406,7 @@ export default function TermsOfServiceScreen() {
           legal@phlokk.com{"\n"}
        
         
-          {"\n"}This document was last updated on June 8, 2022
+          {"\n"}
         </Text>
       </ScrollView>
     </SafeAreaView>

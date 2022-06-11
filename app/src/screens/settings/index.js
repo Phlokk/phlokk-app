@@ -110,19 +110,6 @@ export default function SettingsScreen() {
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
-          onPress={() => navigation.navigate(routes.EULA, { title: "EULA" })}
-        >
-          <Text style={styles.text}>
-            <Feather name="file-text" size={12} color={colors.green} /> EULA
-          </Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
           onPress={() =>
             navigation.navigate(routes.PRIVACY, { title: "Privacy Policy" })
           }
