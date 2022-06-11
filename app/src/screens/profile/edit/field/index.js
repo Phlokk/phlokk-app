@@ -17,7 +17,8 @@ export default function EditProfileFieldScreen({ route }) {
   const onSave = () => {
 
     updateCreator({username: textInputValue})
-    .then(() => navigation.goBack());
+    // .then(() => navigation.goBack());
+    
   };
 
   return (
@@ -43,7 +44,7 @@ export default function EditProfileFieldScreen({ route }) {
       <View style={styles.infoView}>
         <Text style={styles.info}>
           <Text style={styles.infoText}>Info:</Text> Can only contain
-          letters, numbers,underscores, and periods. When you change your
+          lowercase letters, numbers, underscores and periods. When you change your
           username it will update the link to your profile.
         </Text>
       </View>

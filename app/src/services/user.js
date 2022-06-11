@@ -1,13 +1,22 @@
 import { saveMediaToStorage } from "./saveMedia";
 import { useDispatch } from "react-redux";
 import { types } from "../redux/constants";
-import axios from '../redux/apis/axiosDeclaration'
+import { useNavigation, useIsFocused } from "@react-navigation/native";
+import axios from "../redux/apis/axiosDeclaration";
+import { Alert } from "react-native";
 
 
 
-export const updateCreator = async ( data ) => {
-  axios.patch('/api/creator/update', data).then((response) => {});
-}
+export const updateCreator = async (data) => {
+  axios
+    .patch("/api/creator/update", data)
+    .then((response) => {
+      Alert.alert(" Data successfully updated!")
+    })
+    .catch((error) => {
+      Alert.alert("Data not saved, please check user data");
+    });
+};
 
 // export const saveQuote = async ( value ) => {
 //   axios
@@ -22,11 +31,6 @@ export const updateCreator = async ( data ) => {
 //     });
 // };
 
-
-
-
-
-
 // export const saveRelationshipField = (field, value) =>
 // new Promise((resolve, reject) => {
 //   let obj = {};
@@ -39,8 +43,6 @@ export const updateCreator = async ( data ) => {
 //     .then(() => resolve())
 //     .catch(() => reject());
 // });
-
-
 
 // PHLOKK MARKET FUNC/LINKS BELOW
 
@@ -207,9 +209,7 @@ export const updateCreator = async ( data ) => {
 // };
 
 export const getIsFollowing = (user, otherUserId) =>
-  new Promise((resolve, reject) => {
-
-  });
+  new Promise((resolve, reject) => {});
 
 // export const changeFollowState = ({ otherUserId, isFollowing }) =>
 //   new Promise((resolve, reject) => {

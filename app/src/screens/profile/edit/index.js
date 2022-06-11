@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
@@ -16,6 +16,7 @@ import EditProfileNav from "../../../components/general/navBar/editProfile";
 export default function EditProfileScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const [image, setImage] = useState(null);
 
   const users = useSelector((state) => state.userReducer.user);
@@ -36,24 +37,27 @@ export default function EditProfileScreen() {
         'instagram_link',
       ])
     );
-  }, [dispatch]);
+  }, [isFocused]);
 
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(fetchUserData([
-        'photo_url',
-        'username',
-        'relationship_type',
-        'relationship_name',
-        'quote',
-        'creator_type',
-        'is_verified',
-        'link',
-        'youtube_link',
-        'instagram_link',
-      ]));
-    }, [dispatch])
-  );
+  
+
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     dispatch(fetchUserData([
+  //       'photo_url',
+  //       'username',
+  //       'relationship_type',
+  //       'relationship_name',
+  //       'quote',
+  //       'creator_type',
+  //       'is_verified',
+  //       'link',
+  //       'youtube_link',
+  //       'instagram_link',
+  //     ]));
+  //   }, [isFocused])
+  // );
 
  
 
