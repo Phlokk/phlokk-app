@@ -30,8 +30,8 @@ export default function EditProfileScreen() {
         'relationship_name',
         'creator_type',
         'link',
-        'youtubeLink',
-        'instagramLink',
+        'youtube_link',
+        'instagram_link',
       ]));
     }, [dispatch])
   );
@@ -45,8 +45,8 @@ export default function EditProfileScreen() {
         'relationship_name',
         'creator_type',
         'link',
-        'youtubeLink',
-        'instagramLink',
+        'youtube_link',
+        'instagram_link',
       ])
     );
   }, [dispatch]);
