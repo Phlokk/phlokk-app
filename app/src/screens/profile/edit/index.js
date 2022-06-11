@@ -28,10 +28,12 @@ export default function EditProfileScreen() {
         'username',
         'relationship_type',
         'relationship_name',
+        'quote',
         'creator_type',
+        'is_verified',
         'link',
-        'youtubeLink',
-        'instagramLink',
+        'youtube_link',
+        'instagram_link',
       ]));
     }, [dispatch])
   );
@@ -43,10 +45,12 @@ export default function EditProfileScreen() {
         'username',
         'relationship_type',
         'relationship_name',
+        'quote',
         'creator_type',
+        'is_verified',
         'link',
-        'youtubeLink',
-        'instagramLink',
+        'youtube_link',
+        'instagram_link',
       ])
     );
   }, [dispatch]);
