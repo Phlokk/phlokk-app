@@ -21,7 +21,7 @@ export const saveMediaToStorage = (source, description) => {
     
     if (user) {
       const parsedUser = JSON.parse(user);
-      let url = "/api/test/post";
+      let url = "/api/post/create";
       fetch(url,
           {
             method: 'POST',

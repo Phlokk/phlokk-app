@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 
-const url = "https://phlokk.com/api/creators";
+const url = "https://dev-api.phlokk.com/api/me";
 
 
 const fetchGetUsers = async () => {

@@ -5,7 +5,7 @@ let commentListenerInstance = null;
 
 export const getFeed = () =>
   axios
-    .get("/test/getPost", {
+    .get("/api/posts", {
       testing: "testing",
     })
     .then(function (response) {

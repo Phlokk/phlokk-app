@@ -3,12 +3,13 @@ import axios from './axiosDeclaration';
 export const getAllUsers = async (data) => {
   try {
     let users;
-    if (data.payload instanceof Array) {
-      users = await axios.post('api/creators-filter', data.payload);
+    if (data.payload instanceof Array && data.payload.length > 0) {
+      users = await axios.post('api/me/filter', data.payload);
     } else {
-      users = await axios.get('api/creators');
+      users = await axios.get('api/me');
     }
-    return users.data;
+
+    return [users.data.user];
   } catch (err) {
     return console.error(err);
   }

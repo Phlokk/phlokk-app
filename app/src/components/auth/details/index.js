@@ -48,7 +48,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
 
   const handleLogin = () => {
     axios
-      .post("/api/sanctum/login", {
+      .post("/api/login", {
         email: email,
         password: password,
         device_name: "mobile",
@@ -72,13 +72,15 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
 
   const handleRegister = () => {
     axios
-      .post("/test/register", {
+      .post("/api/register", {
         name: name,
         username: username,
         email: email,
         password: password,
+        acceptTerms: isChecked
       })
       .then(function (response) {
+        console.log(response.data);
         const user = response.data.user;
         user.token = response.data.token;
         resetTextInput();

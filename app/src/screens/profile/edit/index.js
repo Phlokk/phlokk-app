@@ -83,8 +83,8 @@ export default function EditProfileScreen() {
       type: "image/png",
     });
 
-    let res = await fetch("https://phlokk.com/api/update-profile", {
-      method: "POST",
+    let res = await fetch("https://phlokk.com/api/me", {
+      method: "PATCH",
       body: formData,
       headers: {
         Accept: "application/json",

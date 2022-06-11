@@ -8,12 +8,16 @@ import { Alert } from "react-native";
 
 
 export const updateCreator = async (data) => {
+    console.log('data to send');
+    console.log(data);
   axios
-    .patch("/api/creator/update", data)
+    .patch("/api/me/update", data)
     .then((response) => {
+        console.log(response);
       Alert.alert(" Data successfully updated!")
     })
     .catch((error) => {
+        console.log(error);
       Alert.alert("Data not saved, please check user data");
     });
 };
