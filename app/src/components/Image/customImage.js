@@ -30,9 +30,9 @@ export default function CustomImageModal({
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    dispatch(fetchUserData(['photo_url','youtube_link', 'link', 'instagram_link']));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchUserData(['photo_url','youtube_link', 'link', 'instagram_link']));
+  // }, [dispatch]);
 
   const users = useSelector((state) => state.userReducer.user);
 

@@ -13,7 +13,7 @@ import verifiedCheck from "../../../../assets/verified.png";
 import CustomAlert from "../../../components/Alerts/customAlert";
 import CustomImageModal from "../../../components/Image/customImage";
 
-function UserProfile(user) {
+function UserProfile() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
 
@@ -48,7 +48,6 @@ function UserProfile(user) {
               />
               <Image
                 style={styles.avatar}
-                // key={i}
                 source={{ uri: user.photo_url }}
               />
             </TouchableOpacity>
