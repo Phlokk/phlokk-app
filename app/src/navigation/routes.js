@@ -39,6 +39,8 @@ export default Object.freeze({
     AUDIO_PLAYER: 'audioPlay',
     PLAY_SOUND: 'playSound',
     BUY_GIFTS: 'buyGifts',
+    FOLLOWING_LIST: 'followingList',
+    FRIENDS_LIST: 'friendsList',
     // Flatlist Screens
     COMEDY_SCREEN: 'comedyScreen',
     MUSICIAN_SCREEN: 'musicianScreen',

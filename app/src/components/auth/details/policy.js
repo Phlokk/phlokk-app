@@ -1,15 +1,13 @@
-import { useNavigation } from "@react-navigation/native";
+import React from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React from "react";
 
 import colors from "../../../../config/colors";
 import PostNavBar from "../../general/navBar";
 
 
-export default function EndUserLicenseAgreement({ route, props }) {
-  // const { title, field, value } = route.params;
-  const navigation = useNavigation();
+export default function EndUserLicenseAgreement() {
+
   return (
     <SafeAreaView style={styles.container}>
         <PostNavBar title="EULA" />

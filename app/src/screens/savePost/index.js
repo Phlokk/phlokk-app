@@ -28,7 +28,7 @@ import CustomAlert from "../../components/Alerts/customAlert";
 import FeedNavigation from "../../navigation/feed";
 import * as MediaLibrary from "expo-media-library";
 
-export default function SavePostScreen({ nav, route }) {
+export default function SavePostScreen({ route }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");

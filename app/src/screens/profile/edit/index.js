@@ -10,7 +10,7 @@ import colors from "../../../../config/colors";
 import FormData from "form-data";
 import { fetchUserData } from "../../../redux/actions/users";
 import * as SecureStore from "expo-secure-store";
-import { useFocusEffect } from "@react-navigation/native";
+// import { useFocusEffect } from "@react-navigation/native";
 import EditProfileNav from "../../../components/general/navBar/editProfile";
 
 export default function EditProfileScreen() {

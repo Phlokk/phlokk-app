@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import React, {useEffect} from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
