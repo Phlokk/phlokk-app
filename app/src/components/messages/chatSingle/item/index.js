@@ -6,13 +6,13 @@ import { generalStyles } from "../../../../styles";
 import colors from "../../../../../config/colors";
 
 const ChatSingleItem = ({ item }) => {
-  const { data: user, isLoading } = useUser(item.creator);
+  const { data: user, isLoading } = useUser(item.user._id);
 
   if (isLoading) {
     return <></>;
   }
   // const isCurrentUser = item.creator === user.id;
-  const isCurrentUser = item.creator === user;
+  const isCurrentUser = item.user._id === user._id;
 
   return (
     <View

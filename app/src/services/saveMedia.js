@@ -1,19 +1,33 @@
 import FormData from "form-data";
 import * as SecureStore from "expo-secure-store";
 
-export const saveMediaToStorage = (source, description) => {
+export const saveMediaToStorage = (description, source, thumbnail) => {
   new Promise(async (resolve, reject) => {
     console.log("----------------------");
     // console.log("save source", source);
     let formData = new FormData();
+
+    // Description
+    formData.append("description", description);
+
+    // Video file
     let split = source.split('/');
     let fileName = split[(split.length - 1)];
-
     formData.append("video", {
       name: fileName,
       type: "video/mp4",
       uri: source,
     }, fileName);
+
+    // Thumbnail
+    let thumbSplit = thumbnail.split('/');
+    let thumbFileName = thumbSplit[(thumbSplit.length - 1)];
+    formData.append("thumbnail", {
+      name: thumbFileName,
+      type: "image/*",
+      uri: thumbnail,
+    }, thumbFileName);
+
     console.log("Sending.....");
     console.log(formData);
     console.log("------------------");
@@ -21,7 +35,7 @@ export const saveMediaToStorage = (source, description) => {
     
     if (user) {
       const parsedUser = JSON.parse(user);
-      let url = "/api/post/create";
+      let url = "https://dev-api.phlokk.com/api/post/create";
       fetch(url,
           {
             method: 'POST',

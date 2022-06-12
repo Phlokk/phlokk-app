@@ -14,7 +14,14 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
 
   
   const ref = useRef(null);
-  const user = useUser(item.creator).data;
+  const user = item.user;
+
+
+  console.log('this is errrr');
+
+
+
+
   useImperativeHandle(parentRef, () => ({
     play,
     unload,

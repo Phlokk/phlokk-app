@@ -4,12 +4,12 @@ import { types } from "../constants";
 
 
 export const createPost =
-  (description, thumbnail, source) => () =>
+  (description, source, thumb) => () =>
     new Promise((resolve, reject) => {
       console.log("creating post ..... click");
       console.log(source);
       let allSavePromises = Promise.all([
-        saveMediaToStorage(source, description),
+        saveMediaToStorage(description, source, thumb),
         // saveMediaToStorage(
         //   thumbnail,
         //   `post/${firebase.auth().currentUser.uid}/${storagePostId}/thumbnail`

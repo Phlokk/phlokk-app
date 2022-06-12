@@ -9,7 +9,7 @@ export const getFeed = () =>
       testing: "testing",
     })
     .then(function (response) {
-        return response.data;
+        return response.data.data;
       // 2 seconds later...
     })
     .catch(function (error) {

@@ -76,15 +76,20 @@ export default function EditProfileScreen() {
       setImage(result.uri);
     }
 
+
+    let split = result.uri.split('/');
+    let fileName = split[(split.length - 1)];
+
+
     const formData = new FormData();
     formData.append("photo_url", {
-      name: "photo_url",
+      name: fileName,
       uri: result.uri,
-      type: "image/png",
+      type: "image/*",
     });
 
-    let res = await fetch("https://phlokk.com/api/me", {
-      method: "PATCH",
+    let res = await fetch("https://dev-api.phlokk.com/api/me/profile-picture", {
+      method: "POST",
       body: formData,
       headers: {
         Accept: "application/json",

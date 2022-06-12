@@ -29,7 +29,13 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
 
   const route = useRoute();
 
-  const user = useUser(item.creator).data;
+  const user = item.user;
+
+
+  console.log('we are errr');
+  console.log(item);
+
+
   useImperativeHandle(parentRef, () => ({
     play,
     unload,
@@ -165,9 +171,9 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
         disableFocus={true}
         isLooping
         usePoster
-        posterSource={{ uri: item.media[1] }}
+        posterSource={{ uri: item.media[1].original_url }}
         posterStyle={{ resizeMode: "cover", height: "100%" }}
-        source={{ uri: item.media[0] }}
+        source={{ uri: item.media[0].original_url }}
       />
       <PostSingleOverlay user={user} post={item} />
     </Pressable>
