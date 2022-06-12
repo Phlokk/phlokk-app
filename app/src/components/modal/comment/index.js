@@ -28,18 +28,18 @@ const CommentModal = ({ post }) => {
   const users = useSelector((state) => state.userReducer.user);
 
 
-  useEffect(() => {
-    commentListener(post.id, setCommentList);
-    return () => clearCommentListener();
-  }, []);
+  // useEffect(() => {
+  //   commentListener(post.id, setCommentList);
+  //   return () => clearCommentListener();
+  // }, []);
 
-  const handleCommentSend = () => {
-    if (comment.length == 0) {
-      return;
-    }
-    setComment("");
-    addComment(post.id, user.id, comment);
-  };
+  // const handleCommentSend = () => {
+  //   if (comment.length == 0) {
+  //     return;
+  //   }
+  //   setComment("");
+  //   addComment(post.id, user.id, comment);
+  // };
 
   const renderItem = ({ item }) => {
     return <CommentItem item={item} />;
@@ -54,10 +54,23 @@ const CommentModal = ({ post }) => {
       />
 
       <View style={styles.containerInput}>
-        <Image
-          style={generalStyles.avatarSmall}
-          source={{ uri: user.photo_url }}
-        />
+      {users &&
+        users.map((user, i) =>
+          user.photo_url !== null || !undefined ? (
+            <TouchableOpacity>
+              
+              <Image style={styles.avatar} key={i} source={{ uri: user.photo_url }} />
+            </TouchableOpacity>
+          ) : (
+            <Image
+              
+              style={styles.avatar}
+              source={require("../../../../assets/userImage.png")}
+              cache="only-if-cached"
+            />
+          )
+        )}
+
         <BottomSheetTextInput 
           style={styles.input}
           placeholder="Add comment"

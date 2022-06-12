@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import { useNavigation, useIsFocused, useFocusEffect } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
@@ -37,7 +37,29 @@ export default function EditProfileScreen() {
         'instagram_link',
       ])
     );
-  }, [isFocused]);
+  }, [dispatch]);
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchUserData([
+        'photo_url',
+        'username',
+        'relationship_type',
+        'relationship_name',
+        'quote',
+        'creator_type',
+        'is_verified',
+        'link',
+        'youtube_link',
+        'instagram_link',
+      ])); // update when the user returns to this screen.
+    }, [isFocused])
+);
+
+  
+
+
+
 
 
   const chooseImage = async () => {
