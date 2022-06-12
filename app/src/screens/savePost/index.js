@@ -26,6 +26,7 @@ import colors from "../../../config/colors";
 import LottieView from "lottie-react-native";
 import CustomAlert from "../../components/Alerts/customAlert";
 import FeedNavigation from "../../navigation/feed";
+import * as MediaLibrary from "expo-media-library";
 
 export default function SavePostScreen({ nav, route }) {
   const navigation = useNavigation();
@@ -53,16 +54,13 @@ export default function SavePostScreen({ nav, route }) {
         route.params.source
       )
     )
-      .then((res) => {
-        alert('res');
-        alert(res);
-        console.log("res", res);
-        let MediaLibrary = async (uri) => {
-          await MediaLibrary.saveToLibraryAsync(uri, 'video')
-        }
-        navigation.navigate(routes.FEED);
+      .then(async (res) => {
+        console.log('Save to Library');
+        await MediaLibrary.saveToLibraryAsync(route.params.source);
+        navigation.goBack(routes.FEED);
       })
       .catch((err) => {
+        console.log('screens/savePost/index.js:64');
         alert(err);
         setRequestRunning(false);
       });
