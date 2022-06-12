@@ -21,7 +21,16 @@ function UserProfile() {
   const [popUpImage, setPopUpImage] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchUserData(['username', 'photo_url', 'quote', 'is_verified', 'relationship_name', 'relationship_type']));
+    dispatch(
+      fetchUserData([
+        "username",
+        "photo_url",
+        "quote",
+        "is_verified",
+        "relationship_name",
+        "relationship_type",
+      ])
+    );
   }, [dispatch]);
 
   const [fontsLoaded] = useFonts({
@@ -46,10 +55,7 @@ function UserProfile() {
                 dismissAlert={setPopUpImage}
                 animationType="fade"
               />
-              <Image
-                style={styles.avatar}
-                source={{ uri: user.photo_url }}
-              />
+              <Image style={styles.avatar} source={{ uri: user.photo_url }} />
             </TouchableOpacity>
           ) : (
             <Image

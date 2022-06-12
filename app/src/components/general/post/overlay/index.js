@@ -18,7 +18,7 @@ import { throttle } from "throttle-debounce";
 import {
   openCommentModal,
   openSettingsSheetModal,
-  openGiftingModal
+  openGiftingModal,
 } from "../../../../redux/actions/modal";
 import { useNavigation } from "@react-navigation/core";
 import verifiedCheck from "../../../../../assets/verified.png";
@@ -31,15 +31,14 @@ import { fetchUserData } from "../../../../redux/actions/users";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 
-
-export default function PostSingleOverlay({ post}) {
+export default function PostSingleOverlay({ post }) {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
   const navigation = useNavigation();
   const songTicker = "Artist and song name";
 
   useEffect(() => {
-    dispatch(fetchUserData(['photo_url','username','is_verified']));
+    dispatch(fetchUserData(["photo_url", "username", "is_verified"]));
   }, [dispatch]);
 
   // const [currentLikeState, setCurrentLikeState] = useState({
@@ -139,7 +138,6 @@ export default function PostSingleOverlay({ post}) {
               style={styles.reportIcon}
               onPress={() => dispatch(openSettingsSheetModal(true, post))}
             >
-              
               <Ionicons
                 name="ellipsis-horizontal-sharp"
                 size={28}
@@ -147,55 +145,58 @@ export default function PostSingleOverlay({ post}) {
               />
             </TouchableOpacity>
           </View>
-
         </View>
 
         <View style={styles.bottomContainer}>
-
           <View style={styles.verifiedRow}>
-        {users &&
-        users.map((user, i) =>
-          user.photo_url !== null || !undefined ? (
-            <Image
-              style={styles.avatar}
-              key={i}
-              source={{ uri: user.photo_url }}
-            />
-          ) : (
-            <View style={styles.avatarContainer}>
-              <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate(routes.PROFILE_OTHER, {
-                      initialUserId: user.id,
-                    })
-                  }
-                >
-            <Image
-              style={styles.avatar}
-              source={require("../../../../../assets/userImage.png")}
-            />
-            </TouchableOpacity>
-            </View>)
-        )}
-
-            <View style={styles.verifiedContainer}>
-             {users?.username !== null ? (
-          <Text>
             {users &&
-              users.map((user, i) => (
-                <Text style={styles.username} key={i}>
-                  @{user.username}
-                </Text>
-              ))}
-              {users[0] && users[0].is_verified === 1 && (
-                <Image style={styles.verifiedBadge} source={verifiedCheck} />
+              users.map((user, i) =>
+                user.photo_url !== null || !undefined ? (
+                  <Image
+                    style={styles.avatar}
+                    key={i}
+                    source={{ uri: user.photo_url }}
+                  />
+                ) : (
+                  <View style={styles.avatarContainer}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate(routes.PROFILE_OTHER, {
+                          initialUserId: user.id,
+                        })
+                      }
+                    >
+                      <Image
+                        style={styles.avatar}
+                        source={require("../../../../../assets/userImage.png")}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                )
               )}
-          </Text>
-        ) : (
-          <Text style={styles.username}>@user</Text>
-          )}
-            </View>
 
+            <View style={styles.usernameView}>
+              {users.username !== null || !undefined ? (
+                <Text>
+                  {users &&
+                    users.map((user, i) => (
+                      <Text style={styles.username} key={i}>
+                        @{user.username}
+                      </Text>
+                    ))}
+                  <View>
+                    {users[0] && users[0].is_verified === 1 && (
+                      <Image
+                        style={styles.phlokkVerified}
+                        source={verifiedCheck}
+                      />
+                    )}
+                  </View>
+                </Text>
+              ) : (
+                <Text style={styles.username}>@user</Text>
+              )}
+            </View>
 
             {/* {post &&
                 post.map((posts, i) => <Text style={styles.description} key={i}>{posts.description}</Text>)} */}
@@ -212,7 +213,7 @@ export default function PostSingleOverlay({ post}) {
         </View>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -288,10 +289,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  verifiedBadge: {
+  phlokkVerified: {
     width: 12,
     height: 12,
-    bottom: 4,
+    
     marginHorizontal: 3,
   },
 
@@ -331,5 +332,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     bottom: 250,
+  },
+  usernameView: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: 5,
   },
 });
