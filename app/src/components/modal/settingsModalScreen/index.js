@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     padding: 5,
     marginLeft: 10,
+    marginTop: 20,
     color: colors.green
   },
 });

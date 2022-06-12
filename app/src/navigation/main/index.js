@@ -64,6 +64,8 @@ import RecordingScreen from "../../screens/sounds/recorder/recording"
 import AudioPlay from "../../screens/sounds/recorder/playAudio"
 import BioFieldScreen from "../../screens/profile/bio/bio";
 import GiftingScreen from "../../screens/gifting/gifting";
+import FollowingListScreen from "../../screens/stats/followingList";
+import FriendsListScreen from "../../screens/stats/friendsList";
 
 
 const Stack = createNativeStackNavigator();
@@ -356,6 +358,16 @@ export default function Route() {
             <Stack.Screen
               name="buyGifts"
               component={GiftingScreen}
+              options={{ headerShown: false }}
+            />
+             <Stack.Screen
+              name="followingList"
+              component={FollowingListScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="friendsList"
+              component={FriendsListScreen}
               options={{ headerShown: false }}
             />
             

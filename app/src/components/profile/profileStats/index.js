@@ -1,9 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
+import routes from "../../../navigation/routes"
 import colors from "../../../../config/colors";
 
 function ProfileStatsContainer() {
+  const navigation = useNavigation();
   const [following, setFollowing] = useState("40k");
   const [friends, setFriends] = useState("500k");
   const [starCount, setStarCount] = useState("10m");
@@ -19,11 +22,19 @@ function ProfileStatsContainer() {
   return (
     <View style={styles.counterContainer}>
       <View style={styles.counterItemContainer}>
-        <Text style={styles.counterNumberText}>{following}</Text>
+        <TouchableOpacity
+        onPress={() => navigation.navigate(routes.FOLLOWING_LIST)}
+        >
+          <Text style={styles.counterNumberText}>{following}</Text>
+        </TouchableOpacity>
         <Text style={styles.counterLabelText}>Following</Text>
       </View>
       <View style={styles.counterItemContainer}>
-        <Text style={styles.counterNumberText}>{friends}</Text>
+        <TouchableOpacity
+        onPress={() => navigation.navigate(routes.FRIENDS_LIST)}
+        >
+          <Text style={styles.counterNumberText}>{friends}</Text>
+        </TouchableOpacity>
         <Text style={styles.counterLabelText}>Friends</Text>
       </View>
       <View style={styles.counterItemContainer}>

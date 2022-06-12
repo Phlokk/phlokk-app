@@ -1,7 +1,7 @@
 import { saveMediaToStorage } from "./saveMedia";
 import { useDispatch } from "react-redux";
 import { types } from "../redux/constants";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+
 import axios from "../redux/apis/axiosDeclaration";
 import { Alert } from "react-native";
 

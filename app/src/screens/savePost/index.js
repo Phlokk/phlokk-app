@@ -26,7 +26,7 @@ import colors from "../../../config/colors";
 import LottieView from "lottie-react-native";
 import CustomAlert from "../../components/Alerts/customAlert";
 
-export default function SavePostScreen({ nav, route }) {
+export default function SavePostScreen({ route }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
