@@ -25,6 +25,7 @@ import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import LottieView from "lottie-react-native";
 import CustomAlert from "../../components/Alerts/customAlert";
+import FeedNavigation from "../../navigation/feed";
 
 export default function SavePostScreen({ nav, route }) {
   const navigation = useNavigation();
@@ -53,11 +54,13 @@ export default function SavePostScreen({ nav, route }) {
       )
     )
       .then((res) => {
+        alert('res');
+        alert(res);
         console.log("res", res);
-        // MediaLibrary = async (uri) => {
-        //   await MediaLibrary.saveToLibraryAsync(uri, 'video')
-        //   }
-        navigation.navigate("feed");
+        let MediaLibrary = async (uri) => {
+          await MediaLibrary.saveToLibraryAsync(uri, 'video')
+        }
+        navigation.navigate(routes.FEED);
       })
       .catch((err) => {
         alert(err);

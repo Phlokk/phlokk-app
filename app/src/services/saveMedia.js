@@ -3,12 +3,7 @@ import * as SecureStore from "expo-secure-store";
 
 export const saveMediaToStorage = (description, source, thumbnail) => {
   new Promise(async (resolve, reject) => {
-    console.log("----------------------");
-    // console.log("save source", source);
     let formData = new FormData();
-
-    // Description
-    formData.append("description", description);
 
     // Video file
     let split = source.split('/');
@@ -28,15 +23,12 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
       uri: thumbnail,
     }, thumbFileName);
 
-    console.log("Sending.....");
-    console.log(formData);
-    console.log("------------------");
     const user = await SecureStore.getItemAsync("user");
     
     if (user) {
       const parsedUser = JSON.parse(user);
       let url = "https://dev-api.phlokk.com/api/post/create";
-      fetch(url,
+      await fetch(url,
           {
             method: 'POST',
             body: formData,
@@ -44,7 +36,14 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
               Authorization: 'Bearer '+parsedUser.token
             }
           }
-      )
+      ).then((resp) => {
+        alert('Post successfully created');
+        console.log('services/saveMedia.js:41');
+        resolve(resp);
+      }).catch((err) => {
+        console.log('services/saveMedia.js:44');
+        reject(err);
+      });
     } else {
       console.log('no bearer')
     }

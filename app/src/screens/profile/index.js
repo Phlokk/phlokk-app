@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState, useMemo } from "react";
+import React, {useContext, useEffect, useRef, useState, useMemo, useCallback} from "react";
 import ProfileHeader from "../../components/header/";
 import ProfileNavBar from "../../components/general/profileNavBar/";
 import ProfilePostList from "../../components/profile/postList";
@@ -15,13 +15,26 @@ import { useDispatch } from "react-redux";
 
 import colors from "../../../config/colors";
 import DisplayMenuScreen from "./displayMenu";
+import {useFocusEffect, useIsFocused} from "@react-navigation/native";
+import {fetchUserData} from "../../redux/actions/users";
 
 export default function ProfileScreen({ route, posts }) {
   
   // const dispatch = useDispatch();
   // const getPosts = getFeed();
 
-  const ListHeader = () => {
+
+    const dispatch = useDispatch();
+    const isFocused = useIsFocused();
+
+    useFocusEffect(
+        useCallback(() => {
+            dispatch(fetchUserData([])); // update when the user returns to this screen.
+        }, [isFocused])
+    );
+
+
+    const ListHeader = () => {
     return (
       <View style={styles.container} edges={["top"]}>
         

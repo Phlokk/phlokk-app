@@ -39,27 +39,6 @@ export default function EditProfileScreen() {
     );
   }, [isFocused]);
 
-  
-
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     dispatch(fetchUserData([
-  //       'photo_url',
-  //       'username',
-  //       'relationship_type',
-  //       'relationship_name',
-  //       'quote',
-  //       'creator_type',
-  //       'is_verified',
-  //       'link',
-  //       'youtube_link',
-  //       'instagram_link',
-  //     ]));
-  //   }, [isFocused])
-  // );
-
- 
 
   const chooseImage = async () => {
     let user = await SecureStore.getItemAsync("user");
@@ -95,11 +74,13 @@ export default function EditProfileScreen() {
         Accept: "application/json",
         Authorization: `Bearer ${user.token}`,
         ContentType: "application/json",
-      },
-    }).catch((err) => {
-      console.log(err);
+      }
+    }).then((resp) => {
+      alert('Profile picture updated successfully.');
+    })
+    .catch((err) => {
+      alert('Unable to update profile picture. Please try again later.')
     });
-    let test = await res.json();
 
   };
 

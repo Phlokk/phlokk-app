@@ -6,22 +6,17 @@ import { types } from "../constants";
 export const createPost =
   (description, source, thumb) => () =>
     new Promise((resolve, reject) => {
-      console.log("creating post ..... click");
-      console.log(source);
       let allSavePromises = Promise.all([
         saveMediaToStorage(description, source, thumb),
-        // saveMediaToStorage(
-        //   thumbnail,
-        //   `post/${firebase.auth().currentUser.uid}/${storagePostId}/thumbnail`
-        // ),
       ]);
 
       allSavePromises
         .then((media) => {
-          console.log(media);
+            console.log('redux/actions/post.js:15');
+            resolve(media);
         })
         .catch((err) => {
-          // save the error
+          console.log('redux/actions/post.js:21');
           reject(err);
         });
     });
