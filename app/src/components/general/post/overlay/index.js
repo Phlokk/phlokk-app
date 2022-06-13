@@ -35,11 +35,11 @@ import CustomAlert from "../../../Alerts/customAlert";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 
-export default function PostSingleOverlay({ post }) {
+export default function PostSingleOverlay({ post, user }) {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
   const navigation = useNavigation();
-  const songTicker = "Artist and song name";
+  const songTicker = post.description ? post.description : "Artist and song name";
 
   const [instaGifts, setInstaGifts] = useState(false);
   const [ckt, setCkt] = useState(false);
@@ -189,12 +189,10 @@ export default function PostSingleOverlay({ post }) {
 
         <View style={styles.bottomContainer}>
           <View style={styles.verifiedRow}>
-            {users &&
-              users.map((user, i) =>
-                user.photo_url !== null || !undefined ? (
+            {user.photo_url !== null || !undefined ? (
                   <Image
                     style={styles.avatar}
-                    key={i}
+                    key={user._id}
                     source={{ uri: user.photo_url }}
                   />
                 ) : (
@@ -202,30 +200,27 @@ export default function PostSingleOverlay({ post }) {
                     <TouchableOpacity
                       onPress={() =>
                         navigation.navigate(routes.PROFILE_OTHER, {
-                          initialUserId: user.id,
+                          initialUserId: user._id,
                         })
                       }
                     >
                       <Image
-                        style={styles.avatar}
-                        source={require("../../../../../assets/userImage.png")}
+                          style={styles.avatar}
+                          key={user._id}
+                          source={{ uri: user.photo_url }}
                       />
                     </TouchableOpacity>
                   </View>
-                )
-              )}
+                )}
 
             <View style={styles.usernameView}>
-              {users.username !== null || !undefined ? (
+              {user.username !== null || !undefined ? (
                 <Text>
-                  {users &&
-                    users.map((user, i) => (
-                      <Text style={styles.username} key={i}>
-                        @{user.username}
-                      </Text>
-                    ))}
+                  <Text style={styles.username} key={user._id}>
+                    @{user.username}
+                  </Text>
                   <View>
-                    {users[0] && users[0].is_verified === 1 && (
+                    {user.is_verified === 1 && (
                       <Image
                         style={styles.phlokkVerified}
                         source={verifiedCheck}

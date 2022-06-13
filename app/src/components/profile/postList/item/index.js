@@ -56,12 +56,12 @@ export default function ProfilePostListItem({ item }) {
         navigation.navigate(routes.USER_POSTS, {
           creator: item.creator,
           profile: true,
-          selectedVideo: item.media[0],
+          selectedVideo: item.media[0].original_url,
         })
       }
     >
       <Image style={styles.image} 
-      source={{ uri: item.media[1] }} 
+      source={{ uri: item.media[1].original_url }}
       />
       {isLoading && (
         <View

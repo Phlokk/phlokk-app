@@ -176,9 +176,9 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
         usePoster
         posterSource={{ uri: item.media[1].original_url }}
         posterStyle={{ resizeMode: "cover", height: "100%" }}
-        source={{ uri: item.media[0].original_url }}
+        source={{ uri: item.media[0].original_url, type: item.media[0].mime_type }}
       />
-      <PostSingleOverlay user={user} post={item} />
+      <PostSingleOverlay user={item.user} post={item} />
     </Pressable>
   );
 });
