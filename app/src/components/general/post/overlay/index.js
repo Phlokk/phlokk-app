@@ -12,6 +12,9 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { EvilIcons } from "@expo/vector-icons";
+
 import { getLikeById, updateLike } from "../../../../services/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { throttle } from "throttle-debounce";
@@ -20,7 +23,7 @@ import {
   openSettingsSheetModal,
   openGiftingModal,
 } from "../../../../redux/actions/modal";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
 import verifiedCheck from "../../../../../assets/verified.png";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Animated } from "react-native";
@@ -28,6 +31,7 @@ import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 
 import { fetchUserData } from "../../../../redux/actions/users";
+import CustomAlert from "../../../Alerts/customAlert";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 
@@ -36,6 +40,9 @@ export default function PostSingleOverlay({ post }) {
   const users = useSelector((state) => state.userReducer.user);
   const navigation = useNavigation();
   const songTicker = "Artist and song name";
+
+  const [instaGifts, setInstaGifts] = useState(false);
+  const [ckt, setCkt] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUserData(["photo_url", "username", "is_verified"]));
@@ -75,6 +82,15 @@ export default function PostSingleOverlay({ post }) {
   return (
     <View style={styles.container}>
       <View style={styles.uiContainer}>
+        <TouchableOpacity style={styles.topText}>
+          <Entypo
+            onPress={() => navigation.navigate(routes.MARKET)}
+            name="shop"
+            size={26}
+            color={colors.green}
+          />
+        </TouchableOpacity>
+
         <View style={styles.sideContainer}>
           <View style={styles.iconContainer}>
             {/*<TouchableOpacity*/}
@@ -109,10 +125,22 @@ export default function PostSingleOverlay({ post }) {
               style={styles.iconContainer}
               onPress={() => dispatch(openGiftingModal(true))}
             >
-              <MaterialCommunityIcons
-                onPress={() =>
-                  Alert.alert("Insta-Gifting", "Coming in official release!")
+              <CustomAlert
+                alertTitle={
+                  <Text>
+                    <MaterialIcons name="info" size={24} color={colors.green} />
+                  </Text>
                 }
+                customAlertMessage={
+                  <Text>Insta-Gifting{"\n"}coming in official release!</Text>
+                }
+                positiveBtn="Ok"
+                modalVisible={instaGifts}
+                dismissAlert={setInstaGifts}
+                animationType="fade"
+              />
+              <MaterialCommunityIcons
+                onPress={() => setInstaGifts(true)}
                 name="fire"
                 size={40}
                 color={colors.white}
@@ -122,11 +150,23 @@ export default function PostSingleOverlay({ post }) {
           </View>
 
           <View style={styles.iconContainer}>
+            <CustomAlert
+              alertTitle={
+                <Text>
+                  <MaterialIcons name="info" size={24} color={colors.green} />
+                </Text>
+              }
+              customAlertMessage={
+                <Text>CKT Feed{"\n"}coming in Beta version 3</Text>
+              }
+              positiveBtn="Ok"
+              modalVisible={ckt}
+              dismissAlert={setCkt}
+              animationType="fade"
+            />
             <TouchableOpacity
               style={styles.globeIcon}
-              onPress={() =>
-                Alert.alert("CKT Feed", "Coming in Beta version 3")
-              }
+              onPress={() => setCkt(true)}
             >
               <Octicons name="globe" size={30} color={colors.white} />
               <Text style={styles.statsLabel}>CKT</Text>
@@ -222,6 +262,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
   },
+  topText: {
+    flexDirection: "row",
+    color: colors.white,
+    margin: 10,
+    bottom: 270,
+  },
+  searchRow: {
+    justifyContent: 'flex-end',
+    
+  },
   uiContainer: {
     height: "100%",
   },
@@ -292,7 +342,7 @@ const styles = StyleSheet.create({
   phlokkVerified: {
     width: 12,
     height: 12,
-    
+
     marginHorizontal: 3,
   },
 

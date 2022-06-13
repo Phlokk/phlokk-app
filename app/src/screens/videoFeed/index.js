@@ -1,5 +1,4 @@
 import React, {
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -13,7 +12,6 @@ import {
   ActivityIndicator,
   Image,
   Platform,
-  Text,
 } from "react-native";
 import PostSingle from "../../components/general/post";
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
@@ -21,8 +19,6 @@ import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
 import { useFeed, useUserPosts } from "../../services/posts";
 
 import colors from "../../../config/colors";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 import { types } from "../../redux/constants";
 
@@ -61,6 +57,7 @@ export default function FeedScreen({ route }) {
   // }
 
   const mediaRefs = useRef([]);
+
   const selectedVideoIndex = useMemo(() => {
     const videoIndex = posts.findIndex(
       (post) => post.media[0] === selectedVideo
