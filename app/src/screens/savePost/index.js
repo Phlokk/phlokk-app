@@ -8,14 +8,9 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
-  Switch,
   StyleSheet,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
@@ -25,7 +20,6 @@ import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import LottieView from "lottie-react-native";
 import CustomAlert from "../../components/Alerts/customAlert";
-import FeedNavigation from "../../navigation/feed";
 import * as MediaLibrary from "expo-media-library";
 import CustomSwitch from "./customSwitch";
 
@@ -108,167 +102,6 @@ export default function SavePostScreen({ route }) {
         </View>
 
         <CustomSwitch />
-
-        {/* <View style={styles.fieldsContainer}>
-          <View style={styles.postRowContainer}>
-            <View
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              // onPress={() =>
-              //   navigation.navigate("editUserPost", {
-              //     title: "Edit post",
-              //   })
-              // }
-            >
-              <Text style={styles.settingsText}>
-                <Octicons
-                  style={styles.icons}
-                  name="globe"
-                  size={12}
-                  color={colors.white}
-                />{" "}
-                Post Public
-              </Text>
-              <View style={styles.fieldValueContainer}>
-                <Switch
-                  style={styles.switch}
-                  trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
-                  onValueChange={togglePublic}
-                  value={activeSwitch === 1}
-                />
-              </View>
-            </View>
-            <View
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              // onPress={() =>
-              //   navigation.navigate("editUserPost", {
-              //     title: "Edit post",
-              //   })
-              // }
-            >
-              <Text style={styles.settingsText}>
-                <FontAwesome name="lock" size={14} color={colors.white} /> Post
-                Private
-              </Text>
-              <View style={styles.fieldValueContainer}>
-                <Switch
-                  style={styles.switch}
-                  trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
-                  onValueChange={togglePrivate}
-                  value={activeSwitch === 2}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.commentRowContainer}>
-            <View
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              // onPress={() =>
-              //   navigation.navigate("editUserPost", {
-              //     title: "Edit post",
-              //   })
-              // }
-            >
-              <Text style={styles.settingsText}>
-                <Feather
-                  style={styles.shareIcon}
-                  name="message-circle"
-                  size={12}
-                  color={colors.white}
-                />{" "}
-                Comments
-              </Text>
-              <View style={styles.fieldValueContainer}>
-                <Switch
-                  style={styles.switch}
-                  trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
-                  onValueChange={toggleComments}
-                  value={activeSwitch === 3}
-                />
-              </View>
-            </View>
-
-            <View
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              // onPress={() =>
-              //   navigation.navigate("editUserPost", {
-              //     title: "Edit post",
-              //   })
-              // }
-            >
-              <Text style={styles.settingsText}>
-                <MaterialCommunityIcons
-                  name="account-box-multiple-outline"
-                  size={13}
-                  color={colors.white}
-                />{" "}
-                Duets ON
-              </Text>
-              <View style={styles.fieldValueContainer}>
-                <Switch
-                  style={styles.switch}
-                  trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
-                  onValueChange={toggleMarket}
-                  value={activeSwitch === 4}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.marketRowContainer}>
-            <View
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              // onPress={() =>
-              //   navigation.navigate("editUserPost", {
-              //     title: "Edit post",
-              //   })
-              // }
-            >
-              <Text style={styles.settingsText}>
-                <Entypo name="shop" size={12} color={colors.white} />
-                Post Market
-              </Text>
-              <View style={styles.fieldValueContainer}>
-                <Switch
-                  style={styles.switch}
-                  trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
-                  onValueChange={toggleDuets}
-                  value={activeSwitch === 5}
-                />
-              </View>
-            </View>
-            <View
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              // onPress={() =>
-              //   navigation.navigate("editUserPost", {
-              //     title: "Edit post",
-              //   })
-              // }
-            >
-              <Text style={styles.settingsText}>
-                <Entypo name="shop" size={12} color={colors.white} /> Reviews
-              </Text>
-              <View style={styles.fieldValueContainer}>
-                <Switch
-                  style={styles.switch}
-                  trackColor={{ false: "grey", true: colors.green }}
-                  thumbColor={activeSwitch ? "f4f3f4" : "f4f3f4"}
-                  onValueChange={toggleReviews}
-                  value={activeSwitch === 6}
-                />
-              </View>
-            </View>
-          </View>
-        </View> */}
 
         <View style={styles.spacer} />
         <View style={styles.shareContainer}>

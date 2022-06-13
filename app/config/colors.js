@@ -2,6 +2,7 @@ export default {
     primary: '#131313',
     secondary: 'lightgrey',
     black: '#000',
+    orange: '#e17055',
     white: '#fff',
     danger: '#ff5252',
     purple: '#7f00ff',

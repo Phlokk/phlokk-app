@@ -27,7 +27,7 @@ export default function GiftingNavBar({
       <TouchableOpacity
         style={styles.button}
       >
-        <MaterialCommunityIcons name="fire" size={24} color={colors.green} />
+        <MaterialCommunityIcons name="fire" size={24} color={colors.orange} />
       </TouchableOpacity>
     </View>
   );
