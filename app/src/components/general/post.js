@@ -41,6 +41,7 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
     return () => {
       if (Platform.OS === "ios") {
         unload();
+        
       }
     };
   }, []);
@@ -124,10 +125,13 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
    * This component is responsible for muting a post when blur effect takes place.
    */
   const isFocused = useIsFocused();
+
   const feedItemHeight =
     Dimensions.get("window").height -
     useMaterialNavBarHeight(route.params.profile);
+
   const videoWidth = Dimensions.get("window").width;
+  
   const onPress = React.useCallback(async () => {
     const status = await ref.current.getStatusAsync();
     if (!status?.isPlaying) {
@@ -161,9 +165,13 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
             alert(status.error);
           }
         }}
-        useTextureView={false}
-        playInBackground={false}
-        disableFocus={true}
+        // useTextureView={false}
+        // playInBackground={false}
+        // disableFocus={true}
+
+
+        // shouldPlay(true) starts video automatically 
+        shouldPlay={true}
         isLooping
         usePoster
         posterSource={{ uri: item.media[1].original_url }}

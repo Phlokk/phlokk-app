@@ -23,63 +23,63 @@ let categoryId = null;
 const ReportScreen = ({ route, navigation }) => {
   const [categories, setCategories] = useState([
     {
-      id: 2,
+      id: 1,
       key: "cat2",
       value: false,
       category: "Illegal activities",
       selected: false,
     },
-    { id: 3, key: "cat3", value: false, category: "Fraud", selected: false },
+    { id: 2, key: "cat3", value: false, category: "Fraud", selected: false },
     {
-      id: 4,
+      id: 3,
       key: "cat4",
       value: false,
       category: "Graphic content",
       selected: false,
     },
     {
-      id: 5,
+      id: 4,
       key: "cat5",
       value: false,
       category: "Dangerous individuals",
       selected: false,
     },
     {
-      id: 6,
+      id: 5,
       key: "cat6",
       value: false,
       category: "Suicide or self-harm",
       selected: false,
     },
     {
-      id: 7,
+      id: 6,
       key: "cat7",
       value: false,
       category: "Hate speech and Bullying",
       selected: false,
     },
     {
-      id: 8,
+      id: 7,
       key: "cat8",
       value: false,
       category: "Pornographic content",
       selected: false,
     },
     {
-      id: 9,
+      id: 8,
       key: "cat9",
       value: false,
       category: "Harassment",
       selected: false,
     },
     {
-      id: 10,
+      id: 9,
       key: "cat10",
       value: false,
       category: "Minor safety",
       selected: false,
     },
-    { id: 11, key: "cat11", value: false, category: "other", selected: false },
+    { id: 10, key: "cat11", value: false, category: "other", selected: false },
   ]);
   const [titleValue, setTitleValue] = useState("");
   const [messageValue, setMessageValue] = useState("");
@@ -108,6 +108,7 @@ const ReportScreen = ({ route, navigation }) => {
       Alert.alert("Please fill out all of the fields.");
       return false;
     }
+    // change url of post API call, right now set on https://phlokk.com/test/ticket
     axios
       .post(`${REPORT_TICKET}`, {
         title: titleValue,

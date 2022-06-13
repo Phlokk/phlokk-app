@@ -11,12 +11,12 @@ let categoryId = null;
 
 export default function RelationshipCategoryScreen({ route, props }) {
   const [categories, setCategories] = useState([
-    {id: 1,category: "Single",selected: false},
-    {id: 2,category: "Married",selected: false},
-    {id: 3,category: "Taken",selected: false},
-    {id: 4,category: "Looking",selected: false},
-    {id: 5,category: "Divorced",selected: false},
-    {id: 6,category: "Widow",selected: false},
+    {id: 1,key: "cat1", value: false, category: "Single",selected: false},
+    {id: 2, key: "cat2", value: false, category: "Married",selected: false},
+    {id: 3, key: "cat3", value: false, category: "Taken",selected: false},
+    {id: 4, key: "cat4", value: false,category: "Looking",selected: false},
+    {id: 5, key: "cat5", value: false, category: "Divorced",selected: false},
+    {id: 6, key: "cat6", value: false, category: "Widow",selected: false},
   ]);
 
   const { title, id } = route.params;
@@ -29,7 +29,7 @@ export default function RelationshipCategoryScreen({ route, props }) {
   };
 
   const onRadioBtnClick = (item) => {
-    // console.log(item);
+    console.log(item);
     categoryId = item.id;
     // item.selected = item.selected ? false : true;
     setCategories(item);
@@ -49,20 +49,22 @@ export default function RelationshipCategoryScreen({ route, props }) {
         leftButton={{ display: false, name: "save", action: onSave }}
       />
       <View style={styles.reportView}>
-        {categories.map((item) => (
-          <View style={styles.radioButtonContainer} key={item.id}>
-            <TouchableOpacity onPress={() => onRadioBtnClick(item)}>
-              <Text style={styles.radioButtonText}>{item.category}</Text>
-            </TouchableOpacity>
-            <View style={{ flex: 1 }}></View>
-            <TouchableOpacity
-              onPress={() => onRadioBtnClick(item)}
-              style={styles.radioButton}
-            >
-              {item.selected ? <View style={styles.radioButtonIcon} /> : null}
-            </TouchableOpacity>
-          </View>
-        ))}
+      {categories.map((item) => (
+              <View style={styles.radioButtonContainer} key={item.id}>
+                <TouchableOpacity onPress={() => onRadioBtnClick(item)}>
+                  <Text style={styles.radioButtonText}>{item.category}</Text>
+                </TouchableOpacity>
+                <View style={{ flex: 1 }}></View>
+                <TouchableOpacity
+                  onPress={() => onRadioBtnClick(item)}
+                  style={styles.radioButton}
+                >
+                  {item.selected ? (
+                    <View style={styles.radioButtonIcon} />
+                  ) : null}
+                </TouchableOpacity>
+              </View>
+            ))}
       </View>
     </SafeAreaView>
   );

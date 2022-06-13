@@ -53,7 +53,7 @@ export default function EditProfileScreen() {
         'youtube_link',
         'instagram_link',
       ])); // update when the user returns to this screen.
-    }, [isFocused])
+    }, [dispatch])
 );
 
   

@@ -27,6 +27,7 @@ import LottieView from "lottie-react-native";
 import CustomAlert from "../../components/Alerts/customAlert";
 import FeedNavigation from "../../navigation/feed";
 import * as MediaLibrary from "expo-media-library";
+import CustomSwitch from "./customSwitch";
 
 export default function SavePostScreen({ route }) {
   const navigation = useNavigation();
@@ -35,12 +36,9 @@ export default function SavePostScreen({ route }) {
   const [requestRunning, setRequestRunning] = useState(false);
   const lottieAnimation = require("../../../assets/animations/loader.json");
   const phlokkLogo = require("../../../assets/phlokk_logo.png");
-
-  const [activeSwitch, setActiveSwitch] = useState(null);
-
   const [text, setText] = useState("Click");
-
   const [drafts, setDrafts] = useState(false);
+
 
   const handleSavePost = () => {
     setRequestRunning(true);
@@ -66,32 +64,7 @@ export default function SavePostScreen({ route }) {
       });
   };
 
-  toggleSwitch = (switchNumber) => {
-    setActiveSwitch(switchNumber === activeSwitch ? null : switchNumber);
-  };
-
-  togglePublic = (value) => {
-    toggleSwitch(1);
-  };
-  togglePrivate = (value) => {
-    toggleSwitch(2);
-  };
-
-  toggleComments = (value) => {
-    toggleSwitch(3);
-  };
-
-  toggleMarket = (value) => {
-    toggleSwitch(4);
-  };
-
-  toggleDuets = (value) => {
-    toggleSwitch(5);
-  };
-
-  toggleReviews = (value) => {
-    toggleSwitch(6);
-  };
+  
 
   if (requestRunning) {
     return (
@@ -134,7 +107,9 @@ export default function SavePostScreen({ route }) {
           />
         </View>
 
-        <View style={styles.fieldsContainer}>
+        <CustomSwitch />
+
+        {/* <View style={styles.fieldsContainer}>
           <View style={styles.postRowContainer}>
             <View
               style={styles.fieldItemContainer}
@@ -293,7 +268,7 @@ export default function SavePostScreen({ route }) {
               </View>
             </View>
           </View>
-        </View>
+        </View> */}
 
         <View style={styles.spacer} />
         <View style={styles.shareContainer}>

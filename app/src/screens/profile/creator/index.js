@@ -20,47 +20,146 @@ export default function EditCreatorFieldScreen({ route }) {
   const { title } = route.params;
   const navigation = useNavigation();
   const [categories, setCategories] = useState([
-    { id: 1,  category: "Actor", selected: false },
-    { id: 2,  category: "Actress", selected: false },
-    { id: 3,  category: "Artist", selected: false },
-    { id: 4,  category: "Athlete", selected: false },
-    { id: 5,  category: "Brand", selected: false },
-    { id: 6,  category: "Black Sheep",selected: false},
-    { id: 7,  category: "Comedian", selected: false },
-    { id: 8,  category: "Cosplay", selected: false },
-    { id: 9,  category: "Dancer", selected: false },
-    { id: 10, category: "Gym & Fitness",selected: false},
-    { id: 11, category: "Foodie", selected: false },
-    { id: 12, category: "Health & Beauty",selected: false},
-    { id: 13, category: "Model", selected: false },
-    { id: 14, category: "Musician",selected: false},
-    { id: 15, category: "Producer",selected: false},
-    { id: 16, category: "Public Figure",selected: false},
-    { id: 17, category: "Education",selected: false},
-    { id: 18, category: "Watcher",selected: false},
-    { id: 19, category: "Youtuber",selected: false },
+    { id: 1, key: "cat1", value: false, category: "Actor", selected: false },
+    {
+      id: 2,
+      key: "cat2",
+      value: false,
+      category: "Actress",
+      selected: false,
+    },
+    {
+      id: 3,
+      key: "cat3",
+      value: false,
+      category: "Artist",
+      selected: false,
+    },
+    {
+      id: 4,
+      key: "cat4",
+      value: false,
+      category: "Athlete",
+      selected: false,
+    },
+    { id: 5, key: "cat5", value: false, category: "Brand", selected: false },
+    {
+      id: 6,
+      key: "cat6",
+      value: false,
+      category: "Black Sheep",
+      selected: false,
+    },
+    {
+      id: 7,
+      key: "cat7",
+      value: false,
+      category: "Comedian",
+      selected: false,
+    },
+    {
+      id: 8,
+      key: "cat8",
+      value: false,
+      category: "Cosplay",
+      selected: false,
+    },
+    {
+      id: 9,
+      key: "cat9",
+      value: false,
+      category: "Dancer",
+      selected: false,
+    },
+    {
+      id: 10,
+      key: "cat10",
+      value: false,
+      category: "Gym & Fitness",
+      selected: false,
+    },
+    {
+      id: 11,
+      key: "cat11",
+      value: false,
+      category: "Foodie",
+      selected: false,
+    },
+    {
+      id: 12,
+      key: "cat12",
+      value: false,
+      category: "Health & Beauty",
+      selected: false,
+    },
+    {
+      id: 13,
+      key: "cat13",
+      value: false,
+      category: "Model",
+      selected: false,
+    },
+    {
+      id: 14,
+      key: "cat14",
+      value: false,
+      category: "Musician",
+      selected: false,
+    },
+    {
+      id: 15,
+      key: "cat15",
+      value: false,
+      category: "Producer",
+      selected: false,
+    },
+    {
+      id: 16,
+      key: "cat16",
+      value: false,
+      category: "Public Figure",
+      selected: false,
+    },
+    {
+      id: 17,
+      key: "cat17",
+      value: false,
+      category: "Education",
+      selected: false,
+    },
+    {
+      id: 18,
+      key: "cat18",
+      value: false,
+      category: "Watcher",
+      selected: false,
+    },
+    {
+      id: 19,
+      key: "cat19",
+      value: false,
+      category: "Youtuber",
+      selected: false,
+    },
   ]);
 
   const onRadioBtnClick = (item) => {
-    categoryId = item.category;
-
+    console.log("radio click");
+    console.log(item);
+    categoryId = item.id;
+    // item.selected = item.selected ? false : true;
     setCategories(item);
 
     let updatedState = categories.map((i) =>
       i.id === item.id ? { ...i, selected: true } : { ...i, selected: false }
     );
-    // console.log(updatedState);
     setCategories(updatedState);
-    onSave();
+    // onSave();
   };
-  
-
 
   const onSave = () => {
-    updateCreator({creator_type: categoryId})
-    .then(() => navigation.goBack());
+    updateCreator({ creator_type: categoryId }).then(() => navigation.goBack());
   };
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -74,12 +173,9 @@ export default function EditCreatorFieldScreen({ route }) {
             <TouchableOpacity onPress={() => onRadioBtnClick(item)}>
               <Text style={styles.radioButtonText}>{item.category}</Text>
             </TouchableOpacity>
-            <View style={{ flex: 1 }}>
-            </View>
+            <View style={{ flex: 1 }}></View>
             <TouchableOpacity
-              onPress={
-                () => onRadioBtnClick(item)
-              }
+              onPress={() => onRadioBtnClick(item)}
               style={styles.radioButton}
             >
               {item.selected ? <View style={styles.radioButtonIcon} /> : null}
