@@ -32,24 +32,23 @@ export default function FeedScreen({ route }) {
   const [user, setUser] = useState("");
   const dispatch = useDispatch();
 
-    const feed = useFeed(profile);
+  const feed = useFeed(profile);
 
-    const userPosts = useUserPosts(creator, {
-      enabled: Boolean(profile) || Boolean(creator),
-    });
+  const userPosts = useUserPosts(creator, {
+    enabled: Boolean(profile) || Boolean(creator),
+  });
 
-    const isLoading = feed.isLoading || userPosts.isLoading;
-    useRefreshOnFocus(profile ? userPosts.refetch : feed.refetch);
+  const isLoading = feed.isLoading || userPosts.isLoading;
+  useRefreshOnFocus(profile ? userPosts.refetch : feed.refetch);
 
-    //
-    let posts = useMemo(() => {
-      if (profile || creator) {
-        return userPosts?.data || [];
-      } else {
-        return feed?.data || [];
-      }
-    }, [profile, feed.data, userPosts.data, creator]);
-
+  //
+  let posts = useMemo(() => {
+    if (profile || creator) {
+      return userPosts?.data || [];
+    } else {
+      return feed?.data || [];
+    }
+  }, [profile, feed.data, userPosts.data, creator]);
 
   //   posts = shuffleArray(posts);
 
@@ -63,38 +62,53 @@ export default function FeedScreen({ route }) {
 
   const mediaRefs = useRef([]);
   const selectedVideoIndex = useMemo(() => {
-
     const videoIndex = posts.findIndex(
-
       (post) => post.media[0] === selectedVideo
     );
     return videoIndex > 0 ? videoIndex : 0;
   }, [selectedVideo, posts.length]);
 
-
   const [viewablePostId, setViewablePostId] = useState(posts[0]?.id);
+
+  // const onViewableItemsChanged = useRef(({ changed }) => {
+  //   changed.forEach((element) => {
+  //     const cell = mediaRefs.current[element.key];
+  //     //
+  //     if (element.isViewable) {
+  //       // console.log("visiable element", element.item.id);
+  //       if (!profile) {
+  //         setCurrentUserProfileItemInView(element.item.creator);
+  //       }
+  //       setViewablePostId(element.item.id);
+  //       cell.setViewable(true);
+  //       if (cell?.play) {
+  //         cell?.play();
+  //       }
+  //     } else {
+  //       if (cell?.stop) {
+  //         cell?.stop();
+  //       }
+  //     }
+  //   });
+  // });
+
+  // new code replaces above call
   const onViewableItemsChanged = useRef(({ changed }) => {
-    changed.forEach((element) => {
-      const cell = mediaRefs.current[element.key];
-      console.log("cell", cell);
-      //
-      if (element.isViewable) {
-        console.log("visiable element", element.item.id);
-        if (!profile) {
-          setCurrentUserProfileItemInView(element.item.creator);
+    changed.forEach(element => {
+        const cell = mediaRefs.current[element.key]
+        if (cell) {
+            if (element.isViewable) {
+                if (!profile) {
+                    setCurrentUserProfileItemInView(element.item.creator)
+                }
+                cell.play()
+            } else {
+                cell.stop()
+            }
         }
-        setViewablePostId(element.item.id);
-        cell.setViewable(true);
-        if (cell?.play) {
-          cell?.play();
-        }
-      } else {
-        if (cell?.stop) {
-          cell?.stop();
-        }
-      }
+
     });
-   });
+})
 
   const feedItemHeight =
     Dimensions.get("window").height - useMaterialNavBarHeight(profile);
@@ -149,15 +163,17 @@ export default function FeedScreen({ route }) {
   );
 
   return (
-
-
     <View style={styles.container}>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={posts}
         windowSize={Platform.OS === "android" ? 1 : 5}
-        initialNumToRender={Platform.OS === "android" ? 1 : 5}
-        maxToRenderPerBatch={Platform.OS === "android" ? 1 : 5}
+        // initialNumToRender={Platform.OS === "android" ? 1 : 5}
+        // maxToRenderPerBatch={Platform.OS === "android" ? 1 : 5}
+        //new code
+        initialNumToRender={5}
+        maxToRenderPerBatch={2}
+
         removeClippedSubviews
         initialScrollIndex={selectedVideoIndex}
         viewabilityConfig={{
@@ -171,9 +187,9 @@ export default function FeedScreen({ route }) {
           Dimensions.get("window").height - useMaterialNavBarHeight(profile)
         }
         decelerationRate={"fast"}
-        // onViewableItemsChanged={onViewableItemsChanged.current}
+        onViewableItemsChanged={onViewableItemsChanged.current}
       />
-      {/* {isLoading && (
+      {isLoading && (
         <View
           style={{
             position: "absolute",
@@ -185,7 +201,7 @@ export default function FeedScreen({ route }) {
         >
           <ActivityIndicator size="small" color={colors.green} />
         </View>
-      )} */}
+      )}
     </View>
   );
 }
