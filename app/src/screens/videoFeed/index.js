@@ -134,7 +134,7 @@ export default function FeedScreen({ route }) {
             }}
           >
             <Image
-              source={{ uri: item.media[1] }}
+              source={{ uri: item.media[1].original_url }}
               style={{
                 resizeMode: "cover",
                 height: feedItemHeight,

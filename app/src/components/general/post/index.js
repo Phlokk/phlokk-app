@@ -81,7 +81,7 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
 
   return (
     <>
-      <PostSingleOverlay user={user} post={item} />
+      <PostSingleOverlay user={item.user} post={item} />
       <Video
         ref={ref}
         style={styles.container}
@@ -89,9 +89,9 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
         shouldPlay={false}
         isLooping
         usePoster
-        posterSource={{ uri: item.media[1] }}
+        posterSource={{ uri: item.media[1].original_url }}
         posterStyle={{ resizeMode: "cover", height: "100%" }}
-        source={{ uri: item.media[0] }}
+        source={{ uri: item.media[0].original_url, type: item.media[0].mime_type }}
        
       />
     </>
