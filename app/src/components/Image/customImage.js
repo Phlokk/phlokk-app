@@ -76,6 +76,7 @@ export default function CustomImageModal({
           <View style={styles.goBackView}>
                 <Feather
                   onPress={() => dismissAlert(false)}
+                  
                   style={styles.alertMessageButtonText}
                   name="x-square"
                   size={25}
@@ -138,22 +139,7 @@ export default function CustomImageModal({
                       : colors.gray
                   }
                 />
-              </View>
-              {users !== null || !undefined ? (
-                <TouchableOpacity style={styles.linkText}>
-                  <Entypo
-                    name="shop"
-                    size={25}
-                    color={colors.diamondBlue}
-                    onPress={() => navigation.navigate(routes.MARKET)}
-                    // onPress={() =>
-                    //   Alert.alert("Phlokk Market", "Coming in beta version 3!")
-                    // }
-                  />
-                </TouchableOpacity>
-              ) : (
-                <></>
-              )}
+              </View>           
             </View>
           </View>
 
@@ -226,7 +212,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   alertMessageTextStyle: {
-    color: colors.white,
+    color: colors.diamondBlue,
     textAlign: "center",
     fontSize: 16,
     paddingHorizontal: 45,
@@ -246,7 +232,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 25,
     fontWeight: "bold",
-    color: colors.white,
+    color: colors.diamondBlue,
   },
   text: {
     color: colors.white,

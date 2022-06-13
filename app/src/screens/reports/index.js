@@ -108,6 +108,7 @@ const ReportScreen = ({ route, navigation }) => {
       Alert.alert("Please fill out all of the fields.");
       return false;
     }
+    // change url of post API call, right now set on https://phlokk.com/test/ticket
     axios
       .post(`${REPORT_TICKET}`, {
         title: titleValue,
