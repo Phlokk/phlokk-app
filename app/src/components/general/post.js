@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
+  useState
 } from "react";
 import { Dimensions, StyleSheet, Pressable } from "react-native";
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
@@ -14,6 +15,7 @@ import { useRoute } from "@react-navigation/native";
 import { Platform } from "expo-modules-core";
 
 import colors from "../../../config/colors";
+// import tempFlatListItem from "../../screens/videoFeed/tempFlatListItem"
 
 /**
  * This component is responsible for displaying a post and playing the
@@ -23,19 +25,29 @@ import colors from "../../../config/colors";
  * can manage the play status of the video.
  */
 
-export const PostSingle = forwardRef(({ item }, parentRef) => {
-  const navigation = useNavigation();
+export const PostSingle = forwardRef(({ props, item }, parentRef) => {
+  // const navigation = useNavigation();
   const ref = useRef(null);
 
   const route = useRoute();
 
-  const user = item.user;
+  // const user = item.user;
+  const [isInView, setIsInView] = useState(false)
+
+  useImperativeHandle(ref, () => ({
+    setVisible: inView => {
+        isInView !== inView && setIsInView(inView);
+    },
+}));
+
 
   useImperativeHandle(parentRef, () => ({
     play,
     unload,
     stop,
   }));
+
+ 
 
   useEffect(() => {
     return () => {
@@ -93,6 +105,7 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
     }
   }, [ref.current]);
 
+
   useEffect(() => {
     if (Platform.OS === "android") {
       play();
@@ -106,13 +119,12 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
    * This will make sure unnecessary video instances are
    * not in memory at all times
    *
-   * @returns {void}
    */
   const unload = React.useCallback(async () => {
+    console.log('unload')
     if (ref.current == null) {
       return;
     }
-
     // if video is already stopped return
     try {
       await ref?.current?.unloadAsync();
@@ -151,7 +163,7 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
       style={{ height: feedItemHeight, width: videoWidth }}
       onPress={onPress}
     >
-      <Video
+     {isInView && <Video
         ref={ref}
         style={{
           alignSelf: "center",
@@ -177,11 +189,14 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
         posterSource={{ uri: item.media[1].original_url }}
         posterStyle={{ resizeMode: "cover", height: "100%" }}
         source={{ uri: item.media[0].original_url, type: item.media[0].mime_type }}
-      />
+      /> }
+
       <PostSingleOverlay user={item.user} post={item} />
     </Pressable>
   );
 });
+
+
 
 const styles = StyleSheet.create({
   container: {

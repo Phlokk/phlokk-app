@@ -132,7 +132,7 @@ export default function PostSingleOverlay({ post, user }) {
                   </Text>
                 }
                 customAlertMessage={
-                  <Text>Insta-Gifting{"\n"}coming in official release!</Text>
+                  <Text>Light It Up{"\n"}coming in official release!</Text>
                 }
                 positiveBtn="Ok"
                 modalVisible={instaGifts}
