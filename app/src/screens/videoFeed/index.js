@@ -64,8 +64,6 @@ export default function FeedScreen({ route }) {
   //     return array;
   // }
 
-  const inViewRefs = useRef({});
-
   const mediaRefs = useRef([]);
 
   const selectedVideoIndex = useMemo(() => {
@@ -76,6 +74,9 @@ export default function FeedScreen({ route }) {
   }, [selectedVideo, posts.length]);
 
   const [viewablePostId, setViewablePostId] = useState(posts[0]?.id);
+
+  const [flatListSize, setFlatListSize] = useState();
+  const [activeIndex, setActiveIndex] = useState(0);
 
   //   const onViewableItemsChanged = useRef(({ changed }) => {
   //     changed.forEach(element => {
@@ -97,6 +98,7 @@ export default function FeedScreen({ route }) {
 
   const feedItemHeight =
     Dimensions.get("window").height - useMaterialNavBarHeight(profile);
+
   const getItemLayout = (data, index) => ({
     length: feedItemHeight,
     offset: feedItemHeight * index,
@@ -150,45 +152,67 @@ export default function FeedScreen({ route }) {
     [viewablePostId]
   );
 
-  const onViewableItemsChanged = useRef(({ changed }) => {
-    changed.forEach((item) => {
-      console.log(item.index, item.isViewable)
-      // looking for if its running index and boolean 
-      inViewRefs.current[item.index]?.setVisible(item.isViewable);
-    });
-  });
+  const renderListItem = ({ item, index }) => {
+    const isInPreloadRange = () => {
+      if (index === activeIndex) {
+        return true;
+      }
 
-  const myViewabilityConfig = useRef([
-    {
-      viewabilityConfig: { itemVisiblePercentThreshold: 45 },
-      onViewableItemsChanged: onViewableItemsChanged.current,
-    },
-  ]);
+      if (index === activeIndex + 1 || index === activeIndex - 1) {
+        return true;
+      }
+
+      return false;
+    };
+
+    return (
+      <TempFlatListItem
+        item={item}
+        height={flatListSize?.height}
+        width={flatListSize?.width}
+        isInView={index === activeIndex}
+        isInPreloadRange={isInPreloadRange()}
+        index={index}
+      />
+    );
+  };
 
   return (
-    <View style={styles.container}>
-      
+    <View
+      style={styles.container}
+      onLayout={({ nativeEvent }) =>
+        setFlatListSize({
+          height: nativeEvent.layout.height,
+          width: nativeEvent.layout.width,
+        })
+      }
+    >
       <FlatList
+        keyExtractor={(item, index) => Math.random()} // TODO: replace with something real
         showsVerticalScrollIndicator={false}
         data={posts}
-        windowSize={Platform.OS === "android" ? 1 : 4}
+        // windowSize={Platform.OS === "android" ? 1 : 4}
         // initialNumToRender={Platform.OS === "android" ? 1 : 5}
-        initialNumToRender={0}
-        maxToRenderPerBatch={Platform.OS === "android" ? 1 : 2}
-        removeClippedSubviews
+        // initialNumToRender={0}
+        // maxToRenderPerBatch={Platform.OS === "android" ? 1 : 2}
+        //removeClippedSubviews
         initialScrollIndex={selectedVideoIndex}
-        // viewabilityConfigCallbackPairs={myViewabilityConfig}
-        renderItem={renderItem}
+        renderItem={renderListItem}
         pagingEnabled
-        getItemLayout={getItemLayout}
-        keyExtractor={(item) => item.id}
-        snapToInterval={
-          Dimensions.get("window").height - useMaterialNavBarHeight(profile)
+        onMomentumScrollEnd={({ nativeEvent }) =>
+          setActiveIndex(
+            Math.floor(nativeEvent.contentOffset.y / flatListSize?.height)
+          )
         }
+        // getItemLayout={getItemLayout}
+        // keyExtractor={(item) => item.id}
+        //snapToInterval={
+        //Dimensions.get("window").height - useMaterialNavBarHeight(profile)
+        //}
         decelerationRate={"fast"}
-        onViewableItemsChanged={onViewableItemsChanged.current}
+        // onViewableItemsChanged={onViewableItemsChanged.current}
       />
-      
+
       {isLoading && (
         <View
           style={{

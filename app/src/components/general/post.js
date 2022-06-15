@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState
+  useState,
 } from "react";
 import { Dimensions, StyleSheet, Pressable } from "react-native";
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
@@ -32,14 +32,13 @@ export const PostSingle = forwardRef(({ props, item }, parentRef) => {
   const route = useRoute();
 
   // const user = item.user;
-  const [isInView, setIsInView] = useState(false)
+  const [isInView, setIsInView] = useState(false);
 
   useImperativeHandle(ref, () => ({
-    setVisible: inView => {
-        isInView !== inView && setIsInView(inView);
+    setVisible: (inView) => {
+      isInView !== inView && setIsInView(inView);
     },
-}));
-
+  }));
 
   useImperativeHandle(parentRef, () => ({
     play,
@@ -47,13 +46,10 @@ export const PostSingle = forwardRef(({ props, item }, parentRef) => {
     stop,
   }));
 
- 
-
   useEffect(() => {
     return () => {
       if (Platform.OS === "ios") {
         unload();
-        
       }
     };
   }, []);
@@ -105,7 +101,6 @@ export const PostSingle = forwardRef(({ props, item }, parentRef) => {
     }
   }, [ref.current]);
 
-
   useEffect(() => {
     if (Platform.OS === "android") {
       play();
@@ -121,7 +116,7 @@ export const PostSingle = forwardRef(({ props, item }, parentRef) => {
    *
    */
   const unload = React.useCallback(async () => {
-    console.log('unload')
+    console.log("unload");
     if (ref.current == null) {
       return;
     }
@@ -143,7 +138,7 @@ export const PostSingle = forwardRef(({ props, item }, parentRef) => {
     useMaterialNavBarHeight(route.params.profile);
 
   const videoWidth = Dimensions.get("window").width;
-  
+
   const onPress = React.useCallback(async () => {
     const status = await ref.current.getStatusAsync();
     if (!status?.isPlaying) {
@@ -163,40 +158,42 @@ export const PostSingle = forwardRef(({ props, item }, parentRef) => {
       style={{ height: feedItemHeight, width: videoWidth }}
       onPress={onPress}
     >
-     {isInView && <Video
-        ref={ref}
-        style={{
-          alignSelf: "center",
-          height: feedItemHeight,
-          width: videoWidth,
-        }}
-        resizeMode={Video.RESIZE_MODE_COVER}
-        isMuted={!isFocused}
-        onPlaybackStatusUpdate={(status) => {
-          if (status?.error) {
-            alert(status.error);
-          }
-        }}
-        // useTextureView={false}
-        // playInBackground={false}
-        // disableFocus={true}
+      {isInView && (
+        <Video
+          ref={ref}
+          style={{
+            alignSelf: "center",
+            height: feedItemHeight,
+            width: videoWidth,
+          }}
+          resizeMode={Video.RESIZE_MODE_COVER}
+          isMuted={!isFocused}
+          onPlaybackStatusUpdate={(status) => {
+            if (status?.error) {
+              alert(status.error);
+            }
+          }}
+          // useTextureView={false}
+          // playInBackground={false}
+          // disableFocus={true}
 
-
-        // shouldPlay(true) starts video automatically 
-        shouldPlay={true}
-        isLooping
-        usePoster
-        posterSource={{ uri: item.media[1].original_url }}
-        posterStyle={{ resizeMode: "cover", height: "100%" }}
-        source={{ uri: item.media[0].original_url, type: item.media[0].mime_type }}
-      /> }
+          // shouldPlay(true) starts video automatically
+          shouldPlay={true}
+          isLooping
+          usePoster
+          posterSource={{ uri: item.media[1].original_url }}
+          posterStyle={{ resizeMode: "cover", height: "100%" }}
+          source={{
+            uri: item.media[0].original_url,
+            type: item.media[0].mime_type,
+          }}
+        />
+      )}
 
       <PostSingleOverlay user={item.user} post={item} />
     </Pressable>
   );
 });
-
-
 
 const styles = StyleSheet.create({
   container: {
