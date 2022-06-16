@@ -85,6 +85,7 @@ const TempFlatListItem = ({
           resizeMode="cover"
         />
       </AnimatedVisibilityView>
+      <PostSingleOverlay user={item.user} post={item} />
     </Pressable>
   );
 };

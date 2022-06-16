@@ -32,7 +32,7 @@ const smallLogo = require("../../../assets/pmd_logo_green.png");
 const Sounds = [
   {
     id: 1,
-    name: "Yellow Brick Road",
+    songName: "Yellow Brick Road",
     artist: "Drama",
     duration: "1:00",
     url: require("../../../assets/songs/dead_inside.wav"),
@@ -40,7 +40,7 @@ const Sounds = [
   },
   {
     id: 2,
-    name: "Dead Inside",
+    songName: "Dead Inside",
     artist: "Drama",
     duration: "1:00",
     url: require("../../../assets/songs/dead_inside.wav"),
@@ -48,7 +48,7 @@ const Sounds = [
   },
   {
     id: 3,
-    name: "Long Road",
+    songName: "Long Road",
     artist: "Drama",
     duration: "1:00",
     url: require("../../../assets/songs/long_road.mp3"),
@@ -128,7 +128,7 @@ export default function SoundScreen({placeholder}) {
   };
 
   {
-    /* <View>
+    <View>
           {Loading ? (
             <ActivityIndicator
               style={styles.activity}
@@ -161,8 +161,16 @@ export default function SoundScreen({placeholder}) {
               )}
             </>
           )}
-        </View> */
+        </View>
   }
+
+  // onPress goes on text component in itemRender
+  // const getItem = (songName) => {
+
+  //   Alert.alert(songName);
+  // onPress={()=> getItem(songName)}
+
+  // }
 
   const ItemRender = ({ item }) => (
     <View style={styles.item}>
@@ -171,16 +179,19 @@ export default function SoundScreen({placeholder}) {
       </View>
       <View style={styles.albumInfoRow}>
       <TouchableWithoutFeedback>
-        
-        <Text style={styles.itemInfo}>
-          <View style={styles.logoRow}>
+
+        <Text  style={styles.itemInfo}>
+          <View style={styles.logoRow}
+          
+          >
             <Image style={styles.logo} 
             source={smallLogo} 
             cache='only-if-cached'
             />
           </View>
-          {item.name}
+          {item.songName}
         </Text>
+
         <Text style={styles.artistText}>{item.artist}</Text>
         <Text style={styles.mins}>{item.duration}</Text>
       </TouchableWithoutFeedback>

@@ -39,7 +39,7 @@ export default function PostSingleOverlay({ post, user }) {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.userReducer.user);
   const navigation = useNavigation();
-  const songTicker = post.description ? post.description : "Artist and song name";
+  const songTicker = "Artist and song name";
 
   const [instaGifts, setInstaGifts] = useState(false);
   const [ckt, setCkt] = useState(false);
