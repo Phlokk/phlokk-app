@@ -125,11 +125,6 @@ export default function SavePostScreen({ route }) {
         </View>
         <View style={styles.buttonsContainer}>
           <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
             customAlertMessage={<Text>Drafts{"\n"}coming in beta 3</Text>}
             positiveBtn="Ok"
             modalVisible={drafts}

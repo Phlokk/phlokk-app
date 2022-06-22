@@ -22,7 +22,6 @@ const AccountControl = () => {
       <View style={styles.divider}></View>
       <Text style={styles.socialText}>Account control</Text>
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Business & Analytics{"\n"}coming in official release</Text>}
         positiveBtn="Ok"
         modalVisible={businessAccount}

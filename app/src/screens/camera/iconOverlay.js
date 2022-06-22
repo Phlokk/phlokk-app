@@ -28,7 +28,6 @@ function IconOverlay() {
   return (
     <View>
       <CustomAlert
-        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Text w/ keyframes{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={textFrames}
@@ -43,7 +42,6 @@ function IconOverlay() {
         <Text style={styles.iconText}>Text</Text>
       </TouchableOpacity>
       <CustomAlert
-        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Digital Timing{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={digitalTiming}
@@ -62,7 +60,6 @@ function IconOverlay() {
         <Text style={styles.iconText}>Timing</Text>
       </TouchableOpacity>
       <CustomAlert
-        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Speed{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={speed}
@@ -77,7 +74,6 @@ function IconOverlay() {
         <Text style={styles.iconText}>Speed</Text>
       </TouchableOpacity>
       <CustomAlert
-        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>FX{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={fX}
@@ -92,7 +88,6 @@ function IconOverlay() {
         <Text style={styles.iconText}>FX</Text>
       </TouchableOpacity>
       <CustomAlert
-        alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Replies{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={replies}

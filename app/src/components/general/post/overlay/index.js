@@ -233,8 +233,7 @@ export default function PostSingleOverlay({ post, user }) {
               )}
             </View>
 
-            {/* {post &&
-                post.map((posts, i) => <Text style={styles.description} key={i}>{posts.description}</Text>)} */}
+            <Text style={styles.description} key={user}>{post.description}</Text>
             <View style={styles.songRow}>
               <Entypo name="beamed-note" size={15} color="white" />
 

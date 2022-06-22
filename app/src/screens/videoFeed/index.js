@@ -165,12 +165,8 @@ export default function FeedScreen({ route }) {
             showsVerticalScrollIndicator={false}
             data={posts}
             windowSize={Platform.OS === "android" ? 1 : 5}
-            // initialNumToRender={Platform.OS === "android" ? 1 : 5}
-            // maxToRenderPerBatch={Platform.OS === "android" ? 1 : 5}
-            //new code
-            initialNumToRender={5}
-            maxToRenderPerBatch={2}
-
+            initialNumToRender={Platform.OS === "android" ? 1 : 5}
+            maxToRenderPerBatch={Platform.OS === "android" ? 1 : 5}
             removeClippedSubviews
             initialScrollIndex={selectedVideoIndex}
             viewabilityConfig={{

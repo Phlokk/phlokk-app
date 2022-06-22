@@ -16,7 +16,6 @@ const AccountInformation = () => {
     <View>
       <Text style={styles.socialText}>Account Information</Text>
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Add phone number{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={phoneNumber}
@@ -40,7 +39,6 @@ const AccountInformation = () => {
           </View>
         </TouchableOpacity>
         <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Edit email{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={email}
@@ -64,7 +62,6 @@ const AccountInformation = () => {
           </View>
         </TouchableOpacity>
         <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Edit password{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={password}

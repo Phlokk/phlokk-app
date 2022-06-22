@@ -55,7 +55,7 @@ export default function CustomAlert({
 
 const styles = StyleSheet.create({
   container: {
-    height: "25%",
+    height: "20%",
     width: "80%",
     backgroundColor: colors.black,
     borderRadius: 15,

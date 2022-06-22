@@ -123,11 +123,6 @@ function UserProfile() {
           users.map((user, i) => (
             <TouchableOpacity key={i}>
               <CustomAlert
-                alertTitle={
-                  <Text>
-                    <MaterialIcons name="info" size={24} color={colors.green} />
-                  </Text>
-                }
                 customAlertMessage={
                   <Text>Top Favorite 5{"\n"}coming in beta 3</Text>
                 }

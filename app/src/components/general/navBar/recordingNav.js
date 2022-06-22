@@ -24,7 +24,6 @@ export default function RecordingNavBar({
 
       <Text style={styles.title}>{title}</Text>
       <CustomAlert
-          alertTitle={<Text> <MaterialIcons name="info" size={24} color={colors.green} /></Text>}
           customAlertMessage={<Text>Custom Audio Center{"\n"}coming in official release</Text>}
           positiveBtn="Ok"
           modalVisible={isRecording}

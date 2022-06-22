@@ -24,7 +24,7 @@ import SearchFollowing from "./searchFollowing";
 import SearchInput from "../../components/search/searchInput";
 
 const smallLogo = require("../../../assets/verified.png");
-const Following = [
+const Friends = [
   {
     id: 1,
     name: "batshitcrazy",
@@ -91,11 +91,11 @@ export default function FriendsListScreen({ placeholder }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatsNavBar title="Following" />
+      <StatsNavBar title="Friends" />
       <SearchFollowing placeholder={placeholder} />
       <FlatList
         style={styles.paddingFlat}
-        data={Following}
+        data={Friends}
         renderItem={ItemRender}
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}

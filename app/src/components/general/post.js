@@ -165,13 +165,7 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
                         alert(status.error);
                     }
                 }}
-                // useTextureView={false}
-                // playInBackground={false}
-                // disableFocus={true}
-
-
-                // shouldPlay(true) starts video automatically
-                shouldPlay={true}
+                shouldPlay={false}
                 isLooping
                 usePoster
                 posterSource={{ uri: item.media[1].original_url }}
