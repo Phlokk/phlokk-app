@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Video } from "expo-av";
+import { useIsFocused } from "@react-navigation/native";
+
+import PostSingleOverlay from "../../components/general/post/overlay";
 
 const VideoItem = ({
   item,
@@ -21,6 +24,8 @@ const VideoItem = ({
       step two is to navigate the user
   }
   */
+
+  const isFocused = useIsFocused();
 
   // watches for index change upon scroll to reset the video status
   useEffect(() => {
@@ -49,8 +54,8 @@ const VideoItem = ({
             uri: item.uri,
             type: item.mime_type,
           }}
-          isMuted={currentVideoIndex !== index}
-          seNativeControls={false}
+          isMuted={currentVideoIndex !== index || !isFocused}
+          // setNativeControls={false}
           resizeMode={Video.RESIZE_MODE_COVER}
           style={styles.videoRenderer}
           shouldPlay={currentVideoIndex === index && shouldPlay}
@@ -63,7 +68,9 @@ const VideoItem = ({
           }
         />
         {shouldPlay ? null : displayPauseIcon()}
+        <PostSingleOverlay user={item.user} post={item} />
       </Pressable>
+      
     </View>
   );
 };
@@ -81,6 +88,9 @@ const styles = StyleSheet.create({
     top: "40%",
     left: "40%",
   },
+  // overlay: {
+  //   zIndex: 0,
+  // }
 });
 
 export default VideoItem;
