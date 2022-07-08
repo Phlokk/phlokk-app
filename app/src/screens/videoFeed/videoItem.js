@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { Video } from "expo-av";
 import { useIsFocused } from "@react-navigation/native";
 
 import PostSingleOverlay from "../../components/general/post/overlay";
+import colors from "../../../config/colors";
 
 const VideoItem = ({
   item,
@@ -38,10 +40,10 @@ const VideoItem = ({
   };
 
   const displayPauseIcon = () => (
-    <MaterialIcons
-      name="pause-circle-outline"
+    <Feather
+      name="pause-circle"
       size={100}
-      color="white"
+      color={colors.white}
       style={styles.pauseIcon}
     />
   );
@@ -51,8 +53,8 @@ const VideoItem = ({
       <Pressable style={{ flex: 1 }} onPress={playPauseVideo}>
         <Video
           source={{
-            uri: item.uri,
-            type: item.mime_type,
+            uri: item.media[0].original_url,
+            type: item.media[0].mime_type,
           }}
           isMuted={currentVideoIndex !== index || !isFocused}
           // setNativeControls={false}
@@ -66,11 +68,11 @@ const VideoItem = ({
           onPlaybackStatusUpdate={(status) =>
             setCurrentVideoPlayingStat(status)
           }
+          /*  */
         />
         {shouldPlay ? null : displayPauseIcon()}
         <PostSingleOverlay user={item.user} post={item} />
       </Pressable>
-      
     </View>
   );
 };

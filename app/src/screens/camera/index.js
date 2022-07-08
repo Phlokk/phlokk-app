@@ -15,7 +15,7 @@ import * as MediaLibrary from "expo-media-library";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import colors from "../../../config/colors";
 import IconOverlay from "./iconOverlay";
@@ -211,7 +211,6 @@ export default function CameraScreen() {
             )}
           </TouchableOpacity>
         </View>
-        
       </View>
     </View>
   );

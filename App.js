@@ -1,11 +1,16 @@
 import "react-native-gesture-handler";
-import { React } from "react";
+import { React, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import store from "./app/src/redux/reducers/configureStore";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import Route from "./app/src/navigation/main";
 import { LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  CURRENT_USER_KEY,
+  getFromStorage,
+  setStorageItem,
+} from "./app/src/utils/appStorage";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 LogBox.ignoreLogs([
@@ -23,6 +28,22 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
+  // const users = useSelector((state) => state.userReducer.user);
+
+  // useEffect(() => {
+  //   const loadUserFromStorage = async () => {
+  //     const user = getFromStorage(CURRENT_USER_KEY, undefined);
+
+  //     // if no user, you'll need to load it from the api
+
+  //     //once you load it, save it to app storage like...
+  //     const profileFromApi = {}; // load profile from api
+  //     setStorageItem(CURRENT_USER_KEY, profileFromApi);
+  //   };
+
+  //   loadUserFromStorage();
+  // }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>

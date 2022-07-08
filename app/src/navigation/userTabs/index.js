@@ -50,13 +50,15 @@ const TabBar = ({ state, navigation }) => {
           name="fingerprint"
           size={40}
           color={state.index === 2 ? colors.green : colors.diamondBlue}
-          onPress={() => onPress(2)}
+          // onPress={() => onPress(2)}
+          onPress={() => navigation.navigate('Cam')}
         />
         <Feather
           name="message-square"
           size={25}
           color={state.index === 3 ? colors.green : colors.diamondBlue}
           onPress={() => onPress(3)}
+          
         />
         <Feather
           name="user"
@@ -78,7 +80,6 @@ const UserTabs = () => {
     >
       <Tab.Screen name="feed" component={FeedNavigation} />
       <Tab.Screen name="Discover" component={SearchScreen} />
-      <Tab.Screen name="Cam" component={CameraScreen} />
       <Tab.Screen name="Inbox" component={ActivityScreen} />
       <Tab.Screen name="profileOther" component={ProfileScreen} />
     </Tab.Navigator>

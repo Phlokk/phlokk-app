@@ -68,13 +68,36 @@ import BioFieldScreen from "../../screens/profile/bio/bio";
 import GiftingScreen from "../../screens/gifting/gifting";
 import FollowingListScreen from "../../screens/stats/followingList";
 import FriendsListScreen from "../../screens/stats/friendsList";
+import LoadingScreen from "../../screens/loading/loading";
+import {
+  CURRENT_USER_KEY,
+  getFromStorage,
+  setStorageItem,
+} from "../../utils/appStorage";
+import { types } from "../../redux/constants";
+import CameraScreen from "../../screens/camera";
 
 const Stack = createNativeStackNavigator();
 
 export default function Route() {
+  const dispatch = useDispatch();
+
   const auth = useSelector((state) => state.auth);
 
-  const dispatch = useDispatch();
+  const users = useSelector((state) => state.userReducer.user);
+
+  useEffect(() => {
+    const getUserFromStorage = async () => {
+      const user = await getFromStorage(CURRENT_USER_KEY, undefined);
+      // save user to redux from app storage
+    };
+
+    getUserFromStorage();
+  }, []);
+
+  useEffect(() => {
+    setStorageItem(CURRENT_USER_KEY, users);
+  }, [users]);
 
   useEffect(() => {
     dispatch(userAuthStateListener());
@@ -96,9 +119,14 @@ export default function Route() {
               component={UserTabs}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="feed"
               component={FeedNavigation}
+              options={{ headerShown: false }}
+            /> */}
+            <Stack.Screen
+              name="Cam"
+              component={CameraScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
