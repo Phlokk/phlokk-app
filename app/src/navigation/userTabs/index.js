@@ -49,22 +49,21 @@ const TabBar = ({ state, navigation }) => {
         <MaterialCommunityIcons
           name="fingerprint"
           size={40}
-          color={state.index === 2 ? colors.green : colors.diamondBlue}
-          // onPress={() => onPress(2)}
+          color={colors.diamondBlue}
           onPress={() => navigation.navigate('Cam')}
         />
         <Feather
           name="message-square"
           size={25}
-          color={state.index === 3 ? colors.green : colors.diamondBlue}
-          onPress={() => onPress(3)}
+          color={state.index === 2 ? colors.green : colors.diamondBlue}
+          onPress={() => onPress(2)}
           
         />
         <Feather
           name="user"
           size={25}
-          color={state.index === 4 ? colors.green : colors.diamondBlue}
-          onPress={() => onPress(4)}
+          color={state.index === 3 ? colors.green : colors.diamondBlue}
+          onPress={() => onPress(3)}
         />
       </View>
     </View>
