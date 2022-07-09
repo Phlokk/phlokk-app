@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons'; 
 import { Video } from "expo-av";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -40,8 +41,8 @@ const VideoItem = ({
   };
 
   const displayPauseIcon = () => (
-    <Feather
-      name="pause-circle"
+    <Ionicons
+      name="ios-pause-circle-outline"
       size={100}
       color={colors.white}
       style={styles.pauseIcon}
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
   },
   pauseIcon: {
     position: "absolute",
+    opacity: 0.5,
     top: "40%",
     left: "40%",
   },
