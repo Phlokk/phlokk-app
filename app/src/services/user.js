@@ -6,30 +6,22 @@ import axios from "../redux/apis/axiosDeclaration";
 import { Alert } from "react-native";
 
 export const getUserById = async (data) => {
-    let url = '/api/creator/'+data;
-    axios
-        .get(url)
-        .then((response) => {
-            return response.data;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+  let url = "/api/creator/" + data;
+  axios
+    .get(url)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const updateCreator = async (data) => {
-    console.log('data to send');
-    console.log(data);
-  axios
-    .patch("/api/me/update", data)
-    .then((response) => {
-        console.log(response);
-      Alert.alert(" Data successfully updated!")
-    })
-    .catch((error) => {
-        console.log(error);
-      Alert.alert("Data not saved, please check user data");
-    });
+  console.log("data to send");
+  console.log(data);
+
+  await axios.patch("/api/me/update", data);
 };
 
 // export const saveQuote = async ( value ) => {

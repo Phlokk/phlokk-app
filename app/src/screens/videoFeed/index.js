@@ -1,5 +1,11 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { View, StyleSheet, ActivityIndicator, Dimensions } from "react-native";
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+} from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
 
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
@@ -8,19 +14,43 @@ import {
   getFeed,
   getFeedAsync,
   useFeed,
+  useUserVideoFeed,
   useVideoFeed,
 } from "../../services/posts";
 
+const { height } = Dimensions.get("window");
+
 const VideoFeed = ({ route }) => {
-  const { profile } = route.params;
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const { profile, selectedIndex } = route.params;
+  const flatListRef = useRef();
+
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(
+    selectedIndex || 0
+  );
   const [currentVideoPlayingStat, setCurrentVideoPlayingStat] = useState({});
 
-  const { posts, getMoreVideos } = useVideoFeed();
+  const {
+    posts,
+    getMoreVideos,
+    loading: loadingMainFeed,
+  } = useVideoFeed({
+    skip: profile,
+  });
+  const {
+    posts: userPosts,
+    getMoreUserPosts,
+    loading: loadingUserFeed,
+  } = useUserVideoFeed({
+    skip: !profile,
+  });
 
   useEffect(() => {
     if (currentVideoIndex === posts?.length - 2) {
-      getMoreVideos();
+      if (profile) {
+        getMoreUserPosts();
+      } else {
+        getMoreVideos();
+      }
     }
   }, [currentVideoIndex]);
 
@@ -52,33 +82,39 @@ const VideoFeed = ({ route }) => {
     [currentVideoIndex]
   );
 
-  return (
-    <View style={styles.mainContainer}>
-      {posts.length === 0 ? (
+  if (loadingMainFeed || loadingUserFeed) {
+    return (
+      <View style={styles.mainContainer}>
         <ActivityIndicator
           size={"large"}
           color={"white"}
           style={styles.activityIndicator}
         />
-      ) : (
-        <SwiperFlatList
-          showsVerticalScrollIndicator={false}
-          data={posts}
-          renderItem={renderItem}
-          vertical={true}
-          windowSize={Platform.OS === "android" ? 1 : 5}
-          initialNumToRender={5}
-          maxToRenderPerBatch={2}
-          removeClippedSubviews
-          keyExtractor={(item, index) => index.toString()}
-          pagingEnabled
-          getItemLayout={getItemLayout}
-          snapToInterval={feedItemHeight}
-          snapToAlignment={"start"}
-          decelerationRate={"fast"}
-          onChangeIndex={onFeedScroll}
-        />
-      )}
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.mainContainer}>
+      <SwiperFlatList
+        ref={flatListRef}
+        index={selectedIndex}
+        showsVerticalScrollIndicator={false}
+        data={profile ? userPosts : posts}
+        renderItem={renderItem}
+        vertical={true}
+        windowSize={Platform.OS === "android" ? 1 : 5}
+        initialNumToRender={5}
+        maxToRenderPerBatch={2}
+        removeClippedSubviews
+        keyExtractor={(item, index) => index.toString()}
+        pagingEnabled
+        getItemLayout={getItemLayout}
+        snapToInterval={feedItemHeight}
+        snapToAlignment={"start"}
+        decelerationRate={"fast"}
+        onChangeIndex={onFeedScroll}
+      />
     </View>
   );
 };

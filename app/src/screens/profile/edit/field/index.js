@@ -1,24 +1,33 @@
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { updateCreator } from "../../../../../src/services/user";
 import { generalStyles } from "../../../../../src/styles";
-import routes from "../../../../navigation/routes"
+import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 import InfoScreenNav from "../../../../components/general/navBar/infoScreenNav";
+import { userAtom } from "../../../../../../App";
+import { useAtom } from "jotai";
 
 export default function EditProfileFieldScreen({ route }) {
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
+  const [user, setUser] = useAtom(userAtom);
 
-  const onSave = () => {
-
-    updateCreator({username: textInputValue})
-    // .then(() => navigation.goBack());
-    
+  const onSave = async () => {
+    const updateObject = { username: textInputValue };
+    try {
+      await updateCreator(updateObject);
+      const updatedUser = { ...user, ...updateObject };
+      setUser(updatedUser);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Data not saved, please check user data");
+    }
   };
 
   return (
@@ -43,8 +52,8 @@ export default function EditProfileFieldScreen({ route }) {
       </View>
       <View style={styles.infoView}>
         <Text style={styles.info}>
-          <Text style={styles.infoText}>Info:</Text> Can only contain
-          lowercase letters, numbers, underscores and periods. When you change your
+          <Text style={styles.infoText}>Info:</Text> Can only contain lowercase
+          letters, numbers, underscores and periods. When you change your
           username it will update the link to your profile.
         </Text>
       </View>

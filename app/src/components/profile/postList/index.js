@@ -5,8 +5,6 @@ import ProfilePostListItem from "./item";
 import colors from "../../../../config/colors";
 
 export default function ProfilePostList({ posts }) {
-
-  
   return (
     <View>
       <FlatList
@@ -20,7 +18,9 @@ export default function ProfilePostList({ posts }) {
         nestedScrollEnabled={false}
         data={posts}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ProfilePostListItem item={item} />}
+        renderItem={({ item, index }) => {
+          return <ProfilePostListItem item={item} index={index} />;
+        }}
       />
     </View>
   );

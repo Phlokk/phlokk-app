@@ -32,16 +32,37 @@ export const getFeedAsync = async () => {
   }
 };
 
-export const useVideoFeed = () => {
+export const getUserFeedAsync = async (userId) => {
+  try {
+    const result = await axios.get(`/api/posts?userId=${userId}`, {
+      testing: "testing",
+    });
+    return result.data.data;
+  } catch {
+    console.log(
+      "------------ Back from server Error  GET FEED FUNC ----------"
+    );
+    console.log(error);
+  }
+};
+
+export const useVideoFeed = (options) => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState();
+
+  const skip = options?.skip;
 
   useEffect(() => {
     const getFeed = async () => {
+      setLoading(true);
       const feed = await getFeedAsync();
       setPosts(feed);
+      setLoading(false);
     };
 
-    getFeed();
+    if (!skip) {
+      getFeed();
+    }
   }, []);
 
   const getMoreVideos = (lastVideo) => {
@@ -49,7 +70,34 @@ export const useVideoFeed = () => {
     alert("TODO");
   };
 
-  return { posts, getMoreVideos };
+  return { posts, getMoreVideos, loading };
+};
+
+export const useUserVideoFeed = (userId, options) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState();
+
+  const skip = options?.skip;
+
+  useEffect(() => {
+    const getFeed = async () => {
+      setLoading(true);
+      const feed = await getUserFeedAsync(userId);
+      setPosts(feed);
+      setLoading(false);
+    };
+
+    if (!skip) {
+      getFeed();
+    }
+  }, []);
+
+  const getMoreUserPosts = (lastVideoId) => {
+    // TODO, load more videos
+    alert("TODO");
+  };
+
+  return { posts, getMoreUserPosts, loading };
 };
 
 export const useFeed = (profile) =>

@@ -50,14 +50,13 @@ const TabBar = ({ state, navigation }) => {
           name="fingerprint"
           size={40}
           color={colors.diamondBlue}
-          onPress={() => navigation.navigate('Cam')}
+          onPress={() => navigation.navigate("Cam")}
         />
         <Feather
           name="message-square"
           size={25}
           color={state.index === 2 ? colors.green : colors.diamondBlue}
           onPress={() => onPress(2)}
-          
         />
         <Feather
           name="user"
@@ -71,6 +70,8 @@ const TabBar = ({ state, navigation }) => {
 };
 
 const UserTabs = () => {
+  // Load the current user
+
   return (
     <Tab.Navigator
       initialRoute="feed"
@@ -80,7 +81,11 @@ const UserTabs = () => {
       <Tab.Screen name="feed" component={FeedNavigation} />
       <Tab.Screen name="Discover" component={SearchScreen} />
       <Tab.Screen name="Inbox" component={ActivityScreen} />
-      <Tab.Screen name="profileOther" component={ProfileScreen} />
+      <Tab.Screen
+        name="profileOther"
+        component={ProfileScreen}
+        options={{ lazy: false }}
+      />
     </Tab.Navigator>
   );
 };

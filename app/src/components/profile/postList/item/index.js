@@ -6,62 +6,72 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
-  View
+  View,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 // import { deletePostById } from "../../../../services/posts";
+
 import { useQueryClient } from "react-query";
 
-export default function ProfilePostListItem({ item }) {
+export default function ProfilePostListItem({ item, index }) {
+
+
+  const users = useSelector((state) => state.userReducer.user);
+
+
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
-  // const deleteUserPost = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     await deletePostById(item.id);
-  //     queryClient.invalidateQueries(["userPosts", item.creator]);
+  const deleteUserPost = async () => {
+    try {
+      setIsLoading(true);
+      await deletePostById(item.id);
+      queryClient.invalidateQueries(["userPosts", item.creator]);
 
-  //     setIsLoading(false);
-  //     alert("Video Deleted Successfully");
-  //   } catch (err) {
-  //     alert(err?.message);
-  //     setIsLoading(false);
-  //   }
-  // };
-  // const deletePost = () => {
-  //   const uid = users.user;
-  //   console.log("uid, item.creator", uid, item.creator);
-  //   if (item.creator === uid) {
-  //     Alert.alert(
-  //       "Delete Video",
-  //       "Are you sure you want to delete this video?",
-  //       [
-  //         {
-  //           text: "Cancel",
-  //           onPress: () => console.log("Cancel Pressed"),
-  //           style: "cancel",
-  //         },
-  //         { text: "OK", onPress: deleteUserPost },
-  //       ]
-  //     );
-  //   }
-  // };
+      setIsLoading(false);
+      alert("Video Deleted Successfully");
+    } catch (err) {
+      alert(err?.message);
+      setIsLoading(false);
+    }
+  };
+  const deletePost = () => {
+    const uid = users.user;
+    console.log("uid, item.creator", uid, item.creator);
+    if (item.creator === uid) {
+      Alert.alert(
+        "Delete Video",
+        "Are you sure you want to delete this video?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: deleteUserPost },
+        ]
+      );
+    }
+  };
+
   return (
     <TouchableOpacity
       style={styles.container}
       onLongPress={deletePost}
-      onPress={() =>
+      onPress={() => {
         navigation.navigate(routes.USER_POSTS, {
           creator: item.creator,
           profile: true,
           selectedVideo: item.media[0].original_url,
-        })
-      }
+          selectedIndex: index,
+        });
+      }}
     >
-      <Image style={styles.image} 
-      source={{ uri: item.media[1].original_url }}
+      <Image
+        style={styles.image}
+        source={{ uri: item.media[1].original_url }}
       />
       {isLoading && (
         <View
@@ -75,9 +85,7 @@ export default function ProfilePostListItem({ item }) {
           <ActivityIndicator size="small" color={colors.green} />
         </View>
       )}
-      
     </TouchableOpacity>
-  
   );
 }
 

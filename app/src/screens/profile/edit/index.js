@@ -11,6 +11,8 @@ import FormData from "form-data";
 import { fetchUserData } from "../../../redux/actions/users";
 import * as SecureStore from "expo-secure-store";
 // import { useFocusEffect } from "@react-navigation/native";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../../App";
 import EditProfileNav from "../../../components/general/navBar/editProfile";
 
 export default function EditProfileScreen() {
@@ -19,43 +21,7 @@ export default function EditProfileScreen() {
   const isFocused = useIsFocused();
   const [image, setImage] = useState(null);
 
-  const users = useSelector((state) => state.userReducer.user);
-
-
-  useEffect(() => {
-    dispatch(
-      fetchUserData([
-        'photo_url',
-        'username',
-        'relationship_type',
-        'relationship_name',
-        'quote',
-        'creator_type',
-        'is_verified',
-        'link',
-        'youtube_link',
-        'instagram_link',
-      ])
-    );
-  }, [dispatch]);
-
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(fetchUserData([
-        'photo_url',
-        'username',
-        'relationship_type',
-        'relationship_name',
-        'quote',
-        'creator_type',
-        'is_verified',
-        'link',
-        'youtube_link',
-        'instagram_link',
-      ])); // update when the user returns to this screen.
-    }, [dispatch])
-);
-
+  const [user, setUser] = useAtom(userAtom);
   
 
 
@@ -113,20 +79,16 @@ export default function EditProfileScreen() {
         leftButton={{ display: false }}
       />
       <View style={styles.imageContainer}>
-        {users.photo_url !== null ? (
+        {user.photo_url !== null ? (
           <TouchableOpacity
             style={styles.imageViewContainer}
             onPress={() => chooseImage()}
           >
-            {users &&
-              users.map((user, i) => (
                 <Image
                   style={styles.image}
-                  key={i}
                   source={{ uri: image ? image : user.photo_url }}
                   cache="only-if-cached"
                 />
-              ))}
 
             <View style={styles.imageOverlay} />
 
@@ -148,11 +110,8 @@ export default function EditProfileScreen() {
       </View>
 
       <View style={styles.fieldsContainer}>
-        {users &&
-          users.map((user, i) => (
             <TouchableOpacity
               style={styles.fieldItemContainer}
-              key={i}
               autoCapitalize="none"
               onPress={() =>
                 navigation.navigate(routes.EDIT_PROFILE_FIELD, {
@@ -166,19 +125,15 @@ export default function EditProfileScreen() {
                 Username
               </Text>
               <View style={styles.fieldValueContainer}>
-                <Text style={styles.text} key={i}>
+                <Text style={styles.text}>
                   {user.username}
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
-          ))}
 
-        {users &&
-          users.map((user, i) => (
             <TouchableOpacity
               style={styles.fieldItemContainer}
-              key={i}
               autoCapitalize="none"
               onPress={() =>
                 navigation.navigate(routes.CREATOR, {
@@ -190,19 +145,15 @@ export default function EditProfileScreen() {
             >
               <Text style={styles.text}>Creator</Text>
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text} key={i}>
+                <Text numberOfLines={1} style={styles.text}>
                   {user.creator_type}
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
-          ))}
 
-        {users &&
-          users.map((user, i) => (
             <TouchableOpacity
               style={styles.fieldItemContainer}
-              key={i}
               autoCapitalize="none"
               onPress={() =>
                 navigation.navigate(routes.LINK, {
@@ -214,19 +165,15 @@ export default function EditProfileScreen() {
             >
               <Text style={styles.text}>Website</Text>
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text} key={i}>
+                <Text numberOfLines={1} style={styles.text}>
                   {user.link}
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
-          ))}
-
-        {users &&
-          users.map((user, i) => (
+          
             <TouchableOpacity
               style={styles.fieldItemContainer}
-              key={i}
               autoCapitalize="none"
               onPress={() =>
                 navigation.navigate(routes.QUOTES, {
@@ -238,19 +185,15 @@ export default function EditProfileScreen() {
             >
               <Text style={styles.text}>Quote</Text>
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text} key={i}>
+                <Text numberOfLines={1} style={styles.text}>
                   {user.quote}
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
-          ))}
 
-        {users &&
-          users.map((user, i) => (
             <TouchableOpacity
               style={styles.fieldItemContainer}
-              key={i}
               autoCapitalize="none"
               onPress={() =>
                 navigation.navigate(routes.BIO, {
@@ -262,19 +205,15 @@ export default function EditProfileScreen() {
             >
               <Text style={styles.text}>Bio</Text>
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text} key={i}>
+                <Text numberOfLines={1} style={styles.text}>
                   {user.bio}
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
-          ))}
 
-        {users &&
-          users.map((user, i) => (
             <TouchableOpacity
               style={styles.fieldItemContainer}
-              key={i}
               autoCapitalize="none"
               onPress={() =>
                 navigation.navigate(routes.RELATIONSHIP, {
@@ -286,20 +225,16 @@ export default function EditProfileScreen() {
             >
               <Text style={styles.text}>Status</Text>
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text} key={i}>
+                <Text numberOfLines={1} style={styles.text}>
                   {user.relationship_type}
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
             </TouchableOpacity>
-          ))}
 
         <Text style={styles.socialText}>Social Media</Text>
-        {users &&
-          users.map((user, i) => (
             <TouchableOpacity
               style={styles.fieldItemContainer}
-              key={i}
               autoCapitalize="none"
               onPress={() =>
                 navigation.navigate(routes.YOUTUBE_LINK, {
@@ -310,7 +245,7 @@ export default function EditProfileScreen() {
               }
             >
               <Text style={styles.text}>Youtube</Text>
-              {users.youtube_link === null ? (
+              {user.youtube_link === null ? (
                 <View style={styles.fieldValueContainer}>
                   <Text numberOfLines={1} style={styles.text}>
                     Add Youtube Channel
@@ -328,13 +263,8 @@ export default function EditProfileScreen() {
                 </View>
               )}
             </TouchableOpacity>
-          ))}
-
-        {users &&
-          users.map((user, i) => (
             <TouchableOpacity
               style={styles.fieldItemContainer}
-              key={i}
               autoCapitalize="none"
               onPress={() =>
                 navigation.navigate(routes.INSTAGRAM_LINK, {
@@ -345,7 +275,7 @@ export default function EditProfileScreen() {
               }
             >
               <Text style={styles.text}>Instagram</Text>
-              {users.instagram_link === null ? (
+              {user.instagram_link === null ? (
                 <View style={styles.fieldValueContainer}>
                   <Text numberOfLines={1} style={styles.authText}>
                     Add Instagram Account
@@ -363,7 +293,6 @@ export default function EditProfileScreen() {
                 </View>
               )}
             </TouchableOpacity>
-          ))}
       </View>
     </SafeAreaView>
   );

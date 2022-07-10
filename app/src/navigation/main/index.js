@@ -76,6 +76,8 @@ import {
 } from "../../utils/appStorage";
 import { types } from "../../redux/constants";
 import CameraScreen from "../../screens/camera";
+import { StyleSheet, View } from "react-native";
+import colors from "../../../config/colors";
 
 const Stack = createNativeStackNavigator();
 
@@ -102,6 +104,10 @@ export default function Route() {
   useEffect(() => {
     dispatch(userAuthStateListener());
   }, []);
+
+  if (!auth.loaded) {
+    return <View style={styles.lightBlack} />;
+  }
 
   return (
     <NavigationContainer ref={navigationRef}>
@@ -410,3 +416,10 @@ export default function Route() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.green,
+    flex: 1,
+  },
+});

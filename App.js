@@ -11,6 +11,8 @@ import {
   getFromStorage,
   setStorageItem,
 } from "./app/src/utils/appStorage";
+import { atom, useAtom } from "jotai";
+import { fetchGetUsers } from "./app/src/redux/sagas/requests/fetchUsers";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 LogBox.ignoreLogs([
@@ -23,11 +25,24 @@ LogBox.ignoreLogs([
 //   "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native",
 // ]);
 
+export const userAtom = atom({});
+
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: false, staleTime: Infinity } },
 });
 
 export default function App() {
+  const [user, setUser] = useAtom(userAtom);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const response = await fetchGetUsers();
+      setUser(response.user);
+    };
+
+    loadUser();
+  }, []);
+
   // const users = useSelector((state) => state.userReducer.user);
 
   // useEffect(() => {

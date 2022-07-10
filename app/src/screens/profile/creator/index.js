@@ -6,19 +6,23 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { userAtom } from "../../../../../App";
+import { useAtom } from "jotai";
 
 import colors from "../../../../config/colors";
 import { updateCreator } from "../../../services/user";
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
 
-let categoryId = null;
-
 export default function EditCreatorFieldScreen({ route }) {
   const { title } = route.params;
   const navigation = useNavigation();
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [user, setUser] = useAtom(userAtom);
+
   const [categories, setCategories] = useState([
     { id: 1, key: "cat1", value: false, category: "Actor", selected: false },
     {
@@ -143,29 +147,24 @@ export default function EditCreatorFieldScreen({ route }) {
     },
   ]);
 
-  const onRadioBtnClick = (item) => {
-    console.log("radio click");
-    console.log(item);
-    categoryId = item.id;
-    // item.selected = item.selected ? false : true;
-    setCategories(item);
-
-    let updatedState = categories.map((i) =>
-      i.id === item.id ? { ...i, selected: true } : { ...i, selected: false }
-    );
-    setCategories(updatedState);
-    // onSave();
-  };
-
-  const onSave = () => {
-    updateCreator({ creator_type: categoryId }).then(() => navigation.goBack());
+  const onSave = async () => {
+    const updateObject = { creator_type: selectedCategory.id };
+    try {
+      await updateCreator(updateObject);
+      const updatedUser = { ...user, ...updateObject };
+      setUser(updatedUser);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Data not saved, please check user data");
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <InfoScreenNav
         title={title}
-        leftButton={{ display: false, name: "save", action: onSave }}
+        leftButton={{ display: true, name: "save", action: onSave }}
       />
       <ScrollView>
         {categories.map((item) => (
@@ -175,10 +174,12 @@ export default function EditCreatorFieldScreen({ route }) {
             </TouchableOpacity>
             <View style={{ flex: 1 }}></View>
             <TouchableOpacity
-              onPress={() => onRadioBtnClick(item)}
+              onPress={() => setSelectedCategory(item)}
               style={styles.radioButton}
             >
-              {item.selected ? <View style={styles.radioButtonIcon} /> : null}
+              {selectedCategory?.id === item.id && (
+                <View style={styles.radioButtonIcon} />
+              )}
             </TouchableOpacity>
           </View>
         ))}

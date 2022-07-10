@@ -43,6 +43,7 @@
     "expo-updates": "^0.11.6",
     "expo-video-thumbnails": "~6.1.0",
     "form-data": "^4.0.0",
+    "jotai": "^1.7.4",
     "lottie-react-native": "5.0.1",
     "moment-timezone": "^0.5.34",
     "react": "17.0.1",
