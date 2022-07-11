@@ -1,32 +1,22 @@
-import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { useUser } from "../../../../hooks/useUser";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { generalStyles } from "../../../../styles";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchUserData } from "../../../../redux/actions/users";
+import { useDispatch } from "react-redux";
 import colors from "../../../../../config/colors";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../../../App";
 import verifiedCheck from "../../../../../assets/verified.png";
 
 const CommentItem = ({ item }) => {
-  // const user = useUser(item.creator).data;
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.userReducer.user);
-
-  // const navigation = useNavigation();
-  useEffect(() => {
-    dispatch(fetchUserData({}));
-  }, [dispatch]);
+  const [user, setUser] = useAtom(userAtom);
 
 
   return (
     <View style={styles.container}>
-      {users &&
-        users.map((user, i) =>
           user.photo_url !== null || !undefined ? (
             <Image
               style={styles.avatar}
-              key={i}
               source={{ uri: user.photo_url }}
             />
           ) : (
@@ -35,20 +25,16 @@ const CommentItem = ({ item }) => {
               source={require("../../../../../assets/userImage.png")}
             />
           )
-        )}
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
-        {users.username !== null || !undefined ? (
+        {user.username !== null || !undefined ? (
           <Text>
-            {users &&
-              users.map((user, i) => (
-                <Text style={styles.username} key={i}>
+                <Text style={styles.username}>
                   @{user.username}
                 </Text>
-              ))}
             <View>
-              {users[0] && users[0].is_verified === 1 && (
+              {user && user.is_verified === 1 && (
                 <Image style={styles.phlokkVerified} source={verifiedCheck} />
               )}
             </View>

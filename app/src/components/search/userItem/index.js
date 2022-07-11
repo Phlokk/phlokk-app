@@ -1,21 +1,16 @@
 import { useNavigation } from "@react-navigation/core";
 import React, {useEffect} from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-
-import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import verifiedCheck from "../../../../assets/verified.png";
-import { fetchUserData } from "../../../redux/actions/users";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../../App";
 
 export default function SearchUserItem() {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const users = useSelector((state) => state.userReducer.user);
+  const [user, setUser] = useAtom(userAtom);
 
-  useEffect(() => {
-    dispatch(fetchUserData(['username','is_verified','photo_url']));
-  }, [dispatch]);
+
 
   return (
     <TouchableOpacity
@@ -25,16 +20,13 @@ export default function SearchUserItem() {
       // }
     >
       <View style={styles.verifiedRow}>
-        {users.username !== null || !undefined ? (
+        {user.username !== null || !undefined ? (
           <Text>
-            {users &&
-              users.map((user, i) => (
-                <Text style={styles.text} key={i}>
+                <Text style={styles.text}>
                   @{user.username}
                 </Text>
-              ))}
             <View>
-              {users[0] && users[0].is_verified === 1 && (
+              {user && user.is_verified === 1 && (
                 <Image style={styles.verifiedBadge} source={verifiedCheck} />
               )}
             </View>
@@ -45,12 +37,10 @@ export default function SearchUserItem() {
       </View>
 
       <View>
-      {users &&
-        users.map((user, i) =>
+
           user.photo_url !== null || !undefined ? (
             <Image
               style={styles.image}
-              key={i}
               source={{ uri: user.photo_url }}
             />
           ) : (
@@ -59,7 +49,6 @@ export default function SearchUserItem() {
               source={require("../../../../assets/userImage.png")}
             />
           )
-        )}
       </View>
     
     </TouchableOpacity>

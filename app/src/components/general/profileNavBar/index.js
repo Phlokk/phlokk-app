@@ -1,29 +1,24 @@
-import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import colors from "../../../../config/colors";
-import { fetchUserData } from "../../../redux/actions/users";
-
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../../App";
 export default function ProfileNavBar() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const users = useSelector((state) => state.userReducer.user);
+  const [user, setUser] = useAtom(userAtom);
+
   // const loading = useSelector(state => state.userReducer.user);
  
-
-  useEffect(() => {
-    dispatch(fetchUserData(['username','photo_url','creator_type']));
-  }, [dispatch]);
-
   return (
     <View style={styles.container}>
-      {users !== null || !undefined ? (
+      {user !== null || !undefined ? (
         <TouchableOpacity>
           <MaterialCommunityIcons
             name="fire"
@@ -42,9 +37,9 @@ export default function ProfileNavBar() {
           />
         </TouchableOpacity>
       )}
-      {users && users.map((user, i) => <Text style={styles.middleText} key={i}>{user.creator_type}</Text>)}
+      <Text style={styles.middleText} >{user.creator_type}</Text>
       
-      {users !== null || !undefined ? (
+      {user !== null || !undefined ? (
         <TouchableOpacity>
           <MaterialCommunityIcons
             name="information"

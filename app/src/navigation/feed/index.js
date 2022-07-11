@@ -1,7 +1,8 @@
 import React, { createContext, useState } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import FeedScreen from "../../screens/videoFeed";
+// import FeedScreen from "../../screens/videoFeed";
 import ProfileScreen from "../../screens/profile";
+import VideoFeed from "../../screens/videoFeed";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 
@@ -11,9 +12,6 @@ const FeedNavigation = () => {
   const [currentUserProfileItemInView, setCurrentUserProfileItemInView] =
     useState(null);
 
-
-
-
   return (
     <CurrentUserProfileItemInViewContext.Provider
       value={currentUserProfileItemInView}
@@ -21,7 +19,7 @@ const FeedNavigation = () => {
       <Navigator initialRouteName="feedList" tabBar={() => <></>}>
         <Screen
           name="feedList"
-          component={FeedScreen}
+          component={VideoFeed}
           initialParams={{ setCurrentUserProfileItemInView, profile: false }}
         />
         {/* <Screen

@@ -17,11 +17,8 @@ export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
       <View style={styles.containerMain}>
         <View style={styles.logoContainer}>
           <Image
-            source={require("../../../../../app/assets/phlokk_logo.png")}
-          />
-          <Image
             style={styles.phlokkLogo}
-            source={require("../../../../../app/assets/small.png")}
+            source={require("../../../../../app/assets/loginLogo.png")}
           />
         </View>
         <TouchableOpacity
@@ -110,6 +107,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   phlokkLogo: {
-    marginBottom: 20,
+    marginBottom: 40,
+    bottom: 100
   },
 });

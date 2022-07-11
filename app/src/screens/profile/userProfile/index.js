@@ -1,37 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchUserData } from "../../../redux/actions/users";
+import { useDispatch } from "react-redux";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import verifiedCheck from "../../../../assets/verified.png";
 import CustomAlert from "../../../components/Alerts/customAlert";
 import CustomImageModal from "../../../components/Image/customImage";
 
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../../App";
+
 function UserProfile() {
+  
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.userReducer.user);
 
   const [topFavFive, setTopFavFive] = useState(false);
   const [popUpImage, setPopUpImage] = useState(false);
 
-  useEffect(() => {
-    dispatch(
-      fetchUserData([
-        "username",
-        "photo_url",
-        "quote",
-        "is_verified",
-        "relationship_name",
-        "relationship_type",
-      ])
-    );
-  }, [dispatch]);
+  const [user, setUser] = useAtom(userAtom);
+  console.log(user)
 
   const [fontsLoaded] = useFonts({
     "Waterfall-Regular": require("../../../../assets/fonts/Waterfall-Regular.ttf"),
@@ -43,40 +33,32 @@ function UserProfile() {
 
   return (
     <View style={styles.container}>
-      {users &&
-        users.map((user, i) =>
-          user.photo_url !== null || !undefined ? (
-            <TouchableOpacity key={i} onPress={() => setPopUpImage(true)}>
-              <CustomImageModal
-                alertTitle="About me"
-                customAlertMessage={<Text>User Bio</Text>}
-                positiveBtn="Back"
-                modalVisible={popUpImage}
-                dismissAlert={setPopUpImage}
-                animationType="fade"
-              />
-              <Image style={styles.avatar} source={{ uri: user.photo_url }} />
-            </TouchableOpacity>
-          ) : (
-            <Image
-              style={styles.avatar}
-              source={require("../../../../assets/userImage.png")}
-              cache="only-if-cached"
-            />
-          )
-        )}
+      {user.photo_url !== null || !undefined ? (
+        <TouchableOpacity onPress={() => setPopUpImage(true)}>
+          <CustomImageModal
+            alertTitle="About me"
+            customAlertMessage={<Text>User Bio</Text>}
+            positiveBtn="Back"
+            modalVisible={popUpImage}
+            dismissAlert={setPopUpImage}
+            animationType="fade"
+          />
+          <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+        </TouchableOpacity>
+      ) : (
+        <Image
+          style={styles.avatar}
+          source={require("../../../../assets/userImage.png")}
+          cache="only-if-cached"
+        />
+      )}
 
       <View style={styles.usernameView}>
-        {users.username !== null || !undefined ? (
-          <Text>
-            {users &&
-              users.map((user, i) => (
-                <Text style={styles.username} key={i}>
-                  @{user.username}
-                </Text>
-              ))}
+        {user.username !== null || !undefined ? (
+          <Text style={styles.username}>
+            @{user.username}
             <View>
-              {users[0] && users[0].is_verified === 1 && (
+              {user && user.is_verified === 1 && (
                 <Image style={styles.phlokkVerified} source={verifiedCheck} />
               )}
             </View>
@@ -87,58 +69,44 @@ function UserProfile() {
       </View>
 
       <View style={styles.quotesView}>
-        {users.quote !== null || !undefined ? (
-          <Text>
-            {users &&
-              users.map((user, i) => (
-                <Text style={styles.quotes} key={i}>
-                  {user.quote}
-                </Text>
-              ))}
-          </Text>
+        {user.quote !== null || !undefined ? (
+          <Text style={styles.quotes}>{user.quote}</Text>
         ) : (
           <></>
         )}
       </View>
       <>
         <View style={styles.relationshipContainer}>
-          {users &&
-            users.map((user, i) => (
-              <Text style={styles.relationshipText} key={i}>
-                {user.relationship_type}
-              </Text>
-            ))}
+          <Text style={styles.relationshipText}>{user.relationship_type}</Text>
         </View>
       </>
       <>
         <View style={styles.relationshipNameContainer}>
-          {users &&
-            users.map((user, i) => (
-              <Text style={styles.relationshipText} key={i}>
-                {user.relationship_name}
-              </Text>
-            ))}
+          <Text style={styles.relationshipText}>{user.relationship_name}</Text>
         </View>
-        {users &&
-          users.map((user, i) => (
-            <TouchableOpacity key={i}>
-              <CustomAlert
-                customAlertMessage={
-                  <Text>Top Favorite 5{"\n"}coming in beta 3</Text>
-                }
-                positiveBtn="Ok"
-                modalVisible={topFavFive}
-                dismissAlert={setTopFavFive}
-                animationType="fade"
-              />
-              <MaterialCommunityIcons
-                name="diamond-stone"
-                size={25}
-                color={colors.diamondBlue}
-                onPress={() => setTopFavFive(true)}
-              />
-            </TouchableOpacity>
-          ))}
+
+        <TouchableOpacity>
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={
+              <Text>Top Favorite 5{"\n"}coming in beta 3</Text>
+            }
+            positiveBtn="Ok"
+            modalVisible={topFavFive}
+            dismissAlert={setTopFavFive}
+            animationType="fade"
+          />
+          <MaterialCommunityIcons
+            name="diamond-stone"
+            size={25}
+            color={colors.diamondBlue}
+            onPress={() => setTopFavFive(true)}
+          />
+        </TouchableOpacity>
       </>
     </View>
   );

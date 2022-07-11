@@ -1,15 +1,22 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import colors from "../../../../config/colors";
 import saveRelationshipField from "../../../services/user";
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
+import { userAtom } from "../../../../../App";
+import { useAtom } from "jotai";
+import { updateCreator } from "../../../services/user";
 
-let categoryId = null;
 
 export default function RelationshipCategoryScreen({ route, props }) {
+  const { title } = route.params;
+  const navigation = useNavigation();
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [user, setUser] = useAtom(userAtom);
+
   const [categories, setCategories] = useState([
     {id: 1,key: "cat1", value: false, category: "Single",selected: false},
     {id: 2, key: "cat2", value: false, category: "Married",selected: false},
@@ -17,36 +24,29 @@ export default function RelationshipCategoryScreen({ route, props }) {
     {id: 4, key: "cat4", value: false,category: "Looking",selected: false},
     {id: 5, key: "cat5", value: false, category: "Divorced",selected: false},
     {id: 6, key: "cat6", value: false, category: "Widow",selected: false},
+    {id: 7, key: "cat7", value: false, category: "It's complicated",selected: false},
   ]);
 
-  const { title, id } = route.params;
-  const navigation = useNavigation();
 
-  const onSave = () => {
-    saveRelationshipField(field, textInputValue, id).then(() =>
-      navigation.goBack()
-    );
+  const onSave = async () => {
+    const updateObject = { relationship_type: selectedCategory.category };
+    try {
+      await updateCreator(updateObject);
+      const updatedUser = { ...user, ...updateObject };
+      setUser(updatedUser);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Data not saved, please check user data");
+    }
   };
 
-  const onRadioBtnClick = (item) => {
-    console.log(item);
-    categoryId = item.id;
-    // item.selected = item.selected ? false : true;
-    setCategories(item);
-
-    let updatedState = categories.map((i) =>
-      i.id === item.id ? { ...i, selected: true } : { ...i, selected: false }
-    );
-    setCategories(updatedState);
-
-  };
 
   return (
     <SafeAreaView style={styles.container}>
       <InfoScreenNav
         title={title}
-        // changed left button to false (white)
-        leftButton={{ display: false, name: "save", action: onSave }}
+        leftButton={{ display: true, name: "save", action: onSave }}
       />
       <View style={styles.reportView}>
       {categories.map((item) => (
@@ -56,12 +56,12 @@ export default function RelationshipCategoryScreen({ route, props }) {
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}></View>
                 <TouchableOpacity
-                  onPress={() => onRadioBtnClick(item)}
+                  onPress={() => setSelectedCategory(item)}
                   style={styles.radioButton}
                 >
-                  {item.selected ? (
+                  {selectedCategory?.id === item.id && (
                     <View style={styles.radioButtonIcon} />
-                  ) : null}
+                  )}
                 </TouchableOpacity>
               </View>
             ))}

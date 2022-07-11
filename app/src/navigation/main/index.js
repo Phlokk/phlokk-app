@@ -8,7 +8,8 @@ import SavePostScreen from "../../screens/savePost";
 import EditProfileScreen from "../../screens/profile/edit";
 import Modal from "../../components/modal";
 import EditProfileFieldScreen from "../../screens/profile/edit/field";
-import FeedScreen from "../../screens/videoFeed";
+import VideoFeed from "../../screens/videoFeed";
+
 import ProfileScreen from "../../screens/profile";
 import Market from "../../screens/market";
 import DisplayMenuScreen from "../../screens/profile/displayMenu";
@@ -48,7 +49,6 @@ import SettingsSheetModal from "../../components/modal/settingsSheetModal";
 import SettingsAudioModal from "../../components/modal/settingsAudioModal";
 import EndUserLicenseAgreement from "../../components/auth/details/policy";
 import ReportScreen from "../../screens/reports";
-import FeedNavigation from "../feed";
 import EditQuotesFieldScreen from "../../screens/profile/quotes/quotes";
 import ComedyScreen from "../../screens/risingStars/comedy";
 import FoodiesScreen from "../../screens/risingStars/foodies";
@@ -60,24 +60,30 @@ import FitnessScreen from "../../screens/risingStars/fitness";
 import InventionScreen from "../../screens/risingStars/invention";
 import LipSyncScreen from "../../screens/risingStars/lipSync";
 import MusicianScreen from "../../screens/risingStars/musician";
-import RecordingScreen from "../../screens/sounds/recorder/recording"
-import AudioPlay from "../../screens/sounds/recorder/playAudio"
+import RecordingScreen from "../../screens/sounds/recorder/recording";
+import AudioPlay from "../../screens/sounds/recorder/playAudio";
 import BioFieldScreen from "../../screens/profile/bio/bio";
 import GiftingScreen from "../../screens/gifting/gifting";
 import FollowingListScreen from "../../screens/stats/followingList";
 import FriendsListScreen from "../../screens/stats/friendsList";
-
+import CameraScreen from "../../screens/camera";
+import { StyleSheet, View } from "react-native";
+import colors from "../../../config/colors";
 
 const Stack = createNativeStackNavigator();
 
 export default function Route() {
-  const auth = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
+
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(userAuthStateListener());
   }, []);
+
+  if (!auth.loaded) {
+    return <View style={styles.lightBlack} />;
+  }
 
   return (
     <NavigationContainer ref={navigationRef}>
@@ -87,17 +93,17 @@ export default function Route() {
             name="auth"
             component={AuthScreen}
             options={{ headerShown: false }}
-          />       
-        ):(
+          />
+        ) : (
           <>
-          <Stack.Screen
+            <Stack.Screen
               name="home"
               component={UserTabs}
               options={{ headerShown: false }}
             />
-          <Stack.Screen
-              name="feed"
-              component={FeedNavigation}
+            <Stack.Screen
+              name="Cam"
+              component={CameraScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -107,7 +113,7 @@ export default function Route() {
             />
             <Stack.Screen
               name="userPosts"
-              component={FeedScreen}
+              component={VideoFeed}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -360,7 +366,7 @@ export default function Route() {
               component={GiftingScreen}
               options={{ headerShown: false }}
             />
-             <Stack.Screen
+            <Stack.Screen
               name="followingList"
               component={FollowingListScreen}
               options={{ headerShown: false }}
@@ -370,8 +376,7 @@ export default function Route() {
               component={FriendsListScreen}
               options={{ headerShown: false }}
             />
-            
-            </>
+          </>
         )}
       </Stack.Navigator>
       <Modal />
@@ -379,7 +384,13 @@ export default function Route() {
       <GiftingModal />
       <SettingsSheetModal />
       <SettingsAudioModal />
-
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.green,
+    flex: 1,
+  },
+});

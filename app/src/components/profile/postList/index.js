@@ -1,12 +1,9 @@
 import React from "react";
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList } from "react-native";
 import ProfilePostListItem from "./item";
 
-import colors from "../../../../config/colors";
 
 export default function ProfilePostList({ posts }) {
-
-  
   return (
     <View>
       <FlatList
@@ -20,22 +17,10 @@ export default function ProfilePostList({ posts }) {
         nestedScrollEnabled={false}
         data={posts}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ProfilePostListItem item={item} />}
+        renderItem={({ item, index }) => {
+          return <ProfilePostListItem item={item} index={index} />;
+        }}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    backgroundColor: colors.primary,
-    bottom: 30,
-  },
-  text: {
-    alignItems: "center",
-    backgroundColor: colors.primary,
-    bottom: 1,
-    color: "white",
-  },
-});

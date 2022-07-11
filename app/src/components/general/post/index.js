@@ -8,19 +8,11 @@ import React, {
 import { useUser } from "../../../hooks/useUser";
 import PostSingleOverlay from "./overlay";
 
-
-
 export const PostSingle = forwardRef(({ item }, parentRef) => {
-
-  
   const ref = useRef(null);
   const user = item.user;
 
-
-  console.log('this is errrr');
-
-
-
+  console.log("this is errrr");
 
   useImperativeHandle(parentRef, () => ({
     play,
@@ -91,8 +83,10 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
         usePoster
         posterSource={{ uri: item.media[1].original_url }}
         posterStyle={{ resizeMode: "cover", height: "100%" }}
-        source={{ uri: item.media[0].original_url, type: item.media[0].mime_type }}
-       
+        source={{
+          uri: item.media[0].original_url,
+          type: item.media[0].mime_type,
+        }}
       />
     </>
   );
@@ -100,9 +94,8 @@ export const PostSingle = forwardRef(({ item }, parentRef) => {
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,       
+    flex: 1,
   },
- 
 });
 
 export default PostSingle;

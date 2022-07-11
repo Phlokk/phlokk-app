@@ -1,212 +1,136 @@
-import React, {
-  useMemo,
-  useRef,
-  useState,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import {
-  Dimensions,
   View,
-  FlatList,
   StyleSheet,
   ActivityIndicator,
-  Image,
-  Platform,
+  Dimensions,
+  FlatList,
 } from "react-native";
-import PostSingle from "../../components/general/post";
+import SwiperFlatList from "react-native-swiper-flatlist";
+
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
-import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
-import { useFeed, useUserPosts } from "../../services/posts";
+import VideoItem from "./videoItem";
+import {
+  getFeed,
+  getFeedAsync,
+  useFeed,
+  useUserVideoFeed,
+  useVideoFeed,
+} from "../../services/posts";
 
-import colors from "../../../config/colors";
-import { useDispatch } from "react-redux";
-import { types } from "../../redux/constants";
+const { height } = Dimensions.get("window");
 
-export default function FeedScreen({ route }) {
-  const { setCurrentUserProfileItemInView, creator, profile, selectedVideo } =
-      route.params;
-  const [user, setUser] = useState("");
-  const dispatch = useDispatch();
+const VideoFeed = ({ route }) => {
+  const { profile, selectedIndex } = route.params;
+  const flatListRef = useRef();
 
-  const feed = useFeed(profile);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(
+    selectedIndex || 0
+  );
+  const [currentVideoPlayingStat, setCurrentVideoPlayingStat] = useState({});
 
-  const userPosts = useUserPosts(creator, {
-    enabled: Boolean(profile) || Boolean(creator),
+  const {
+    posts,
+    getMoreVideos,
+    loading: loadingMainFeed,
+  } = useVideoFeed({
+    skip: profile,
+  });
+  const {
+    posts: userPosts,
+    getMoreUserPosts,
+    loading: loadingUserFeed,
+  } = useUserVideoFeed({
+    skip: !profile,
   });
 
-  const isLoading = feed.isLoading || userPosts.isLoading;
-  useRefreshOnFocus(profile ? userPosts.refetch : feed.refetch);
-
-  //
-  let posts = useMemo(() => {
-    if (profile || creator) {
-      return userPosts?.data || [];
-    } else {
-      return feed?.data || [];
-    }
-  }, [profile, feed.data, userPosts.data, creator]);
-
-  //   posts = shuffleArray(posts);
-
-  //  function shuffleArray(array) {
-  //      for (let i = array.length - 1; i > 0; i--) {
-  //          const j = Math.floor(Math.random() * (i + 1));
-  //          [array[i], array[j]] = [array[j], array[i]];
-  //      }
-  //     return array;
-  // }
-
-  const mediaRefs = useRef([]);
-
-  const selectedVideoIndex = useMemo(() => {
-    const videoIndex = posts.findIndex(
-        (post) => post.media[0] === selectedVideo
-    );
-    return videoIndex > 0 ? videoIndex : 0;
-  }, [selectedVideo, posts.length]);
-
-  const [viewablePostId, setViewablePostId] = useState(posts[0]?.id);
-
-  // const onViewableItemsChanged = useRef(({ changed }) => {
-  //   changed.forEach((element) => {
-  //     const cell = mediaRefs.current[element.key];
-  //     //
-  //     if (element.isViewable) {
-  //       // console.log("visiable element", element.item.id);
-  //       if (!profile) {
-  //         setCurrentUserProfileItemInView(element.item.creator);
-  //       }
-  //       setViewablePostId(element.item.id);
-  //       cell.setViewable(true);
-  //       if (cell?.play) {
-  //         cell?.play();
-  //       }
-  //     } else {
-  //       if (cell?.stop) {
-  //         cell?.stop();
-  //       }
-  //     }
-  //   });
-  // });
-
-  // new code replaces above call
-  const onViewableItemsChanged = useRef(({ changed }) => {
-    changed.forEach(element => {
-      const cell = mediaRefs.current[element.key]
-      if (cell) {
-        if (element.isViewable) {
-          if (!profile) {
-            setCurrentUserProfileItemInView(element.item.creator)
-          }
-          cell.play()
-        } else {
-          cell.stop()
-        }
+  useEffect(() => {
+    if (currentVideoIndex === posts?.length - 2) {
+      if (profile) {
+        getMoreUserPosts();
+      } else {
+        getMoreVideos();
       }
+    }
+  }, [currentVideoIndex]);
 
-    });
-  })
+  const onFeedScroll = ({ index, prevIndex }) => {
+    setCurrentVideoIndex(index);
+  };
 
   const feedItemHeight =
-      Dimensions.get("window").height - useMaterialNavBarHeight(profile);
+    Dimensions.get("window").height - useMaterialNavBarHeight(profile);
+
   const getItemLayout = (data, index) => ({
     length: feedItemHeight,
     offset: feedItemHeight * index,
     index,
   });
+
   const renderItem = useCallback(
-      ({ item }) => {
-        if (Platform.OS === "ios") {
-          return (
-              <View style={{ height: feedItemHeight }}>
-                <PostSingle
-                    item={item}
-                    ref={(PostSingleRef) =>
-                        (mediaRefs.current[item.id] = PostSingleRef)
-                    }
-                />
-              </View>
-          );
+    ({ item, index }) => (
+      <VideoItem
+        item={item}
+        index={index}
+        currentVideoIndex={currentVideoIndex}
+        feedItemHeight={feedItemHeight}
+        setCurrentVideoPlayingStat={(status) =>
+          setCurrentVideoPlayingStat(() => status)
         }
-        if (Platform.OS === "android") {
-          return viewablePostId === item.id ? (
-              <View style={{ height: feedItemHeight }}>
-                <PostSingle
-                    item={item}
-                    ref={(PostSingleRef) =>
-                        (mediaRefs.current[item.id] = PostSingleRef)
-                    }
-                />
-              </View>
-          ) : (
-              <View
-                  style={{
-                    height: feedItemHeight,
-                  }}
-              >
-                <Image
-                    source={{ uri: item.media[1].original_url }}
-                    style={{
-                      resizeMode: "cover",
-                      height: feedItemHeight,
-                      width: "100%",
-                    }}
-                />
-              </View>
-          );
-        }
-      },
-      [viewablePostId]
+      />
+    ),
+    [currentVideoIndex]
   );
+
+  if (loadingMainFeed || loadingUserFeed) {
+    return (
+      <View style={styles.mainContainer}>
+        <ActivityIndicator
+          size={"large"}
+          color={"white"}
+          style={styles.activityIndicator}
+        />
+      </View>
+    );
+  }
 
   return (
-      <View style={styles.container}>
-        <FlatList
-            showsVerticalScrollIndicator={false}
-            data={posts}
-            windowSize={Platform.OS === "android" ? 1 : 5}
-            initialNumToRender={Platform.OS === "android" ? 1 : 5}
-            maxToRenderPerBatch={Platform.OS === "android" ? 1 : 5}
-            removeClippedSubviews
-            initialScrollIndex={selectedVideoIndex}
-            viewabilityConfig={{
-              itemVisiblePercentThreshold: 60,
-            }}
-            renderItem={renderItem}
-            pagingEnabled
-            getItemLayout={getItemLayout}
-            keyExtractor={(item) => item.id}
-            snapToInterval={
-                Dimensions.get("window").height - useMaterialNavBarHeight(profile)
-            }
-            decelerationRate={"fast"}
-            onViewableItemsChanged={onViewableItemsChanged.current}
-        />
-        {isLoading && (
-            <View
-                style={{
-                  position: "absolute",
-                  height: "100%",
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-            >
-              <ActivityIndicator size="small" color={colors.green} />
-            </View>
-        )}
-      </View>
+    <View style={styles.mainContainer}>
+      <SwiperFlatList
+        ref={flatListRef}
+        index={selectedIndex}
+        showsVerticalScrollIndicator={false}
+        data={profile ? userPosts : posts}
+        renderItem={renderItem}
+        vertical={true}
+        windowSize={Platform.OS === "android" ? 1 : 5}
+        initialNumToRender={5}
+        maxToRenderPerBatch={2}
+        removeClippedSubviews
+        keyExtractor={(item, index) => index.toString()}
+        pagingEnabled
+        getItemLayout={getItemLayout}
+        snapToInterval={feedItemHeight}
+        snapToAlignment={"start"}
+        decelerationRate={"fast"}
+        onChangeIndex={onFeedScroll}
+      />
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
+    backgroundColor: "black",
   },
-
-  text: {
-    color: colors.black,
-    marginTop: 30,
-    padding: 20,
+  activityIndicator: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
+
+export default VideoFeed;

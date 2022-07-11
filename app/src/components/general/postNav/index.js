@@ -24,7 +24,7 @@ export default function PostNavBar(props) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate(routes.CAMERA)}
+        onPress={() => navigation.navigate(routes.FEED)}
       >
         <Text style={styles.cancelText}>Cancel</Text>
       </TouchableOpacity>
