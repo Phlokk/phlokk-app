@@ -22,3 +22,6 @@ export const updateCreator = async (data) => {
 
 export const getIsFollowing = (user, otherUserId) =>
   new Promise((resolve, reject) => {});
+
+
+  
