@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation, useIsFocused, useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
-import { fetchUserData } from "../../../redux/actions/users";
 import * as SecureStore from "expo-secure-store";
-// import { useFocusEffect } from "@react-navigation/native";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import EditProfileNav from "../../../components/general/navBar/editProfile";
@@ -23,11 +21,6 @@ export default function EditProfileScreen() {
 
   const [user, setUser] = useAtom(userAtom);
   
-
-
-
-
-
   const chooseImage = async () => {
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
@@ -43,10 +36,8 @@ export default function EditProfileScreen() {
       setImage(result.uri);
     }
 
-
     let split = result.uri.split('/');
     let fileName = split[(split.length - 1)];
-
 
     const formData = new FormData();
     formData.append("photo_url", {

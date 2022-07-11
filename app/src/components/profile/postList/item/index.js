@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   View,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 // import { deletePostById } from "../../../../services/posts";

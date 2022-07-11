@@ -8,7 +8,6 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { userAtom } from "../../../../../App";
 import { useAtom } from "jotai";

@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchUserData } from "../../../redux/actions/users";
+import { useDispatch } from "react-redux";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import verifiedCheck from "../../../../assets/verified.png";
@@ -18,25 +15,11 @@ import { userAtom } from "../../../../../App";
 
 function UserProfile() {
   const dispatch = useDispatch();
-  // const users = useSelector((state) => state.userReducer.user);
 
   const [topFavFive, setTopFavFive] = useState(false);
   const [popUpImage, setPopUpImage] = useState(false);
 
   const [user, setUser] = useAtom(userAtom);
-
-  // useEffect(() => {
-  //   dispatch(
-  //     fetchUserData([
-  //       "username",
-  //       "photo_url",
-  //       "quote",
-  //       "is_verified",
-  //       "relationship_name",
-  //       "relationship_type",
-  //     ])
-  //   );
-  // }, [dispatch]);
 
   const [fontsLoaded] = useFonts({
     "Waterfall-Regular": require("../../../../assets/fonts/Waterfall-Regular.ttf"),

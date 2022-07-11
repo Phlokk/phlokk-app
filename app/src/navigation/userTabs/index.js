@@ -6,7 +6,6 @@ import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileScreen from "../../screens/profile";
-import CameraScreen from "../../screens/camera";
 import SearchScreen from "../../screens/search";
 import FeedNavigation from "../feed";
 import ActivityScreen from "../../screens/activity";

@@ -189,29 +189,3 @@ export const clearCommentListener = () => {
     commentListenerInstance = null;
   }
 };
-
-// export const getPostsByUserId = (uid) =>
-//   new Promise((resolve, reject) => {
-//     firebase
-//       .firestore()
-//       .collection("post")
-//       .where("creator", "==", uid)
-//       .orderBy("creation", "desc")
-//       .onSnapshot((snapshot) => {
-//         let posts = snapshot.docs.map((doc) => {
-//           const data = doc.data();
-//           const id = doc.id;
-//           return { id, ...data };
-//         });
-//         resolve(posts);
-//       });
-//   });
-
-// export const useUserPosts = (userId, { enabled }) => {
-//   // const uid = firebase.auth().currentUser.uid;
-//   const id = userId || uid;
-//   return useQuery(["userPosts", id], () => getPostsByUserId(id), {
-//     enabled,
-//     notifyOnChangeProps: "tracked",
-//   });
-// };
