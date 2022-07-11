@@ -2,11 +2,7 @@ import ProfileHeader from "../../components/header/";
 import ProfileNavBar from "../../components/general/profileNavBar/";
 import { SafeAreaView } from "react-native-safe-area-context";
 // import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
-import {
-  FlatList,
-  View,
-  StyleSheet,
-} from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import ProfilePostListItem from "../../components/profile/postList/item";
 import { useDispatch } from "react-redux";
 import colors from "../../../config/colors";
@@ -20,14 +16,13 @@ export default function ProfileScreen({ route }) {
 
   const userId = route?.params?.initialUserId;
 
+  const [user, setUser] = useAtom(userAtom);
 
+  const { posts, getMoreUserPosts } = useUserVideoFeed(user?._id || userId);
 
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
-  const [user, setUser] = useAtom(userAtom);
-  const { posts, getMoreUserPosts } = useUserVideoFeed(user._id);
-  
   const ListHeader = () => {
     return (
       <View style={styles.container} edges={["top"]}>

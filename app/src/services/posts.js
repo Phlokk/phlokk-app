@@ -33,6 +33,8 @@ export const getFeedAsync = async () => {
 };
 
 export const getUserFeedAsync = async (userId) => {
+  console.log("here")
+  console.log(userId)
   try {
     const result = await axios.get(`/api/posts?userId=${userId}`, {
       testing: "testing",
@@ -43,6 +45,7 @@ export const getUserFeedAsync = async (userId) => {
       "------------ Back from server Error  GET FEED FUNC ----------"
     );
     console.log(error);
+    
   }
 };
 
