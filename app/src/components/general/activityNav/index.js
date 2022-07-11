@@ -1,15 +1,17 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import React, {useState} from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import CustomAlert from "../../Alerts/customAlert";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 
 export default function ActivityNavBar(props) {
   const navigation = useNavigation();
+
+  const [messages, setMessages] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -24,14 +26,27 @@ export default function ActivityNavBar(props) {
 
       <Text style={styles.title}>{props.title}</Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate(routes.MESSAGES)}
-      >
+      <TouchableOpacity>
+      <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={
+              <Text>Instant messages{"\n"}coming in beta 3</Text>
+            }
+            positiveBtn="Ok"
+            modalVisible={messages}
+            dismissAlert={setMessages}
+            animationType="fade"
+          />
+
         <MaterialCommunityIcons
           name="message-processing-outline"
           size={26}
           color="lightgray"
+          onPress={() => setMessages(true)}
         />
       </TouchableOpacity>
     </SafeAreaView>

@@ -143,10 +143,17 @@ export default function EditCreatorFieldScreen({ route }) {
       category: "Youtuber",
       selected: false,
     },
+    {
+      id: 20,
+      key: "cat20",
+      value: false,
+      category: "Creator",
+      selected: false,
+    },
   ]);
 
   const onSave = async () => {
-    const updateObject = { creator_type: selectedCategory.id };
+    const updateObject = { creator_type: selectedCategory.category };
     try {
       await updateCreator(updateObject);
       const updatedUser = { ...user, ...updateObject };

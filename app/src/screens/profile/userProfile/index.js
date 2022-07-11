@@ -14,12 +14,14 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 
 function UserProfile() {
+  
   const dispatch = useDispatch();
 
   const [topFavFive, setTopFavFive] = useState(false);
   const [popUpImage, setPopUpImage] = useState(false);
 
   const [user, setUser] = useAtom(userAtom);
+  console.log(user)
 
   const [fontsLoaded] = useFonts({
     "Waterfall-Regular": require("../../../../assets/fonts/Waterfall-Regular.ttf"),

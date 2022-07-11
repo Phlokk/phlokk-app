@@ -24,11 +24,12 @@ export default function RelationshipCategoryScreen({ route, props }) {
     {id: 4, key: "cat4", value: false,category: "Looking",selected: false},
     {id: 5, key: "cat5", value: false, category: "Divorced",selected: false},
     {id: 6, key: "cat6", value: false, category: "Widow",selected: false},
+    {id: 7, key: "cat7", value: false, category: "It's complicated",selected: false},
   ]);
 
 
   const onSave = async () => {
-    const updateObject = { relationship_type: selectedCategory.id };
+    const updateObject = { relationship_type: selectedCategory.category };
     try {
       await updateCreator(updateObject);
       const updatedUser = { ...user, ...updateObject };
@@ -45,7 +46,6 @@ export default function RelationshipCategoryScreen({ route, props }) {
     <SafeAreaView style={styles.container}>
       <InfoScreenNav
         title={title}
-        // changed left button to false (white)
         leftButton={{ display: true, name: "save", action: onSave }}
       />
       <View style={styles.reportView}>

@@ -12,7 +12,6 @@ export default function CustomImageModal({
   alertTitle,
   modalVisible,
   dismissAlert,
-  customAlertMessage
 }) {
   const [user, setUser] = useAtom(userAtom);
 
@@ -118,7 +117,6 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     width: "100%",
-    // backgroundColor: colors.primary,
     borderRadius: 15,
     padding: 4,
   },
@@ -180,10 +178,6 @@ const styles = StyleSheet.create({
     height: "20%",
     paddingHorizontal: 6,
     marginVertical: 20,
-    // borderRadius: 10,
-    // borderColor: colors.green,
-    // borderWidth: 1,
-    // backgroundColor: colors.lightBlack,
     justifyContent: "center",
   },
   alertMessageButtonText: {
