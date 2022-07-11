@@ -11,7 +11,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { userAtom } from "../../../../../App";
 import { useAtom } from "jotai";
-
 import colors from "../../../../config/colors";
 import { updateCreator } from "../../../services/user";
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";

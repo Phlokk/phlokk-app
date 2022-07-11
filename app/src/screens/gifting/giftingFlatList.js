@@ -82,7 +82,7 @@ export default function GiftingScreen() {
 
   const ItemFooter = () => {
     return (
-      <View>
+      <View style={styles.mainContainer}>
         <Text style={styles.textInfo}>
           <Text></Text>
           <Text style={styles.text}>
@@ -170,6 +170,9 @@ export default function GiftingScreen() {
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    textAlign: "center",
+  },
   item: {
     flexDirection: "row",
     color: colors.secondary,

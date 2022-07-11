@@ -1,16 +1,10 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Modal,
-} from "react-native";
+import { View, Text, StyleSheet, Image, Modal } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import colors from "../../../config/colors";
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 
@@ -18,10 +12,9 @@ export default function CustomImageModal({
   alertTitle,
   modalVisible,
   dismissAlert,
+  customAlertMessage
 }) {
-
   const [user, setUser] = useAtom(userAtom);
-
 
   return (
     <Modal
@@ -31,32 +24,26 @@ export default function CustomImageModal({
       onRequestClose={() => setModalVisible(false)}
     >
       <LinearGradient
-        colors={['#00cec9', '#ffffff']}
+        colors={["#00cec9", "#ffffff"]}
         // start={{ x: 0.0, y: 0.25 }}
         // end={{ x: 0.5, y: 1.0 }}
         // locations={[0, 0.5, 0.6]}
         style={styles.box}
-        >
-      <View style={styles.mainContainer}>
-        <View style={styles.container}>
-          <View style={styles.top}>
-                user.photo_url !== null || !undefined ? (
-                  <Image
-                    source={{ uri: user.photo_url }}
-                    resizeMode={"contain"}
-                    style={styles.alertIconStyle}
-                  />
-                ) : (
-                  <Image
-                    style={styles.avatar}
-                    source={require("../../../assets/userImage.png")}
-                    cache="only-if-cached"
-                  />
-                )
-          </View>
+      >
+        <View style={styles.mainContainer}>
+          <View style={styles.container}>
+            <View style={styles.top}>
+              
+              <Image
+                source={{ uri: user.photo_url }}
+                resizeMode={"contain"}
+                style={styles.alertIconStyle}
+              />
+             
+            </View>
 
-          <View style={styles.middle}>
-          <View style={styles.goBackView}>
+            <View style={styles.middle}>
+              <View style={styles.goBackView}>
                 <Feather
                   onPress={() => dismissAlert(false)}
                   style={styles.alertMessageButtonText}
@@ -64,75 +51,64 @@ export default function CustomImageModal({
                   size={25}
                 />
               </View>
-            <Text style={styles.alertMessageTextStyle}>
-              <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text>
-              {"\n"}
-              {"\n"}
-              {/* {customAlertMessage} */}
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and
-            </Text>
-            <View style={styles.seperator}></View>
-            <View style={styles.linkRow}>
-              <View style={styles.linkText}>
-                <Feather
-                  onPress={
-                    user && user.youtube_link
-                      ? () => Linking.openURL(user.youtube_link)
-                      : null
-                  }
-                  name="youtube"
-                  size={28}
-                  color={
-                    user && user.youtube_link
-                      ? colors.diamondBlue
-                      : colors.gray
-                  }
-                />
+              <Text style={styles.alertMessageTextStyle}>
+                <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text> 
+                {"\n"}
+                {"\n"}
+                {user.bio}
+              </Text>
+              <View style={styles.seperator}></View>
+              <View style={styles.linkRow}>
+                <View style={styles.linkText}>
+                  <Feather
+                    onPress={
+                      user && user.youtube_link
+                        ? () => Linking.openURL(user.youtube_link)
+                        : null
+                    }
+                    name="youtube"
+                    size={28}
+                    color={
+                      user && user.youtube_link
+                        ? colors.diamondBlue
+                        : colors.gray
+                    }
+                  />
+                </View>
+                <View style={styles.linkText}>
+                  <MaterialCommunityIcons
+                    onPress={
+                      user && user.link
+                        ? () => Linking.openURL(user.link)
+                        : null
+                    }
+                    name="link-box-variant"
+                    size={29}
+                    color={user && user.link ? colors.diamondBlue : colors.gray}
+                  />
+                </View>
+                <View style={styles.linkText}>
+                  <Feather
+                    onPress={
+                      user && user.instagram_link
+                        ? () => Linking.openURL(user.instagram_link)
+                        : null
+                    }
+                    name="instagram"
+                    size={23}
+                    color={
+                      user && user.instagram_link
+                        ? colors.diamondBlue
+                        : colors.gray
+                    }
+                  />
+                </View>
               </View>
-              <View style={styles.linkText}>
-                <MaterialCommunityIcons
-                  onPress={
-                    user && user.link
-                      ? () => Linking.openURL(user.link)
-                      : null
-                  }
-                  name="link-box-variant"
-                  size={29}
-                  color={
-                    user && user.link ? colors.diamondBlue : colors.gray
-                  }
-                />
-              </View>
-              <View style={styles.linkText}>
-                <Feather
-                  onPress={
-                    user && user.instagram_link
-                      ? () => Linking.openURL(user.instagram_link)
-                      : null
-                  }
-                  name="instagram"
-                  size={23}
-                  color={
-                    user && user.instagram_link
-                      ? colors.diamondBlue
-                      : colors.gray
-                  }
-                />
-              </View>           
             </View>
-          </View>
 
-          <View style={styles.bottom}>
+            <View style={styles.bottom}></View>
           </View>
-      
-          
         </View>
-        
-      </View>
-      
       </LinearGradient>
     </Modal>
   );
@@ -185,7 +161,7 @@ const styles = StyleSheet.create({
   },
   alertTitleTextStyle: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     textAlign: "center",
     color: colors.green,
     fontSize: 18,
@@ -245,14 +221,12 @@ const styles = StyleSheet.create({
     top: 50,
   },
   goBackView: {
-    
     margin: 10,
     right: 150,
     bottom: 15,
-    
   },
   box: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
 });
