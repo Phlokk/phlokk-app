@@ -21,7 +21,7 @@ function UserProfile() {
   const [popUpImage, setPopUpImage] = useState(false);
 
   const [user, setUser] = useAtom(userAtom);
-  console.log(user)
+  
 
   const [fontsLoaded] = useFonts({
     "Waterfall-Regular": require("../../../../assets/fonts/Waterfall-Regular.ttf"),

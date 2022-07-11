@@ -33,8 +33,6 @@ export const getFeedAsync = async () => {
 };
 
 export const getUserFeedAsync = async (userId) => {
-  console.log("here")
-  console.log(userId)
   try {
     const result = await axios.get(`/api/posts?userId=${userId}`, {
       testing: "testing",
@@ -45,7 +43,6 @@ export const getUserFeedAsync = async (userId) => {
       "------------ Back from server Error  GET FEED FUNC ----------"
     );
     console.log(error);
-    
   }
 };
 
@@ -83,6 +80,10 @@ export const useUserVideoFeed = (userId, options) => {
   const skip = options?.skip;
 
   useEffect(() => {
+    if (!userId) {
+      return;
+    }
+
     const getFeed = async () => {
       setLoading(true);
       const feed = await getUserFeedAsync(userId);
@@ -93,7 +94,7 @@ export const useUserVideoFeed = (userId, options) => {
     if (!skip) {
       getFeed();
     }
-  }, []);
+  }, [userId]);
 
   const getMoreUserPosts = (lastVideoId) => {
     // TODO, load more videos

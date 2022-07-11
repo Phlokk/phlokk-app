@@ -17,10 +17,13 @@ import {
   useUserVideoFeed,
   useVideoFeed,
 } from "../../services/posts";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../App";
 
 const { height } = Dimensions.get("window");
 
 const VideoFeed = ({ route }) => {
+  const [user, setUser] = useAtom(userAtom);
   const { profile, selectedIndex } = route.params;
   const flatListRef = useRef();
 
@@ -40,7 +43,7 @@ const VideoFeed = ({ route }) => {
     posts: userPosts,
     getMoreUserPosts,
     loading: loadingUserFeed,
-  } = useUserVideoFeed({
+  } = useUserVideoFeed(user._id, {
     skip: !profile,
   });
 
