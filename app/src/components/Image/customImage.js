@@ -1,40 +1,27 @@
-import React, { useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity,
   Modal,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { fetchUserData } from "../../redux/actions/users";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-
 import * as Linking from "expo-linking";
-import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import LinearGradient from 'react-native-linear-gradient';
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../App";
 
 export default function CustomImageModal({
   alertTitle,
-  customAlertMessage,
-  positiveBtn,
   modalVisible,
   dismissAlert,
 }) {
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
 
-  // useEffect(() => {
-  //   dispatch(fetchUserData(['photo_url','youtube_link', 'link', 'instagram_link']));
-  // }, [dispatch]);
+  const [user, setUser] = useAtom(userAtom);
 
-  const users = useSelector((state) => state.userReducer.user);
 
   return (
     <Modal
@@ -53,13 +40,10 @@ export default function CustomImageModal({
       <View style={styles.mainContainer}>
         <View style={styles.container}>
           <View style={styles.top}>
-            {users &&
-              users.map((user, i) =>
                 user.photo_url !== null || !undefined ? (
                   <Image
                     source={{ uri: user.photo_url }}
                     resizeMode={"contain"}
-                    key={i}
                     style={styles.alertIconStyle}
                   />
                 ) : (
@@ -69,14 +53,12 @@ export default function CustomImageModal({
                     cache="only-if-cached"
                   />
                 )
-              )}
           </View>
 
           <View style={styles.middle}>
           <View style={styles.goBackView}>
                 <Feather
                   onPress={() => dismissAlert(false)}
-                  
                   style={styles.alertMessageButtonText}
                   name="x-square"
                   size={25}
@@ -97,14 +79,14 @@ export default function CustomImageModal({
               <View style={styles.linkText}>
                 <Feather
                   onPress={
-                    users[0] && users[0].youtube_link
-                      ? () => Linking.openURL(users[0].youtube_link)
+                    user && user.youtube_link
+                      ? () => Linking.openURL(user.youtube_link)
                       : null
                   }
                   name="youtube"
                   size={28}
                   color={
-                    users[0] && users[0].youtube_link
+                    user && user.youtube_link
                       ? colors.diamondBlue
                       : colors.gray
                   }
@@ -113,28 +95,28 @@ export default function CustomImageModal({
               <View style={styles.linkText}>
                 <MaterialCommunityIcons
                   onPress={
-                    users[0] && users[0].link
-                      ? () => Linking.openURL(users[0].link)
+                    user && user.link
+                      ? () => Linking.openURL(user.link)
                       : null
                   }
                   name="link-box-variant"
                   size={29}
                   color={
-                    users[0] && users[0].link ? colors.diamondBlue : colors.gray
+                    user && user.link ? colors.diamondBlue : colors.gray
                   }
                 />
               </View>
               <View style={styles.linkText}>
                 <Feather
                   onPress={
-                    users[0] && users[0].instagram_link
-                      ? () => Linking.openURL(users[0].instagram_link)
+                    user && user.instagram_link
+                      ? () => Linking.openURL(user.instagram_link)
                       : null
                   }
                   name="instagram"
                   size={23}
                   color={
-                    users[0] && users[0].instagram_link
+                    user && user.instagram_link
                       ? colors.diamondBlue
                       : colors.gray
                   }

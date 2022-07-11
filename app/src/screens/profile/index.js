@@ -13,11 +13,10 @@ import {
 } from "react-native";
 import ProfilePostListItem from "../../components/profile/postList/item";
 import { useDispatch } from "react-redux";
-
 import colors from "../../../config/colors";
-import DisplayMenuScreen from "./displayMenu";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
-import { fetchUserData } from "../../redux/actions/users";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../App";
 import { useUserVideoFeed } from "../../services/posts";
 
 export default function ProfileScreen({ route }) {
@@ -30,11 +29,14 @@ export default function ProfileScreen({ route }) {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(fetchUserData([])); // update when the user returns to this screen.
-    }, [isFocused])
-  );
+  const [user, setUser] = useAtom(userAtom);
+
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     dispatch(fetchUserData([])); // update when the user returns to this screen.
+  //   }, [isFocused])
+  // );
 
   const ListHeader = () => {
     return (

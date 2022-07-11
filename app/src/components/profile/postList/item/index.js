@@ -8,22 +8,23 @@ import {
   ActivityIndicator,
   View,
 } from "react-native";
-import { useSelector } from "react-redux";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 // import { deletePostById } from "../../../../services/posts";
-
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../../../App";
 import { useQueryClient } from "react-query";
 
 export default function ProfilePostListItem({ item, index }) {
 
-
-  const users = useSelector((state) => state.userReducer.user);
-
-
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
+
+  const [user, setUser] = useAtom(userAtom);
+
+
+
   const deleteUserPost = async () => {
     try {
       setIsLoading(true);
@@ -38,7 +39,7 @@ export default function ProfilePostListItem({ item, index }) {
     }
   };
   const deletePost = () => {
-    const uid = users.user;
+    const uid = user.user;
     console.log("uid, item.creator", uid, item.creator);
     if (item.creator === uid) {
       Alert.alert(

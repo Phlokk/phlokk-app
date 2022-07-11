@@ -1,24 +1,35 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { updateCreator } from "../../../services/user";
 import { generalStyles } from "../../../../src/styles";
-import * as SecureStore from "expo-secure-store";
-
 import colors from "../../../../config/colors";
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
+import { userAtom } from "../../../../../App";
+import { useAtom } from "jotai";
+
 
 export default function BioFieldScreen({ route }) {
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
-  const onSave = () => {
-    updateCreator({bio: textInputValue}).then(() => navigation.goBack());
+
+  const [user, setUser] = useAtom(userAtom);
+
+  const onSave = async () => {
+    const updateObject = { bio: textInputValue };
+    try {
+      await updateCreator(updateObject);
+      const updatedUser = { ...user, ...updateObject };
+      setUser(updatedUser);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Data not saved, please check user data");
+    }
   };
 
   return (

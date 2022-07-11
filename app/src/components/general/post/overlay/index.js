@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  Alert,
   Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -29,24 +28,20 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
-
-import { fetchUserData } from "../../../../redux/actions/users";
 import CustomAlert from "../../../Alerts/customAlert";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 
 export default function PostSingleOverlay({ post, user }) {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.userReducer.user);
+
   const navigation = useNavigation();
   const songTicker = "Artist and song name";
 
   const [instaGifts, setInstaGifts] = useState(false);
   const [ckt, setCkt] = useState(false);
 
-  useEffect(() => {
-    dispatch(fetchUserData(["photo_url", "username", "is_verified"]));
-  }, [dispatch]);
+
 
   // const [currentLikeState, setCurrentLikeState] = useState({
   //   state: false,
@@ -82,15 +77,6 @@ export default function PostSingleOverlay({ post, user }) {
   return (
     <View style={styles.container}>
       <View style={styles.uiContainer}>
-        <TouchableOpacity style={styles.topText}>
-          <Entypo
-            onPress={() => navigation.navigate(routes.MARKET)}
-            name="shop"
-            size={26}
-            color={colors.green}
-          />
-        </TouchableOpacity>
-
         <View style={styles.sideContainer}>
           <View style={styles.iconContainer}>
             {/*<TouchableOpacity*/}

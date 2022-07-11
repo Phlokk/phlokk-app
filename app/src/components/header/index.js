@@ -1,16 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import DisplayMenuScreen from "../../screens/profile/displayMenu";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFollowing } from "../../hooks/useFollowing";
 // import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
 import UserProfile from "../../screens/profile/userProfile";
 import ProfileStatsContainer from "../profile/profileStats";
-import { fetchUserData } from "../../redux/actions/users";
-
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../App";
 // import routes from "../../../navigation/routes";
 
 import colors from "../../../config/colors";
@@ -18,16 +17,10 @@ import colors from "../../../config/colors";
 function ProfileHeader() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.userReducer.user);
 
-  // const navigation = useNavigation();
-  useEffect(() => {
-    dispatch(fetchUserData([]));
-  }, [dispatch]);
+  const [user, setUser] = useAtom(userAtom);
 
-  // const auth = useSelector((state) => state.auth);
-
-  const isFollowing = useFollowing(users)
+  const isFollowing = useFollowing(user)
   // // const isFollowingMutation = useFollowingMutation();
   const renderFollowButton = () => {
     if (isFollowing === null) {
@@ -75,7 +68,7 @@ function ProfileHeader() {
     <View style={styles.container}>
       <ProfileStatsContainer />
 
-      {users !== null || !undefined ? (
+      {user !== null || !undefined ? (
         <TouchableOpacity></TouchableOpacity>
       ) : (
         renderFollowButton()

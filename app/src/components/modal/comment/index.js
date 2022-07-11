@@ -5,8 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchUserData } from "../../../redux/actions/users";
+import { useSelector } from "react-redux";
 import {
   BottomSheetTextInput,
   BottomSheetFlatList,
@@ -21,11 +20,15 @@ import CommentItem from "./item";
 import { generalStyles } from "../../../styles";
 
 import colors from "../../../../config/colors"
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../../App";
 
-const CommentModal = ({ post }) => {
+const CommentModal = () => {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState("");
-  const users = useSelector((state) => state.userReducer.user);
+
+
+  const [user, setUser] = useAtom(userAtom);
 
 
   // useEffect(() => {
@@ -54,22 +57,21 @@ const CommentModal = ({ post }) => {
       />
 
       <View style={styles.containerInput}>
-      {users &&
-        users.map((user, i) =>
+
           user.photo_url !== null || !undefined ? (
             <TouchableOpacity>
-              
-              <Image style={styles.avatar} key={i} source={{ uri: user.photo_url }} />
+              <Image 
+              style={styles.avatar} 
+              source={{ uri: user.photo_url }} 
+              />
             </TouchableOpacity>
           ) : (
             <Image
-              
               style={styles.avatar}
               source={require("../../../../assets/userImage.png")}
               cache="only-if-cached"
             />
           )
-        )}
 
         <BottomSheetTextInput 
           style={styles.input}

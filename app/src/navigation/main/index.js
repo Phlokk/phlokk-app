@@ -8,7 +8,6 @@ import SavePostScreen from "../../screens/savePost";
 import EditProfileScreen from "../../screens/profile/edit";
 import Modal from "../../components/modal";
 import EditProfileFieldScreen from "../../screens/profile/edit/field";
-// import FeedScreen from "../../screens/videoFeed";
 import VideoFeed from "../../screens/videoFeed";
 
 import ProfileScreen from "../../screens/profile";
@@ -50,7 +49,6 @@ import SettingsSheetModal from "../../components/modal/settingsSheetModal";
 import SettingsAudioModal from "../../components/modal/settingsAudioModal";
 import EndUserLicenseAgreement from "../../components/auth/details/policy";
 import ReportScreen from "../../screens/reports";
-import FeedNavigation from "../feed";
 import EditQuotesFieldScreen from "../../screens/profile/quotes/quotes";
 import ComedyScreen from "../../screens/risingStars/comedy";
 import FoodiesScreen from "../../screens/risingStars/foodies";
@@ -68,13 +66,6 @@ import BioFieldScreen from "../../screens/profile/bio/bio";
 import GiftingScreen from "../../screens/gifting/gifting";
 import FollowingListScreen from "../../screens/stats/followingList";
 import FriendsListScreen from "../../screens/stats/friendsList";
-import LoadingScreen from "../../screens/loading/loading";
-import {
-  CURRENT_USER_KEY,
-  getFromStorage,
-  setStorageItem,
-} from "../../utils/appStorage";
-import { types } from "../../redux/constants";
 import CameraScreen from "../../screens/camera";
 import { StyleSheet, View } from "react-native";
 import colors from "../../../config/colors";
@@ -85,21 +76,6 @@ export default function Route() {
   const dispatch = useDispatch();
 
   const auth = useSelector((state) => state.auth);
-
-  const users = useSelector((state) => state.userReducer.user);
-
-  useEffect(() => {
-    const getUserFromStorage = async () => {
-      const user = await getFromStorage(CURRENT_USER_KEY, undefined);
-      // save user to redux from app storage
-    };
-
-    getUserFromStorage();
-  }, []);
-
-  useEffect(() => {
-    setStorageItem(CURRENT_USER_KEY, users);
-  }, [users]);
 
   useEffect(() => {
     dispatch(userAuthStateListener());
@@ -125,11 +101,6 @@ export default function Route() {
               component={UserTabs}
               options={{ headerShown: false }}
             />
-            {/* <Stack.Screen
-              name="feed"
-              component={FeedNavigation}
-              options={{ headerShown: false }}
-            /> */}
             <Stack.Screen
               name="Cam"
               component={CameraScreen}

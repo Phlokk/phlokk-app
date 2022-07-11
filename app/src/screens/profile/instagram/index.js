@@ -8,14 +8,29 @@ import { updateCreator } from "../../../services/user";
 
 import colors from "../../../../config/colors"
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
+import { userAtom } from "../../../../../App";
+import { useAtom } from "jotai";
 
 export default function EditInstagramScreen({ route }) {
   const { title, value} = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
-  const onSave = () => {
-    updateCreator({instagram_link: textInputValue}).then(() => navigation.goBack());
+  
+  const [user, setUser] = useAtom(userAtom);
+
+  const onSave = async () => {
+    const updateObject = { instagram_link: textInputValue };
+    try {
+      await updateCreator(updateObject);
+      const updatedUser = { ...user, ...updateObject };
+      setUser(updatedUser);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Data not saved, please check user data");
+    }
   };
+
   
   return (
     <SafeAreaView style={styles.container}>
