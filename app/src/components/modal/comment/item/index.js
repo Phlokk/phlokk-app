@@ -17,7 +17,6 @@ const CommentItem = ({ item }) => {
           user.photo_url !== null || !undefined ? (
             <Image
               style={styles.avatar}
-              key={i}
               source={{ uri: user.photo_url }}
             />
           ) : (
@@ -31,7 +30,7 @@ const CommentItem = ({ item }) => {
         <View style={styles.verifiedRow}>
         {user.username !== null || !undefined ? (
           <Text>
-                <Text style={styles.username} key={i}>
+                <Text style={styles.username}>
                   @{user.username}
                 </Text>
             <View>

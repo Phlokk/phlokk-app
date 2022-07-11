@@ -15,8 +15,6 @@ export default function BioFieldScreen({ route }) {
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
-
-
   const [user, setUser] = useAtom(userAtom);
 
   const onSave = async () => {
@@ -41,14 +39,14 @@ export default function BioFieldScreen({ route }) {
       <Divider />
       <View style={styles.mainContainer}>
         <TextInput
-          style={generalStyles.textInput}
+          style={generalStyles.textInputReport}
           placeholder="bio"
           placeholderTextColor={"gray"}
           autoCapitalize="sentences"
           autoCorrect={false}
           textContentType="none"
           maxLength={200}
-          multiline={true}
+          multiline
           numberOfLines={5}
           textAlignVertical
           value={textInputValue}

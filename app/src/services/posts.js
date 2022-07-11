@@ -67,7 +67,7 @@ export const useVideoFeed = (options) => {
 
   const getMoreVideos = (lastVideo) => {
     // TODO, load more videos
-    alert("TODO");
+    // alert("TODO");
   };
 
   return { posts, getMoreVideos, loading };

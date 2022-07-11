@@ -22,7 +22,7 @@ export default function SearchUserItem() {
       <View style={styles.verifiedRow}>
         {user.username !== null || !undefined ? (
           <Text>
-                <Text style={styles.text} key={i}>
+                <Text style={styles.text}>
                   @{user.username}
                 </Text>
             <View>
@@ -41,7 +41,6 @@ export default function SearchUserItem() {
           user.photo_url !== null || !undefined ? (
             <Image
               style={styles.image}
-              key={i}
               source={{ uri: user.photo_url }}
             />
           ) : (

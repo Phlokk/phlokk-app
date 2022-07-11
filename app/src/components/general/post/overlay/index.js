@@ -178,7 +178,7 @@ export default function PostSingleOverlay({ post, user }) {
             {user.photo_url !== null || !undefined ? (
                   <Image
                     style={styles.avatar}
-                    key={user._id}
+                    // key={user._id}
                     source={{ uri: user.photo_url }}
                   />
                 ) : (
@@ -192,7 +192,7 @@ export default function PostSingleOverlay({ post, user }) {
                     >
                       <Image
                           style={styles.avatar}
-                          key={user._id}
+                          // key={user._id}
                           source={{ uri: user.photo_url }}
                       />
                     </TouchableOpacity>

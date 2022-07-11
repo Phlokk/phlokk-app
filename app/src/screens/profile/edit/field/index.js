@@ -1,11 +1,10 @@
-import { useNavigation, useIsFocused } from "@react-navigation/native";
-import React, { useState, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { updateCreator } from "../../../../../src/services/user";
 import { generalStyles } from "../../../../../src/styles";
-import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 import InfoScreenNav from "../../../../components/general/navBar/infoScreenNav";
 import { userAtom } from "../../../../../../App";

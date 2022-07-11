@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons'; 
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
@@ -69,6 +70,7 @@ export default function EditProfileScreen() {
         title="Edit Profile"
         leftButton={{ display: false }}
       />
+      <ScrollView>
       <View style={styles.imageContainer}>
         {user.photo_url !== null ? (
           <TouchableOpacity
@@ -101,6 +103,7 @@ export default function EditProfileScreen() {
       </View>
 
       <View style={styles.fieldsContainer}>
+      <Text style={styles.socialText}>Profile Info</Text>
             <TouchableOpacity
               style={styles.fieldItemContainer}
               autoCapitalize="none"
@@ -187,26 +190,6 @@ export default function EditProfileScreen() {
               style={styles.fieldItemContainer}
               autoCapitalize="none"
               onPress={() =>
-                navigation.navigate(routes.BIO, {
-                  title: "Bio",
-                  field: "bio",
-                  value: user.bio,
-                })
-              }
-            >
-              <Text style={styles.text}>Bio</Text>
-              <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text}>
-                  {user.bio}
-                </Text>
-                <Feather name="chevron-right" size={28} color={colors.white} />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() =>
                 navigation.navigate(routes.RELATIONSHIP, {
                   title: "Relationship",
                   field: "relationship",
@@ -221,6 +204,38 @@ export default function EditProfileScreen() {
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
+            </TouchableOpacity>
+
+            <Text style={styles.socialText}>Bio</Text>
+            <TouchableOpacity
+              style={styles.fieldItemContainer}
+              autoCapitalize="none"
+              onPress={() =>
+                navigation.navigate(routes.BIO, {
+                  title: "Bio",
+                  field: "bio",
+                  value: user.bio,
+                })
+              }
+            >
+              <Text style={styles.text}>Profile Bio</Text>
+              {user.bio === null || undefined ? (
+                <View style={styles.fieldValueContainer}>
+                  <Text numberOfLines={1} style={styles.text}>
+                    Add Bio
+                  </Text>
+                  <Feather
+                    name="chevron-right"
+                    size={28}
+                    color={colors.white}
+                  />
+                </View>
+              ) : (
+                <View>
+                  <Text numberOfLines={1} style={styles.text}></Text>
+                  <FontAwesome name="pencil-square-o" size={16} color={colors.green} />
+                </View>
+              )}
             </TouchableOpacity>
 
         <Text style={styles.socialText}>Social Media</Text>
@@ -285,6 +300,7 @@ export default function EditProfileScreen() {
               )}
             </TouchableOpacity>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
