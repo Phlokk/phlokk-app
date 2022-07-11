@@ -20,14 +20,14 @@ export default function ProfileScreen({ route }) {
 
   const userId = route?.params?.initialUserId;
 
-  const { posts, getMoreUserPosts } = useUserVideoFeed(userId);
+
 
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
   const [user, setUser] = useAtom(userAtom);
-
-
+  const { posts, getMoreUserPosts } = useUserVideoFeed(user._id);
+  
   const ListHeader = () => {
     return (
       <View style={styles.container} edges={["top"]}>
