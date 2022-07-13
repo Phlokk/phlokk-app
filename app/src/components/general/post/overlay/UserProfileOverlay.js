@@ -47,29 +47,29 @@ function UserProfileOverlay({ post, user }) {
   return (
     <View style={styles.bottomContainer}>
       <View style={styles.verifiedRow}>
-        {user.photo_url !== null || !undefined ? (
+        {/* {user.photo_url !== null || !undefined ? (
           <Image
             style={styles.avatar}
             // key={user._id}
             source={{ uri: user.photo_url }}
           />
-        ) : (
-          <View style={styles.avatarContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate(routes.PROFILE_OTHER, {
-                  initialUserId: user._id,
-                })
-              }
-            >
-              <Image
-                style={styles.avatar}
-                // key={user._id}
-                source={{ uri: user.photo_url }}
-              />
-            </TouchableOpacity>
-          </View>
-        )}
+        ) : ( */}
+        <View style={styles.avatarContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("feedProfile", {
+                initialUser: user,
+              });
+            }}
+          >
+            <Image
+              style={styles.avatar}
+              // key={user._id}
+              source={{ uri: user.photo_url }}
+            />
+          </TouchableOpacity>
+        </View>
+        {/* // )} */}
 
         <View style={styles.usernameView}>
           {user.username !== null || !undefined ? (
@@ -176,10 +176,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.white,
     marginBottom: 10,
-    
   },
   avatarContainer: {
-    
     width: "20%",
   },
   songImage: {

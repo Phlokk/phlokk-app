@@ -15,9 +15,10 @@ const SettingsModalScreen = (props) => {
   const [marketAlert, setMarketAlert] = useState(false);
   const handleClosePress = () => props.bottomSheetRef.current.close();
 
+  console.log(props);
+
   return (
     <View style={styles.container}>
-
       <TouchableOpacity
         style={styles.fieldItemContainer}
         onPress={() => {
@@ -25,9 +26,12 @@ const SettingsModalScreen = (props) => {
           handleClosePress();
         }}
       >
-          <MaterialIcons name="settings-applications" size={17} color={colors.green} /> 
-          <Text style={styles.text}> Settings and privacy</Text>
-       
+        <MaterialIcons
+          name="settings-applications"
+          size={17}
+          color={colors.green}
+        />
+        <Text style={styles.text}> Settings and privacy</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -38,8 +42,10 @@ const SettingsModalScreen = (props) => {
         }}
       >
         <Text style={styles.text}>
-        <Text><Feather name="user" size={14} color={colors.green} /> Edit profile</Text>
+          <Text>
+            <Feather name="user" size={14} color={colors.green} /> Edit profile
           </Text>
+        </Text>
       </TouchableOpacity>
 
       <CustomAlert
@@ -60,7 +66,8 @@ const SettingsModalScreen = (props) => {
         onPress={() => setMarketAlert(true)}
       >
         <Text style={styles.text}>
-          <Entypo name="shop" size={14} color={colors.green} /> Phlokk Market</Text>
+          <Entypo name="shop" size={14} color={colors.green} /> Phlokk Market
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -74,7 +81,7 @@ const styles = StyleSheet.create({
   text: {
     color: colors.green,
   },
-  textSettingsIcon:{
+  textSettingsIcon: {
     color: colors.green,
   },
 
@@ -85,7 +92,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginLeft: 10,
     marginTop: 20,
-    color: colors.green
+    color: colors.green,
   },
 });
 

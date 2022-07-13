@@ -13,15 +13,13 @@ import CustomImageModal from "../../../components/Image/customImage";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 
-function UserProfile() {
-  
+function UserProfile({ user }) {
   const dispatch = useDispatch();
 
   const [topFavFive, setTopFavFive] = useState(false);
   const [popUpImage, setPopUpImage] = useState(false);
 
-  const [user, setUser] = useAtom(userAtom);
-  
+  //const [user, setUser] = useAtom(userAtom);
 
   const [fontsLoaded] = useFonts({
     "Waterfall-Regular": require("../../../../assets/fonts/Waterfall-Regular.ttf"),

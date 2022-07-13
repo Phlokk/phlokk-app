@@ -14,13 +14,13 @@ import { userAtom } from "../../../../App";
 
 import colors from "../../../config/colors";
 
-function ProfileHeader() {
+function ProfileHeader({ user }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [user, setUser] = useAtom(userAtom);
+  // const [user, setUser] = useAtom(userAtom);
 
-  const isFollowing = useFollowing(user)
+  const isFollowing = useFollowing(user);
   // // const isFollowingMutation = useFollowingMutation();
   const renderFollowButton = () => {
     if (isFollowing === null) {
@@ -75,12 +75,12 @@ function ProfileHeader() {
       )}
 
       <View>
-        <UserProfile />
+        <UserProfile user={user} />
       </View>
 
       {/* {users !== null ? ( */}
       <View>
-        <DisplayMenuScreen />
+        <DisplayMenuScreen user={user} />
       </View>
       {/* ) : ( */}
       {/* <TouchableOpacity></TouchableOpacity> */}

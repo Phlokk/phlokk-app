@@ -9,11 +9,12 @@ import CustomAlert from "../../../components/Alerts/customAlert";
 
 import colors from "../../../../config/colors";
 
-function DisplayMenuScreen() {
+function DisplayMenuScreen({ user }) {
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
   const [isBookmark, setIsBookmark] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -35,7 +36,9 @@ function DisplayMenuScreen() {
           <AntDesign name="star" size={24} color={colors.green} />
         </TouchableOpacity>
         <CustomAlert
-          customAlertMessage={<Text>Favorite videos{"\n"}coming in beta 2</Text>}
+          customAlertMessage={
+            <Text>Favorite videos{"\n"}coming in beta 2</Text>
+          }
           positiveBtn="Ok"
           modalVisible={isBookmark}
           dismissAlert={setIsBookmark}
@@ -66,10 +69,13 @@ function DisplayMenuScreen() {
             name="admin-panel-settings"
             size={24}
             color={colors.green}
-            onPress={() => dispatch(openSettingsModal(true))}
+            // onPress={() => dispatch(openSettingsModal(true))}
+            onPress={() => setIsSettingsModalOpen(true)}
           />
         </TouchableOpacity>
       </View>
+
+      
     </View>
   );
 }
@@ -96,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(DisplayMenuScreen)
+export default React.memo(DisplayMenuScreen);

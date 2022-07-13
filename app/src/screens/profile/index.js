@@ -14,11 +14,13 @@ import { useUserVideoFeed } from "../../services/posts";
 export default function ProfileScreen({ route }) {
   // const { posts, getMoreVideos } = useVideoFeed();
 
-  const userId = route?.params?.initialUserId;
+  const userProfile = route?.params?.initialUser;
 
   const [user, setUser] = useAtom(userAtom);
 
-  const { posts, getMoreUserPosts } = useUserVideoFeed(user?._id || userId);
+  const { posts, getMoreUserPosts } = useUserVideoFeed(
+    userProfile?._id || user._id
+  );
 
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -26,7 +28,7 @@ export default function ProfileScreen({ route }) {
   const ListHeader = () => {
     return (
       <View style={styles.container} edges={["top"]}>
-        <ProfileHeader />
+        <ProfileHeader user={userProfile || user} />
       </View>
     );
   };

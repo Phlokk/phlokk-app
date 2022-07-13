@@ -1,10 +1,12 @@
 import React, { createContext, useState } from "react";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 // import FeedScreen from "../../screens/videoFeed";
 import ProfileScreen from "../../screens/profile";
 import VideoFeed from "../../screens/videoFeed";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
+const Stack = createStackNavigator();
 
 export const CurrentUserProfileItemInViewContext = createContext(null);
 
@@ -12,22 +14,30 @@ const FeedNavigation = () => {
   const [currentUserProfileItemInView, setCurrentUserProfileItemInView] =
     useState(null);
 
+  const stackHeaderStyle = {
+    headerStyle: { backgroundColor: "transparent" },
+    headerTransparent: true,
+    headerBackTitleVisible: false,
+    headerTitle: () => undefined,
+  };
+
   return (
     <CurrentUserProfileItemInViewContext.Provider
       value={currentUserProfileItemInView}
     >
-      <Navigator initialRouteName="feedList" tabBar={() => <></>}>
-        <Screen
+      <Stack.Navigator initialRouteName="feedList">
+        <Stack.Screen
           name="feedList"
           component={VideoFeed}
           initialParams={{ setCurrentUserProfileItemInView, profile: false }}
+          options={stackHeaderStyle}
         />
-        {/* <Screen
+        <Screen
           name="feedProfile"
           component={ProfileScreen}
-          // initialParams={{ initialUserId: null }}
-        /> */}
-      </Navigator>
+          options={stackHeaderStyle}
+        />
+      </Stack.Navigator>
     </CurrentUserProfileItemInViewContext.Provider>
   );
 };
