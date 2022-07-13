@@ -16,7 +16,7 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
+import BottomMenu from "./BottomMenu";
 import colors from "../../../config/colors";
 import IconOverlay from "./iconOverlay";
 
@@ -151,6 +151,7 @@ export default function CameraScreen() {
       ) : null}
 
       <View style={styles.sideBarContainer}>
+        
         <TouchableOpacity
           style={styles.sideBarButton}
           onPress={() =>
@@ -180,6 +181,7 @@ export default function CameraScreen() {
         </TouchableOpacity>
         <IconOverlay />
       </View>
+
       <View style={styles.bottomBarContainer}>
         <View style={{ flex: 1 }}></View>
         <View style={styles.recordButtonContainer}>
@@ -211,7 +213,9 @@ export default function CameraScreen() {
             )}
           </TouchableOpacity>
         </View>
+        
       </View>
+      <BottomMenu />
     </View>
   );
 }
@@ -227,7 +231,7 @@ const styles = StyleSheet.create({
   bottomBarContainer: {
     alignItems: "center",
     position: "absolute",
-    bottom: 0,
+    bottom: 60,
     flexDirection: "row",
   },
   recordButtonContainer: {
@@ -275,4 +279,11 @@ const styles = StyleSheet.create({
   soundText: {
     color: colors.white,
   },
+  exitBtn: {
+    color: colors.white,
+    fontSize: 12,
+    // flexDirection: "row-reverse",
+    // justifyContent: "flex-start"
+    
+  }
 });

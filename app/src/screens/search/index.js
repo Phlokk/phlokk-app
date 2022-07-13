@@ -9,8 +9,6 @@ import {
 import SearchUserItem from "../../components/search/userItem";
 // import { queryUsersByUsername } from "../../services/user";
 // import axios from "../../redux/apis/axiosDeclaration";
-// import * as SecureStore from "expo-secure-store";
-// import { types } from "../../redux/constants";
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
