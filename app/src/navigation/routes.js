@@ -41,6 +41,7 @@ export default Object.freeze({
     BUY_GIFTS: 'buyGifts',
     FOLLOWING_LIST: 'followingList',
     FRIENDS_LIST: 'friendsList',
+    FIRE_RULES: 'fireRules',
     // Flatlist Screens
     COMEDY_SCREEN: 'comedyScreen',
     MUSICIAN_SCREEN: 'musicianScreen',

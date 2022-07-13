@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-
+import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 
 export default function GiftingNavBar({
@@ -27,7 +27,12 @@ export default function GiftingNavBar({
       <TouchableOpacity
         style={styles.button}
       >
-        <MaterialCommunityIcons name="fire" size={24} color={colors.orange} />
+        <MaterialCommunityIcons 
+        name="fire" 
+        size={24} 
+        color={colors.orange} 
+        onPress={() => navigation.navigate(routes.FIRE_RULES)}
+        />
       </TouchableOpacity>
     </View>
   );

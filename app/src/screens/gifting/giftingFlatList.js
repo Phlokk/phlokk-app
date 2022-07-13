@@ -1,12 +1,16 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+
 import routes from "../../navigation/routes";
 import GiftingNavBar from "../../components/general/giftingNav/giftingNavBar";
 import colors from "../../../config/colors";
+import CustomAlert from "../../components/Alerts/customAlert";
+
 
 
 const GiftingModal = [
@@ -52,6 +56,8 @@ export default function GiftingScreen() {
   //   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+
+
   const ItemRender = ({ item }) => (
     <View style={styles.item}>
       <View style={styles.fireModalRow}>
@@ -80,56 +86,6 @@ export default function GiftingScreen() {
     </View>
   );
 
-  const ItemFooter = () => {
-    return (
-      <View style={styles.mainContainer}>
-        <Text style={styles.textInfo}>
-          <Text></Text>
-          <Text style={styles.text}>
-            Rules & Regulations:{"\n"}
-            {"\n"}
-          </Text>
-          {"\n"}
-          {"\n"}
-          <Text style={styles.bullets}>{"\u2022"}</Text>Fire can be used to
-          light up creators post if you think they have HOT content.{"\n"}
-          {"\n"}
-          <Text style={styles.bullets}>{"\u2022"}</Text>This will help Creators
-          have their content shown on Rising Stars
-          <Text>
-            <MaterialCommunityIcons
-              style={styles.star}
-              color={colors.gray}
-              size={15}
-              name={"star"}
-            />
-          </Text>{" "}
-          category{"\n"}
-          {"\n"}
-          <Text style={styles.bullets}>{"\u2022"}</Text>Creators are not allowed
-          to light up their own post.{"\n"}
-          {"\n"}
-          <Text style={styles.bullets}>{"\u2022"}</Text>Creators content must
-          meet all Gommunity Guideline standards to be considered for the Rising
-          Stars video feed.{"\n"}
-          {"\n"}
-          <Text style={styles.bullets}>{"\u2022"}</Text>All purchaes are
-          NON-REFUNDABLE
-        </Text>
-        <Text style={styles.textInfo}>
-          All Rules & Regulations
-          <Text
-            onPress={() => navigation.navigate(routes.TERMS)}
-            style={styles.textRules}
-          >
-            {" "}
-            (Terms & Conditions)
-          </Text>
-        </Text>
-      </View>
-    );
-  };
-
   const ItemHeader = () => {
     return (
       <SafeAreaView style={styles.container}>
@@ -154,18 +110,17 @@ export default function GiftingScreen() {
   const keyExtractor = useCallback((item) => item.id);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <FlatList
         style={styles.paddingFlat}
         data={GiftingModal}
         renderItem={ItemRender}
-        ListFooterComponent={ItemFooter}
         ListHeaderComponent={ItemHeader}
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={ItemSeparator}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -259,4 +214,7 @@ const styles = StyleSheet.create({
   giftingTextView: {
     alignItems: "center",
   },
+  textMargin:{
+    marginBottom: 20, 
+  }
 });

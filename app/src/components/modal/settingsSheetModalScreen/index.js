@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Share } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Share, ScrollView } from "react-native";
 import React from "react";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -44,6 +44,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
   return (
     <View style={styles.container}>
       <Text style={styles.settingsText}>Actions</Text>
+      <ScrollView>
       <TouchableOpacity
         style={styles.fieldItemContainer}
         autoCapitalize="none"
@@ -57,7 +58,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
             name="user-minus"
             style={styles.blockIcon}
             size={14}
-            color={colors.secondary}
+            color={colors.green}
           />{" "}
           Block
         </Text>
@@ -72,7 +73,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         }}
       >
         <Text style={styles.text}>
-          <AntDesign name="exclamationcircleo" size={12} color={colors.secondary} />{" "}
+          <AntDesign name="exclamationcircleo" size={12} color={colors.green} />{" "}
           Report
         </Text>
       </TouchableOpacity>
@@ -86,7 +87,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         }}
       >
         <Text style={styles.text}>
-          <Feather name="download-cloud" size={14} color={colors.secondary} />{" "}
+          <Feather name="download-cloud" size={14} color={colors.green} />{" "}
           Download
         </Text>
       </TouchableOpacity>
@@ -103,7 +104,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
           <MaterialIcons
             name="bookmark-outline"
             size={14}
-            color={colors.secondary}
+            color={colors.green}
           />{" "}
           Add to Favorites
         </Text>
@@ -120,7 +121,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
           <MaterialCommunityIcons
             name="account-box-multiple-outline"
             size={14}
-            color={colors.secondary}
+            color={colors.green}
           />{" "}
           Duo
         </Text>
@@ -134,7 +135,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         }}
       >
         <Text style={styles.text}>
-          <Feather name="link" size={14} color={colors.secondary} /> Link
+          <Feather name="link" size={14} color={colors.green} /> Link
         </Text>
       </TouchableOpacity>
 
@@ -149,12 +150,14 @@ const SettingsSheetModalScreen = ( props, post ) => {
           <MaterialCommunityIcons
             name="share-all-outline"
             size={16}
-            color={colors.secondary}
+            color={colors.green}
           />{" "}
           Share
         </Text>
       </TouchableOpacity>
+      </ScrollView>
     </View>
+    
   );
 };
 
@@ -164,10 +167,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   text: {
-    color: colors.secondary,
+    color: colors.green,
   },
   settingsText: {
-    color: colors.secondary,
+    color: colors.green,
     textAlign: "center",
     paddingTop: 10,
   },

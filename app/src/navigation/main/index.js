@@ -69,6 +69,7 @@ import FriendsListScreen from "../../screens/stats/friendsList";
 import CameraScreen from "../../screens/camera";
 import { StyleSheet, View } from "react-native";
 import colors from "../../../config/colors";
+import fireRulesScreen from "../../screens/gifting/fireRulesScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -374,6 +375,11 @@ export default function Route() {
             <Stack.Screen
               name="friendsList"
               component={FriendsListScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="fireRules"
+              component={fireRulesScreen}
               options={{ headerShown: false }}
             />
           </>
