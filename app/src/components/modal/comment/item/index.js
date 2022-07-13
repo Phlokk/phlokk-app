@@ -14,7 +14,7 @@ const CommentItem = ({ item }) => {
 
   return (
     <View style={styles.container}>
-          user.photo_url !== null || !undefined ? (
+          { user.photo_url !== null || !undefined ? (
             <Image
               style={styles.avatar}
               source={{ uri: user.photo_url }}
@@ -24,7 +24,7 @@ const CommentItem = ({ item }) => {
               style={styles.avatar}
               source={require("../../../../../assets/userImage.png")}
             />
-          )
+          )}
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>

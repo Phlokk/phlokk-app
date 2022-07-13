@@ -58,7 +58,7 @@ const CommentModal = () => {
 
       <View style={styles.containerInput}>
 
-          user.photo_url !== null || !undefined ? (
+         {user.photo_url !== null || !undefined ? (
             <TouchableOpacity>
               <Image 
               style={styles.avatar} 
@@ -71,7 +71,7 @@ const CommentModal = () => {
               source={require("../../../../assets/userImage.png")}
               cache="only-if-cached"
             />
-          )
+          )}
 
         <BottomSheetTextInput 
           style={styles.input}
