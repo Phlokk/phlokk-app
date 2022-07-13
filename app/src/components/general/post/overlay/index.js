@@ -79,17 +79,15 @@ export default function PostSingleOverlay({ post, user }) {
       <View style={styles.uiContainer}>
         <View style={styles.sideContainer}>
           <View style={styles.iconContainer}>
-            {/*<TouchableOpacity*/}
-            {/*  onPress={() => handleUpdateLike(currentLikeState)}*/}
-            {/*>*/}
-            {/*  <MaterialCommunityIcons*/}
-            {/*    color={colors.white}*/}
-            {/*    size={40}*/}
-            {/*    name={currentLikeState?.state ? "star" : "star-outline"}*/}
-            {/*  />*/}
-
-            {/*  <Text style={styles.statsLabel}>{currentLikeState?.counter ? currentLikeState?.counter : 0}</Text>*/}
-            {/*</TouchableOpacity>*/}
+            <TouchableOpacity>
+             <MaterialCommunityIcons
+               color={colors.white}
+               size={40}
+               name={"star-outline"}
+             />
+             
+            </TouchableOpacity>
+            <Text style={styles.statsLabel}>0</Text>
           </View>
 
           <View style={styles.iconContainer}>
@@ -102,8 +100,9 @@ export default function PostSingleOverlay({ post, user }) {
                 size={35}
                 color={colors.white}
               />
-              <Text style={styles.statsLabel}>{post.commentsCount}</Text>
             </TouchableOpacity>
+            <Text style={styles.statsLabel}>0</Text>
+
           </View>
 
           <View style={styles.iconContainer}>
@@ -131,8 +130,8 @@ export default function PostSingleOverlay({ post, user }) {
                 size={40}
                 color={colors.white}
               />
-              <Text style={styles.statsLabel}>Fire</Text>
             </TouchableOpacity>
+            <Text style={styles.statsLabel}>0</Text>
           </View>
 
           <View style={styles.iconContainer}>
@@ -295,6 +294,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   avatar: {
+    // zIndex: -9999,
     height: 50,
     width: 50,
     borderRadius: 25,
