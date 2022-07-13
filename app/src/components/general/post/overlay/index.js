@@ -41,8 +41,6 @@ export default function PostSingleOverlay({ post, user }) {
   const [instaGifts, setInstaGifts] = useState(false);
   const [ckt, setCkt] = useState(false);
 
-
-
   // const [currentLikeState, setCurrentLikeState] = useState({
   //   state: false,
   //   counter: post.likesCount,
@@ -75,163 +73,99 @@ export default function PostSingleOverlay({ post, user }) {
   const animatedStyle = { transform: [{ rotate }] };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.uiContainer}>
-        <View style={styles.sideContainer}>
-          <View style={styles.iconContainer}>
-            <TouchableOpacity>
-             <MaterialCommunityIcons
-               color={colors.white}
-               size={40}
-               name={"star-outline"}
-             />
-             
-            </TouchableOpacity>
-            <Text style={styles.statsLabel}>0</Text>
-          </View>
+    // <View style={[styles.container, {backgroundColor: 'red'}]} pointerEvents="box-none">
+    //   <View style={styles.uiContainer}>
+    <View style={{ position: "absolute", right: 0 , bottom: 200}}>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity>
+          <MaterialCommunityIcons
+            color={colors.white}
+            size={40}
+            name={"star-outline"}
+          />
+        </TouchableOpacity>
+        <Text style={styles.statsLabel}>0</Text>
+      </View>
 
-          <View style={styles.iconContainer}>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => dispatch(openCommentModal(true, post))}
-            >
-              <Ionicons
-                name="md-chatbubble-ellipses-outline"
-                size={35}
-                color={colors.white}
-              />
-            </TouchableOpacity>
-            <Text style={styles.statsLabel}>0</Text>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => dispatch(openCommentModal(true, post))}
+        >
+          <Ionicons
+            name="md-chatbubble-ellipses-outline"
+            size={35}
+            color={colors.white}
+          />
+        </TouchableOpacity>
+        <Text style={styles.statsLabel}>0</Text>
+      </View>
 
-          </View>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => dispatch(openGiftingModal(true))}
+        >
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={
+              <Text>Light It Up{"\n"}coming in official release!</Text>
+            }
+            positiveBtn="Ok"
+            modalVisible={instaGifts}
+            dismissAlert={setInstaGifts}
+            animationType="fade"
+          />
+          <MaterialCommunityIcons
+            onPress={() => setInstaGifts(true)}
+            name="fire"
+            size={40}
+            color={colors.white}
+          />
+        </TouchableOpacity>
+        <Text style={styles.statsLabel}>0</Text>
+      </View>
 
-          <View style={styles.iconContainer}>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => dispatch(openGiftingModal(true))}
-            >
-              <CustomAlert
-                alertTitle={
-                  <Text>
-                    <MaterialIcons name="info" size={24} color={colors.green} />
-                  </Text>
-                }
-                customAlertMessage={
-                  <Text>Light It Up{"\n"}coming in official release!</Text>
-                }
-                positiveBtn="Ok"
-                modalVisible={instaGifts}
-                dismissAlert={setInstaGifts}
-                animationType="fade"
-              />
-              <MaterialCommunityIcons
-                onPress={() => setInstaGifts(true)}
-                name="fire"
-                size={40}
-                color={colors.white}
-              />
-            </TouchableOpacity>
-            <Text style={styles.statsLabel}>0</Text>
-          </View>
+      <View style={styles.iconContainer}>
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={
+            <Text>CKT Feed{"\n"}coming in Beta version 3</Text>
+          }
+          positiveBtn="Ok"
+          modalVisible={ckt}
+          dismissAlert={setCkt}
+          animationType="fade"
+        />
+        <TouchableOpacity style={styles.globeIcon} onPress={() => setCkt(true)}>
+          <Octicons name="globe" size={30} color={colors.white} />
+          <Text style={styles.statsLabel}>CKT</Text>
+        </TouchableOpacity>
+      </View>
 
-          <View style={styles.iconContainer}>
-            <CustomAlert
-              alertTitle={
-                <Text>
-                  <MaterialIcons name="info" size={24} color={colors.green} />
-                </Text>
-              }
-              customAlertMessage={
-                <Text>CKT Feed{"\n"}coming in Beta version 3</Text>
-              }
-              positiveBtn="Ok"
-              modalVisible={ckt}
-              dismissAlert={setCkt}
-              animationType="fade"
-            />
-            <TouchableOpacity
-              style={styles.globeIcon}
-              onPress={() => setCkt(true)}
-            >
-              <Octicons name="globe" size={30} color={colors.white} />
-              <Text style={styles.statsLabel}>CKT</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.iconContainer}>
-            <TouchableOpacity
-              style={styles.reportIcon}
-              onPress={() => dispatch(openSettingsSheetModal(true, post))}
-            >
-              <Ionicons
-                name="ellipsis-horizontal-sharp"
-                size={28}
-                color={colors.white}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.bottomContainer}>
-          <View style={styles.verifiedRow}>
-            {user.photo_url !== null || !undefined ? (
-                  <Image
-                    style={styles.avatar}
-                    // key={user._id}
-                    source={{ uri: user.photo_url }}
-                  />
-                ) : (
-                  <View style={styles.avatarContainer}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate(routes.PROFILE_OTHER, {
-                          initialUserId: user._id,
-                        })
-                      }
-                    >
-                      <Image
-                          style={styles.avatar}
-                          // key={user._id}
-                          source={{ uri: user.photo_url }}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                )}
-
-            <View style={styles.usernameView}>
-              {user.username !== null || !undefined ? (
-                <Text>
-                  <Text style={styles.username} key={user._id}>
-                    @{user.username}
-                  </Text>
-                  <View>
-                    {user.is_verified === 1 && (
-                      <Image
-                        style={styles.phlokkVerified}
-                        source={verifiedCheck}
-                      />
-                    )}
-                  </View>
-                </Text>
-              ) : (
-                <Text style={styles.username}>@user</Text>
-              )}
-            </View>
-
-            <Text style={styles.description} key={user}>{post.description}</Text>
-            <View style={styles.songRow}>
-              <Entypo name="beamed-note" size={15} color="white" />
-
-              <Text style={styles.songName}>{songTicker}</Text>
-              <Animated.Image
-                style={[styles.songImage, animatedStyle]}
-                source={pmdLogo}
-              />
-            </View>
-          </View>
-        </View>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity
+          style={styles.reportIcon}
+          onPress={() => dispatch(openSettingsSheetModal(true, post))}
+        >
+          <Ionicons
+            name="ellipsis-horizontal-sharp"
+            size={28}
+            color={colors.white}
+          />
+        </TouchableOpacity>
       </View>
     </View>
+
+    
   );
 }
 
@@ -248,8 +182,7 @@ const styles = StyleSheet.create({
     bottom: 270,
   },
   searchRow: {
-    justifyContent: 'flex-end',
-    
+    justifyContent: "flex-end",
   },
   uiContainer: {
     height: "100%",

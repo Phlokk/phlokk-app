@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from "@expo/vector-icons";
 import { Video } from "expo-av";
 import { useIsFocused } from "@react-navigation/native";
 
 import PostSingleOverlay from "../../components/general/post/overlay";
+import UserProfileOverlay from "../../components/general/post/overlay/UserProfileOverlay";
 import colors from "../../../config/colors";
 
 const VideoItem = ({
@@ -72,8 +73,9 @@ const VideoItem = ({
           /*  */
         />
         {shouldPlay ? null : displayPauseIcon()}
-        <PostSingleOverlay user={item.user} post={item} />
       </Pressable>
+      <PostSingleOverlay user={item.user} post={item} />
+      <UserProfileOverlay user={item.user} post={item} />
     </View>
   );
 };

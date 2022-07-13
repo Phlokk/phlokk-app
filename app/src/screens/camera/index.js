@@ -1,6 +1,6 @@
 import { Audio } from "expo-av";
 import { Camera } from "expo-camera";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   Image,
   Platform,
   StyleSheet,
+  Animated,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
@@ -19,6 +20,9 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import BottomMenu from "./BottomMenu";
 import colors from "../../../config/colors";
 import IconOverlay from "./iconOverlay";
+import * as Haptics from "expo-haptics";
+
+const START_RECORDING_DELAY = 3000;
 
 export default function CameraScreen() {
   const [hasCameraPermissions, setHasCameraPermissions] = useState(false);
@@ -31,6 +35,15 @@ export default function CameraScreen() {
   const [cameraFlash, setCameraFlash] = useState(
     Camera.Constants.FlashMode.off
   );
+  const [startRecordingCountdown, setStartRecordingCountdown] = useState(
+    START_RECORDING_DELAY / 1000
+  );
+  const [showCountdown, setShowCountdown] = useState();
+  const [isLongPressRecording, setIsLongPressRecording] = useState();
+  const countdownTimerRef = useRef();
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const whitePulseAnim = useRef(new Animated.Value(1)).current;
+  const whitePulseOpacity = useRef(new Animated.Value(0.9)).current;
 
   // const [cameraVideoStabilization, setCameraVideoStabilization ] = useState(
   //   Camera.Constants.VideoStabilization.auto
@@ -41,10 +54,11 @@ export default function CameraScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
+    /*  */
     (async () => {
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
       setHasCameraPermissions(cameraStatus.status == "granted");
-
+      /*  */
       const audioStatus = await Audio.requestPermissionsAsync();
       setHasAudioPermissions(audioStatus.status == "granted");
 
@@ -61,6 +75,15 @@ export default function CameraScreen() {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (startRecordingCountdown === 0) {
+      clearInterval(countdownTimerRef.current);
+      setStartRecordingCountdown(START_RECORDING_DELAY / 1000);
+      setShowCountdown(false);
+      recordVideo();
+    }
+  }, [startRecordingCountdown]);
 
   const recordVideo = async () => {
     if (cameraRef) {
@@ -131,11 +154,76 @@ export default function CameraScreen() {
 
   const onPressRecord = () => {
     if (!isRecording) {
-      recordVideo();
+      //recordVideo();
+      if (countdownTimerRef.current) {
+        clearInterval(countdownTimerRef.current);
+      }
+
+      setShowCountdown(true);
+      runPulse();
+
+      countdownTimerRef.current = setInterval(() => {
+        runPulse();
+        setStartRecordingCountdown((prev) => {
+          return prev - 1;
+        });
+      }, 1000);
     } else {
       stopVideo();
     }
   };
+
+  const onLongPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setIsLongPressRecording(true);
+    recordVideo();
+  };
+
+  const onPressOut = () => {
+    if (isLongPressRecording) {
+      setIsLongPressRecording(false);
+      stopVideo();
+    }
+  };
+
+  const runPulse = () => {
+    Animated.parallel([
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1.1,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+      ]),
+
+      Animated.sequence([
+        Animated.timing(whitePulseAnim, {
+          toValue: 1.1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.parallel([
+          Animated.timing(whitePulseAnim, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+          Animated.timing(whitePulseOpacity, {
+            toValue: 0,
+            duration: 25,
+            useNativeDriver: true,
+          }),
+        ]),
+      ]),
+    ]).start(() => whitePulseOpacity.setValue(0.9));
+  };
+
+  const fadeOutCounter = () => {};
 
   return (
     <View style={styles.container}>
@@ -151,7 +239,6 @@ export default function CameraScreen() {
       ) : null}
 
       <View style={styles.sideBarContainer}>
-        
         <TouchableOpacity
           style={styles.sideBarButton}
           onPress={() =>
@@ -188,6 +275,8 @@ export default function CameraScreen() {
           <Pressable
             disabled={!isCameraReady}
             onPress={onPressRecord}
+            onLongPress={onLongPress}
+            onPressOut={onPressOut}
             style={({ pressed }) => {
               return [
                 styles.recordButton,
@@ -213,9 +302,35 @@ export default function CameraScreen() {
             )}
           </TouchableOpacity>
         </View>
-        
       </View>
       <BottomMenu />
+
+      {showCountdown && (
+        <Animated.View
+          style={[
+            styles.countdownWrapper,
+            { transform: [{ scale: pulseAnim }] },
+          ]}
+          pointerEvents="box-none"
+        >
+          <View>
+            <Animated.View
+              style={[
+                styles.countdownWhitePulse,
+                {
+                  opacity: whitePulseOpacity,
+                  transform: [{ scale: whitePulseAnim }],
+                },
+              ]}
+            />
+            <View style={styles.countdownBackground}>
+              <Text style={styles.countdownText}>
+                {startRecordingCountdown}
+              </Text>
+            </View>
+          </View>
+        </Animated.View>
+      )}
     </View>
   );
 }
@@ -284,6 +399,35 @@ const styles = StyleSheet.create({
     fontSize: 12,
     // flexDirection: "row-reverse",
     // justifyContent: "flex-start"
-    
-  }
+  },
+  countdownWrapper: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  countdownBackground: {
+    backgroundColor: colors.green,
+    height: 200,
+    width: 200,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+  },
+  countdownText: {
+    color: colors.white,
+    fontSize: 120,
+  },
+  countdownWhitePulse: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: colors.white,
+    borderRadius: 100,
+  },
 });

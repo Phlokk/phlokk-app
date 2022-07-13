@@ -32,41 +32,41 @@ PODS:
     - React-Core
   - Expo (44.0.4):
     - ExpoModulesCore
-  - expo-dev-client (0.8.4):
+  - expo-dev-client (0.8.6):
     - EXManifests
     - expo-dev-launcher
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
-  - expo-dev-launcher (0.10.4):
+  - expo-dev-launcher (0.10.6):
     - EXManifests
-    - expo-dev-launcher/Main (= 0.10.4)
+    - expo-dev-launcher/Main (= 0.10.6)
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
     - React-Core
-  - expo-dev-launcher/Main (0.10.4):
+  - expo-dev-launcher/Main (0.10.6):
     - EXManifests
     - expo-dev-launcher/Unsafe
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
     - React-Core
-  - expo-dev-launcher/Unsafe (0.10.4):
+  - expo-dev-launcher/Unsafe (0.10.6):
     - EXManifests
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
     - React-Core
-  - expo-dev-menu (0.9.3):
-    - expo-dev-menu/Main (= 0.9.3)
+  - expo-dev-menu (0.9.4):
+    - expo-dev-menu/Main (= 0.9.4)
   - expo-dev-menu-interface (0.5.3)
-  - expo-dev-menu/GestureHandler (0.9.3)
-  - expo-dev-menu/Main (0.9.3):
+  - expo-dev-menu/GestureHandler (0.9.4)
+  - expo-dev-menu/Main (0.9.4):
     - expo-dev-menu-interface
     - expo-dev-menu/Vendored
     - React-Core
-  - expo-dev-menu/Reanimated (0.9.3):
+  - expo-dev-menu/Reanimated (0.9.4):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -94,11 +94,13 @@ PODS:
     - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu/SafeAreaView (0.9.3)
-  - expo-dev-menu/Vendored (0.9.3):
+  - expo-dev-menu/SafeAreaView (0.9.4)
+  - expo-dev-menu/Vendored (0.9.4):
     - expo-dev-menu/GestureHandler
     - expo-dev-menu/Reanimated
     - expo-dev-menu/SafeAreaView
+  - ExpoHaptics (11.1.1):
+    - ExpoModulesCore
   - ExpoModulesCore (0.6.4):
     - React-Core
     - ReactCommon/turbomodule/core
@@ -110,7 +112,7 @@ PODS:
     - ExpoModulesCore
     - React-Core
   - EXStructuredHeaders (2.1.1)
-  - EXUpdates (0.11.6):
+  - EXUpdates (0.11.7):
     - EXManifests
     - ExpoModulesCore
     - EXStructuredHeaders
@@ -398,7 +400,7 @@ PODS:
     - React-perflogger (= 0.64.3)
   - ReactNativeAudioToolkit (2.0.3):
     - React
-  - RNCAsyncStorage (1.17.4):
+  - RNCAsyncStorage (1.15.17):
     - React-Core
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
@@ -439,8 +441,8 @@ PODS:
     - React-RCTImage
   - RNShare (7.3.3):
     - React-Core
-  - RNSVG (12.3.0):
-    - React-Core
+  - RNSVG (12.1.1):
+    - React
   - RNSweetAlert (3.1.0)
   - RNVectorIcons (9.0.0):
     - React-Core
@@ -481,6 +483,7 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
+  - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSharing (from `../node_modules/expo-sharing/ios`)
@@ -585,6 +588,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu"
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
+  ExpoHaptics:
+    :path: "../node_modules/expo-haptics/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
   EXSecureStore:
@@ -706,16 +711,17 @@ SPEC CHECKSUMS:
   EXManifests: d3464cd2278f4a19cd80c1aa673231570b534c11
   EXMediaLibrary: 6acf919299bccc64a59e6e89a3b792276e309302
   Expo: d9b8b5e49c200471fc473a652a84fe30dee73027
-  expo-dev-client: 6856be1c9b8a098a23e1099abee01a9d66bc0fa4
-  expo-dev-launcher: 875237591555e0258aa1f65442c9a557c5b61b40
-  expo-dev-menu: 942ad845341d994c8dfb70c83cd840378b81650d
+  expo-dev-client: 0e8644a2769d75a75fba239aa854a15367849978
+  expo-dev-launcher: 1e6eecef4abb3b1274f0e1ab1b576c67d17ddbfa
+  expo-dev-menu: 444277c5bd4553abbf8b1095b93ecb88af4c6479
   expo-dev-menu-interface: 395d046704878e5de471a89102ddf361cbb7e52f
+  ExpoHaptics: 0d0b69b2414755a4057ffad0a10315902c0ea1b7
   ExpoModulesCore: 64abda7af7cf659d2fa092934e29c6f4ea7e849f
   EXSecureStore: b80c74c5ee29d0160c2aace3fd9a24a5edc20015
   EXSharing: 2e26cf64fb2a89484b4f6ff8da12d6d752f83962
   EXSplashScreen: 21669e598804ee810547dbb6692c8deb5dd8dbf3
   EXStructuredHeaders: 4993087b2010dbcc510f5d92555b36f523425e8d
-  EXUpdates: bd5fa64f02685ed3e96be86b5ca350cdc2cd8d02
+  EXUpdates: a83e036243b0f6ece53a8c1cb883b6751c88a5f8
   EXUpdatesInterface: a9814f422d3cd6e7cfd260d13c27786148ece20e
   EXVideoThumbnails: 6c08e978ed7a5542c5dca04a1757363fd29cb2a1
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
@@ -750,14 +756,14 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 493d9abb8b23c3f84e19ae221eeba92cadcb70dc
   ReactCommon: 8fea6422328e2fc093e25c9fac67adbcf0f04fb4
   ReactNativeAudioToolkit: de9610f323e855ac6574be8c99621f3d57c5df06
-  RNCAsyncStorage: 9367a646dc24e3ab7b6874d79bc1bfd0832dce58
+  RNCAsyncStorage: 6bd5a7ba3dde1c3facba418aa273f449bdc5437a
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
   RNDeviceInfo: cd814b8e2f3c46c750ca2464e382a7eaedf24cea
   RNGestureHandler: e1ad51d31a580755079d5124d3ab66f0fcaa8311
   RNReanimated: 7f143675d94978c3555345d5bfa8ed6ae800c5d3
   RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
   RNShare: 3185c074441b7e8897014d95ba982434a0a024a1
-  RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
+  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNSweetAlert: 1aa4e70d8f8540aa6b9c18c019f62a25e36720b6
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
   Stripe: 22c1b8da5ee20a1aaf40fd198160efa72e71644a
