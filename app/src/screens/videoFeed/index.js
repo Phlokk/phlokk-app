@@ -23,9 +23,11 @@ import { userAtom } from "../../../../App";
 const { height } = Dimensions.get("window");
 
 const VideoFeed = ({ route }) => {
-  const [user, setUser] = useAtom(userAtom);
-  const { profile, selectedIndex } = route.params;
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const { profile, selectedIndex, creator } = route.params;
   const flatListRef = useRef();
+
+  const user = creator || currentUser;
 
   const [currentVideoIndex, setCurrentVideoIndex] = useState(
     selectedIndex || 0

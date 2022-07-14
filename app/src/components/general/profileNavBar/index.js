@@ -8,37 +8,31 @@ import { useDispatch } from "react-redux";
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
-export default function ProfileNavBar() {
+
+export default function ProfileNavBar({ showFireIcon }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const [user, setUser] = useAtom(userAtom);
 
   // const loading = useSelector(state => state.userReducer.user);
- 
+
   return (
     <View style={styles.container}>
-      {user !== null || !undefined ? (
-        <TouchableOpacity>
-          <MaterialCommunityIcons
-            name="fire"
-            size={29}
-            color={colors.green}
-            onPress={() => navigation.navigate(routes.BUY_GIFTS)}
-          />
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity style={styles.button}>
-          <MaterialIcons
-            name="keyboard-arrow-left"
-            size={28}
-            color={colors.white}
-            onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
-      )}
-      <Text style={styles.middleText} >{user.creator_type}</Text>
-      
+      <TouchableOpacity
+        onPress={() => navigation.navigate(routes.BUY_GIFTS)}
+        disabled={!showFireIcon}
+      >
+        <MaterialCommunityIcons
+          name="fire"
+          size={29}
+          color={colors.green}
+          style={{ opacity: showFireIcon ? 1 : 0 }}
+        />
+      </TouchableOpacity>
+
+      <Text style={styles.middleText}>{user.creator_type}</Text>
+
       {user !== null || !undefined ? (
         <TouchableOpacity>
           <MaterialCommunityIcons
@@ -49,11 +43,7 @@ export default function ProfileNavBar() {
         </TouchableOpacity>
       ) : (
         <TouchableOpacity>
-          <Ionicons
-            name="ellipsis-horizontal"
-            size={28}
-            color={colors.white}
-          />
+          <Ionicons name="ellipsis-horizontal" size={28} color={colors.white} />
         </TouchableOpacity>
       )}
     </View>
@@ -65,6 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
     paddingVertical: 2,
+    marginTop: 8,
   },
   text: {
     fontSize: 16,
@@ -80,5 +71,4 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontWeight: "bold",
   },
-  
 });

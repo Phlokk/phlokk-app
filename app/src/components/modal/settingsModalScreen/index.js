@@ -10,12 +10,10 @@ import routes from "../../../navigation/routes";
 import CustomAlert from "../../Alerts/customAlert";
 import colors from "../../../../config/colors";
 
-const SettingsModalScreen = (props) => {
+function SettingsModalScreen({ user }) {
   const navigation = useNavigation();
   const [marketAlert, setMarketAlert] = useState(false);
-  const handleClosePress = () => props.bottomSheetRef.current.close();
-
-  console.log(props);
+  // const handleClosePress = () => props.bottomSheetRef.current.close();
 
   return (
     <View style={styles.container}>
@@ -23,7 +21,7 @@ const SettingsModalScreen = (props) => {
         style={styles.fieldItemContainer}
         onPress={() => {
           navigation.navigate(routes.SETTINGS_SCREEN);
-          handleClosePress();
+          // handleClosePress();
         }}
       >
         <MaterialIcons
@@ -37,8 +35,8 @@ const SettingsModalScreen = (props) => {
       <TouchableOpacity
         style={styles.fieldItemContainer}
         onPress={() => {
-          navigation.navigate(routes.EDIT);
-          handleClosePress();
+          navigation.navigate(routes.EDIT, { user });
+          // handleClosePress();
         }}
       >
         <Text style={styles.text}>
@@ -71,12 +69,15 @@ const SettingsModalScreen = (props) => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    height: "20%",
     backgroundColor: colors.primary,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   text: {
     color: colors.green,

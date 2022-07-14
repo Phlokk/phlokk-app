@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import DisplayMenuScreen from "../../screens/profile/displayMenu";
 import { useDispatch } from "react-redux";
@@ -8,17 +7,13 @@ import { useFollowing } from "../../hooks/useFollowing";
 // import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
 import UserProfile from "../../screens/profile/userProfile";
 import ProfileStatsContainer from "../profile/profileStats";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
-// import routes from "../../../navigation/routes";
+
+
 
 import colors from "../../../config/colors";
 
 function ProfileHeader({ user }) {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
-
-  // const [user, setUser] = useAtom(userAtom);
 
   const isFollowing = useFollowing(user);
   // // const isFollowingMutation = useFollowingMutation();
@@ -77,14 +72,9 @@ function ProfileHeader({ user }) {
       <View>
         <UserProfile user={user} />
       </View>
-
-      {/* {users !== null ? ( */}
       <View>
         <DisplayMenuScreen user={user} />
       </View>
-      {/* ) : ( */}
-      {/* <TouchableOpacity></TouchableOpacity> */}
-      {/* )} */}
     </View>
   );
 }

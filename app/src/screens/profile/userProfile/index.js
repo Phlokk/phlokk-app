@@ -3,27 +3,24 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
-import { useDispatch } from "react-redux";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import verifiedCheck from "../../../../assets/verified.png";
 import CustomAlert from "../../../components/Alerts/customAlert";
 import CustomImageModal from "../../../components/Image/customImage";
-
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 
 function UserProfile({ user }) {
-  const dispatch = useDispatch();
-
   const [topFavFive, setTopFavFive] = useState(false);
   const [popUpImage, setPopUpImage] = useState(false);
-
-  //const [user, setUser] = useAtom(userAtom);
-
   const [fontsLoaded] = useFonts({
     "Waterfall-Regular": require("../../../../assets/fonts/Waterfall-Regular.ttf"),
   });
+
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
+
+  const isCurrentUser = currentUser._id === user._id;
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -40,8 +37,14 @@ function UserProfile({ user }) {
             modalVisible={popUpImage}
             dismissAlert={setPopUpImage}
             animationType="fade"
+            user={user}
           />
-          <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+          <Image
+            style={styles.avatar}
+            source={{
+              uri: isCurrentUser ? currentUser.photo_url : user.photo_url,
+            }}
+          />
         </TouchableOpacity>
       ) : (
         <Image

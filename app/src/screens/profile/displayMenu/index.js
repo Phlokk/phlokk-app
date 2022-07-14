@@ -1,20 +1,37 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  Modal,
+  Pressable,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { openSettingsModal } from "../../../redux/actions/modal";
 import CustomAlert from "../../../components/Alerts/customAlert";
-
+import SettingsModalScreen from "../../../components/modal/settingsModalScreen";
+import SettingsModal from "../../../components/modal/settingsModal";
 import colors from "../../../../config/colors";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../../App";
 
 function DisplayMenuScreen({ user }) {
   const dispatch = useDispatch();
+
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
+
   const [isVisible, setIsVisible] = useState(false);
   const [isBookmark, setIsBookmark] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+
+  if (user._id !== currentUser._id) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
@@ -64,18 +81,36 @@ function DisplayMenuScreen({ user }) {
         >
           <FontAwesome name="lock" size={24} color={colors.green} />
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.itemContainer}>
           <MaterialIcons
             name="admin-panel-settings"
             size={24}
             color={colors.green}
-            // onPress={() => dispatch(openSettingsModal(true))}
             onPress={() => setIsSettingsModalOpen(true)}
           />
         </TouchableOpacity>
-      </View>
 
-      
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isSettingsModalOpen}
+        >
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+              }}
+              onPress={() => setIsSettingsModalOpen(false)}
+            />
+            <SettingsModalScreen user={user} />
+          </View>
+        </Modal>
+      </View>
     </View>
   );
 }

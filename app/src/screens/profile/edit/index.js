@@ -1,27 +1,39 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import * as SecureStore from "expo-secure-store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
-import * as SecureStore from "expo-secure-store";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import EditProfileNav from "../../../components/general/navBar/editProfile";
+import { fetchGetUsers } from "../../../redux/sagas/requests/fetchUsers";
 
-export default function EditProfileScreen() {
+export default function EditProfileScreen({ route }) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const [image, setImage] = useState(null);
 
-  const [user, setUser] = useAtom(userAtom);
-  
+  const passedUser = route?.params?.user;
+
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
+
+  const user = passedUser?._id === currentUser._id ? currentUser : passedUser;
+
   const chooseImage = async () => {
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
@@ -37,8 +49,8 @@ export default function EditProfileScreen() {
       setImage(result.uri);
     }
 
-    let split = result.uri.split('/');
-    let fileName = split[(split.length - 1)];
+    let split = result.uri.split("/");
+    let fileName = split[split.length - 1];
 
     const formData = new FormData();
     formData.append("photo_url", {
@@ -54,252 +66,243 @@ export default function EditProfileScreen() {
         Accept: "application/json",
         Authorization: `Bearer ${user.token}`,
         ContentType: "application/json",
-      }
-    }).then((resp) => {
-      alert('Profile picture updated successfully.');
+      },
     })
-    .catch((err) => {
-      alert('Unable to update profile picture. Please try again later.')
-    });
+      .then((resp) => {
+        alert("Profile picture updated successfully.");
+      })
+      .catch((err) => {
+        alert("Unable to update profile picture. Please try again later.");
+      });
 
+    // Once image is updated, load user profile from api
+    const response = await fetchGetUsers();
+    setCurrentUser(response.user);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <EditProfileNav
-        title="Edit Profile"
-        leftButton={{ display: false }}
-      />
+      <EditProfileNav title="Edit Profile" leftButton={{ display: false }} />
       <ScrollView>
-      <View style={styles.imageContainer}>
-        {user.photo_url !== null ? (
-          <TouchableOpacity
-            style={styles.imageViewContainer}
-            onPress={() => chooseImage()}
-          >
-                <Image
-                  style={styles.image}
-                  source={{ uri: image ? image : user.photo_url }}
-                  cache="only-if-cached"
-                />
-
-            <View style={styles.imageOverlay} />
-
-            <Feather name="camera" size={26} color={colors.white} />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.imageViewContainer}
-            onPress={() => chooseImage()}
-          >
-            <Image
-              style={styles.image}
-              source={require("../../../../assets/userImage.png")}
-            />
-            <View style={styles.imageOverlay} />
-            <Feather name="camera" size={26} color={colors.white} />
-          </TouchableOpacity>
-        )}
-      </View>
-
-      <View style={styles.fieldsContainer}>
-      <Text style={styles.socialText}>Profile Info</Text>
+        <View style={styles.imageContainer}>
+          {user.photo_url !== null ? (
             <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() =>
-                navigation.navigate(routes.EDIT_PROFILE_FIELD, {
-                  title: "Username",
-                  field: "username",
-                  value: user.username,
-                })
-              }
+              style={styles.imageViewContainer}
+              onPress={() => chooseImage()}
             >
+              <Image
+                style={styles.image}
+                source={{ uri: image ? image : user.photo_url }}
+                cache="only-if-cached"
+              />
+
+              <View style={styles.imageOverlay} />
+
+              <Feather name="camera" size={26} color={colors.white} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.imageViewContainer}
+              onPress={() => chooseImage()}
+            >
+              <Image
+                style={styles.image}
+                source={require("../../../../assets/userImage.png")}
+              />
+              <View style={styles.imageOverlay} />
+              <Feather name="camera" size={26} color={colors.white} />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <View style={styles.fieldsContainer}>
+          <Text style={styles.socialText}>Profile Info</Text>
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.EDIT_PROFILE_FIELD, {
+                title: "Username",
+                field: "username",
+                value: user.username,
+              })
+            }
+          >
+            <Text numberOfLines={1} style={styles.text}>
+              Username
+            </Text>
+            <View style={styles.fieldValueContainer}>
+              <Text style={styles.text}>{user.username}</Text>
+              <Feather name="chevron-right" size={28} color={colors.white} />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.CREATOR, {
+                title: "Creator",
+                field: "Creator",
+                value: user.creator_type,
+              })
+            }
+          >
+            <Text style={styles.text}>Creator</Text>
+            <View style={styles.fieldValueContainer}>
               <Text numberOfLines={1} style={styles.text}>
-                Username
+                {user.creator_type}
               </Text>
-              <View style={styles.fieldValueContainer}>
-                <Text style={styles.text}>
-                  {user.username}
-                </Text>
-                <Feather name="chevron-right" size={28} color={colors.white} />
-              </View>
-            </TouchableOpacity>
+              <Feather name="chevron-right" size={28} color={colors.white} />
+            </View>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() =>
-                navigation.navigate(routes.CREATOR, {
-                  title: "Creator",
-                  field: "Creator",
-                  value: user.creator_type,
-                })
-              }
-            >
-              <Text style={styles.text}>Creator</Text>
-              <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text}>
-                  {user.creator_type}
-                </Text>
-                <Feather name="chevron-right" size={28} color={colors.white} />
-              </View>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.LINK, {
+                title: "Link",
+                field: "link",
+                value: user.link,
+              })
+            }
+          >
+            <Text style={styles.text}>Website</Text>
+            <View style={styles.fieldValueContainer}>
+              <Text numberOfLines={1} style={styles.text}>
+                {user.link}
+              </Text>
+              <Feather name="chevron-right" size={28} color={colors.white} />
+            </View>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() =>
-                navigation.navigate(routes.LINK, {
-                  title: "Link",
-                  field: "link",
-                  value: user.link,
-                })
-              }
-            >
-              <Text style={styles.text}>Website</Text>
-              <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text}>
-                  {user.link}
-                </Text>
-                <Feather name="chevron-right" size={28} color={colors.white} />
-              </View>
-            </TouchableOpacity>
-          
-            <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() =>
-                navigation.navigate(routes.QUOTES, {
-                  title: "Quotes",
-                  field: "quotes",
-                  value: user.quote,
-                })
-              }
-            >
-              <Text style={styles.text}>Quote</Text>
-              <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text}>
-                  {user.quote}
-                </Text>
-                <Feather name="chevron-right" size={28} color={colors.white} />
-              </View>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.QUOTES, {
+                title: "Quotes",
+                field: "quotes",
+                value: user.quote,
+              })
+            }
+          >
+            <Text style={styles.text}>Quote</Text>
+            <View style={styles.fieldValueContainer}>
+              <Text numberOfLines={1} style={styles.text}>
+                {user.quote}
+              </Text>
+              <Feather name="chevron-right" size={28} color={colors.white} />
+            </View>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() =>
-                navigation.navigate(routes.RELATIONSHIP, {
-                  title: "Relationship",
-                  field: "relationship",
-                  value: user.relationship_type,
-                })
-              }
-            >
-              <Text style={styles.text}>Status</Text>
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.RELATIONSHIP, {
+                title: "Relationship",
+                field: "relationship",
+                value: user.relationship_type,
+              })
+            }
+          >
+            <Text style={styles.text}>Status</Text>
+            <View style={styles.fieldValueContainer}>
+              <Text numberOfLines={1} style={styles.text}>
+                {user.relationship_type}
+              </Text>
+              <Feather name="chevron-right" size={28} color={colors.white} />
+            </View>
+          </TouchableOpacity>
+
+          <Text style={styles.socialText}>Bio</Text>
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.BIO, {
+                title: "Bio",
+                field: "bio",
+                value: user.bio,
+              })
+            }
+          >
+            <Text style={styles.text}>Profile Bio</Text>
+            {user.bio === null || undefined ? (
               <View style={styles.fieldValueContainer}>
                 <Text numberOfLines={1} style={styles.text}>
-                  {user.relationship_type}
+                  Add Bio
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
               </View>
-            </TouchableOpacity>
+            ) : (
+              <View>
+                <Text numberOfLines={1} style={styles.text}></Text>
+                <FontAwesome
+                  name="pencil-square-o"
+                  size={16}
+                  color={colors.green}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
 
-            <Text style={styles.socialText}>Bio</Text>
-            <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() =>
-                navigation.navigate(routes.BIO, {
-                  title: "Bio",
-                  field: "bio",
-                  value: user.bio,
-                })
-              }
-            >
-              <Text style={styles.text}>Profile Bio</Text>
-              {user.bio === null || undefined ? (
-                <View style={styles.fieldValueContainer}>
-                  <Text numberOfLines={1} style={styles.text}>
-                    Add Bio
-                  </Text>
-                  <Feather
-                    name="chevron-right"
-                    size={28}
-                    color={colors.white}
-                  />
-                </View>
-              ) : (
-                <View>
-                  <Text numberOfLines={1} style={styles.text}></Text>
-                  <FontAwesome name="pencil-square-o" size={16} color={colors.green} />
-                </View>
-              )}
-            </TouchableOpacity>
-
-        <Text style={styles.socialText}>Social Media</Text>
-            <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() =>
-                navigation.navigate(routes.YOUTUBE_LINK, {
-                  title: "Youtube",
-                  field: "youtube_link",
-                  value: user.youtube_link,
-                })
-              }
-            >
-              <Text style={styles.text}>Youtube</Text>
-              {user.youtube_link === null ? (
-                <View style={styles.fieldValueContainer}>
-                  <Text numberOfLines={1} style={styles.text}>
-                    Add Youtube Channel
-                  </Text>
-                  <Feather
-                    name="chevron-right"
-                    size={28}
-                    color={colors.white}
-                  />
-                </View>
-              ) : (
-                <View>
-                  <Text numberOfLines={1} style={styles.text}></Text>
-                  <Feather name="check-circle" size={16} color={colors.green} />
-                </View>
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() =>
-                navigation.navigate(routes.INSTAGRAM_LINK, {
-                  title: "Instagram",
-                  field: "instagram_link",
-                  value: user.instagram_link,
-                })
-              }
-            >
-              <Text style={styles.text}>Instagram</Text>
-              {user.instagram_link === null ? (
-                <View style={styles.fieldValueContainer}>
-                  <Text numberOfLines={1} style={styles.authText}>
-                    Add Instagram Account
-                  </Text>
-                  <Feather
-                    name="chevron-right"
-                    size={28}
-                    color={colors.white}
-                  />
-                </View>
-              ) : (
-                <View>
-                  <Text numberOfLines={1} style={styles.authText}></Text>
-                  <Feather name="check-circle" size={16} color={colors.green} />
-                </View>
-              )}
-            </TouchableOpacity>
-      </View>
+          <Text style={styles.socialText}>Social Media</Text>
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.YOUTUBE_LINK, {
+                title: "Youtube",
+                field: "youtube_link",
+                value: user.youtube_link,
+              })
+            }
+          >
+            <Text style={styles.text}>Youtube</Text>
+            {user.youtube_link === null ? (
+              <View style={styles.fieldValueContainer}>
+                <Text numberOfLines={1} style={styles.text}>
+                  Add Youtube Channel
+                </Text>
+                <Feather name="chevron-right" size={28} color={colors.white} />
+              </View>
+            ) : (
+              <View>
+                <Text numberOfLines={1} style={styles.text}></Text>
+                <Feather name="check-circle" size={16} color={colors.green} />
+              </View>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.INSTAGRAM_LINK, {
+                title: "Instagram",
+                field: "instagram_link",
+                value: user.instagram_link,
+              })
+            }
+          >
+            <Text style={styles.text}>Instagram</Text>
+            {user.instagram_link === null ? (
+              <View style={styles.fieldValueContainer}>
+                <Text numberOfLines={1} style={styles.authText}>
+                  Add Instagram Account
+                </Text>
+                <Feather name="chevron-right" size={28} color={colors.white} />
+              </View>
+            ) : (
+              <View>
+                <Text numberOfLines={1} style={styles.authText}></Text>
+                <Feather name="check-circle" size={16} color={colors.green} />
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

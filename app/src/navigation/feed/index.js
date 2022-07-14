@@ -1,7 +1,6 @@
 import React, { createContext, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-// import FeedScreen from "../../screens/videoFeed";
 import ProfileScreen from "../../screens/profile";
 import VideoFeed from "../../screens/videoFeed";
 
@@ -27,6 +26,7 @@ const FeedNavigation = () => {
     >
       <Stack.Navigator initialRouteName="feedList">
         <Stack.Screen
+        
           name="feedList"
           component={VideoFeed}
           initialParams={{ setCurrentUserProfileItemInView, profile: false }}
@@ -41,5 +41,6 @@ const FeedNavigation = () => {
     </CurrentUserProfileItemInViewContext.Provider>
   );
 };
+
 
 export default FeedNavigation;

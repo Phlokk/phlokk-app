@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   StyleSheet,
   Dimensions,
@@ -10,9 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { EvilIcons } from "@expo/vector-icons";
 
 import { getLikeById, updateLike } from "../../../../services/posts";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,21 +19,12 @@ import {
   openSettingsSheetModal,
   openGiftingModal,
 } from "../../../../redux/actions/modal";
-import { useNavigation } from "@react-navigation/native";
-import verifiedCheck from "../../../../../assets/verified.png";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Animated } from "react-native";
-import useRotation from "./useRotation";
-import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import CustomAlert from "../../../Alerts/customAlert";
-import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 
 export default function PostSingleOverlay({ post, user }) {
   const dispatch = useDispatch();
-
-  const navigation = useNavigation();
-  const songTicker = "Artist and song name";
 
   const [instaGifts, setInstaGifts] = useState(false);
   const [ckt, setCkt] = useState(false);
@@ -69,13 +57,8 @@ export default function PostSingleOverlay({ post, user }) {
   //   []
   // );
 
-  const rotate = useRotation();
-  const animatedStyle = { transform: [{ rotate }] };
-
   return (
-    // <View style={[styles.container, {backgroundColor: 'red'}]} pointerEvents="box-none">
-    //   <View style={styles.uiContainer}>
-    <View style={{ position: "absolute", right: 0 , bottom: 200}}>
+    <View style={{ position: "absolute", right: 0, bottom: 200 }}>
       <View style={styles.iconContainer}>
         <TouchableOpacity>
           <MaterialCommunityIcons
@@ -164,8 +147,6 @@ export default function PostSingleOverlay({ post, user }) {
         </TouchableOpacity>
       </View>
     </View>
-
-    
   );
 }
 

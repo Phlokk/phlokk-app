@@ -20,7 +20,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import BottomMenu from "./BottomMenu";
 import colors from "../../../config/colors";
 import IconOverlay from "./iconOverlay";
-import * as Haptics from "expo-haptics";
+
 
 const START_RECORDING_DELAY = 3000;
 
@@ -174,7 +174,7 @@ export default function CameraScreen() {
   };
 
   const onLongPress = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
     setIsLongPressRecording(true);
     recordVideo();
   };

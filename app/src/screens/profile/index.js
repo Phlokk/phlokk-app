@@ -35,7 +35,7 @@ export default function ProfileScreen({ route }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
-      <ProfileNavBar />
+      <ProfileNavBar showFireIcon={userProfile === undefined} />
       <FlatList
         numColumns={3}
         removeClippedSubviews
@@ -44,7 +44,11 @@ export default function ProfileScreen({ route }) {
         keyExtractor={(item) => item.id}
         ListHeaderComponent={ListHeader}
         renderItem={({ item, index }) => (
-          <ProfilePostListItem item={item} index={index} />
+          <ProfilePostListItem
+            item={item}
+            index={index}
+            user={userProfile || user}
+          />
         )}
       />
     </SafeAreaView>

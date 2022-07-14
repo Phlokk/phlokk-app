@@ -8,28 +8,15 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { EvilIcons } from "@expo/vector-icons";
-
 import { getLikeById, updateLike } from "../../../../services/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { throttle } from "throttle-debounce";
-import {
-  openCommentModal,
-  openSettingsSheetModal,
-  openGiftingModal,
-} from "../../../../redux/actions/modal";
 import { useNavigation } from "@react-navigation/native";
 import verifiedCheck from "../../../../../assets/verified.png";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
-import CustomAlert from "../../../Alerts/customAlert";
-import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 
 function UserProfileOverlay({ post, user }) {
@@ -47,13 +34,6 @@ function UserProfileOverlay({ post, user }) {
   return (
     <View style={styles.bottomContainer}>
       <View style={styles.verifiedRow}>
-        {/* {user.photo_url !== null || !undefined ? (
-          <Image
-            style={styles.avatar}
-            // key={user._id}
-            source={{ uri: user.photo_url }}
-          />
-        ) : ( */}
         <View style={styles.avatarContainer}>
           <TouchableOpacity
             onPress={() => {
@@ -62,15 +42,9 @@ function UserProfileOverlay({ post, user }) {
               });
             }}
           >
-            <Image
-              style={styles.avatar}
-              // key={user._id}
-              source={{ uri: user.photo_url }}
-            />
+            <Image style={styles.avatar} source={{ uri: user.photo_url }} />
           </TouchableOpacity>
         </View>
-        {/* // )} */}
-
         <View style={styles.usernameView}>
           {user.username !== null || !undefined ? (
             <Text>

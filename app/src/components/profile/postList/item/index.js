@@ -15,15 +15,10 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
 import { useQueryClient } from "react-query";
 
-export default function ProfilePostListItem({ item, index }) {
-
+export default function ProfilePostListItem({ item, index, user }) {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
-
-  const [user, setUser] = useAtom(userAtom);
-
-
 
   const deleteUserPost = async () => {
     try {
@@ -63,7 +58,7 @@ export default function ProfilePostListItem({ item, index }) {
       onLongPress={deletePost}
       onPress={() => {
         navigation.navigate(routes.USER_POSTS, {
-          creator: item.creator,
+          creator: item.user,
           profile: true,
           selectedVideo: item.media[0].original_url,
           selectedIndex: index,

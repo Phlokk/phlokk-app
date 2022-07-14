@@ -12,9 +12,8 @@ export default function CustomImageModal({
   alertTitle,
   modalVisible,
   dismissAlert,
+  user,
 }) {
-  const [user, setUser] = useAtom(userAtom);
-
   return (
     <Modal
       visible={modalVisible}
@@ -32,13 +31,11 @@ export default function CustomImageModal({
         <View style={styles.mainContainer}>
           <View style={styles.container}>
             <View style={styles.top}>
-              
               <Image
                 source={{ uri: user.photo_url }}
                 resizeMode={"contain"}
                 style={styles.alertIconStyle}
               />
-             
             </View>
 
             <View style={styles.middle}>
@@ -51,7 +48,7 @@ export default function CustomImageModal({
                 />
               </View>
               <Text style={styles.alertMessageTextStyle}>
-                <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text> 
+                <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text>
                 {"\n"}
                 {"\n"}
                 {user.bio}
