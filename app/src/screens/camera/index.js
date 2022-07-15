@@ -17,7 +17,7 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import BottomMenu from "./BottomMenu";
+import BottomMenu from "./bottomMenu";
 import colors from "../../../config/colors";
 import IconOverlay from "./iconOverlay";
 

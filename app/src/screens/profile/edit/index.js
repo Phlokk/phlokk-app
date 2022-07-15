@@ -290,7 +290,7 @@ export default function EditProfileScreen({ route }) {
             <Text style={styles.text}>Instagram</Text>
             {user.instagram_link === null ? (
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.authText}>
+                <Text numberOfLines={1} style={styles.text}>
                   Add Instagram Account
                 </Text>
                 <Feather name="chevron-right" size={28} color={colors.white} />
