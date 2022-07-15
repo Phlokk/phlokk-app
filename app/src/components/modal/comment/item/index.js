@@ -53,12 +53,12 @@ const CommentItem = ({ item }) => {
               </View>
         </View>
         
-        <Text style={styles.textComment}>{item.comment}</Text>
+        <Text style={styles.textComment}>Static text</Text>
         <View style={styles.replyRow}>
         <Text style={styles.date}>
-          {item.creation
+          {/* {item.creation
             ? new Date(item.creation.seconds * 1000).toISOString().slice(6, 10)
-            : "Now"}
+            : "Now"} */}
         </Text>
         <TouchableOpacity
         onPress={() => (Alert.alert("Replies", "Coming in beta version 3!"))}

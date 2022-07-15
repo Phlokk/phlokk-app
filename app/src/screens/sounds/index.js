@@ -16,7 +16,8 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
-  Alert,
+  Modal,
+  Pressable
 } from "react-native";
 import { Audio } from "expo-av";
 import RecordingNavBar from "../../components/general/navBar/recordingNav";
@@ -26,7 +27,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SearchAudio from "../../screens/sounds/searchAudio/searchAudio";
-import { openSettingsAudioModal } from "../../redux/actions/modal";
+// import { openSettingsAudioModal } from "../../redux/actions/modal";
+import SettingsAudioModalScreen from "../../components/modal/settingsAudioModalScreen"
 
 const smallLogo = require("../../../assets/pmd_logo_green.png");
 const Sounds = [
@@ -56,12 +58,14 @@ const Sounds = [
   },
 ];
 
-export default function SoundScreen({placeholder}) {
+export default function SoundScreen({placeholder, user}) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
   const sound = useRef(new Audio.Sound());
+
+  const [openSettingsAudioModal, setOpenSettingsAudioModal] = useState(false)
 
   useEffect(() => {
     LoadAudio();
@@ -202,9 +206,28 @@ export default function SoundScreen({placeholder}) {
           name="dots-vertical" 
           size={30} 
           color={colors.secondary}
-          onPress={() => dispatch(openSettingsAudioModal(true))} 
+          onPress={() => setOpenSettingsAudioModal(true)} 
           />
           </TouchableOpacity>
+          <Modal
+          animationType="slide"
+          transparent={true}
+          visible={openSettingsAudioModal}
+        >
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+              }}
+              onPress={() => setOpenSettingsAudioModal(false)}
+            />
+            <SettingsAudioModalScreen user={user} /> 
+          </View>
+          </Modal>
           </View>
       </View>
     </View>

@@ -9,16 +9,12 @@ import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import { generalStyles } from "../../../styles";
 
 const GiftingModalScreen = (props, route) => {
   const navigation = useNavigation();
   const [giftPoints, setGiftPoints] = useState(0);
-
-  const handleClosePress = () => props.bottomSheetRef.current.close();
 
   return (
     <View style={styles.container}>
@@ -28,7 +24,7 @@ const GiftingModalScreen = (props, route) => {
         size={50}
         color="orange"
       />
-      <Text style={styles.giftText}>INSTA-GIFTING</Text>
+      <Text style={styles.giftText}>Light It Up</Text>
 
       <View style={styles.fieldValueContainer}>
         <Feather name="chevron-right" size={8} color={colors.primary} />
@@ -49,13 +45,6 @@ const GiftingModalScreen = (props, route) => {
             Gift accumulations: {giftPoints}
           </Text>
           <Text style={styles.priceOfGiftText}>
-        <MaterialCommunityIcons
-          style={styles.fireIcon}
-          name="fire"
-          size={20}
-          color="orange"
-        />
-        = $1
       </Text>
         </View>
       </View>
@@ -63,11 +52,10 @@ const GiftingModalScreen = (props, route) => {
       <TouchableOpacity style={styles.giftButtonContainer}
       onPress={() => {
         // navigation.navigate(routes.MARKET)
-        handleClosePress();
       }}
       >
         <MaterialCommunityIcons name="fire" size={20} color="orange" />
-        <Text style={styles.text}> SEND INSTA-GIFT</Text>
+        <Text style={styles.text}> Light Up Post</Text>
       </TouchableOpacity>
     </View>
   );
@@ -76,6 +64,9 @@ const GiftingModalScreen = (props, route) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
+    height: "70%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },

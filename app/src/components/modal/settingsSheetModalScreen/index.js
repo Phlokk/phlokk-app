@@ -18,7 +18,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
 
   const navigation = useNavigation();
 
-  const handleClosePress = () => props.bottomSheetRef.current.close();
+  // const handleClosePress = () => props.bottomSheetRef.current.close();
 
   const onShare = async () => {
     try {
@@ -50,7 +50,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         autoCapitalize="none"
         onPress={() => {
           // navigation.navigate(routes.SETTING_SHEET)
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -69,7 +69,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         autoCapitalize="none"
         onPress={() => {
           navigation.navigate(routes.REPORTS, { post });
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -83,7 +83,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         autoCapitalize="none"
         onPress={() => {
           // navigation.navigate(routes.MARKET)
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -97,7 +97,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         autoCapitalize="none"
         onPress={() => {
           // navigation.navigate(routes.MARKET)
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -114,7 +114,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         autoCapitalize="none"
         onPress={() => {
           // navigation.navigate(routes.MARKET)
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -131,7 +131,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         autoCapitalize="none"
         onPress={() => {
           // navigation.navigate(routes.MARKET)
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -143,7 +143,7 @@ const SettingsSheetModalScreen = ( props, post ) => {
         style={styles.fieldItemContainer}
         onPress={() => {
           onShare();
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -163,8 +163,10 @@ const SettingsSheetModalScreen = ( props, post ) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.primary,
+    height: "60%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   text: {
     color: colors.green,

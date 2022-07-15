@@ -1,15 +1,12 @@
-import { View, Text, TouchableOpacity, StyleSheet, Share } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 
 const SettingsAudioModalScreen = ( props ) => {
   const navigation = useNavigation();
-  const handleClosePress = () => props.bottomSheetRef.current.close();
+
 
   return (
     <View style={styles.container}>
@@ -19,7 +16,7 @@ const SettingsAudioModalScreen = ( props ) => {
         autoCapitalize="none"
         onPress={() => {
           // navigation.navigate(routes.MARKET)
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -32,7 +29,7 @@ const SettingsAudioModalScreen = ( props ) => {
       <TouchableOpacity
         style={styles.fieldItemContainer}
         onPress={() => {
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -45,7 +42,7 @@ const SettingsAudioModalScreen = ( props ) => {
       <TouchableOpacity
         style={styles.fieldItemContainer}
         onPress={() => {
-          handleClosePress();
+
         }}
       >
         <Text style={styles.text}>
@@ -61,8 +58,10 @@ const SettingsAudioModalScreen = ( props ) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.primary,
+    height: "50%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   text: {
     color: colors.green,
