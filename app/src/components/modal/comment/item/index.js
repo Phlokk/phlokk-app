@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   phlokkVerified: {
     width: 10,
     height: 10,
-    top: 1,
+    // top: 2,
     marginHorizontal: 3,
   },
 });
