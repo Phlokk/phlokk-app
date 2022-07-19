@@ -149,6 +149,19 @@ const styles = StyleSheet.create({
     top: 1,
     marginHorizontal: 3,
   },
+  avatar: {
+    height: 25,
+    width: 25,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: "lightgray",
+  },
+  phlokkVerified: {
+    width: 10,
+    height: 10,
+    top: 15,
+    marginHorizontal: 3,
+  },
 });
 
 export default CommentItem;
