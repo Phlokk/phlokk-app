@@ -101,7 +101,7 @@ export default function PostSingleOverlay({ post, user }) {
             <CommentModal post={post}/>
           </View>
         </Modal>
-        <Text style={styles.statsLabel}>{post.comments.count}</Text>
+        <Text style={styles.statsLabel}>{post.comments.length}</Text>
       </View>
 
       <View style={styles.iconContainer}>
