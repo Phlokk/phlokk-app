@@ -66,7 +66,7 @@ export default function PostSingleOverlay({ post, user }) {
             name={"star-outline"}
           />
         </TouchableOpacity>
-        <Text style={styles.statsLabel}>{post.likes.length}</Text>
+        <Text style={styles.statsLabel}>0</Text>
       </View>
 
       <View style={styles.iconContainer}>
@@ -97,10 +97,10 @@ export default function PostSingleOverlay({ post, user }) {
               }}
               onPress={() => setCommentModalOpen(false)}
             />
-            <CommentModal />
+            <CommentModal post={post}/>
           </View>
         </Modal>
-        <Text style={styles.statsLabel}>{post.comment.count}</Text>
+        <Text style={styles.statsLabel}>0</Text>
       </View>
 
       <View style={styles.iconContainer}>

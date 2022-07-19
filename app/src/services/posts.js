@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import axios from "../redux/apis/axiosDeclaration";
 
-let commentListenerInstance = null;
-
 export const getFeed = () =>
   axios
     .get("/api/posts", {
@@ -163,17 +161,6 @@ export const addComment = async (postId, creator, comment) => {
       .catch((error) => {
         console.log(error);
       });
-
-//   firebase
-//     .firestore()
-//     .collection("post")
-//     .doc(postId)
-//     .collection("comments")
-//     .add({
-//       creator,
-//       comment,
-//       creation: firebase.firestore.FieldValue.serverTimestamp(),
-//     });
 };
 
 export const commentListener = async (postId, setCommentList) => {
@@ -191,25 +178,6 @@ export const commentListener = async (postId, setCommentList) => {
       .catch((error) => {
         console.log(error);
       });
-
-
-//   commentListenerInstance = firebase
-//     .firestore()
-//     .collection("post")
-//     .doc(postId)
-//     .collection("comments")
-//     .orderBy("creation", "desc")
-//     .onSnapshot((snapshot) => {
-//       if (snapshot.docChanges().length == 0) {
-//         return;
-//       }
-//       let comments = snapshot.docs.map((value) => {
-//         const id = value.id;
-//         const data = value.data();
-//         return { id, ...data };
-//       });
-//       setCommentList(comments);
-//     });
 };
 
 export const clearCommentListener = () => {

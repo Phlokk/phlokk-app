@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Image,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CommentItem from "./item";
-
+import {commentListener, clearCommentListener, addComment} from "../../../services/posts"
 import colors from "../../../../config/colors"
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
@@ -23,6 +23,7 @@ const CommentModal = (post) => {
 
 
   useEffect(async () => {
+    
     await commentListener(post.post._id, setCommentList);
     return () => clearCommentListener();
   }, []);
@@ -35,10 +36,14 @@ const CommentModal = (post) => {
     await addComment(post.post._id, user._id, comment);
   };
 
-  const renderItem = ({ item }) => {
-    console.log(commentList);
-    return <CommentItem item={item} />;
+  const renderItem = ({ item, index }) => {
+    return <CommentItem 
+    setComment={setComment}
+    index={index}
+    item={item} />;
   };
+
+  setComment(comment => comment.slice(index, 0, addComment))
 
   return (
     <View style={styles.container}>
