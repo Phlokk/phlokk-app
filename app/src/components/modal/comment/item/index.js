@@ -12,12 +12,38 @@ const CommentItem = ({ item }) => {
   const [user, setUser] = useAtom(userAtom);
 
 
+  const timeSince = function(date) {
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var interval = seconds / 31536000;
+
+    if (interval > 1) {
+      return Math.floor(interval) + " years";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+      return Math.floor(interval) + " months";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+      return Math.floor(interval) + " days";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+      return Math.floor(interval) + " hours";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return Math.floor(interval) + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+  }
+
   return (
     <View style={styles.container}>
-          { user.photo_url !== null || !undefined ? (
+          { item.user.photo_url !== null || !undefined ? (
             <Image
               style={styles.avatar}
-              source={{ uri: user.photo_url }}
+              source={{ uri: item.user.photo_url }}
             />
           ) : (
             <Image
@@ -28,13 +54,13 @@ const CommentItem = ({ item }) => {
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
-        {user.username !== null || !undefined ? (
+        {item.user.username !== null || !undefined ? (
           <Text>
                 <Text style={styles.username}>
-                  @{user.username}
+                  @{item.user.username}
                 </Text>
             <View>
-              {user && user.is_verified === 1 && (
+              {item.user && item.user.is_verified === 1 && (
                 <Image style={styles.phlokkVerified} source={verifiedCheck} />
               )}
             </View>
@@ -53,11 +79,11 @@ const CommentItem = ({ item }) => {
               </View>
         </View>
         
-        <Text style={styles.textComment}>{item.comment}</Text>
+        <Text style={styles.textComment}>{item.message}</Text>
         <View style={styles.replyRow}>
         <Text style={styles.date}>
-          {item.creation
-            ? new Date(item.creation.seconds * 1000).toISOString().slice(6, 10)
+          {item.created_at
+            ? timeSince(new Date(item.created_at))
             : "Now"}
         </Text>
         <TouchableOpacity

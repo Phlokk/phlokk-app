@@ -15,18 +15,18 @@ export const getFeed = () =>
     })
     .catch(function (error) {
       console.log(
-        "------------ Back from server Error  GET FEED FUNC ----------"
+        "------------ Back from server Error  GET FEED FUNC 1 ----------"
       );
       console.log(error);
     });
 
 export const getFeedAsync = async () => {
   try {
-    const result = await axios.get("/api/posts", { testing: "testing" });
+    const result = await axios.get("/api/posts");
     return result.data.data;
   } catch {
     console.log(
-      "------------ Back from server Error  GET FEED FUNC ----------"
+      "------------ Back from server Error  GET FEED FUNC 2 ----------"
     );
     console.log(error);
   }
@@ -40,7 +40,7 @@ export const getUserFeedAsync = async (userId) => {
     return result.data.data;
   } catch {
     console.log(
-      "------------ Back from server Error  GET FEED FUNC ----------"
+      "------------ Back from server Error  GET FEED FUNC 3 ----------"
     );
     console.log(error);
   }
@@ -154,7 +154,16 @@ export const deletePostById = async (postId) => {
 //   }
 // };
 
-// export const addComment = (postId, creator, comment) => {
+export const addComment = async (postId, creator, comment) => {
+  console.log('target : ' + '/api/post/'+postId+'/add-comment');
+  await axios.post("/api/post/"+postId+"/add-comment", { comment: comment })
+      .then((result) => {
+        return result.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
 //   firebase
 //     .firestore()
 //     .collection("post")
@@ -165,9 +174,25 @@ export const deletePostById = async (postId) => {
 //       comment,
 //       creation: firebase.firestore.FieldValue.serverTimestamp(),
 //     });
-// };
+};
 
-// export const commentListener = (postId, setCommentList) => {
+export const commentListener = async (postId, setCommentList) => {
+  console.log('get comments : ' + '/api/post/view/'+postId+'/comments');
+  await axios.get("/api/post/view/"+postId+"/comments")
+      .then((result) => {
+        // let comments = result.data.comments.map((comment) => {
+        //   const id = comment.id;
+        //   const data = comment.message;
+        //   return { id, ...data };
+        // });
+        setCommentList(result.data.comments);
+        return result.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
 //   commentListenerInstance = firebase
 //     .firestore()
 //     .collection("post")
@@ -185,7 +210,7 @@ export const deletePostById = async (postId) => {
 //       });
 //       setCommentList(comments);
 //     });
-// };
+};
 
 export const clearCommentListener = () => {
   if (commentListenerInstance != null) {

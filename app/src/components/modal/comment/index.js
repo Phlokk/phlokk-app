@@ -23,7 +23,7 @@ import colors from "../../../../config/colors"
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 
-const CommentModal = () => {
+const CommentModal = (post) => {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState("");
 
@@ -31,20 +31,21 @@ const CommentModal = () => {
   const [user, setUser] = useAtom(userAtom);
 
 
-  // useEffect(() => {
-  //   commentListener(post.id, setCommentList);
-  //   return () => clearCommentListener();
-  // }, []);
+  useEffect(async () => {
+    await commentListener(post.post._id, setCommentList);
+    return () => clearCommentListener();
+  }, []);
 
-  // const handleCommentSend = () => {
-  //   if (comment.length == 0) {
-  //     return;
-  //   }
-  //   setComment("");
-  //   addComment(post.id, user.id, comment);
-  // };
+  const handleCommentSend = async () => {
+    if (comment.length == 0) {
+      return;
+    }
+    setComment("");
+    await addComment(post.post._id, user._id, comment);
+  };
 
   const renderItem = ({ item }) => {
+    console.log(commentList);
     return <CommentItem item={item} />;
   };
 
@@ -53,7 +54,7 @@ const CommentModal = () => {
       <BottomSheetFlatList
         data={commentList}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
       />
 
       <View style={styles.containerInput}>
