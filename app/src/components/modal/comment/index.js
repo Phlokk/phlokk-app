@@ -13,6 +13,7 @@ import {commentListener, clearCommentListener, addComment} from "../../../servic
 import colors from "../../../../config/colors"
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
+import uuid from 'uuid-random';
 
 const CommentModal = (post) => {
   const [comment, setComment] = useState("");
@@ -34,6 +35,7 @@ const CommentModal = (post) => {
     }
 
     commentList.splice(0, 0, {
+      _id: uuid().toString() + '-temp',
       message: comment,
       created_at: new Date().toString(),
       replies: [],
