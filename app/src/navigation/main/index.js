@@ -6,10 +6,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthScreen from "../../screens/auth";
 import SavePostScreen from "../../screens/savePost";
 import EditProfileScreen from "../../screens/profile/edit";
-import Modal from "../../components/modal";
 import EditProfileFieldScreen from "../../screens/profile/edit/field";
 import VideoFeed from "../../screens/videoFeed";
-
 import ProfileScreen from "../../screens/profile";
 import Market from "../../screens/market";
 import DisplayMenuScreen from "../../screens/profile/displayMenu";
@@ -27,7 +25,6 @@ import EditAdsScreen from "../../screens/market/ads";
 import ReviewScreen from "../../screens/market/reviews";
 import SubscriptionScreen from "../../screens/market/subscription";
 import ActivityScreen from "../../screens/activity";
-import SettingsModal from "../../components/modal/settingsModal";
 import EditPhoneScreen from "../../screens/manageAccount/phone";
 import EditEmailScreen from "../../screens/manageAccount/emailAddress";
 import EditPasswordScreen from "../../screens/manageAccount/profilePassword";
@@ -44,9 +41,6 @@ import ChatSingleScreen from "../../screens/messages/single";
 import PhlokkMarketToolsScreen from "../../screens/market/sellerTools";
 import EditCreatorFieldScreen from "../../screens/profile/creator";
 import RelationshipCategoryScreen from "../../screens/profile/relationships";
-import GiftingModal from "../../components/modal/GiftingModal";
-import SettingsSheetModal from "../../components/modal/settingsSheetModal";
-import SettingsAudioModal from "../../components/modal/settingsAudioModal";
 import EndUserLicenseAgreement from "../../components/auth/details/policy";
 import ReportScreen from "../../screens/reports";
 import EditQuotesFieldScreen from "../../screens/profile/quotes/quotes";
@@ -385,11 +379,6 @@ export default function Route() {
           </>
         )}
       </Stack.Navigator>
-      <Modal />
-      <SettingsModal />
-      <GiftingModal />
-      <SettingsSheetModal />
-      <SettingsAudioModal />
     </NavigationContainer>
   );
 }

@@ -4,8 +4,6 @@ import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import routes from "../../../navigation/routes";
 import CustomAlert from "../../Alerts/customAlert";
 import colors from "../../../../config/colors";
@@ -13,7 +11,6 @@ import colors from "../../../../config/colors";
 function SettingsModalScreen({ user }) {
   const navigation = useNavigation();
   const [marketAlert, setMarketAlert] = useState(false);
-  // const handleClosePress = () => props.bottomSheetRef.current.close();
 
   return (
     <View style={styles.container}>
@@ -21,7 +18,6 @@ function SettingsModalScreen({ user }) {
         style={styles.fieldItemContainer}
         onPress={() => {
           navigation.navigate(routes.SETTINGS_SCREEN);
-          // handleClosePress();
         }}
       >
         <MaterialIcons
@@ -36,7 +32,6 @@ function SettingsModalScreen({ user }) {
         style={styles.fieldItemContainer}
         onPress={() => {
           navigation.navigate(routes.EDIT, { user });
-          // handleClosePress();
         }}
       >
         <Text style={styles.text}>
@@ -58,7 +53,6 @@ function SettingsModalScreen({ user }) {
       <TouchableOpacity
         style={styles.fieldItemContainer}
         // onPress={() => { navigation.navigate(routes.MARKET)
-        //   handleClosePress()
 
         // }}
         onPress={() => setMarketAlert(true)}
@@ -74,7 +68,7 @@ function SettingsModalScreen({ user }) {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    height: "20%",
+    height: "30%",
     backgroundColor: colors.primary,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

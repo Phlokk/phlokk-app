@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { useNavigation, useRoute } from "@react-navigation/native";
-import IconOverlay from "./iconOverlay";
+import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import colors from '../../../config/colors';

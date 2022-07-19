@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Image,
   TouchableOpacity,
   StyleSheet,
+  FlatList,
+  TextInput
 } from "react-native";
-import { useSelector } from "react-redux";
-import {
-  BottomSheetTextInput,
-  BottomSheetFlatList,
-} from "@gorhom/bottom-sheet";
 import { Ionicons } from "@expo/vector-icons";
-import {
-  addComment,
-  clearCommentListener,
-  commentListener,
-} from "../../../services/posts";
 import CommentItem from "./item";
-import { generalStyles } from "../../../styles";
 
 import colors from "../../../../config/colors"
 import { useAtom } from "jotai";
@@ -51,7 +42,7 @@ const CommentModal = (post) => {
 
   return (
     <View style={styles.container}>
-      <BottomSheetFlatList
+      <FlatList
         data={commentList}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
@@ -74,7 +65,7 @@ const CommentModal = (post) => {
             />
           )}
 
-        <BottomSheetTextInput 
+        <TextInput 
           style={styles.input}
           placeholder="Add comment"
           placeholderTextColor={"gray"}
@@ -94,8 +85,10 @@ const CommentModal = (post) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: "flex-end",
-    flex: 1,
-    backgroundColor: "#1C1C1C",
+    backgroundColor: colors.primary,
+    height: "60%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   containerInput: {
     padding: 25,

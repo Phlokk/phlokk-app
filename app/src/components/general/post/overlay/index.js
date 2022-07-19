@@ -6,28 +6,27 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
+  Modal,
+  Pressable
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-
 import { getLikeById, updateLike } from "../../../../services/posts";
 import { useDispatch, useSelector } from "react-redux";
-import { throttle } from "throttle-debounce";
-import {
-  openCommentModal,
-  openSettingsSheetModal,
-  openGiftingModal,
-} from "../../../../redux/actions/modal";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../Alerts/customAlert";
+import SettingsSheetModalScreen from "../../../../components/modal/settingsSheetModalScreen";
+import GiftingModalScreen from "../../../modal/giftingModalScreen"
+import CommentModal from "../../../modal/comment/index"
 import colors from "../../../../../config/colors";
 
 export default function PostSingleOverlay({ post, user }) {
-  const dispatch = useDispatch();
 
-  const [instaGifts, setInstaGifts] = useState(false);
+  const [isLightItUp, setLightItUp] = useState(false);
   const [ckt, setCkt] = useState(false);
+  const [settingsModalScreen, setModalScreen] = useState(false)
+  const [isCommentModalOpen, setCommentModalOpen] = useState(false)
 
   // const [currentLikeState, setCurrentLikeState] = useState({
   //   state: false,
@@ -73,43 +72,67 @@ export default function PostSingleOverlay({ post, user }) {
       <View style={styles.iconContainer}>
         <TouchableOpacity
           style={styles.iconContainer}
-          onPress={() => dispatch(openCommentModal(true, post))}
+          
         >
           <Ionicons
             name="md-chatbubble-ellipses-outline"
             size={35}
             color={colors.white}
+            onPress={() => setCommentModalOpen(true, post)}
           />
         </TouchableOpacity>
-        <Text style={styles.statsLabel}>{post.comments.length}</Text>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isCommentModalOpen}
+        >
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+              }}
+              onPress={() => setCommentModalOpen(false)}
+            />
+            <CommentModal />
+          </View>
+        </Modal>
+        <Text style={styles.statsLabel}>{post.comment.count}</Text>
       </View>
 
       <View style={styles.iconContainer}>
         <TouchableOpacity
           style={styles.iconContainer}
-          onPress={() => dispatch(openGiftingModal(true))}
         >
-          <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={
-              <Text>Light It Up{"\n"}coming in official release!</Text>
-            }
-            positiveBtn="Ok"
-            modalVisible={instaGifts}
-            dismissAlert={setInstaGifts}
-            animationType="fade"
-          />
           <MaterialCommunityIcons
-            onPress={() => setInstaGifts(true)}
+            onPress={() => setLightItUp(true)}
             name="fire"
             size={40}
             color={colors.white}
           />
         </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isLightItUp}
+        >
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+              }}
+              onPress={() => setLightItUp(false)}
+            />
+            <GiftingModalScreen user={user} />
+          </View>
+          </Modal>
         <Text style={styles.statsLabel}>0</Text>
       </View>
 
@@ -137,14 +160,34 @@ export default function PostSingleOverlay({ post, user }) {
       <View style={styles.iconContainer}>
         <TouchableOpacity
           style={styles.reportIcon}
-          onPress={() => dispatch(openSettingsSheetModal(true, post))}
+          // onPress={() => dispatch(openSettingsSheetModal(true, post))}
         >
           <Ionicons
             name="ellipsis-horizontal-sharp"
             size={28}
             color={colors.white}
+            onPress={() => setModalScreen(true)}
           />
         </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={settingsModalScreen}
+        >
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+              }}
+              onPress={() => setModalScreen(false)}
+            />
+            <SettingsSheetModalScreen user={user} />
+          </View>
+          </Modal>
       </View>
     </View>
   );
