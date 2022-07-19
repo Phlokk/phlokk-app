@@ -67,7 +67,7 @@ export default function PostSingleOverlay({ post, user }) {
             name={"star-outline"}
           />
         </TouchableOpacity>
-        <Text style={styles.statsLabel}>0</Text>
+        <Text style={styles.statsLabel}>{post.likes.length}</Text>
       </View>
 
       <View style={styles.iconContainer}>
@@ -81,7 +81,7 @@ export default function PostSingleOverlay({ post, user }) {
             color={colors.white}
           />
         </TouchableOpacity>
-        <Text style={styles.statsLabel}>0</Text>
+        <Text style={styles.statsLabel}>{post.comments.length}</Text>
       </View>
 
       <View style={styles.iconContainer}>
