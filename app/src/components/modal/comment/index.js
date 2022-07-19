@@ -10,6 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import CommentItem from "./item";
 import {commentListener, clearCommentListener, addComment} from "../../../services/posts"
+import verifiedCheck from "../../../../assets/verified.png";
 import colors from "../../../../config/colors"
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
@@ -77,6 +78,7 @@ const CommentModal = (post) => {
               cache="only-if-cached"
             />
           )}
+          
 
         <TextInput 
           style={styles.input}
@@ -122,6 +124,14 @@ const styles = StyleSheet.create({
   textComment: {
     color: colors.white,
   },
+  avatar: {
+    height: 25,
+    width: 25,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: "lightgray",
+  },
+  
 });
 
 export default CommentModal;
