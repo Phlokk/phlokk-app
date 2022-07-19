@@ -32,18 +32,24 @@ const CommentModal = (post) => {
     if (comment.length == 0) {
       return;
     }
+
+    commentList.splice(0, 0, {
+      comment: comment,
+      user: user,
+      post: post,
+    });
+
     setComment("");
+
     await addComment(post.post._id, user._id, comment);
   };
 
   const renderItem = ({ item, index }) => {
-    return <CommentItem 
+    return <CommentItem
     setComment={setComment}
     index={index}
     item={item} />;
   };
-
-  setComment(comment => comment.slice(index, 0, addComment))
 
   return (
     <View style={styles.container}>
