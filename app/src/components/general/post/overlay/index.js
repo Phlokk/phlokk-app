@@ -56,6 +56,7 @@ export default function PostSingleOverlay({ post, user }) {
   //   []
   // );
 
+
   return (
     <View style={{ position: "absolute", right: 0, bottom: 200 }}>
       <View style={styles.iconContainer}>
@@ -100,7 +101,7 @@ export default function PostSingleOverlay({ post, user }) {
             <CommentModal />
           </View>
         </Modal>
-        <Text style={styles.statsLabel}>{post.comment.count}</Text>
+        <Text style={styles.statsLabel}>{post.comments.count}</Text>
       </View>
 
       <View style={styles.iconContainer}>
