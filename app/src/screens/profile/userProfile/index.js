@@ -28,31 +28,31 @@ function UserProfile({ user }) {
 
   return (
     <View style={styles.container}>
-      {user.photo_url !== null || !undefined ? (
-        <TouchableOpacity onPress={() => setPopUpImage(true)}>
-          <CustomImageModal
-            alertTitle="About me"
-            customAlertMessage={<Text>User Bio</Text>}
-            positiveBtn="Back"
-            modalVisible={popUpImage}
-            dismissAlert={setPopUpImage}
-            animationType="fade"
-            user={user}
-          />
-          <Image
-            style={styles.avatar}
-            source={{
-              uri: isCurrentUser ? currentUser.photo_url : user.photo_url,
-            }}
-          />
-        </TouchableOpacity>
-      ) : (
-        <Image
-          style={styles.avatar}
-          source={require("../../../../assets/userImage.png")}
-          cache="only-if-cached"
-        />
-      )}
+      {!user?.photo_url && !currentUser?.photo_url ? (
+				<Image
+					style={styles.avatar}
+					source={require('../../../../assets/userImage.png')}
+					cache="only-if-cached"
+				/>
+			) : (
+				<TouchableOpacity onPress={() => setPopUpImage(true)}>
+					<CustomImageModal
+						alertTitle="About me"
+						customAlertMessage={<Text>User Bio</Text>}
+						positiveBtn="Back"
+						modalVisible={popUpImage}
+						dismissAlert={setPopUpImage}
+						animationType="fade"
+						user={user}
+					/>
+					<Image
+						style={styles.avatar}
+						source={{
+							uri: isCurrentUser ? currentUser.photo_url : user.photo_url,
+						}}
+					/>
+				</TouchableOpacity>
+			)}
 
       <View style={styles.usernameView}>
         {user.username !== null || !undefined ? (

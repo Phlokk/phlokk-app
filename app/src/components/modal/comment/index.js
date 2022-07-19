@@ -10,7 +10,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import CommentItem from "./item";
 import {commentListener, clearCommentListener, addComment} from "../../../services/posts"
-import verifiedCheck from "../../../../assets/verified.png";
 import colors from "../../../../config/colors"
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
