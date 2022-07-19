@@ -34,7 +34,9 @@ const CommentModal = (post) => {
     }
 
     commentList.splice(0, 0, {
-      comment: comment,
+      message: comment,
+      created_at: new Date().toString(),
+      replies: [],
       user: user,
       post: post,
     });
