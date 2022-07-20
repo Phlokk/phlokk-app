@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from "react-na
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { generalStyles } from "../../../../styles";
 import { useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
@@ -9,6 +10,7 @@ import verifiedCheck from "../../../../../assets/verified.png";
 
 const CommentItem = ({ item }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
 
 
@@ -56,9 +58,15 @@ const CommentItem = ({ item }) => {
         <View style={styles.verifiedRow}>
         {item.user.username !== null || !undefined ? (
           <Text>
-                <Text style={styles.username}>
-                  @{item.user.username}
-                </Text>
+                <TouchableOpacity 
+                // onPress={() => {
+                //   navigation.navigate("feedProfile", {
+                //     initialUser: user_id,
+                //   });
+                // }}
+                >
+                 <Text style={styles.username}>@{item.user.username}</Text> 
+                </TouchableOpacity>
             <View>
               {item.user && item.user.is_verified === 1 && (
                 <Image style={styles.phlokkVerified} source={verifiedCheck} />
@@ -70,13 +78,16 @@ const CommentItem = ({ item }) => {
         )}
       
           <View style={styles.starRow}>
+            
           <MaterialCommunityIcons
           onPress={() => (Alert.alert("Stars", "Coming in beta version 3!"))}
+                style={styles.star}
                 color="white"
                 size={17}
                 name={"star" ? "star-outline" : "star"}
               />
-              </View>
+          
+         </View>
         </View>
         
         <Text style={styles.textComment}>{item.message}</Text>
@@ -118,19 +129,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5,
   },
-  // starRow:{
-  //   // marginHorizontal: 250,
-  //   flexDirection: 'row',
-  //   alignItems: 'center'
-  // },
+  starRow:{
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   username: {
-    color: "gray",
+    flex: 1,
+    color: colors.green,
     fontSize: 11,
   },
   textComment: {
     color: colors.white,
     paddingRight: 20,
     fontSize: 12,
+    marginTop: 2,
   },
   textReplies: {
     color: colors.secondary,
@@ -159,9 +171,14 @@ const styles = StyleSheet.create({
   phlokkVerified: {
     width: 10,
     height: 10,
-    // top: 2,
+bottom: 3,
     marginHorizontal: 3,
   },
+  star: {
+    bottom: 3,
+  }
+ 
+ 
 });
 
 export default CommentItem;

@@ -5,26 +5,27 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
-  TextInput
+  TextInput,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CommentItem from "./item";
-import {commentListener, clearCommentListener, addComment} from "../../../services/posts"
-import colors from "../../../../config/colors"
+import {
+  commentListener,
+  clearCommentListener,
+  addComment,
+} from "../../../services/posts";
+import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
-import uuid from 'uuid-random';
+import uuid from "uuid-random";
 
 const CommentModal = (post) => {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState("");
 
-
   const [user, setUser] = useAtom(userAtom);
 
-
   useEffect(async () => {
-    
     await commentListener(post.post._id, setCommentList);
     return () => clearCommentListener();
   }, []);
@@ -35,7 +36,7 @@ const CommentModal = (post) => {
     }
 
     commentList.splice(0, 0, {
-      _id: uuid().toString() + '-temp',
+      _id: uuid().toString() + "-temp",
       message: comment,
       created_at: new Date().toString(),
       replies: [],
@@ -49,39 +50,24 @@ const CommentModal = (post) => {
   };
 
   const renderItem = ({ item, index }) => {
-    return <CommentItem
-    setComment={setComment}
-    index={index}
-    item={item} />;
+    return <CommentItem setComment={setComment} index={index} item={item} />;
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={commentList}
-        renderItem={renderItem}
-        keyExtractor={(item) => item._id}
-      />
-
       <View style={styles.containerInput}>
-
-         {user.photo_url !== null || !undefined ? (
-            <TouchableOpacity>
-              <Image 
-              style={styles.avatar} 
-              source={{ uri: user.photo_url }} 
-              />
-            </TouchableOpacity>
-          ) : (
-            <Image
-              style={styles.avatar}
-              source={require("../../../../assets/userImage.png")}
-              cache="only-if-cached"
-            />
-          )}
-          
-
-        <TextInput 
+        {user.photo_url !== null || !undefined ? (
+          <TouchableOpacity>
+            <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+          </TouchableOpacity>
+        ) : (
+          <Image
+            style={styles.avatar}
+            source={require("../../../../assets/userImage.png")}
+            cache="only-if-cached"
+          />
+        )}
+        <TextInput
           style={styles.input}
           placeholder="Add comment"
           placeholderTextColor={"gray"}
@@ -91,9 +77,14 @@ const CommentModal = (post) => {
           maxLength={150}
         />
         <TouchableOpacity onPress={() => handleCommentSend()}>
-        <Ionicons name="paper-plane" size={30} color={"gray"} />
+          <Ionicons name="paper-plane" size={30} color={colors.green} />
         </TouchableOpacity>
       </View>
+      <FlatList
+        data={commentList}
+        renderItem={renderItem}
+        keyExtractor={(item) => item._id}
+      />
     </View>
   );
 };
@@ -109,10 +100,11 @@ const styles = StyleSheet.create({
   containerInput: {
     padding: 25,
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center",
   },
   input: {
     backgroundColor: colors.primary,
+    borderWidth: 1,
     borderRadius: 8,
     flex: 1,
     paddingTop: 10,
@@ -132,7 +124,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "lightgray",
   },
-  
 });
 
 export default CommentModal;
