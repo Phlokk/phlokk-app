@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   date: {
     color: colors.secondary,
-    fontSize: 10,
+    fontSize: 9,
     
   },
   verifiedBadge: {
