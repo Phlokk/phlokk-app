@@ -117,7 +117,13 @@ export const useUserPosts = (userId, { enabled }) =>
   });
 
 export const deletePostById = async (postId) => {
-  await fetch("");
+  await axios.post("/api/post/delete/+postId", { comment: comment })
+      .then((result) => {
+        return result.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 };
 
 // export const getLikeById = (postId, uid) =>
@@ -153,7 +159,7 @@ export const deletePostById = async (postId) => {
 // };
 
 export const addComment = async (postId, creator, comment) => {
-  console.log('target : ' + '/api/post/'+postId+'/add-comment');
+  // console.log('target : ' + '/api/post/'+postId+'/add-comment');
   await axios.post("/api/post/"+postId+"/add-comment", { comment: comment })
       .then((result) => {
         return result.data;
