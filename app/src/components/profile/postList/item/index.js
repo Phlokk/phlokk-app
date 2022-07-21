@@ -11,8 +11,6 @@ import {
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 import { deletePostById } from "../../../../services/posts";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../../../../App";
 import { useQueryClient } from "react-query";
 
 export default function ProfilePostListItem({ item, index, user }) {
