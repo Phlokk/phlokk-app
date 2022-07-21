@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,27 +5,19 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  Platform,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
-import { getLikeById, updateLike } from "../../../../services/posts";
-import { useDispatch, useSelector } from "react-redux";
-import { throttle } from "throttle-debounce";
+// import { getLikeById, updateLike } from "../../../../services/posts";
 import { useNavigation } from "@react-navigation/native";
 import verifiedCheck from "../../../../../assets/verified.png";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import colors from "../../../../../config/colors";
-
 function UserProfileOverlay({ post, user }) {
-  const dispatch = useDispatch();
 
   const navigation = useNavigation();
   const songTicker = "Artist and song name";
-
-  const [instaGifts, setInstaGifts] = useState(false);
-  const [ckt, setCkt] = useState(false);
 
   const rotate = useRotation();
   const animatedStyle = { transform: [{ rotate }] };
@@ -42,12 +33,19 @@ function UserProfileOverlay({ post, user }) {
               });
             }}
           >
+            {!user?.photo_url && !user?.photo_url ? (
+				<Image
+					style={styles.avatar}
+					source={require('../../../../../assets/userImage.png')}
+					cache="only-if-cached"
+				/>
+			) : (
             <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+            )}
           </TouchableOpacity>
+      
         </View>
-        <View style={styles.usernameView}>
-          {user.username !== null || !undefined ? (
-            <Text>
+        <View style={styles.usernameRow}>  
               <Text style={styles.username} key={user._id}>
                 @{user.username}
               </Text>
@@ -55,11 +53,7 @@ function UserProfileOverlay({ post, user }) {
                 {user.is_verified === 1 && (
                   <Image style={styles.phlokkVerified} source={verifiedCheck} />
                 )}
-              </View>
-            </Text>
-          ) : (
-            <Text style={styles.username}>@user</Text>
-          )}
+              </View>    
         </View>
 
         <Text style={styles.description} key={user}>
@@ -82,30 +76,7 @@ function UserProfileOverlay({ post, user }) {
 export default UserProfileOverlay;
 
 const styles = StyleSheet.create({
-  container: {
-    width: Dimensions.get("window").width,
-    position: "absolute",
-    bottom: 0,
-  },
-  topText: {
-    flexDirection: "row",
-    color: colors.white,
-    margin: 10,
-    bottom: 270,
-  },
-  searchRow: {
-    justifyContent: "flex-end",
-  },
-  uiContainer: {
-    height: "100%",
-  },
-  globeIcon: {
-    marginTop: 20,
-  },
-  reportIcon: {
-    marginTop: 10,
-    alignItems: "center",
-  },
+
   date: {
     color: colors.secondary,
     fontSize: 8,
@@ -167,23 +138,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-
   phlokkVerified: {
     width: 12,
     height: 12,
-
+    top: 4,
     marginHorizontal: 3,
   },
-
-  reportButtonText: {
-    color: colors.white,
-
-    padding: 10,
+  usernameRow: {
     flexDirection: "row",
-  },
-  usernameView: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: 5,
-  },
+  }
 });

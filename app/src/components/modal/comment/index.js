@@ -56,16 +56,16 @@ const CommentModal = (post) => {
   return (
     <View style={styles.container}>
       <View style={styles.containerInput}>
-        {user.photo_url !== null || !undefined ? (
+      {!user?.photo_url && !user?.photo_url ? (
+				<Image
+					style={styles.avatar}
+					source={require('../../../../assets/userImage.png')}
+					cache="only-if-cached"
+				/>
+			) : (
           <TouchableOpacity>
             <Image style={styles.avatar} source={{ uri: user.photo_url }} />
           </TouchableOpacity>
-        ) : (
-          <Image
-            style={styles.avatar}
-            source={require("../../../../assets/userImage.png")}
-            cache="only-if-cached"
-          />
         )}
         <TextInput
           style={styles.input}
@@ -91,6 +91,7 @@ const CommentModal = (post) => {
 
 const styles = StyleSheet.create({
   container: {
+    padding: 10,
     justifyContent: "flex-end",
     backgroundColor: colors.primary,
     height: "60%",
