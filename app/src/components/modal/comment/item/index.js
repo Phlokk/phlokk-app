@@ -69,6 +69,7 @@ const CommentItem = ({ item }) => {
             {item.user && item.user.is_verified === 1 && (
               <Image style={styles.phlokkVerified} source={verifiedCheck} />
             )}
+            <View style={styles.starRow}>
             <MaterialCommunityIcons
               onPress={() => Alert.alert("Stars", "Coming in beta version 3!")}
               style={styles.star}
@@ -76,6 +77,7 @@ const CommentItem = ({ item }) => {
               size={17}
               name={"star" ? "star-outline" : "star"}
             />
+            </View>
         </View>
         <Text style={styles.textComment}>{item.message}</Text>
         <View style={styles.replyRow}>
@@ -98,12 +100,14 @@ const styles = StyleSheet.create({
     padding: 14,
     flexDirection: "row",
     flex: 1,
+
   },
   containerText: {
+    flex: 1,
     marginHorizontal: 14,
+    // backgroundColor: 'red',
   },
   verifiedRow: {
-    flex:1,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -148,8 +152,11 @@ const styles = StyleSheet.create({
   star: {
     // position: "absolute",
     // left: 310,
-    // marginLeft:'auto',
+    
     bottom: 1,
+  },
+  starRow: {
+    marginLeft:'auto', 
   },
 
 });
