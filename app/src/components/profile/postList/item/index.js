@@ -23,7 +23,7 @@ export default function ProfilePostListItem({ item, index, user }) {
   const deleteUserPost = async () => {
     try {
       setIsLoading(true);
-      await deletePostById(item.id);
+      await deletePostById(item._id);
       queryClient.invalidateQueries(["userPosts", item.creator]);
 
       setIsLoading(false);
