@@ -61,7 +61,7 @@ const CommentItem = ({ item }) => {
                 <TouchableOpacity 
                 // onPress={() => {
                 //   navigation.navigate("feedProfile", {
-                //     initialUser: user_id,
+                //     initialUser: user,
                 //   });
                 // }}
                 >

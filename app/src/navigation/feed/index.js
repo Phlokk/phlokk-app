@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import ProfileScreen from "../../screens/profile";
 import VideoFeed from "../../screens/videoFeed";
+import colors from "../../../config/colors"
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -17,6 +18,7 @@ const FeedNavigation = () => {
     headerStyle: { backgroundColor: "transparent" },
     headerTransparent: true,
     headerBackTitleVisible: false,
+    headerTintColor: colors.green,
     headerTitle: () => undefined,
   };
 

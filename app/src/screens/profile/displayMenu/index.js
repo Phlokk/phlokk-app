@@ -94,15 +94,8 @@ function DisplayMenuScreen({ user }) {
           transparent={true}
           visible={isSettingsModalOpen}
         >
-          <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <Pressable
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-              }}
+          <View style={styles.pressedModal}>
+            <Pressable style={styles.pressedStyle}
               onPress={() => setIsSettingsModalOpen(false)}
             />
             <SettingsModalScreen user={user} />
@@ -132,6 +125,17 @@ const styles = StyleSheet.create({
   menuContainer: {
     paddingBottom: 5,
     flexDirection: "row",
+  },
+  pressedStyle: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
+  pressedModal: {
+    flex: 1, 
+    justifyContent: "flex-end",
   },
 });
 

@@ -1,10 +1,10 @@
 import "react-native-gesture-handler";
-import { React, useEffect } from "react";
+import React, {useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import store from "./app/src/redux/reducers/configureStore";
 import { Provider } from "react-redux";
 import Route from "./app/src/navigation/main";
-import { LogBox } from "react-native";
+import { LogBox, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { atom, useAtom } from "jotai";
 import { fetchGetUsers } from "./app/src/redux/sagas/requests/fetchUsers";
@@ -23,9 +23,6 @@ LogBox.ignoreLogs([
   "Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function."
 ]);
 
-// LogBox.ignoreLogs([
-//   "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native",
-// ]);
 
 export const userAtom = atom({});
 
@@ -33,7 +30,10 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: false, staleTime: Infinity } },
 });
 
+
+
 export default function App() {
+
   const [user, setUser] = useAtom(userAtom);
 
   useEffect(() => {
@@ -45,13 +45,18 @@ export default function App() {
     loadUser();
   }, []);
 
+
+  
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <Route />
         </QueryClientProvider>
       </Provider>
+      
     </GestureHandlerRootView>
   );
 }

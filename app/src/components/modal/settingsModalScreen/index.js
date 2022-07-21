@@ -32,6 +32,7 @@ function SettingsModalScreen({ user }) {
         style={styles.fieldItemContainer}
         onPress={() => {
           navigation.navigate(routes.EDIT, { user });
+          
         }}
       >
         <Text style={styles.text}>

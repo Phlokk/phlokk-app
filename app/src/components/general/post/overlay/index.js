@@ -7,7 +7,7 @@ import {
   Dimensions,
   Platform,
   Modal,
-  Pressable
+  Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
@@ -17,16 +17,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../Alerts/customAlert";
 import SettingsSheetModalScreen from "../../../../components/modal/settingsSheetModalScreen";
-import GiftingModalScreen from "../../../modal/giftingModalScreen"
-import CommentModal from "../../../modal/comment/index"
+import GiftingModalScreen from "../../../modal/giftingModalScreen";
+import CommentModal from "../../../modal/comment/index";
 import colors from "../../../../../config/colors";
 
 export default function PostSingleOverlay({ post, user }) {
-
   const [isLightItUp, setLightItUp] = useState(false);
   const [ckt, setCkt] = useState(false);
-  const [settingsModalScreen, setModalScreen] = useState(false)
-  const [isCommentModalOpen, setCommentModalOpen] = useState(false)
+  const [isSettingsModalScreenOpen, setIsSettingsModalScreenOpen] =
+    useState(false);
+  const [isCommentModalOpen, setCommentModalOpen] = useState(false);
 
   // const [currentLikeState, setCurrentLikeState] = useState({
   //   state: false,
@@ -56,25 +56,19 @@ export default function PostSingleOverlay({ post, user }) {
   //   []
   // );
 
-
   return (
-    <View style={{ position: "absolute", right: 0, bottom: 200 }}>
-      <View style={styles.iconContainer}>
-        <TouchableOpacity>
-          <MaterialCommunityIcons
-            color={colors.white}
-            size={40}
-            name={"star-outline"}
-          />
-        </TouchableOpacity>
-        <Text style={styles.statsLabel}>0</Text>
-      </View>
+    <View style={styles.sideBarContainer}>
+      <TouchableOpacity style={styles.iconContainer}>
+        <MaterialCommunityIcons
+          color={colors.white}
+          size={40}
+          name={"star-outline"}
+        />
+      </TouchableOpacity>
+      <Text style={styles.statsLabel}>0</Text>
 
       <View style={styles.iconContainer}>
-        <TouchableOpacity
-          style={styles.iconContainer}
-          
-        >
+        <TouchableOpacity style={styles.iconContainer}>
           <Ionicons
             name="md-chatbubble-ellipses-outline"
             size={35}
@@ -87,57 +81,37 @@ export default function PostSingleOverlay({ post, user }) {
           transparent={true}
           visible={isCommentModalOpen}
         >
-          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+          <View style={styles.pressedModal}>
             <Pressable
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-              }}
+              style={styles.pressedStyle}
               onPress={() => setCommentModalOpen(false)}
             />
-            <CommentModal post={post}/>
+            <CommentModal post={post} />
           </View>
         </Modal>
         <Text style={styles.statsLabel}>{post.comments.length}</Text>
       </View>
 
-      <View style={styles.iconContainer}>
-        <TouchableOpacity
-          style={styles.iconContainer}
-        >
-          <MaterialCommunityIcons
-            onPress={() => setLightItUp(true)}
-            name="fire"
-            size={40}
-            color={colors.white}
+      <TouchableOpacity style={styles.iconContainer}>
+        <MaterialCommunityIcons
+          onPress={() => setLightItUp(true)}
+          name="fire"
+          size={40}
+          color={colors.white}
+        />
+      </TouchableOpacity>
+      <Modal animationType="slide" transparent={true} visible={isLightItUp}>
+        <View style={styles.pressedModal}>
+          <Pressable
+            style={styles.pressedStyle}
+            onPress={() => setLightItUp(false)}
           />
-        </TouchableOpacity>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={isLightItUp}
-        >
-          <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <Pressable
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-              }}
-              onPress={() => setLightItUp(false)}
-            />
-            <GiftingModalScreen user={user} />
-          </View>
-          </Modal>
-        <Text style={styles.statsLabel}>0</Text>
-      </View>
+          <GiftingModalScreen user={user} />
+        </View>
+      </Modal>
+      <Text style={styles.statsLabel}>0</Text>
 
-      <View style={styles.iconContainer}>
+      <TouchableOpacity style={styles.iconContainer}>
         <CustomAlert
           alertTitle={
             <Text>
@@ -152,44 +126,39 @@ export default function PostSingleOverlay({ post, user }) {
           dismissAlert={setCkt}
           animationType="fade"
         />
-        <TouchableOpacity style={styles.globeIcon} onPress={() => setCkt(true)}>
-          <Octicons name="globe" size={30} color={colors.white} />
-          <Text style={styles.statsLabel}>CKT</Text>
-        </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.iconContainer}>
-        <TouchableOpacity
+      <TouchableOpacity style={styles.globeIcon} onPress={() => setCkt(true)}>
+        <Octicons name="globe" size={30} color={colors.white} />
+      </TouchableOpacity>
+      <Text style={styles.statsLabel}>CKT</Text>
+
+      <TouchableOpacity 
+      
+      style={styles.iconContainer}
+      >
+        <Ionicons
           style={styles.reportIcon}
-          // onPress={() => dispatch(openSettingsSheetModal(true, post))}
-        >
-          <Ionicons
-            name="ellipsis-horizontal-sharp"
-            size={28}
-            color={colors.white}
-            onPress={() => setModalScreen(true)}
+          name="ellipsis-horizontal-sharp"
+          size={28}
+          color={colors.white}
+          onPress={() => setIsSettingsModalScreenOpen(true)}
+        />
+      </TouchableOpacity>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isSettingsModalScreenOpen}
+      >
+        <View style={styles.pressedModal}>
+          <Pressable
+            style={styles.pressedStyle}
+            onPress={() => setIsSettingsModalScreenOpen(false)}
           />
-        </TouchableOpacity>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={settingsModalScreen}
-        >
-          <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <Pressable
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-              }}
-              onPress={() => setModalScreen(false)}
-            />
-            <SettingsSheetModalScreen user={user} />
-          </View>
-          </Modal>
-      </View>
+          <SettingsSheetModalScreen user={user} />
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -199,6 +168,12 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     position: "absolute",
     bottom: 0,
+  },
+  sideBarContainer: {
+    position: "absolute", 
+    right: 0, 
+    bottom: 190,
+
   },
   topText: {
     flexDirection: "row",
@@ -213,7 +188,8 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   globeIcon: {
-    marginTop: 20,
+    marginTop: 10,
+    alignItems: "center",
   },
   reportIcon: {
     marginTop: 10,
@@ -325,5 +301,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingTop: 5,
+  },
+  pressedStyle: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
+  pressedModal: {
+    flex: 1,
+    justifyContent: "flex-end",
   },
 });

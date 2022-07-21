@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet, Share, ScrollView } from "react-native";
-import React from "react";
+import React, {useState} from "react";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -9,16 +9,9 @@ import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 
-const SettingsSheetModalScreen = ( props, post ) => {
-  // console.log("You are here Settings Sheet Modal Screen----->");
-  // console.log(post)
-
-
-  // console.log(item)
+const SettingsSheetModalScreen = ( post ) => {
 
   const navigation = useNavigation();
-
-  // const handleClosePress = () => props.bottomSheetRef.current.close();
 
   const onShare = async () => {
     try {
@@ -66,10 +59,8 @@ const SettingsSheetModalScreen = ( props, post ) => {
 
       <TouchableOpacity
         style={styles.fieldItemContainer}
-        autoCapitalize="none"
         onPress={() => {
           navigation.navigate(routes.REPORTS, { post });
-
         }}
       >
         <Text style={styles.text}>

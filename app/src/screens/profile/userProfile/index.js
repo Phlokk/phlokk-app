@@ -5,11 +5,15 @@ import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+
 import verifiedCheck from "../../../../assets/verified.png";
 import CustomAlert from "../../../components/Alerts/customAlert";
 import CustomImageModal from "../../../components/Image/customImage";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
+
+
+
 
 function UserProfile({ user }) {
   const [topFavFive, setTopFavFive] = useState(false);
