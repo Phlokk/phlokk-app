@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
-// import { deletePostById } from "../../../../services/posts";
+import { deletePostById } from "../../../../services/posts";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
 import { useQueryClient } from "react-query";

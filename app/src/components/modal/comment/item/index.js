@@ -77,7 +77,9 @@ const CommentItem = ({ item }) => {
               size={17}
               name={"star" ? "star-outline" : "star"}
             />
+            
             </View>
+            
         </View>
         <Text style={styles.textComment}>{item.message}</Text>
         <View style={styles.replyRow}>
@@ -158,6 +160,10 @@ const styles = StyleSheet.create({
   starRow: {
     marginLeft:'auto', 
   },
+  starCount:{
+    color: colors.secondary,
+    // fontSize: 10,
+  }
 
 });
 
