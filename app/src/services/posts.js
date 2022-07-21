@@ -117,7 +117,7 @@ export const useUserPosts = (userId, { enabled }) =>
   });
 
 export const deletePostById = async (postId) => {
-  await axios.delete("/api/post/delete/+postId", postId)
+  await axios.delete("/api/post/delete/"+postId)
       .then((result) => {
         return result.data;
       })
