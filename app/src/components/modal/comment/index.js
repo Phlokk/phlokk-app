@@ -83,6 +83,7 @@ const CommentModal = (post) => {
       <FlatList
         data={commentList}
         renderItem={renderItem}
+        showsVerticalScrollIndicator ={false}
         keyExtractor={(item) => item._id}
       />
     </View>
