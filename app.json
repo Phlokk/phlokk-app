@@ -19,8 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.phlokkllc.phlokkapp",
-      "buildNumber": "1.0.9",
+      "bundleIdentifier": "com.phlokk.phlokkapp",
+      "buildNumber": "0.0.1",
       "supportsTablet": true
     },
     "android": {
