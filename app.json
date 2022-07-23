@@ -28,7 +28,7 @@
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.phlokkllc.phlokkapp"
+      "package": "com.phlokk.phlokkapp"
     },
     "web": {
       "favicon": "./assets/adaptive-icon.png"

@@ -25,7 +25,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.phlokkllc.phlokkapp</string>
+          <string>com.phlokk.phlokkapp</string>
         </array>
       </dict>
       <dict>
