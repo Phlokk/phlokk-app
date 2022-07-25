@@ -1,4 +1,5 @@
 import axios from "../redux/apis/axiosDeclaration";
+import {useState} from "react";
 
 
 export const getUserById = async (data) => {
@@ -12,6 +13,22 @@ export const getUserById = async (data) => {
       console.log(error);
     });
 };
+
+export const blockUserById = async (userId) => {
+  let url = '/api/creator/' + userId + '/block';
+  console.log('block user :: ' + url);
+  axios.post(url)
+      .then((res) => {
+          return res;
+      })
+      .catch((e) => {
+        alert('EXCEPTION');
+        console.log(e);
+      })
+
+}
+
+
 
 export const updateCreator = async (data) => {
   console.log("data to send");

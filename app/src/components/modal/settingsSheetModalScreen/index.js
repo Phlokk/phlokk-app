@@ -8,10 +8,22 @@ import { useNavigation } from "@react-navigation/native";
 
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
+import {blockUserById} from "../../../services/user";
+import {useVideoFeed} from "../../../services/posts";
 
 const SettingsSheetModalScreen = ( post ) => {
 
-  const navigation = useNavigation();
+    const [posts, setPosts] = useState([]);
+
+    const navigation = useNavigation();
+
+    const blockUser = async function (userId) {
+        await blockUserById(userId)
+            .then((res) => {
+                const feed = useVideoFeed();
+                setPosts(feed);
+            });
+    }
 
   const onShare = async () => {
     try {
@@ -42,8 +54,7 @@ const SettingsSheetModalScreen = ( post ) => {
         style={styles.fieldItemContainer}
         autoCapitalize="none"
         onPress={() => {
-          // navigation.navigate(routes.SETTING_SHEET)
-
+            blockUser(post.user._id)
         }}
       >
         <Text style={styles.text}>
