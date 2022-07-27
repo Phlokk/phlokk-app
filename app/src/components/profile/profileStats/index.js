@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import CustomAlert from "../../../components/Alerts/customAlert";
+import { MaterialIcons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes"
 import colors from "../../../../config/colors";
 
@@ -10,6 +11,10 @@ function ProfileStatsContainer() {
   const [following, setFollowing] = useState("40k");
   const [friends, setFriends] = useState("500k");
   const [starCount, setStarCount] = useState("10m");
+
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFriends, setIsFriends] = useState(false);
+
 
     // format a number so that we show K at the end if it’s a thousand or more and return the show number if it’s less than 1000
   // const kFormatter = (num) => {
@@ -22,16 +27,37 @@ function ProfileStatsContainer() {
   return (
     <View style={styles.counterContainer}>
       <View style={styles.counterItemContainer}>
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Following{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isFollowing}
+        dismissAlert={setIsFollowing}
+        animationType="fade"
+      />
         <TouchableOpacity
-        onPress={() => navigation.navigate(routes.FOLLOWING_LIST)}
+        onPress={() => setIsFollowing(true)}
+
+        // onPress={() => navigation.navigate(routes.FOLLOWING_LIST)}
         >
           <Text style={styles.counterNumberText}>{following}</Text>
         </TouchableOpacity>
+
         <Text style={styles.counterLabelText}>Following</Text>
       </View>
       <View style={styles.counterItemContainer}>
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Friends{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isFriends}
+        dismissAlert={setIsFriends}
+        animationType="fade"
+      />
         <TouchableOpacity
-        onPress={() => navigation.navigate(routes.FRIENDS_LIST)}
+        onPress={() => setIsFriends(true)}
+
+        // onPress={() => navigation.navigate(routes.FRIENDS_LIST)}
         >
           <Text style={styles.counterNumberText}>{friends}</Text>
         </TouchableOpacity>

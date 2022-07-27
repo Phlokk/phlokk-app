@@ -5,7 +5,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -52,7 +51,6 @@ const Friends = [
 ];
 
 export default function FriendsListScreen({ placeholder }) {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const ItemRender = ({ item }) => (

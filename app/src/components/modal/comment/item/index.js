@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,15 +8,18 @@ import {
   Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
 import verifiedCheck from "../../../../../assets/verified.png";
-
+import CustomAlert from "../../../Alerts/customAlert";
 const CommentItem = ({ item }) => {
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
+  const [isUsernameProfile, setIsUsernameProfile] = useState(false);
+
 
   const timeSince = function (date) {
     var seconds = Math.floor((new Date() - date) / 1000);
@@ -57,7 +61,17 @@ const CommentItem = ({ item }) => {
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
+        <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Profiles{"\n"}coming in beta 2</Text>}
+        positiveBtn="Ok"
+        modalVisible={isUsernameProfile}
+        dismissAlert={setIsUsernameProfile}
+        animationType="fade"
+      />
           <TouchableOpacity
+        onPress={() => setIsUsernameProfile(true)}
+
           // onPress={() => {
           //   navigation.navigate("feedProfile", {
           //     initialUser: user,

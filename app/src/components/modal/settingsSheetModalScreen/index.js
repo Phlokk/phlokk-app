@@ -5,7 +5,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import {blockUserById} from "../../../services/user";

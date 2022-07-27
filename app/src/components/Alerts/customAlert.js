@@ -26,7 +26,7 @@ export default function CustomAlert({
         <View style={styles.container}>
           <View style={styles.top}>
             <Image
-              source={require("../../../assets/small.png")}
+              source={require("../../../assets/pmd_logo_green.png")}
               resizeMode={"contain"}
               style={styles.alertIconStyle}
             />

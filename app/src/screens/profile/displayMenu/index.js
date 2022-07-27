@@ -35,6 +35,7 @@ function DisplayMenuScreen({ user }) {
     <View style={styles.container}>
       <View style={styles.menuContainer}>
         <CustomAlert
+          alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
           customAlertMessage={<Text>Star videos{"\n"}coming in beta 2</Text>}
           positiveBtn="Ok"
           modalVisible={isVisible}
@@ -51,6 +52,7 @@ function DisplayMenuScreen({ user }) {
           <AntDesign name="star" size={24} color={colors.green} />
         </TouchableOpacity>
         <CustomAlert
+          alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
           customAlertMessage={
             <Text>Favorite videos{"\n"}coming in beta 2</Text>
           }
@@ -66,7 +68,7 @@ function DisplayMenuScreen({ user }) {
           <MaterialIcons name="bookmark" size={24} color={colors.green} />
         </TouchableOpacity>
         <CustomAlert
-          // alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+          alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
           customAlertMessage={<Text>Private videos{"\n"}coming in beta 2</Text>}
           positiveBtn="Ok"
           modalVisible={isPrivate}
