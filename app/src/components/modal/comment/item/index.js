@@ -15,10 +15,15 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
 import verifiedCheck from "../../../../../assets/verified.png";
 import CustomAlert from "../../../Alerts/customAlert";
+
 const CommentItem = ({ item }) => {
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
   const [isUsernameProfile, setIsUsernameProfile] = useState(false);
+  const [isStars, setIsStars] = useState(false);
+  const [isReplies, setIsReplies] = useState(false);
+
+
 
 
   const timeSince = function (date) {
@@ -61,7 +66,7 @@ const CommentItem = ({ item }) => {
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
-        <CustomAlert
+      <CustomAlert
         alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Profiles{"\n"}coming in beta 2</Text>}
         positiveBtn="Ok"
@@ -84,8 +89,16 @@ const CommentItem = ({ item }) => {
               <Image style={styles.phlokkVerified} source={verifiedCheck} />
             )}
             <View style={styles.starRow}>
+            <CustomAlert
+            alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+            customAlertMessage={<Text>Stars{"\n"}coming in beta 2</Text>}
+            positiveBtn="Ok"
+            modalVisible={isStars}
+            dismissAlert={setIsStars}
+            animationType="fade"
+            />
             <MaterialCommunityIcons
-              onPress={() => Alert.alert("Stars", "Coming in beta version 3!")}
+              onPress={() => setIsStars(true)}
               style={styles.star}
               color="white"
               size={17}
@@ -100,8 +113,16 @@ const CommentItem = ({ item }) => {
           <Text style={styles.date}>
             {item.created_at ? timeSince(new Date(item.created_at)) : "Now"}
           </Text>
+          <CustomAlert
+            alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+            customAlertMessage={<Text>Replies{"\n"}coming in beta 2</Text>}
+            positiveBtn="Ok"
+            modalVisible={isReplies}
+            dismissAlert={setIsReplies}
+            animationType="fade"
+            />
           <TouchableOpacity
-            onPress={() => Alert.alert("Replies", "Coming in beta version 3!")}
+            onPress={() => setIsReplies(true)}
           >
             <Text style={styles.textReplies}>Reply</Text>
           </TouchableOpacity>
