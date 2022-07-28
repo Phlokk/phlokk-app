@@ -7,21 +7,17 @@ import {
   Alert,
   ActivityIndicator,
   View,
-  Text
 } from "react-native";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 import { deletePostById } from "../../../../services/posts";
 import { useQueryClient } from "react-query";
-import BlockAlert from "../../../Alerts/blockAlert";
 
 
 export default function ProfilePostListItem({ item, index, user }) {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
-
-  const [isBlocked, setIsBlocked] = useState(false);
 
   const deleteUserPost = async () => {
     try {
@@ -31,6 +27,8 @@ export default function ProfilePostListItem({ item, index, user }) {
 
       setIsLoading(false);
       alert("Video Deleted Successfully");
+      // return setPosts(newFeed)
+
     } catch (err) {
       alert(err?.message);
       setIsLoading(false);

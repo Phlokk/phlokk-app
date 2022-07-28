@@ -4,9 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
 import { FlatList, View, StyleSheet } from "react-native";
 import ProfilePostListItem from "../../components/profile/postList/item";
-import { useDispatch } from "react-redux";
 import colors from "../../../config/colors";
-import { useIsFocused } from "@react-navigation/native";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import { useUserVideoFeed } from "../../services/posts";
@@ -18,12 +16,9 @@ export default function ProfileScreen({ route }) {
 
   const [user, setUser] = useAtom(userAtom);
 
-  const { posts, getMoreUserPosts } = useUserVideoFeed(
+  const { posts, setPosts, getMoreUserPosts } = useUserVideoFeed(
     userProfile?._id || user._id
   );
-
-  const dispatch = useDispatch();
-  const isFocused = useIsFocused();
 
   const ListHeader = () => {
     return (
@@ -48,6 +43,7 @@ export default function ProfileScreen({ route }) {
             item={item}
             index={index}
             user={userProfile || user}
+
           />
         )}
       />

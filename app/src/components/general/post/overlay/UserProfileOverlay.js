@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "300",
     marginBottom: 10,
+    marginRight: 10,
   },
   songRow: {
     flexDirection: "row",
