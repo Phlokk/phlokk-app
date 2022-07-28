@@ -14,6 +14,10 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
       uri: source,
     }, fileName);
 
+    formData.append("description", description, {
+      description: description,
+    });
+
     // Thumbnail
     let thumbSplit = thumbnail.split('/');
     let thumbFileName = thumbSplit[(thumbSplit.length - 1)];
@@ -38,10 +42,10 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
           }
       ).then((resp) => {
         alert('Post successfully created');
-        console.log('services/saveMedia.js:41');
+        // console.log('services/saveMedia.js:41');
         resolve(resp);
       }).catch((err) => {
-        console.log('services/saveMedia.js:44');
+        // console.log('services/saveMedia.js:44');
         reject(err);
       });
     } else {

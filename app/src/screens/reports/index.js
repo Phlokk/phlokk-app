@@ -205,6 +205,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primary,
   },
+
   text: {
     color: colors.white,
     padding: 5,
@@ -234,7 +235,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: 5,
   },
   radioButton: {
     height: 20,

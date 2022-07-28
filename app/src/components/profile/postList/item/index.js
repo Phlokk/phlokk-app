@@ -7,16 +7,21 @@ import {
   Alert,
   ActivityIndicator,
   View,
+  Text
 } from "react-native";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 import { deletePostById } from "../../../../services/posts";
 import { useQueryClient } from "react-query";
+import BlockAlert from "../../../Alerts/blockAlert";
+
 
 export default function ProfilePostListItem({ item, index, user }) {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
+
+  const [isBlocked, setIsBlocked] = useState(false);
 
   const deleteUserPost = async () => {
     try {
@@ -33,21 +38,21 @@ export default function ProfilePostListItem({ item, index, user }) {
   };
   const deletePost = () => {
     const uid = user.user;
-    console.log("uid, item.creator", uid, item.creator);
+    // console.log("uid, item.creator", uid, item.creator);
     if (item.creator === uid) {
+      
       Alert.alert(
         "Delete Video",
         "Are you sure you want to delete this video?",
         [
           {
             text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
             style: "cancel",
           },
           { text: "OK", onPress: deleteUserPost },
         ]
       );
-    }
+     }
   };
 
   return (

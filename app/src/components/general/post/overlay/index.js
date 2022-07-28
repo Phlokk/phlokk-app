@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,14 +12,14 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { getLikeById, updateLike } from "../../../../services/posts";
-import { useDispatch, useSelector } from "react-redux";
+// import { getLikeById, updateLike } from "../../../../services/posts";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../Alerts/customAlert";
 import SettingsSheetModalScreen from "../../../../components/modal/settingsSheetModalScreen";
 import GiftingModalScreen from "../../../modal/giftingModalScreen";
 import CommentModal from "../../../modal/comment/index";
 import colors from "../../../../../config/colors";
+
 
 export default function PostSingleOverlay({ post, user }) {
   const [isLightItUp, setLightItUp] = useState(false);
@@ -30,33 +30,9 @@ export default function PostSingleOverlay({ post, user }) {
     useState(false);
   const [isCommentModalOpen, setCommentModalOpen] = useState(false);
 
-  // const [currentLikeState, setCurrentLikeState] = useState({
-  //   state: false,
-  //   counter: post.likesCount,
-  // });
+  
 
-  // useEffect(() => {
-  //   getLikeById(post.id, user.id).then((res) => {
-  //     setCurrentLikeState({
-  //       ...currentLikeState,
-  //       state: res,
-  //     });
-  //   });
-  // }, []);
-
-  // const handleUpdateLike = useMemo(
-  //   () =>
-  //     throttle(500, true, (currentLikeStateInst) => {
-  //       setCurrentLikeState({
-  //         state: !currentLikeStateInst.state,
-  //         counter:
-  //           currentLikeStateInst.counter +
-  //           (currentLikeStateInst.state ? -1 : 1),
-  //       });
-  //       updateLike(post.id, user.id, currentLikeStateInst.state);
-  //     }),
-  //   []
-  // );
+  
 
   return (
     <View style={styles.sideBarContainer}>

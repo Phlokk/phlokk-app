@@ -10,7 +10,6 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
 import CustomAlert from "../../../components/Alerts/customAlert";
 import SettingsModalScreen from "../../../components/modal/settingsModalScreen";
 import colors from "../../../../config/colors";
@@ -18,7 +17,6 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 
 function DisplayMenuScreen({ user }) {
-  const dispatch = useDispatch();
 
   const [currentUser, setCurrentUser] = useAtom(userAtom);
 
@@ -97,7 +95,8 @@ function DisplayMenuScreen({ user }) {
           visible={isSettingsModalOpen}
         >
           <View style={styles.pressedModal}>
-            <Pressable style={styles.pressedStyle}
+            <Pressable 
+              style={styles.pressedStyle}
               onPress={() => setIsSettingsModalOpen(false)}
             />
             <SettingsModalScreen user={user} />

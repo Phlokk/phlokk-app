@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   alertMessageTextStyle: {
     color: colors.white,
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 12,
     paddingHorizontal: 25,
   },
   alertMessageButtonStyle: {

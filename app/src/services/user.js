@@ -37,5 +37,14 @@ export const updateCreator = async (data) => {
   await axios.patch("/api/me/update", data);
 };
 
+export const sendReportData = async (data) => {
+  console.log("data to send");
+  console.log(data);
+
+  await axios.patch("/api/me/update", data);
+};
+
+
+
 export const getIsFollowing = (user, otherUserId) =>
   new Promise((resolve, reject) => {});

@@ -11,7 +11,7 @@ import BlockAlert from "../../Alerts/blockAlert";
 import colors from "../../../../config/colors";
 
 const SettingsSheetModalScreen = ( post ) => {
-
+    const navigation = useNavigation();
     const [posts, setPosts] = useState([]);
 
     const [isDownload, setIsDownload] = useState(false);
@@ -21,7 +21,7 @@ const SettingsSheetModalScreen = ( post ) => {
     const [isShare, setIsShare] = useState(false);
     const [isBlocked, setIsBlocked] = useState(false);
 
-    const navigation = useNavigation();
+    
 
   const onShare = async () => {
     try {
@@ -75,8 +75,9 @@ const SettingsSheetModalScreen = ( post ) => {
       <TouchableOpacity
         style={styles.fieldItemContainer}
         onPress={() => {
-          
           navigation.navigate(routes.REPORTS, { post });
+
+
         }}
       >
         <Text style={styles.text}>

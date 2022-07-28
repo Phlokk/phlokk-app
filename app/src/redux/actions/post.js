@@ -1,5 +1,4 @@
 import { saveMediaToStorage } from "../../services/saveMedia";
-import { types } from "../constants";
 
 
 
@@ -20,17 +19,5 @@ export const createPost =
           reject(err);
         });
     });
-
-// export const getPostsByUser =
-//   (auth.currentUser) =>
-//   (dispatch) =>
-//     new Promise((resolve, reject) => {
-//
-//           dispatch({
-//             type: types.CURRENT_USER_POSTS_UPDATE,
-//             currentUserPosts: posts,
-//           });
-//         });
-//     });
 
 

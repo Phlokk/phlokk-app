@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";

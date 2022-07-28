@@ -2,9 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 import colors from "../../../../config/colors";
-import saveRelationshipField from "../../../services/user";
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
 import { userAtom } from "../../../../../App";
 import { useAtom } from "jotai";

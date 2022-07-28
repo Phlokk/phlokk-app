@@ -153,7 +153,7 @@ export default function SettingsScreen() {
           </Text>
         </TouchableOpacity>
         <View style={styles.versionContainer}>
-          <Text style={styles.versionText}>v01.0.0</Text>
+          <Text style={styles.versionText}>v0.1.0</Text>
         </View>
       </View>
     </SafeAreaView>
