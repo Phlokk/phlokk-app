@@ -12,12 +12,16 @@ import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 import { deletePostById } from "../../../../services/posts";
 import { useQueryClient } from "react-query";
+import {useAtom} from "jotai";
+import {userAtom} from "../../../../../../App";
 
 
 export default function ProfilePostListItem({ item, index, user }) {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
+
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
 
   const deleteUserPost = async () => {
     try {
@@ -35,9 +39,8 @@ export default function ProfilePostListItem({ item, index, user }) {
     }
   };
   const deletePost = () => {
-    const uid = user.user;
-    // console.log("uid, item.creator", uid, item.creator);
-    if (item.creator === uid) {
+    const uid = currentUser._id;
+    if (item.user._id === uid) {
       
       Alert.alert(
         "Delete Video",
