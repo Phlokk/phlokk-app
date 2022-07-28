@@ -21,7 +21,7 @@ import CommentModal from "../../../modal/comment/index";
 import colors from "../../../../../config/colors";
 
 
-export default function PostSingleOverlay({ post, user }) {
+export default function PostSingleOverlay({ post, user, visible }) {
   const [isLightItUp, setLightItUp] = useState(false);
   const [isGifting, setIsGifting] = useState(false);
 

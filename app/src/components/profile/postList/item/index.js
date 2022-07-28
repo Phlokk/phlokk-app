@@ -41,7 +41,6 @@ export default function ProfilePostListItem({ item, index, user }) {
   const deletePost = () => {
     const uid = currentUser._id;
     if (item.user._id === uid) {
-      
       Alert.alert(
         "Delete Video",
         "Are you sure you want to delete this video?",

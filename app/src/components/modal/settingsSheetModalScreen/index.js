@@ -21,6 +21,10 @@ const SettingsSheetModalScreen = ( post ) => {
     const [isShare, setIsShare] = useState(false);
     const [isBlocked, setIsBlocked] = useState(false);
 
+
+
+    
+
     
 
   const onShare = async () => {
@@ -76,8 +80,6 @@ const SettingsSheetModalScreen = ( post ) => {
         style={styles.fieldItemContainer}
         onPress={() => {
           navigation.navigate(routes.REPORTS, { post });
-
-
         }}
       >
         <Text style={styles.text}>
