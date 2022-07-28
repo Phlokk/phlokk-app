@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     marginVertical: 8,
     borderRadius: 10,
-    borderColor: colors.green,
+    borderColor: colors.secondary,
     borderWidth: 1,
     backgroundColor: colors.lightBlack,
     justifyContent: "center",
