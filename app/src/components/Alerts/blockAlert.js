@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   Modal,
 } from "react-native";
@@ -12,7 +11,6 @@ import {useVideoFeed} from "../../services/posts";
 import colors from "../../../config/colors";
 
 export default function BlockAlert({
-  alertTitle,
   customAlertMessage,
   positiveBtn,
   negativeBtn,
@@ -22,10 +20,13 @@ export default function BlockAlert({
 
 }) {
 
+  const feed = useVideoFeed();
+
+
 
   const blockUser = async function (userId) {
     await blockUserById(userId).then((res) => {
-      const feed = useVideoFeed();
+      feed()
       setPosts(feed);
     });
   };
@@ -38,15 +39,6 @@ export default function BlockAlert({
     >
       <View style={styles.mainContainer}>
         <View style={styles.container}>
-          <View style={styles.top}>
-            {/* <Image
-              source={require("../../../assets/pmd_logo_green.png")}
-              resizeMode={"contain"}
-              style={styles.alertIconStyle}
-            /> */}
-            <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text>
-          </View>
-
           <View style={styles.middle}>
             <Text style={styles.alertMessageTextStyle}>
               {customAlertMessage}
@@ -76,44 +68,33 @@ export default function BlockAlert({
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#00000098",
+  },
   container: {
     height: "40%",
     width: "80%",
     backgroundColor: colors.primary,
     borderRadius: 15,
     padding: 4,
+    paddingTop: 40,
     borderWidth: 1,
-  },
-  mainContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#00000088",
-  },
-  top: {
-    flex: 0.2,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 5,
-    paddingVertical: 2,
   },
   middle: {
     flex: 0.5,
-    width: "100%",
     alignItems: "center",
-    paddingHorizontal: 2,
     textAlign: "center",
-    padding: 4,
     color: colors.white,
-    fontSize: 16,
-    marginVertical: 2,
   },
   bottom: {
     flex: 0.2,
-    width: "100%",
     flexDirection: "row",
-    padding: 4,
     justifyContent: "space-evenly",
+    // backgroundColor: colors.red,
+
   },
   alertIconStyle: {
     height: 35,
@@ -136,29 +117,32 @@ const styles = StyleSheet.create({
   },
   alertMessageButtonStyle: {
     width: "30%",
-    paddingHorizontal: 6,
     marginVertical: 15,
     borderRadius: 10,
     borderColor: colors.secondary,
     borderWidth: 1,
     backgroundColor: colors.lightBlack,
     justifyContent: "center",
+    top: 80,
   },
   alertMessageButtonText: {
     textAlign: "center",
     fontSize: 14,
     fontWeight: "bold",
     color: colors.white,
+
   },
   alertMessageButtonTextNegative: {
     textAlign: "center",
     fontSize: 14,
     color: colors.white,
+
   },
   text: {
     color: colors.white,
   },
   textBlock: {
     color: colors.red,
+
   },
 });

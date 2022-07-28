@@ -49,8 +49,7 @@ const SettingsSheetModalScreen = ( post ) => {
       <Text style={styles.settingsText}>Actions</Text>
       <ScrollView>
       <BlockAlert
-        alertTitle={<Text><Feather name="user-minus" size={24} color={colors.red} /></Text>}
-        customAlertMessage={<Text>Block User:{"\n"}{"\n"}Creator will not be able to send you messages, see your posts, or find your profile in seacrh. They will not be notified that you blocked their account. You can unblock their profile at anytime in settings.</Text>}
+        customAlertMessage={<Text>Block User:{"\n"}{"\n"}Creator will not be able to send you messages, see your posts, or find your profile in search. They will not be notified that you blocked their account. You can unblock their profile at anytime in settings under privacy and reports.</Text>}
         negativeBtn={"Cancel"}
         positiveBtn={"Block"}
         modalVisible={isBlocked}

@@ -205,7 +205,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primary,
   },
-
   text: {
     color: colors.white,
     padding: 5,
