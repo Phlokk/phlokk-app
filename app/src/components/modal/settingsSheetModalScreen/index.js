@@ -6,23 +6,22 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
+import CustomAlert from "../../Alerts/customAlert";
+import BlockAlert from "../../Alerts/blockAlert";
 import colors from "../../../../config/colors";
-import {blockUserById} from "../../../services/user";
-import {useVideoFeed} from "../../../services/posts";
 
 const SettingsSheetModalScreen = ( post ) => {
 
     const [posts, setPosts] = useState([]);
 
-    const navigation = useNavigation();
+    const [isDownload, setIsDownload] = useState(false);
+    const [isFavorites, setIsFavorites] = useState(false);
+    const [isDuo, setIsDuo] = useState(false);
+    const [isLink, setIsLink] = useState(false);
+    const [isShare, setIsShare] = useState(false);
+    const [isBlocked, setIsBlocked] = useState(false);
 
-    const blockUser = async function (userId) {
-        await blockUserById(userId)
-            .then((res) => {
-                const feed = useVideoFeed();
-                setPosts(feed);
-            });
-    }
+    const navigation = useNavigation();
 
   const onShare = async () => {
     try {
@@ -49,19 +48,26 @@ const SettingsSheetModalScreen = ( post ) => {
     <View style={styles.container}>
       <Text style={styles.settingsText}>Actions</Text>
       <ScrollView>
+      <BlockAlert
+        alertTitle={<Text><Feather name="user-minus" size={24} color={colors.red} /></Text>}
+        customAlertMessage={<Text>Block User:{"\n"}{"\n"}Creator will not be able to send you messages, see your posts, or find your profile in seacrh. They will not be notified that you blocked their account. You can unblock their profile at anytime in settings.</Text>}
+        negativeBtn={"Cancel"}
+        positiveBtn={"Block"}
+        modalVisible={isBlocked}
+        dismissAlert={setIsBlocked}
+        animationType="fade"
+      />
       <TouchableOpacity
         style={styles.fieldItemContainer}
         autoCapitalize="none"
-        onPress={() => {
-            blockUser(post.user._id)
-        }}
+        onPress={() => setIsBlocked(true)}
       >
         <Text style={styles.text}>
           <Feather
             name="user-minus"
             style={styles.blockIcon}
             size={14}
-            color={colors.green}
+            color={colors.red}
           />{" "}
           Block
         </Text>
@@ -70,36 +76,43 @@ const SettingsSheetModalScreen = ( post ) => {
       <TouchableOpacity
         style={styles.fieldItemContainer}
         onPress={() => {
+          
           navigation.navigate(routes.REPORTS, { post });
         }}
       >
         <Text style={styles.text}>
-          <AntDesign name="exclamationcircleo" size={12} color={colors.green} />{" "}
-          Report
-        </Text>
+          <AntDesign name="exclamationcircleo" size={12} color={colors.yellow} /> Report</Text>
       </TouchableOpacity>
-
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Downloads{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isDownload}
+        dismissAlert={setIsDownload}
+        animationType="fade"
+      />
       <TouchableOpacity
         style={styles.fieldItemContainer}
         autoCapitalize="none"
-        onPress={() => {
-          // navigation.navigate(routes.MARKET)
-
-        }}
+        onPress={() => setIsDownload(true)}
       >
         <Text style={styles.text}>
           <Feather name="download-cloud" size={14} color={colors.green} />{" "}
           Download
         </Text>
       </TouchableOpacity>
-
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Add to Favorites{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isFavorites}
+        dismissAlert={setIsFavorites}
+        animationType="fade"
+      />
       <TouchableOpacity
         style={styles.fieldItemContainer}
         autoCapitalize="none"
-        onPress={() => {
-          // navigation.navigate(routes.MARKET)
-
-        }}
+        onPress={() => setIsFavorites(true)}
       >
         <Text style={styles.text}>
           <MaterialIcons
@@ -110,13 +123,18 @@ const SettingsSheetModalScreen = ( post ) => {
           Add to Favorites
         </Text>
       </TouchableOpacity>
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Duo{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isDuo}
+        dismissAlert={setIsDuo}
+        animationType="fade"
+      />
       <TouchableOpacity
         style={styles.fieldItemContainer}
         autoCapitalize="none"
-        onPress={() => {
-          // navigation.navigate(routes.MARKET)
-
-        }}
+        onPress={() => setIsDuo(true)}
       >
         <Text style={styles.text}>
           <MaterialCommunityIcons
@@ -127,25 +145,39 @@ const SettingsSheetModalScreen = ( post ) => {
           Duo
         </Text>
       </TouchableOpacity>
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Links{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isLink}
+        dismissAlert={setIsLink}
+        animationType="fade"
+      />
       <TouchableOpacity
         style={styles.fieldItemContainer}
         autoCapitalize="none"
-        onPress={() => {
-          // navigation.navigate(routes.MARKET)
-
-        }}
+        onPress={() => setIsLink(true)}
       >
         <Text style={styles.text}>
           <Feather name="link" size={14} color={colors.green} /> Link
         </Text>
       </TouchableOpacity>
-
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Share{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isShare}
+        dismissAlert={setIsShare}
+        animationType="fade"
+      />
       <TouchableOpacity
         style={styles.fieldItemContainer}
-        onPress={() => {
-          onShare();
+        onPress={() => setIsShare(true)}
 
-        }}
+        // onPress={() => {
+        //   onShare();
+
+        // }}
       >
         <Text style={styles.text}>
           <MaterialCommunityIcons
@@ -170,7 +202,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
   },
   text: {
-    color: colors.green,
+    color: colors.secondary,
   },
   settingsText: {
     color: colors.green,
@@ -189,6 +221,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  
 });
 
 export default SettingsSheetModalScreen;

@@ -224,20 +224,17 @@ const styles = StyleSheet.create({
     marginTop: 30,
     padding: 10,
   },
-
   submitButton: {
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
     padding: 10,
-    borderRadius: 5,
     backgroundColor: colors.red,
   },
   radioButtonContainer: {
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 45,
     marginHorizontal: 5,
   },
   radioButton: {
@@ -258,7 +255,5 @@ const styles = StyleSheet.create({
   radioButtonText: {
     color: colors.secondary,
     fontSize: 14,
-
-    marginLeft: 16,
   },
 });

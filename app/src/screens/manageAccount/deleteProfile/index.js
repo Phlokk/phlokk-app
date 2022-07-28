@@ -68,7 +68,7 @@ export default function DeleteProfileScreen() {
         >
           <View style={styles.fieldValueContainer}>
             <Text style={styles.text}>
-              <Text style={styles.danger}>Delete account</Text>
+              <Text style={styles.red}>Delete account</Text>
             </Text>
 
             <MaterialCommunityIcons

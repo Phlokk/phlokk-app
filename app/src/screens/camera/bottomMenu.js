@@ -25,7 +25,7 @@ export default function BottomMenu () {
       </TouchableOpacity>
       <CustomAlert
         alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Seconds{"\n"}coming in Official release</Text>}
+        customAlertMessage={<Text>Seconds{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={isSeconds}
         dismissAlert={setIsSeconds}

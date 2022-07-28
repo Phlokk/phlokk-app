@@ -29,7 +29,7 @@ export default function InfoScreenNav({
         <Feather
           name="check"
           size={26}
-          color={leftButton.display ? colors.danger : colors.primary}
+          color={leftButton.display ? colors.red : colors.primary}
         />
       </TouchableOpacity>
     </View>

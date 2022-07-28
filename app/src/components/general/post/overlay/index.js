@@ -23,6 +23,8 @@ import colors from "../../../../../config/colors";
 
 export default function PostSingleOverlay({ post, user }) {
   const [isLightItUp, setLightItUp] = useState(false);
+  const [isGifting, setIsGifting] = useState(false);
+
   const [ckt, setCkt] = useState(false);
   const [isSettingsModalScreenOpen, setIsSettingsModalScreenOpen] =
     useState(false);
@@ -91,10 +93,17 @@ export default function PostSingleOverlay({ post, user }) {
         </Modal>
         <Text style={styles.statsLabel}>{post.comments.length}</Text>
       </View>
-
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Light It Up{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isGifting}
+        dismissAlert={setIsGifting}
+        animationType="fade"
+      />
       <TouchableOpacity style={styles.iconContainer}>
         <MaterialCommunityIcons
-          onPress={() => setLightItUp(true)}
+          onPress={() => setIsGifting(true)}
           name="fire"
           size={40}
           color={colors.white}
@@ -134,7 +143,6 @@ export default function PostSingleOverlay({ post, user }) {
       <Text style={styles.statsLabel}>CKT</Text>
 
       <TouchableOpacity 
-      
       style={styles.iconContainer}
       >
         <Ionicons

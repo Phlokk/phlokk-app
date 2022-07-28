@@ -6,15 +6,29 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
+import { blockUserById } from "../../services/user";
+import {useVideoFeed} from "../../services/posts";
+
 import colors from "../../../config/colors";
 
-export default function CustomAlert({
+export default function BlockAlert({
   alertTitle,
   customAlertMessage,
   positiveBtn,
+  negativeBtn,
   modalVisible,
   dismissAlert,
+  post,
+
 }) {
+
+
+  const blockUser = async function (userId) {
+    await blockUserById(userId).then((res) => {
+      const feed = useVideoFeed();
+      setPosts(feed);
+    });
+  };
   return (
     <Modal
       visible={modalVisible}
@@ -25,11 +39,11 @@ export default function CustomAlert({
       <View style={styles.mainContainer}>
         <View style={styles.container}>
           <View style={styles.top}>
-            <Image
+            {/* <Image
               source={require("../../../assets/pmd_logo_green.png")}
               resizeMode={"contain"}
               style={styles.alertIconStyle}
-            />
+            /> */}
             <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text>
           </View>
 
@@ -44,7 +58,15 @@ export default function CustomAlert({
               onPress={() => dismissAlert(false)}
               style={styles.alertMessageButtonStyle}
             >
-              <Text style={styles.alertMessageButtonText}>{positiveBtn}</Text>
+              <Text style={styles.alertMessageButtonTextNegative}>{negativeBtn}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                blockUser(post.user._id);
+              }}
+              style={styles.alertMessageButtonStyle}
+            >
+              <Text style={[styles.alertMessageButtonText, styles.textBlock]}>{positiveBtn}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -55,13 +77,12 @@ export default function CustomAlert({
 
 const styles = StyleSheet.create({
   container: {
-    height: "20%",
+    height: "40%",
     width: "80%",
-    backgroundColor: colors.black,
+    backgroundColor: colors.primary,
     borderRadius: 15,
     padding: 4,
     borderWidth: 1,
-    borderColor: colors.secondary,
   },
   mainContainer: {
     flex: 1,
@@ -70,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#00000088",
   },
   top: {
-    flex: 0.5,
+    flex: 0.2,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 5,
@@ -88,7 +109,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   bottom: {
-    flex: 0.5,
+    flex: 0.2,
     width: "100%",
     flexDirection: "row",
     padding: 4,
@@ -100,26 +121,25 @@ const styles = StyleSheet.create({
   },
   alertTitleTextStyle: {
     flex: 1,
-    paddingRight: 40,
     textAlign: "center",
     color: colors.white,
-    fontSize: 18,
     fontWeight: "bold",
     padding: 2,
     marginHorizontal: 2,
   },
   alertMessageTextStyle: {
-    color: colors.white,
+    color: colors.secondary,
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 11,
     paddingHorizontal: 25,
+    opacity: 0.9,
   },
   alertMessageButtonStyle: {
     width: "30%",
     paddingHorizontal: 6,
-    marginVertical: 8,
+    marginVertical: 15,
     borderRadius: 10,
-    borderColor: colors.green,
+    borderColor: colors.secondary,
     borderWidth: 1,
     backgroundColor: colors.lightBlack,
     justifyContent: "center",
@@ -130,7 +150,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.white,
   },
+  alertMessageButtonTextNegative: {
+    textAlign: "center",
+    fontSize: 14,
+    color: colors.white,
+  },
   text: {
     color: colors.white,
+  },
+  textBlock: {
+    color: colors.red,
   },
 });
