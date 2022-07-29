@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -13,10 +13,17 @@ import { AntDesign } from "@expo/vector-icons";
 import CustomAlert from "../../../components/Alerts/customAlert";
 import SettingsModalScreen from "../../../components/modal/settingsModalScreen";
 import colors from "../../../../config/colors";
+import { useIsFocused } from "@react-navigation/native";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 
 function DisplayMenuScreen({ user }) {
+
+  const isFocused = useIsFocused();
+  
+  useEffect(() => {
+    setIsSettingsModalOpen(false);
+  }, [isFocused]);
 
   const [currentUser, setCurrentUser] = useAtom(userAtom);
 
@@ -28,12 +35,17 @@ function DisplayMenuScreen({ user }) {
   if (user._id !== currentUser._id) {
     return null;
   }
+  
 
   return (
     <View style={styles.container}>
       <View style={styles.menuContainer}>
         <CustomAlert
-          alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
           customAlertMessage={<Text>Star videos{"\n"}coming in beta 2</Text>}
           positiveBtn="Ok"
           modalVisible={isVisible}
@@ -50,7 +62,11 @@ function DisplayMenuScreen({ user }) {
           <AntDesign name="star" size={24} color={colors.green} />
         </TouchableOpacity>
         <CustomAlert
-          alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
           customAlertMessage={
             <Text>Favorite videos{"\n"}coming in beta 2</Text>
           }
@@ -66,7 +82,11 @@ function DisplayMenuScreen({ user }) {
           <MaterialIcons name="bookmark" size={24} color={colors.green} />
         </TouchableOpacity>
         <CustomAlert
-          alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
           customAlertMessage={<Text>Private videos{"\n"}coming in beta 2</Text>}
           positiveBtn="Ok"
           modalVisible={isPrivate}
@@ -95,7 +115,7 @@ function DisplayMenuScreen({ user }) {
           visible={isSettingsModalOpen}
         >
           <View style={styles.pressedModal}>
-            <Pressable 
+            <Pressable
               style={styles.pressedStyle}
               onPress={() => setIsSettingsModalOpen(false)}
             />
@@ -135,7 +155,7 @@ const styles = StyleSheet.create({
     left: 0,
   },
   pressedModal: {
-    flex: 1, 
+    flex: 1,
     justifyContent: "flex-end",
   },
 });

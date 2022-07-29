@@ -9,10 +9,10 @@ import {
   Modal,
   Pressable,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-// import { getLikeById, updateLike } from "../../../../services/posts";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../Alerts/customAlert";
 import SettingsSheetModalScreen from "../../../../components/modal/settingsSheetModalScreen";
@@ -20,8 +20,13 @@ import GiftingModalScreen from "../../../modal/giftingModalScreen";
 import CommentModal from "../../../modal/comment/index";
 import colors from "../../../../../config/colors";
 
+export default function PostSingleOverlay({ post, user }) {
+  
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    setIsSettingsModalScreenOpen(false);
+  }, [isFocused]);
 
-export default function PostSingleOverlay({ post, user, visible }) {
   const [isLightItUp, setLightItUp] = useState(false);
   const [isGifting, setIsGifting] = useState(false);
 
@@ -30,7 +35,11 @@ export default function PostSingleOverlay({ post, user, visible }) {
     useState(false);
   const [isCommentModalOpen, setCommentModalOpen] = useState(false);
 
-  
+
+ 
+
+
+
 
   
 
@@ -70,7 +79,11 @@ export default function PostSingleOverlay({ post, user, visible }) {
         <Text style={styles.statsLabel}>{post.comments.length}</Text>
       </View>
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
         customAlertMessage={<Text>Light It Up{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
         modalVisible={isGifting}
@@ -118,9 +131,7 @@ export default function PostSingleOverlay({ post, user, visible }) {
       </TouchableOpacity>
       <Text style={styles.statsLabel}>CKT</Text>
 
-      <TouchableOpacity 
-      style={styles.iconContainer}
-      >
+      <TouchableOpacity style={styles.iconContainer}>
         <Ionicons
           style={styles.reportIcon}
           name="ellipsis-horizontal-sharp"
@@ -154,10 +165,9 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   sideBarContainer: {
-    position: "absolute", 
-    right: 0, 
+    position: "absolute",
+    right: 0,
     bottom: 190,
-
   },
   topText: {
     flexDirection: "row",
