@@ -5,7 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Video } from "expo-av";
 import { useIsFocused } from "@react-navigation/native";
-
+import { FontAwesome5 } from '@expo/vector-icons'; 
 import PostSingleOverlay from "../../components/general/post/overlay";
 import UserProfileOverlay from "../../components/general/post/overlay/UserProfileOverlay";
 import colors from "../../../config/colors";
@@ -41,10 +41,12 @@ const VideoItem = ({
     setShouldPlay(!shouldPlay);
   };
 
+
+
   const displayPauseIcon = () => (
-    <Ionicons
-      name="ios-pause-circle-outline"
-      size={100}
+    <FontAwesome5
+      name="play"
+      size={50}
       color={colors.white}
       style={styles.pauseIcon}
     />
@@ -90,9 +92,9 @@ const styles = StyleSheet.create({
   },
   pauseIcon: {
     position: "absolute",
-    opacity: 0.5,
-    top: "40%",
-    left: "40%",
+    opacity: 0.25,
+    top: "45%",
+    left: "45%",
   },
   // overlay: {
   //   zIndex: 0,

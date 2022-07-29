@@ -79,7 +79,14 @@ const ReportScreen = ({ route, navigation }) => {
       category: "Minor safety",
       selected: false,
     },
-    { id: 10, key: "cat11", value: false, category: "other", selected: false },
+    {
+      id: 10,
+      key: "cat11",
+      value: false,
+      category: "Underage",
+      selected: false,
+    },
+    { id: 11, key: "cat12", value: false, category: "other", selected: false },
   ]);
   const [titleValue, setTitleValue] = useState("");
   const [messageValue, setMessageValue] = useState("");
