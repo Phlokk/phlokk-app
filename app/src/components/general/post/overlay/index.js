@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   sideBarContainer: {
     position: "absolute",
     right: 0,
-    bottom: 190,
+    bottom: 210,
   },
   topText: {
     flexDirection: "row",

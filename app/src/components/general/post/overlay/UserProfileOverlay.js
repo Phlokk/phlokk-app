@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   date: {
     color: colors.secondary,
     fontSize: 8,
+    bottom: 5,
   },
   bottomContainer: {
     position: "absolute",
