@@ -1,7 +1,5 @@
 import { saveMediaToStorage } from "../../services/saveMedia";
 
-
-
 export const createPost =
   (description, source, thumb) => () =>
     new Promise((resolve, reject) => {
@@ -11,11 +9,9 @@ export const createPost =
 
       allSavePromises
         .then((media) => {
-            console.log('redux/actions/post.js:15');
             resolve(media);
         })
         .catch((err) => {
-          console.log('redux/actions/post.js:21');
           reject(err);
         });
     });

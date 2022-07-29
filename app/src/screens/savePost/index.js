@@ -37,7 +37,6 @@ export default function SavePostScreen({ route }) {
   const handleSavePost = () => {
     setRequestRunning(true);
     // answer link: https://stackoverflow.com/questions/59602848/how-to-save-image-to-camera-roll-using-expo
-
     dispatch(
       createPost(
         description,
@@ -47,18 +46,14 @@ export default function SavePostScreen({ route }) {
       )
     )
       .then(async (res) => {
-        console.log('Save to Library');
         await MediaLibrary.saveToLibraryAsync(route.params.source);
-        navigation.goBack(routes.FEED);
+        navigation.navigate(routes.FEED);
       })
       .catch((err) => {
-        console.log('screens/savePost/index.js:64');
         alert(err);
         setRequestRunning(false);
       });
   };
-
-  
 
   if (requestRunning) {
     return (
@@ -223,7 +218,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   mediaPreview: {
-    // aspectRatio: 9 / 16,
     backgroundColor: colors.black,
     width: 60,
     height: 60 * (16 / 9),
