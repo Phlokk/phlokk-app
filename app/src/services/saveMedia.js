@@ -14,6 +14,7 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
       uri: source,
     }, fileName);
 
+    // Description
     formData.append("description", description, {
       description: description,
     });
@@ -42,10 +43,8 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
           }
       ).then((resp) => {
         alert('Post successfully created');
-        // console.log('services/saveMedia.js:41');
         resolve(resp);
       }).catch((err) => {
-        // console.log('services/saveMedia.js:44');
         reject(err);
       });
     } else {
