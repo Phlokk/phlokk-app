@@ -17,12 +17,9 @@ export default function DeleteProfileScreen() {
   const dispatch = useDispatch();
 
   const handleDelete = async (user_id) => {
-    console.log("delete account");
     axios
       .delete("/creators/delete" + user_id)
       .then((response) => {
-        console.log("back from delete");
-        console.log(response);
         setUser(null);
         SecureStore.deleteItemAsync("user");
         dispatch({
@@ -39,7 +36,6 @@ export default function DeleteProfileScreen() {
           currentUser: null,
           loaded: true,
         });
-        console.log(error.response);
       });
   };
 

@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
 import { Video } from "expo-av";
 import { useIsFocused } from "@react-navigation/native";
 import { FontAwesome5 } from '@expo/vector-icons'; 
@@ -18,17 +15,6 @@ const VideoItem = ({
   setCurrentVideoPlayingStat,
 }) => {
   const [shouldPlay, setShouldPlay] = useState(true);
-
-  /*
-  - create a function to navigate to user profile
-  - the function can be either here and passed to the overlay
-  - to it can be in the overlay and pass the playPauseVideo function
-  - when the use clicks on the account icon {
-      step one is to run the playPauseVideo()
-      step two is to navigate the user
-  }
-  */
-
   const isFocused = useIsFocused();
 
   // watches for index change upon scroll to reset the video status
@@ -40,8 +26,6 @@ const VideoItem = ({
   const playPauseVideo = () => {
     setShouldPlay(!shouldPlay);
   };
-
-
 
   const displayPauseIcon = () => (
     <FontAwesome5
@@ -61,7 +45,6 @@ const VideoItem = ({
             type: item.media[0].mime_type,
           }}
           isMuted={currentVideoIndex !== index || !isFocused}
-          // setNativeControls={false}
           resizeMode={Video.RESIZE_MODE_COVER}
           style={styles.videoRenderer}
           shouldPlay={currentVideoIndex === index && shouldPlay}
@@ -72,7 +55,6 @@ const VideoItem = ({
           onPlaybackStatusUpdate={(status) =>
             setCurrentVideoPlayingStat(status)
           }
-          /*  */
         />
         {shouldPlay ? null : displayPauseIcon()}
       </Pressable>
@@ -96,9 +78,6 @@ const styles = StyleSheet.create({
     top: "45%",
     left: "45%",
   },
-  // overlay: {
-  //   zIndex: 0,
-  // }
 });
 
 export default VideoItem;

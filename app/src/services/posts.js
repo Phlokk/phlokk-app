@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { useQuery } from "react-query";
 import axios from "../redux/apis/axiosDeclaration";
 
@@ -12,7 +13,7 @@ export const getFeed = () =>
       // 2 seconds later...
     })
     .catch(function (error) {
-      console.log(error);
+      Alert.alert("Could not get feed!");
     });
 
 export const getFeedAsync = async () => {
@@ -20,7 +21,7 @@ export const getFeedAsync = async () => {
     const result = await axios.get("/api/posts");
     return result.data.data;
   } catch {
-    console.log(error);
+    Alert.alert("Could not get feed!");
   }
 };
 
@@ -31,7 +32,7 @@ export const getUserFeedAsync = async (userId) => {
     });
     return result.data.data;
   } catch {
-    console.log(error);
+    Alert.alert("Could not connect to feed!");
   }
 };
 
@@ -113,7 +114,7 @@ export const deletePostById = async (postId) => {
         return result.data;
       })
       .catch((error) => {
-        console.log(error);
+        Alert.alert("Could not delete post");
       });
 };
 
@@ -124,19 +125,18 @@ export const addComment = async (postId, comment) => {
         return result.data;
       })
       .catch((error) => {
-        console.log(error);
+        Alert.alert("Comment not added!");
       });
 };
 
 export const commentListener = async (postId, setCommentList) => {
-  console.log('get comments : ' + '/api/post/view/'+postId+'/comments');
   await axios.get("/api/post/view/"+postId+"/comments")
       .then((result) => {
         setCommentList(result.data.comments);
         return result.data;
       })
       .catch((error) => {
-        console.log(error);
+        Alert.alert("Comments not found");
       });
 };
 

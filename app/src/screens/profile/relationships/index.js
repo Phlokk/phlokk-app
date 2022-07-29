@@ -34,7 +34,6 @@ export default function RelationshipCategoryScreen({ route, props }) {
       setUser(updatedUser);
       navigation.goBack();
     } catch (error) {
-      console.log(error);
       Alert.alert("Data not saved, please check user data");
     }
   };

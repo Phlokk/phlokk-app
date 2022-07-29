@@ -4,16 +4,11 @@ import {
   StyleSheet,
   ActivityIndicator,
   Dimensions,
-  FlatList,
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
-
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
 import VideoItem from "./videoItem";
 import {
-  getFeed,
-  getFeedAsync,
-  useFeed,
   useUserVideoFeed,
   useVideoFeed,
 } from "../../services/posts";

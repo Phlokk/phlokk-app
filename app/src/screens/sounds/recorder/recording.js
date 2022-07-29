@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Animated, Pressable } from "react-native";
+import { View, Text, StyleSheet, Animated, Pressable, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 //3rd party packages
 import { Entypo } from "@expo/vector-icons";
@@ -29,8 +29,6 @@ const RecordingScreen = ({ navigation }) => {
 
   const _onLongPress = async () => {
     try {
-      console.log("Requesting permissions..");
-      console.log("Starting recording..");
       const recording = new Audio.Recording();
       await recording.prepareToRecordAsync(
         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
@@ -38,13 +36,11 @@ const RecordingScreen = ({ navigation }) => {
       await recording.startAsync();
       setRecording(recording);
       setPlaying(true);
-      console.log("Recording started");
     } catch (err) {
-      console.error("Failed to start recording", err);
+      Alert.alert("Failed to start recording");
     }
   };
   const _onPressOut = async () => {
-    console.log("Stopping recording..");
     setPlaying(false);
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
@@ -52,7 +48,6 @@ const RecordingScreen = ({ navigation }) => {
         allowsRecordingIOS:false,
       });
     const uri = recording.getURI();
-    console.log("Recording stopped and stored at", uri);
     if (!!uri) {
       navigation.navigate(routes.AUDIO_PLAYER, {
         data: { uri: uri, time: recordedTime },

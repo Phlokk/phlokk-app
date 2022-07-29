@@ -1,10 +1,11 @@
+import { Alert } from "react-native";
 // Retrieve
 var MongoClient = require('mongodb').MongoClient;
 
 // Connect to the db
 MongoClient.connect("mongodb://phlokk.com:27017", function(err, db) {
   if(!err) {
-    console.log("We are connected");
+    Alert.alert("Connected");
   }
 });
 

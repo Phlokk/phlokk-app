@@ -6,6 +6,7 @@ import {
   Animated,
   Pressable,
   TouchableOpacity,
+  Alert
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -27,8 +28,6 @@ const AudioPlay = ({ navigation, route }) => {
     );
     setSound(sound);
     setPlaying(true);
-
-    console.log("Playing Sound");
     await sound.playAsync();
   }
 

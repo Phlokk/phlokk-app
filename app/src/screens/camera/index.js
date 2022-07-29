@@ -10,6 +10,7 @@ import {
   Platform,
   StyleSheet,
   Animated,
+  Alert
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
@@ -100,15 +101,13 @@ export default function CameraScreen() {
         setIsRecording(true);
         if (videoRecordPromise) {
           const data = await videoRecordPromise;
-          // console.log("data", data);
           const source = data.uri;
           let sourceThumb = await generateThumbnail(source);
           setIsRecording(false);
-          // console.log(source)
           navigation.navigate("savePost", { source, sourceThumb });
         }
       } catch (error) {
-        // console.log(error);
+        Alert.alert("Video cannot record");
         setIsRecording(false);
       }
     }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet, Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
@@ -24,27 +24,9 @@ export default function SellerDashboardScreen() {
   const isFocused = useIsFocused();
   const creators = useSelector((state) => state.creatorReducer.creator);
 
-
-  // useFocusEffect(
-  //     React.useCallback(() => {
-  //       dispatch(fetchMarketCreatorData());
-  //     }, [])
-  // );
-
-  // useEffect(() => {
-  //   dispatch(fetchMarketCreatorData());
-  // }, [dispatch]);
-
- 
-
- 
-
   const chooseImage = async () => {
-
-    console.log("START UPLOADING...");
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
-    console.log(user.token);
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -73,14 +55,9 @@ export default function SellerDashboardScreen() {
         ContentType: "application/json",
       },
     }).catch((err) => {
-      console.log(err);
+      Alert.alert("No bearer");
     });
-
-    console.log(formData);
-    console.log("The status was", +res.status);
     let test = await res.json();
-    console.log(test);
-    console.log("RESULT -------------------->");
   };
 
   const onSave = () => {

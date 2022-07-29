@@ -8,7 +8,6 @@ function* getMarketCreators() {
     yield put({ type: types.SEND_REQUEST_GET_MARKET_CREATOR_SUCCESS, payload: creator });
   } catch (error) {
     yield put({ type: types.SEND_REQUEST_GET_MARKET_CREATOR_FAILURE, payload: error });
-    console.log(error);
   }
 }
 

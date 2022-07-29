@@ -24,7 +24,6 @@ export default function Extracted() {
   const [extractedValue, setExtractedValue] = useState('');
 
   useEffect(() => {
-    console.log(extractedValue)
   }, [extractedValue])
 
   const commitRef = useRef()

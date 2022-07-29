@@ -15,7 +15,6 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-
 import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -52,7 +51,6 @@ const Following = [
 ];
 
 export default function FollowingListScreen({ placeholder }) {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [isFollowing, setIsFollowing] = useState(false);

@@ -10,20 +10,17 @@ export const getUserById = async (data) => {
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
     });
 };
 
 export const blockUserById = async (userId) => {
   let url = '/api/creator/' + userId + '/block';
-  console.log('block user :: ' + url);
   axios.post(url)
       .then((res) => {
           return res;
       })
       .catch((e) => {
         alert('EXCEPTION');
-        console.log(e);
       })
 
 }
@@ -31,20 +28,12 @@ export const blockUserById = async (userId) => {
 
 
 export const updateCreator = async (data) => {
-  console.log("data to send");
-  console.log(data);
-
   await axios.patch("/api/me/update", data);
 };
 
 export const sendReportData = async (data) => {
-  console.log("data to send");
-  console.log(data);
-
   await axios.patch("/api/me/update", data);
 };
-
-
 
 export const getIsFollowing = (user, otherUserId) =>
   new Promise((resolve, reject) => {});

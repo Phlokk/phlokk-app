@@ -1,4 +1,5 @@
 import FormData from "form-data";
+import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 export const saveMediaToStorage = (description, source, thumbnail) => {
@@ -48,7 +49,7 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
         reject(err);
       });
     } else {
-      console.log('no bearer')
+      Alert.alert("No bearer token");
     }
   });
 };

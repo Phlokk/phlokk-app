@@ -56,9 +56,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       .then((response) => {
         const user = response.data.user;
         user.token = response.data.token;
-
-        console.log('user token :: ' + response.data.token);
-
         setUser(user);
         SecureStore.setItemAsync("user", JSON.stringify(user));
         dispatch({
@@ -68,7 +65,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch((error) => {
-        console.log(error);
         Alert.alert("Wrong username or password!");
       });
   };
@@ -83,7 +79,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         acceptTerms: isChecked
       })
       .then(function (response) {
-        console.log(response.data);
         const user = response.data.user;
         user.token = response.data.token;
         resetTextInput();

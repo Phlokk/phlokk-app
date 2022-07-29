@@ -117,13 +117,11 @@ export default function SoundScreen({placeholder, user}) {
         );
         if (result.isLoaded === false) {
           SetLoading(false);
-          console.log("Error in Loading Audio");
         } else {
           SetLoading(false);
           SetLoaded(true);
         }
       } catch (error) {
-        console.log(error);
         SetLoading(false);
       }
     } else {
