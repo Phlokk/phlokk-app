@@ -36,13 +36,6 @@ export default function PostSingleOverlay({ post, user }) {
   const [isCommentModalOpen, setCommentModalOpen] = useState(false);
 
 
- 
-
-
-
-
-  
-
   return (
     <View style={styles.sideBarContainer}>
       <TouchableOpacity style={styles.iconContainer}>

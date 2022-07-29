@@ -15,6 +15,7 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
 import verifiedCheck from "../../../../../assets/verified.png";
 import CustomAlert from "../../../Alerts/customAlert";
+import {timeSince} from "../../../../services/posts";
 
 const CommentItem = ({ item }) => {
   const navigation = useNavigation();
@@ -22,35 +23,6 @@ const CommentItem = ({ item }) => {
   const [isUsernameProfile, setIsUsernameProfile] = useState(false);
   const [isStars, setIsStars] = useState(false);
   const [isReplies, setIsReplies] = useState(false);
-
-
-
-
-  const timeSince = function (date) {
-    var seconds = Math.floor((new Date() - date) / 1000);
-    var interval = seconds / 31536000;
-
-    if (interval > 1) {
-      return Math.floor(interval) + " years";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-      return Math.floor(interval) + " months";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-      return Math.floor(interval) + " days";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return Math.floor(interval) + " hours";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return Math.floor(interval) + " minutes";
-    }
-    return Math.floor(seconds) + " seconds";
-  };
 
   return (
     <View style={styles.container}>
