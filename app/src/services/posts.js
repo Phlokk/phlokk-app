@@ -150,9 +150,7 @@ export const clearCommentListener = () => {
 export const timeSince = function (date) {
     var seconds = Math.floor((new Date() - date) / 1000);
     var interval = seconds / 31536000;
-
-    var 
-
+    
     if (interval > 1) {
         return Math.floor(interval) + " years";
     }
