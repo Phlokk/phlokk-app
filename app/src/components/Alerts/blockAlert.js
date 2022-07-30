@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#00000098",
   },
   container: {
-    height: "25%",
+    height: 160,
     width: "80%",
     backgroundColor: colors.primary,
     borderRadius: 15,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   middle: {
-    flex: 0.5,
+    flex: 0.7,
     alignItems: "center",
     textAlign: "center",
     color: colors.white,
