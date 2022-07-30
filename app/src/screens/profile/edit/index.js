@@ -243,7 +243,7 @@ export default function EditProfileScreen({ route }) {
                 <FontAwesome
                   name="pencil-square-o"
                   size={16}
-                  color={colors.green}
+                  color={colors.secondary}
                 />
               </View>
             )}
@@ -353,14 +353,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: colors.green,
+    color: colors.secondary,
     fontSize: 12,
   },
   authText: {
     color: colors.white,
   },
   socialText: {
-    color: colors.secondary,
+    color: colors.green,
     fontWeight: "bold",
     fontSize: 13,
     marginTop: 60,

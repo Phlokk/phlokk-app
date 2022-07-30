@@ -9,7 +9,7 @@ import ProfileScreen from "../../screens/profile";
 import SearchScreen from "../../screens/search";
 import FeedNavigation from "../feed";
 import ActivityScreen from "../../screens/activity";
-// import { useChats } from "../../hooks/useChats";
+
 
 import colors from "../../../config/colors";
 

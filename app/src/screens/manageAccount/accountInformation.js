@@ -32,7 +32,7 @@ const AccountInformation = () => {
             <MaterialCommunityIcons
               name="cellphone-iphone"
               size={12}
-              color={colors.green}
+              color={colors.secondary}
             /> Phone number</Text>
           <View style={styles.fieldValueContainer}>
             <Feather name="chevron-right" size={28} color={colors.white} />
@@ -55,7 +55,7 @@ const AccountInformation = () => {
             <MaterialCommunityIcons
               name="email-outline"
               size={12}
-              color={colors.green}
+              color={colors.secondary}
             /> Email</Text>
           <View style={styles.fieldValueContainer}>
             <Feather name="chevron-right" size={28} color={colors.white} />
@@ -76,7 +76,7 @@ const AccountInformation = () => {
           
         >
           <Text style={styles.text}>
-            <MaterialIcons name="lock-outline" size={12} color={colors.green} /> Password</Text>
+            <MaterialIcons name="lock-outline" size={12} color={colors.secondary} /> Password</Text>
           <View style={styles.fieldValueContainer}>
             <Feather name="chevron-right" size={28} color={colors.white} />
           </View>
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        color: colors.green,
+        color: colors.secondary,
         fontSize: 12,
     },
      socialText: { 

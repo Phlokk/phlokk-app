@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: colors.green,
+    color: colors.secondary,
     fontSize: 12,
   },
   socialText: {

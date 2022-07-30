@@ -34,6 +34,7 @@ function DisplayMenuScreen({ user }) {
   if (user._id !== currentUser._id) {
     return null;
   }
+  
 
   return (
     <View style={styles.container}>
@@ -52,6 +53,7 @@ function DisplayMenuScreen({ user }) {
         />
         <TouchableOpacity style={styles.itemContainer}>
           <MaterialIcons
+            style={styles.transparentIcons}
             name="cloud-upload"
             size={24}
             color={colors.secondary}
@@ -61,7 +63,12 @@ function DisplayMenuScreen({ user }) {
           style={styles.itemContainer}
           onPress={() => setIsVisible(true)}
         >
-          <AntDesign name="star" size={24} color={colors.secondary} />
+          <AntDesign
+            style={styles.transparentIcons}
+            name="star"
+            size={24}
+            color={colors.secondary}
+          />
         </TouchableOpacity>
         <CustomAlert
           alertTitle={
@@ -81,7 +88,12 @@ function DisplayMenuScreen({ user }) {
           style={styles.itemContainer}
           onPress={() => setIsBookmark(true)}
         >
-          <MaterialIcons name="bookmark" size={24} color={colors.secondary} />
+          <MaterialIcons
+            style={styles.transparentIcons}
+            name="bookmark"
+            size={24}
+            color={colors.secondary}
+          />
         </TouchableOpacity>
         <CustomAlert
           alertTitle={
@@ -99,11 +111,17 @@ function DisplayMenuScreen({ user }) {
           style={styles.itemContainer}
           onPress={() => setIsPrivate(true)}
         >
-          <FontAwesome name="lock" size={24} color={colors.secondary} />
+          <FontAwesome
+            style={styles.transparentIcons}
+            name="lock"
+            size={24}
+            color={colors.secondary}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.itemContainer}>
           <MaterialIcons
+            style={styles.transparentIcons}
             name="admin-panel-settings"
             size={24}
             color={colors.secondary}
@@ -159,6 +177,9 @@ const styles = StyleSheet.create({
   pressedModal: {
     flex: 1,
     justifyContent: "flex-end",
+  },
+  transparentIcons: {
+    opacity: 0.7,
   },
 });
 

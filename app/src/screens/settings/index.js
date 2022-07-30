@@ -62,7 +62,7 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="user" size={12} color={colors.green} /> Manage Account
+            <Feather name="user" size={12} color={colors.secondary} /> Manage Account
           </Text>
           <View style={styles.fieldValueContainer}>
             <Feather name="chevron-right" size={28} color={colors.white} />
@@ -81,7 +81,7 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <AntDesign name="exclamationcircleo" size={12} color={colors.green} /> Community Guidelines
+            <AntDesign name="exclamationcircleo" size={12} color={colors.secondary} /> Community Guidelines
           </Text>
           <View style={styles.fieldValueContainer}>
             <Feather name="chevron-right" size={28} color={colors.white} />
@@ -96,7 +96,7 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="file-text" size={12} color={colors.green} /> Terms of
+            <Feather name="file-text" size={12} color={colors.secondary} /> Terms of
             Service
           </Text>
           <View style={styles.fieldValueContainer}>
@@ -112,7 +112,7 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="file" size={12} color={colors.green} /> Privacy Policy
+            <Feather name="file" size={12} color={colors.secondary} /> Privacy Policy
           </Text>
           <View style={styles.fieldValueContainer}>
             <Feather name="chevron-right" size={28} color={colors.white} />
@@ -130,7 +130,7 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <FontAwesome5 name="copyright" size={12} color={colors.green} /> Copyright
+            <FontAwesome5 name="copyright" size={12} color={colors.secondary} /> Copyright
             Policy
           </Text>
           <View style={styles.fieldValueContainer}>
@@ -146,7 +146,7 @@ export default function SettingsScreen() {
           onPress={handleLogout}
         >
           <Text style={styles.text}>
-            <MaterialIcons name="logout" size={14} color={colors.green} /> Logout
+            <MaterialIcons name="logout" size={14} color={colors.secondary} /> Logout
           </Text>
         </TouchableOpacity>
         <View style={styles.versionContainer}>
@@ -178,11 +178,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: colors.green,
+    color: colors.secondary,
     fontSize: 12,
   },
   versionText: {
-    color: colors.green,
+    color: colors.secondary,
     textAlign: "center",
     fontSize: 10,
     paddingTop: 200,
