@@ -244,14 +244,14 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
-    paddingTop: 40,
+    paddingTop: 5,
     width: 40,
     backgroundColor: colors.primary,
   },
   checkboxRow: {
     flexDirection: "row",
     alignSelf: "center",
-    paddingTop: 30,
+    paddingTop: 10,
   },
   textInput: {
     borderColor: colors.secondary,
@@ -309,6 +309,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   logoContainer: {
+    top: 60,
     alignItems: "center",
   },
   eye: {

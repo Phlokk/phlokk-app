@@ -6,8 +6,6 @@ import {
   Modal,
 } from "react-native";
 import { blockUserById } from "../../services/user";
-import {useVideoFeed} from "../../services/posts";
-
 import colors from "../../../config/colors";
 
 export default function BlockAlert({
@@ -87,8 +85,6 @@ const styles = StyleSheet.create({
     flex: 0.2,
     flexDirection: "row",
     justifyContent: "space-evenly",
-    // backgroundColor: colors.red,
-
   },
   alertIconStyle: {
     height: 35,
@@ -111,13 +107,11 @@ const styles = StyleSheet.create({
   },
   alertMessageButtonStyle: {
     width: "30%",
-    // marginVertical: 15,
     borderRadius: 10,
     borderColor: colors.secondary,
     borderWidth: 1,
     backgroundColor: colors.lightBlack,
     justifyContent: "center",
-    // top: 80,
   },
   alertMessageButtonText: {
     textAlign: "center",
@@ -129,7 +123,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 14,
     color: colors.white,
-
   },
   text: {
     color: colors.white,
