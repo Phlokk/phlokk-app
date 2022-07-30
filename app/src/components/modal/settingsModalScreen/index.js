@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { FontAwesome } from '@expo/vector-icons'; 
 import { Feather } from "@expo/vector-icons";
@@ -89,7 +89,6 @@ function SettingsModalScreen({ user }) {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     height: "20%",
     backgroundColor: colors.primary,
     borderTopLeftRadius: 20,
@@ -97,19 +96,17 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.secondary,
-    paddingTop: 5,
     fontSize: 10,
+    bottom: 90,
   },
   textSettingsIcon: {
     color: colors.green,
   },
 
   fieldItemContainer: {
-    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 15,
-    padding: 5,
     marginLeft: 10,
   },
   bubble: {

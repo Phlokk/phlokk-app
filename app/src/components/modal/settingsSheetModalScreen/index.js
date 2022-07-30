@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.secondary,
-    paddingTop: 5,
+    bottom: 60,
     fontSize: 10,
   },
   settingsText: {
