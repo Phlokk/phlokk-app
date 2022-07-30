@@ -15,6 +15,7 @@ export default {
     yellow: '#ffeaa7',
     greenCheck: '#00e640',
     gray: '#dfe6e9',
+    darkGrey: '#1e272e',
     lightBlack: '#181818',
     diamondBlue: '#c5eff7',
     

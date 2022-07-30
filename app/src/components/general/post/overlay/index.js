@@ -215,7 +215,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   avatar: {
-    // zIndex: -9999,
     height: 50,
     width: 50,
     borderRadius: 25,
@@ -243,13 +242,11 @@ const styles = StyleSheet.create({
   phlokkVerified: {
     width: 12,
     height: 12,
-
     marginHorizontal: 3,
   },
 
   reportButtonText: {
     color: colors.white,
-
     padding: 10,
     flexDirection: "row",
   },

@@ -18,9 +18,8 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 
 function DisplayMenuScreen({ user }) {
-
   const isFocused = useIsFocused();
-  
+
   useEffect(() => {
     setIsSettingsModalOpen(false);
   }, [isFocused]);
@@ -35,7 +34,6 @@ function DisplayMenuScreen({ user }) {
   if (user._id !== currentUser._id) {
     return null;
   }
-  
 
   return (
     <View style={styles.container}>
@@ -43,7 +41,7 @@ function DisplayMenuScreen({ user }) {
         <CustomAlert
           alertTitle={
             <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
+              <MaterialIcons name="info" size={24} color={colors.secondary} />
             </Text>
           }
           customAlertMessage={<Text>Star videos{"\n"}coming in beta 2</Text>}
@@ -53,18 +51,22 @@ function DisplayMenuScreen({ user }) {
           animationType="fade"
         />
         <TouchableOpacity style={styles.itemContainer}>
-          <MaterialIcons name="cloud-upload" size={24} color={colors.green} />
+          <MaterialIcons
+            name="cloud-upload"
+            size={24}
+            color={colors.secondary}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.itemContainer}
           onPress={() => setIsVisible(true)}
         >
-          <AntDesign name="star" size={24} color={colors.green} />
+          <AntDesign name="star" size={24} color={colors.secondary} />
         </TouchableOpacity>
         <CustomAlert
           alertTitle={
             <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
+              <MaterialIcons name="info" size={24} color={colors.secondary} />
             </Text>
           }
           customAlertMessage={
@@ -79,12 +81,12 @@ function DisplayMenuScreen({ user }) {
           style={styles.itemContainer}
           onPress={() => setIsBookmark(true)}
         >
-          <MaterialIcons name="bookmark" size={24} color={colors.green} />
+          <MaterialIcons name="bookmark" size={24} color={colors.secondary} />
         </TouchableOpacity>
         <CustomAlert
           alertTitle={
             <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
+              <MaterialIcons name="info" size={24} color={colors.secondary} />
             </Text>
           }
           customAlertMessage={<Text>Private videos{"\n"}coming in beta 2</Text>}
@@ -97,14 +99,14 @@ function DisplayMenuScreen({ user }) {
           style={styles.itemContainer}
           onPress={() => setIsPrivate(true)}
         >
-          <FontAwesome name="lock" size={24} color={colors.green} />
+          <FontAwesome name="lock" size={24} color={colors.secondary} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.itemContainer}>
           <MaterialIcons
             name="admin-panel-settings"
             size={24}
-            color={colors.green}
+            color={colors.secondary}
             onPress={() => setIsSettingsModalOpen(true)}
           />
         </TouchableOpacity>
