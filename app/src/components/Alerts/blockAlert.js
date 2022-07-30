@@ -21,7 +21,7 @@ export default function BlockAlert({
 
   const blockUser = async function (userId) {
     await blockUserById(userId).then((res) => {
-      console.log(res);
+      dismissAlert(false)
     });
   };
   return (
