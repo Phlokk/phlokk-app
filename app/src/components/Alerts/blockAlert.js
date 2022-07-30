@@ -69,12 +69,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#00000098",
   },
   container: {
-    height: "40%",
+    height: "25%",
     width: "80%",
     backgroundColor: colors.primary,
     borderRadius: 15,
     padding: 4,
-    paddingTop: 40,
+    paddingTop: 20,
     borderWidth: 1,
   },
   middle: {
@@ -111,20 +111,19 @@ const styles = StyleSheet.create({
   },
   alertMessageButtonStyle: {
     width: "30%",
-    marginVertical: 15,
+    // marginVertical: 15,
     borderRadius: 10,
     borderColor: colors.secondary,
     borderWidth: 1,
     backgroundColor: colors.lightBlack,
     justifyContent: "center",
-    top: 80,
+    // top: 80,
   },
   alertMessageButtonText: {
     textAlign: "center",
     fontSize: 14,
     fontWeight: "bold",
     color: colors.white,
-
   },
   alertMessageButtonTextNegative: {
     textAlign: "center",
