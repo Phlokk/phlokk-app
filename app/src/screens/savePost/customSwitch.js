@@ -159,7 +159,7 @@ function CustomSwitch() {
         >
           <Text style={styles.settingsText}>
             <Entypo name="shop" size={12} color={colors.white} />
-            Post Market
+             Post Market
           </Text>
           <View style={styles.fieldValueContainer}>
             <Switch

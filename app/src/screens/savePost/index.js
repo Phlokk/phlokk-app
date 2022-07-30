@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
   },
   uploadingContainer: {
     flex: 1,
-    backgroundColor: colors.primary,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -194,11 +193,13 @@ const styles = StyleSheet.create({
   formContainer: {
     margin: 20,
     flexDirection: "row",
+    padding: 10,
+    backgroundColor: colors.lightBlack
   },
   buttonsContainer: {
     flexDirection: "row",
     margin: 20,
-    bottom: 10,
+    bottom: 20,
   },
   movieImageContainer: {
     width: "70%",

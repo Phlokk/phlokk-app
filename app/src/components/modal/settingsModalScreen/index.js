@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { FontAwesome } from '@expo/vector-icons'; 
 import { Feather } from "@expo/vector-icons";
@@ -8,7 +8,6 @@ import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import CustomAlert from "../../Alerts/customAlert";
 import colors from "../../../../config/colors";
-import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 
 function SettingsModalScreen({ user }) {
@@ -20,7 +19,7 @@ function SettingsModalScreen({ user }) {
       <ScrollView
       horizontal={true}
       >
-      <TouchableWithoutFeedback
+      <TouchableOpacity
         style={styles.fieldItemContainer}
         onPress={() => {
           navigation.navigate(routes.SETTINGS_SCREEN);
@@ -34,9 +33,9 @@ function SettingsModalScreen({ user }) {
         />
         </View>
         <Text style={styles.text}> Settings</Text>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
 
-      <TouchableWithoutFeedback
+      <TouchableOpacity
         style={styles.fieldItemContainer}
         onPress={() => {
           navigation.navigate(routes.EDIT, { user });
@@ -48,7 +47,7 @@ function SettingsModalScreen({ user }) {
             <Feather name="user" size={24} color={colors.secondary} /> 
         </View>
         <Text style={styles.text}> Edit profile</Text>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
 
       <CustomAlert
         customAlertMessage={
@@ -59,7 +58,7 @@ function SettingsModalScreen({ user }) {
         dismissAlert={setMarketAlert}
         animationType="fade"
       />
-      <TouchableWithoutFeedback
+      <TouchableOpacity
         style={styles.fieldItemContainer}
         // onPress={() => { navigation.navigate(routes.MARKET)
 
@@ -70,8 +69,8 @@ function SettingsModalScreen({ user }) {
           <Entypo name="shop" size={24} color={colors.secondary} />
           </View>
         <Text style={styles.text}> Market</Text>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback
+      </TouchableOpacity>
+      <TouchableOpacity
         style={styles.fieldItemContainer}
         onPress={() => { navigation.navigate(routes.GUIDELINES)
 
@@ -82,7 +81,7 @@ function SettingsModalScreen({ user }) {
           <FontAwesome name="hand-stop-o" size={24} color={colors.secondary} />
           </View>
         <Text style={styles.text}> Guidelines</Text>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
       </ScrollView>
     </View>
   );
