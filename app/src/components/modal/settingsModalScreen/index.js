@@ -89,13 +89,13 @@ function SettingsModalScreen({ user }) {
 
 const styles = StyleSheet.create({
   container: {
-    height: "20%",
+    height: "12%",
     backgroundColor: colors.primary,
   },
   text: {
     color: colors.secondary,
     fontSize: 10,
-    bottom: 90,
+    bottom: 20,
   },
   textSettingsIcon: {
     color: colors.green,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   fieldItemContainer: {
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 15,
+    marginTop: 5,
     marginLeft: 10,
   },
   bubble: {
