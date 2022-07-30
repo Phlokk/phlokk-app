@@ -100,6 +100,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       <View style={styles.container}>
         <TouchableOpacity onPress={() => setDetailsPage(false)}>
           <MaterialIcons
+          style={styles.keyLeft}
             name="keyboard-arrow-left"
             size={28}
             color="lightgray"
@@ -326,4 +327,7 @@ const styles = StyleSheet.create({
   eulaInfoText: {
     color: colors.green,
   },
+  keyLeft: {
+    top: 60,
+  }
 });
