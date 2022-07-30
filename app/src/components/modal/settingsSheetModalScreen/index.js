@@ -57,6 +57,7 @@ const SettingsSheetModalScreen = ( post ) => {
         modalVisible={isBlocked}
         dismissAlert={setIsBlocked}
         animationType="fade"
+        post={post}
       />
       <TouchableOpacity 
         style={styles.fieldItemContainer}
