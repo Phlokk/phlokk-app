@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   transparentIcons: {
-    opacity: 0.7,
+    opacity: 0.3,
   },
 });
 

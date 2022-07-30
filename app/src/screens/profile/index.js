@@ -1,7 +1,6 @@
 import ProfileHeader from "../../components/header/";
 import ProfileNavBar from "../../components/general/profileNavBar/";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
 import { FlatList, View, StyleSheet } from "react-native";
 import ProfilePostListItem from "../../components/profile/postList/item";
 import colors from "../../../config/colors";

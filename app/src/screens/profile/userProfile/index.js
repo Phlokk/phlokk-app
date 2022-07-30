@@ -82,7 +82,7 @@ function UserProfile({ user }) {
       </View>
       <>
         <View style={styles.relationshipContainer}>
-          <Text style={styles.relationshipText}>{user.relationship_type}</Text>
+          <Text style={styles.relationshipText}>~ {user.relationship_type} ~</Text>
         </View>
       </>
       <>
