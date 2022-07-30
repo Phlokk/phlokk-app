@@ -91,18 +91,18 @@ const styles = StyleSheet.create({
   container: {
     height: "12%",
     backgroundColor: colors.primary,
+    justifyContent: "space-evenly",
   },
   text: {
     color: colors.secondary,
     fontSize: 10,
-    bottom: 20,
+    top: 5,
   },
   textSettingsIcon: {
     color: colors.green,
   },
 
   fieldItemContainer: {
-    justifyContent: "space-between",
     alignItems: "center",
     marginTop: 5,
     marginLeft: 10,
