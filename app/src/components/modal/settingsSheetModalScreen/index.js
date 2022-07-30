@@ -212,8 +212,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
     height: "20%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
   },
   text: {
     color: colors.secondary,

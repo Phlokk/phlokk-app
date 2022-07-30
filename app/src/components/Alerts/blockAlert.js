@@ -21,9 +21,6 @@ export default function BlockAlert({
 }) {
 
   const feed = useVideoFeed();
-
-
-
   const blockUser = async function (userId) {
     await blockUserById(userId).then((res) => {
       feed()
