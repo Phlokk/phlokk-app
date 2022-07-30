@@ -212,17 +212,17 @@ const SettingsSheetModalScreen = ( post ) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
-    height: "20%",
+    height: "12%",
   },
   text: {
     color: colors.secondary,
-    bottom: 60,
+    bottom: 20,
     fontSize: 10,
   },
   settingsText: {
     color: colors.secondary,
     textAlign: "center",
-    paddingTop: 10,
+    paddingTop: 30,
   },
   fieldItemContainer: {
     flexDirection: "column",
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   topBar: {
-    marginTop: 40, 
+    marginTop: 10,
   }
   
   
