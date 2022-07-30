@@ -17,14 +17,11 @@ export default function BlockAlert({
   modalVisible,
   dismissAlert,
   post,
-
 }) {
 
-  const feed = useVideoFeed();
   const blockUser = async function (userId) {
     await blockUserById(userId).then((res) => {
-      feed()
-      setPosts(feed);
+      dismissAlert(false)
     });
   };
   return (
