@@ -14,6 +14,7 @@ import {
 } from "../../services/posts";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
+import colors from "../../../config/colors";
 
 const { height } = Dimensions.get("window");
 
@@ -29,6 +30,7 @@ const VideoFeed = ({ route }) => {
   );
   const [currentVideoPlayingStat, setCurrentVideoPlayingStat] = useState({});
 
+  
   const {
     posts,
     getMoreVideos,
@@ -131,6 +133,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  textFeed: {
+    backgroundColor: colors.red
+  }
 });
 
 export default VideoFeed;

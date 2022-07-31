@@ -3,6 +3,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ScrollView
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -10,6 +11,7 @@ import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/customAlert";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons'; 
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -26,9 +28,51 @@ function IconOverlay() {
   const [fX, setFx] = useState(false);
   const [replies, setReplies] = useState(false);
   const [soundbar, setSoundBar] = useState(false);
+  const [isSeconds, setIsSeconds] = useState(false);
+  const [isLive, setIsLive] = useState(false);
 
   return (
-    <View>
+    <ScrollView horizontal={true} contentContainerStyle={styles.iconRow}>
+      <TouchableOpacity
+        style={styles.text}
+        onPress={() => navigation.goBack()}
+      >
+        <MaterialIcons 
+        name="keyboard-arrow-left" 
+        size={28} 
+        color="lightgray" />
+      </TouchableOpacity> 
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Seconds{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isSeconds}
+        dismissAlert={setIsSeconds}
+        animationType="fade"
+      /> 
+      <TouchableOpacity
+      style={styles.sideBarButton}
+      onPress={() => setIsSeconds(true)}
+      >
+        <Ionicons name="timer-outline" size={24} color={colors.secondary} />
+        <Text style={styles.iconText}>Secs</Text>
+      </TouchableOpacity>
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>LIVE{"\n"}coming in Official release</Text>}
+        positiveBtn="Ok"
+        modalVisible={isLive}
+        dismissAlert={setIsLive}
+        animationType="fade"
+      />
+      <TouchableOpacity 
+      style={styles.sideBarButton}
+      onPress={() => setIsLive(true)}
+      >
+        <Feather name="video" size={24} color={colors.secondary} />
+        <Text style={styles.iconText}>LIVE</Text>
+      </TouchableOpacity>
+      
       <CustomAlert
         alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
         customAlertMessage={<Text>Text w/ keyframes{"\n"}coming in beta 3</Text>}
@@ -41,7 +85,7 @@ function IconOverlay() {
         style={styles.sideBarButton}
         onPress={() => setTextFrames(true)}
       >
-        <Feather name="align-left" size={24} color={colors.green} />
+        <Feather name="align-left" size={24} color={colors.secondary} />
         <Text style={styles.iconText}>Text</Text>
       </TouchableOpacity>
       <CustomAlert
@@ -59,7 +103,7 @@ function IconOverlay() {
         <MaterialCommunityIcons
           name="account-clock-outline"
           size={24}
-          color={colors.green}
+          color={colors.secondary}
         />
         <Text style={styles.iconText}>Timing</Text>
       </TouchableOpacity>
@@ -75,7 +119,7 @@ function IconOverlay() {
         style={styles.sideBarButton}
         onPress={() => setSpeed(true)}
       >
-        <Octicons name="dashboard" size={24} color={colors.green} />
+        <Octicons name="dashboard" size={24} color={colors.secondary} />
         <Text style={styles.iconText}>Speed</Text>
       </TouchableOpacity>
       <CustomAlert
@@ -90,7 +134,7 @@ function IconOverlay() {
         style={styles.sideBarButton}
         onPress={() => setFx(true)}
       >
-        <FontAwesome name="magic" size={24} color={colors.green} />
+        <FontAwesome name="magic" size={24} color={colors.secondary} />
         <Text style={styles.iconText}>FX</Text>
       </TouchableOpacity>
       <CustomAlert
@@ -108,7 +152,7 @@ function IconOverlay() {
         <MaterialIcons
           name="chat-bubble-outline"
           size={24}
-          color={colors.green}
+          color={colors.secondary}
         />
         <Text style={styles.iconText}>Replies</Text>
       </TouchableOpacity>
@@ -125,16 +169,21 @@ function IconOverlay() {
         onPress={() => setSoundBar(true)}
 
         // onPress={() => navigation.navigate(routes.SOUNDS)}
-        // onPress={() => Alert.alert("Sound Bar", "Coming in beta version 3!")}
       >
-        <Entypo name="beamed-note" size={24} color={colors.green} />
+        <Entypo name="beamed-note" size={24} color={colors.secondary} />
         <Text style={styles.iconText}>Sounds</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  iconRow: {
+
+    justifyContent: "space-between",
+    flex: 1,
+    
+  },
   iconText: {
     color: colors.white,
     fontSize: 6,

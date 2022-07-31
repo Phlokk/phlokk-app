@@ -23,9 +23,7 @@ import EditProfileNav from "../../../components/general/navBar/editProfile";
 import { fetchGetUsers } from "../../../redux/sagas/requests/fetchUsers";
 
 export default function EditProfileScreen({ route }) {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
   const [image, setImage] = useState(null);
 
   const passedUser = route?.params?.user;
@@ -68,7 +66,7 @@ export default function EditProfileScreen({ route }) {
         ContentType: "application/json",
       },
     })
-      .then((resp) => {
+      .then((res) => {
         alert("Profile picture updated successfully.");
       })
       .catch((err) => {

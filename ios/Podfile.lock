@@ -99,8 +99,6 @@ PODS:
     - expo-dev-menu/GestureHandler
     - expo-dev-menu/Reanimated
     - expo-dev-menu/SafeAreaView
-  - ExpoHaptics (11.1.1):
-    - ExpoModulesCore
   - ExpoModulesCore (0.6.4):
     - React-Core
     - ReactCommon/turbomodule/core
@@ -331,9 +329,6 @@ PODS:
     - React-Core
   - react-native-safe-area-context (3.3.2):
     - React-Core
-  - react-native-track-player (2.1.3):
-    - React-Core
-    - SwiftAudioEx (= 0.14.7)
   - React-perflogger (0.64.3)
   - React-RCTActionSheet (0.64.3):
     - React-Core/RCTActionSheetHeaders (= 0.64.3)
@@ -398,10 +393,6 @@ PODS:
     - React-cxxreact (= 0.64.3)
     - React-jsi (= 0.64.3)
     - React-perflogger (= 0.64.3)
-  - ReactNativeAudioToolkit (2.0.3):
-    - React
-  - RNCAsyncStorage (1.15.17):
-    - React-Core
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
   - RNDeviceInfo (9.0.1):
@@ -443,7 +434,6 @@ PODS:
     - React-Core
   - RNSVG (12.1.1):
     - React
-  - RNSweetAlert (3.1.0)
   - RNVectorIcons (9.0.0):
     - React-Core
   - Stripe (21.9.1):
@@ -459,7 +449,6 @@ PODS:
   - StripeCore (21.9.1)
   - StripeUICore (21.9.1):
     - StripeCore (= 21.9.1)
-  - SwiftAudioEx (0.14.7)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -483,7 +472,6 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
-  - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSharing (from `../node_modules/expo-sharing/ios`)
@@ -511,7 +499,6 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - react-native-track-player (from `../node_modules/react-native-track-player`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -524,8 +511,6 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - "ReactNativeAudioToolkit (from `../node_modules/@react-native-community/audio-toolkit`)"
-  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -533,7 +518,6 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
-  - RNSweetAlert (from `../node_modules/react-native-sweet-alert`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - "stripe-react-native (from `../node_modules/@stripe/stripe-react-native`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -545,7 +529,6 @@ SPEC REPOS:
     - Stripe
     - StripeCore
     - StripeUICore
-    - SwiftAudioEx
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -588,8 +571,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu"
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
-  ExpoHaptics:
-    :path: "../node_modules/expo-haptics/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
   EXSecureStore:
@@ -640,8 +621,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-track-player:
-    :path: "../node_modules/react-native-track-player"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -666,10 +645,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-  ReactNativeAudioToolkit:
-    :path: "../node_modules/@react-native-community/audio-toolkit"
-  RNCAsyncStorage:
-    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCPushNotificationIOS:
     :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDeviceInfo:
@@ -684,8 +659,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
-  RNSweetAlert:
-    :path: "../node_modules/react-native-sweet-alert"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   stripe-react-native:
@@ -715,7 +688,6 @@ SPEC CHECKSUMS:
   expo-dev-launcher: 1e6eecef4abb3b1274f0e1ab1b576c67d17ddbfa
   expo-dev-menu: 444277c5bd4553abbf8b1095b93ecb88af4c6479
   expo-dev-menu-interface: 395d046704878e5de471a89102ddf361cbb7e52f
-  ExpoHaptics: 0d0b69b2414755a4057ffad0a10315902c0ea1b7
   ExpoModulesCore: 64abda7af7cf659d2fa092934e29c6f4ea7e849f
   EXSecureStore: b80c74c5ee29d0160c2aace3fd9a24a5edc20015
   EXSharing: 2e26cf64fb2a89484b4f6ff8da12d6d752f83962
@@ -742,7 +714,6 @@ SPEC CHECKSUMS:
   React-jsinspector: 34e23860273a23695342f58eed3ffd3ba10c31e0
   react-native-pager-view: 3ee7d4c7697fb3ef788346e834a60cca97ed8540
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
-  react-native-track-player: c4147afddd29de936caa06561f78a32d6502eb12
   React-perflogger: cc76a4254d19640f1d8ad1c66fdee800414b805c
   React-RCTActionSheet: 7448f049318d8d7e8a9a1ebb742ada721757eea8
   React-RCTAnimation: fb9b3fa1a4a9f5e6ab01b3368693ce69860ba76a
@@ -755,8 +726,6 @@ SPEC CHECKSUMS:
   React-RCTVibration: c7f845861e79eae13dc1e8217a3cf47a3945b504
   React-runtimeexecutor: 493d9abb8b23c3f84e19ae221eeba92cadcb70dc
   ReactCommon: 8fea6422328e2fc093e25c9fac67adbcf0f04fb4
-  ReactNativeAudioToolkit: de9610f323e855ac6574be8c99621f3d57c5df06
-  RNCAsyncStorage: 6bd5a7ba3dde1c3facba418aa273f449bdc5437a
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
   RNDeviceInfo: cd814b8e2f3c46c750ca2464e382a7eaedf24cea
   RNGestureHandler: e1ad51d31a580755079d5124d3ab66f0fcaa8311
@@ -764,13 +733,11 @@ SPEC CHECKSUMS:
   RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
   RNShare: 3185c074441b7e8897014d95ba982434a0a024a1
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
-  RNSweetAlert: 1aa4e70d8f8540aa6b9c18c019f62a25e36720b6
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
   Stripe: 22c1b8da5ee20a1aaf40fd198160efa72e71644a
   stripe-react-native: 980f3d19f52a7dc4b373c6c20d30ebd760bc39e5
   StripeCore: 91ea038ac0abbb72f11014044dfd1e5d39089714
   StripeUICore: 7edf64b24c9c178bfd97e988f2cffdbb7a7628b0
-  SwiftAudioEx: 3a4024e48f3b3e45dac6bf2668d7adbe7b83f50e
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
 
 PODFILE CHECKSUM: b265b4b7df73f4fc0f5a5030e2657167c984e969

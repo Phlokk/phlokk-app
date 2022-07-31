@@ -20,7 +20,6 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import BottomMenu from "./bottomMenu";
 import colors from "../../../config/colors";
-import IconOverlay from "./iconOverlay";
 
 
 const START_RECORDING_DELAY = 3000;
@@ -148,7 +147,7 @@ export default function CameraScreen() {
   };
 
   if (!hasCameraPermissions || !hasAudioPermissions || !hasGalleryPermissions) {
-    return <View></View>;
+    return <View><Text>You did not give permissions.{"\n"} Please check camera settings in device.</Text></View>;
   }
 
   const onPressRecord = () => {
@@ -248,7 +247,7 @@ export default function CameraScreen() {
             )
           }
         >
-          <Feather name="refresh-ccw" size={24} color={colors.green} />
+          <Feather name="refresh-ccw" size={24} color={colors.secondary} />
           <Text style={styles.iconText}>Flip</Text>
         </TouchableOpacity>
 
@@ -262,12 +261,10 @@ export default function CameraScreen() {
             )
           }
         >
-          <Feather name="zap" size={24} color={colors.green} />
+          <Feather name="zap" size={24} color={colors.secondary} />
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
-        <IconOverlay />
       </View>
-
       <View style={styles.bottomBarContainer}>
         <View style={{ flex: 1 }}></View>
         <View style={styles.recordButtonContainer}>

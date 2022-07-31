@@ -245,7 +245,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
-    paddingTop: 5,
+    paddingTop: 0,
     width: 40,
     backgroundColor: colors.primary,
   },
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   button: {
-    marginTop: 80,
+    marginTop: 40,
     borderColor: colors.green,
     borderWidth: 1,
     borderRadius: 10,
