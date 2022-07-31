@@ -16,7 +16,7 @@ export default function BottomMenu () {
 
 const styles = StyleSheet.create({
     container: {
-    height: 90,
+    height: 80,
     alignItems: "center",
     flexDirection: "row",
     backgroundColor: colors.black,
