@@ -1,6 +1,5 @@
 import { View, StyleSheet} from 'react-native';
 import React from 'react';
-import { useNavigation } from "@react-navigation/native";
 import colors from '../../../config/colors';
 import IconOverlay from './iconOverlay';
 
