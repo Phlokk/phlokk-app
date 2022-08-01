@@ -22,7 +22,7 @@ const SearchScreen = () => {
 
   const Categories = [
     { id: 1, name: "Comedy", navigateTo: routes.COMEDY_SCREEN },
-    { id: 2, name: "Musician", navigateTo: routes.MUSICIAN_SCREEN },
+    { id: 2, name: "Music", navigateTo: routes.MUSICIAN_SCREEN },
     { id: 3, name: "Dancers", navigateTo: routes.DANCERS_SCREEN },
     { id: 4, name: "Lip-sync", navigateTo: routes.LIP_SYNC_SCREEN },
     { id: 5, name: "Foodies", navigateTo: routes.FOODIES_SCREEN },
@@ -128,9 +128,9 @@ const styles = StyleSheet.create({
   item: {
     padding: 5,
     backgroundColor: colors.lightBlack,
-    width: 120,
-    height: 40,
-    borderRadius: 10,
+    width: 60,
+    height: 60,
+    borderRadius: 100,
     borderWidth: 0.75,
     borderColor: colors.primary,
     justifyContent: "center",
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 13 },
   },
   itemText: {
-    fontSize: 10,
+    fontSize: 8,
     color: colors.green,
     textAlign: "center",
   },
