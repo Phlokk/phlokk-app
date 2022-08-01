@@ -101,8 +101,6 @@ export default function CustomImageModal({
                 </View>
               </View>
             </View>
-
-            <View style={styles.bottom}></View>
           </View>
         </View>
       </LinearGradient>
@@ -118,33 +116,22 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   top: {
-    flex: 0.5,
     alignItems: "center",
     paddingHorizontal: 5,
     paddingVertical: 2,
   },
   middle: {
-    flex: 0.8,
     alignItems: "center",
     paddingHorizontal: 2,
     textAlign: "center",
-    padding: 25,
-    paddingTop: 20,
-    margin: 20,
+    padding: 20,
+    margin: 10,
     color: colors.white,
     fontSize: 16,
-    marginVertical: 2,
     borderRadius: 15,
     borderWidth: 1,
     borderColor: colors.diamondBlue,
     backgroundColor: colors.lightBlack,
-  },
-  bottom: {
-    flex: 0.5,
-    width: "100%",
-    flexDirection: "row",
-    padding: 4,
-    justifyContent: "space-evenly",
   },
   alertIconStyle: {
     borderRadius: 100,
@@ -192,14 +179,13 @@ const styles = StyleSheet.create({
   },
   linkRow: {
     flexDirection: "row",
-    paddingTop: 35,
   },
   linkText: {
     color: colors.secondary,
-    marginBottom: 20,
-    padding: 2,
+    marginTop: 20,
+    padding: 5,
+    paddingRight: 10,
     justifyContent: "center",
-    margin: 15,
   },
   seperator: {
     height: 1,
@@ -208,13 +194,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondary,
     alignSelf: "center",
     justifyContent: "center",
-    marginBottom: 10,
-    top: 50,
+    top: 10
   },
   goBackView: {
-    margin: 10,
-    right: 150,
-    bottom: 15,
+    zIndex: 99,
+    position: "absolute",
+    left: 15,
+    top: 15,
   },
   box: {
     width: "100%",

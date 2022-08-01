@@ -49,7 +49,7 @@ export default function ProfileNavBar({ showFireIcon }) {
       <Text style={styles.middleText}>{user.creator_type}</Text>
       <CustomAlert
         alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Phlokk Info{"\n"}coming in Official release</Text>}
+        customAlertMessage={<Text>Report bugs{"\n"}coming in beta v0.0.1</Text>}
         positiveBtn="Ok"
         modalVisible={isInfo}
         dismissAlert={setIsInfo}
@@ -57,9 +57,9 @@ export default function ProfileNavBar({ showFireIcon }) {
       />
       {user !== null || !undefined ? (
         <TouchableOpacity>
-          <MaterialCommunityIcons
+          <MaterialIcons
             onPress={() => setIsInfo(true)}
-            name="information"
+            name="bug-report"
             size={25}
             color={colors.green}
           />
