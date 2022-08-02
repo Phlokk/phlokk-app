@@ -1,12 +1,11 @@
 import { View, Text, StyleSheet, Image, Modal } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Octicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons'; 
 import * as Linking from "expo-linking";
 import colors from "../../../config/colors";
-import LinearGradient from "react-native-linear-gradient";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
+
 
 export default function CustomImageModal({
   alertTitle,
@@ -21,15 +20,17 @@ export default function CustomImageModal({
       animationType={"fade"}
       onRequestClose={() => setModalVisible(false)}
     >
-      <LinearGradient
-        colors={["#00cec9", "#ffffff"]}
-        // start={{ x: 0.0, y: 0.25 }}
-        // end={{ x: 0.5, y: 1.0 }}
-        // locations={[0, 0.5, 0.6]}
-        style={styles.box}
-      >
         <View style={styles.mainContainer}>
+        <View style={styles.goBackView}>
+                <Feather
+                  onPress={() => dismissAlert(false)}
+                  style={styles.alertMessageButtonText}
+                  name="x"
+                  size={25}
+                />
+              </View>
           <View style={styles.container}>
+          
             <View style={styles.top}>
               <Image
                 source={{ uri: user.photo_url }}
@@ -39,48 +40,47 @@ export default function CustomImageModal({
             </View>
 
             <View style={styles.middle}>
-              <View style={styles.goBackView}>
+              {/* <View style={styles.goBackView}>
                 <Feather
                   onPress={() => dismissAlert(false)}
                   style={styles.alertMessageButtonText}
                   name="x-square"
                   size={25}
                 />
-              </View>
+              </View> */}
               <Text style={styles.alertMessageTextStyle}>
                 <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text>
                 {"\n"}
                 {"\n"}
                 {user.bio}
               </Text>
-              <View style={styles.seperator}></View>
               <View style={styles.linkRow}>
                 <View style={styles.linkText}>
-                  <Feather
+                  <SimpleLineIcons
                     onPress={
                       user && user.youtube_link
                         ? () => Linking.openURL(user.youtube_link)
                         : null
                     }
-                    name="youtube"
+                    name="social-youtube"
                     size={28}
                     color={
                       user && user.youtube_link
-                        ? colors.diamondBlue
-                        : colors.gray
+                        ? colors.green
+                        : colors.white
                     }
                   />
                 </View>
                 <View style={styles.linkText}>
-                  <MaterialCommunityIcons
+                  <Octicons
                     onPress={
                       user && user.link
                         ? () => Linking.openURL(user.link)
                         : null
                     }
-                    name="link-box-variant"
-                    size={29}
-                    color={user && user.link ? colors.diamondBlue : colors.gray}
+                    name="link-external"
+                    size={27}
+                    color={user && user.link ? colors.green : colors.white}
                   />
                 </View>
                 <View style={styles.linkText}>
@@ -94,8 +94,8 @@ export default function CustomImageModal({
                     size={23}
                     color={
                       user && user.instagram_link
-                        ? colors.diamondBlue
-                        : colors.gray
+                        ? colors.green
+                        : colors.white
                     }
                   />
                 </View>
@@ -103,16 +103,15 @@ export default function CustomImageModal({
             </View>
           </View>
         </View>
-      </LinearGradient>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.lightBlack,
     height: "100%",
     width: "100%",
-    borderRadius: 15,
     padding: 4,
   },
   top: {
@@ -128,15 +127,12 @@ const styles = StyleSheet.create({
     margin: 10,
     color: colors.white,
     fontSize: 16,
-    borderRadius: 15,
-    borderWidth: 1,
     borderColor: colors.diamondBlue,
-    backgroundColor: colors.lightBlack,
   },
   alertIconStyle: {
     borderRadius: 100,
-    borderWidth: 4,
-    borderColor: colors.green,
+    borderWidth: 2,
+    borderColor: colors.secondary,
     marginTop: 50,
     height: 175,
     width: 175,
@@ -152,7 +148,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   alertMessageTextStyle: {
-    color: colors.diamondBlue,
+    color: colors.secondary,
     textAlign: "center",
     fontSize: 16,
     paddingHorizontal: 45,
@@ -168,7 +164,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 25,
     fontWeight: "bold",
-    color: colors.diamondBlue,
+    color: colors.green,
   },
   text: {
     color: colors.white,
@@ -200,7 +196,8 @@ const styles = StyleSheet.create({
     zIndex: 99,
     position: "absolute",
     left: 15,
-    top: 15,
+    top: 20,
+    marginTop: 20,
   },
   box: {
     width: "100%",
