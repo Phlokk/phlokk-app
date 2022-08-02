@@ -32,9 +32,10 @@ function IconOverlay() {
   const [isLive, setIsLive] = useState(false);
 
   return (
-    <ScrollView horizontal={true} contentContainerStyle={styles.iconRow}>
+    <View style={styles.iconRow}>
+    <ScrollView horizontal={true}>
       <TouchableOpacity
-        style={styles.text}
+        style={styles.backBtn}
         onPress={() => navigation.goBack()}
       >
         <MaterialIcons 
@@ -174,14 +175,15 @@ function IconOverlay() {
         <Text style={styles.iconText}>Sounds</Text>
       </TouchableOpacity>
     </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   iconRow: {
-
     justifyContent: "space-between",
     flex: 1,
+    // backgroundColor: colors.red
     
   },
   iconText: {
@@ -190,8 +192,13 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   sideBarButton: {
+    justifyContent: "center",
     alignItems: "center",
-    marginBottom: 25,
+    // marginBottom: 25,
+    paddingHorizontal: 20,
+  },
+  backBtn: {
+    justifyContent: "center",
   },
   
 });

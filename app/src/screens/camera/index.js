@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   bottomBarContainer: {
     alignItems: "center",
     position: "absolute",
-    bottom: 60,
+    bottom: 120,
     flexDirection: "row",
   },
   recordButtonContainer: {
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: 50,
     height: 50,
-    bottom: 15,
+    bottom: 10,
   },
   galleryButtonImage: {
     width: 50,
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
   },
   iconText: {
     color: colors.white,
-    fontSize: 6,
+    fontSize: 8,
     marginTop: 1,
   },
   sideBarButton: {
@@ -389,12 +389,6 @@ const styles = StyleSheet.create({
   },
   soundText: {
     color: colors.white,
-  },
-  exitBtn: {
-    color: colors.white,
-    fontSize: 12,
-    // flexDirection: "row-reverse",
-    // justifyContent: "flex-start"
   },
   countdownWrapper: {
     position: "absolute",
