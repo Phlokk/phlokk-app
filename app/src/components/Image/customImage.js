@@ -118,14 +118,11 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   middle: {
-    alignItems: "center",
-    paddingHorizontal: 2,
     textAlign: "center",
     padding: 20,
     margin: 10,
     color: colors.white,
     fontSize: 16,
-    borderColor: colors.diamondBlue,
   },
   alertIconStyle: {
     borderRadius: 100,
@@ -137,6 +134,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: colors.secondary,
+    fontWeight: "bold",
   },
   alertTitleTextStyle: {
     flex: 1,
@@ -154,13 +152,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 45,
   },
-  alertMessageButtonStyle: {
-    width: "30%",
-    height: "20%",
-    paddingHorizontal: 6,
-    marginVertical: 20,
-    justifyContent: "center",
-  },
   alertMessageButtonText: {
     textAlign: "center",
     fontSize: 25,
@@ -170,28 +161,19 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
   },
-  link: {
-    alignItems: "center",
-    marginVertical: 5,
-  },
   linkRow: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
     flexDirection: "row",
+    padding: 5,
+    paddingTop: 10,
   },
   linkText: {
     color: colors.secondary,
-    marginTop: 20,
     padding: 5,
-    paddingRight: 10,
-    justifyContent: "center",
-  },
-  seperator: {
-    height: 1,
-    width: "100%",
-    opacity: 0.3,
-    backgroundColor: colors.secondary,
     alignSelf: "center",
-    justifyContent: "center",
-    top: 10
+    padding: 20,
   },
   goBackView: {
     zIndex: 99,
@@ -199,10 +181,6 @@ const styles = StyleSheet.create({
     left: 15,
     top: 20,
     marginTop: 20,
-  },
-  box: {
-    width: "100%",
-    height: "100%",
   },
   heart: {
     justifyContent: "center",
