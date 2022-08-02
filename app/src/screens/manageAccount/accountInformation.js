@@ -11,6 +11,7 @@ const AccountInformation = () => {
   const [phoneNumber, setPhoneNumber] = useState(false)
   const [email, setEmail] = useState(false)
   const [password, setPassword] = useState(false)
+
  
   return (
     <View>

@@ -20,7 +20,9 @@ export default function AccountNavBar({ title = "Manage Account" }) {
 
       <Text style={styles.title}>{title}</Text>
 
-      <Feather name="user" size={24} color={colors.primary} />
+      <TouchableOpacity style={styles.button}>
+        <MaterialIcons name="power-settings-new" size={24} color="#131313" />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "bold",
     color: colors.secondary,
   },

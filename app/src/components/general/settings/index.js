@@ -5,7 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import colors from "../../../../config/colors";
 
-export default function SettingsNavBar({ title = "Settings" }) {
+export default function SettingsNavBar({ title = "Settings & privacy" }) {
   const navigation = useNavigation();
 
   return (
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "bold",
     color: colors.secondary,
   },

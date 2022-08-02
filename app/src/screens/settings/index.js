@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
@@ -16,11 +16,14 @@ import { types } from "../../redux/constants";
 // import { LOGOUT } from "@env";
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
+import AccountScreen from "./account/account";
 
 export default function SettingsScreen() {
   const auth = useSelector((state) => state.auth);
   const navigation = useNavigation();
   const [user, setUser] = useState("");
+  const [blocking, setBlocking] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
@@ -49,26 +52,9 @@ export default function SettingsScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <SettingsNavBar />
-      <View style={styles.fieldsContainer}>
+      <ScrollView style={styles.fieldsContainer}>
         <Text style={styles.socialText}>ACCOUNT</Text>
-
-        <TouchableOpacity
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
-          onPress={() =>
-            navigation.navigate(routes.MANAGE_ACCOUNT, {
-              title: "Manage Account",
-            })
-          }
-        >
-          <Text style={styles.text}>
-            <Feather name="user" size={12} color={colors.secondary} /> Manage Account
-          </Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
-          </View>
-        </TouchableOpacity>
-
+        <AccountScreen />
         <View style={styles.divider}></View>
         <Text style={styles.socialText}>ABOUT</Text>
         <TouchableOpacity
@@ -152,7 +138,7 @@ export default function SettingsScreen() {
         <View style={styles.versionContainer}>
           <Text style={styles.versionText}>v0.1.0</Text>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
