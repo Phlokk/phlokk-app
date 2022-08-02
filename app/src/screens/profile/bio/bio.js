@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   info: {
     color: colors.secondary,
     fontSize: 12,
+    opacity: 0.9,
   },
   infoTextGreen: {
     color: colors.green,

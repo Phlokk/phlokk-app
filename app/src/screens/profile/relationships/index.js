@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 5,
     marginHorizontal: 5,
+    opacity: 0.9,
   },
   radioButton: {
     height: 20,

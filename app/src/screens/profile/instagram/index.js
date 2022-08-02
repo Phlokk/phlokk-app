@@ -6,16 +6,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import generalStyles from "../../../styles/generalStyles";
 import { updateCreator } from "../../../services/user";
 
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
 import { userAtom } from "../../../../../App";
 import { useAtom } from "jotai";
 
 export default function EditInstagramScreen({ route }) {
-  const { title, value} = route.params;
+  const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
-  
+
   const [user, setUser] = useAtom(userAtom);
 
   const onSave = async () => {
@@ -30,7 +30,6 @@ export default function EditInstagramScreen({ route }) {
     }
   };
 
-  
   return (
     <SafeAreaView style={styles.container}>
       <InfoScreenNav
@@ -56,7 +55,8 @@ export default function EditInstagramScreen({ route }) {
 
       <View style={styles.infoView}>
         <Text style={styles.info}>
-          <Text style={styles.infoTextGreen}>Info:</Text> Set your Instagram link here. You must use "http or https" before all links. 0/24
+          <Text style={styles.infoTextGreen}>Info:</Text> Set your Instagram
+          link here. You must use "http or https" before all links. 0/24
         </Text>
       </View>
     </SafeAreaView>
@@ -66,31 +66,27 @@ export default function EditInstagramScreen({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary
-},
-mainContainer: {
+    backgroundColor: colors.primary,
+  },
+  mainContainer: {
     padding: 20,
-    
-    
-},
-divider: {
+  },
+  divider: {
     backgroundColor: colors.secondary,
-},
-info: {
+  },
+  info: {
     color: colors.secondary,
     fontSize: 12,
-},
-infoTextGreen: {
+    opacity: 0.9,
+  },
+  infoTextGreen: {
     color: colors.green,
-},
+  },
 
-title: {
+  title: {
     color: colors.secondary,
-    
-},
-infoView: {
+  },
+  infoView: {
     paddingHorizontal: 20,
-    
-}
-  
+  },
 });

@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 15,
     marginHorizontal: 5,
+    opacity: 0.9,
   },
   radioButton: {
     height: 20,
@@ -225,6 +226,7 @@ const styles = StyleSheet.create({
     borderColor: colors.secondary,
     alignItems: "center",
     justifyContent: "center",
+    
   },
   radioButtonIcon: {
     height: 12,
@@ -234,8 +236,7 @@ const styles = StyleSheet.create({
   },
   radioButtonText: {
     color: colors.secondary,
-    fontSize: 14,
-
+    fontSize: 12,
     marginLeft: 16,
   },
   divider: {

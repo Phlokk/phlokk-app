@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import generalStyles from "../../../styles/generalStyles";
 import { updateCreator } from "../../../services/user";
 
-import colors from "../../../../config/colors"
+import colors from "../../../../config/colors";
 import InfoScreenNav from "../../../components/general/navBar/infoScreenNav";
 import { userAtom } from "../../../../../App";
 import { useAtom } from "jotai";
@@ -53,7 +53,8 @@ export default function EditYoutubeScreen({ route }) {
 
       <View style={styles.infoView}>
         <Text style={styles.info}>
-          <Text style={styles.infoTextGreen}>Info:</Text> Set your Youtube link here. You must use "http or https" before all links. 0/24
+          <Text style={styles.infoTextGreen}>Info:</Text> Set your Youtube link
+          here. You must use "http or https" before all links. 0/24
         </Text>
       </View>
     </SafeAreaView>
@@ -62,32 +63,28 @@ export default function EditYoutubeScreen({ route }) {
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      backgroundColor: colors.primary
+    flex: 1,
+    backgroundColor: colors.primary,
   },
   mainContainer: {
-      padding: 20,
-      
-      
+    padding: 20,
   },
   divider: {
-      backgroundColor: colors.secondary,
+    backgroundColor: colors.secondary,
   },
   info: {
-      color: colors.secondary,
-      fontSize: 12,
+    color: colors.secondary,
+    fontSize: 12,
+    opacity: 0.9,
   },
   infoTextGreen: {
-      color: colors.green
+    color: colors.green,
   },
-  
+
   title: {
-      color: colors.secondary,
-      
+    color: colors.secondary,
   },
   infoView: {
-      paddingHorizontal: 20,
-      
-  }
-  
+    paddingHorizontal: 20,
+  },
 });
