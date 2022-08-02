@@ -76,13 +76,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   middle: {
-    flex: 0.75,
+    flex: 0.90,
     alignItems: "center",
     textAlign: "center",
     color: colors.white,
+    paddingBottom: 5,
   },
   bottom: {
     flex: 0.2,
+    paddingBottom: 5,
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
