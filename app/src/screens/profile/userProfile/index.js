@@ -81,14 +81,7 @@ function UserProfile({ user }) {
         )}
       </View>
       <>
-        <View style={styles.relationshipContainer}>
-          <Text style={styles.relationshipText}>~ {user.relationship_type} ~</Text>
-        </View>
-      </>
-      <>
-        <View style={styles.relationshipNameContainer}>
-          <Text style={styles.relationshipText}>{user.relationship_name}</Text>
-        </View>
+        
 
         <TouchableOpacity>
           <CustomAlert

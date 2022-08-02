@@ -40,16 +40,14 @@ export default function CustomImageModal({
             </View>
 
             <View style={styles.middle}>
-              {/* <View style={styles.goBackView}>
-                <Feather
-                  onPress={() => dismissAlert(false)}
-                  style={styles.alertMessageButtonText}
-                  name="x-square"
-                  size={25}
-                />
-              </View> */}
+              
               <Text style={styles.alertMessageTextStyle}>
                 <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text>
+                {"\n"}
+                {"\n"}
+                <Ionicons name="md-heart-sharp" size={24} color={colors.green} />
+                {"\n"}
+                <Text style={styles.statusText}>{user.relationship_type}</Text>
                 {"\n"}
                 {"\n"}
                 {user.bio}
@@ -109,7 +107,7 @@ export default function CustomImageModal({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.lightBlack,
+    backgroundColor: colors.primary,
     height: "100%",
     width: "100%",
     padding: 4,
@@ -136,6 +134,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
     height: 175,
     width: 175,
+  },
+  statusText: {
+    color: colors.secondary,
   },
   alertTitleTextStyle: {
     flex: 1,
@@ -203,4 +204,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  heart: {
+    justifyContent: "center",
+
+  }
 });
