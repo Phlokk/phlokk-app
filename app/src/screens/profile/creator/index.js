@@ -173,9 +173,7 @@ export default function EditCreatorFieldScreen({ route }) {
       <ScrollView>
         {categories.map((item) => (
           <View style={styles.radioButtonContainer} key={item.id}>
-            <TouchableOpacity onPress={() => onRadioBtnClick(item)}>
               <Text style={styles.radioButtonText}>{item.category}</Text>
-            </TouchableOpacity>
             <View style={{ flex: 1 }}></View>
             <TouchableOpacity
               onPress={() => setSelectedCategory(item)}
