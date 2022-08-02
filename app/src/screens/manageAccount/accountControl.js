@@ -14,6 +14,8 @@ import CustomAlert from "../../components/Alerts/customAlert"
 
 const AccountControl = () => {
   const [businessAccount, setBusinessAccount] = useState(false);
+  const [deleteAccount, setDeleteAccount] = useState(false);
+
   const navigation = useNavigation();
   return (
     <View style={styles.fieldsContainer}>
@@ -34,21 +36,28 @@ const AccountControl = () => {
       >
         <Text style={styles.text}>Switch to Business Account</Text>
         <View style={styles.fieldValueContainer}>
-          <Feather name="chevron-right" size={28} color={colors.white} />
+          <Feather name="chevron-right" size={20} color={colors.secondary} />
         </View>
       </TouchableOpacity>
-
+      <CustomAlert
+        customAlertMessage={<Text>Delete account{"\n"}coming in official release</Text>}
+        positiveBtn="Ok"
+        modalVisible={deleteAccount}
+        dismissAlert={setDeleteAccount}
+        animationType="fade"
+      />
       <TouchableOpacity
         style={styles.fieldItemContainer}
-        onPress={() =>
-          navigation.navigate(routes.DELETE_PROFILE, {
-            title: "Delete account",
-          })
-        }
+        onPress={() =>setDeleteAccount(true)}
+        // onPress={() =>
+        //   navigation.navigate(routes.DELETE_PROFILE, {
+        //     title: "Delete account",
+        //   })
+        // }
       >
         <Text style={styles.text}>Delete account</Text>
         <View style={styles.fieldValueContainer}>
-          <Feather name="chevron-right" size={28} color={colors.white} />
+          <Feather name="chevron-right" size={20} color={colors.secondary} />
         </View>
       </TouchableOpacity>
     </View>
@@ -76,7 +85,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: colors.secondary,
+    color: colors.white,
     fontSize: 12,
   },
   socialText: {
@@ -84,11 +93,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 10,
     marginTop: 20,
+    opacity: 0.3
   },
   divider: {
     borderBottomWidth: 0.3,
     borderColor: colors.secondary,
     marginTop: 10,
+    opacity: 0.2,
   },
 });
 

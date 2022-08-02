@@ -33,9 +33,9 @@ export default function SupportScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>
-            <MaterialCommunityIcons name="lead-pencil" size={12} color={colors.secondary} /> Report a problem</Text>
+            <MaterialCommunityIcons name="lead-pencil" size={12} color={colors.white} /> Report a problem</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -52,11 +52,12 @@ export default function SupportScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>
-            <MaterialCommunityIcons name="shield-plus" size={12} color={colors.secondary} /> Help Center</Text>
+            <MaterialCommunityIcons name="shield-plus" size={12} color={colors.white} /> Help Center</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
+        <View style={styles.divider}></View>
     </View>
   );
 }
@@ -66,29 +67,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primary,
   },
-  fieldsContainer: {
-    marginTop: 20,
-    padding: 20,
-    flex: 1,
-  },
   fieldItemContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 20,
   },
-  fieldValueContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
   text: {
-    color: colors.secondary,
+    color: colors.white,
     fontSize: 12,
   },
-  socialText: {
-    color: colors.secondary,
-    fontWeight: 'bold',
-    fontSize: 8,
-    marginTop: 20,
+  divider: {
+    borderBottomWidth: 0.3,
+    borderColor: colors.secondary,
+    marginTop: 10,
+    opacity: 0.1,
   },
 });

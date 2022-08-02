@@ -31,10 +31,10 @@ export default function AccountScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="user" size={12} color={colors.secondary} /> Manage Account
+            <Feather name="user" size={12} color={colors.white} /> Manage Account
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -51,9 +51,9 @@ export default function AccountScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>
-            <Ionicons name="md-shield-checkmark-outline" size={12} color={colors.secondary} /> Security</Text>
+            <Ionicons name="md-shield-checkmark-outline" size={12} color={colors.white} /> Security</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -70,9 +70,9 @@ export default function AccountScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>
-            <MaterialIcons name="lock-outline" size={12} color={colors.secondary} /> Privacy</Text>
+            <MaterialIcons name="lock-outline" size={12} color={colors.white} /> Privacy</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
     </View>
@@ -100,15 +100,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: colors.secondary,
+    color: colors.white,
     fontSize: 12,
   },
-  versionText: {
-    color: colors.secondary,
-    textAlign: "center",
-    fontSize: 10,
-    paddingTop: 200,
-  },
+  
   authText: {
     color: colors.secondary,
   },
@@ -117,5 +112,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 8,
     marginTop: 20,
+    opacity: 0.3
   },
 });

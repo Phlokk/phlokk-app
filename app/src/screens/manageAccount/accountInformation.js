@@ -36,7 +36,7 @@ const AccountInformation = () => {
               color={colors.secondary}
             /> Phone number</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
         <CustomAlert
@@ -56,10 +56,10 @@ const AccountInformation = () => {
             <MaterialCommunityIcons
               name="email-outline"
               size={12}
-              color={colors.secondary}
+              color={colors.white}
             /> Email</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
         <CustomAlert
@@ -77,9 +77,9 @@ const AccountInformation = () => {
           
         >
           <Text style={styles.text}>
-            <MaterialIcons name="lock-outline" size={12} color={colors.secondary} /> Password</Text>
+            <MaterialIcons name="lock-outline" size={12} color={colors.white} /> Password</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
     </View>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        color: colors.secondary,
+        color: colors.white,
         fontSize: 12,
     },
      socialText: { 
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
          fontWeight: 'bold',
          fontSize: 10,
          marginTop: 20,
+         opacity: 0.3
      },
   });
 

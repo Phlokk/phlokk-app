@@ -56,6 +56,9 @@ export default function SettingsScreen() {
       <ScrollView style={styles.fieldsContainer}>
         <Text style={styles.socialText}>ACCOUNT</Text>
         <AccountScreen />
+        <View style={styles.divider}></View>
+
+        <Text style={styles.socialText}>SUPPORT</Text>
         <SupportScreen />
         <View style={styles.divider}></View>
         <Text style={styles.socialText}>ABOUT</Text>
@@ -69,10 +72,10 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <AntDesign name="exclamationcircleo" size={12} color={colors.secondary} /> Community Guidelines
+            <AntDesign name="exclamationcircleo" size={12} color={colors.white} /> Community Guidelines
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -84,11 +87,11 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="file-text" size={12} color={colors.secondary} /> Terms of
+            <Feather name="file-text" size={12} color={colors.white} /> Terms of
             Service
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -100,10 +103,10 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="file" size={12} color={colors.secondary} /> Privacy Policy
+            <Feather name="file" size={12} color={colors.white} /> Privacy Policy
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -118,11 +121,11 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <FontAwesome5 name="copyright" size={12} color={colors.secondary} /> Copyright
+            <FontAwesome5 name="copyright" size={12} color={colors.white} /> Copyright
             Policy
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={28} color={colors.white} />
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -134,7 +137,7 @@ export default function SettingsScreen() {
           onPress={handleLogout}
         >
           <Text style={styles.text}>
-            <MaterialIcons name="logout" size={14} color={colors.secondary} /> Logout
+            <MaterialIcons name="logout" size={14} color={colors.white} /> Logout
           </Text>
         </TouchableOpacity>
         <Text style={styles.versionText}>v0.1.0</Text>
@@ -164,7 +167,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: colors.secondary,
+    color: colors.white,
     fontSize: 12,
   },
   versionText: {
@@ -181,10 +184,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 8,
     marginTop: 20,
+    opacity: 0.3
   },
   divider: {
     borderBottomWidth: 0.3,
     borderColor: colors.secondary,
     marginTop: 10,
+    opacity: 0.2,
   },
 });
