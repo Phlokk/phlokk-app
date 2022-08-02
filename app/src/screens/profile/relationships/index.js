@@ -24,6 +24,7 @@ export default function RelationshipCategoryScreen({ route, props }) {
     {id: 5, key: "cat5", value: false, category: "Divorced",selected: false},
     {id: 6, key: "cat6", value: false, category: "Widow",selected: false},
     {id: 7, key: "cat7", value: false, category: "It's complicated",selected: false},
+    {id: 8, key: "cat8", value: false, category: "n/a",selected: false},
   ]);
 
 
@@ -49,9 +50,9 @@ export default function RelationshipCategoryScreen({ route, props }) {
       <View style={styles.reportView}>
       {categories.map((item) => (
               <View style={styles.radioButtonContainer} key={item.id}>
-                <TouchableOpacity onPress={() => onRadioBtnClick(item)}>
+
                   <Text style={styles.radioButtonText}>{item.category}</Text>
-                </TouchableOpacity>
+
                 <View style={{ flex: 1 }}></View>
                 <TouchableOpacity
                   onPress={() => setSelectedCategory(item)}
