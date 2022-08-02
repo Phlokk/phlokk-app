@@ -131,10 +131,11 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   textComment: {
-    color: colors.white,
+    color: colors.secondary,
     paddingRight: 40,
     fontSize: 12,
     marginTop: 2,
+    opacity: 0.9
   },
   textReplies: {
     color: colors.secondary,
