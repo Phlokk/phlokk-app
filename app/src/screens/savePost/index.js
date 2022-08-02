@@ -95,6 +95,7 @@ export default function SavePostScreen({ route }) {
             source={{ uri: route.params.sourceThumb }}
           />
         </View>
+        <Text style={styles.switchStatement}>Notice: Switches do not work in beta </Text>
 
         <CustomSwitch />
 
@@ -105,7 +106,6 @@ export default function SavePostScreen({ route }) {
               style={styles.shareIcon}
               name="message-circle"
               size={35}
-              color="white"
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -114,7 +114,6 @@ export default function SavePostScreen({ route }) {
               // onPress={instagramUser}
               name="instagram"
               size={35}
-              color={colors.purple}
             />
           </TouchableOpacity>
         </View>
@@ -139,7 +138,7 @@ export default function SavePostScreen({ route }) {
             onPress={() => handleSavePost()}
             style={styles.postButton}
           >
-            <MaterialIcons name="file-upload" size={24} color="white" />
+            <MaterialIcons name="file-upload" size={24} color={colors.secondary} />
             <Text style={styles.postButtonText}>Post</Text>
           </TouchableOpacity>
         </View>
@@ -249,13 +248,13 @@ const styles = StyleSheet.create({
   },
   draftsButtonText: {
     marginLeft: 5,
-    color: colors.white,
+    color: colors.secondary,
     fontWeight: "bold",
     fontSize: 16,
   },
   postButtonText: {
     marginLeft: 5,
-    color: colors.white,
+    color: colors.secondary,
     fontWeight: "bold",
     fontSize: 16,
   },
@@ -267,9 +266,10 @@ const styles = StyleSheet.create({
     top: 30,
   },
   shareIcon: {
-    color: colors.white,
+    color: colors.secondary,
     marginLeft: 20,
     marginBottom: 50,
+    opacity: 0.7,
   },
   settingsText: {
     color: colors.white,
@@ -281,4 +281,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  switchStatement: {
+    color: colors.green,
+    textAlign: "center",
+  }
 });

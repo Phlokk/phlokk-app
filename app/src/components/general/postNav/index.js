@@ -24,7 +24,7 @@ export default function PostNavBar(props) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate(routes.FEED)}
+        onPress={() => navigation.navigate(routes.CAMERA)}
       >
         <Text style={styles.cancelText}>Cancel</Text>
       </TouchableOpacity>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "bold",
     color: colors.white,
   },
@@ -52,5 +52,6 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     color: colors.white,
+    fontSize: 10,
   },
 });

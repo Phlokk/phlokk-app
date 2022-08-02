@@ -232,11 +232,12 @@ const styles = StyleSheet.create({
     top: 30,
   },
   settingsText: {
-    color: colors.white,
+    color: colors.secondary,
     fontSize: 12,
     marginLeft: 20,
     marginHorizontal: 8,
-  },
+    opacity: 0.9,
+  }
 });
 
 export default CustomSwitch;
