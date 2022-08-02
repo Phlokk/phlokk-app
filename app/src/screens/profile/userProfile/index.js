@@ -41,7 +41,6 @@ function UserProfile({ user }) {
 			) : (
 				<TouchableOpacity onPress={() => setPopUpImage(true)}>
 					<CustomImageModal
-						alertTitle="About me"
 						customAlertMessage={<Text>User Bio</Text>}
 						positiveBtn="Back"
 						modalVisible={popUpImage}

@@ -8,7 +8,6 @@ import colors from "../../../config/colors";
 
 
 export default function CustomImageModal({
-  alertTitle,
   modalVisible,
   dismissAlert,
   user,
@@ -42,7 +41,6 @@ export default function CustomImageModal({
             <View style={styles.middle}>
               
               <Text style={styles.alertMessageTextStyle}>
-                <Text style={styles.alertTitleTextStyle}>{alertTitle}</Text>
                 {"\n"}
                 {"\n"}
                 <Ionicons name="md-heart-sharp" size={24} color={colors.green} />
