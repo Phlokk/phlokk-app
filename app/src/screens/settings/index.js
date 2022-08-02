@@ -17,6 +17,7 @@ import { types } from "../../redux/constants";
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import AccountScreen from "./account/account";
+import SupportScreen from "./support/support";
 
 export default function SettingsScreen() {
   const auth = useSelector((state) => state.auth);
@@ -55,6 +56,7 @@ export default function SettingsScreen() {
       <ScrollView style={styles.fieldsContainer}>
         <Text style={styles.socialText}>ACCOUNT</Text>
         <AccountScreen />
+        <SupportScreen />
         <View style={styles.divider}></View>
         <Text style={styles.socialText}>ABOUT</Text>
         <TouchableOpacity
@@ -135,10 +137,8 @@ export default function SettingsScreen() {
             <MaterialIcons name="logout" size={14} color={colors.secondary} /> Logout
           </Text>
         </TouchableOpacity>
-        <View style={styles.versionContainer}>
-          <Text style={styles.versionText}>v0.1.0</Text>
-        </View>
-      </ScrollView>
+        <Text style={styles.versionText}>v0.1.0</Text>
+      </ScrollView>   
     </SafeAreaView>
   );
 }
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     textAlign: "center",
     fontSize: 10,
-    paddingTop: 200,
+    marginTop: 50,
   },
   authText: {
     color: colors.secondary,
@@ -186,8 +186,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.3,
     borderColor: colors.secondary,
     marginTop: 10,
-  },
-  versionContainer: {
-    flex: 1,
   },
 });
