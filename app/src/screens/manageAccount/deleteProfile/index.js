@@ -89,12 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   fieldsContainer: {
-    height: "50%",
     width: "90%",
-    borderRadius: 15,
-    borderColor: colors.secondary,
-    borderWidth: 1,
-    backgroundColor: colors.lightBlack,
     marginTop: "25%",
     padding: 20,
     alignSelf: "center",
@@ -102,6 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   fieldValueContainer: {
+    marginTop: 80,
     justifyContent: "center",
     alignItems: "center",
   },
