@@ -46,7 +46,7 @@ const CommentModal = (post) => {
 
     setComment("");
 
-    await addComment(post.post._id, user._id, comment);
+    await addComment(post.post._id, comment);
   };
 
   const renderItem = ({ item, index }) => {
