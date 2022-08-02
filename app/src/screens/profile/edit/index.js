@@ -131,7 +131,7 @@ export default function EditProfileScreen({ route }) {
             </Text>
             <View style={styles.fieldValueContainer}>
               <Text style={styles.text}>{user.username}</Text>
-              <Feather name="chevron-right" size={28} color={colors.white} />
+              <Feather name="chevron-right" size={20} color={colors.secondary} />
             </View>
           </TouchableOpacity>
 
@@ -151,7 +151,7 @@ export default function EditProfileScreen({ route }) {
               <Text numberOfLines={1} style={styles.text}>
                 {user.creator_type}
               </Text>
-              <Feather name="chevron-right" size={28} color={colors.white} />
+              <Feather name="chevron-right" size={20} color={colors.secondary} />
             </View>
           </TouchableOpacity>
 
@@ -171,7 +171,7 @@ export default function EditProfileScreen({ route }) {
               <Text numberOfLines={1} style={styles.text}>
                 {user.link}
               </Text>
-              <Feather name="chevron-right" size={28} color={colors.white} />
+              <Feather name="chevron-right" size={20} color={colors.secondary} />
             </View>
           </TouchableOpacity>
 
@@ -191,7 +191,7 @@ export default function EditProfileScreen({ route }) {
               <Text numberOfLines={1} style={styles.text}>
                 {user.quote}
               </Text>
-              <Feather name="chevron-right" size={28} color={colors.white} />
+              <Feather name="chevron-right" size={20} color={colors.secondary} />
             </View>
           </TouchableOpacity>
 
@@ -211,7 +211,7 @@ export default function EditProfileScreen({ route }) {
               <Text numberOfLines={1} style={styles.text}>
                 {user.relationship_type}
               </Text>
-              <Feather name="chevron-right" size={28} color={colors.white} />
+              <Feather name="chevron-right" size={20} color={colors.secondary} />
             </View>
           </TouchableOpacity>
 
@@ -233,7 +233,7 @@ export default function EditProfileScreen({ route }) {
                 <Text numberOfLines={1} style={styles.text}>
                   Add Bio
                 </Text>
-                <Feather name="chevron-right" size={28} color={colors.white} />
+                <Feather name="chevron-right" size={20} color={colors.secondary} />
               </View>
             ) : (
               <View>
@@ -265,7 +265,7 @@ export default function EditProfileScreen({ route }) {
                 <Text numberOfLines={1} style={styles.text}>
                   Add Youtube Channel
                 </Text>
-                <Feather name="chevron-right" size={28} color={colors.white} />
+                <Feather name="chevron-right" size={20} color={colors.secondary} />
               </View>
             ) : (
               <View>
@@ -291,7 +291,7 @@ export default function EditProfileScreen({ route }) {
                 <Text numberOfLines={1} style={styles.text}>
                   Add Instagram Account
                 </Text>
-                <Feather name="chevron-right" size={28} color={colors.white} />
+                <Feather name="chevron-right" size={20} color={colors.secondary} />
               </View>
             ) : (
               <View>
@@ -353,6 +353,7 @@ const styles = StyleSheet.create({
   text: {
     color: colors.secondary,
     fontSize: 12,
+    opacity: 0.8,
   },
   authText: {
     color: colors.white,

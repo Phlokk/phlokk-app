@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     text: {
         color: colors.white,
         fontSize: 12,
+        opacity: 0.8,
     },
      socialText: { 
          color: colors.secondary,
