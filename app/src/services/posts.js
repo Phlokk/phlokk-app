@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { useQuery } from "react-query";
 import axios from "../redux/apis/axiosDeclaration";
+import querystring from "query-string";
+
+export const POSTS_PER_PAGE = 4;
 
 export const getFeed = () =>
   axios
@@ -16,21 +19,27 @@ export const getFeed = () =>
       Alert.alert("Could not get feed!");
     });
 
-export const getFeedAsync = async () => {
+export const getFeedAsync = async (page) => {
+  const paramsObject = { page, perPage: POSTS_PER_PAGE };
+  const params = querystring.stringify(paramsObject);
+
   try {
-    const result = await axios.get("/api/posts");
-    return result.data.data;
+    const result = await axios.get(`/api/posts?${params}`);
+    return result.data;
   } catch {
     Alert.alert("Could not get feed!");
   }
 };
 
-export const getUserFeedAsync = async (userId) => {
+export const getUserFeedAsync = async (userId, pageNumber) => {
+  const paramsObject = { pageNumber, perPage: POSTS_PER_PAGE, userId };
+  const params = querystring.stringify(paramsObject);
+
   try {
-    const result = await axios.get(`/api/posts?userId=${userId}`, {
+    const result = await axios.get(`/api/posts?${params}`, {
       testing: "testing",
     });
-    return result.data.data;
+    return result.data;
   } catch {
     Alert.alert("Could not connect to feed!");
   }
@@ -38,6 +47,7 @@ export const getUserFeedAsync = async (userId) => {
 
 export const useVideoFeed = (options) => {
   const [posts, setPosts] = useState([]);
+  const [nextPageNumber, setNextPageNumber] = useState();
   const [loading, setLoading] = useState();
 
   const skip = options?.skip;
@@ -51,13 +61,21 @@ export const useVideoFeed = (options) => {
   const getFeed = async () => {
     setLoading(true);
     const feed = await getFeedAsync();
-    setPosts(feed);
+    setPosts(feed.data);
+    setNextPageNumber(feed.next_page_number);
     setLoading(false);
   };
 
-  const getMoreVideos = (lastVideo) => {
-    // TODO, load more videos
-    // alert("TODO");
+  const getMoreVideos = async () => {
+    if (!nextPageNumber) {
+      return;
+    }
+
+    setLoading(true);
+    const feed = await getFeedAsync(nextPageNumber);
+    setPosts((prev) => [...prev, ...feed.data]);
+    setNextPageNumber(feed.next_page_number);
+    setLoading(false);
   };
 
   const refresh = async () => {
@@ -69,6 +87,7 @@ export const useVideoFeed = (options) => {
 
 export const useUserVideoFeed = (userId, options) => {
   const [posts, setPosts] = useState([]);
+  const [nextPageNumber, setNextPageNumber] = useState();
   const [loading, setLoading] = useState();
 
   const skip = options?.skip;
@@ -78,24 +97,30 @@ export const useUserVideoFeed = (userId, options) => {
       return;
     }
 
-    const getFeed = async () => {
-      setLoading(true);
-      const feed = await getUserFeedAsync(userId);
-      setPosts(feed);
-      setLoading(false);
-    };
-
     if (!skip) {
       getFeed();
     }
   }, [userId]);
 
+  const getFeed = async () => {
+    setLoading(true);
+    const feed = await getUserFeedAsync(userId);
+    setPosts(feed.data);
+    setNextPageNumber(feed.next_page_number);
+    setLoading(false);
+  };
+
   const getMoreUserPosts = (lastVideoId) => {
     // TODO, load more videos
     alert("TODO");
+    //Copy what we did for useVideoFeed
   };
 
-  return { posts, getMoreUserPosts, loading };
+  const refresh = async () => {
+    await getFeed();
+  };
+
+  return { posts, getMoreUserPosts, loading, refresh };
 };
 
 export const useFeed = (profile) =>

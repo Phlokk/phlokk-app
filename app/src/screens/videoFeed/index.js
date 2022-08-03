@@ -10,10 +10,14 @@ import {
   Pressable,
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from "@expo/vector-icons";
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
 import VideoItem from "./videoItem";
-import { useUserVideoFeed, useVideoFeed } from "../../services/posts";
+import {
+  POSTS_PER_PAGE,
+  useUserVideoFeed,
+  useVideoFeed,
+} from "../../services/posts";
 import { atom, useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import colors from "../../../config/colors";
@@ -72,7 +76,11 @@ const VideoFeed = ({ route }) => {
   }, [newFeedItem]);
 
   useEffect(() => {
-    if (currentVideoIndex === posts?.length - 2) {
+    if (currentVideoIndex >= posts?.length - 2) {
+      if (loadingMainFeed || loadingUserFeed) {
+        return;
+      }
+
       if (profile) {
         getMoreUserPosts();
       } else {
@@ -109,18 +117,6 @@ const VideoFeed = ({ route }) => {
     [currentVideoIndex]
   );
 
-  if (loadingMainFeed || loadingUserFeed) {
-    return (
-      <View style={styles.mainContainer}>
-        <ActivityIndicator
-          size={"large"}
-          color={"white"}
-          style={styles.activityIndicator}
-        />
-      </View>
-    );
-  }
-
   return (
     <View style={styles.mainContainer}>
       <SwiperFlatList
@@ -134,7 +130,7 @@ const VideoFeed = ({ route }) => {
         initialNumToRender={5}
         maxToRenderPerBatch={2}
         removeClippedSubviews
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item._id}
         pagingEnabled
         getItemLayout={getItemLayout}
         snapToInterval={feedItemHeight}
@@ -144,11 +140,17 @@ const VideoFeed = ({ route }) => {
       />
 
       <TouchableOpacity
-
         onPress={() => refreshMainFeed()}
         style={{ position: "absolute", top: 40, left: 8 }}
       >
-        <Text><FontAwesome style={styles.refreshIcon} name="refresh" size={24} color={colors.white} /></Text>
+        <Text>
+          <FontAwesome
+            style={styles.refreshIcon}
+            name="refresh"
+            size={24}
+            color={colors.white}
+          />
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -170,8 +172,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.red,
   },
   refreshIcon: {
-    opacity: 0.2
-  }
+    opacity: 0.2,
+  },
 });
 
 export default VideoFeed;
