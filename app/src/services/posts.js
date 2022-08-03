@@ -43,24 +43,28 @@ export const useVideoFeed = (options) => {
   const skip = options?.skip;
 
   useEffect(() => {
-    const getFeed = async () => {
-      setLoading(true);
-      const feed = await getFeedAsync();
-      setPosts(feed);
-      setLoading(false);
-    };
-
     if (!skip) {
       getFeed();
     }
   }, []);
+
+  const getFeed = async () => {
+    setLoading(true);
+    const feed = await getFeedAsync();
+    setPosts(feed);
+    setLoading(false);
+  };
 
   const getMoreVideos = (lastVideo) => {
     // TODO, load more videos
     // alert("TODO");
   };
 
-  return { posts, getMoreVideos, loading };
+  const refresh = async () => {
+    await getFeed();
+  };
+
+  return { posts, getMoreVideos, loading, refresh };
 };
 
 export const useUserVideoFeed = (userId, options) => {
@@ -109,35 +113,37 @@ export const useUserPosts = (userId, { enabled }) =>
   });
 
 export const deletePostById = async (postId) => {
-  await axios.delete("/api/post/delete/"+postId)
-      .then((result) => {
-        return result.data;
-      })
-      .catch((error) => {
-        Alert.alert("Could not delete post");
-      });
+  await axios
+    .delete("/api/post/delete/" + postId)
+    .then((result) => {
+      return result.data;
+    })
+    .catch((error) => {
+      Alert.alert("Could not delete post");
+    });
 };
 
-
 export const addComment = async (postId, comment) => {
-  await axios.post("/api/post/"+postId+"/add-comment", { comment: comment })
-      .then((result) => {
-        return result.data;
-      })
-      .catch((error) => {
-        Alert.alert("Comment not added!");
-      });
+  await axios
+    .post("/api/post/" + postId + "/add-comment", { comment: comment })
+    .then((result) => {
+      return result.data;
+    })
+    .catch((error) => {
+      Alert.alert("Comment not added!");
+    });
 };
 
 export const commentListener = async (postId, setCommentList) => {
-  await axios.get("/api/post/view/"+postId+"/comments")
-      .then((result) => {
-        setCommentList(result.data.comments);
-        return result.data;
-      })
-      .catch((error) => {
-        Alert.alert("Comments not found");
-      });
+  await axios
+    .get("/api/post/view/" + postId + "/comments")
+    .then((result) => {
+      setCommentList(result.data.comments);
+      return result.data;
+    })
+    .catch((error) => {
+      Alert.alert("Comments not found");
+    });
 };
 
 export const clearCommentListener = () => {
@@ -148,27 +154,27 @@ export const clearCommentListener = () => {
 };
 
 export const timeSince = function (date) {
-    var seconds = Math.floor((new Date() - date) / 1000);
-    var interval = seconds / 31536000;
-    
-    if (interval > 1) {
-        return Math.floor(interval) + " years";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-        return Math.floor(interval) + " months";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-        return Math.floor(interval) + " days";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-        return Math.floor(interval) + " hours";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-        return Math.floor(interval) + " minutes";
-    }
-    return Math.floor(seconds) + " seconds";
+  var seconds = Math.floor((new Date() - date) / 1000);
+  var interval = seconds / 31536000;
+
+  if (interval > 1) {
+    return Math.floor(interval) + " years";
+  }
+  interval = seconds / 2592000;
+  if (interval > 1) {
+    return Math.floor(interval) + " months";
+  }
+  interval = seconds / 86400;
+  if (interval > 1) {
+    return Math.floor(interval) + " days";
+  }
+  interval = seconds / 3600;
+  if (interval > 1) {
+    return Math.floor(interval) + " hours";
+  }
+  interval = seconds / 60;
+  if (interval > 1) {
+    return Math.floor(interval) + " minutes";
+  }
+  return Math.floor(seconds) + " seconds";
 };

@@ -22,6 +22,9 @@ import LottieView from "lottie-react-native";
 import CustomAlert from "../../components/Alerts/customAlert";
 import * as MediaLibrary from "expo-media-library";
 import CustomSwitch from "./customSwitch";
+import { useAtom } from "jotai";
+import { newFeedItemAtom } from "../videoFeed";
+
 
 export default function SavePostScreen({ route }) {
   const navigation = useNavigation();
@@ -33,10 +36,10 @@ export default function SavePostScreen({ route }) {
   const [text, setText] = useState("Click");
   const [drafts, setDrafts] = useState(false);
 
+  const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
 
   const handleSavePost = () => {
     setRequestRunning(true);
-    // answer link: https://stackoverflow.com/questions/59602848/how-to-save-image-to-camera-roll-using-expo
     dispatch(
       createPost(
         description,
@@ -46,8 +49,10 @@ export default function SavePostScreen({ route }) {
       )
     )
       .then(async (res) => {
+        // console.log(res);
         await MediaLibrary.saveToLibraryAsync(route.params.source);
         navigation.navigate(routes.FEED);
+        // setNewFeedItem(res);
       })
       .catch((err) => {
         alert(err);
@@ -95,18 +100,16 @@ export default function SavePostScreen({ route }) {
             source={{ uri: route.params.sourceThumb }}
           />
         </View>
-        <Text style={styles.switchStatement}>Notice: Switches do not work in beta </Text>
+        <Text style={styles.switchStatement}>
+          Notice: Switches do not work in beta{" "}
+        </Text>
 
         <CustomSwitch />
 
         <View style={styles.spacer} />
         <View style={styles.shareContainer}>
           <TouchableOpacity>
-            <Feather
-              style={styles.shareIcon}
-              name="message-circle"
-              size={35}
-            />
+            <Feather style={styles.shareIcon} name="message-circle" size={35} />
           </TouchableOpacity>
           <TouchableOpacity>
             <Feather
@@ -138,7 +141,11 @@ export default function SavePostScreen({ route }) {
             onPress={() => handleSavePost()}
             style={styles.postButton}
           >
-            <MaterialIcons name="file-upload" size={24} color={colors.secondary} />
+            <MaterialIcons
+              name="file-upload"
+              size={24}
+              color={colors.secondary}
+            />
             <Text style={styles.postButtonText}>Post</Text>
           </TouchableOpacity>
         </View>
@@ -193,7 +200,7 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: "row",
     padding: 10,
-    backgroundColor: colors.lightBlack
+    backgroundColor: colors.lightBlack,
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -284,5 +291,5 @@ const styles = StyleSheet.create({
   switchStatement: {
     color: colors.green,
     textAlign: "center",
-  }
+  },
 });

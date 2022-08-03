@@ -4,22 +4,27 @@ import {
   StyleSheet,
   ActivityIndicator,
   Dimensions,
+  RefreshControl,
+  TouchableOpacity,
+  Text,
+  Pressable,
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
+import { FontAwesome } from '@expo/vector-icons'; 
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
 import VideoItem from "./videoItem";
-import {
-  useUserVideoFeed,
-  useVideoFeed,
-} from "../../services/posts";
-import { useAtom } from "jotai";
+import { useUserVideoFeed, useVideoFeed } from "../../services/posts";
+import { atom, useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import colors from "../../../config/colors";
 
 const { height } = Dimensions.get("window");
 
+export const newFeedItemAtom = atom("");
+
 const VideoFeed = ({ route }) => {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const [postFeed, setPostFeed] = useState([]);
   const { profile, selectedIndex, creator } = route.params;
   const flatListRef = useRef();
 
@@ -30,11 +35,11 @@ const VideoFeed = ({ route }) => {
   );
   const [currentVideoPlayingStat, setCurrentVideoPlayingStat] = useState({});
 
-  
   const {
     posts,
     getMoreVideos,
     loading: loadingMainFeed,
+    refresh: refreshMainFeed,
   } = useVideoFeed({
     skip: profile,
   });
@@ -45,6 +50,26 @@ const VideoFeed = ({ route }) => {
   } = useUserVideoFeed(user._id, {
     skip: !profile,
   });
+
+  useEffect(() => {
+    if (!posts && !userPosts) {
+      return;
+    }
+
+    setPostFeed(profile ? userPosts : posts);
+  }, [posts, userPosts]);
+
+  const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
+
+  useEffect(() => {
+    if (!newFeedItem) {
+      return;
+    }
+
+    setPostFeed((prev) => [newFeedItem, ...prev]);
+    setNewFeedItem("");
+    flatListRef.current.scrollToIndex({ index: 0, animated: false });
+  }, [newFeedItem]);
 
   useEffect(() => {
     if (currentVideoIndex === posts?.length - 2) {
@@ -102,7 +127,7 @@ const VideoFeed = ({ route }) => {
         ref={flatListRef}
         index={selectedIndex}
         showsVerticalScrollIndicator={false}
-        data={profile ? userPosts : posts}
+        data={postFeed}
         renderItem={renderItem}
         vertical={true}
         windowSize={Platform.OS === "android" ? 1 : 5}
@@ -117,6 +142,14 @@ const VideoFeed = ({ route }) => {
         decelerationRate={"fast"}
         onChangeIndex={onFeedScroll}
       />
+
+      <TouchableOpacity
+
+        onPress={() => refreshMainFeed()}
+        style={{ position: "absolute", top: 40, left: 8 }}
+      >
+        <Text><FontAwesome style={styles.refreshIcon} name="refresh" size={24} color={colors.white} /></Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -134,7 +167,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textFeed: {
-    backgroundColor: colors.red
+    backgroundColor: colors.red,
+  },
+  refreshIcon: {
+    opacity: 0.2
   }
 });
 

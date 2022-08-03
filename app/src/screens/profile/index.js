@@ -42,6 +42,7 @@ export default function ProfileScreen({ route }) {
             item={item}
             index={index}
             user={userProfile || user}
+            setPosts={setPosts}
 
           />
         )}

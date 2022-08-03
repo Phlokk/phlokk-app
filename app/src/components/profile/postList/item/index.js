@@ -16,7 +16,7 @@ import {useAtom} from "jotai";
 import {userAtom} from "../../../../../../App";
 
 
-export default function ProfilePostListItem({ item, index }) {
+export default function ProfilePostListItem({ item, index, setPosts }) {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -31,6 +31,8 @@ export default function ProfilePostListItem({ item, index }) {
 
       setIsLoading(false);
       alert("Video Deleted Successfully");
+
+      // setPosts(prev => prev.filter(post._id !== item._id));
 
     } catch (err) {
       alert(err?.message);

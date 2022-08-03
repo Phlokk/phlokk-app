@@ -1,3 +1,4 @@
+import React from "react";
 import {
   View,
   Text,
@@ -15,11 +16,12 @@ import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import colors from "../../../../../config/colors";
 import {timeSince} from "../../../../services/posts";
-import React from "react";
+
+
 function UserProfileOverlay({ post, user }) {
 
   const navigation = useNavigation();
-  const songTicker = "Artist and song name";
+  const songTicker = "phlokk original audio ";
 
   const rotate = useRotation();
   const animatedStyle = { transform: [{ rotate }] };
@@ -65,12 +67,16 @@ function UserProfileOverlay({ post, user }) {
         </Text>
         <View style={styles.songRow}>
           <Entypo name="beamed-note" size={15} color="white" />
-
+          
           <Text style={styles.songName}>{songTicker}</Text>
+        
+          
+          <View style={styles.animatedlogo}>
           <Animated.Image
             style={[styles.songImage, animatedStyle]}
             source={pmdLogo}
           />
+          </View>
         </View>
       </View>
     </View>
@@ -152,5 +158,9 @@ const styles = StyleSheet.create({
   },
   usernameRow: {
     flexDirection: "row",
+  },
+  animatedlogo: {
+    marginLeft: 5,
+
   }
 });
