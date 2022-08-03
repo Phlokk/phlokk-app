@@ -16,7 +16,7 @@ import {useAtom} from "jotai";
 import {userAtom} from "../../../../../../App";
 
 
-export default function ProfilePostListItem({ item, index, setPosts }) {
+export default function ProfilePostListItem({ item, index }) {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
