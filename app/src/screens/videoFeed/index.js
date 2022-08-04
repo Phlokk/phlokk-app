@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
 import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons'; 
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
 import VideoItem from "./videoItem";
 import {
@@ -144,7 +145,7 @@ const VideoFeed = ({ route }) => {
         style={{ position: "absolute", top: 40, left: 8 }}
       >
         <Text>
-          <FontAwesome
+          <Ionicons
             style={styles.refreshIcon}
             name="refresh"
             size={24}

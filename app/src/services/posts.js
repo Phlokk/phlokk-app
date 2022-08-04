@@ -112,15 +112,25 @@ export const useUserVideoFeed = (userId, options) => {
 
   const getMoreUserPosts = (lastVideoId) => {
     // TODO, load more videos
-    alert("TODO");
-    //Copy what we did for useVideoFeed
+    // alert("TODO");
+    // if (!nextPageNumber) {
+    //   return;
+    // }
+
+    // setLoading(true);
+    // const feed = await getFeedAsync(nextPageNumber);
+    // setPosts((prev) => [...prev, ...feed.data]);
+    // setNextPageNumber(feed.next_page_number);
+    // setLoading(false);
   };
+    //Copy what we did for useVideoFeed
+ 
 
   const refresh = async () => {
     await getFeed();
   };
 
-  return { posts, getMoreUserPosts, loading, refresh };
+  return { posts, getMoreUserPosts, loading, refresh,  };
 };
 
 export const useFeed = (profile) =>
