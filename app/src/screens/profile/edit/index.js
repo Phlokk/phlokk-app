@@ -57,7 +57,7 @@ export default function EditProfileScreen({ route }) {
       type: "image/*",
     });
 
-    let res = await fetch("https://dev-api.phlokk.com/api/me/profile-picture", {
+    let res = await fetch("https://api.phlokk.com/api/me/profile-picture", {
       method: "POST",
       body: formData,
       headers: {

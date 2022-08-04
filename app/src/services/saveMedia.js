@@ -33,7 +33,7 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
     
     if (user) {
       const parsedUser = JSON.parse(user);
-      let url = "https://dev-api.phlokk.com/api/post/create";
+      let url = "https://api.phlokk.com/api/post/create";
       await fetch(url,
           {
             method: 'POST',

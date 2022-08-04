@@ -110,11 +110,10 @@ const ReportScreen = ({ route, navigation }) => {
     }
     // change url of post API call, right now set on https://phlokk.com/test/ticket
     axios
-      .post(`${REPORT_TICKET}`, {
+      .post('/api/support/create-ticket', {
         title: titleValue,
         message: messageValue,
-        postId: post.id,
-        media: post.media,
+        post: post._id,
         category_id: categoryId,
         // customer_id: currentUser.uid
       })
