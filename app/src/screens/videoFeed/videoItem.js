@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { Video } from "expo-av";
 import { useIsFocused } from "@react-navigation/native";
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from "@expo/vector-icons";
 import PostSingleOverlay from "../../components/general/post/overlay";
 import UserProfileOverlay from "../../components/general/post/overlay/UserProfileOverlay";
 import colors from "../../../config/colors";

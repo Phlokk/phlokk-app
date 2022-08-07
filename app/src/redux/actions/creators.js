@@ -21,3 +21,19 @@ export function fetchMarketCreatorFailure(error) {
     error: error,
   };
 }
+
+export function setPostsLikes(postsLikes) {
+  return {
+    type: types.SET_POSTS_LIKES,
+    payload: { postsLikes },
+    error: error,
+  };
+}
+
+export function updatePostLike(post) {
+  return {
+    type: types.SET_POSTS_LIKES,
+    payload: { post },
+    error: error,
+  };
+}

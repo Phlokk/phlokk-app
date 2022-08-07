@@ -11,9 +11,10 @@ import {
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
 import { FontAwesome } from "@expo/vector-icons";
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from "@expo/vector-icons";
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
 import VideoItem from "./videoItem";
+import { types } from "../../redux/constants";
 import {
   POSTS_PER_PAGE,
   useUserVideoFeed,
@@ -22,6 +23,7 @@ import {
 import { atom, useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import colors from "../../../config/colors";
+import { useDispatch } from "react-redux";
 
 const { height } = Dimensions.get("window");
 
@@ -32,6 +34,7 @@ const VideoFeed = ({ route }) => {
   const [postFeed, setPostFeed] = useState([]);
   const { profile, selectedIndex, creator } = route.params;
   const flatListRef = useRef();
+  const dispatch = useDispatch();
 
   const user = creator || currentUser;
 
@@ -60,8 +63,22 @@ const VideoFeed = ({ route }) => {
     if (!posts && !userPosts) {
       return;
     }
+    const postsTeUse = profile ? userPosts : posts;
 
-    setPostFeed(profile ? userPosts : posts);
+    // set likes// make sure to refetch video data when the hooks fire
+    const AllLikes = postsTeUse.map((post) => {
+      return {
+        postId: post._id,
+        likes: handleLikeCount(post.like_count),
+        liked: post.is_liked,
+      };
+    });
+    dispatch({
+      type: types.SET_POSTS_LIKES,
+      postsLikes: AllLikes,
+    });
+    // end set likes
+    setPostFeed(postsTeUse);
   }, [posts, userPosts]);
 
   const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
@@ -102,6 +119,14 @@ const VideoFeed = ({ route }) => {
     offset: feedItemHeight * index,
     index,
   });
+
+  const handleLikeCount = (likes) => {
+    if (typeof likes === "number") {
+      return likes;
+    } else {
+      return likes.length;
+    }
+  };
 
   const renderItem = useCallback(
     ({ item, index }) => (

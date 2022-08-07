@@ -19,9 +19,14 @@ import SettingsSheetModalScreen from "../../../../components/modal/settingsSheet
 import GiftingModalScreen from "../../../modal/giftingModalScreen";
 import CommentModal from "../../../modal/comment/index";
 import colors from "../../../../../config/colors";
+import { likeVideo } from "../../../../redux/actions/likes";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { types } from "../../../../redux/constants";
 
 export default function PostSingleOverlay({ post, user }) {
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   useEffect(() => {
     setIsSettingsModalScreenOpen(false);
   }, [isFocused]);
@@ -34,21 +39,59 @@ export default function PostSingleOverlay({ post, user }) {
     useState(false);
   const [isCommentModalOpen, setCommentModalOpen] = useState(false);
 
+  const { postsLikes } = useSelector((state) => state.likes);
+
   const getLikesCount = () => {
-    if (typeof post.likes === "number") {
-      return post.likes;
-    } else {
-      return post.likes.length;
+    const res = postsLikes.findIndex(
+      (likesPost) => likesPost.postId === post._id
+    );
+    return res !== -1 ? postsLikes[res].likes : 0;
+  };
+
+  const handleIconChange = () => {
+    const res = postsLikes.findIndex(
+      (likesPost) => likesPost.postId === post._id
+    );
+    return !postsLikes[res].liked || res === -1 ? "star-outline" : "star";
+  };
+
+  const likeButtonHandler = async () => {
+    const currentPost = postsLikes.find(
+      (likesPost) => likesPost.postId === post._id
+    );
+    const type = currentPost.liked ? "unlike" : "like";
+
+    const updatedPost = {
+      postId: currentPost.postId,
+      likes: type === "like" ? currentPost.likes + 1 : currentPost.likes - 1,
+      liked: type === "like" ? true : false,
+    };
+
+    dispatch({
+      type: types.UPDATE_POST_LIKES,
+      post: updatedPost,
+    });
+    try {
+      await likeVideo(post._id, type);
+    } catch (error) {
+      dispatch({
+        type: types.UPDATE_POST_LIKES,
+        postsLikes: currentPost,
+      });
+      console.log(error);
     }
   };
 
   return (
     <View style={styles.sideBarContainer}>
-      <TouchableOpacity style={styles.iconContainer}>
+      <TouchableOpacity
+        style={styles.iconContainer}
+        onPress={likeButtonHandler}
+      >
         <MaterialCommunityIcons
           color={colors.white}
           size={40}
-          name={"star-outline"}
+          name={handleIconChange()}
         />
       </TouchableOpacity>
       <Text style={styles.statsLabel}>{getLikesCount()}</Text>
