@@ -17,7 +17,7 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
 
     // Description
     formData.append("description", description, {
-      description: description,
+      description: description || " ",
     });
 
     // Thumbnail
