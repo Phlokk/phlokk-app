@@ -21,7 +21,6 @@ import CommentModal from "../../../modal/comment/index";
 import colors from "../../../../../config/colors";
 
 export default function PostSingleOverlay({ post, user }) {
-  
   const isFocused = useIsFocused();
   useEffect(() => {
     setIsSettingsModalScreenOpen(false);
@@ -35,6 +34,13 @@ export default function PostSingleOverlay({ post, user }) {
     useState(false);
   const [isCommentModalOpen, setCommentModalOpen] = useState(false);
 
+  const getLikesCount = () => {
+    if (typeof post.likes === "number") {
+      return post.likes;
+    } else {
+      return post.likes.length;
+    }
+  };
 
   return (
     <View style={styles.sideBarContainer}>
@@ -45,7 +51,7 @@ export default function PostSingleOverlay({ post, user }) {
           name={"star-outline"}
         />
       </TouchableOpacity>
-      <Text style={styles.statsLabel}>0</Text>
+      <Text style={styles.statsLabel}>{getLikesCount()}</Text>
 
       <View style={styles.iconContainer}>
         <TouchableOpacity style={styles.iconContainer}>
