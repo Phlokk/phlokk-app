@@ -42,11 +42,6 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     marginVertical: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.2)',
-    shadowOpacity: 0.8,
-    elevation: 6,
-    shadowRadius: 15 ,
-    shadowOffset : { width: 1, height: 13},
   },
 });
 
