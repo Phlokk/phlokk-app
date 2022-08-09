@@ -183,7 +183,6 @@ export default function CameraScreen() {
       if (countdownTimerRef.current) {
         clearInterval(countdownTimerRef.current);
       }
-
       setShowCountdown(true);
       runPulse();
 
