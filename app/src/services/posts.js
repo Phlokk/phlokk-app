@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import axios from "../redux/apis/axiosDeclaration";
 import querystring from "query-string";
 
-export const POSTS_PER_PAGE = 4;
+export const POSTS_PER_PAGE = 10;
 
 export const getFeed = () =>
   axios
