@@ -18,7 +18,7 @@ export default function ProfileScreen({ route }) {
 
   const [user, setUser] = useAtom(userAtom);
 
-  const { posts, getMoreUserPosts, refresh } = useUserVideoFeed(
+  const { posts, getMoreUserPosts, refresh, loading } = useUserVideoFeed(
     userProfile?._id || user._id
   );
 
@@ -41,6 +41,7 @@ export default function ProfileScreen({ route }) {
       <ProfileNavBar showFireIcon={userProfile === undefined} />
       <FlatList
         numColumns={3}
+        showsVerticalScrollIndicator={false}
         removeClippedSubviews
         nestedScrollEnabled={false}
         data={postsToDisplay}
@@ -65,6 +66,11 @@ export default function ProfileScreen({ route }) {
             }}
           />
         }
+        onEndReached={() => {
+          if (!loading) {
+            getMoreUserPosts();
+          }
+        }}
       />
     </SafeAreaView>
   );

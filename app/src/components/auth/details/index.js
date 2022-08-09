@@ -193,10 +193,22 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
                 textContentType="password"
                 maxLength={24}
                 onChangeText={(text) => setPassword(text)}
+                secureTextEntry={passwordVisibility}
                 placeholder="Password"
                 value={password}
                 enablesReturnKeyAutomatically
               />
+              <TouchableOpacity
+                onPress={handlePasswordVisibility}
+                style={styles.eyeRegister}
+              >
+                <MaterialCommunityIcons
+                  name={rightIcon}
+                  size={22}
+                  color={colors.green}
+                />
+                
+              </TouchableOpacity>
             </KeyboardAvoidingView>
           </>
         )}
@@ -317,6 +329,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 30,
+  },
+  eyeRegister: {
+    position: "absolute",
+    right: 10,
+    bottom: 10,
   },
   checkbox: {
     bottom: 1,

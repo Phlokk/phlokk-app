@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import axios from "../redux/apis/axiosDeclaration";
 import querystring from "query-string";
 
-export const POSTS_PER_PAGE = 4;
+export const POSTS_PER_PAGE = 10;
 
 export const getFeed = () =>
   axios
@@ -31,8 +31,8 @@ export const getFeedAsync = async (page) => {
   }
 };
 
-export const getUserFeedAsync = async (userId, pageNumber) => {
-  const paramsObject = { pageNumber, perPage: POSTS_PER_PAGE, userId };
+export const getUserFeedAsync = async (userId, page) => {
+  const paramsObject = { page, perPage: POSTS_PER_PAGE, userId };
   const params = querystring.stringify(paramsObject);
 
   try {
@@ -110,27 +110,24 @@ export const useUserVideoFeed = (userId, options) => {
     setLoading(false);
   };
 
-  const getMoreUserPosts = (lastVideoId) => {
-    // TODO, load more videos
-    // alert("TODO");
-    // if (!nextPageNumber) {
-    //   return;
-    // }
+  const getMoreUserPosts = async () => {
+    if (!nextPageNumber) {
+      return;
+    }
 
-    // setLoading(true);
-    // const feed = await getFeedAsync(nextPageNumber);
-    // setPosts((prev) => [...prev, ...feed.data]);
-    // setNextPageNumber(feed.next_page_number);
-    // setLoading(false);
+    setLoading(true);
+    const feed = await getUserFeedAsync(userId, nextPageNumber);
+    setPosts((prev) => [...prev, ...feed.data]);
+    setNextPageNumber(feed.next_page_number);
+    setLoading(false);
   };
-    //Copy what we did for useVideoFeed
- 
+  //Copy what we did for useVideoFeed
 
   const refresh = async () => {
     await getFeed();
   };
 
-  return { posts, getMoreUserPosts, loading, refresh,  };
+  return { posts, getMoreUserPosts, loading, refresh };
 };
 
 export const useFeed = (profile) =>
