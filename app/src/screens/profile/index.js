@@ -41,6 +41,7 @@ export default function ProfileScreen({ route }) {
       <ProfileNavBar showFireIcon={userProfile === undefined} />
       <FlatList
         numColumns={3}
+        showsVerticalScrollIndicator={false}
         removeClippedSubviews
         nestedScrollEnabled={false}
         data={postsToDisplay}
