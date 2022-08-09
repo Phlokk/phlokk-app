@@ -10,7 +10,7 @@ import {
   Platform,
   StyleSheet,
   Animated,
-  Alert
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
@@ -20,9 +20,14 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import BottomMenu from "./bottomMenu";
 import colors from "../../../config/colors";
-
+import { Circle } from "react-native-progress";
 
 const START_RECORDING_DELAY = 3000;
+const MAX_DURATION = 60;
+const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking every interview
+
+const convertMillisToPercentage = (ms) => ms / 1000 / 60;
+const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 
 export default function CameraScreen() {
   const [hasCameraPermissions, setHasCameraPermissions] = useState(false);
@@ -44,6 +49,9 @@ export default function CameraScreen() {
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const whitePulseAnim = useRef(new Animated.Value(1)).current;
   const whitePulseOpacity = useRef(new Animated.Value(0.9)).current;
+
+  const [recordingTime, setRecordingTime] = useState(0);
+  const recordingTimerRef = useRef();
 
   // const [cameraVideoStabilization, setCameraVideoStabilization ] = useState(
   //   Camera.Constants.VideoStabilization.auto
@@ -87,9 +95,16 @@ export default function CameraScreen() {
 
   const recordVideo = async () => {
     if (cameraRef) {
+      // Start up the timer to display the circle progress bar
+      clearInterval(recordingTimerRef.current);
+      setRecordingTime(0);
+      recordingTimerRef.current = setInterval(() => {
+        setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
+      }, RECORDING_TIME_TICK);
+
       try {
         const options = {
-          maxDuration: 60,
+          maxDuration: MAX_DURATION,
           quality: Camera.Constants.VideoQuality["720p"],
         };
         if (Platform.OS === "ios") {
@@ -103,9 +118,13 @@ export default function CameraScreen() {
           const source = data.uri;
           let sourceThumb = await generateThumbnail(source);
           setIsRecording(false);
+          clearInterval(recordingTimerRef.current);
+          setRecordingTime(0);
           navigation.navigate("savePost", { source, sourceThumb });
         }
       } catch (error) {
+        clearInterval(recordingTimerRef.current);
+        setRecordingTime(0);
         Alert.alert("Video cannot record");
         setIsRecording(false);
       }
@@ -117,6 +136,8 @@ export default function CameraScreen() {
     if (cameraRef) {
       cameraRef.stopRecording();
     }
+    clearInterval(recordingTimerRef.current);
+    setRecordingTime(0);
     setIsRecording(false);
   };
 
@@ -147,12 +168,18 @@ export default function CameraScreen() {
   };
 
   if (!hasCameraPermissions || !hasAudioPermissions || !hasGalleryPermissions) {
-    return <View><Text>You did not give permissions.{"\n"} Please check camera settings in device.</Text></View>;
+    return (
+      <View>
+        <Text>
+          You did not give permissions.{"\n"} Please check camera settings in
+          device.
+        </Text>
+      </View>
+    );
   }
 
   const onPressRecord = () => {
     if (!isRecording) {
-      //recordVideo();
       if (countdownTimerRef.current) {
         clearInterval(countdownTimerRef.current);
       }
@@ -172,7 +199,6 @@ export default function CameraScreen() {
   };
 
   const onLongPress = () => {
-    
     setIsLongPressRecording(true);
     recordVideo();
   };
@@ -221,8 +247,6 @@ export default function CameraScreen() {
     ]).start(() => whitePulseOpacity.setValue(0.9));
   };
 
-  const fadeOutCounter = () => {};
-
   return (
     <View style={styles.container}>
       {isFocused ? (
@@ -265,40 +289,89 @@ export default function CameraScreen() {
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.bottomBarContainer}>
-        <View style={{ flex: 1 }}></View>
-        <View style={styles.recordButtonContainer}>
-          <Pressable
-            disabled={!isCameraReady}
-            onPress={onPressRecord}
-            onLongPress={onLongPress}
-            onPressOut={onPressOut}
-            style={({ pressed }) => {
-              return [
-                styles.recordButton,
-                { backgroundColor: isRecording ? colors.red : colors.green },
-                { borderWidth: isRecording ? 4 : 3 },
-                { borderColor: isRecording ? colors.danger : colors.white },
-              ];
-            }}
-          />
-        </View>
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity
-            onPress={() => pickFromGallery()}
-            style={styles.galleryButton}
-          >
-            {galleryItems[0] == undefined ? (
-              <></>
-            ) : (
-              <Image
-                style={styles.galleryButtonImage}
-                source={{ uri: galleryItems[0].uri }}
+      <View
+        style={[
+          styles.bottomBarContainer,
+          {
+            transform: [{ scale: isRecording ? 1.5 : 1 }],
+          },
+        ]}
+      >
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text style={{ color: "white" }}>
+            {convertMillisToSeconds(recordingTime)}
+          </Text>
+          <View style={{ flex: 1 }}>
+            <Pressable
+              disabled={!isCameraReady}
+              onPress={onPressRecord}
+              onLongPress={onLongPress}
+              onPressOut={onPressOut}
+              style={({ pressed }) => {
+                return [
+                  styles.recordButton,
+                  { backgroundColor: isRecording ? colors.red : colors.green },
+                  { borderWidth: isRecording ? 4 : 3 },
+                  { borderColor: isRecording ? colors.danger : colors.white },
+                ];
+              }}
+            />
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              pointerEvents="none"
+            >
+              <Circle
+                size={80}
+                thickness={4}
+                fill="transparent"
+                progress={convertMillisToPercentage(recordingTime)}
+                color={colors.red}
+                unfilledColor="white"
+                borderWidth={0}
               />
-            )}
-          </TouchableOpacity>
+            </View>
+          </View>
+          {!isRecording && (
+            <View
+              style={{
+                position: "absolute",
+                right: 0,
+                left: 0,
+                top: 0,
+                bottom: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              pointerEvents="box-none"
+            >
+              <TouchableOpacity
+                onPress={() => pickFromGallery()}
+                style={styles.galleryButton}
+              >
+                {galleryItems[0] == undefined ? (
+                  <></>
+                ) : (
+                  <Image
+                    style={styles.galleryButtonImage}
+                    source={{ uri: galleryItems[0].uri }}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </View>
+
       <BottomMenu />
 
       {showCountdown && (
@@ -340,10 +413,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
   },
   bottomBarContainer: {
-    alignItems: "center",
     position: "absolute",
     bottom: 120,
     flexDirection: "row",
+    alignItems: "center",
   },
   recordButtonContainer: {
     flex: 1,
@@ -353,7 +426,6 @@ const styles = StyleSheet.create({
   recordButton: {
     borderWidth: 3,
     borderColor: colors.white,
-
     borderRadius: 100,
     height: 80,
     width: 80,
@@ -366,7 +438,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: 50,
     height: 50,
-    bottom: 10,
+    marginLeft: 200,
   },
   galleryButtonImage: {
     width: 50,
