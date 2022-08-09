@@ -49,10 +49,13 @@ export default function PostSingleOverlay({ post, user }) {
   };
 
   const handleIconChange = () => {
-    const res = postsLikes.findIndex(
-      (likesPost) => likesPost.postId === post._id
-    );
-    return !postsLikes[res].liked || res === -1 ? "star-outline" : "star";
+    if (postsLikes) {
+      const res = postsLikes.findIndex(
+        (likesPost) => likesPost.postId === post._id
+      );
+      return !postsLikes[res].liked || res === -1 ? "star-outline" : "star";
+    }
+    return "star-outline";
   };
 
   const likeButtonHandler = async () => {
