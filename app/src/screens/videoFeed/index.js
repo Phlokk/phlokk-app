@@ -23,7 +23,7 @@ import {
 import { atom, useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import colors from "../../../config/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const { height } = Dimensions.get("window");
 
@@ -63,10 +63,10 @@ const VideoFeed = ({ route }) => {
     if (!posts && !userPosts) {
       return;
     }
-    const postsTeUse = profile ? userPosts : posts;
+    const postsToUse = profile ? userPosts : posts;
 
     // set likes// make sure to refetch video data when the hooks fire
-    const AllLikes = postsTeUse.map((post) => {
+    const AllLikes = postsToUse.map((post) => {
       return {
         postId: post._id,
         likes: handleLikeCount(post.like_count),
@@ -78,7 +78,7 @@ const VideoFeed = ({ route }) => {
       postsLikes: AllLikes,
     });
     // end set likes
-    setPostFeed(postsTeUse);
+    setPostFeed(postsToUse);
   }, [posts, userPosts]);
 
   const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
