@@ -53,11 +53,15 @@ export default function PostSingleOverlay({ post, user }) {
       const res = postsLikes.findIndex(
         (likesPost) => likesPost.postId === post._id
       );
-      return !postsLikes[res].liked ||
+      if (res !== undefined) {
+        return !postsLikes[res].liked ||
         res === -1 ||
         postsLikes[res].liked === undefined
-        ? "star-outline"
-        : "star";
+            ? "star-outline"
+            : "star";
+      } else {
+        return 'star-outline'
+      }
     }
     return "star-outline";
   };
