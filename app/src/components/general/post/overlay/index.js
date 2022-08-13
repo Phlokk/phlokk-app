@@ -50,16 +50,18 @@ export default function PostSingleOverlay({ post, user }) {
 
   const handleIconChange = () => {
     if (postsLikes && postsLikes.length !== 0) {
-      const res = postsLikes.findIndex(
-        (likesPost) => likesPost.postId === post._id
-      );
-      if (res !== undefined) {
+      try {
+        const res = postsLikes.findIndex(
+            (likesPost) => likesPost.postId === post._id
+        );
         return !postsLikes[res].liked ||
         res === -1 ||
         postsLikes[res].liked === undefined
             ? "star-outline"
             : "star";
-      } else {
+      } catch (e) {
+        // send error report ere
+        console.log(e);
         return 'star-outline'
       }
     }
