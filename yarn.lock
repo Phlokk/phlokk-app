@@ -3162,7 +3162,7 @@
   "resolved" "https://registry.npmjs.org/expo-sharing/-/expo-sharing-10.1.0.tgz"
   "version" "10.1.0"
 
-"expo-splash-screen@~0.14.0":
+"expo-splash-screen@~0.14.0", "expo-splash-screen@~0.14.1":
   "integrity" "sha512-X25D/0E2AWEFGgDWIVXZ5Bl7FhYk7TgVhEWvplBqrDY7G7vg5l1aoH6PelOQINWPsa1dcRyA7REdN2ltO+0LAw=="
   "resolved" "https://registry.npmjs.org/expo-splash-screen/-/expo-splash-screen-0.14.2.tgz"
   "version" "0.14.2"

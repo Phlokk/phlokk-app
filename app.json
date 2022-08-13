@@ -19,7 +19,7 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.phlokk.app",
+      "bundleIdentifier": "com.phlokk.phlokkapp",
       "buildNumber": "0.1.0",
       "supportsTablet": true
     },
@@ -28,7 +28,7 @@
         "foregroundImage": "./app/assets/Phlokk_App_Logo_2022_1024x1024.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.phlokk.app"
+      "package": "com.phlokk.phlokkapp"
     },
     "web": {
       "favicon": "./app/assets/Phlokk_App_Logo_2022_1024x1024.png"

@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
-// import { useDispatch } from "react-redux";
+import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
@@ -19,6 +19,7 @@ export default function ProfileNavBar({ showFireIcon }) {
   const [isGifting, setIsGifting] = useState(false);
   const [isInfo, setIsInfo] = useState(false);
 
+  const reportEmail = "https://support.phlokk.com"
 
   // const loading = useSelector(state => state.userReducer.user);
 
@@ -58,7 +59,7 @@ export default function ProfileNavBar({ showFireIcon }) {
       {user !== null || !undefined ? (
         <TouchableOpacity>
           <MaterialIcons
-            onPress={() => setIsInfo(true)}
+            onPress={ () => Linking.openURL(reportEmail)}
             name="bug-report"
             size={25}
             color={colors.green}
