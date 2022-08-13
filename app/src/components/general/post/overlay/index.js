@@ -50,19 +50,15 @@ export default function PostSingleOverlay({ post, user }) {
 
   const handleIconChange = () => {
     if (postsLikes && postsLikes.length !== 0) {
-      try {
-        const res = postsLikes.findIndex(
-            (likesPost) => likesPost.postId === post._id
-        );
+      const res = postsLikes.findIndex(
+          (likesPost) => likesPost.postId === post._id
+      );
+      if (res !== -1) {
         return !postsLikes[res].liked ||
         res === -1 ||
         postsLikes[res].liked === undefined
             ? "star-outline"
             : "star";
-      } catch (e) {
-        // send error report ere
-        console.log(e);
-        return 'star-outline'
       }
     }
     return "star-outline";
@@ -73,7 +69,6 @@ export default function PostSingleOverlay({ post, user }) {
       (likesPost) => likesPost.postId === post._id
     );
 
-    console.log(postsLikes);
     const type = currentPost.liked ? "unlike" : "like";
 
     const updatedPost = {
