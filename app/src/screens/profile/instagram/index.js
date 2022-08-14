@@ -56,7 +56,7 @@ export default function EditInstagramScreen({ route }) {
       <View style={styles.infoView}>
         <Text style={styles.info}>
           <Text style={styles.infoTextGreen}>Info:</Text> Set your Instagram
-          link here. You must use "http or https" before all links. 0/24
+          link here. You must use "http or https" before all links. 0/255
         </Text>
       </View>
     </SafeAreaView>

@@ -54,7 +54,7 @@ export default function EditYoutubeScreen({ route }) {
       <View style={styles.infoView}>
         <Text style={styles.info}>
           <Text style={styles.infoTextGreen}>Info:</Text> Set your Youtube link
-          here. You must use "http or https" before all links. 0/24
+          here. You must use "http or https" before all links. 0/255
         </Text>
       </View>
     </SafeAreaView>
