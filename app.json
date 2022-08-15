@@ -21,7 +21,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
-      "buildNumber": "2022.08.15.e5e9810",
+      "buildNumber": "228150001",
       "supportsTablet": true
     },
     "android": {

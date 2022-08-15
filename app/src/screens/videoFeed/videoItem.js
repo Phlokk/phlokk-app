@@ -6,7 +6,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import PostSingleOverlay from "../../components/general/post/overlay";
 import UserProfileOverlay from "../../components/general/post/overlay/UserProfileOverlay";
 import colors from "../../../config/colors";
-import { LinearGradient } from "expo-linear-gradient";
+import  LinearGradient  from "react-native-linear-gradient";
 
 const VideoItem = ({
   item,

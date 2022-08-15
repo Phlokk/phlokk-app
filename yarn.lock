@@ -3109,11 +3109,6 @@
   "resolved" "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-10.0.1.tgz"
   "version" "10.0.1"
 
-"expo-linear-gradient@^11.0.3":
-  "integrity" "sha512-LuzTM5+iEHCQfC2TBHAAI+ZjPvf0TvGiA7GYMsyTnakGA2r4JtsV8Ah/miQPKhfG06jLDOo4grUoSMGqbmSrEw=="
-  "resolved" "https://registry.npmjs.org/expo-linear-gradient/-/expo-linear-gradient-11.0.3.tgz"
-  "version" "11.0.3"
-
 "expo-linking@^3.0.0":
   "integrity" "sha512-TgRB4JTdhMRo79rTu9E9zwzWyBUJxHpSbHFlv0ZfMAwU+qFCsL9zZsL44R/yj7xrvcLOjqbCVmBszLQ0pFOt1g=="
   "resolved" "https://registry.npmjs.org/expo-linking/-/expo-linking-3.0.0.tgz"

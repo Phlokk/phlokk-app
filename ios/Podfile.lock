@@ -25,6 +25,8 @@ PODS:
   - EXJSONUtils (0.2.1)
   - EXKeepAwake (10.0.1):
     - ExpoModulesCore
+  - EXLinearGradient (10.0.3):
+    - ExpoModulesCore
   - EXManifests (0.2.4):
     - EXJSONUtils
   - EXMediaLibrary (14.0.0):
@@ -99,8 +101,6 @@ PODS:
     - expo-dev-menu/GestureHandler
     - expo-dev-menu/Reanimated
     - expo-dev-menu/SafeAreaView
-  - ExpoLinearGradient (11.4.0):
-    - ExpoModulesCore
   - ExpoModulesCore (0.6.4):
     - React-Core
     - ReactCommon/turbomodule/core
@@ -467,6 +467,7 @@ DEPENDENCIES:
   - EXImagePicker (from `../node_modules/expo-image-picker/ios`)
   - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
+  - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
   - EXMediaLibrary (from `../node_modules/expo-media-library/ios`)
   - Expo (from `../node_modules/expo/ios`)
@@ -474,7 +475,6 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
-  - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSharing (from `../node_modules/expo-sharing/ios`)
@@ -560,6 +560,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-json-utils/ios"
   EXKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
+  EXLinearGradient:
+    :path: "../node_modules/expo-linear-gradient/ios"
   EXManifests:
     :path: "../node_modules/expo-manifests/ios"
   EXMediaLibrary:
@@ -574,8 +576,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu"
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
-  ExpoLinearGradient:
-    :path: "../node_modules/expo-linear-gradient/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
   EXSecureStore:
@@ -686,6 +686,7 @@ SPEC CHECKSUMS:
   EXImagePicker: 91337b8d57a0a8f56800b9ac0f2b2f10aecf88ce
   EXJSONUtils: 5ee0d5cf76da70ad86f0be1a41cc70f47d69e06f
   EXKeepAwake: b571c2ad8323b2fced6e907766e2549f75119471
+  EXLinearGradient: 4d727eacb53d19ef25b02dd810e0199b453489ce
   EXManifests: d3464cd2278f4a19cd80c1aa673231570b534c11
   EXMediaLibrary: 6acf919299bccc64a59e6e89a3b792276e309302
   Expo: d9b8b5e49c200471fc473a652a84fe30dee73027
@@ -693,7 +694,6 @@ SPEC CHECKSUMS:
   expo-dev-launcher: 1e6eecef4abb3b1274f0e1ab1b576c67d17ddbfa
   expo-dev-menu: 444277c5bd4553abbf8b1095b93ecb88af4c6479
   expo-dev-menu-interface: 395d046704878e5de471a89102ddf361cbb7e52f
-  ExpoLinearGradient: 1a3af07c6dab3c612967a294836df9ae717431df
   ExpoModulesCore: 64abda7af7cf659d2fa092934e29c6f4ea7e849f
   EXSecureStore: b80c74c5ee29d0160c2aace3fd9a24a5edc20015
   EXSharing: 2e26cf64fb2a89484b4f6ff8da12d6d752f83962

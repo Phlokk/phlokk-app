@@ -16,7 +16,6 @@ import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import colors from "../../../../../config/colors";
 import { timeSince } from "../../../../services/posts";
-import { LinearGradient } from "expo-linear-gradient";
 
 function UserProfileOverlay({ post, user }) {
   const navigation = useNavigation();
