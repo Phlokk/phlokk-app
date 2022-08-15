@@ -51,14 +51,14 @@ export default function PostSingleOverlay({ post, user }) {
   const handleIconChange = () => {
     if (postsLikes && postsLikes.length !== 0) {
       const res = postsLikes.findIndex(
-          (likesPost) => likesPost.postId === post._id
+        (likesPost) => likesPost.postId === post._id
       );
       if (res !== -1) {
         return !postsLikes[res].liked ||
-        res === -1 ||
-        postsLikes[res].liked === undefined
-            ? "star-outline"
-            : "star";
+          res === -1 ||
+          postsLikes[res].liked === undefined
+          ? "star-outline"
+          : "star";
       }
     }
     return "star-outline";
@@ -92,7 +92,7 @@ export default function PostSingleOverlay({ post, user }) {
   };
 
   return (
-    <View style={styles.sideBarContainer}>
+    <View style={[styles.sideBarContainer]}>
       <TouchableOpacity
         style={styles.iconContainer}
         onPress={likeButtonHandler}
@@ -217,8 +217,8 @@ const styles = StyleSheet.create({
   },
   sideBarContainer: {
     position: "absolute",
-    right: 0,
-    bottom: 210,
+    right: 8,
+    bottom: 60,
   },
   topText: {
     flexDirection: "row",

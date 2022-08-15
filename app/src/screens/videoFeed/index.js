@@ -29,9 +29,10 @@ const { height } = Dimensions.get("window");
 
 export const newFeedItemAtom = atom("");
 
-const VideoFeed = ({ route }) => {
+const VideoFeed = ({ navigation, route }) => {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [postFeed, setPostFeed] = useState([]);
+
   const { profile, selectedIndex, creator } = route.params;
   const flatListRef = useRef();
   const dispatch = useDispatch();
@@ -166,17 +167,34 @@ const VideoFeed = ({ route }) => {
       />
 
       <TouchableOpacity
-        onPress={() => refreshMainFeed()}
+        onPress={() => {
+          if (!navigation?.canGoBack()) {
+            refreshMainFeed();
+          } else {
+            navigation?.goBack();
+          }
+        }}
         style={{ position: "absolute", top: 40, left: 8 }}
       >
-        <Text>
-          <Ionicons
-            style={styles.refreshIcon}
-            name="refresh"
-            size={24}
-            color={colors.white}
-          />
-        </Text>
+        {!navigation?.canGoBack() ? (
+          <Text>
+            <Ionicons
+              style={styles.refreshIcon}
+              name="refresh"
+              size={24}
+              color={colors.white}
+            />
+          </Text>
+        ) : (
+          <Text>
+            <Ionicons
+              style={styles.refreshIcon}
+              name="chevron-back-sharp"
+              size={24}
+              color={colors.white}
+            />
+          </Text>
+        )}
       </TouchableOpacity>
     </View>
   );

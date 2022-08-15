@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
-import { Video } from "expo-av";
+import { Video, Audio } from "expo-av";
 import { useIsFocused } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import PostSingleOverlay from "../../components/general/post/overlay";
 import UserProfileOverlay from "../../components/general/post/overlay/UserProfileOverlay";
 import colors from "../../../config/colors";
+import { LinearGradient } from "expo-linear-gradient";
 
 const VideoItem = ({
   item,
@@ -16,6 +17,14 @@ const VideoItem = ({
 }) => {
   const [shouldPlay, setShouldPlay] = useState(true);
   const isFocused = useIsFocused();
+
+  // Set up audio play mode for iOS
+  useEffect(() => {
+    const setupAudio = async () => {
+      await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+    };
+    setupAudio();
+  }, []);
 
   // watches for index change upon scroll to reset the video status
   useEffect(() => {
@@ -58,8 +67,25 @@ const VideoItem = ({
         />
         {shouldPlay ? null : displayPauseIcon()}
       </Pressable>
-      <PostSingleOverlay user={item.user} post={item} />
+
+      <View
+        pointerEvents="none"
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 650,
+        }}
+      >
+        <LinearGradient
+          colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.4)"]}
+          style={{ height: 650, width: "100%" }}
+        />
+      </View>
+
       <UserProfileOverlay user={item.user} post={item} />
+      <PostSingleOverlay user={item.user} post={item} />
     </View>
   );
 };

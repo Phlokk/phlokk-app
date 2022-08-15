@@ -99,6 +99,8 @@ PODS:
     - expo-dev-menu/GestureHandler
     - expo-dev-menu/Reanimated
     - expo-dev-menu/SafeAreaView
+  - ExpoLinearGradient (11.4.0):
+    - ExpoModulesCore
   - ExpoModulesCore (0.6.4):
     - React-Core
     - ReactCommon/turbomodule/core
@@ -472,6 +474,7 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
+  - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSharing (from `../node_modules/expo-sharing/ios`)
@@ -571,6 +574,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu"
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
+  ExpoLinearGradient:
+    :path: "../node_modules/expo-linear-gradient/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
   EXSecureStore:
@@ -688,6 +693,7 @@ SPEC CHECKSUMS:
   expo-dev-launcher: 1e6eecef4abb3b1274f0e1ab1b576c67d17ddbfa
   expo-dev-menu: 444277c5bd4553abbf8b1095b93ecb88af4c6479
   expo-dev-menu-interface: 395d046704878e5de471a89102ddf361cbb7e52f
+  ExpoLinearGradient: 1a3af07c6dab3c612967a294836df9ae717431df
   ExpoModulesCore: 64abda7af7cf659d2fa092934e29c6f4ea7e849f
   EXSecureStore: b80c74c5ee29d0160c2aace3fd9a24a5edc20015
   EXSharing: 2e26cf64fb2a89484b4f6ff8da12d6d752f83962

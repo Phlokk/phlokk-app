@@ -15,11 +15,10 @@ import { Animated } from "react-native";
 import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import colors from "../../../../../config/colors";
-import {timeSince} from "../../../../services/posts";
-
+import { timeSince } from "../../../../services/posts";
+import { LinearGradient } from "expo-linear-gradient";
 
 function UserProfileOverlay({ post, user }) {
-
   const navigation = useNavigation();
   const songTicker = "phlokk original audio ";
 
@@ -27,7 +26,7 @@ function UserProfileOverlay({ post, user }) {
   const animatedStyle = { transform: [{ rotate }] };
 
   return (
-    <View style={styles.bottomContainer}>
+    <View style={[styles.bottomContainer]}>
       <View style={styles.verifiedRow}>
         <View style={styles.avatarContainer}>
           <TouchableOpacity
@@ -38,44 +37,44 @@ function UserProfileOverlay({ post, user }) {
             }}
           >
             {!user?.photo_url && !user?.photo_url ? (
-				<Image
-					style={styles.avatar}
-					source={require('../../../../../assets/userImage.png')}
-					cache="only-if-cached"
-				/>
-			) : (
-            <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+              <Image
+                style={styles.avatar}
+                source={require("../../../../../assets/userImage.png")}
+                cache="only-if-cached"
+              />
+            ) : (
+              <Image style={styles.avatar} source={{ uri: user.photo_url }} />
             )}
           </TouchableOpacity>
-      
         </View>
-        <View style={styles.usernameRow}>  
-              <Text style={styles.username} key={user._id}>
-                @{user.username}
-              </Text>
-              <View>
-                {user.is_verified === 1 && (
-                  <Image style={styles.phlokkVerified} source={verifiedCheck} />
-                )}
-              </View>    
+        <View style={styles.usernameRow}>
+          <Text style={styles.username} key={user._id}>
+            @{user.username}
+          </Text>
+          <View>
+            {user.is_verified === 1 && (
+              <Image style={styles.phlokkVerified} source={verifiedCheck} />
+            )}
+          </View>
         </View>
         <Text style={styles.date}>
-          {post.created_at ? timeSince(new Date(post.created_at)) + ' ago' : "Now"}
+          {post.created_at
+            ? timeSince(new Date(post.created_at)) + " ago"
+            : "Now"}
         </Text>
         <Text style={styles.description} key={user}>
           {post.description}
         </Text>
         <View style={styles.songRow}>
           <Entypo name="beamed-note" size={15} color="white" />
-          
+
           <Text style={styles.songName}>{songTicker}</Text>
-        
-          
+
           <View style={styles.animatedlogo}>
-          <Animated.Image
-            style={[styles.songImage, animatedStyle]}
-            source={pmdLogo}
-          />
+            <Animated.Image
+              style={[styles.songImage, animatedStyle]}
+              source={pmdLogo}
+            />
           </View>
         </View>
       </View>
@@ -86,7 +85,6 @@ function UserProfileOverlay({ post, user }) {
 export default UserProfileOverlay;
 
 const styles = StyleSheet.create({
-
   date: {
     color: colors.secondary,
     fontSize: 8,
@@ -102,6 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
+    marginRight: 45,
   },
   username: {
     color: colors.white,
@@ -161,6 +160,5 @@ const styles = StyleSheet.create({
   },
   animatedlogo: {
     marginLeft: 5,
-
-  }
+  },
 });
