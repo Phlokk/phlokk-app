@@ -8,9 +8,9 @@
     <true/>
     <key>EXUpdatesLaunchWaitMs</key>
     <integer>0</integer>
-    <key>EXUpdatesSDKVersion</key>
-    <string>44.0.0</string>
+    <key>EXUpdatesRuntimeVersion</key>
+    <string>0.1.0</string>
     <key>EXUpdatesURL</key>
-    <string>https://exp.host/@batslion/PhlokkApp</string>
+    <string>https://u.expo.dev/0ce22039-8e13-4b97-84ce-82e13de2bced</string>
   </dict>
 </plist>
