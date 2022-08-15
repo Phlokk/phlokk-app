@@ -13,25 +13,32 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/0ce22039-8e13-4b97-84ce-82e13de2bced"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
+
       "buildNumber": "0.1.2",
+
+      "buildNumber": "2022.08.14.08ff1cae",
+
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 228140003,
       "adaptiveIcon": {
-        "foregroundImage": "./app/assets/Phlokk_App_Logo_2022_1024x1024.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
+        "backgroundColor": "#04cccc"
       },
       "package": "com.phlokk.phlokkapp"
     },
     "web": {
-      "favicon": "./app/assets/Phlokk_App_Logo_2022_1024x1024.png"
-    }
+      "favicon": "./app/assets/launcher/android/ic_launcher-web.png"
+    },
+    "runtimeVersion": "0.1.0"
   }
 }

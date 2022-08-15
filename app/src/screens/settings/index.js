@@ -140,7 +140,7 @@ export default function SettingsScreen() {
             <MaterialIcons name="logout" size={14} color={colors.white} /> Logout
           </Text>
         </TouchableOpacity>
-        <Text style={styles.versionText}>v0.1.0</Text>
+        <Text style={styles.versionText}>v0.1.1-228140003</Text>
       </ScrollView>   
     </SafeAreaView>
   );
