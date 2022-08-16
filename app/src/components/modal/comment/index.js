@@ -108,10 +108,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.commentInput,
     borderRadius: 10,
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 8,
     marginHorizontal: 10,
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 7,
     color: colors.secondary,
   },
 
