@@ -144,8 +144,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   phlokkVerified: {
-    width: 12,
-    height: 12,
+    width: 10,
+    height: 10,
     top: 4,
     marginHorizontal: 3,
   },

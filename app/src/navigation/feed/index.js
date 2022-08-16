@@ -18,7 +18,7 @@ const FeedNavigation = () => {
     headerStyle: { backgroundColor: "transparent" },
     headerTransparent: true,
     headerBackTitleVisible: false,
-    headerTintColor: colors.green,
+    headerTintColor: colors.secondary,
     headerTitle: () => undefined,
   };
 
