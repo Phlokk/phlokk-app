@@ -27,32 +27,38 @@ const CommentItem = ({ item }) => {
   return (
     <View style={styles.container}>
       {!user?.photo_url && !user?.photo_url ? (
+        <TouchableOpacity
+        disabled={user._id == item.user._id}
+            onPress={() => {
+              navigation.navigate("feedProfile", {
+                initialUser: item.user,
+              });
+            }}
+        >
         <Image
           style={styles.avatar}
           source={require("../../../../../assets/userImage.png")}
           cache="only-if-cached"
         />
+        </TouchableOpacity>
       ) : (
+        <TouchableOpacity
+        disabled={user._id == item.user._id}
+            onPress={() => {
+              navigation.navigate("feedProfile", {
+                initialUser: item.user,
+              });
+            }}
+            >
         <Image style={styles.avatar} source={{ uri: item.user.photo_url }} />
+        </TouchableOpacity>
       )}
+      
+      
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
-          <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={<Text>Profiles{"\n"}coming in beta 2</Text>}
-            positiveBtn="Ok"
-            modalVisible={isUsernameProfile}
-            dismissAlert={setIsUsernameProfile}
-            animationType="fade"
-          />
-
           <TouchableOpacity
-            onPress={() => setIsUsernameProfile(true)}
             disabled={user._id == item.user._id}
             onPress={() => {
               navigation.navigate("feedProfile", {

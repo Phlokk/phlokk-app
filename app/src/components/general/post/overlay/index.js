@@ -28,6 +28,7 @@ export default function PostSingleOverlay({ post, user }) {
   const dispatch = useDispatch();
   useEffect(() => {
     setIsSettingsModalScreenOpen(false);
+    setCommentModalOpen(false)
   }, [isFocused]);
 
   const [isLightItUp, setLightItUp] = useState(false);
