@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secondary,
     borderWidth: 1,
     borderRadius: 8,
     flex: 1,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     paddingHorizontal: 10,
     paddingVertical: 10,
-    color: colors.secondary,
+    color: colors.black,
   },
 
   textComment: {

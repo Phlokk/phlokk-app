@@ -79,11 +79,6 @@ function UserProfileOverlay({ post, user }) {
 export default UserProfileOverlay;
 
 const styles = StyleSheet.create({
-  date: {
-    color: colors.secondary,
-    fontSize: 8,
-    bottom: 5,
-  },
   bottomContainer: {
     position: "absolute",
     bottom: 0,
@@ -119,7 +114,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   avatar: {
-    // zIndex: -9999,
     height: 50,
     width: 50,
     borderRadius: 25,
