@@ -13,18 +13,12 @@ import CustomAlert from "../../../components/Alerts/customAlert";
 
 export default function ProfileNavBar({ showFireIcon }) {
   const navigation = useNavigation();
-  // const dispatch = useDispatch();
 
   const [user, setUser] = useAtom(userAtom);
   const [isGifting, setIsGifting] = useState(false);
   const [isInfo, setIsInfo] = useState(false);
-
-  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const reportEmail = "https://support.phlokk.com"
 
-  // if (user._id !== currentUser._id) {
-  //   return null;
-  // }
 
 
   return (

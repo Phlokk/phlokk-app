@@ -20,8 +20,7 @@ import GiftingModalScreen from "../../../modal/giftingModalScreen";
 import CommentModal from "../../../modal/comment/index";
 import colors from "../../../../../config/colors";
 import { likeVideo } from "../../../../redux/actions/likes";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { types } from "../../../../redux/constants";
 
 export default function PostSingleOverlay({ post, user }) {

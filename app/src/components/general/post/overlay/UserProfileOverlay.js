@@ -31,8 +31,9 @@ function UserProfileOverlay({ post, user }) {
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("feedProfile", {
-                initialUser: user,
+                initialUser: user, 
               });
+              
             }}
           >
             {!user?.photo_url && !user?.photo_url ? (

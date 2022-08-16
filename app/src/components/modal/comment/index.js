@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   TextInput,
+  Text,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CommentItem from "./item";
@@ -55,14 +56,15 @@ const CommentModal = (post) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.postCountText}>{commentList.length} comments</Text>
       <View style={styles.containerInput}>
-      {!user?.photo_url && !user?.photo_url ? (
-				<Image
-					style={styles.avatar}
-					source={require('../../../../assets/userImage.png')}
-					cache="only-if-cached"
-				/>
-			) : (
+        {!user?.photo_url && !user?.photo_url ? (
+          <Image
+            style={styles.avatar}
+            source={require("../../../../assets/userImage.png")}
+            cache="only-if-cached"
+          />
+        ) : (
           <TouchableOpacity>
             <Image style={styles.avatar} source={{ uri: user.photo_url }} />
           </TouchableOpacity>
@@ -84,7 +86,7 @@ const CommentModal = (post) => {
       <FlatList
         data={commentList}
         renderItem={renderItem}
-        showsVerticalScrollIndicator ={false}
+        showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id}
       />
     </View>
@@ -124,6 +126,11 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     borderColor: "lightgray",
+  },
+  postCountText: {
+    fontSize: 10,
+    color: colors.secondary,
+    textAlign: "center",
   },
 });
 
