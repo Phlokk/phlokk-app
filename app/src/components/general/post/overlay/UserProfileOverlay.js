@@ -19,7 +19,7 @@ import colors from "../../../../../config/colors";
 
 function UserProfileOverlay({ post, user }) {
   const navigation = useNavigation();
-  const songTicker = "phlokk original audio ";
+  const songTicker = "official phlokk audio ";
 
   const rotate = useRotation();
   const animatedStyle = { transform: [{ rotate }] };
@@ -144,8 +144,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   phlokkVerified: {
-    width: 10,
-    height: 10,
+    width: 12,
+    height: 12,
     top: 4,
     marginHorizontal: 3,
   },
