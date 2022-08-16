@@ -137,6 +137,7 @@ const VideoFeed = ({ navigation, route }) => {
         item={item}
         index={index}
         currentVideoIndex={currentVideoIndex}
+        currentUser={currentUser}
         feedItemHeight={feedItemHeight}
         setCurrentVideoPlayingStat={(status) =>
           setCurrentVideoPlayingStat(() => status)
@@ -179,19 +180,19 @@ const VideoFeed = ({ navigation, route }) => {
         style={{ position: "absolute", top: 40, left: 8 }}
       >
         {!navigation?.canGoBack() ? (
-            <Ionicons
-              style={styles.refreshIcon}
-              name="refresh"
-              size={24}
-              color={colors.white}
-            /> 
+          <Ionicons
+            style={styles.refreshIcon}
+            name="refresh"
+            size={24}
+            color={colors.white}
+          />
         ) : (
-            <Ionicons
-              style={styles.refreshIcon}
-              name="chevron-back-sharp"
-              size={24}
-              color={colors.white}
-            />
+          <Ionicons
+            style={styles.refreshIcon}
+            name="chevron-back-sharp"
+            size={24}
+            color={colors.white}
+          />
         )}
       </TouchableOpacity>
 
@@ -208,9 +209,8 @@ const VideoFeed = ({ navigation, route }) => {
         style={{ position: "absolute", top: 40, right: 15 }}
         // onPress={() => { navigation.navigate(routes.MARKET)}
         onPress={() => setMarketAlert(true)}
-        >
+      >
         <Entypo name="shop" size={24} color={colors.secondary} />
-
       </TouchableOpacity>
     </View>
   );
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.red,
   },
   refreshIcon: {
-    opacity: 0.2,
+    opacity: 0.5,
   },
 });
 

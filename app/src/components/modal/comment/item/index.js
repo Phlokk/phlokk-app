@@ -15,7 +15,7 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
 import verifiedCheck from "../../../../../assets/verified.png";
 import CustomAlert from "../../../Alerts/customAlert";
-import {timeSince} from "../../../../services/posts";
+import { timeSince } from "../../../../services/posts";
 
 const CommentItem = ({ item }) => {
   const navigation = useNavigation();
@@ -27,48 +27,56 @@ const CommentItem = ({ item }) => {
   return (
     <View style={styles.container}>
       {!user?.photo_url && !user?.photo_url ? (
-				<Image
-					style={styles.avatar}
-					source={require('../../../../../assets/userImage.png')}
-					cache="only-if-cached"
-				/>
-			) : (
-      <Image style={styles.avatar} source={{ uri: item.user.photo_url }} />
+        <Image
+          style={styles.avatar}
+          source={require("../../../../../assets/userImage.png")}
+          cache="only-if-cached"
+        />
+      ) : (
+        <Image style={styles.avatar} source={{ uri: item.user.photo_url }} />
       )}
-      
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
-      <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Profiles{"\n"}coming in beta 2</Text>}
-        positiveBtn="Ok"
-        modalVisible={isUsernameProfile}
-        dismissAlert={setIsUsernameProfile}
-        animationType="fade"
-      />
-          <TouchableOpacity
-        onPress={() => setIsUsernameProfile(true)}
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Profiles{"\n"}coming in beta 2</Text>}
+            positiveBtn="Ok"
+            modalVisible={isUsernameProfile}
+            dismissAlert={setIsUsernameProfile}
+            animationType="fade"
+          />
 
-          // onPress={() => {
-          //   navigation.navigate("feedProfile", {
-          //     initialUser: user,
-          //   });
-          // }}
+          <TouchableOpacity
+            onPress={() => setIsUsernameProfile(true)}
+            disabled={user._id == item.user._id}
+            onPress={() => {
+              navigation.navigate("feedProfile", {
+                initialUser: item.user,
+              });
+            }}
           >
             <Text style={styles.username}>@{item.user.username}</Text>
           </TouchableOpacity>
-            {item.user && item.user.is_verified === 1 && (
-              <Image style={styles.phlokkVerified} source={verifiedCheck} />
-            )}
-            <View style={styles.starRow}>
+          {item.user && item.user.is_verified === 1 && (
+            <Image style={styles.phlokkVerified} source={verifiedCheck} />
+          )}
+          <View style={styles.starRow}>
             <CustomAlert
-            alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-            customAlertMessage={<Text>Stars{"\n"}coming in beta 2</Text>}
-            positiveBtn="Ok"
-            modalVisible={isStars}
-            dismissAlert={setIsStars}
-            animationType="fade"
+              alertTitle={
+                <Text>
+                  <MaterialIcons name="info" size={24} color={colors.green} />
+                </Text>
+              }
+              customAlertMessage={<Text>Stars{"\n"}coming in beta 2</Text>}
+              positiveBtn="Ok"
+              modalVisible={isStars}
+              dismissAlert={setIsStars}
+              animationType="fade"
             />
             <MaterialCommunityIcons
               onPress={() => setIsStars(true)}
@@ -77,9 +85,7 @@ const CommentItem = ({ item }) => {
               size={17}
               name={"star" ? "star-outline" : "star"}
             />
-            
-            </View>
-            
+          </View>
         </View>
         <Text style={styles.textComment}>{item.message}</Text>
         <View style={styles.replyRow}>
@@ -87,16 +93,18 @@ const CommentItem = ({ item }) => {
             {item.created_at ? timeSince(new Date(item.created_at)) : "Now"}
           </Text>
           <CustomAlert
-            alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
             customAlertMessage={<Text>Replies{"\n"}coming in beta 2</Text>}
             positiveBtn="Ok"
             modalVisible={isReplies}
             dismissAlert={setIsReplies}
             animationType="fade"
-            />
-          <TouchableOpacity
-            onPress={() => setIsReplies(true)}
-          >
+          />
+          <TouchableOpacity onPress={() => setIsReplies(true)}>
             <Text style={styles.textReplies}>Reply</Text>
           </TouchableOpacity>
         </View>
@@ -111,7 +119,6 @@ const styles = StyleSheet.create({
     bottom: 11,
     flexDirection: "row",
     flex: 1,
-
   },
   containerText: {
     flex: 1,
@@ -137,7 +144,7 @@ const styles = StyleSheet.create({
     paddingRight: 40,
     fontSize: 12,
     marginTop: 2,
-    opacity: 0.9
+    opacity: 0.9,
   },
   textReplies: {
     color: colors.secondary,
@@ -164,17 +171,16 @@ const styles = StyleSheet.create({
   star: {
     // position: "absolute",
     // left: 310,
-    
+
     bottom: 1,
   },
   starRow: {
-    marginLeft:'auto', 
+    marginLeft: "auto",
   },
-  starCount:{
+  starCount: {
     color: colors.secondary,
     // fontSize: 10,
-  }
-
+  },
 });
 
 export default CommentItem;

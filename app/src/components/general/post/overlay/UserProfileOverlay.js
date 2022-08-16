@@ -16,8 +16,7 @@ import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import colors from "../../../../../config/colors";
 
-
-function UserProfileOverlay({ post, user }) {
+function UserProfileOverlay({ post, user, currentUser }) {
   const navigation = useNavigation();
   const songTicker = "official phlokk audio ";
 
@@ -29,11 +28,11 @@ function UserProfileOverlay({ post, user }) {
       <View style={styles.verifiedRow}>
         <View style={styles.avatarContainer}>
           <TouchableOpacity
+            disabled={currentUser._id == post.user._id}
             onPress={() => {
               navigation.navigate("feedProfile", {
-                initialUser: user, 
+                initialUser: user,
               });
-              
             }}
           >
             {!user?.photo_url && !user?.photo_url ? (

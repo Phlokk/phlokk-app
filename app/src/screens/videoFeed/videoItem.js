@@ -6,7 +6,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import PostSingleOverlay from "../../components/general/post/overlay";
 import UserProfileOverlay from "../../components/general/post/overlay/UserProfileOverlay";
 import colors from "../../../config/colors";
-import  LinearGradient  from "react-native-linear-gradient";
+import LinearGradient from "react-native-linear-gradient";
 
 const VideoItem = ({
   item,
@@ -14,6 +14,7 @@ const VideoItem = ({
   currentVideoIndex,
   feedItemHeight,
   setCurrentVideoPlayingStat,
+  currentUser,
 }) => {
   const [shouldPlay, setShouldPlay] = useState(true);
   const isFocused = useIsFocused();
@@ -84,7 +85,11 @@ const VideoItem = ({
         />
       </View>
 
-      <UserProfileOverlay user={item.user} post={item} />
+      <UserProfileOverlay
+        user={item.user}
+        post={item}
+        currentUser={currentUser}
+      />
       <PostSingleOverlay user={item.user} post={item} />
     </View>
   );
