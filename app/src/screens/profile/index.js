@@ -38,7 +38,10 @@ export default function ProfileScreen({ route }) {
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
-      <ProfileNavBar showFireIcon={userProfile === undefined} />
+      <ProfileNavBar
+        userProfile={userProfile}
+        showFireIcon={userProfile === undefined}
+      />
       <FlatList
         numColumns={3}
         showsVerticalScrollIndicator={false}

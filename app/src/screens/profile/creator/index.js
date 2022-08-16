@@ -150,6 +150,13 @@ export default function EditCreatorFieldScreen({ route }) {
       category: "Creator",
       selected: false,
     },
+    {
+      id: 21,
+      key: "cat21",
+      value: false,
+      category: "",
+      selected: false,
+    },
   ]);
 
   const onSave = async () => {

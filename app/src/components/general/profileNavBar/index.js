@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -11,21 +10,24 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import CustomAlert from "../../../components/Alerts/customAlert";
 
-export default function ProfileNavBar({ showFireIcon }) {
+export default function ProfileNavBar({ userProfile, showFireIcon }) {
   const navigation = useNavigation();
 
   const [user, setUser] = useAtom(userAtom);
   const [isGifting, setIsGifting] = useState(false);
-  const [isInfo, setIsInfo] = useState(false);
-  const reportEmail = "https://support.phlokk.com"
-
-
+  const reportEmail = "https://support.phlokk.com";
 
   return (
     <View style={styles.container}>
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Light It Up{"\n"}coming in Official release</Text>}
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={
+          <Text>Light It Up{"\n"}coming in Official release</Text>
+        }
         positiveBtn="Ok"
         modalVisible={isGifting}
         dismissAlert={setIsGifting}
@@ -33,7 +35,6 @@ export default function ProfileNavBar({ showFireIcon }) {
       />
       <TouchableOpacity
         onPress={() => setIsGifting(true)}
-
         // onPress={() => navigation.navigate(routes.BUY_GIFTS)}
         disabled={!showFireIcon}
       >
@@ -45,15 +46,17 @@ export default function ProfileNavBar({ showFireIcon }) {
         />
       </TouchableOpacity>
 
-      <Text style={styles.middleText}>{user.creator_type}</Text>
-        <TouchableOpacity>
-          <MaterialIcons
-            onPress={ () => Linking.openURL(reportEmail)}
-            name="contact-support"
-            size={20}
-            color={colors.secondary}
-          />
-        </TouchableOpacity>
+      <Text style={styles.middleText}>
+        {userProfile?.creator_type || user.creator_type}
+      </Text>
+      <TouchableOpacity>
+        <MaterialIcons
+          onPress={() => Linking.openURL(reportEmail)}
+          name="contact-support"
+          size={20}
+          color={colors.secondary}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
