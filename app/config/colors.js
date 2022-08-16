@@ -18,6 +18,7 @@ export default {
     darkGrey: '#1e272e',
     lightBlack: '#181818',
     diamondBlue: '#c5eff7',
+    commentInput: '#2f3640',
     
 
 

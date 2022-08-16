@@ -108,6 +108,7 @@ const CommentItem = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 14,
+    bottom: 11,
     flexDirection: "row",
     flex: 1,
 

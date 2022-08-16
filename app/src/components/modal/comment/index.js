@@ -68,8 +68,9 @@ const CommentModal = (post) => {
           </TouchableOpacity>
         )}
         <TextInput
+          selectionColor={colors.green}
           style={styles.input}
-          placeholder="Add comment"
+          placeholder="Add comment..."
           placeholderTextColor={"gray"}
           multiline
           value={comment}
@@ -96,32 +97,30 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     backgroundColor: colors.primary,
     height: "60%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
   },
   containerInput: {
-    padding: 25,
+    padding: 20,
+    bottom: 15,
     flexDirection: "row",
     alignItems: "center",
   },
   input: {
-    backgroundColor: colors.secondary,
-    borderWidth: 1,
-    borderRadius: 8,
+    backgroundColor: colors.commentInput,
+    borderRadius: 10,
     flex: 1,
     paddingTop: 10,
     marginHorizontal: 10,
     paddingHorizontal: 10,
     paddingVertical: 10,
-    color: colors.black,
+    color: colors.secondary,
   },
 
   textComment: {
     color: colors.white,
   },
   avatar: {
-    height: 25,
-    width: 25,
+    height: 30,
+    width: 30,
     borderRadius: 50,
     borderWidth: 1,
     borderColor: "lightgray",
