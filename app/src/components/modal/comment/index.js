@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   },
   postCountText: {
     fontSize: 10,
+    fontWeight: 'bold',
     color: colors.secondary,
     textAlign: "center",
   },

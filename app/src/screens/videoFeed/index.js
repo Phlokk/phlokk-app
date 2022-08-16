@@ -2,9 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import {
   View,
   StyleSheet,
-  ActivityIndicator,
   Dimensions,
-  RefreshControl,
   TouchableOpacity,
   Text,
   Pressable,
@@ -181,25 +179,22 @@ const VideoFeed = ({ navigation, route }) => {
         style={{ position: "absolute", top: 40, left: 8 }}
       >
         {!navigation?.canGoBack() ? (
-          <Text>
             <Ionicons
               style={styles.refreshIcon}
               name="refresh"
               size={24}
               color={colors.white}
-            />
-          </Text>
+            /> 
         ) : (
-          <Text>
             <Ionicons
               style={styles.refreshIcon}
               name="chevron-back-sharp"
               size={24}
               color={colors.white}
             />
-          </Text>
         )}
       </TouchableOpacity>
+
       <CustomAlert
         customAlertMessage={
           <Text>Phlokk Market{"\n"}coming in official release</Text>
@@ -212,11 +207,11 @@ const VideoFeed = ({ navigation, route }) => {
       <TouchableOpacity
         style={{ position: "absolute", top: 40, right: 15 }}
         // onPress={() => { navigation.navigate(routes.MARKET)}
-        onPress={() => setMarketAlert(true)} 
-      >
-            <Entypo name="shop" size={24} color={colors.secondary} />
+        onPress={() => setMarketAlert(true)}
+        >
+        <Entypo name="shop" size={24} color={colors.secondary} />
+
       </TouchableOpacity>
-      
     </View>
   );
 };
