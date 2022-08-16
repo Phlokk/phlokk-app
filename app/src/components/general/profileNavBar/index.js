@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -19,9 +20,13 @@ export default function ProfileNavBar({ showFireIcon }) {
   const [isGifting, setIsGifting] = useState(false);
   const [isInfo, setIsInfo] = useState(false);
 
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const reportEmail = "https://support.phlokk.com"
 
-  // const loading = useSelector(state => state.userReducer.user);
+  // if (user._id !== currentUser._id) {
+  //   return null;
+  // }
+
 
   return (
     <View style={styles.container}>
@@ -48,28 +53,14 @@ export default function ProfileNavBar({ showFireIcon }) {
       </TouchableOpacity>
 
       <Text style={styles.middleText}>{user.creator_type}</Text>
-      <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Report bugs{"\n"}coming in beta v0.0.1</Text>}
-        positiveBtn="Ok"
-        modalVisible={isInfo}
-        dismissAlert={setIsInfo}
-        animationType="fade"
-      />
-      {user !== null || !undefined ? (
         <TouchableOpacity>
-          <MaterialIcons
+          <AntDesign
             onPress={ () => Linking.openURL(reportEmail)}
-            name="bug-report"
-            size={25}
+            name="customerservice"
+            size={20}
             color={colors.green}
           />
         </TouchableOpacity>
-      ) : (
-        <TouchableOpacity>
-          <Ionicons name="ellipsis-horizontal" size={28} color={colors.white} />
-        </TouchableOpacity>
-      )}
     </View>
   );
 }
