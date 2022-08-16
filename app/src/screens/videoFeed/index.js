@@ -12,6 +12,7 @@ import {
 import SwiperFlatList from "react-native-swiper-flatlist";
 import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import useMaterialNavBarHeight from "../../hooks/useMaterialNavBarHeight";
 import VideoItem from "./videoItem";
 import { types } from "../../redux/constants";
@@ -22,8 +23,10 @@ import {
 } from "../../services/posts";
 import { atom, useAtom } from "jotai";
 import { userAtom } from "../../../../App";
-import colors from "../../../config/colors";
+import colors from "../../navigation/routes";
+
 import { useDispatch, useSelector } from "react-redux";
+import CustomAlert from "../../components/Alerts/customAlert";
 
 const { height } = Dimensions.get("window");
 
@@ -32,6 +35,7 @@ export const newFeedItemAtom = atom("");
 const VideoFeed = ({ navigation, route }) => {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [postFeed, setPostFeed] = useState([]);
+  const [marketAlert, setMarketAlert] = useState(false);
 
   const { profile, selectedIndex, creator } = route.params;
   const flatListRef = useRef();
@@ -196,6 +200,23 @@ const VideoFeed = ({ navigation, route }) => {
           </Text>
         )}
       </TouchableOpacity>
+      <CustomAlert
+        customAlertMessage={
+          <Text>Phlokk Market{"\n"}coming in official release</Text>
+        }
+        positiveBtn="Ok"
+        modalVisible={marketAlert}
+        dismissAlert={setMarketAlert}
+        animationType="fade"
+      />
+      <TouchableOpacity
+        style={{ position: "absolute", top: 40, right: 15 }}
+        // onPress={() => { navigation.navigate(routes.MARKET)}
+        onPress={() => setMarketAlert(true)} 
+      >
+            <Entypo name="shop" size={24} color={colors.secondary} />
+      </TouchableOpacity>
+      
     </View>
   );
 };
