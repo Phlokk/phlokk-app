@@ -15,7 +15,7 @@ import { Animated } from "react-native";
 import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import colors from "../../../../../config/colors";
-import { timeSince } from "../../../../services/posts";
+
 
 function UserProfileOverlay({ post, user }) {
   const navigation = useNavigation();
@@ -56,11 +56,6 @@ function UserProfileOverlay({ post, user }) {
             )}
           </View>
         </View>
-        <Text style={styles.date}>
-          {post.created_at
-            ? timeSince(new Date(post.created_at)) + " ago"
-            : "Now"}
-        </Text>
         <Text style={styles.description} key={user}>
           {post.description}
         </Text>

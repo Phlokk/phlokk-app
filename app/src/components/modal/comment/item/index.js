@@ -26,13 +26,6 @@ const CommentItem = ({ item }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-      onPress={() => {
-        navigation.navigate("feedProfile", {
-          initialUser: user,
-        });
-      }}
-      >
       {!user?.photo_url && !user?.photo_url ? (
 				<Image
 					style={styles.avatar}
@@ -42,8 +35,6 @@ const CommentItem = ({ item }) => {
 			) : (
       <Image style={styles.avatar} source={{ uri: item.user.photo_url }} />
       )}
-      
-      </TouchableOpacity>
       
 
       <View style={styles.containerText}>

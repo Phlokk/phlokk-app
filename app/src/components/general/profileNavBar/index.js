@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -46,19 +45,19 @@ export default function ProfileNavBar({ showFireIcon }) {
       >
         <MaterialCommunityIcons
           name="fire"
-          size={29}
-          color={colors.green}
+          size={22}
+          color={colors.orange}
           style={{ opacity: showFireIcon ? 1 : 0 }}
         />
       </TouchableOpacity>
 
       <Text style={styles.middleText}>{user.creator_type}</Text>
         <TouchableOpacity>
-          <AntDesign
+          <MaterialIcons
             onPress={ () => Linking.openURL(reportEmail)}
-            name="customerservice"
+            name="contact-support"
             size={20}
-            color={colors.green}
+            color={colors.secondary}
           />
         </TouchableOpacity>
     </View>
