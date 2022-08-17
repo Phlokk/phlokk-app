@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   phlokkVerified: {
     width: 12,
     height: 12,
-    bottom: 1,
+    bottom: 0,
     marginHorizontal: 3,
   },
   usernameView: {
