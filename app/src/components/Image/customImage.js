@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     textAlign: "center",
     fontSize: 16,
+    
   },
   alertMessageButtonText: {
     textAlign: "center",

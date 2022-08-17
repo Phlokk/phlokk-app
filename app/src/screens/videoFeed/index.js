@@ -19,9 +19,10 @@ import {
   useUserVideoFeed,
   useVideoFeed,
 } from "../../services/posts";
+import LinearGradient from "react-native-linear-gradient";
 import { atom, useAtom } from "jotai";
 import { userAtom } from "../../../../App";
-import colors from "../../navigation/routes";
+import colors from "../../../config/colors";
 
 import { useDispatch, useSelector } from "react-redux";
 import CustomAlert from "../../components/Alerts/customAlert";
@@ -210,8 +211,24 @@ const VideoFeed = ({ navigation, route }) => {
         // onPress={() => { navigation.navigate(routes.MARKET)}
         onPress={() => setMarketAlert(true)}
       >
-        <Entypo name="shop" size={24} color={colors.secondary} />
+        <Entypo name="shop" size={24} color={colors.white} />
       </TouchableOpacity>
+      <View
+        pointerEvents="none"
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top:0,
+          bottom: 90,
+          
+        }}
+      >
+        <LinearGradient
+          colors={["rgba(0,0,0,.2)", "rgba(0,0,0,0.0)"]}
+          style={{ height: 80, width: "100%" }}
+        />
+      </View>
     </View>
   );
 };
@@ -230,9 +247,6 @@ const styles = StyleSheet.create({
   },
   textFeed: {
     backgroundColor: colors.red,
-  },
-  refreshIcon: {
-    opacity: 0.5,
   },
 });
 
