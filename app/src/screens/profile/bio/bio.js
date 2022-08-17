@@ -54,9 +54,7 @@ export default function BioFieldScreen({ route }) {
       </View>
       <View style={styles.infoView}>
         <Text style={styles.info}>
-          <Text style={styles.infoTextGreen}>Info:</Text> Tell us about yourself
-          in 200 characters or less. When user clicks on your profile image this
-          bio will display.
+          <Text style={styles.infoTextGreen}>Info:</Text> Tell us about yourself in 200 characters or less. When user clicks on your profile image this bio will display.
         </Text>
       </View>
     </SafeAreaView>

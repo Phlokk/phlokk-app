@@ -67,10 +67,31 @@ export default function EditCreatorFieldScreen({ route }) {
       selected: false,
     },
     {
+      id: 20,
+      key: "cat20",
+      value: false,
+      category: "Creator",
+      selected: false,
+    },
+    {
       id: 9,
       key: "cat9",
       value: false,
       category: "Dancer",
+      selected: false,
+    },
+    {
+      id: 9,
+      key: "cat9",
+      value: false,
+      category: "Developer",
+      selected: false,
+    },
+    {
+      id: 100,
+      key: "cat10",
+      value: false,
+      category: "Entrepreneur",
       selected: false,
     },
     {
@@ -119,6 +140,13 @@ export default function EditCreatorFieldScreen({ route }) {
       id: 16,
       key: "cat16",
       value: false,
+      category: "Promoter",
+      selected: false,
+    },
+    {
+      id: 161,
+      key: "cat161",
+      value: false,
       category: "Public Figure",
       selected: false,
     },
@@ -143,20 +171,7 @@ export default function EditCreatorFieldScreen({ route }) {
       category: "Youtuber",
       selected: false,
     },
-    {
-      id: 20,
-      key: "cat20",
-      value: false,
-      category: "Creator",
-      selected: false,
-    },
-    {
-      id: 21,
-      key: "cat21",
-      value: false,
-      category: "",
-      selected: false,
-    },
+    
   ]);
 
   const onSave = async () => {

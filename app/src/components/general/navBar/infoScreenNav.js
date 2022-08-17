@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -26,11 +26,7 @@ export default function InfoScreenNav({
         style={styles.button}
         onPress={() => (leftButton.display ? leftButton.action() : null)}
       >
-        <Feather
-          name="check"
-          size={26}
-          color={leftButton.display ? colors.red : colors.primary}
-        />
+        <AntDesign name="checkcircleo" size={21} color={leftButton.display ? colors.green : colors.primary} />
       </TouchableOpacity>
     </View>
   );

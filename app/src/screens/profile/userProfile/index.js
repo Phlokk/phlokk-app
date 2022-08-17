@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
     fontFamily: "Waterfall-Regular",
-    fontSize: 28,
+    fontSize: 27,
   },
   users: {
     color: colors.white,
