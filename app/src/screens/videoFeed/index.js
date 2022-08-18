@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   Pressable,
+  StatusBar,
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
 import { FontAwesome } from "@expo/vector-icons";
@@ -170,6 +171,22 @@ const VideoFeed = ({ navigation, route }) => {
         onChangeIndex={onFeedScroll}
       />
 
+      <View
+        pointerEvents="none"
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 90,
+        }}
+      >
+        <LinearGradient
+          colors={["rgba(0,0,0,.2)", "rgba(0,0,0,0.0)"]}
+          style={{ height: 200, width: "100%" }}
+        />
+      </View>
+
       <TouchableOpacity
         onPress={() => {
           if (!navigation?.canGoBack()) {
@@ -178,7 +195,7 @@ const VideoFeed = ({ navigation, route }) => {
             navigation?.goBack();
           }
         }}
-        style={{ position: "absolute", top: 40, left: 8 }}
+        style={{ position: "absolute", top: 45, left: 18 }}
       >
         {!navigation?.canGoBack() ? (
           <Ionicons
@@ -207,28 +224,12 @@ const VideoFeed = ({ navigation, route }) => {
         animationType="fade"
       />
       <TouchableOpacity
-        style={{ position: "absolute", top: 40, right: 15 }}
+        style={{ position: "absolute", top: 48, right: 18 }}
         // onPress={() => { navigation.navigate(routes.MARKET)}
         onPress={() => setMarketAlert(true)}
       >
         <Entypo name="shop" size={24} color={colors.white} />
       </TouchableOpacity>
-      <View
-        pointerEvents="none"
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top:0,
-          bottom: 90,
-          
-        }}
-      >
-        <LinearGradient
-          colors={["rgba(0,0,0,.2)", "rgba(0,0,0,0.0)"]}
-          style={{ height: 80, width: "100%" }}
-        />
-      </View>
     </View>
   );
 };

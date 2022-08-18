@@ -20,14 +20,14 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import uuid from "uuid-random";
 
-const CommentModal = (post) => {
+function CommentModal({ post, onNewCommentSubmitted }) {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState("");
 
   const [user, setUser] = useAtom(userAtom);
 
   useEffect(async () => {
-    await commentListener(post.post._id, setCommentList);
+    await commentListener(post._id, setCommentList);
     return () => clearCommentListener();
   }, []);
 
@@ -47,7 +47,9 @@ const CommentModal = (post) => {
 
     setComment("");
 
-    await addComment(post.post._id, comment);
+    await addComment(post._id, comment);
+
+    onNewCommentSubmitted();
   };
 
   const renderItem = ({ item, index }) => {
@@ -91,7 +93,7 @@ const CommentModal = (post) => {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
   },
   postCountText: {
     fontSize: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.secondary,
     textAlign: "center",
   },

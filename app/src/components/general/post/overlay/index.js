@@ -28,9 +28,10 @@ export default function PostSingleOverlay({ post, user }) {
   const dispatch = useDispatch();
   useEffect(() => {
     setIsSettingsModalScreenOpen(false);
-    setCommentModalOpen(false)
+    setCommentModalOpen(false);
   }, [isFocused]);
 
+  const [commentCount, setCommentCount] = useState(post.comments.length);
   const [isLightItUp, setLightItUp] = useState(false);
   const [isGifting, setIsGifting] = useState(false);
 
@@ -124,10 +125,13 @@ export default function PostSingleOverlay({ post, user }) {
               style={styles.pressedStyle}
               onPress={() => setCommentModalOpen(false)}
             />
-            <CommentModal post={post} />
+            <CommentModal
+              post={post}
+              onNewCommentSubmitted={() => setCommentCount((prev) => prev + 1)}
+            />
           </View>
         </Modal>
-        <Text style={styles.statsLabel}>{post.comments.length}</Text>
+        <Text style={styles.statsLabel}>{commentCount}</Text>
       </View>
       <CustomAlert
         alertTitle={

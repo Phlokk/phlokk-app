@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -16,9 +16,15 @@ import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import colors from "../../../../../config/colors";
 
+const DEFAULT_DESC_DISPLAY_LINES = 2;
+
 function UserProfileOverlay({ post, user, currentUser }) {
   const navigation = useNavigation();
   const songTicker = "official phlokk audio ";
+
+  const [descriptionDisplayLines, setDescriptionDisplayLines] = useState(
+    DEFAULT_DESC_DISPLAY_LINES
+  );
 
   const rotate = useRotation();
   const animatedStyle = { transform: [{ rotate }] };
@@ -56,9 +62,22 @@ function UserProfileOverlay({ post, user, currentUser }) {
             )}
           </View>
         </View>
-        <Text style={styles.description} key={user}>
+
+        <Text
+          numberOfLines={descriptionDisplayLines}
+          style={styles.description}
+          key={user}
+          onPress={() => {
+            if (descriptionDisplayLines > DEFAULT_DESC_DISPLAY_LINES) {
+              setDescriptionDisplayLines(DEFAULT_DESC_DISPLAY_LINES);
+            } else {
+              setDescriptionDisplayLines(5);
+            }
+          }}
+        >
           {post.description}
         </Text>
+
         <View style={styles.songRow}>
           <Entypo name="beamed-note" size={15} color="white" />
 
@@ -104,6 +123,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginRight: 10,
   },
+  seeMoreText: {
+    color: colors.secondary,
+    fontSize: 13,
+    fontWeight: "300",
+  },
   songRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -148,5 +172,8 @@ const styles = StyleSheet.create({
   },
   animatedlogo: {
     marginLeft: 5,
+  },
+  displayLines: {
+    color: colors.white,
   },
 });
