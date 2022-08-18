@@ -22,8 +22,6 @@ const VideoItem = ({
 	const [isScrubbing, setIsScrubbing] = useState(false);
 	const videoPlayerRef = useRef();
 
-	console.log(currentVideoIndex);
-
 	// Set up audio play mode for iOS
 	useEffect(() => {
 		const setupAudio = async () => {
@@ -100,8 +98,9 @@ const VideoItem = ({
 					});
 					setIsScrubbing(false);
 				}}
-				minimumTrackTintColor={colors.linkGreen}
-				thumbTintColor={colors.linkGreen}
+				minimumTrackTintColor={colors.green}
+				//thumbTintColor={colors.green}
+				thumbTintColor="transparent"
 			/>
 		</View>
 	);
