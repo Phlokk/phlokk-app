@@ -2,41 +2,30 @@ import React, {useEffect, useState, useCallback, useRef} from 'react';
 import {
 	View,
 	StyleSheet,
-	Dimensions,
 	TouchableOpacity,
 	Text,
-	Pressable,
-	StatusBar,
+	Animated,
+	FlatList,
 	useWindowDimensions,
 } from 'react-native';
-import SwiperFlatList from 'react-native-swiper-flatlist';
-import {FontAwesome} from '@expo/vector-icons';
+
 import {Ionicons} from '@expo/vector-icons';
 import {Entypo} from '@expo/vector-icons';
-import useMaterialNavBarHeight from '../../hooks/useMaterialNavBarHeight';
 import VideoItem from './videoItem';
 import {types} from '../../redux/constants';
-import {
-	POSTS_PER_PAGE,
-	useUserVideoFeed,
-	useVideoFeed,
-} from '../../services/posts';
+import {useUserVideoFeed, useVideoFeed} from '../../services/posts';
 import LinearGradient from 'react-native-linear-gradient';
 import {atom, useAtom} from 'jotai';
 import {userAtom} from '../../../../App';
 import colors from '../../../config/colors';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import CustomAlert from '../../components/Alerts/customAlert';
-import Animated from 'react-native-reanimated';
-import {G} from 'react-native-svg';
-
-const {height} = Dimensions.get('window');
 
 export const newFeedItemAtom = atom('');
 
 const VideoFeed = ({navigation, route}) => {
-	const {profile, selectedIndex, creator} = route.params;
+	const {profile, selectedIndex, creator, preloadedPosts} = route.params;
 
 	const [currentUser, setCurrentUser] = useAtom(userAtom);
 	const [pageSize, setPageSize] = useState(); // Used for making a the flatlist full screen
@@ -60,14 +49,14 @@ const VideoFeed = ({navigation, route}) => {
 		loading: loadingMainFeed,
 		refresh: refreshMainFeed,
 	} = useVideoFeed({
-		skip: profile,
+		skip: preloadedPosts || profile,
 	});
 	const {
 		posts: userPosts,
 		getMoreUserPosts,
 		loading: loadingUserFeed,
 	} = useUserVideoFeed(user._id, {
-		skip: !profile,
+		skip: preloadedPosts || !profile,
 	});
 
 	useEffect(() => {
@@ -131,16 +120,18 @@ const VideoFeed = ({navigation, route}) => {
 	};
 
 	const renderItem = useCallback(
-		({item, index}) => (
-			<VideoItem
-				item={item}
-				index={index}
-				currentVideoIndex={currentVideoIndex}
-				currentUser={currentUser}
-				itemHeight={pageSize?.height || 0}
-				areTabsShowing={areTabsShowing}
-			/>
-		),
+		({item, index}) => {
+			return (
+				<VideoItem
+					item={item}
+					index={index}
+					currentVideoIndex={currentVideoIndex}
+					currentUser={currentUser}
+					itemHeight={pageSize?.height || 0}
+					areTabsShowing={areTabsShowing}
+				/>
+			);
+		},
 		[currentVideoIndex, pageSize, areTabsShowing]
 	);
 
@@ -154,31 +145,34 @@ const VideoFeed = ({navigation, route}) => {
 				})
 			}
 		>
-			<Animated.FlatList
-				ref={flatListRef}
-				initialScrollIndex={selectedIndex}
-				showsVerticalScrollIndicator={false}
-				data={postFeed}
-				renderItem={renderItem}
-				horizontal={false}
-				windowSize={Platform.OS === 'android' ? 1 : 3}
-				initialNumToRender={5}
-				maxToRenderPerBatch={2}
-				removeClippedSubviews
-				keyExtractor={item => item._id}
-				pagingEnabled={true}
-				onMomentumScrollEnd={ev => {
-					const index = Math.round(
-						ev.nativeEvent.contentOffset.y / pageSize.height
-					);
-					setCurrentVideoIndex(index);
-				}}
-				getItemLayout={(data, index) => ({
-					length: pageSize?.height,
-					offset: pageSize?.height * index,
-					index,
-				})}
-			/>
+			{/* only render the flatlist once we know the page size, it helps prevent sizing issues */}
+			{pageSize && (
+				<FlatList
+					ref={ref => (flatListRef.current = ref)}
+					initialScrollIndex={selectedIndex}
+					showsVerticalScrollIndicator={false}
+					data={preloadedPosts || postFeed}
+					renderItem={renderItem}
+					horizontal={false}
+					windowSize={Platform.OS === 'android' ? 1 : 3}
+					initialNumToRender={5}
+					maxToRenderPerBatch={2}
+					removeClippedSubviews
+					keyExtractor={item => item._id}
+					pagingEnabled={true}
+					onMomentumScrollEnd={ev => {
+						const index = Math.round(
+							ev.nativeEvent.contentOffset.y / pageSize.height
+						);
+						setCurrentVideoIndex(index);
+					}}
+					getItemLayout={(data, index) => ({
+						length: pageSize?.height || 1,
+						offset: (pageSize?.height || 1) * index,
+						index,
+					})}
+				/>
+			)}
 
 			<View pointerEvents="none" style={styles.bottomGradientWrapper}>
 				<LinearGradient
@@ -190,7 +184,7 @@ const VideoFeed = ({navigation, route}) => {
 			<TouchableOpacity
 				onPress={() => {
 					if (!navigation?.canGoBack()) {
-						flatListRef?.current?.scrollToOffset({offset: 0, animated: false});
+						flatListRef?.current?.scrollToOffset({offset: 0, animated: true});
 						refreshMainFeed();
 					} else {
 						navigation?.goBack();

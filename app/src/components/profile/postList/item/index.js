@@ -15,7 +15,7 @@ import {useQueryClient} from 'react-query';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../../../App';
 
-export default function ProfilePostListItem({item, index, setPosts}) {
+export default function ProfilePostListItem({item, index, posts, setPosts}) {
 	const navigation = useNavigation();
 	const [isLoading, setIsLoading] = useState(false);
 	const queryClient = useQueryClient();
@@ -64,6 +64,7 @@ export default function ProfilePostListItem({item, index, setPosts}) {
 					profile: true,
 					selectedVideo: item.media[0].original_url,
 					selectedIndex: index,
+					preloadedPosts: posts,
 				});
 			}}
 		>
