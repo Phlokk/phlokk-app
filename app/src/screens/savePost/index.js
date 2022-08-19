@@ -87,7 +87,8 @@ export default function SavePostScreen({ route }) {
         Keyboard.dismiss();
       }}
     >
-      <ScrollView style={styles.container}>
+      <ScrollView>
+      <View style={styles.container}>
         <PostNavBar style={styles.postContainer} title="Post" />
         <View style={styles.formContainer}>
           <TextInput
@@ -152,6 +153,7 @@ export default function SavePostScreen({ route }) {
             <Text style={styles.postButtonText}>Post</Text>
           </TouchableOpacity>
         </View>
+      </View>
       </ScrollView>
     </TouchableWithoutFeedback>
     
