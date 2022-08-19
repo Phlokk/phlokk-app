@@ -1,36 +1,34 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - BVLinearGradient (2.5.6):
-    - React
+  - BVLinearGradient (2.6.2):
+    - React-Core
   - DoubleConversion (1.1.6)
-  - EXApplication (4.0.1):
+  - EXApplication (4.0.2):
     - ExpoModulesCore
-  - EXAV (10.2.0):
+  - EXAV (10.2.1):
     - ExpoModulesCore
     - ReactCommon/turbomodule/core
   - EXCamera (12.1.2):
     - ExpoModulesCore
   - EXConstants (13.0.2):
     - ExpoModulesCore
-  - EXCrypto (10.1.2):
-    - ExpoModulesCore
-  - EXErrorRecovery (3.0.4):
+  - EXErrorRecovery (3.0.5):
     - ExpoModulesCore
   - EXFileSystem (13.1.4):
     - ExpoModulesCore
-  - EXFont (10.0.4):
+  - EXFont (10.0.5):
     - ExpoModulesCore
-  - EXImagePicker (12.0.1):
+  - EXImagePicker (12.0.2):
     - ExpoModulesCore
   - EXJSONUtils (0.2.1)
-  - EXKeepAwake (10.0.1):
+  - EXKeepAwake (10.0.2):
     - ExpoModulesCore
   - EXManifests (0.2.4):
     - EXJSONUtils
-  - EXMediaLibrary (14.0.0):
+  - EXMediaLibrary (14.0.1):
     - ExpoModulesCore
     - React-Core
-  - Expo (44.0.4):
+  - Expo (44.0.6):
     - ExpoModulesCore
   - expo-dev-client (0.8.6):
     - EXManifests
@@ -99,12 +97,14 @@ PODS:
     - expo-dev-menu/GestureHandler
     - expo-dev-menu/Reanimated
     - expo-dev-menu/SafeAreaView
-  - ExpoModulesCore (0.6.4):
+  - ExpoCrypto (11.0.0):
+    - ExpoModulesCore
+  - ExpoModulesCore (0.6.5):
     - React-Core
     - ReactCommon/turbomodule/core
   - EXSecureStore (11.1.1):
     - ExpoModulesCore
-  - EXSharing (10.1.0):
+  - EXSharing (10.1.1):
     - ExpoModulesCore
   - EXSplashScreen (0.14.2):
     - ExpoModulesCore
@@ -116,8 +116,8 @@ PODS:
     - EXStructuredHeaders
     - EXUpdatesInterface
     - React-Core
-  - EXUpdatesInterface (0.5.1)
-  - EXVideoThumbnails (6.1.0):
+  - EXUpdatesInterface (0.5.2)
+  - EXVideoThumbnails (6.1.1):
     - ExpoModulesCore
   - FBLazyVector (0.64.3)
   - FBReactNativeSpec (0.64.3):
@@ -395,11 +395,11 @@ PODS:
     - React-perflogger (= 0.64.3)
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
-  - RNDeviceInfo (9.0.1):
+  - RNDeviceInfo (9.0.2):
     - React-Core
-  - RNGestureHandler (2.1.1):
+  - RNGestureHandler (2.1.3):
     - React-Core
-  - RNReanimated (2.3.1):
+  - RNReanimated (2.3.3):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -427,14 +427,14 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.10.1):
+  - RNScreens (3.10.2):
     - React-Core
     - React-RCTImage
-  - RNShare (7.3.3):
+  - RNShare (7.8.0):
     - React-Core
   - RNSVG (12.1.1):
     - React
-  - RNVectorIcons (9.0.0):
+  - RNVectorIcons (9.2.0):
     - React-Core
   - Stripe (21.9.1):
     - Stripe/Stripe3DS2 (= 21.9.1)
@@ -458,7 +458,6 @@ DEPENDENCIES:
   - EXAV (from `../node_modules/expo-av/ios`)
   - EXCamera (from `../node_modules/expo-camera/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
-  - EXCrypto (from `../node_modules/expo-crypto/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
@@ -472,6 +471,7 @@ DEPENDENCIES:
   - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
+  - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSharing (from `../node_modules/expo-sharing/ios`)
@@ -543,8 +543,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-camera/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
-  EXCrypto:
-    :path: "../node_modules/expo-crypto/ios"
   EXErrorRecovery:
     :path: "../node_modules/expo-error-recovery/ios"
   EXFileSystem:
@@ -571,6 +569,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu"
   expo-dev-menu-interface:
     :path: "../node_modules/expo-dev-menu-interface/ios"
+  ExpoCrypto:
+    :path: "../node_modules/expo-crypto/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
   EXSecureStore:
@@ -668,34 +668,34 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
+  BVLinearGradient: 34a999fda29036898a09c6a6b728b0b4189e1a44
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
-  EXApplication: bdc8dc27713235565da1029a34385229f31b8e08
-  EXAV: e501565d5aff495b7b5e9249d489f5ef94db03b2
+  EXApplication: 54fe5bd6268d697771645e8f1aef8b806a65247a
+  EXAV: b9ed0c201092244c46aa78f907f5c66176bed236
   EXCamera: 4a0d00d6d1e4703c31a75514d8bc804a2eab27bd
   EXConstants: 88bf79622fbd9b476c96d8ec57fe97ca44fe8e3c
-  EXCrypto: ab2ba0df3136a5f2407b8c7e70eb498ac20d704f
-  EXErrorRecovery: deea88a01d38f8b1c1181b4e1d179b0ba0e4bb5b
+  EXErrorRecovery: b0d7582714a2cc896e94a2308a356f94dbf14ef7
   EXFileSystem: 08a3033ac372b6346becf07839e1ccef26fb1058
-  EXFont: 1fb13af43dc517c01c0ff21a6e32f9f9bf2ea602
-  EXImagePicker: 91337b8d57a0a8f56800b9ac0f2b2f10aecf88ce
+  EXFont: 2597c10ac85a69d348d44d7873eccf5a7576ef5e
+  EXImagePicker: bf4d62532cc2bf217edbe4abbb0014e73e079eac
   EXJSONUtils: 5ee0d5cf76da70ad86f0be1a41cc70f47d69e06f
-  EXKeepAwake: b571c2ad8323b2fced6e907766e2549f75119471
+  EXKeepAwake: bf48d7f740a5cd2befed6cf9a49911d385c6c47d
   EXManifests: d3464cd2278f4a19cd80c1aa673231570b534c11
-  EXMediaLibrary: 6acf919299bccc64a59e6e89a3b792276e309302
-  Expo: d9b8b5e49c200471fc473a652a84fe30dee73027
+  EXMediaLibrary: 843669e1d9d38965057830138609ee99ef260cf1
+  Expo: 534e51e607aba8229293297da5585f4b26f50fa1
   expo-dev-client: 0e8644a2769d75a75fba239aa854a15367849978
   expo-dev-launcher: 1e6eecef4abb3b1274f0e1ab1b576c67d17ddbfa
   expo-dev-menu: 444277c5bd4553abbf8b1095b93ecb88af4c6479
   expo-dev-menu-interface: 395d046704878e5de471a89102ddf361cbb7e52f
-  ExpoModulesCore: 64abda7af7cf659d2fa092934e29c6f4ea7e849f
+  ExpoCrypto: e534314db0e1a17ae12b5140d529bd0c5efcbc6a
+  ExpoModulesCore: 32c0ccb47f477d330ee93db72505380adf0de09a
   EXSecureStore: b80c74c5ee29d0160c2aace3fd9a24a5edc20015
-  EXSharing: 2e26cf64fb2a89484b4f6ff8da12d6d752f83962
+  EXSharing: 328228a9f14503cfdec68892796478a7a15b8d4d
   EXSplashScreen: 21669e598804ee810547dbb6692c8deb5dd8dbf3
   EXStructuredHeaders: 4993087b2010dbcc510f5d92555b36f523425e8d
   EXUpdates: a83e036243b0f6ece53a8c1cb883b6751c88a5f8
-  EXUpdatesInterface: a9814f422d3cd6e7cfd260d13c27786148ece20e
-  EXVideoThumbnails: 6c08e978ed7a5542c5dca04a1757363fd29cb2a1
+  EXUpdatesInterface: 13270752afb8c61f83a09117e6b04a682b2db9eb
+  EXVideoThumbnails: 813d6aad70f81f1b3af01f1436e18ff88871206c
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
   FBReactNativeSpec: 4bcd138d5e3fd29db435e9378b1df173578c73ea
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
@@ -727,13 +727,13 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 493d9abb8b23c3f84e19ae221eeba92cadcb70dc
   ReactCommon: 8fea6422328e2fc093e25c9fac67adbcf0f04fb4
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
-  RNDeviceInfo: cd814b8e2f3c46c750ca2464e382a7eaedf24cea
-  RNGestureHandler: e1ad51d31a580755079d5124d3ab66f0fcaa8311
-  RNReanimated: 7f143675d94978c3555345d5bfa8ed6ae800c5d3
-  RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
-  RNShare: 3185c074441b7e8897014d95ba982434a0a024a1
+  RNDeviceInfo: 1e3f62b9ec32f7754fac60bd06b8f8a27124e7f0
+  RNGestureHandler: e1099204721a17a89c81fcd1cc2e92143dc040fb
+  RNReanimated: 0e5ef4a7e4e79f84efbe5b40771c31044c51e7d0
+  RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
+  RNShare: 31b418e3ff2084712f0f39618bafa5f97a322c0e
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
-  RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
+  RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   Stripe: 22c1b8da5ee20a1aaf40fd198160efa72e71644a
   stripe-react-native: 980f3d19f52a7dc4b373c6c20d30ebd760bc39e5
   StripeCore: 91ea038ac0abbb72f11014044dfd1e5d39089714
