@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   StyleSheet,
+  ScrollView 
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -24,6 +25,7 @@ import * as MediaLibrary from "expo-media-library";
 import CustomSwitch from "./customSwitch";
 import { useAtom } from "jotai";
 import { newFeedItemAtom } from "../videoFeed";
+
 
 
 export default function SavePostScreen({ route }) {
@@ -79,12 +81,13 @@ export default function SavePostScreen({ route }) {
     );
   }
   return (
+    
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}
     >
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <PostNavBar style={styles.postContainer} title="Post" />
         <View style={styles.formContainer}>
           <TextInput
@@ -149,8 +152,9 @@ export default function SavePostScreen({ route }) {
             <Text style={styles.postButtonText}>Post</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
+    
   );
 }
 

@@ -6,6 +6,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/customAlert";
+import SavePostScreen from "../savePost";
 
 export default function ActivityScreen({ navigation }) {
   const dispatch = useDispatch();

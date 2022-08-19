@@ -24,7 +24,7 @@ export default function EditProfileFieldScreen({ route }) {
       setUser(updatedUser);
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Data not saved, please check user data");
+      Alert.alert("Username already in use!");
     }
   };
 

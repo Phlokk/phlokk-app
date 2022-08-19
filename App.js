@@ -8,6 +8,7 @@ import { LogBox, StatusBar, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { atom, useAtom } from "jotai";
 import { fetchGetUsers } from "./app/src/redux/sagas/requests/fetchUsers";
+import SavePostScreen from "./app/src/screens/savePost";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 LogBox.ignoreLogs([
@@ -48,6 +49,7 @@ export default function App() {
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <Route />
+          
         </QueryClientProvider>
       </Provider>
     </GestureHandlerRootView>
