@@ -38,7 +38,7 @@ export default function CameraScreen() {
   const [isRecording, setIsRecording] = useState(false);
   const [galleryItems, setGalleryItems] = useState([]);
   const [cameraRef, setCameraRef] = useState(null);
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const [cameraType, setCameraType] = useState(Camera.Constants.Type.front);
   const [cameraFlash, setCameraFlash] = useState(
     Camera.Constants.FlashMode.off
   );
@@ -269,9 +269,9 @@ export default function CameraScreen() {
           style={styles.sideBarButton}
           onPress={() =>
             setCameraType(
-              cameraType === Camera.Constants.Type.back
-                ? Camera.Constants.Type.front
-                : Camera.Constants.Type.back
+              cameraType === Camera.Constants.Type.front
+                ? Camera.Constants.Type.back
+                : Camera.Constants.Type.front
             )
           }
         >
