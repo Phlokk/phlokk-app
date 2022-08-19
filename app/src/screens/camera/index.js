@@ -64,10 +64,6 @@ export default function CameraScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    navigation.navigate("savePost", { source: null, sourceThumb: null });
-  }, []);
-
-  useEffect(() => {
     /*  */
     (async () => {
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
