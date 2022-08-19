@@ -190,6 +190,7 @@ const VideoFeed = ({navigation, route}) => {
 			<TouchableOpacity
 				onPress={() => {
 					if (!navigation?.canGoBack()) {
+						flatListRef?.current?.scrollToOffset({offset: 0, animated: false});
 						refreshMainFeed();
 					} else {
 						navigation?.goBack();
