@@ -25,8 +25,6 @@ PODS:
   - EXJSONUtils (0.2.1)
   - EXKeepAwake (10.0.1):
     - ExpoModulesCore
-  - EXLinearGradient (10.0.3):
-    - ExpoModulesCore
   - EXManifests (0.2.4):
     - EXJSONUtils
   - EXMediaLibrary (14.0.0):
@@ -467,7 +465,6 @@ DEPENDENCIES:
   - EXImagePicker (from `../node_modules/expo-image-picker/ios`)
   - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
-  - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
   - EXMediaLibrary (from `../node_modules/expo-media-library/ios`)
   - Expo (from `../node_modules/expo/ios`)
@@ -560,8 +557,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-json-utils/ios"
   EXKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
-  EXLinearGradient:
-    :path: "../node_modules/expo-linear-gradient/ios"
   EXManifests:
     :path: "../node_modules/expo-manifests/ios"
   EXMediaLibrary:
@@ -686,7 +681,6 @@ SPEC CHECKSUMS:
   EXImagePicker: 91337b8d57a0a8f56800b9ac0f2b2f10aecf88ce
   EXJSONUtils: 5ee0d5cf76da70ad86f0be1a41cc70f47d69e06f
   EXKeepAwake: b571c2ad8323b2fced6e907766e2549f75119471
-  EXLinearGradient: 4d727eacb53d19ef25b02dd810e0199b453489ce
   EXManifests: d3464cd2278f4a19cd80c1aa673231570b534c11
   EXMediaLibrary: 6acf919299bccc64a59e6e89a3b792276e309302
   Expo: d9b8b5e49c200471fc473a652a84fe30dee73027
