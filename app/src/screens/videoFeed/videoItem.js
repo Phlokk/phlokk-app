@@ -8,13 +8,15 @@ import UserProfileOverlay from '../../components/general/post/overlay/UserProfil
 import colors from '../../../config/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import Slider from '@react-native-community/slider';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const VideoItem = ({
 	item,
 	index,
 	currentVideoIndex,
-	feedItemHeight,
+	itemHeight,
 	currentUser,
+	areTabsShowing,
 }) => {
 	const [shouldPlay, setShouldPlay] = useState(true);
 	const isFocused = useIsFocused();
@@ -41,7 +43,7 @@ const VideoItem = ({
 	};
 
 	return (
-		<View style={{height: feedItemHeight, backgroundColor: 'black'}}>
+		<View style={{height: itemHeight, backgroundColor: 'black'}}>
 			<Pressable style={{flex: 1}} onPress={playPauseVideo}>
 				<Video
 					ref={videoPlayerRef}
@@ -52,7 +54,7 @@ const VideoItem = ({
 					isMuted={currentVideoIndex !== index || !isFocused}
 					resizeMode={Video.RESIZE_MODE_COVER}
 					style={styles.videoRenderer}
-					shouldPlay={currentVideoIndex === index && shouldPlay}
+					shouldPlay={currentVideoIndex === index && shouldPlay && isFocused}
 					isLooping
 					usePoster
 					posterSource={{uri: item.poster}}
@@ -81,12 +83,13 @@ const VideoItem = ({
 				user={item.user}
 				post={item}
 				currentUser={currentUser}
+				areTabsShowing={areTabsShowing}
 			/>
 
 			<PostSingleOverlay user={item.user} post={item} />
 
 			<Slider
-				style={styles.timelineSlider}
+				style={[styles.timelineSlider, areTabsShowing && {bottom: 0}]}
 				minimumValue={0}
 				maximumValue={playbackStatus?.durationMillis}
 				value={!isScrubbing && playbackStatus?.positionMillis}
@@ -99,7 +102,6 @@ const VideoItem = ({
 					setIsScrubbing(false);
 				}}
 				minimumTrackTintColor={colors.green}
-				//thumbTintColor={colors.green}
 				thumbTintColor="transparent"
 			/>
 		</View>
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		left: 0,
 		right: 0,
-		bottom: 12,
+		bottom: 20,
 		marginHorizontal: -4,
 	},
 });

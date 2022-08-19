@@ -7,6 +7,7 @@ import {
 	Text,
 	Pressable,
 	StatusBar,
+	useWindowDimensions,
 } from 'react-native';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import {FontAwesome} from '@expo/vector-icons';
@@ -27,17 +28,23 @@ import colors from '../../../config/colors';
 
 import {useDispatch, useSelector} from 'react-redux';
 import CustomAlert from '../../components/Alerts/customAlert';
+import Animated from 'react-native-reanimated';
+import {G} from 'react-native-svg';
 
 const {height} = Dimensions.get('window');
 
 export const newFeedItemAtom = atom('');
 
 const VideoFeed = ({navigation, route}) => {
+	const {profile, selectedIndex, creator} = route.params;
+
 	const [currentUser, setCurrentUser] = useAtom(userAtom);
+	const [pageSize, setPageSize] = useState(); // Used for making a the flatlist full screen
 	const [postFeed, setPostFeed] = useState([]);
 	const [marketAlert, setMarketAlert] = useState(false);
+	const [areTabsShowing, setAreTabsShowing] = useState();
+	const windowSize = useWindowDimensions();
 
-	const {profile, selectedIndex, creator} = route.params;
 	const flatListRef = useRef();
 	const dispatch = useDispatch();
 
@@ -111,18 +118,9 @@ const VideoFeed = ({navigation, route}) => {
 		}
 	}, [currentVideoIndex]);
 
-	const onFeedScroll = ({index, prevIndex}) => {
-		setCurrentVideoIndex(index);
-	};
-
-	const feedItemHeight =
-		Dimensions.get('window').height - useMaterialNavBarHeight(profile);
-
-	const getItemLayout = (data, index) => ({
-		length: feedItemHeight,
-		offset: feedItemHeight * index,
-		index,
-	});
+	useEffect(() => {
+		setAreTabsShowing(pageSize?.height < windowSize?.height);
+	}, [pageSize, windowSize]);
 
 	const handleLikeCount = likes => {
 		if (typeof likes === 'number') {
@@ -139,44 +137,50 @@ const VideoFeed = ({navigation, route}) => {
 				index={index}
 				currentVideoIndex={currentVideoIndex}
 				currentUser={currentUser}
-				feedItemHeight={feedItemHeight}
+				itemHeight={pageSize?.height || 0}
+				areTabsShowing={areTabsShowing}
 			/>
 		),
-		[currentVideoIndex]
+		[currentVideoIndex, pageSize, areTabsShowing]
 	);
 
 	return (
-		<View style={styles.mainContainer}>
-			<SwiperFlatList
+		<View
+			style={styles.mainContainer}
+			onLayout={e =>
+				setPageSize({
+					height: e.nativeEvent.layout.height,
+					width: e.nativeEvent.layout.width,
+				})
+			}
+		>
+			<Animated.FlatList
 				ref={flatListRef}
-				index={selectedIndex}
+				initialScrollIndex={selectedIndex}
 				showsVerticalScrollIndicator={false}
 				data={postFeed}
 				renderItem={renderItem}
-				vertical={true}
-				windowSize={Platform.OS === 'android' ? 1 : 5}
+				horizontal={false}
+				windowSize={Platform.OS === 'android' ? 1 : 3}
 				initialNumToRender={5}
 				maxToRenderPerBatch={2}
 				removeClippedSubviews
 				keyExtractor={item => item._id}
-				pagingEnabled
-				getItemLayout={getItemLayout}
-				snapToInterval={feedItemHeight}
-				snapToAlignment={'start'}
-				decelerationRate={'fast'}
-				onChangeIndex={onFeedScroll}
+				pagingEnabled={true}
+				onMomentumScrollEnd={ev => {
+					const index = Math.round(
+						ev.nativeEvent.contentOffset.y / pageSize.height
+					);
+					setCurrentVideoIndex(index);
+				}}
+				getItemLayout={(data, index) => ({
+					length: pageSize?.height,
+					offset: pageSize?.height * index,
+					index,
+				})}
 			/>
 
-			<View
-				pointerEvents="none"
-				style={{
-					position: 'absolute',
-					left: 0,
-					right: 0,
-					top: 0,
-					bottom: 90,
-				}}
-			>
+			<View pointerEvents="none" style={styles.bottomGradientWrapper}>
 				<LinearGradient
 					colors={['rgba(0,0,0,.2)', 'rgba(0,0,0,0.0)']}
 					style={{height: 200, width: '100%'}}
@@ -241,6 +245,13 @@ const styles = StyleSheet.create({
 		width: '100%',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	bottomGradientWrapper: {
+		position: 'absolute',
+		left: 0,
+		right: 0,
+		top: 0,
+		bottom: 90,
 	},
 	textFeed: {
 		backgroundColor: colors.red,

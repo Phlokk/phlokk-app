@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Entypo} from '@expo/vector-icons';
 // import { getLikeById, updateLike } from "../../../../services/posts";
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import verifiedCheck from '../../../../../assets/verified.png';
 import {Animated} from 'react-native';
 import useRotation from './useRotation';
@@ -18,7 +18,7 @@ import colors from '../../../../../config/colors';
 
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
-function UserProfileOverlay({post, user, currentUser}) {
+function UserProfileOverlay({post, user, currentUser, areTabsShowing}) {
 	const navigation = useNavigation();
 	const songTicker = 'official phlokk audio ';
 
@@ -28,9 +28,13 @@ function UserProfileOverlay({post, user, currentUser}) {
 
 	const rotate = useRotation();
 	const animatedStyle = {transform: [{rotate}]};
+	const isFocused = useIsFocused();
 
 	return (
-		<View style={[styles.bottomContainer]} pointerEvents="box-none">
+		<View
+			style={[styles.bottomContainer, areTabsShowing && {paddingBottom: 30}]}
+			pointerEvents="box-none"
+		>
 			<View pointerEvents="box-none">
 				<View style={styles.avatarContainer}>
 					<TouchableOpacity
@@ -85,7 +89,7 @@ function UserProfileOverlay({post, user, currentUser}) {
 
 					<View style={styles.animatedlogo}>
 						<Animated.Image
-							style={[styles.songImage, animatedStyle]}
+							style={[styles.songImage, isFocused && animatedStyle]}
 							source={pmdLogo}
 						/>
 					</View>
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		left: 0,
 		padding: 10,
-		paddingBottom: 40,
+		paddingBottom: 50,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'flex-end',
