@@ -64,7 +64,7 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 					profile: true,
 					selectedVideo: item.media[0].original_url,
 					selectedIndex: index,
-					// preloadedPosts: posts,
+					preloadedPosts: posts,
 				});
 			}}
 		>
