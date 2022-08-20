@@ -11,14 +11,14 @@ import {
   StyleSheet,
   Animated,
   Alert,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import BottomMenu from "./bottomMenu";
 import colors from "../../../config/colors";
@@ -174,10 +174,9 @@ export default function CameraScreen() {
       <SafeAreaView style={styles.errorView}>
         <MaterialIcons name="error-outline" size={40} color={colors.yellow} />
         <Text style={styles.cameraErrorText}>
-          PERMISSIONS ERROR {'\n'}
-          You did not give permissions. 
-          {'\n'}Please check camera settings in
-          device.
+          PERMISSIONS ERROR {"\n"}
+          You did not give permissions.
+          {"\n"}Please check camera settings in device.
         </Text>
       </SafeAreaView>
     );
@@ -496,16 +495,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 100,
   },
-  errorView:{
+  errorView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    
+
     backgroundColor: colors.primary,
   },
-  cameraErrorText:{
+  cameraErrorText: {
     margin: 20,
     textAlign: "center",
-    color: colors.green
-  }
+    color: colors.green,
+  },
 });

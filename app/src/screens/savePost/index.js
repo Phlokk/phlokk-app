@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -24,7 +25,6 @@ import * as MediaLibrary from "expo-media-library";
 import CustomSwitch from "./customSwitch";
 import { useAtom } from "jotai";
 import { newFeedItemAtom } from "../videoFeed";
-
 
 export default function SavePostScreen({ route }) {
   const navigation = useNavigation();
@@ -86,27 +86,32 @@ export default function SavePostScreen({ route }) {
     >
       <View style={styles.container}>
         <PostNavBar style={styles.postContainer} title="Post" />
-        <View style={styles.formContainer}>
-          <TextInput
-            style={styles.inputText}
-            maxLength={150}
-            multiline
-            onChangeText={(text) => setDescription(text)}
-            placeholderTextColor={"gray"}
-            placeholder="Description: 0/150"
-          />
-          <Image
-            style={styles.mediaPreview}
-            source={{ uri: route.params.sourceThumb }}
-          />
+        <View style={{ flex: 1 }}>
+          <ScrollView>
+            <View style={styles.formContainer}>
+              <TextInput
+                style={styles.inputText}
+                maxLength={150}
+                multiline
+                onChangeText={(text) => setDescription(text)}
+                placeholderTextColor={"gray"}
+                placeholder="Description: 0/150"
+              />
+              <Image
+                style={styles.mediaPreview}
+                source={{ uri: route.params.sourceThumb }}
+              />
+            </View>
+            <Text style={styles.switchStatement}>
+              Notice: Switches do not work in beta
+            </Text>
+
+            <CustomSwitch />
+          </ScrollView>
         </View>
-        <Text style={styles.switchStatement}>
-          Notice: Switches do not work in beta{" "}
-        </Text>
 
-        <CustomSwitch />
+        {/* <View style={styles.spacer} /> */}
 
-        <View style={styles.spacer} />
         <View style={styles.shareContainer}>
           <TouchableOpacity>
             <Feather style={styles.shareIcon} name="message-circle" size={35} />
@@ -120,6 +125,7 @@ export default function SavePostScreen({ route }) {
             />
           </TouchableOpacity>
         </View>
+
         <View style={styles.buttonsContainer}>
           <CustomAlert
             customAlertMessage={<Text>Drafts{"\n"}coming in beta 3</Text>}

@@ -3,7 +3,8 @@ import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import GiftingNavBar from "../../components/general/giftingNav/giftingNavBar"
-function fireRulesScreen() {
+
+function FireRulesScreen() {
   const navigation = useNavigation();
 
   return (
@@ -86,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default fireRulesScreen;
+export default FireRulesScreen;
