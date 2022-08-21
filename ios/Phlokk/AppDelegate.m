@@ -1,4 +1,6 @@
 #import "AppDelegate.h"
+#import <Firebase/Firebase.h>
+#import <Firebase/Firebase.h>
 
 #if defined(EX_DEV_MENU_ENABLED)
 @import EXDevMenu;
@@ -38,6 +40,9 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (RCTBridge *)initializeReactNativeApp:(NSDictionary *)launchOptions
 {
+// @generated begin @react-native-firebase/app-didFinishLaunchingWithOptions - expo prebuild (DO NOT MODIFY) sync-ecd111c37e49fdd1ed6354203cd6b1e2a38cccda
+[FIRApp configure];
+// @generated end @react-native-firebase/app-didFinishLaunchingWithOptions
   RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [self.reactDelegate createRootViewWithBridge:bridge moduleName:@"main" initialProperties:nil];
   rootView.backgroundColor = [UIColor whiteColor];
@@ -93,6 +98,21 @@ static void InitializeFlipper(UIApplication *application) {
 
 // Linking API
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  #if defined(EX_DEV_LAUNCHER_ENABLED)
+  if ([EXDevLauncherController.sharedInstance onDeepLink:url options:options]) {
+    return true;
+  }
+  #endif
+  #if defined(EX_DEV_LAUNCHER_ENABLED)
+  if ([EXDevLauncherController.sharedInstance onDeepLink:url options:options]) {
+    return true;
+  }
+  #endif
+  #if defined(EX_DEV_LAUNCHER_ENABLED)
+  if ([EXDevLauncherController.sharedInstance onDeepLink:url options:options]) {
+    return true;
+  }
+  #endif
   #if defined(EX_DEV_LAUNCHER_ENABLED)
   if ([EXDevLauncherController.sharedInstance onDeepLink:url options:options]) {
     return true;

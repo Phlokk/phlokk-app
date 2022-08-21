@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1059217852964",
+    "project_id": "phlokk-dev",
+    "storage_bucket": "phlokk-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059217852964:android:eee55cb02f218f7ba526b1",
+        "android_client_info": {
+          "package_name": "com.phlokk.phlokkapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059217852964-omg3gdne26qkqeit62ekoghgcq6ai253.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfSc7qbiQulfImYe2ulvTWtsz4Hc7TsQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059217852964-omg3gdne26qkqeit62ekoghgcq6ai253.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

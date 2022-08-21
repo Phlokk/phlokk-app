@@ -31,12 +31,18 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
+          <string>com.googleusercontent.apps.1059217852964-nuu5p0nirdo2flhcnn6s9pavkc5u0cjl</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
           <string>exp+phlokkapp</string>
         </array>
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>228190003</string>
+    <string>228200001</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
