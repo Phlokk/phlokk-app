@@ -1,17 +1,44 @@
 import { useEffect } from "react";
 import ActivityNavBar from "../../components/general/activityNav";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { View, StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
 import colors from "../../../config/colors";
+import NotificationScreen from "./notifications";
 
 
 export default function ActivityScreen({ navigation }) {
-  const dispatch = useDispatch();
+
+  const renderItem = ({ item, index }) => {
+    return <NotificationScreen index={index} item={item} />;
+  };
+
+  // const notificationList = {(
+
+
+  // )}
+
+  const Separator = () => {
+    return (
+      <View
+        style={{
+          height: 50,
+          width: 1,
+          padding: 5,
+        }}
+      />
+    );
+  };
 
   return (
     <View style={styles.container}>
       <ActivityNavBar title={"Activity feed"} />
+      <NotificationScreen />
+      <FlatList
+        // data={notificationList}
+        ItemSeparatorComponent={Separator}
+        renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item._id}
+      />
     </View>
   );
 }
