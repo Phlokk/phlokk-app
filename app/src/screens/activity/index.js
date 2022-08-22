@@ -1,20 +1,26 @@
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import ActivityNavBar from "../../components/general/activityNav";
 import { View, StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
 import colors from "../../../config/colors";
 import NotificationScreen from "./notifications";
+import axios from "../../redux/apis/axiosDeclaration";
+import {clearCommentListener, commentListener} from "../../services/posts";
+import {clearNotificationListener, notificationListener} from "../../services/notifications";
 
 
 export default function ActivityScreen({ navigation }) {
 
+  const [notificationList, setNotificationList] = useState("");
+
+
+  useEffect(async () => {
+    await notificationListener(setNotificationList);
+    return () => clearNotificationListener();
+  }, []);
+
   const renderItem = ({ item, index }) => {
     return <NotificationScreen index={index} item={item} />;
   };
-
-  // const notificationList = {(
-
-
-  // )}
 
   const Separator = () => {
     return (
@@ -33,10 +39,10 @@ export default function ActivityScreen({ navigation }) {
       <ActivityNavBar title={"Activity feed"} />
       <NotificationScreen />
       <FlatList
-        // data={notificationList}
-        ItemSeparatorComponent={Separator}
+        data={notificationList}
+        // ItemSeparatorComponent={Separator}
         renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
+        // showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id}
       />
     </View>

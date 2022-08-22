@@ -1,6 +1,6 @@
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import {Platform} from "react-native";
+import {Alert, Platform} from "react-native";
 import * as SecureStore from "expo-secure-store";
 import axios from "../redux/apis/axiosDeclaration";
 
@@ -84,6 +84,31 @@ export async function registerForPushNotificationsAsync (setExpoPushToken) {
     }
     /* @end */
 };
+
+
+
+
+export const notificationListener = async (setNotificationList) => {
+    await axios
+        .get("/api/me/notifications")
+        .then((result) => {
+            setNotificationList(result.data.notifications);
+            return result.data;
+        })
+        .catch((error) => {
+            Alert.alert("Notifications not found");
+        });
+};
+
+export const clearNotificationListener = () => {
+    if (notificationListenerInstance != null) {
+        notificationListenerInstance();
+        notificationListenerInstance = null;
+    }
+};
+
+
+
 
 // return (
 //     <View
