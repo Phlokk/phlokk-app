@@ -21,20 +21,27 @@
     ],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
-      "buildNumber": "228200001",
+      "buildNumber": "228210001",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 228200001,
+      "versionCode": 228210001,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
         "backgroundColor": "#04cccc"
       },
-      "package": "com.phlokk.phlokkapp"
+      "package": "com.phlokk.phlokkapp",
+      "googleServicesFile": "./google-services.json",
+      "useNextNotificationsApi": true,
     },
     "web": {
       "favicon": "./app/assets/launcher/android/ic_launcher-web.png"
     },
-    "runtimeVersion": "0.1.0"
+    "runtimeVersion": "0.1.0",
+    "notification": {
+      "icon": "./app/assets/launcher/android/mipmap-xhdpi/ic_launcher.png",
+      "color": "#ffffff",
+      "iosDisplayInForeground": true
+    }
   }
 }

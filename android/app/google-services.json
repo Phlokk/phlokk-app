@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "852606732507",
+    "project_id": "phlokkapp",
+    "storage_bucket": "phlokkapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852606732507:android:7f26ebe4ba22c9928be4fe",
+        "android_client_info": {
+          "package_name": "com.phlokk.phlokkapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852606732507-p4irc0ndf35hj5hodem8ojk75iqgpctk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByvk9twoNjCOGoyef7m-XZ73S3OvaS4dw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852606732507-p4irc0ndf35hj5hodem8ojk75iqgpctk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

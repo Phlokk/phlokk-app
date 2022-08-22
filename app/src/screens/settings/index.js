@@ -18,12 +18,18 @@ import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import AccountScreen from "./account/account";
 import SupportScreen from "./support/support";
+import {sendTestPushNotification} from "../../services/notifications";
 
 export default function SettingsScreen() {
   const auth = useSelector((state) => state.auth);
   const navigation = useNavigation();
   const [user, setUser] = useState("");
   const [blocking, setBlocking] = useState(false);
+  const [expoPushToken, getExpoPushToken] = useState('');
+
+  const sendNotification = async function () {
+    await sendTestPushNotification();
+  }
 
   const dispatch = useDispatch();
 
@@ -123,6 +129,22 @@ export default function SettingsScreen() {
           <Text style={styles.text}>
             <FontAwesome5 name="copyright" size={12} color={colors.white} /> Copyright
             Policy
+          </Text>
+          <View style={styles.fieldValueContainer}>
+            <Feather name="chevron-right" size={20} color={colors.secondary} />
+          </View>
+        </TouchableOpacity>
+
+        <View style={styles.divider}></View>
+        <Text style={styles.socialText}>Notification</Text>
+
+        <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={sendNotification}
+        >
+          <Text style={styles.text}>
+            <FontAwesome5 name="copyright" size={12} color={colors.white} /> Send Test Notification
           </Text>
           <View style={styles.fieldValueContainer}>
             <Feather name="chevron-right" size={20} color={colors.secondary} />

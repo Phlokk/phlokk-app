@@ -22,6 +22,7 @@ import colors from "../../../../config/colors";
 import axios from "../../../redux/apis/axiosDeclaration";
 import routes from "../../../navigation/routes";
 import CustomPolicyModal from "../../eulaScreenModal/eulaModal";
+import {registerForPushNotificationsAsync} from "../../../services/notifications";
 
 export default function AuthDetails({ authPage, setDetailsPage }) {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
@@ -32,6 +33,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [user, setUser] = useState(null);
+  const [expoPushToken, setExpoPushToken] = useState("");
   const [isChecked, setChecked] = useState(false);
 
   const [policyModal, setPolicyModal] = useState(false);
@@ -53,10 +55,13 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         password: password,
         device_name: "mobile",
       })
-      .then((response) => {
+      .then(async (response) => {
+        const expoPushToken = await registerForPushNotificationsAsync();
+        setExpoPushToken(expoPushToken);
+
         const user = response.data.user;
         user.token = response.data.token;
-        setUser(user);
+        user.expoPushToken = expoPushToken
         SecureStore.setItemAsync("user", JSON.stringify(user));
         dispatch({
           type: types.USER_STATE_CHANGE,
