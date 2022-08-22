@@ -49,9 +49,10 @@ static void InitializeFlipper(UIApplication *application) {
   return bridge;
  }
  
-#if RCT_DEV
-#import <React/RCTDevLoadingView.h>
-#endif
+// #if RCT_DEV
+// #import <React/RCTDevLoadingView.h>
+// #endif
+// @endif
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
