@@ -8,6 +8,8 @@ import axios from "../redux/apis/axiosDeclaration";
 export async function enableNotificationsForDevice() {
     let user = JSON.parse(await SecureStore.getItemAsync("user"));
 
+    console.log(user.expoPushToken);
+
     axios
         .post("/api/me/enroll-notifications", {
             expoPushToken: user.expoPushToken,
