@@ -2,8 +2,22 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import {Platform} from "react-native";
 import * as SecureStore from "expo-secure-store";
+import axios from "../redux/apis/axiosDeclaration";
 
 // Can use this function below, OR use Expo's Push Notification Tool-> https://expo.dev/notifications
+export async function enableNotificationsForDevice() {
+    let user = JSON.parse(await SecureStore.getItemAsync("user"));
+
+    axios
+        .post("/api/me/enroll-notifications", {
+            expoPushToken: user.expoPushToken,
+        })
+        .then((response) => alert('Device has been enrolled in notifications!'))
+        .catch((error) => {
+            throw error;
+        });
+};
+
 export async function sendTestPushNotification() {
 
     let user = JSON.parse(await SecureStore.getItemAsync("user"));

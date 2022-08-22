@@ -18,7 +18,7 @@ import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import AccountScreen from "./account/account";
 import SupportScreen from "./support/support";
-import {sendTestPushNotification} from "../../services/notifications";
+import {enableNotificationsForDevice, sendTestPushNotification} from "../../services/notifications";
 
 export default function SettingsScreen() {
   const auth = useSelector((state) => state.auth);
@@ -27,8 +27,8 @@ export default function SettingsScreen() {
   const [blocking, setBlocking] = useState(false);
   const [expoPushToken, getExpoPushToken] = useState('');
 
-  const sendNotification = async function () {
-    await sendTestPushNotification();
+  const enableNotifications = async function () {
+    await enableNotificationsForDevice();
   }
 
   const dispatch = useDispatch();
@@ -141,10 +141,10 @@ export default function SettingsScreen() {
         <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
-            onPress={sendNotification}
+            onPress={enableNotifications}
         >
           <Text style={styles.text}>
-            <FontAwesome5 name="copyright" size={12} color={colors.white} /> Send Test Notification
+            Enable Push Notifications
           </Text>
           <View style={styles.fieldValueContainer}>
             <Feather name="chevron-right" size={20} color={colors.secondary} />
