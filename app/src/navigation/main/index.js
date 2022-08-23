@@ -64,6 +64,8 @@ import CameraScreen from "../../screens/camera";
 import { StyleSheet, View } from "react-native";
 import colors from "../../../config/colors";
 import FireRulesScreen from "../../screens/gifting/fireRulesScreen";
+import PrivacyScreen from "../../screens/settings/privacy/privacy";
+import BlockedListScreen from "../../screens/settings/privacy/blockedList";
 
 const Stack = createNativeStackNavigator();
 
@@ -159,6 +161,16 @@ export default function Route() {
             <Stack.Screen
               name="settingsScreen"
               component={SettingsScreen}
+              options={{ headerShown: false }}
+            />
+             <Stack.Screen
+              name="privacyScreen"
+              component={PrivacyScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="blockedKListScreen"
+              component={BlockedListScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen

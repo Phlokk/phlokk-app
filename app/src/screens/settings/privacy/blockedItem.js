@@ -8,23 +8,23 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
-import colors from "../../../config/colors";
+import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
-import { timeSince } from "../../services/posts";
+import { userAtom } from "../../../../../App";
+import { timeSince } from "../../../services/posts";
 
-const NotificationItem = ({ navigation, item }) => {
+const BlockedItem = ({ navigation, item }) => {
   const [user, setUser] = useAtom(userAtom);
 
   return (
     <TouchableOpacity
-    onPress={() => item.associated._id}
+    // onPress={() => item.associated._id}
     >
       <View style={styles.containerInput}>
         {!user?.photo_url && !user?.photo_url ? (
           <Image
             style={styles.avatar}
-            source={require("../../../assets/userImage.png")}
+            source={require("../../../../assets/userImage.png")}
             cache="only-if-cached"
           />
         ) : (
@@ -33,9 +33,9 @@ const NotificationItem = ({ navigation, item }) => {
           </TouchableOpacity>
         )}
         <View style={styles.notificationView}>
-          <Text style={styles.usernameView}>{item.title}</Text>
+          {/* <Text style={styles.usernameView}>{item.title}</Text> */}
           <View style={styles.mentionsView}>
-            <Text style={styles.mentionsText}>{item.body}</Text>
+            {/* <Text style={styles.mentionsText}>{item.body}</Text> */}
           </View>
           <View>
             <Text style={styles.date}>
@@ -91,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NotificationItem;
+export default BlockedItem;

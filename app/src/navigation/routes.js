@@ -23,6 +23,8 @@ export default Object.freeze({
     MARKET: 'market',
     PROFILE_OTHER: 'profileOther',
     USER_POSTS: 'userPosts',
+    PRIVACY_SCREEN: 'privacyScreen',
+    BLOCKED_LIST_SCREEN: 'blockedKListScreen',
     SELLER: 'phlokkMarketTools',
     CHAT_SINGLE: 'chatSingle',
     FEED: 'feed',

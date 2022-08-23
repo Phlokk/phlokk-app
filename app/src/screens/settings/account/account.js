@@ -65,7 +65,12 @@ export default function AccountScreen() {
         animationType="fade"
       />
         <TouchableOpacity
-         onPress={() =>setBlocking(true)}
+        //  onPress={() =>setBlocking(true)}
+        onPress={() =>
+          navigation.navigate(routes.PRIVACY_SCREEN, {
+            title: "Privacy",
+          })
+        }
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >
