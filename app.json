@@ -21,18 +21,18 @@
     ],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
-      "buildNumber": "228210001",
+      "buildNumber": "228230001",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 228210001,
+      "versionCode": 228230001,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
         "backgroundColor": "#04cccc"
       },
       "package": "com.phlokk.phlokkapp",
       "googleServicesFile": "./google-services.json",
-      "useNextNotificationsApi": true,
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./app/assets/launcher/android/ic_launcher-web.png"
