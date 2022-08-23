@@ -91,15 +91,15 @@ export async function registerForPushNotificationsAsync (setExpoPushToken) {
 
 
 export const notificationListener = async (setNotificationList) => {
-    await axios
-        .get("/api/me/notifications")
-        .then((result) => {
-            setNotificationList(result.data.notifications);
-            return result.data;
-        })
-        .catch((error) => {
-            Alert.alert("Notifications not found");
-        });
+  await axios
+    .get("/api/me/notifications")
+    .then((result) => {
+      setNotificationList(result.data.notifications);
+      return result.data;
+    })
+    .catch((error) => {
+      Alert.alert("Notifications not found");
+    });
 };
 
 export const clearNotificationListener = () => {
