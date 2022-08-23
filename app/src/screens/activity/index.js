@@ -4,7 +4,6 @@ import { View, StyleSheet, Text, TouchableOpacity, FlatList } from "react-native
 import colors from "../../../config/colors";
 import NotificationScreen from "./notifications";
 import axios from "../../redux/apis/axiosDeclaration";
-import {clearCommentListener, commentListener} from "../../services/posts";
 import {clearNotificationListener, notificationListener} from "../../services/notifications";
 
 
@@ -40,9 +39,9 @@ export default function ActivityScreen({ navigation }) {
       <NotificationScreen />
       <FlatList
         data={notificationList}
-        // ItemSeparatorComponent={Separator}
+        ItemSeparatorComponent={Separator}
         renderItem={renderItem}
-        // showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id}
       />
     </View>

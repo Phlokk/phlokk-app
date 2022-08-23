@@ -210,21 +210,3 @@ export const timeSince = function (date) {
   }
   return Math.floor(seconds) + " seconds";
 };
-
-
-export const getNotifications = () =>
-  axios
-    .get("/api/me/notifications", {
-      id: id,
-      type: "like",
-      target_id: "",
-      title: title,
-      message: message
-    })
-    .then(function (response) {
-      return response.data.data;
-      // 2 seconds later...
-    })
-    .catch(function (error) {
-      Alert.alert("Could not get notifications!");
-    });

@@ -49,6 +49,8 @@ export async function sendTestPushNotification() {
         });
 }
 
+
+// should this code below (function registerForPushNotificationsAsync) be in the App.js file at root of project Tony? 
 export async function registerForPushNotificationsAsync (setExpoPushToken) {
     /* @info We should also make sure the app is running on a physical device, since push notifications.js won't work on a simulator. */
     if (Device.isDevice) {
