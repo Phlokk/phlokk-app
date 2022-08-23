@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,26 +11,31 @@ import {
 import colors from "../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
-import {timeSince} from "../../services/posts";
+import { timeSince } from "../../services/posts";
 
 const NotificationItem = ({ navigation, item }) => {
-  // const [user, setUser] = useAtom(userAtom);
+  const [user, setUser] = useAtom(userAtom);
 
-  return <TouchableOpacity
-        // onPress={() => }
+  return (
+    <TouchableOpacity
+    // onPress={() => }
     >
       <View style={styles.containerInput}>
-        <Image
+        {!user?.photo_url && !user?.photo_url ? (
+          <Image
             style={styles.avatar}
             source={require("../../../assets/userImage.png")}
             cache="only-if-cached"
-        />
+          />
+        ) : (
+          <TouchableOpacity>
+            <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+          </TouchableOpacity>
+        )}
         <View style={styles.notificationView}>
           <Text style={styles.usernameView}>{item.title}</Text>
-
           <View style={styles.mentionsView}>
             <Text style={styles.mentionsText}>{item.body}</Text>
-            {/*<Text style={styles.date}>56 secs ago </Text>*/}
           </View>
           <View>
             <Text style={styles.date}>
@@ -39,27 +44,27 @@ const NotificationItem = ({ navigation, item }) => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>;
-}
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
     backgroundColor: colors.primary,
   },
   containerInput: {
-    marginTop: 20,
+    paddingLeft: 20,
     flexDirection: "row",
-    alignItems: "center",
   },
   mentionsView: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
   },
   notificationView: {
+    flex: 1,
+    // backgroundColor: "red",
     paddingLeft: 10,
+    marginRight: 20,
   },
   text: {
     color: colors.white,
@@ -75,7 +80,6 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 10,
     marginTop: 5,
-    paddingLeft: 10,
     color: colors.secondary,
   },
   avatar: {

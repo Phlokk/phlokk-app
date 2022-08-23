@@ -39,7 +39,6 @@ export default function ActivityScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ActivityNavBar title={"Activity feed"} />
-      {/*<NotificationScreen />*/}
       <FlatList
         data={notificationList}
         ItemSeparatorComponent={Separator}
