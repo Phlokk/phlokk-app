@@ -40,56 +40,66 @@ export default function PostSingleOverlay({post, user}) {
 		useState(false);
 	const [isCommentModalOpen, setCommentModalOpen] = useState(false);
 
-	const {postsLikes} = useSelector(state => state.likes);
+	const [isLiked, setIsLiked] = useState(post.is_liked);
+	const [likeCount, setLikeCount] = useState(post.like_count);
 
-	const getLikesCount = () => {
-		const res = postsLikes.findIndex(
-			likesPost => likesPost.postId === post._id
-		);
-		return res !== -1 ? postsLikes[res].likes : 0;
-	};
+	//const {postsLikes} = useSelector(state => state.likes);
+	//const [userLiked, setUserLiked] = useState();
 
-	const handleIconChange = () => {
-		if (postsLikes && postsLikes.length !== 0) {
-			const res = postsLikes.findIndex(
-				likesPost => likesPost.postId === post._id
-			);
-			if (res !== -1) {
-				return !postsLikes[res].liked ||
-					res === -1 ||
-					postsLikes[res].liked === undefined
-					? 'star-outline'
-					: 'star';
-			}
-		}
-		return 'star-outline';
-	};
+	// const getLikesCount = () => {
+	// 	const res = postsLikes.findIndex(
+	// 		likesPost => likesPost.postId === post._id
+	// 	);
+	// 	return res !== -1 ? postsLikes[res].likes : 0;
+	// };
+
+	// const handleIconChange = () => {
+	// 	if (postsLikes && postsLikes.length !== 0) {
+	// 		const res = postsLikes.findIndex(
+	// 			likesPost => likesPost.postId === post._id
+	// 		);
+	// 		if (res !== -1) {
+	// 			return !postsLikes[res].liked ||
+	// 				res === -1 ||
+	// 				postsLikes[res].liked === undefined
+	// 				? 'star-outline'
+	// 				: 'star';
+	// 		}
+	// 	}
+	// 	return 'star-outline';
+	// };
 
 	const likeButtonHandler = async () => {
-		const currentPost = postsLikes.find(
-			likesPost => likesPost.postId === post._id
-		);
-
-		const type = currentPost.liked ? 'unlike' : 'like';
-
-		const updatedPost = {
-			postId: currentPost.postId,
-			likes: type === 'like' ? currentPost.likes + 1 : currentPost.likes - 1,
-			liked: type === 'like' ? true : false,
-		};
-
-		dispatch({
-			type: types.UPDATE_POST_LIKES,
-			post: updatedPost,
-		});
+		const type = isLiked ? 'unlike' : 'like';
 		try {
 			await likeVideo(post._id, type);
-		} catch (error) {
-			dispatch({
-				type: types.UPDATE_POST_LIKES,
-				postsLikes: currentPost,
-			});
+			setIsLiked(!isLiked);
+			setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
+		} catch {
+			// TODO: display an error message?
 		}
+
+		// const currentPost = postsLikes.find(
+		// 	likesPost => likesPost.postId === post._id
+		// );
+		// const type = currentPost.liked ? 'unlike' : 'like';
+		// const updatedPost = {
+		// 	postId: currentPost.postId,
+		// 	likes: type === 'like' ? currentPost.likes + 1 : currentPost.likes - 1,
+		// 	liked: type === 'like' ? true : false,
+		// };
+		// dispatch({
+		// 	type: types.UPDATE_POST_LIKES,
+		// 	post: updatedPost,
+		// });
+		// try {
+		// 	await likeVideo(post._id, type);
+		// } catch (error) {
+		// 	dispatch({
+		// 		type: types.UPDATE_POST_LIKES,
+		// 		postsLikes: currentPost,
+		// 	});
+		// }
 	};
 
 	return (
@@ -101,10 +111,11 @@ export default function PostSingleOverlay({post, user}) {
 				<MaterialCommunityIcons
 					color={colors.white}
 					size={40}
-					name={handleIconChange()}
+					//name={handleIconChange()}
+					name={isLiked ? 'star' : 'star-outline'}
 				/>
 			</TouchableOpacity>
-			<Text style={styles.statsLabel}>{getLikesCount()}</Text>
+			<Text style={styles.statsLabel}>{likeCount}</Text>
 
 			<View style={styles.iconContainer}>
 				<TouchableOpacity style={styles.iconContainer}>
