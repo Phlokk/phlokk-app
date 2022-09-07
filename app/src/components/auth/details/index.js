@@ -19,6 +19,7 @@ import { types } from "../../../redux/constants";
 import { useTogglePasswordVisibility } from "../../../services/passwordVisibility";
 // import { LOGIN, REGISTER } from "@env";
 import colors from "../../../../config/colors";
+import { Feather } from "@expo/vector-icons";
 import axios from "../../../redux/apis/axiosDeclaration";
 import routes from "../../../navigation/routes";
 import CustomPolicyModal from "../../eulaScreenModal/eulaModal";
@@ -225,6 +226,15 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             {authPage === 0 ? "Sign In" : "Sign Up "}
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.forgotPass}
+          // onPress={() => navigation.navigate(REST_PASS)}
+        >
+          <Text style={styles.forgotButtonText}>
+          Forgot Password?
+          </Text>
+          <View />
+        </TouchableOpacity>
 
         {authPage === 0 ? (
           <></>
@@ -281,7 +291,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   button: {
-    marginTop: 40,
+    marginTop: 25,
     borderColor: colors.green,
     borderWidth: 1,
     borderRadius: 10,
@@ -290,10 +300,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "center",
   },
+  forgotPass: {
+    marginTop: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
   buttonText: {
     fontWeight: "bold",
     fontSize: 16,
     color: colors.green,
+  },
+  forgotButtonText: {
+    fontSize: 14,
+    color: colors.secondary,
+    opacity: 0.5,
   },
   buttonForgotPassword: {
     marginTop: 20,
@@ -351,5 +372,19 @@ const styles = StyleSheet.create({
   },
   keyLeft: {
     top: 60,
+  },
+  providerButtonPass: {
+    borderColor: colors.secondary,
+    marginTop: 15,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderStyle: "solid",
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  lock: {
+    padding: 5,
   }
 });
