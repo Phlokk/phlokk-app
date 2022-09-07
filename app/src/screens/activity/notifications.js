@@ -34,6 +34,15 @@ const NotificationItem = ({ navigation, item }) => {
         )}
         <View style={styles.notificationView}>
           <Text style={styles.usernameView}>{item.title}</Text>
+
+          <View style={styles.iconRow}>
+          {item.pictures.map((url, key) => (
+            <TouchableOpacity>
+            <Image key={key} style={styles.avatarList} source={{ uri: url }} />
+          </TouchableOpacity>
+          ))}
+          </View>
+          
           <View style={styles.mentionsView}>
             <Text style={styles.mentionsText}>{item.body}</Text>
           </View>
@@ -81,6 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginTop: 5,
     color: colors.secondary,
+    opacity: 0.8,
   },
   avatar: {
     height: 40,
@@ -89,6 +99,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "lightgray",
   },
+  avatarList: {
+    height: 40,
+    width: 40,
+    marginLeft: 8,
+    borderRadius: 50,
+  },
+  iconRow: {
+    flexDirection: "row",
+    paddingTop: 5,
+    
+  }
 });
 
 export default NotificationItem;
