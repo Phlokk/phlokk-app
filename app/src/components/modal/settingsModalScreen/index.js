@@ -108,14 +108,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   bubble: {
-    backgroundColor: colors.darkGrey,
+    backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
     height: 45,
     width: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: colors.secondary,
     opacity: 0.7,
   },
 });

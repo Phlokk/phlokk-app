@@ -236,15 +236,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bubble: {
-    backgroundColor: colors.darkGrey,
+    backgroundColor: 'transparent',
     alignItems: "center",
     justifyContent: "center",
     height: 45,
     width: 45,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: colors.secondary,
-    opacity: 0.7,
   },
   topBar: {
     marginTop: 10,
