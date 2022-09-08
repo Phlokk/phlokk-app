@@ -16,13 +16,28 @@ import { userAtom } from "../../../../../../App";
 import verifiedCheck from "../../../../../assets/verified.png";
 import CustomAlert from "../../../Alerts/customAlert";
 import { timeSince } from "../../../../services/posts";
+import {likeComment} from '../../../../redux/actions/likes';
 
-const CommentItem = ({ item }) => {
+const CommentItem = ({ item, post }) => {
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
   const [isUsernameProfile, setIsUsernameProfile] = useState(false);
-  const [isStars, setIsStars] = useState(false);
   const [isReplies, setIsReplies] = useState(false);
+
+  const [isLiked, setIsLiked] = useState(post.is_liked);
+	const [likeCount, setLikeCount] = useState(post.like_count);
+
+  const likeButtonHandler = async () => {
+    const type = isLiked ? 'unlike' : 'like';
+    try {
+        await likeComment(post._id, comment._id, type);
+        setIsLiked(!isLiked);
+        setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
+    } catch {
+        Alert.alert("There was an error with your request!")
+    }
+};
+
 
   return (
     <View style={styles.container}>
@@ -71,27 +86,6 @@ const CommentItem = ({ item }) => {
           {item.user && item.user.is_verified === 1 && (
             <Image style={styles.phlokkVerified} source={verifiedCheck} />
           )}
-          <View style={styles.starRow}>
-            <CustomAlert
-              alertTitle={
-                <Text>
-                  <MaterialIcons name="info" size={24} color={colors.green} />
-                </Text>
-              }
-              customAlertMessage={<Text>Stars{"\n"}coming in beta 2</Text>}
-              positiveBtn="Ok"
-              modalVisible={isStars}
-              dismissAlert={setIsStars}
-              animationType="fade"
-            />
-            <MaterialCommunityIcons
-              onPress={() => setIsStars(true)}
-              style={styles.star}
-              color="white"
-              size={17}
-              name={"star" ? "star-outline" : "star"}
-            />
-          </View>
         </View>
         <Text style={styles.textComment}>{item.message}</Text>
         <View style={styles.replyRow}>
@@ -115,6 +109,18 @@ const CommentItem = ({ item }) => {
           </TouchableOpacity>
         </View>
       </View>
+      <View style={styles.starRow}>
+        <TouchableOpacity
+        onPress={likeButtonHandler}>
+            <MaterialCommunityIcons
+              color={colors.green}
+              size={20}
+              name={"star" ? "star-outline" : "star"}
+            />
+        </TouchableOpacity>
+            <Text style={styles.starCount}>{likeCount}</Text>
+          </View>
+          
     </View>
   );
 };
@@ -129,7 +135,6 @@ const styles = StyleSheet.create({
   containerText: {
     flex: 1,
     marginHorizontal: 14,
-    // backgroundColor: 'red',
   },
   verifiedRow: {
     flexDirection: "row",
@@ -167,25 +172,21 @@ const styles = StyleSheet.create({
     width: 30,
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: "lightgray",
+    borderColor: colors.secondary,
   },
   phlokkVerified: {
     width: 10,
     height: 10,
     marginHorizontal: 3,
   },
-  star: {
-    // position: "absolute",
-    // left: 310,
-
-    bottom: 1,
-  },
   starRow: {
-    marginLeft: "auto",
+    alignItems: "center",
   },
   starCount: {
     color: colors.secondary,
-    // fontSize: 10,
+    fontSize: 10,
+    paddingTop: 5,
+    
   },
 });
 

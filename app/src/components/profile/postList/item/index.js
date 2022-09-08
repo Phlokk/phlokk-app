@@ -78,6 +78,7 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 						justifyContent: 'center',
 					}}
 				>
+					
 					<ActivityIndicator size="small" color={colors.green} />
 				</View>
 			)}
@@ -100,4 +101,7 @@ const styles = StyleSheet.create({
 		color: colors.white,
 		zIndex: -5,
 	},
+	videoCountText: {
+		color: colors.white
+	}
 });

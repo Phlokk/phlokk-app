@@ -53,7 +53,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
   };
 
   const renderItem = ({ item, index }) => {
-    return <CommentItem setComment={setComment} index={index} item={item} />;
+    return <CommentItem setComment={setComment} index={index} item={item} post={post} />;
   };
 
   return (

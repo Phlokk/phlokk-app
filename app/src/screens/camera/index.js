@@ -23,7 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 import BottomMenu from "./bottomMenu";
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
-import routes from "../../navigation/routes"
+import routes from "../../navigation/routes";
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 60;
@@ -238,9 +238,9 @@ export default function CameraScreen() {
       <SafeAreaView style={styles.errorView}>
         <MaterialIcons name="error-outline" size={40} color={colors.yellow} />
         <Text style={styles.cameraErrorText}>
-          PERMISSIONS ERROR {'\n'}
+          PERMISSIONS ERROR {"\n"}
           You did not give permissions.
-          {'\n'}Please check camera settings in device.
+          {"\n"}Please check camera settings in device.
         </Text>
       </SafeAreaView>
     );
@@ -288,17 +288,12 @@ export default function CameraScreen() {
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
 
-
         <TouchableOpacity
-				style={{position: 'absolute', top: 0, right: 360}}
-				onPress={() => navigation.navigate(routes.FEED)}
-				
-			>
-				<Feather name="x" size={25} color={colors.white} />
-
-			</TouchableOpacity>
-
-
+          style={{ position: "absolute", top: 0, right: 360 }}
+          onPress={() => navigation.navigate(routes.FEED)}
+        >
+          <Feather name="x" size={25} color={colors.white} />
+        </TouchableOpacity>
       </View>
       <View
         style={[
@@ -378,9 +373,7 @@ export default function CameraScreen() {
                   />
                 )}
               </TouchableOpacity>
-              <Text style={styles.uploadText}>
-                Upload
-              </Text>
+              <Text style={styles.uploadText}>Upload</Text>
             </View>
           )}
         </View>
@@ -459,7 +452,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   sideBarContainer: {
-    top: 60,
+    top: 48,
     right: 0,
     marginHorizontal: 20,
     position: "absolute",
@@ -519,11 +512,11 @@ const styles = StyleSheet.create({
     color: colors.green,
   },
   uploadText: {
-    fontSize: 10,
+    fontSize: 8,
     fontWeight: "bold",
     color: colors.white,
     position: "absolute",
-    right: 85,
-    bottom: 2
-  }
+    right: 88,
+    bottom: 2,
+  },
 });
