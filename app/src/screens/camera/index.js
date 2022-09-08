@@ -23,6 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 import BottomMenu from "./bottomMenu";
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
+import routes from "../../navigation/routes"
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 60;
@@ -269,7 +270,7 @@ export default function CameraScreen() {
             )
           }
         >
-          <Feather name="refresh-ccw" size={24} color={colors.secondary} />
+          <Feather name="refresh-ccw" size={24} color={colors.white} />
           <Text style={styles.iconText}>Flip</Text>
         </TouchableOpacity>
 
@@ -283,17 +284,17 @@ export default function CameraScreen() {
             )
           }
         >
-          <Feather name="zap" size={24} color={colors.secondary} />
+          <Feather name="zap" size={24} color={colors.white} />
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
 
 
         <TouchableOpacity
 				style={{position: 'absolute', top: 0, right: 360}}
-				// onPress={() => { navigation.navigate(routes.MARKET)}
-				onPress={() => navigation.goBack()}
+				onPress={() => navigation.navigate(routes.FEED)}
+				
 			>
-				<Feather name="x" size={24} color={colors.secondary} />
+				<Feather name="x" size={25} color={colors.white} />
 
 			</TouchableOpacity>
 
@@ -377,6 +378,9 @@ export default function CameraScreen() {
                   />
                 )}
               </TouchableOpacity>
+              <Text style={styles.uploadText}>
+                Upload
+              </Text>
             </View>
           )}
         </View>
@@ -514,4 +518,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.green,
   },
+  uploadText: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: colors.white,
+    position: "absolute",
+    right: 85,
+    bottom: 2
+  }
 });
