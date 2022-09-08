@@ -120,7 +120,7 @@ const VideoFeed = ({navigation, route}) => {
 	};
 
 	const renderItem = useCallback(
-		({item, ndex}) => {
+		({item, index}) => {
 			return (
 				<VideoItem
 					item={item}
