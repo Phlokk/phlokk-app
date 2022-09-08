@@ -8,6 +8,7 @@ import {
 	Platform,
 	Modal,
 	Pressable,
+	Alert,
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import {Ionicons} from '@expo/vector-icons';
@@ -20,12 +21,10 @@ import GiftingModalScreen from '../../../modal/giftingModalScreen';
 import CommentModal from '../../../modal/comment/index';
 import colors from '../../../../../config/colors';
 import {likeVideo} from '../../../../redux/actions/likes';
-import {useSelector, useDispatch} from 'react-redux';
-import {types} from '../../../../redux/constants';
+
 
 export default function PostSingleOverlay({post, user}) {
 	const isFocused = useIsFocused();
-	const dispatch = useDispatch();
 	useEffect(() => {
 		setIsSettingsModalScreenOpen(false);
 		setCommentModalOpen(false);
@@ -43,32 +42,6 @@ export default function PostSingleOverlay({post, user}) {
 	const [isLiked, setIsLiked] = useState(post.is_liked);
 	const [likeCount, setLikeCount] = useState(post.like_count);
 
-	//const {postsLikes} = useSelector(state => state.likes);
-	//const [userLiked, setUserLiked] = useState();
-
-	// const getLikesCount = () => {
-	// 	const res = postsLikes.findIndex(
-	// 		likesPost => likesPost.postId === post._id
-	// 	);
-	// 	return res !== -1 ? postsLikes[res].likes : 0;
-	// };
-
-	// const handleIconChange = () => {
-	// 	if (postsLikes && postsLikes.length !== 0) {
-	// 		const res = postsLikes.findIndex(
-	// 			likesPost => likesPost.postId === post._id
-	// 		);
-	// 		if (res !== -1) {
-	// 			return !postsLikes[res].liked ||
-	// 				res === -1 ||
-	// 				postsLikes[res].liked === undefined
-	// 				? 'star-outline'
-	// 				: 'star';
-	// 		}
-	// 	}
-	// 	return 'star-outline';
-	// };
-
 	const likeButtonHandler = async () => {
 		const type = isLiked ? 'unlike' : 'like';
 		try {
@@ -76,30 +49,8 @@ export default function PostSingleOverlay({post, user}) {
 			setIsLiked(!isLiked);
 			setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
 		} catch {
-			// TODO: display an error message?
+			Alert.alert("There was an error with your request!")
 		}
-
-		// const currentPost = postsLikes.find(
-		// 	likesPost => likesPost.postId === post._id
-		// );
-		// const type = currentPost.liked ? 'unlike' : 'like';
-		// const updatedPost = {
-		// 	postId: currentPost.postId,
-		// 	likes: type === 'like' ? currentPost.likes + 1 : currentPost.likes - 1,
-		// 	liked: type === 'like' ? true : false,
-		// };
-		// dispatch({
-		// 	type: types.UPDATE_POST_LIKES,
-		// 	post: updatedPost,
-		// });
-		// try {
-		// 	await likeVideo(post._id, type);
-		// } catch (error) {
-		// 	dispatch({
-		// 		type: types.UPDATE_POST_LIKES,
-		// 		postsLikes: currentPost,
-		// 	});
-		// }
 	};
 
 	return (
@@ -111,7 +62,6 @@ export default function PostSingleOverlay({post, user}) {
 				<MaterialCommunityIcons
 					color={colors.white}
 					size={40}
-					//name={handleIconChange()}
 					name={isLiked ? 'star' : 'star-outline'}
 				/>
 			</TouchableOpacity>
