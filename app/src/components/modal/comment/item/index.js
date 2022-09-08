@@ -24,13 +24,13 @@ const CommentItem = ({ item, post }) => {
   const [isUsernameProfile, setIsUsernameProfile] = useState(false);
   const [isReplies, setIsReplies] = useState(false);
 
-  const [isLiked, setIsLiked] = useState(post.is_liked);
-	const [likeCount, setLikeCount] = useState(post.like_count);
+  const [isLiked, setIsLiked] = useState(item.is_liked);
+	const [likeCount, setLikeCount] = useState(item.like_count);
 
   const likeButtonHandler = async () => {
     const type = isLiked ? 'unlike' : 'like';
     try {
-        await likeComment(post._id, comment._id, type);
+        await likeComment(post._id, item._id, type);
         setIsLiked(!isLiked);
         setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
     } catch {
@@ -68,8 +68,8 @@ const CommentItem = ({ item, post }) => {
         <Image style={styles.avatar} source={{ uri: item.user.photo_url }} />
         </TouchableOpacity>
       )}
-      
-      
+
+
 
       <View style={styles.containerText}>
         <View style={styles.verifiedRow}>
@@ -120,7 +120,7 @@ const CommentItem = ({ item, post }) => {
         </TouchableOpacity>
             <Text style={styles.starCount}>{likeCount}</Text>
           </View>
-          
+
     </View>
   );
 };
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontSize: 10,
     paddingTop: 5,
-    
+
   },
 });
 
