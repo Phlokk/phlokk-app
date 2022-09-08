@@ -7,13 +7,14 @@ import {
   Image,
   FlatList,
   ScrollView,
+  Pressable,
 } from "react-native";
 import colors from "../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import { timeSince } from "../../services/posts";
 
-const NotificationItem = ({ navigation, item }) => {
+const NotificationItem = ({ navigation, item, }) => {
   const [user, setUser] = useAtom(userAtom);
 
   return (
@@ -40,9 +41,20 @@ const NotificationItem = ({ navigation, item }) => {
           {/* TODO still need to hide all but 4 avatars and show button that connects to FlatList of all users who liked, commented on post. Also add thumbnail for each post */}
           <View style={styles.iconRow} >
           {item.pictures.map((url, key) => (
-            <TouchableOpacity key={key} style={styles.iconRowAvatars}>
+            <Pressable 
+            key={key} 
+            style={styles.iconRowAvatars}
+
+            // TODO navigate to initialUser profile when clicked
+
+            // onPress={() => {
+						// 	navigation.navigate('feedProfile', {
+						// 		initialUser: user,
+						// 	});
+						// }}
+            >
             <Image style={styles.avatarList} source={{ uri: url }} />
-          </TouchableOpacity>
+          </Pressable>
           ))}
           </View>
           
@@ -100,8 +112,8 @@ const styles = StyleSheet.create({
     borderColor: "lightgray",
   },
   avatarList: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
     borderRadius: 50,
   },
   iconRow: {

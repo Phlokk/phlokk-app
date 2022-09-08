@@ -19,14 +19,14 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import BottomMenu from "./bottomMenu";
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 60;
-const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking every interview
+const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking every interval
 
 const convertMillisToPercentage = (ms) => ms / 1000 / 60;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
@@ -55,16 +55,11 @@ export default function CameraScreen() {
   const [recordingTime, setRecordingTime] = useState(0);
   const recordingTimerRef = useRef();
 
-  // const [cameraVideoStabilization, setCameraVideoStabilization ] = useState(
-  //   Camera.Constants.VideoStabilization.auto
-  // )
-
   const [isCameraReady, setIsCameraReady] = useState(false);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
   useEffect(() => {
-    /*  */
     (async () => {
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
       setHasCameraPermissions(cameraStatus.status == "granted");
@@ -169,19 +164,6 @@ export default function CameraScreen() {
     }
   };
 
-  if (!hasCameraPermissions || !hasAudioPermissions || !hasGalleryPermissions) {
-    return (
-      <SafeAreaView style={styles.errorView}>
-        <MaterialIcons name="error-outline" size={40} color={colors.yellow} />
-        <Text style={styles.cameraErrorText}>
-          PERMISSIONS ERROR {"\n"}
-          You did not give permissions.
-          {"\n"}Please check camera settings in device.
-        </Text>
-      </SafeAreaView>
-    );
-  }
-
   const onPressRecord = () => {
     if (!isRecording) {
       if (countdownTimerRef.current) {
@@ -250,6 +232,19 @@ export default function CameraScreen() {
     ]).start(() => whitePulseOpacity.setValue(0.9));
   };
 
+  if (!hasCameraPermissions || !hasAudioPermissions || !hasGalleryPermissions) {
+    return (
+      <SafeAreaView style={styles.errorView}>
+        <MaterialIcons name="error-outline" size={40} color={colors.yellow} />
+        <Text style={styles.cameraErrorText}>
+          PERMISSIONS ERROR {'\n'}
+          You did not give permissions.
+          {'\n'}Please check camera settings in device.
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <View style={styles.container}>
       {isFocused ? (
@@ -291,6 +286,18 @@ export default function CameraScreen() {
           <Feather name="zap" size={24} color={colors.secondary} />
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
+
+
+        <TouchableOpacity
+				style={{position: 'absolute', top: 0, right: 360}}
+				// onPress={() => { navigation.navigate(routes.MARKET)}
+				onPress={() => navigation.goBack()}
+			>
+				<Feather name="x" size={24} color={colors.secondary} />
+
+			</TouchableOpacity>
+
+
       </View>
       <View
         style={[

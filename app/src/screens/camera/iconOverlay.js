@@ -33,16 +33,6 @@ function IconOverlay() {
   return (
     <View style={styles.iconRow}>
       <ScrollView horizontal={true}>
-        <TouchableOpacity
-          style={styles.backBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <MaterialIcons
-            name="keyboard-arrow-left"
-            size={28}
-            color="lightgray"
-          />
-        </TouchableOpacity>
         <CustomAlert
           alertTitle={
             <Text>
@@ -229,7 +219,6 @@ const styles = StyleSheet.create({
   sideBarButton: {
     justifyContent: "center",
     alignItems: "center",
-    // marginBottom: 25,
     paddingHorizontal: 20,
   },
   backBtn: {
