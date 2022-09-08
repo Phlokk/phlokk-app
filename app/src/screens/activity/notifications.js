@@ -21,7 +21,8 @@ const NotificationItem = ({ navigation, item }) => {
     onPress={() => item.associated._id}
     >
       <View style={styles.containerInput}>
-        {!user?.photo_url && !user?.photo_url ? (
+        {!item.url && !item.url ? (
+          
           <Image
             style={styles.avatar}
             source={require("../../../assets/userImage.png")}
@@ -29,7 +30,7 @@ const NotificationItem = ({ navigation, item }) => {
           />
         ) : (
           <TouchableOpacity>
-            <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+            <Image style={styles.avatar} source={{ uri: url }} />
           </TouchableOpacity>
         )}
         <View style={styles.notificationView}>
@@ -37,10 +38,10 @@ const NotificationItem = ({ navigation, item }) => {
 
           
           {/* TODO still need to hide all but 4 avatars and show button that connects to FlatList of all users who liked, commented on post. Also add thumbnail for each post */}
-          <View style={styles.iconRow}>
+          <View style={styles.iconRow} >
           {item.pictures.map((url, key) => (
-            <TouchableOpacity>
-            <Image key={key} style={styles.avatarList} source={{ uri: url }} />
+            <TouchableOpacity key={key} style={styles.iconRowAvatars}>
+            <Image style={styles.avatarList} source={{ uri: url }} />
           </TouchableOpacity>
           ))}
           </View>
@@ -61,21 +62,18 @@ const NotificationItem = ({ navigation, item }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.primary,
   },
   containerInput: {
-    paddingLeft: 20,
+    paddingLeft: 10,
     flexDirection: "row",
+
   },
   mentionsView: {
     flexDirection: "row",
   },
   notificationView: {
-    flex: 1,
-    // backgroundColor: "red",
     paddingLeft: 10,
-    marginRight: 20,
   },
   text: {
     color: colors.white,
@@ -104,13 +102,14 @@ const styles = StyleSheet.create({
   avatarList: {
     height: 40,
     width: 40,
-    marginLeft: 8,
     borderRadius: 50,
   },
   iconRow: {
     flexDirection: "row",
     paddingTop: 5,
-    
+  },
+  iconRowAvatars: {
+    marginRight: 10,
   }
 });
 

@@ -140,7 +140,7 @@ const ReportScreen = ({ route, navigation }) => {
             <TextInput
               style={generalStyles.textInputTitle}
               placeholder="Subject:"
-              placeholderTextColor={"gray"}
+              placeholderTextColor={colors.secondary}
               autoCapitalize="none"
               autoCorrect={false}
               textContentType="none"
@@ -151,7 +151,7 @@ const ReportScreen = ({ route, navigation }) => {
             <TextInput
               style={generalStyles.textInputReport}
               placeholder="Reason for report..."
-              placeholderTextColor={"gray"}
+              placeholderTextColor={colors.secondary}
               autoCapitalize="none"
               autoCorrect={false}
               textContentType="none"

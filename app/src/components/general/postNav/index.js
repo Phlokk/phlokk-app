@@ -2,7 +2,6 @@ import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 
@@ -15,7 +14,7 @@ export default function PostNavBar(props) {
         <MaterialIcons
           name="keyboard-arrow-left"
           size={28}
-          color={colors.white}
+          color={colors.secondary}
           onPress={() => navigation.goBack()}
         />
       </TouchableOpacity>
@@ -24,9 +23,13 @@ export default function PostNavBar(props) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate(routes.CAMERA)}
+        onPress={() => navigation.navigate(routes.FEED)}
       >
-        <Text style={styles.cancelText}>Cancel</Text>
+        <MaterialIcons
+          name="cancel-presentation"
+          size={24}
+          color={colors.secondary}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -38,8 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
-    paddingVertical: 2,
-    top: 10,
+    top: 5,
   },
 
   title: {
