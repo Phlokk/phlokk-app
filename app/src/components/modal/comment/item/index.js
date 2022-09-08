@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Pressable,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -16,62 +17,93 @@ import { userAtom } from "../../../../../../App";
 import verifiedCheck from "../../../../../assets/verified.png";
 import CustomAlert from "../../../Alerts/customAlert";
 import { timeSince } from "../../../../services/posts";
-import {likeComment} from '../../../../redux/actions/likes';
+import { likeComment } from "../../../../redux/actions/likes";
 
-const CommentItem = ({ item, post }) => {
+const CommentItem = ({ item, post, setCommentList }) => {
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
   const [isUsernameProfile, setIsUsernameProfile] = useState(false);
   const [isReplies, setIsReplies] = useState(false);
 
   const [isLiked, setIsLiked] = useState(item.is_liked);
-	const [likeCount, setLikeCount] = useState(item.like_count);
+  const [likeCount, setLikeCount] = useState(item.like_count);
+
+  const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
+    useState(false);
 
   const likeButtonHandler = async () => {
-    const type = isLiked ? 'unlike' : 'like';
+    const type = isLiked ? "unlike" : "like";
     try {
-        await likeComment(post._id, item._id, type);
-        setIsLiked(!isLiked);
-        setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
+      await likeComment(post._id, item._id, type);
+      setIsLiked(!isLiked);
+      setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
     } catch {
-        Alert.alert("There was an error with your request!")
+      Alert.alert("There was an error with your request!");
     }
-};
+  };
 
+  const onDeleteCommentConfirmed = async () => {
+    // Before we remove the comment from the, make a call to the server to delete it from the database
+    try {
+      // await deleteComment(item._id);
+
+      setCommentList((prev) => {
+        const newCommentList = prev.filter(
+          (comment) => comment._id !== item._id
+        );
+        return newCommentList;
+      });
+    } catch {
+      // Display a modal saying that it couldnt delete
+    }
+  };
+
+  const isCommentCurrentUser = user._id === item.user_id;
+  const isPostFromCurrentUser = user._id === post.user._id;
 
   return (
     <View style={styles.container}>
       {!user?.photo_url && !user?.photo_url ? (
         <TouchableOpacity
-        disabled={user._id == item.user._id}
-            onPress={() => {
-              navigation.navigate("feedProfile", {
-                initialUser: item.user,
-              });
-            }}
+          disabled={user._id == item.user._id}
+          onPress={() => {
+            navigation.navigate("feedProfile", {
+              initialUser: item.user,
+            });
+          }}
         >
-        <Image
-          style={styles.avatar}
-          source={require("../../../../../assets/userImage.png")}
-          cache="only-if-cached"
-        />
+          <Image
+            style={styles.avatar}
+            source={require("../../../../../assets/userImage.png")}
+            cache="only-if-cached"
+          />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
-        disabled={user._id == item.user._id}
-            onPress={() => {
-              navigation.navigate("feedProfile", {
-                initialUser: item.user,
-              });
-            }}
-            >
-        <Image style={styles.avatar} source={{ uri: item.user.photo_url }} />
+          disabled={user._id == item.user._id}
+          onPress={() => {
+            navigation.navigate("feedProfile", {
+              initialUser: item.user,
+            });
+          }}
+        >
+          <Image style={styles.avatar} source={{ uri: item.user.photo_url }} />
         </TouchableOpacity>
       )}
 
-
-
-      <View style={styles.containerText}>
+      <Pressable
+        style={styles.containerText}
+        onLongPress={() => {
+          if (isPostFromCurrentUser) {
+            setIsDeleteCommentModalOpen(true);
+            return;
+          }
+          if (isCommentCurrentUser) {
+            setIsDeleteCommentModalOpen(true);
+            return;
+          }
+        }}
+      >
         <View style={styles.verifiedRow}>
           <TouchableOpacity
             disabled={user._id == item.user._id}
@@ -108,19 +140,27 @@ const CommentItem = ({ item, post }) => {
             <Text style={styles.textReplies}>Reply</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </Pressable>
       <View style={styles.starRow}>
-        <TouchableOpacity
-        onPress={likeButtonHandler}>
-            <MaterialCommunityIcons
-              color={colors.green}
-              size={20}
-              name={"star" ? "star-outline" : "star"}
-            />
+        <TouchableOpacity onPress={likeButtonHandler}>
+          <MaterialCommunityIcons
+            color={colors.green}
+            size={20}
+            name={isLiked ? "star" : "star-outline"}
+          />
         </TouchableOpacity>
-            <Text style={styles.starCount}>{likeCount}</Text>
-          </View>
+        <Text style={styles.starCount}>{likeCount}</Text>
+      </View>
 
+      <CustomAlert
+        alertTitle="Alert"
+        customAlertMessage="Would you like to delete this comment?"
+        negativeBtn="Cancel"
+        positiveBtn="Yes"
+        modalVisible={isDeleteCommentModalOpen}
+        dismissAlert={setIsDeleteCommentModalOpen}
+        onPositivePressed={onDeleteCommentConfirmed}
+      />
     </View>
   );
 };
@@ -186,7 +226,6 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontSize: 10,
     paddingTop: 5,
-
   },
 });
 

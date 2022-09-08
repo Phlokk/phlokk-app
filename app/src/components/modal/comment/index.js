@@ -43,6 +43,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       replies: [],
       user: user,
       post: post,
+      user_id: user._id,
     });
 
     setComment("");
@@ -53,7 +54,15 @@ function CommentModal({ post, onNewCommentSubmitted }) {
   };
 
   const renderItem = ({ item, index }) => {
-    return <CommentItem setComment={setComment} index={index} item={item} post={post} />;
+    return (
+      <CommentItem
+        setCommentList={setCommentList}
+        setComment={setComment}
+        index={index}
+        item={item}
+        post={post}
+      />
+    );
   };
 
   return (

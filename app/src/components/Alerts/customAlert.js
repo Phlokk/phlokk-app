@@ -12,8 +12,10 @@ export default function CustomAlert({
   alertTitle,
   customAlertMessage,
   positiveBtn,
+  negativeBtn,
   modalVisible,
   dismissAlert,
+  onPositivePressed,
 }) {
   return (
     <Modal
@@ -40,8 +42,19 @@ export default function CustomAlert({
           </View>
 
           <View style={styles.bottom}>
+            {negativeBtn && (
+              <TouchableOpacity
+                onPress={() => dismissAlert(false)}
+                style={styles.alertMessageButtonStyle}
+              >
+                <Text style={styles.alertMessageButtonText}>{negativeBtn}</Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
-              onPress={() => dismissAlert(false)}
+              onPress={() => {
+                onPositivePressed && onPositivePressed();
+                dismissAlert(false);
+              }}
               style={styles.alertMessageButtonStyle}
             >
               <Text style={styles.alertMessageButtonText}>{positiveBtn}</Text>

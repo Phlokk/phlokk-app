@@ -33,9 +33,9 @@ const convertMillisToPercentage = (ms) => ms / 1000 / 60;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 
 export default function CameraScreen() {
-  const [hasCameraPermissions, setHasCameraPermissions] = useState(false);
-  const [hasAudioPermissions, setHasAudioPermissions] = useState(false);
-  const [hasGalleryPermissions, setHasGalleryPermissions] = useState(false);
+  const [hasCameraPermissions, setHasCameraPermissions] = useState();
+  const [hasAudioPermissions, setHasAudioPermissions] = useState();
+  const [hasGalleryPermissions, setHasGalleryPermissions] = useState();
   const [isRecording, setIsRecording] = useState(false);
   const [galleryItems, setGalleryItems] = useState([]);
   const [cameraRef, setCameraRef] = useState(null);
@@ -233,7 +233,11 @@ export default function CameraScreen() {
     ]).start(() => whitePulseOpacity.setValue(0.9));
   };
 
-  if (!hasCameraPermissions || !hasAudioPermissions || !hasGalleryPermissions) {
+  if (
+    hasCameraPermissions === false ||
+    hasAudioPermissions === false ||
+    hasGalleryPermissions === false
+  ) {
     return (
       <SafeAreaView style={styles.errorView}>
         <MaterialIcons name="error-outline" size={40} color={colors.yellow} />
