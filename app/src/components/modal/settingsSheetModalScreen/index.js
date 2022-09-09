@@ -218,6 +218,10 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     bottom: 20,
     fontSize: 10,
+    position: "absolute",
+    top: 45, 
+    bottom: 0,
+
   },
   settingsText: {
     color: colors.secondary,

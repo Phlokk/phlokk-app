@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
   text: {
     color: colors.secondary,
     fontSize: 10,
-    top: 5,
   },
   textSettingsIcon: {
     color: colors.green,

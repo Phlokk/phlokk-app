@@ -15,6 +15,8 @@ export default function ProfileNavBar({ userProfile, showFireIcon }) {
 
   const [user, setUser] = useAtom(userAtom);
   const [isGifting, setIsGifting] = useState(false);
+  const [isSupportAlert, setIsSupportAlert] = useState(false);
+
   const reportEmail = "https://support.phlokk.com";
 
   return (
@@ -40,7 +42,7 @@ export default function ProfileNavBar({ userProfile, showFireIcon }) {
       >
         <MaterialCommunityIcons
           name="fire"
-          size={24}
+          size={22}
           color={colors.red}
           style={{ opacity: showFireIcon ? 1 : 0 }}
         />
@@ -50,10 +52,20 @@ export default function ProfileNavBar({ userProfile, showFireIcon }) {
         {userProfile?.creator_type || user.creator_type}
       </Text>
       <TouchableOpacity>
+      <CustomAlert
+        customAlertMessage={
+          <Text>Phlokk Support{"\n"}coming in official release</Text>
+        }
+        positiveBtn="Ok"
+        modalVisible={isSupportAlert}
+        dismissAlert={setIsSupportAlert}
+        animationType="fade"
+      />
         <MaterialIcons
-          onPress={() => Linking.openURL(reportEmail)}
+          onPress={() => setIsSupportAlert(true)}
+          // onPress={() => Linking.openURL(reportEmail)}
           name="contact-support"
-          size={20}
+          size={21}
           color={colors.secondary}
         />
       </TouchableOpacity>
@@ -81,5 +93,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignSelf: "center",
     fontWeight: "bold",
+    opacity: 0.5,
   },
 });

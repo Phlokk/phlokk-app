@@ -38,18 +38,16 @@ export default function CustomImageModal({
               />
             </View>
 
+
+
             <View style={styles.middle}>
-              
-              <Text style={styles.alertMessageTextStyle}>
-                {"\n"}
-                {"\n"}
-                <Ionicons name="md-heart-sharp" size={24} color={colors.green} />
-                {"\n"}
-                <Text style={styles.statusText}>{user.relationship_type}</Text>
-                {"\n"}
-                {"\n"}
-                {user.bio}
+              <Text style={styles.relationshipStatusIcon}>
+                <Ionicons name="md-heart-sharp" size={24} color={colors.red} />
               </Text>
+              <Text style={[styles.statusText, styles.relationshipStatusIcon]}>{user.relationship_type}</Text>
+              <Text style={styles.alertMessageTextStyle}>{user.bio}</Text>
+
+
               <View style={styles.linkRow}>
                 <View style={styles.linkText}>
                   <SimpleLineIcons
@@ -145,6 +143,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   alertMessageTextStyle: {
+    color: colors.secondary,
+    marginTop: 40, 
+    opacity: 0.6,
+    textAlign: "center",
+    fontSize: 16,
+    
+  },
+  relationshipStatusIcon: {
     color: colors.secondary,
     textAlign: "center",
     fontSize: 16,
