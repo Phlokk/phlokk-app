@@ -10,6 +10,7 @@ import {
   Keyboard,
   StyleSheet,
   ScrollView,
+  Pressable,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -35,6 +36,7 @@ export default function SavePostScreen({ route }) {
   const phlokkLogo = require("../../../assets/phlokk_logo.png");
   const [text, setText] = useState("Click");
   const [drafts, setDrafts] = useState(false);
+  const [isSelectedImage, setIsSelectedImage] = useState(false);
 
   const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
 
@@ -100,7 +102,20 @@ export default function SavePostScreen({ route }) {
               <Image
                 style={styles.mediaPreview}
                 source={{ uri: route.params.sourceThumb }}
-              />
+              />   
+              <CustomAlert
+               customAlertMessage={<Text>Select cover{"\n"}coming in beta 3</Text>}
+               positiveBtn="Ok"
+               modalVisible={isSelectedImage}
+               dismissAlert={setIsSelectedImage}
+               animationType="fade"
+      /> 
+              <Pressable
+              onPress={() => setIsSelectedImage(true)} 
+              style={styles.coverSelectView}
+              >
+              <Text style={styles.coverSelect}>Select cover</Text>
+              </Pressable>  
             </View>
             <Text style={styles.switchStatement}>
               Notice: Switches do not work in beta
@@ -109,8 +124,6 @@ export default function SavePostScreen({ route }) {
             <CustomSwitch />
           </ScrollView>
         </View>
-
-        {/* <View style={styles.spacer} /> */}
 
         <View style={styles.shareContainer}>
           <TouchableOpacity>
@@ -233,7 +246,7 @@ const styles = StyleSheet.create({
   },
   mediaPreview: {
     backgroundColor: colors.black,
-    width: 60,
+    width: 80,
     height: 60 * (16 / 9),
   },
   draftsButton: {
@@ -299,4 +312,24 @@ const styles = StyleSheet.create({
     color: colors.green,
     textAlign: "center",
   },
+  coverSelect: {
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 8,
+    color: colors.white,
+    // alignItems: "center",
+    // justifyContent: "center",
+  },
+  coverSelectView: {
+    justifyContent: "center",
+    textAlign: "center",
+    height: 20,
+    width: 80,
+    position: "absolute",
+    top: 98,
+    bottom: 0,
+    left: 284,
+    right: 0,
+    backgroundColor: colors.black,
+  }
 });
