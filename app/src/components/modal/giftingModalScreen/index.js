@@ -22,7 +22,7 @@ const GiftingModalScreen = (props, route) => {
         style={styles.fireIcon}
         name="fire"
         size={50}
-        color="orange"
+        color={colors.red}
       />
       <Text style={styles.giftText}>Light It Up</Text>
 
@@ -54,7 +54,7 @@ const GiftingModalScreen = (props, route) => {
         // navigation.navigate(routes.MARKET)
       }}
       >
-        <MaterialCommunityIcons name="fire" size={20} color="orange" />
+        <MaterialCommunityIcons name="fire" size={20} color={colors.red} />
         <Text style={styles.text}> Light Up Post</Text>
       </TouchableOpacity>
     </View>
