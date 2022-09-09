@@ -6,16 +6,16 @@ import { useSelector } from "react-redux";
 import SettingsNavBar from "../../../components/general/settings";
 import colors from "../../../../config/colors";
 import { Linking } from 'react-native';
-// import {enableNotificationsForDevice, sendTestPushNotification} from "../../../services/notifications";
+import {enableNotificationsForDevice, sendTestPushNotification} from "../../../services/notifications";
 
 export default function ActivityAccountScreen() {
   const auth = useSelector((state) => state.auth);
   const [user, setUser] = useState("");
 
 
-  // const enableNotifications = async function () {
-  //   await enableNotificationsForDevice();
-  // }
+  const enableNotifications = async function () {
+    await enableNotificationsForDevice();
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,7 +25,9 @@ export default function ActivityAccountScreen() {
         <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
-            onPress={() => Linking.openSettings()}
+            onPress={enableNotifications}
+            // This setting is used for turning on and off notifications in the actual Phlokk app 
+            // onPress={() => Linking.openSettings()}
         >
           <Text style={styles.text}>
           Push Notifications
