@@ -40,8 +40,8 @@ export default function ProfileNavBar({ userProfile, showFireIcon }) {
       >
         <MaterialCommunityIcons
           name="fire"
-          size={22}
-          color={colors.orange}
+          size={24}
+          color={colors.red}
           style={{ opacity: showFireIcon ? 1 : 0 }}
         />
       </TouchableOpacity>

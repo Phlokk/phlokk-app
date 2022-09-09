@@ -30,7 +30,7 @@ export default function GiftingNavBar({
         <MaterialCommunityIcons 
         name="fire" 
         size={24} 
-        color={colors.orange} 
+        color={colors.red} 
         onPress={() => navigation.navigate(routes.FIRE_RULES)}
         />
       </TouchableOpacity>
