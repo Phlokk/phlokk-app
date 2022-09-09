@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import SettingsNavBar from "../../components/general/settings";
 import * as SecureStore from "expo-secure-store";
-// import DeviceInfo from 'react-native-device-info';
 import axios from "../../redux/apis/axiosDeclaration";
 import { types } from "../../redux/constants";
 
@@ -60,13 +59,35 @@ export default function SettingsScreen() {
     <SafeAreaView style={styles.container}>
       <SettingsNavBar />
       <ScrollView style={styles.fieldsContainer}>
+
         <Text style={styles.socialText}>ACCOUNT</Text>
         <AccountScreen />
+
         <View style={styles.divider}></View>
 
+        <Text style={styles.socialText}>CONTENT & ACTIVITY</Text>
+
+        <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.ACTIVITY_SCREEN)
+            }
+        >
+          <Text style={styles.text}>
+          <Feather name="bell" size={12} color={colors.white} /> Push Notifications
+          </Text>
+          <View style={styles.fieldValueContainer}>
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
+          </View>
+        </TouchableOpacity>
+
         <Text style={styles.socialText}>SUPPORT</Text>
+
         <SupportScreen />
+
         <View style={styles.divider}></View>
+        
         <Text style={styles.socialText}>ABOUT</Text>
         <TouchableOpacity
           style={styles.fieldItemContainer}
@@ -81,7 +102,7 @@ export default function SettingsScreen() {
             <AntDesign name="exclamationcircleo" size={12} color={colors.white} /> Community Guidelines
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -97,7 +118,7 @@ export default function SettingsScreen() {
             Service
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -112,7 +133,7 @@ export default function SettingsScreen() {
             <Feather name="file" size={12} color={colors.white} /> Privacy Policy
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -131,25 +152,11 @@ export default function SettingsScreen() {
             Policy
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
         <View style={styles.divider}></View>
-        <Text style={styles.socialText}>Notification</Text>
-
-        <TouchableOpacity
-            style={styles.fieldItemContainer}
-            autoCapitalize="none"
-            onPress={enableNotifications}
-        >
-          <Text style={styles.text}>
-            Enable Push Notifications
-          </Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
-          </View>
-        </TouchableOpacity>
 
         <View style={styles.divider}></View>
         <Text style={styles.socialText}>LOGIN</Text>
@@ -182,7 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 25,
   },
   fieldValueContainer: {
     flexDirection: "row",
@@ -191,7 +198,6 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     fontSize: 12,
-    opacity: 0.8,
   },
   versionText: {
     color: colors.secondary,
@@ -200,19 +206,23 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   authText: {
-    color: colors.secondary,
+    color: colors.white,
   },
   socialText: {
-    color: colors.secondary,
+    color: colors.white,
     fontWeight: 'bold',
     fontSize: 8,
     marginTop: 20,
-    opacity: 0.3
+    opacity: 0.5
   },
   divider: {
     borderBottomWidth: 0.3,
-    borderColor: colors.secondary,
+    borderColor: colors.white,
     marginTop: 10,
     opacity: 0.2,
+  },
+  chevron:{
+    opacity: 0.6,
+
   },
 });

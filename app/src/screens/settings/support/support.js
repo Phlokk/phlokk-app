@@ -1,11 +1,9 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from '@expo/vector-icons'; 
-import routes from "../../../navigation/routes";
+// import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import CustomAlert from "../../../components/Alerts/customAlert";
 
@@ -35,7 +33,7 @@ export default function SupportScreen() {
           <Text style={styles.text}>
             <MaterialCommunityIcons name="lead-pencil" size={12} color={colors.white} /> Report a problem</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -54,7 +52,7 @@ export default function SupportScreen() {
           <Text style={styles.text}>
             <MaterialCommunityIcons name="shield-plus" size={12} color={colors.white} /> Help Center</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
         <View style={styles.divider}></View>
@@ -76,12 +74,15 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     fontSize: 12,
-    opacity: 0.8,
   },
   divider: {
     borderBottomWidth: 0.3,
     borderColor: colors.secondary,
     marginTop: 10,
     opacity: 0.1,
+  },
+  chevron:{
+    opacity: 0.6,
+
   },
 });

@@ -22,7 +22,7 @@ const AccountControl = () => {
       <AccountInformation />
 
       <View style={styles.divider}></View>
-      <Text style={styles.socialText}>Account control</Text>
+      <Text style={styles.socialText}>ACCOUNT CONTROL</Text>
       <CustomAlert
         customAlertMessage={<Text>Business & Analytics{"\n"}coming in official release</Text>}
         positiveBtn="Ok"
@@ -36,7 +36,7 @@ const AccountControl = () => {
       >
         <Text style={styles.text}>Switch to Business Account</Text>
         <View style={styles.fieldValueContainer}>
-          <Feather name="chevron-right" size={20} color={colors.secondary} />
+          <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
         </View>
       </TouchableOpacity>
       <CustomAlert
@@ -57,7 +57,7 @@ const AccountControl = () => {
       >
         <Text style={styles.text}>Delete account</Text>
         <View style={styles.fieldValueContainer}>
-          <Feather name="chevron-right" size={20} color={colors.secondary} />
+          <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
         </View>
       </TouchableOpacity>
     </View>
@@ -87,20 +87,23 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     fontSize: 12,
-    opacity: 0.8,
   },
   socialText: {
-    color: colors.secondary,
-    fontWeight: "bold",
-    fontSize: 10,
+    color: colors.white,
+    fontWeight: 'bold',
+    fontSize: 8,
     marginTop: 20,
-    opacity: 0.3
+    opacity: 0.5
   },
   divider: {
     borderBottomWidth: 0.3,
     borderColor: colors.secondary,
     marginTop: 10,
     opacity: 0.2,
+  },
+  chevron:{
+    opacity: 0.6,
+
   },
 });
 

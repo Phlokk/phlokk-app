@@ -34,7 +34,7 @@ export default function AccountScreen() {
             <Feather name="user" size={12} color={colors.white} /> Manage Account
           </Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -53,7 +53,7 @@ export default function AccountScreen() {
           <Text style={styles.text}>
             <Ionicons name="md-shield-checkmark-outline" size={12} color={colors.white} /> Security</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
 
@@ -77,7 +77,7 @@ export default function AccountScreen() {
           <Text style={styles.text}>
             <MaterialIcons name="lock-outline" size={12} color={colors.white} /> Privacy</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
     </View>
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     fontSize: 12,
-    opacity: 0.8,
   },
   
   authText: {
@@ -119,5 +118,9 @@ const styles = StyleSheet.create({
     fontSize: 8,
     marginTop: 20,
     opacity: 0.3
+  },
+  chevron:{
+    opacity: 0.6,
+
   },
 });

@@ -15,7 +15,7 @@ const AccountInformation = () => {
  
   return (
     <View>
-      <Text style={styles.socialText}>Account Information</Text>
+      <Text style={styles.socialText}>ACCOUNT INFORMATION</Text>
       <CustomAlert
         customAlertMessage={<Text>Add phone number{"\n"}coming in beta 3</Text>}
         positiveBtn="Ok"
@@ -33,10 +33,10 @@ const AccountInformation = () => {
             <MaterialCommunityIcons
               name="cellphone-iphone"
               size={12}
-              color={colors.secondary}
+              color={colors.white}
             /> Phone number</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
         <CustomAlert
@@ -59,7 +59,7 @@ const AccountInformation = () => {
               color={colors.white}
             /> Email</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
         <CustomAlert
@@ -79,7 +79,7 @@ const AccountInformation = () => {
           <Text style={styles.text}>
             <MaterialIcons name="lock-outline" size={12} color={colors.white} /> Password</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
     </View>
@@ -100,15 +100,17 @@ const styles = StyleSheet.create({
     text: {
         color: colors.white,
         fontSize: 12,
-        opacity: 0.8,
     },
      socialText: { 
-         color: colors.secondary,
-         fontWeight: 'bold',
-         fontSize: 10,
-         marginTop: 20,
-         opacity: 0.3
+      color: colors.white,
+      fontWeight: 'bold',
+      fontSize: 8,
+      marginTop: 20,
+      opacity: 0.5
      },
+     chevron: {
+      opacity: 0.6,
+     }
   });
 
 export default AccountInformation;

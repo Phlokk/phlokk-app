@@ -66,6 +66,7 @@ import colors from "../../../config/colors";
 import FireRulesScreen from "../../screens/gifting/fireRulesScreen";
 import PrivacyScreen from "../../screens/settings/privacy/privacy";
 import BlockedListScreen from "../../screens/settings/privacy/blockedList";
+import ActivityAccountScreen from "../../screens/settings/activity/activityAccountScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -161,6 +162,11 @@ export default function Route() {
             <Stack.Screen
               name="settingsScreen"
               component={SettingsScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="activityAccount"
+              component={ActivityAccountScreen}
               options={{ headerShown: false }}
             />
              <Stack.Screen

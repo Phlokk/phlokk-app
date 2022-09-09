@@ -20,6 +20,7 @@ export default Object.freeze({
     DRAFTS: 'drafts',
     DELETE_PROFILE: 'deleteProfile',
     SETTINGS_SCREEN: 'settingsScreen',
+    ACTIVITY_SCREEN: 'activityAccount',
     MARKET: 'market',
     PROFILE_OTHER: 'profileOther',
     USER_POSTS: 'userPosts',

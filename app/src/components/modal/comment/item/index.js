@@ -43,7 +43,7 @@ const CommentItem = ({ item, post, setCommentList }) => {
   };
 
   const onDeleteCommentConfirmed = async () => {
-    // Before we remove the comment from the, make a call to the server to delete it from the database
+    // Before we remove the comment from the ui, make a call to the server to delete it from the database
     try {
       // await deleteComment(item._id);
 

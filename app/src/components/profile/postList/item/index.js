@@ -88,7 +88,7 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
       )}
       
 	  
-	  <Text style={styles.playCountText}><Ionicons style={styles.playCountText} name="ios-play-outline" size={12} color={colors.white} /> 20k</Text>
+	  <Text style={styles.playCountText}><Ionicons style={styles.playCountText} name="ios-play-outline" size={14} color={colors.white} /> 20k</Text>
 	 
     </TouchableOpacity>
   );
