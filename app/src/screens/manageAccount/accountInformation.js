@@ -29,12 +29,7 @@ const AccountInformation = () => {
           autoCapitalize="none"
           
         >
-          <Text style={styles.text}>
-            <MaterialCommunityIcons
-              name="cellphone-iphone"
-              size={12}
-              color={colors.white}
-            /> Phone number</Text>
+          <Text style={styles.text}>Phone number</Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
@@ -52,12 +47,7 @@ const AccountInformation = () => {
           autoCapitalize="none"
           
         >
-          <Text style={styles.text}>
-            <MaterialCommunityIcons
-              name="email-outline"
-              size={12}
-              color={colors.white}
-            /> Email</Text>
+          <Text style={styles.text}>Email</Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
@@ -76,8 +66,7 @@ const AccountInformation = () => {
           
           
         >
-          <Text style={styles.text}>
-            <MaterialIcons name="lock-outline" size={12} color={colors.white} /> Password</Text>
+          <Text style={styles.text}>Password</Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>

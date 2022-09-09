@@ -31,7 +31,7 @@ export default function AccountScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="user" size={12} color={colors.white} /> Manage Account
+            <Feather name="user" size={14} color={colors.white} />   Manage Account
           </Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
@@ -51,7 +51,7 @@ export default function AccountScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>
-            <Ionicons name="md-shield-checkmark-outline" size={12} color={colors.white} /> Security</Text>
+            <Ionicons name="md-shield-checkmark-outline" size={14} color={colors.white} />   Security</Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
@@ -75,7 +75,7 @@ export default function AccountScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>
-            <MaterialIcons name="lock-outline" size={12} color={colors.white} /> Privacy</Text>
+            <MaterialIcons name="lock-outline" size={14} color={colors.white} />   Privacy</Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>

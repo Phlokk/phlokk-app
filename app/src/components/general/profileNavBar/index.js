@@ -52,15 +52,15 @@ export default function ProfileNavBar({ userProfile, showFireIcon }) {
         {userProfile?.creator_type || user.creator_type}
       </Text>
       <TouchableOpacity>
-      <CustomAlert
-        customAlertMessage={
-          <Text>Phlokk Support{"\n"}coming in official release</Text>
-        }
-        positiveBtn="Ok"
-        modalVisible={isSupportAlert}
-        dismissAlert={setIsSupportAlert}
-        animationType="fade"
-      />
+        <CustomAlert
+          customAlertMessage={
+            <Text>Phlokk Support{"\n"}coming in official release</Text>
+          }
+          positiveBtn="Ok"
+          modalVisible={isSupportAlert}
+          dismissAlert={setIsSupportAlert}
+          animationType="fade"
+        />
         <MaterialIcons
           onPress={() => setIsSupportAlert(true)}
           // onPress={() => Linking.openURL(reportEmail)}
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     padding: 10,
-    paddingVertical: 2,
+    paddingVertical: 5,
     marginTop: 8,
   },
   text: {

@@ -75,7 +75,7 @@ export default function SettingsScreen() {
             }
         >
           <Text style={styles.text}>
-          <Feather name="bell" size={12} color={colors.white} /> Push Notifications
+          <Feather name="bell" size={14} color={colors.white} />   Push Notifications
           </Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
@@ -99,7 +99,7 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <AntDesign name="exclamationcircleo" size={12} color={colors.white} /> Community Guidelines
+            <AntDesign name="exclamationcircleo" size={14} color={colors.white} />   Community Guidelines
           </Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
@@ -114,7 +114,7 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="file-text" size={12} color={colors.white} /> Terms of
+            <Feather name="file-text" size={14} color={colors.white} />   Terms of
             Service
           </Text>
           <View style={styles.fieldValueContainer}>
@@ -130,7 +130,7 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <Feather name="file" size={12} color={colors.white} /> Privacy Policy
+            <Feather name="file" size={14} color={colors.white} />   Privacy Policy
           </Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
@@ -148,7 +148,7 @@ export default function SettingsScreen() {
           }
         >
           <Text style={styles.text}>
-            <FontAwesome5 name="copyright" size={12} color={colors.white} /> Copyright
+            <FontAwesome5 name="copyright" size={14} color={colors.white} />   Copyright
             Policy
           </Text>
           <View style={styles.fieldValueContainer}>
@@ -166,7 +166,7 @@ export default function SettingsScreen() {
           onPress={handleLogout}
         >
           <Text style={styles.text}>
-            <MaterialIcons name="logout" size={14} color={colors.white} /> Logout
+            <MaterialIcons name="logout" size={14} color={colors.white} />   Logout
           </Text>
         </TouchableOpacity>
         <Text style={styles.versionText}>v0.1.1-228230001</Text>

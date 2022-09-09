@@ -88,7 +88,7 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
       )}
       
 	  
-	  <Text style={styles.playCountText}><Ionicons style={styles.playCountText} name="ios-play-outline" size={14} color={colors.white} /> 20k</Text>
+	  <Text style={styles.playCountText}><Ionicons style={styles.playCountText} name="ios-play-outline" size={14} color={colors.white} /> 250</Text>
 	 
     </TouchableOpacity>
   );
@@ -115,9 +115,9 @@ const styles = StyleSheet.create({
   playCountText: {
 	color: colors.white,
 	marginLeft: 5,
-	fontSize: 10,
+	fontSize: 11,
 	position: "absolute", 
-	bottom: 0, 
+	bottom: 3, 
 	left: 0,
   },
 

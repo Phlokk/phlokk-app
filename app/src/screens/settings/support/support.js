@@ -31,7 +31,7 @@ export default function SupportScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>
-            <MaterialCommunityIcons name="lead-pencil" size={12} color={colors.white} /> Report a problem</Text>
+            <MaterialCommunityIcons name="lead-pencil" size={14} color={colors.white} />   Report a problem</Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
@@ -50,7 +50,7 @@ export default function SupportScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>
-            <MaterialCommunityIcons name="shield-plus" size={12} color={colors.white} /> Help Center</Text>
+            <MaterialCommunityIcons name="shield-plus" size={14} color={colors.white} />   Help Center</Text>
           <View style={styles.fieldValueContainer}>
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>

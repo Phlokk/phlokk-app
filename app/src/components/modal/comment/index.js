@@ -20,9 +20,10 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import uuid from "uuid-random";
 
-function CommentModal({ post, onNewCommentSubmitted }) {
+function CommentModal({ post, onNewCommentSubmitted}) {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState("");
+
 
   const [user, setUser] = useAtom(userAtom);
 
@@ -68,6 +69,8 @@ function CommentModal({ post, onNewCommentSubmitted }) {
   return (
     <View style={styles.container}>
       <Text style={styles.postCountText}>{commentList.length} comments</Text>
+      {/* <Text style={styles.postCountText}>{likeCount.length} comments</Text> */}
+
       <View style={styles.containerInput}>
         {!user?.photo_url && !user?.photo_url ? (
           <Image
