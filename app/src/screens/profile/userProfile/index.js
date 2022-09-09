@@ -59,7 +59,7 @@ function UserProfile({ user }) {
 
       <View style={styles.usernameView}>
         {user.username !== null || !undefined ? (
-          <Text style={styles.username}>
+          <Text selectable={true} style={styles.username}>
             @{user.username}
             <View>
               {user && user.is_verified === 1 && (
