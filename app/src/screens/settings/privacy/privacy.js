@@ -32,9 +32,9 @@ export default function PrivacyScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>
-            <MaterialIcons name="block-flipped" size={12} color={colors.white} /> Blocked Accounts</Text>
+            Blocked Accounts</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather name="chevron-right" size={20} color={colors.secondary} />
+            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
         </View>
@@ -53,9 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   rowContainer: {
-    // backgroundColor: "red",
     padding: 20,
-
   },
   fieldItemContainer: {
     flexDirection: "row",
@@ -68,20 +66,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
+    // textAlign: "center",
     color: colors.white,
     fontSize: 12,
-    opacity: 0.8,
   },
-  
-  authText: {
-    color: colors.secondary,
-  },
-  socialText: {
-    color: colors.secondary,
-    fontWeight: 'bold',
-    fontSize: 8,
-    marginTop: 20,
-    opacity: 0.3
+  chevron: {
+    opacity: 0.6,
   },
  
 });
