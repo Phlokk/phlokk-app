@@ -52,25 +52,6 @@ function IconOverlay() {
           <Ionicons name="timer-outline" size={24} color={colors.white} />
           <Text style={styles.iconText}>Secs</Text>
         </TouchableOpacity>
-        {/* <CustomAlert
-          alertTitle={
-            <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
-            </Text>
-          }
-          customAlertMessage={<Text>LIVE{"\n"}coming in Official release</Text>}
-          positiveBtn="Ok"
-          modalVisible={isLive}
-          dismissAlert={setIsLive}
-          animationType="fade"
-        />
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setIsLive(true)}
-        >
-          <Feather name="video" size={24} color={colors.white} />
-          <Text style={styles.iconText}>LIVE</Text>
-        </TouchableOpacity> */}
 
         <CustomAlert
           alertTitle={
