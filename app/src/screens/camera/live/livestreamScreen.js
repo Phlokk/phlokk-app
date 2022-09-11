@@ -1,7 +1,9 @@
 import {useRef} from "react";
-import {Button, PermissionsAndroid, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Button, PermissionsAndroid, StyleSheet, Text, TouchableOpacity, View, Pressable} from 'react-native';
+import { Feather } from '@expo/vector-icons'; 
 import {  NodeCameraView } from 'react-native-nodemediaclient';
 import colors from '../../../../config/colors'
+import { color } from "react-native-reanimated";
 
 
 
@@ -58,17 +60,52 @@ export default function LiveStreamScreen() {
           smoothSkinLevel={5}
           autopreview={true}
       />
-      <Button onPress={startStream} title="Start"></Button>
-      <Button onPress={stopStream} title="Stop"></Button>
+      <Pressable style={styles.stopIcon} onPress={stopStream} >
+       <Text style={styles.stopText}>Stop</Text></Pressable>
+
+      <View style={styles.iconRow}>
+      <Pressable style={styles.btnIcon} onPress={startStream} >
+       <Text style={styles.goLiveTxt}>Go LIVE</Text></Pressable>
+       </View> 
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.primary,
     alignItems: 'center',
-    justifyContent: 'center',
   },
+  btnIcon: {
+    backgroundColor: colors.green,
+    color: colors.white,
+    width: 250,
+    height: 60, 
+    bottom: 10,
+    margin: 60, 
+    borderRadius: 50, 
+    alignItems: 'center',
+  },
+  goLiveTxt: {
+    fontSize: 16, 
+    top: 20,
+    color: colors.white,
+    fontWeight: "bold",
+  },
+  stopText: {
+    color: colors.white,
+    fontWeight: "bold",
+    
+  },
+  stopIcon: {
+    position: "absolute",
+    top: 50,
+    bottom: 0,
+    left: 10,
+    right: 0,
+
+  },
+
+ 
+ 
 });
