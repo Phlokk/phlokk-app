@@ -55,10 +55,13 @@ export default function LiveStreamScreen() {
           outputUrl = {"rtmp://88.97.6.186/live/" + deviceId}
           camera={{ cameraId: 1, cameraFrontMirror: true }}
           audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
-          video={{ preset: 12, bitrate: 400000, profile: 2, fps: 30, videoFrontMirror: false }}
+          video={{ preset: 6, bitrate: 500000, profile: 2, fps: 30, videoFrontMirror: false }}
           denoise={true}
           smoothSkinLevel={5}
           autopreview={true}
+          onStatus={(code, msg) => {
+              console.log("onStatus=" + code + " msg=" + msg);
+          }}
       />
       <Pressable style={styles.stopIcon} onPress={stopStream} >
        <Text style={styles.stopText}>Stop</Text></Pressable>
