@@ -9,9 +9,11 @@ import {
 import SearchUserItem from "../../components/search/userItem";
 // import { queryUsersByUsername } from "../../services/user";
 // import axios from "../../redux/apis/axiosDeclaration";
-import routes from "../../navigation/routes";
+import routes from '../../navigation/routes'
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons'; 
 import colors from "../../../config/colors";
 import SearchInput from "../../components/search/searchInput";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -61,6 +63,15 @@ const SearchScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.avatarRow}>
+      <TouchableOpacity onPress={() => navigation.navigate(routes.LIVESTREAM_URL)}style={styles.avatar}>
+      <MaterialIcons style={styles.tvIcon} name="live-tv" size={24} color={colors.white} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.avatar}>
+      <AntDesign style={styles.tvIcon} name="cloud" size={24} color={colors.white} />
+      </TouchableOpacity>
+      </View>
+      
       <SearchInput placeholder="Search" />
       <FlatList
         data={searchUsers}
@@ -100,6 +111,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     padding: 5,
   },
+  avatarRow: {
+    flexDirection: "row",
+    marginLeft: 10,
+  },
   textInput: {
     backgroundColor: colors.secondary,
     borderRadius: 5,
@@ -113,6 +128,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 5,
     marginHorizontal: 3,
+  },
+  iconURL: {
+    color: colors.green,
+    fontSize: 12,
+    alignSelf: "center",
+    alignItems: "center",
   },
   risingStarView: {
     padding: 10,
@@ -141,6 +162,23 @@ const styles = StyleSheet.create({
     color: colors.green,
     textAlign: "center",
   },
+  avatar: {
+    backgroundColor: colors.black,
+    marginRight: 10,
+    height: 60,
+    width: 60,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: colors.green,
+  },
+  tvIcon: {
+    position: "absolute",
+    top: 15,
+    bottom: 0,
+    right: 0,
+    left: 16,
+
+  }
 });
 
 export default SearchScreen;

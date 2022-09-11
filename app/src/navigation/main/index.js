@@ -68,6 +68,7 @@ import PrivacyScreen from "../../screens/settings/privacy/privacy";
 import BlockedListScreen from "../../screens/settings/privacy/blockedList";
 import ActivityAccountScreen from "../../screens/settings/activity/activityAccountScreen";
 import LiveStreamScreen from "../../screens/camera/live/livestreamScreen";
+import LiveStreamURLScreen from "../../screens/search/liveurlScreen/livestreamUrl";
 
 const Stack = createNativeStackNavigator();
 
@@ -108,6 +109,11 @@ export default function Route() {
             <Stack.Screen
               name="LiveStream"
               component={LiveStreamScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="LiveStreamURL"
+              component={LiveStreamURLScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
