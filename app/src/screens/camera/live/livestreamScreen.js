@@ -14,6 +14,8 @@ import colors from "../../../../config/colors";
 import { color } from "react-native-reanimated";
 import BottomMenu from "../bottomMenu";
 import {useIsFocused} from "@react-navigation/core";
+import {useNavigation} from "@react-navigation/native";
+import routes from "../../../navigation/routes";
 
 const requestCameraPermission = async () => {
   try {
@@ -61,6 +63,7 @@ export default function LiveStreamScreen() {
 
   const [recordingTime, setRecordingTime] = useState(0);
   const recordingTimerRef = useRef();
+  const navigation = useNavigation();
 
   const flipCamera = async () => {
     cameraRef.switchCamera();
