@@ -37,6 +37,7 @@ export default Object.freeze({
     QUOTES: 'quotes',
     BIO: 'bio',
     CAMERA: 'Cam',
+    LIVESTREAM: 'LiveStream',
     SOUNDS: 'sounds',
     RECORDING_SCREEN: 'recording',
     AUDIO_PLAYER: 'audioPlay',
