@@ -34,12 +34,22 @@ const requestCameraPermission = async () => {
 };
 
 
+const START_RECORDING_DELAY = 3000;
+const MAX_DURATION = 60;
+const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking every interval
+
+
+const convertMillisToPercentage = (ms) => ms / 1000 / 60;
+const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 
 export default function LiveStreamScreen() {
   const [cameraRef, setCameraRef] = useState(null);
   const [cameraType, setCameraType] = useState(1); // 0 = back; 1 = front;
   const [isLive, setIsLive] = useState(false);
   const isFocused = useIsFocused();
+
+  const [recordingTime, setRecordingTime] = useState(0);
+  const recordingTimerRef = useRef();
 
   const flipCamera = async () => {
       cameraRef.switchCamera()
@@ -49,6 +59,13 @@ export default function LiveStreamScreen() {
   }
 
   const startStream = async () => {
+    // Start up the timer to display the circle progress bar
+    clearInterval(recordingTimerRef.current)
+    setRecordingTime(0);
+    recordingTimerRef.current = setInterval(() => {
+      setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
+    }, RECORDING_TIME_TICK);
+
     cameraRef.start();
     console.log('started');
     setIsLive(true);
@@ -60,25 +77,6 @@ export default function LiveStreamScreen() {
   };
 
   const deviceId = 'demo_' + (Math.floor(Math.random() * (999 - 100)) + 100);
-  // return (
-    // <View style={styles.container}>
-    //   <NodeCameraView
-    //       style={{ height: '80%', width: '100%' }}
-    //       ref={(ref) => setCameraRef(ref)}
-    //       outputUrl = {"rtmp://88.97.6.186/live/" + deviceId}
-    //       camera={{ cameraId: 1, cameraFrontMirror: true }}
-    //       audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
-    //       video={{ preset: 6, bitrate: 500000, profile: 2, fps: 30, videoFrontMirror: false }}
-    //       denoise={true}
-    //       smoothSkinLevel={5}
-    //       autopreview={true}
-    //       onStatus={(code, msg) => {
-    //           console.log("onStatus=" + code + " msg=" + msg);
-    //       }}
-    //   />
-    //   <Button onPress={startStream} title="Start"></Button>
-    //   <Button onPress={stopStream} title="Stop"></Button>
-    // </View>
 
     return (
         <View style={styles.container}>
@@ -127,6 +125,9 @@ export default function LiveStreamScreen() {
                 <View
                     style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
                 >
+                    <Text style={{ color: "white" }}>
+                        {convertMillisToSeconds(recordingTime)}
+                    </Text>
                     <View style={{ flex: 1 }}>
                         <Pressable
                             onPress={toggleStream}
