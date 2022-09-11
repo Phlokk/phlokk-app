@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 10,
     right: 0,
-
   },
 
  
