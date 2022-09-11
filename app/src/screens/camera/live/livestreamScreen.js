@@ -48,7 +48,7 @@ export default function LiveStreamScreen() {
   return (
     <View style={styles.container}>
       <NodeCameraView
-          style={{ height: '90%', width: '100%' }}
+          style={{ height: '80%', width: '100%' }}
           ref={vb}
           outputUrl = {"rtmp://88.97.6.186/live/" + deviceId}
           camera={{ cameraId: 1, cameraFrontMirror: true }}
@@ -58,12 +58,8 @@ export default function LiveStreamScreen() {
           smoothSkinLevel={5}
           autopreview={true}
       />
-
-        <TouchableOpacity onPress={startStream}><Text>Start</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={startStream}><Text>Stop</Text>
-        </TouchableOpacity>
-
+      <Button onPress={startStream} title="Start"></Button>
+      <Button onPress={stopStream} title="Stop"></Button>
     </View>
   );
 }
