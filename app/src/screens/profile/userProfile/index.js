@@ -12,9 +12,6 @@ import CustomImageModal from "../../../components/Image/customImage";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 
-
-
-
 function UserProfile({ user }) {
   const [topFavFive, setTopFavFive] = useState(false);
   const [popUpImage, setPopUpImage] = useState(false);
@@ -30,33 +27,28 @@ function UserProfile({ user }) {
     return <AppLoading />;
   }
 
+  const getUserImageUrl = () => {
+    if (!user?.photo_url && !currentUser?.photo_url) {
+      return require("../../../../assets/userImage.png");
+    }
+
+    return isCurrentUser ? currentUser.photo_url : user.photo_url;
+  };
+
   return (
     <View style={styles.container}>
-      {!user?.photo_url && !currentUser?.photo_url ? (
-				<Image
-					style={styles.avatar}
-					source={require('../../../../assets/userImage.png')}
-					cache="only-if-cached"
-				/>
-			) : (
-				<TouchableOpacity onPress={() => setPopUpImage(true)}>
-					<CustomImageModal
-						customAlertMessage={<Text>User Bio</Text>}
-						positiveBtn="Back"
-						modalVisible={popUpImage}
-						dismissAlert={setPopUpImage}
-						animationType="fade"
-						user={user}
-					/>
-					<Image
-						style={styles.avatar}
-						source={{
-							uri: isCurrentUser ? currentUser.photo_url : user.photo_url,
-						}}
-					/>
-				</TouchableOpacity>
-			)}
-
+      <TouchableOpacity
+        onPress={() => setPopUpImage(true)}
+        disabled={!user?.photo_url && !currentUser?.photo_url}
+      >
+        <Image
+          style={styles.avatar}
+          source={{
+            uri: getUserImageUrl(),
+          }}
+        />
+      </TouchableOpacity>
+      {/* 
       <View style={styles.usernameView}>
         {user.username !== null || !undefined ? (
           <Text selectable={true} style={styles.username}>
@@ -70,18 +62,16 @@ function UserProfile({ user }) {
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
-      </View>
+      </View> */}
 
       <View style={styles.quotesView}>
-        {user.quote !== null || !undefined ? (
+        {/*         {user.quote !== null || !undefined ? (
           <Text style={styles.quotes}>{user.quote}</Text>
         ) : (
           <></>
-        )}
+        )} */}
       </View>
       <>
-        
-
         <TouchableOpacity>
           <CustomAlert
             alertTitle={
@@ -105,6 +95,15 @@ function UserProfile({ user }) {
           />
         </TouchableOpacity>
       </>
+
+      <CustomImageModal
+        customAlertMessage={<Text>User Bio</Text>}
+        positiveBtn="Back"
+        modalVisible={popUpImage}
+        dismissAlert={setPopUpImage}
+        animationType="fade"
+        user={user}
+      />
     </View>
   );
 }
