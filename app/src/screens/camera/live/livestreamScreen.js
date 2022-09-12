@@ -134,7 +134,7 @@ export default function LiveStreamScreen() {
 
         <TouchableOpacity
           style={{ position: "absolute", top: 0, right: 360 }}
-          onPress={() => navigation.navigate(routes.CAMERA)}
+          onPress={() => navigation.navigate(routes.FEED)}
         >
           <Feather name="x" size={25} color={colors.white} />
         </TouchableOpacity>
