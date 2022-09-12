@@ -15,6 +15,7 @@ import {Animated} from 'react-native';
 import useRotation from './useRotation';
 import pmdLogo from '../../../../../assets/pmd_logo_green.png';
 import colors from '../../../../../config/colors';
+import VerifiedIcon from '../../../common/VerifiedIcon';
 
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
@@ -60,9 +61,10 @@ function UserProfileOverlay({post, user, currentUser, areTabsShowing}) {
 					<Text style={styles.username} key={user._id}>
 						@{user.username}
 					</Text>
-					<View>
+					<View style={{paddingTop: 2}}>
 						{user.is_verified === 1 && (
-							<Image style={styles.phlokkVerified} source={verifiedCheck} />
+							// <Image style={styles.phlokkVerified} source={verifiedCheck} />
+							<VerifiedIcon />
 						)}
 					</View>
 				</View>

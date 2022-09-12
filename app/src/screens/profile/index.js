@@ -71,6 +71,10 @@ export default function ProfileScreen({route}) {
 					/>
 				}
 				onEndReached={() => {
+					if (postsToDisplay?.length <= 10) {
+						return;
+					}
+
 					if (!loading) {
 						getMoreUserPosts();
 					}
