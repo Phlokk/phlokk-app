@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import { useRef, useState } from "react";
 import {
   Button,
   PermissionsAndroid,
@@ -9,13 +9,15 @@ import {
   Pressable,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { NodeCameraView } from "react-native-nodemediaclient";
 import colors from "../../../../config/colors";
-import { color } from "react-native-reanimated";
-import BottomMenu from "../bottomMenu";
-import {useIsFocused} from "@react-navigation/core";
-import {useNavigation} from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
+import LiveBottomMenu from "../liveBottomMenu/liveBottomMenu";
+import CustomAlert from "../../../components/Alerts/customAlert";
 
 const requestCameraPermission = async () => {
   try {
@@ -38,7 +40,7 @@ const requestCameraPermission = async () => {
       granted["android.permission.RECORD_AUDIO"] ===
         PermissionsAndroid.RESULTS.GRANTED
     ) {
-      console.log("You can use the camera");
+      console.log("Access to camera granted");
     } else {
       console.log("Camera permission denied");
     }
@@ -47,18 +49,11 @@ const requestCameraPermission = async () => {
   }
 };
 
-const START_RECORDING_DELAY = 3000;
-const MAX_DURATION = 60;
-const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking every interval
-
-
-const convertMillisToPercentage = (ms) => ms / 1000 / 60;
-const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
-
 export default function LiveStreamScreen() {
   const [cameraRef, setCameraRef] = useState(null);
   const [cameraType, setCameraType] = useState(1); // 0 = back; 1 = front;
   const [isLive, setIsLive] = useState(false);
+  const [share, setShare] = useState(false);
   const isFocused = useIsFocused();
 
   const [recordingTime, setRecordingTime] = useState(0);
@@ -73,13 +68,8 @@ export default function LiveStreamScreen() {
   };
 
   const startStream = async () => {
-    // Start up the timer to display the circle progress bar
-    clearInterval(recordingTimerRef.current)
-    setRecordingTime(0);
-    recordingTimerRef.current = setInterval(() => {
-      setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
-    }, RECORDING_TIME_TICK);
-
+    // Start LIVE
+    clearInterval(recordingTimerRef.current);
     cameraRef.start();
     console.log("started");
     setIsLive(true);
@@ -91,26 +81,6 @@ export default function LiveStreamScreen() {
   };
 
   const deviceId = "demo_" + (Math.floor(Math.random() * (999 - 100)) + 100);
-
-  // return (
-  // <View style={styles.container}>
-  //   <NodeCameraView
-  //       style={{ height: '80%', width: '100%' }}
-  //       ref={(ref) => setCameraRef(ref)}
-  //       outputUrl = {"rtmp://88.97.6.186/live/" + deviceId}
-  //       camera={{ cameraId: 1, cameraFrontMirror: true }}
-  //       audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
-  //       video={{ preset: 6, bitrate: 500000, profile: 2, fps: 30, videoFrontMirror: false }}
-  //       denoise={true}
-  //       smoothSkinLevel={5}
-  //       autopreview={true}
-  //       onStatus={(code, msg) => {
-  //           console.log("onStatus=" + code + " msg=" + msg);
-  //       }}
-  //   />
-  //   <Button onPress={startStream} title="Start"></Button>
-  //   <Button onPress={stopStream} title="Stop"></Button>
-  // </View>
 
   return (
     <View style={styles.container}>
@@ -142,56 +112,57 @@ export default function LiveStreamScreen() {
           <Feather name="refresh-ccw" size={24} color={colors.white} />
           <Text style={styles.iconText}>Flip</Text>
         </TouchableOpacity>
+        <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Share LIVE{"\n"}coming in official release</Text>}
+            positiveBtn="Ok"
+            modalVisible={share}
+            dismissAlert={setShare}
+            animationType="fade"
+          />
+          <TouchableOpacity
+            style={styles.sideBarButton}
+            onPress={() => setShare(true)}
+          >
+            <MaterialCommunityIcons name="share" size={29} color={colors.white} />
+            <Text style={styles.iconText}>Share</Text>
+          </TouchableOpacity>
 
         <TouchableOpacity
           style={{ position: "absolute", top: 0, right: 360 }}
-          onPress={() => navigation.navigate(routes.FEED)}
+          onPress={() => navigation.navigate(routes.CAMERA)}
         >
           <Feather name="x" size={25} color={colors.white} />
         </TouchableOpacity>
       </View>
-      <View
-        style={[
-          styles.bottomBarContainer,
-          {
-            transform: [{ scale: isLive ? 1.5 : 1 }],
-          },
-        ]}
-      >
+      <View style={[styles.bottomBarContainer]}>
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <View style={{ flex: 1 }}>
             <Pressable
-              onPress={toggleStream}
-              // onLongPress={onLongPress}
-              // onPressOut={onPressOut}
               style={({ pressed }) => {
                 return [
                   styles.recordButton,
                   { backgroundColor: isLive ? colors.red : colors.green },
-                  { borderWidth: isLive ? 4 : 3 },
+                  { borderWidth: 3 },
                   { borderColor: isLive ? colors.danger : colors.white },
                 ];
               }}
             />
+            <Text onPress={toggleStream} style={styles.goLiveTxt}>Go LIVE</Text>
           </View>
         </View>
       </View>
 
-      <BottomMenu />
+      <LiveBottomMenu />
     </View>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: colors.primary,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
 
 const styles = StyleSheet.create({
   container: {
@@ -216,22 +187,9 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: colors.white,
     borderRadius: 100,
-    height: 80,
-    width: 80,
+    height: 60,
+    width: 220,
     alignSelf: "center",
-  },
-  galleryButton: {
-    borderWidth: 1,
-    borderColor: colors.white,
-    borderRadius: 10,
-    overflow: "hidden",
-    width: 50,
-    height: 50,
-    marginLeft: 200,
-  },
-  galleryButtonImage: {
-    width: 50,
-    height: 50,
   },
   sideBarContainer: {
     top: 48,
@@ -247,9 +205,6 @@ const styles = StyleSheet.create({
   sideBarButton: {
     alignItems: "center",
     marginBottom: 25,
-  },
-  soundText: {
-    color: colors.white,
   },
   countdownWrapper: {
     position: "absolute",
@@ -293,12 +248,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.green,
   },
-  uploadText: {
-    fontSize: 8,
-    fontWeight: "bold",
-    color: colors.white,
+  goLiveTxt: {
     position: "absolute",
-    right: 88,
-    bottom: 2,
+    top: 20,
+    bottom: 0,
+    left: 70,
+    right: 0,
+
+    color: colors.white,
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });

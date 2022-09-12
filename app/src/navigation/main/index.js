@@ -69,6 +69,7 @@ import BlockedListScreen from "../../screens/settings/privacy/blockedList";
 import ActivityAccountScreen from "../../screens/settings/activity/activityAccountScreen";
 import LiveStreamScreen from "../../screens/camera/live/livestreamScreen";
 import LiveStreamURLScreen from "../../screens/search/liveurlScreen/livestreamUrl";
+import LiveIconOverlay from "../../screens/camera/liveBottomMenu/liveIconOverlay";
 
 const Stack = createNativeStackNavigator();
 
@@ -104,6 +105,11 @@ export default function Route() {
             <Stack.Screen
               name="Cam"
               component={CameraScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="LiveMenu"
+              component={LiveIconOverlay}
               options={{ headerShown: false }}
             />
             <Stack.Screen
