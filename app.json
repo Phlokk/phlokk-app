@@ -25,7 +25,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 221230001,
+      "versionCode": 229130001,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
         "backgroundColor": "#04cccc"
