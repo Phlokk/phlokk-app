@@ -59,7 +59,7 @@ function ProfileHeader({user}) {
 
 	return (
 		<View style={styles.container}>
-			{/* <ProfileStatsContainer /> */}
+			<ProfileStatsContainer />
 
 			{user !== null || !undefined ? (
 				<TouchableOpacity></TouchableOpacity>
