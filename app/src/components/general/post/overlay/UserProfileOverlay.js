@@ -61,7 +61,7 @@ function UserProfileOverlay({post, user, currentUser, areTabsShowing}) {
 					<Text style={styles.username} key={user._id}>
 						@{user.username}
 					</Text>
-					<View style={{paddingTop: 2}}>
+					<View style={{paddingTop: 2, top: 2}}>
 						{user.is_verified === 1 && (
 							// <Image style={styles.phlokkVerified} source={verifiedCheck} />
 							<VerifiedIcon />

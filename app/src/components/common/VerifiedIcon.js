@@ -1,6 +1,8 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Feather} from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons'; 
+import colors from '../../../config/colors'
 
 function VerifiedIcon() {
 	return (
@@ -16,7 +18,8 @@ function VerifiedIcon() {
 				marginHorizontal: 3,
 			}}
 		>
-			<Feather name="check" size={11} color="white" />
+			{/* <Feather name="check" size={11} color="white" /> */}
+			<FontAwesome5 name="check" size={9} color={colors.white} />
 		</View>
 	);
 }

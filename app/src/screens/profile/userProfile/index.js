@@ -11,6 +11,7 @@ import {useAtom} from 'jotai';
 import {userAtom} from '../../../../../App';
 import VerifiedIcon from '../../../components/common/VerifiedIcon';
 
+
 function UserProfile({user}) {
 	const [topFavFive, setTopFavFive] = useState(false);
 	const [popUpImage, setPopUpImage] = useState(false);

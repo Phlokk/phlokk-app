@@ -10,12 +10,15 @@ import {atom, useAtom} from 'jotai';
 import {fetchGetUsers} from './app/src/redux/sagas/requests/fetchUsers';
 import * as SplashScreen from 'expo-splash-screen';
 
-SplashScreen.preventAutoHideAsync();
+
 
 // imports for notifications.js
 import * as Notifications from 'expo-notifications';
 import {registerForPushNotificationsAsync} from './app/src/services/notifications';
 import * as SecureStore from 'expo-secure-store';
+
+SplashScreen.preventAutoHideAsync(); 
+
 
 LogBox.ignoreLogs(['Setting a timer']);
 LogBox.ignoreLogs([
