@@ -20,7 +20,6 @@ import colors from '../../../../config/colors';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../../App';
 import uuid from 'uuid-random';
-import {Feather} from '@expo/vector-icons';
 
 function CommentModal({post, onNewCommentSubmitted}) {
 	const commentTextInputRef = useRef();
@@ -108,7 +107,6 @@ function CommentModal({post, onNewCommentSubmitted}) {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.postCountText}>{commentList.length} comments</Text>
-			{/* <Text style={styles.postCountText}>{likeCount.length} comments</Text> */}
 
 			<View style={styles.containerInput}>
 				{!user?.photo_url && !user?.photo_url ? (
@@ -126,7 +124,7 @@ function CommentModal({post, onNewCommentSubmitted}) {
 					ref={commentTextInputRef}
 					selectionColor={colors.green}
 					style={styles.input}
-					// placeholder="Add comment..."
+					placeholder="Add comment..."
 					placeholderTextColor={'gray'}
 					multiline
 					value={comment}
