@@ -7,8 +7,8 @@ function VerifiedIcon() {
 	return (
 		<View
 			style={{
-				width: 12,
-				height: 12,
+				width: 11,
+				height: 11,
 				backgroundColor: '#4cd0e1',
 				borderRadius: 6,
 				justifyContent: 'center',
@@ -17,7 +17,7 @@ function VerifiedIcon() {
 				marginHorizontal: 3,
 			}}
 		>
-			<FontAwesome5 name="check" size={9} color={colors.white} />
+			<FontAwesome5 name="check" size={8} color={colors.white} />
 		</View>
 	);
 }
