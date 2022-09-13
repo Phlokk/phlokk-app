@@ -22,6 +22,9 @@ const VideoItem = ({
 	const isFocused = useIsFocused();
 	const [playbackStatus, setPlaybackStatus] = useState();
 	const [isScrubbing, setIsScrubbing] = useState(false);
+	const [videoResizeMode, setVideoResizeMode] = useState(
+		Video.RESIZE_MODE_COVER
+	);
 	const videoPlayerRef = useRef();
 
 	// Set up audio play mode for iOS
@@ -52,11 +55,7 @@ const VideoItem = ({
 						type: item.media[0].mime_type,
 					}}
 					isMuted={currentVideoIndex !== index || !isFocused}
-					resizeMode={
-						item.media[0].videoHeight < item.media[0].videoWidth
-							? Video.RESIZE_MODE_CONTAIN
-							: Video.RESIZE_MODE_COVER
-					}
+					resizeMode={videoResizeMode}
 					style={styles.videoRenderer}
 					shouldPlay={currentVideoIndex === index && shouldPlay && isFocused}
 					isLooping
@@ -64,6 +63,14 @@ const VideoItem = ({
 					posterSource={{uri: item.poster}}
 					posterStyle={{resizeMode: 'cover', height: '100%'}}
 					onPlaybackStatusUpdate={status => setPlaybackStatus(status)}
+					onReadyForDisplay={e => {
+						const orientation = e.naturalSize.orientation;
+						if (orientation === 'landscape') {
+							setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
+						} else {
+							setVideoResizeMode(Video.RESIZE_MODE_COVER);
+						}
+					}}
 				/>
 
 				{!shouldPlay && (
