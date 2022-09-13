@@ -158,13 +158,31 @@ export const deletePostById = async postId => {
 
 export const addComment = async (postId, comment) => {
 	await axios
-		.post('/api/post/' + postId + '/add-comment', {comment: comment})
+		.post(`/api/post/${postId}/add-comment`, {comment: comment})
 		.then(result => {
 			return result.data;
 		})
 		.catch(error => {
 			Alert.alert('Comment not added!');
 		});
+};
+
+export const addCommentReply = async (postId, commentId, comment) => {
+	await axios
+		.post(`/api/post/${postId}/${commentId}/add-comment-reply`, {
+			comment: comment,
+		})
+		.then(result => {
+			return result.data;
+		})
+		.catch(error => {
+			console.log(error);
+			Alert.alert('Comment not added!');
+		});
+};
+
+export const deleteComment = async (postId, commentId) => {
+	await axios.post(`/api/post/${postId}/${commentId}/delete-comment`, {});
 };
 
 export const commentListener = async (postId, setCommentList) => {

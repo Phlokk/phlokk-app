@@ -52,7 +52,11 @@ const VideoItem = ({
 						type: item.media[0].mime_type,
 					}}
 					isMuted={currentVideoIndex !== index || !isFocused}
-					resizeMode={Video.RESIZE_MODE_COVER}
+					resizeMode={
+						item.media[0].videoHeight < item.media[0].videoWidth
+							? Video.RESIZE_MODE_CONTAIN
+							: Video.RESIZE_MODE_COVER
+					}
 					style={styles.videoRenderer}
 					shouldPlay={currentVideoIndex === index && shouldPlay && isFocused}
 					isLooping

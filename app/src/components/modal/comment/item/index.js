@@ -16,18 +16,18 @@ import {useAtom} from 'jotai';
 import {userAtom} from '../../../../../../App';
 import verifiedCheck from '../../../../../assets/verified.png';
 import CustomAlert from '../../../Alerts/customAlert';
-import {timeSince} from '../../../../services/posts';
+import {deleteComment, timeSince} from '../../../../services/posts';
 import {likeComment} from '../../../../redux/actions/likes';
 import VerifiedIcon from '../../../common/VerifiedIcon';
 
-const CommentItem = ({item, post, setCommentList}) => {
+const CommentItem = ({comment, post, setCommentList, onReplyPressed}) => {
 	const navigation = useNavigation();
 	const [user, setUser] = useAtom(userAtom);
 	const [isUsernameProfile, setIsUsernameProfile] = useState(false);
 	const [isReplies, setIsReplies] = useState(false);
 
-	const [isLiked, setIsLiked] = useState(item.is_liked);
-	const [likeCount, setLikeCount] = useState(item.like_count);
+	const [isLiked, setIsLiked] = useState(comment.is_liked);
+	const [likeCount, setLikeCount] = useState(comment.like_count);
 
 	const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
 		useState(false);
@@ -35,7 +35,8 @@ const CommentItem = ({item, post, setCommentList}) => {
 	const likeButtonHandler = async () => {
 		const type = isLiked ? 'unlike' : 'like';
 		try {
-			await likeComment(post._id, item._id, type);
+			await likeComment(post._id, comment._id, type);
+
 			setIsLiked(!isLiked);
 			setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
 		} catch {
@@ -46,28 +47,31 @@ const CommentItem = ({item, post, setCommentList}) => {
 	const onDeleteCommentConfirmed = async () => {
 		// Before we remove the comment from the ui, make a call to the server to delete it from the database
 		try {
-			// await deleteComment(item._id);
+			await deleteComment(post._id, comment._id);
 
 			setCommentList(prev => {
-				const newCommentList = prev.filter(comment => comment._id !== item._id);
+				const newCommentList = prev.filter(
+					comment => comment._id !== comment._id
+				);
 				return newCommentList;
 			});
-		} catch {
-			// Display a modal saying that it couldnt delete
+		} catch (e) {
+			console.log(e);
+			Alert.alert('Could not delete comment.');
 		}
 	};
 
-	const isCommentCurrentUser = user._id === item.user_id;
+	const isCommentCurrentUser = user._id === comment.user_id;
 	const isPostFromCurrentUser = user._id === post.user._id;
 
 	return (
 		<View style={styles.container}>
 			{!user?.photo_url && !user?.photo_url ? (
 				<TouchableOpacity
-					disabled={user._id == item.user._id}
+					disabled={user._id == comment.user._id}
 					onPress={() => {
 						navigation.navigate('feedProfile', {
-							initialUser: item.user,
+							initialUser: comment.user,
 						});
 					}}
 				>
@@ -79,14 +83,14 @@ const CommentItem = ({item, post, setCommentList}) => {
 				</TouchableOpacity>
 			) : (
 				<TouchableOpacity
-					disabled={user._id == item.user._id}
+					disabled={user._id == comment.user._id}
 					onPress={() => {
 						navigation.navigate('feedProfile', {
-							initialUser: item.user,
+							initialUser: comment.user,
 						});
 					}}
 				>
-					<Image style={styles.avatar} source={{uri: item.user.photo_url}} />
+					<Image style={styles.avatar} source={{uri: comment.user.photo_url}} />
 				</TouchableOpacity>
 			)}
 
@@ -105,26 +109,28 @@ const CommentItem = ({item, post, setCommentList}) => {
 			>
 				<View style={styles.verifiedRow}>
 					<TouchableOpacity
-						disabled={user._id == item.user._id}
+						disabled={user._id == comment.user._id}
 						onPress={() => {
 							navigation.navigate('feedProfile', {
-								initialUser: item.user,
+								initialUser: comment.user,
 							});
 						}}
 					>
-						<Text style={styles.username}>@{item.user.username}</Text>
+						<Text style={styles.username}>@{comment.user.username}</Text>
 					</TouchableOpacity>
-					{item.user && item.user.is_verified === 1 && (
+					{comment.user && comment.user.is_verified === 1 && (
 						// <Image style={styles.phlokkVerified} source={verifiedCheck} />
 						<VerifiedIcon />
 					)}
 				</View>
-				<Text style={styles.textComment}>{item.message}</Text>
+				<Text style={styles.textComment}>{comment.message}</Text>
 				<View style={styles.replyRow}>
 					<Text style={styles.date}>
-						{item.created_at ? timeSince(new Date(item.created_at)) : 'Now'}
+						{comment.created_at
+							? timeSince(new Date(comment.created_at))
+							: 'Now'}
 					</Text>
-					<CustomAlert
+					{/* <CustomAlert
 						alertTitle={
 							<Text>
 								<MaterialIcons name="info" size={24} color={colors.green} />
@@ -135,8 +141,13 @@ const CommentItem = ({item, post, setCommentList}) => {
 						modalVisible={isReplies}
 						dismissAlert={setIsReplies}
 						animationType="fade"
-					/>
-					<TouchableOpacity onPress={() => setIsReplies(true)}>
+					/> */}
+					<TouchableOpacity
+						onPress={() => {
+							onReplyPressed(comment);
+							//setIsReplies(true);
+						}}
+					>
 						<Text style={styles.textReplies}>Reply</Text>
 					</TouchableOpacity>
 				</View>
