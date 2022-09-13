@@ -55,9 +55,12 @@ export default function App() {
 	const responseListener = useRef();
 
 	useEffect(() => {
-		setTimeout(() => {
-			SplashScreen.hideAsync();
-		}, 3000);
+		const hideSplash = async () => {
+			await wait(2000);
+			await SplashScreen.hideAsync();
+		};
+
+		hideSplash();
 	}, []);
 
 	useEffect(async () => {
@@ -99,3 +102,7 @@ export default function App() {
 		</GestureHandlerRootView>
 	);
 }
+
+const wait = timeout => {
+	return new Promise(resolve => setTimeout(resolve, timeout));
+};
