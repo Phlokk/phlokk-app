@@ -442,19 +442,6 @@ PODS:
     - React-Core
   - RNVectorIcons (9.0.0):
     - React-Core
-  - Stripe (21.9.1):
-    - Stripe/Stripe3DS2 (= 21.9.1)
-    - StripeCore (= 21.9.1)
-    - StripeUICore (= 21.9.1)
-  - stripe-react-native (0.2.3):
-    - React-Core
-    - Stripe (~> 21.9.0)
-  - Stripe/Stripe3DS2 (21.9.1):
-    - StripeCore (= 21.9.1)
-    - StripeUICore (= 21.9.1)
-  - StripeCore (21.9.1)
-  - StripeUICore (21.9.1):
-    - StripeCore (= 21.9.1)
   - UMTaskManagerInterface (7.1.1):
     - ExpoModulesCore
   - Yoga (1.14.0)
@@ -530,7 +517,6 @@ DEPENDENCIES:
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - "stripe-react-native (from `../node_modules/@stripe/stripe-react-native`)"
   - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -538,9 +524,6 @@ SPEC REPOS:
   trunk:
     - boost-for-react-native
     - lottie-ios
-    - Stripe
-    - StripeCore
-    - StripeUICore
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -679,8 +662,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
-  stripe-react-native:
-    :path: "../node_modules/@stripe/stripe-react-native"
   UMTaskManagerInterface:
     :path: "../node_modules/unimodules-task-manager-interface/ios"
   Yoga:
@@ -757,10 +738,6 @@ SPEC CHECKSUMS:
   RNShare: 3185c074441b7e8897014d95ba982434a0a024a1
   RNSVG: ecd661f380a07ba690c9c5929c475a44f432d674
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
-  Stripe: 22c1b8da5ee20a1aaf40fd198160efa72e71644a
-  stripe-react-native: fc0175ddb50104409197ff336db7d9eca9002bf8
-  StripeCore: 91ea038ac0abbb72f11014044dfd1e5d39089714
-  StripeUICore: 7edf64b24c9c178bfd97e988f2cffdbb7a7628b0
   UMTaskManagerInterface: 2daeb597cbf3d2024098065605bb5d48294b1ff5
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
 
