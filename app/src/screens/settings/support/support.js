@@ -55,7 +55,6 @@ export default function SupportScreen() {
             <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
           </View>
         </TouchableOpacity>
-        <View style={styles.divider}></View>
     </View>
   );
 }

@@ -158,7 +158,7 @@ export default function SettingsScreen() {
 
         <View style={styles.divider}></View>
 
-        <View style={styles.divider}></View>
+
         <Text style={styles.socialText}>LOGIN</Text>
 
         <TouchableOpacity
