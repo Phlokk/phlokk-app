@@ -14,7 +14,6 @@ import {useNavigation} from '@react-navigation/native';
 import colors from '../../../../../config/colors';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../../../App';
-import verifiedCheck from '../../../../../assets/verified.png';
 import CustomAlert from '../../../Alerts/customAlert';
 import {deleteComment, timeSince} from '../../../../services/posts';
 import {likeComment} from '../../../../redux/actions/likes';
@@ -119,7 +118,6 @@ const CommentItem = ({comment, post, setCommentList, onReplyPressed}) => {
 						<Text style={styles.username}>@{comment.user.username}</Text>
 					</TouchableOpacity>
 					{comment.user && comment.user.is_verified === 1 && (
-						// <Image style={styles.phlokkVerified} source={verifiedCheck} />
 						<VerifiedIcon />
 					)}
 				</View>
@@ -130,22 +128,9 @@ const CommentItem = ({comment, post, setCommentList, onReplyPressed}) => {
 							? timeSince(new Date(comment.created_at))
 							: 'Now'}
 					</Text>
-					{/* <CustomAlert
-						alertTitle={
-							<Text>
-								<MaterialIcons name="info" size={24} color={colors.green} />
-							</Text>
-						}
-						customAlertMessage={<Text>Replies{'\n'}coming in beta 2</Text>}
-						positiveBtn="Ok"
-						modalVisible={isReplies}
-						dismissAlert={setIsReplies}
-						animationType="fade"
-					/> */}
 					<TouchableOpacity
 						onPress={() => {
 							onReplyPressed(comment);
-							//setIsReplies(true);
 						}}
 					>
 						<Text style={styles.textReplies}>Reply</Text>
