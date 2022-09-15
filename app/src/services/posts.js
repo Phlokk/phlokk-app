@@ -182,7 +182,7 @@ export const addCommentReply = async (postId, commentId, comment) => {
 };
 
 export const deleteComment = async (postId, commentId) => {
-	await axios.delete(`/api/post/${postId}/${commentId}/delete-comment`, {});
+	await axios.delete(`/api/post/${postId}/${commentId}/delete-comment`);
 };
 
 export const commentListener = async (postId, setCommentList) => {

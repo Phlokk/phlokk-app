@@ -1,18 +1,23 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import ActivityNavBar from "../../components/general/activityNav";
-import { View, StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import colors from "../../../config/colors";
 import axios from "../../redux/apis/axiosDeclaration";
-import {clearNotificationListener, notificationListener} from "../../services/notifications";
-
-
+import {
+  clearNotificationListener,
+  notificationListener,
+} from "../../services/notifications";
 
 import NotificationItem from "./notifications";
 
 export default function ActivityScreen({ navigation }) {
-
   const [notificationList, setNotificationList] = useState("");
-
 
   useEffect(async () => {
     await notificationListener(setNotificationList);
@@ -20,8 +25,10 @@ export default function ActivityScreen({ navigation }) {
   }, []);
 
   const renderItem = ({ item, index }) => {
-      // console.log(item);
-    return <NotificationItem index={index} item={item} />;
+    // console.log(item);
+    return (
+      <NotificationItem index={index} item={item} navigation={navigation} />
+    );
   };
 
   const Separator = () => {
@@ -66,5 +73,4 @@ const styles = StyleSheet.create({
     color: colors.white,
     marginTop: 30,
   },
-  
 });

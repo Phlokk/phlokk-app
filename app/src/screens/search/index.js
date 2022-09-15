@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   FlatList,
   View,
@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import SearchUserItem from "../../components/search/userItem";
-// import { queryUsersByUsername } from "../../services/user";
 // import axios from "../../redux/apis/axiosDeclaration";
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
@@ -55,17 +54,15 @@ const SearchScreen = () => {
       />
     );
   };
-  // useEffect(() => {
-  //   queryUsersByUsername(textInput).then(setSearchUsers);
-  // }, [textInput]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <SearchInput placeholder="Search" />
+      <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
       <FlatList
+        style={styles.list}
         data={searchUsers}
         renderItem={({ item }) => <SearchUserItem item={item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
       />
       <View style={styles.risingStarView}>
         <View style={styles.risingStarRow}>
