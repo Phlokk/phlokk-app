@@ -80,7 +80,22 @@ export default function App() {
 		// This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
 		responseListener.current =
 			Notifications.addNotificationResponseReceivedListener(response => {
-				console.log('user tapped event');
+				switch (response.notification.request.content.data.type) {
+					case 1:
+						// Device registered for notifications
+						break;
+					case 2:
+						// Reaction to a post
+						break;
+					case 3:
+						// Comment on a post
+						break;
+					case 4:
+						// Post has been deleted
+						break;
+					default:
+						// Something else, navigate to notification list
+				}
 			});
 
 		return () => {
