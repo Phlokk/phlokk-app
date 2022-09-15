@@ -67,9 +67,9 @@ export default function SoundScreen({placeholder, user}) {
 
   const [openSettingsAudioModal, setOpenSettingsAudioModal] = useState(false)
 
-  useEffect(() => {
-    LoadAudio();
-  }, []);
+  // useEffect(() => {
+  //   LoadAudio();
+  // }, []);
 
   const PlayAudio = async (soundIndex) => {
     currentPlayingIndex = soundIndex;

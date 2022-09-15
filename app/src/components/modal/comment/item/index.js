@@ -39,12 +39,11 @@ const CommentItem = ({comment, post, setCommentList, onReplyPressed}) => {
 			setIsLiked(!isLiked);
 			setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
 		} catch {
-			Alert.alert('There was an error with your request!');
+			Alert.alert('Could not like this comment!');
 		}
 	};
 
 	const onDeleteCommentConfirmed = async () => {
-		// Before we remove the comment from the ui, make a call to the server to delete it from the database
 		try {
 			await deleteComment(post._id, comment._id);
 
@@ -52,10 +51,12 @@ const CommentItem = ({comment, post, setCommentList, onReplyPressed}) => {
 				const newCommentList = prev.filter(
 					comment => comment._id !== comment._id
 				);
+
 				return newCommentList;
+				
+				
 			});
 		} catch (e) {
-			console.log(e);
 			Alert.alert('Could not delete comment.');
 		}
 	};

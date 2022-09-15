@@ -8,22 +8,33 @@ import {
   FlatList,
   ScrollView,
   Pressable,
+  Alert,
 } from "react-native";
 import colors from "../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import { timeSince } from "../../services/posts";
+import routes from "../../navigation/routes";
 
-const NotificationItem = ({ navigation, item, }) => {
+const NotificationItem = ({ navigation, item }) => {
   const [user, setUser] = useAtom(userAtom);
+
+  const posts = [item.associated];
 
   return (
     <TouchableOpacity
-    onPress={() => item.associated._id}
+    onPress={() => {
+      navigation.navigate(routes.USER_POSTS, {
+        creator: item.associated.user,
+        profile: true,
+        selectedVideo: item.associated.media[0].original_url,
+        selectedIndex: 0,
+        preloadedPosts: posts,
+      });
+    }}
     >
       <View style={styles.containerInput}>
-        {!item.url && !item.url ? (
-          
+        {!item.user.photo_url ? (
           <Image
             style={styles.avatar}
             source={require("../../../assets/userImage.png")}
@@ -31,35 +42,41 @@ const NotificationItem = ({ navigation, item, }) => {
           />
         ) : (
           <TouchableOpacity>
-            <Image style={styles.avatar} source={{ uri: url }} />
+            <Image
+              style={styles.avatar}
+              source={{ uri: item.user.photo_url }}
+            />
           </TouchableOpacity>
         )}
         <View style={styles.notificationView}>
-          <Text style={styles.usernameView}>{item.title}</Text>
+          <Text style={styles.usernameView}>{item.user.username}</Text>
 
-          
           {/* TODO still need to hide all but 4 avatars and show button that connects to FlatList of all users who liked, commented on post. Also add thumbnail for each post */}
-          <View style={styles.iconRow} >
-          {item.pictures.map((url, key) => (
-            <Pressable 
-            key={key} 
-            style={styles.iconRowAvatars}
+          <View style={styles.iconRow}>
+            {Object.keys(item.pictures).map((key, keyIndex) => (
+              <Pressable
+                key={key}
+                style={styles.iconRowAvatars}
+                // TODO navigate to initialUser profile when clicked
 
-            // TODO navigate to initialUser profile when clicked
-
-            // onPress={() => {
-						// 	navigation.navigate('feedProfile', {
-						// 		initialUser: user,
-						// 	});
-						// }}
-            >
-            <Image style={styles.avatarList} source={{ uri: url }} />
-          </Pressable>
-          ))}
+                // onPress={() => {
+                //   navigation.navigate("feedProfile", {
+                //     initialUserId: key,
+                //   });
+                // }}
+              >
+                <Image
+                  style={styles.avatarList}
+                  source={{ uri: item.pictures[key] }}
+                />
+              </Pressable>
+            ))}
           </View>
-          
+
           <View style={styles.mentionsView}>
-            <Text style={styles.mentionsText}>{item.body}</Text>
+            <TouchableOpacity>
+              <Text style={styles.mentionsText}>{item.body}</Text>
+            </TouchableOpacity>
           </View>
           <View>
             <Text style={styles.date}>
@@ -79,7 +96,6 @@ const styles = StyleSheet.create({
   containerInput: {
     paddingLeft: 10,
     flexDirection: "row",
-
   },
   mentionsView: {
     flexDirection: "row",
@@ -122,7 +138,7 @@ const styles = StyleSheet.create({
   },
   iconRowAvatars: {
     marginRight: 10,
-  }
+  },
 });
 
 export default NotificationItem;

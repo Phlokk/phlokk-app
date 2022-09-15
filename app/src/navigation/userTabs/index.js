@@ -10,8 +10,8 @@ import SearchScreen from "../../screens/search";
 import FeedNavigation from "../feed";
 import ActivityScreen from "../../screens/activity";
 
-
 import colors from "../../../config/colors";
+import SearchNavigation from "../feed/searchDiscover";
 
 const Tab = createBottomTabNavigator();
 
@@ -78,7 +78,7 @@ const UserTabs = () => {
       tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen name="feed" component={FeedNavigation} />
-      <Tab.Screen name="Discover" component={SearchScreen} />
+      <Tab.Screen name="Discover" component={SearchNavigation} />
       <Tab.Screen name="Inbox" component={ActivityScreen} />
       <Tab.Screen
         name="profileOther"

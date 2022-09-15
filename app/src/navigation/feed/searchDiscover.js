@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 
 export const CurrentUserProfileItemInViewContext = createContext(null);
 
-const FeedNavigation = () => {
+const SearchNavigation = () => {
   const [currentUserProfileItemInView, setCurrentUserProfileItemInView] =
     useState(null);
 
@@ -27,15 +27,15 @@ const FeedNavigation = () => {
     <CurrentUserProfileItemInViewContext.Provider
       value={currentUserProfileItemInView}
     >
-      <Stack.Navigator initialRouteName="feedList">
+      <Stack.Navigator initialRouteName="discoverFeed">
         <Stack.Screen
-          name="feedList"
-          component={VideoFeed}
+          name="discoverFeed"
+          component={SearchScreen}
           initialParams={{ setCurrentUserProfileItemInView, profile: false }}
           options={stackHeaderStyle}
         />
         <Screen
-          name="feedProfile"
+          name="discoverFeedProfile"
           component={ProfileScreen}
           options={stackHeaderStyle}
         />
@@ -44,4 +44,4 @@ const FeedNavigation = () => {
   );
 };
 
-export default FeedNavigation;
+export default SearchNavigation;
