@@ -58,6 +58,7 @@ export default function App() {
     const hideSplash = async () => {
       await wait(2000);
       await SplashScreen.hideAsync();
+      await SplashScreen.hideAsync();
     };
 
     hideSplash();

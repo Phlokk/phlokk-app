@@ -252,7 +252,7 @@ export default function CameraScreen() {
 
   return (
     <View style={styles.container}>
-      {isFocused ? (
+      {hasCameraPermissions && isFocused ? (
         <Camera
           ref={(ref) => setCameraRef(ref)}
           style={styles.camera}
