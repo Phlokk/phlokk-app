@@ -361,7 +361,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.phlokk.phlokkapp;
-				PRODUCT_NAME = Phlokk;
+				PRODUCT_NAME = "Phlokk";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Phlokk/Phlokk-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -389,7 +389,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.phlokk.phlokkapp;
-				PRODUCT_NAME = phlokkapp;
+				PRODUCT_NAME = "Phlokk";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Phlokk/Phlokk-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
