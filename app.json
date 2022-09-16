@@ -4,7 +4,7 @@
     "slug": "PhlokkApp",
     "privacy": "public",
     "description": "Phlokk App beta Version 1",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "orientation": "portrait",
     "icon": "./app/assets/Phlokk_App_Logo_2022_1024x1024.png",
     "splash": {
@@ -21,11 +21,11 @@
     ],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
-      "buildNumber": "229130002",
+      "buildNumber": "229150000",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 229130002,
+      "versionCode": 229150000,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
         "backgroundColor": "#04cccc"
