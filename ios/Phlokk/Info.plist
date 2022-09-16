@@ -36,7 +36,7 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>229130001</string>
+    <string>229130002</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
@@ -88,4 +88,3 @@
     <false/>
   </dict>
 </plist>
-
