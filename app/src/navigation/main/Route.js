@@ -67,7 +67,7 @@ import FireRulesScreen from "../../screens/gifting/FireRulesScreen";
 import PrivacyScreen from "../../screens/settings/privacy/PrivacyScreen";
 import BlockedListScreen from "../../screens/settings/privacy/BlockedListScreen";
 import ActivityAccountScreen from "../../screens/settings/activity/ActivityAccountScreen";
-import SearchScreen from "../../screens/search/SearchScreen";
+// import SearchScreen from "../../screens/search/SearchScreen";
 
 const Stack = createNativeStackNavigator();
 
