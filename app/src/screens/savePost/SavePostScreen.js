@@ -21,7 +21,7 @@ import PostNavBar from "../../components/general/postNav/PostNavBar";
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import LottieView from "lottie-react-native";
-import CustomAlert from "../../components/Alerts/customAlert";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 import * as MediaLibrary from "expo-media-library";
 import CustomSwitch from "./CustomSwitch";
 import { useAtom } from "jotai";

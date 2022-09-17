@@ -5,8 +5,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
-import CustomAlert from "../../Alerts/customAlert";
-import BlockAlert from "../../Alerts/blockAlert";
+import CustomAlert from "../../Alerts/CustomAlert";
+import BlockAlert from "../../Alerts/BlockAlert";
 import colors from "../../../../config/colors";
 
 const SettingsSheetModalScreen = ( post ) => {

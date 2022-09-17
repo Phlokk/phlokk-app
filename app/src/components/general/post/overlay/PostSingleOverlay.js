@@ -15,7 +15,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {Octicons} from '@expo/vector-icons';
 import {MaterialIcons} from '@expo/vector-icons';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import CustomAlert from '../../../Alerts/customAlert';
+import CustomAlert from '../../../Alerts/CustomAlert';
 import SettingsSheetModalScreen from '../../../modal/settingsSheetModalScreen/SettingsSheetModalScreen';
 import GiftingModalScreen from '../../../modal/giftingModalScreen/GiftingModalScreen';
 import CommentModal from '../../../modal/comment/CommentModal';

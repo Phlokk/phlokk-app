@@ -20,7 +20,7 @@ import {userAtom} from '../../../../App';
 import colors from '../../../config/colors';
 
 import {useDispatch} from 'react-redux';
-import CustomAlert from '../../components/Alerts/customAlert';
+import CustomAlert from '../../components/Alerts/CustomAlert';
 
 export const newFeedItemAtom = atom('');
 

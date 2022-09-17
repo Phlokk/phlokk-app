@@ -17,7 +17,7 @@ import SearchFollowing from './SearchFollowing';
 import SearchInput from '../../components/search/SearchInput';
 import VerifiedIcon from '../../components/common/VerifiedIcon';
 
-const smallLogo = require('../../../assets/verified.png');
+
 const Following = [
 	{
 		id: 1,
@@ -33,12 +33,6 @@ const Following = [
 	},
 	{
 		id: 3,
-		name: 'cookie',
-		image: require('../../../assets/cookie.ga.gal.png'),
-		creator: 'Public Figure',
-	},
-	{
-		id: 4,
 		name: 'savagemommaof3boys',
 		image: require('../../../assets/bedazzled_by_donna.png'),
 		creator: 'Public Figure',

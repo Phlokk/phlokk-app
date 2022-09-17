@@ -10,7 +10,6 @@ import {
 import {Entypo} from '@expo/vector-icons';
 // import { getLikeById, updateLike } from "../../../../services/posts";
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import verifiedCheck from '../../../../../assets/verified.png';
 import {Animated} from 'react-native';
 import useRotation from './useRotation';
 import pmdLogo from '../../../../../assets/pmd_logo_green.png';

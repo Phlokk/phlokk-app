@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import AccountInformation from "./AccountInformation";
-import CustomAlert from "../../components/Alerts/customAlert"
+import CustomAlert from "../../components/Alerts/CustomAlert"
 
 const AccountControl = () => {
   const [businessAccount, setBusinessAccount] = useState(false);

@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 // import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
-import CustomAlert from "../../../components/Alerts/customAlert";
+import CustomAlert from "../../../components/Alerts/CustomAlert";
 
 export default function SupportScreen() {
   const navigation = useNavigation();

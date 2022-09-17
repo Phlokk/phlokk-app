@@ -5,7 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors"
-import CustomAlert from "../../components/Alerts/customAlert"
+import CustomAlert from "../../components/Alerts/CustomAlert"
 
 const AccountInformation = () => {
   const [phoneNumber, setPhoneNumber] = useState(false)

@@ -6,7 +6,7 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
-import CustomAlert from "../../Alerts/customAlert";
+import CustomAlert from "../../Alerts/CustomAlert";
 import colors from "../../../../config/colors";
 
 

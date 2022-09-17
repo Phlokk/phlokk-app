@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 // import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
-import CustomAlert from "../../components/Alerts/customAlert";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";

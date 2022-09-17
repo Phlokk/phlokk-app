@@ -5,7 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
-import CustomAlert from "../../Alerts/customAlert"
+import CustomAlert from "../../Alerts/CustomAlert"
 
 export default function RecordingNavBar({
   title = "Edit profile",

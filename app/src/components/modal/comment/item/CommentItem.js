@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
-import CustomAlert from "../../../Alerts/customAlert";
+import CustomAlert from "../../../Alerts/CustomAlert";
 import {
   deleteComment,
   deleteCommentReply,

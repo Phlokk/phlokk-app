@@ -5,7 +5,7 @@ import {MaterialIcons} from '@expo/vector-icons';
 import colors from '../../../config/colors';
 import {useFonts} from 'expo-font';
 
-import CustomAlert from '../../components/Alerts/customAlert';
+import CustomAlert from '../../components/Alerts/CustomAlert';
 import CustomImageModal from '../../components/Image/CustomImageModal';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../App';

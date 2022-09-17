@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import colors from "../../../../config/colors";
-import verifiedCheck from "../../../../assets/verified.png";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import VerifiedIcon from "../../common/VerifiedIcon";

@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 // import { LOGOUT } from "@env";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
-import CustomAlert from "../../../components/Alerts/customAlert";
+import CustomAlert from "../../../components/Alerts/CustomAlert";
 
 export default function AccountScreen() {
   const auth = useSelector((state) => state.auth);
