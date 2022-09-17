@@ -5,10 +5,10 @@ import { Feather } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import ProfileScreen from "../../screens/profile";
-import SearchScreen from "../../screens/search";
+import ProfileScreen from "../../screens/profile/ProfileScreen";
+import SearchScreen from "../../screens/search/SearchScreen";
 import FeedNavigation from "../feed";
-import ActivityScreen from "../../screens/activity";
+import ActivityScreen from "../../screens/activity/ActivityScreen";
 
 import colors from "../../../config/colors";
 import SearchNavigation from "../feed/searchDiscover";

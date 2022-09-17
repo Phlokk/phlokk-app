@@ -1,11 +1,11 @@
 import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
-import DisplayMenuScreen from '../../screens/profile/displayMenu';
+import DisplayMenuScreen from '../../screens/profile/DisplayMenuScreen';
 import {useDispatch} from 'react-redux';
 import {Feather} from '@expo/vector-icons';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {useFollowing} from '../../hooks/useFollowing';
 // import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
-import UserProfile from '../../screens/profile/userProfile';
+import UserProfile from '../../screens/profile/UserProfile';
 import ProfileStatsContainer from '../profile/profileStats';
 
 import colors from '../../../config/colors';

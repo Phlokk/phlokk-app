@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
-import AccountInformation from "./accountInformation";
+import AccountInformation from "./AccountInformation";
 import CustomAlert from "../../components/Alerts/customAlert"
 
 const AccountControl = () => {

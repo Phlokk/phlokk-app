@@ -1,10 +1,10 @@
 import React, { createContext, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import ProfileScreen from "../../screens/profile";
-import VideoFeed from "../../screens/videoFeed";
+import ProfileScreen from "../../screens/profile/ProfileScreen";
+import VideoFeed from "../../screens/videoFeed/VideoFeed";
 import colors from "../../../config/colors";
-import SearchScreen from "../../screens/search";
+import SearchScreen from "../../screens/search/SearchScreen";
 
 const { Screen, Navigator } = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();

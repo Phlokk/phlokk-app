@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
-import GiftingScreen from "../../screens/gifting/giftingFlatList";
+import GiftingScreen from "./GiftingScreen";
 
 export default function GiftingsScreen() {
   const dispatch = useDispatch();
