@@ -21,11 +21,11 @@
     ],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
-      "buildNumber": "229160002",
+      "buildNumber": "229160003",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 229160002,
+      "versionCode": 229160003,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
         "backgroundColor": "#04cccc"
