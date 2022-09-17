@@ -28,6 +28,7 @@ export default function EditProfileFieldScreen({ route }) {
     }
   };
 
+
   return (
     <SafeAreaView style={styles.container}>
       <InfoScreenNav
@@ -45,7 +46,7 @@ export default function EditProfileFieldScreen({ route }) {
           textContentType="username"
           maxLength={24}
           value={textInputValue}
-          onChangeText={setTextInputValue}
+          onChangeText={(val) => setTextInputValue(val.toLowerCase())}
         />
       </View>
       <View style={styles.infoView}>

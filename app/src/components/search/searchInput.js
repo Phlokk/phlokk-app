@@ -69,7 +69,7 @@ const SearchInput = ({ placeholder, setSearchUsers }) => {
         autoCapitalize="none"
         value={textInput}
         autoCorrect={false}
-        onChangeText={setTextInput}
+        onChangeText={(val) => setTextInput(val.toLowerCase())}
         style={styles.textInput}
         placeholder={placeholder}
         placeholderTextColor={colors.green}
