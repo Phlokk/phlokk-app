@@ -1,5 +1,9 @@
 #import "AppDelegate.h"
 
+#if RCT_DEV
+#import <React/RCTDevLoadingView.h>
+#endif
+
 #if defined(EX_DEV_MENU_ENABLED)
 @import EXDevMenu;
 #endif
@@ -39,6 +43,9 @@ static void InitializeFlipper(UIApplication *application) {
 - (RCTBridge *)initializeReactNativeApp:(NSDictionary *)launchOptions
 {
   RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
+   #if RCT_DEV
+    [bridge moduleForClass:[RCTDevLoadingView class]];
+  #endif
   RCTRootView *rootView = [self.reactDelegate createRootViewWithBridge:bridge moduleName:@"main" initialProperties:nil];
   rootView.backgroundColor = [UIColor whiteColor];
   UIViewController *rootViewController = [self.reactDelegate createRootViewController];
@@ -49,10 +56,7 @@ static void InitializeFlipper(UIApplication *application) {
   return bridge;
  }
  
-// #if RCT_DEV
-// #import <React/RCTDevLoadingView.h>
-// #endif
-// @endif
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
