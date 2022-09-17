@@ -6,7 +6,7 @@ import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {useFollowing} from '../../hooks/useFollowing';
 // import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
 import UserProfile from '../../screens/profile/UserProfile';
-import ProfileStatsContainer from '../profile/profileStats';
+import ProfileStatsContainer from '../profile/profileStats/ProfileStatsContainer';
 
 import colors from '../../../config/colors';
 

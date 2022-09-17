@@ -6,7 +6,7 @@ import colors from '../../../config/colors';
 import {useFonts} from 'expo-font';
 
 import CustomAlert from '../../components/Alerts/customAlert';
-import CustomImageModal from '../../components/Image/customImage';
+import CustomImageModal from '../../components/Image/CustomImageModal';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../App';
 import VerifiedIcon from '../../components/common/VerifiedIcon';

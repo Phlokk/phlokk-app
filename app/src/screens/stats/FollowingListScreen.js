@@ -14,7 +14,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import StatsNavBar from '../../components/general/profileNavBar/statsNavBar';
 import SearchFollowing from './SearchFollowing';
-import SearchInput from '../../components/search/searchInput';
+import SearchInput from '../../components/search/SearchInput';
 import VerifiedIcon from '../../components/common/VerifiedIcon';
 
 const smallLogo = require('../../../assets/verified.png');

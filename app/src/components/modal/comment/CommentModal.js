@@ -9,7 +9,7 @@ import {
   Text,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import CommentItem from "./item";
+import CommentItem from "./item/CommentItem";
 import {
   commentListener,
   clearCommentListener,

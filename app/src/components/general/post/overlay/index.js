@@ -16,9 +16,9 @@ import {Octicons} from '@expo/vector-icons';
 import {MaterialIcons} from '@expo/vector-icons';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import CustomAlert from '../../../Alerts/customAlert';
-import SettingsSheetModalScreen from '../../../../components/modal/settingsSheetModalScreen';
-import GiftingModalScreen from '../../../modal/giftingModalScreen';
-import CommentModal from '../../../modal/comment/index';
+import SettingsSheetModalScreen from '../../../modal/settingsSheetModalScreen/SettingsSheetModalScreen';
+import GiftingModalScreen from '../../../modal/giftingModalScreen/GiftingModalScreen';
+import CommentModal from '../../../modal/comment/CommentModal';
 import colors from '../../../../../config/colors';
 import {likeVideo} from '../../../../redux/actions/likes';
 

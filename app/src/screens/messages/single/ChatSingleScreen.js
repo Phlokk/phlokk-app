@@ -9,7 +9,7 @@ import {
   Platform
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import ChatSingleItem from "../../../components/messages/chatSingle/item";
+import ChatSingleItem from "../../../components/messages/chatSingle/item/ChatSingleItem";
 import { useMessages } from "../../../hooks/useMessages";
 import { sendMessage } from "../../../services/chats";
 

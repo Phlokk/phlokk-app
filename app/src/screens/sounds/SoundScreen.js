@@ -28,7 +28,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SearchAudio from "./searchAudio/SearchAudio";
 // import { openSettingsAudioModal } from "../../redux/actions/modal";
-import SettingsAudioModalScreen from "../../components/modal/settingsAudioModalScreen"
+import SettingsAudioModalScreen from "../../components/modal/settingsAudioModalScreen/SettingsAudioModalScreen"
 
 const smallLogo = require("../../../assets/pmd_logo_green.png");
 const Sounds = [

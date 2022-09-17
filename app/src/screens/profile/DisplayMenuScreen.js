@@ -11,7 +11,7 @@ import {MaterialIcons} from '@expo/vector-icons';
 import {FontAwesome} from '@expo/vector-icons';
 import {AntDesign} from '@expo/vector-icons';
 import CustomAlert from '../../components/Alerts/customAlert';
-import SettingsModalScreen from '../../components/modal/settingsModalScreen';
+import SettingsModalScreen from '../../components/modal/settingsModalScreen/SettingsModalScreen';
 import colors from '../../../config/colors';
 import {useIsFocused} from '@react-navigation/native';
 import {useAtom} from 'jotai';

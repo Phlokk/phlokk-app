@@ -6,13 +6,13 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import SearchUserItem from "../../components/search/userItem";
+import SearchUserItem from "../../components/search/userItem/SearchUserItem";
 // import axios from "../../redux/apis/axiosDeclaration";
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
-import SearchInput from "../../components/search/searchInput";
+import SearchInput from "../../components/search/SearchInput";
 import { SafeAreaView } from "react-native-safe-area-context";
 const SearchScreen = () => {
   const navigation = useNavigation();

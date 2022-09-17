@@ -1,8 +1,8 @@
-import ProfileHeader from "../../components/header";
+import ProfileHeader from "../../components/header/ProfileHeader";
 import ProfileNavBar from "../../components/general/profileNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, View, StyleSheet, Text, RefreshControl } from "react-native";
-import ProfilePostListItem from "../../components/profile/postList/item";
+import ProfilePostListItem from "../../components/profile/postList/item/ProfilePostListItem";
 import colors from "../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";

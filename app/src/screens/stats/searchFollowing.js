@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import SearchInput from "../../components/search/searchInput";
+import SearchInput from "../../components/search/SearchInput";
 
 
 const SearchFollowing = () => {
