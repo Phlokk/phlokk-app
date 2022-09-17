@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FlatList, View, Text, StyleSheet, Alert } from "react-native";
 import MessageListItem from "../../../components/messages/list/item/MessageListItem";
-import MessagesNavBar from "../../../components/general/messagesNav";
+import MessagesNavBar from "../../../components/general/messagesNav/MessagesNavBar";
 import { useSelector } from "react-redux";
 import { deleteMessageById } from "../../../services/posts";
 import { useQueryClient } from "react-query";

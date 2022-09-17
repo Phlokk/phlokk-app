@@ -4,7 +4,7 @@ import generalStyles from "../../../styles/GeneralStyles";
 import { useNavigation } from "@react-navigation/native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import NavBarGeneral from "../../../components/general/navBar";
+import NavBarGeneral from "../../../components/general/navBar/NavBarGeneral";
 import { saveUserBuyLink } from "../../../services/user";
 
 import colors from "../../../../config/colors"

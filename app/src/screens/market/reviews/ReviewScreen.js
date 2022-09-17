@@ -1,5 +1,5 @@
 import React from "react";
-import MarketNavBar from "../../../components/general/phlokkMarket";
+import MarketNavBar from "../../../components/general/phlokkMarket/MarketNavBar";
 import { View, StyleSheet } from "react-native";
 
 import colors from "../../../../config/colors"

@@ -13,7 +13,7 @@ import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 import colors from "../../../config/colors";
 import { updateCreator } from "../../services/user";
-import InfoScreenNav from "../../components/general/navBar/infoScreenNav";
+import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 
 export default function EditCreatorFieldScreen({ route }) {
   const { title } = route.params;

@@ -8,7 +8,7 @@ import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
-import CustomAlert from "../../../components/Alerts/customAlert";
+import CustomAlert from "../../Alerts/customAlert";
 
 export default function ProfileNavBar({ userProfile, showFireIcon }) {
   const navigation = useNavigation();

@@ -19,7 +19,7 @@ import colors from "../../../config/colors";
 import FormData from "form-data";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
-import EditProfileNav from "../../components/general/navBar/editProfile";
+import EditProfileNav from "../../components/general/navBar/EditProfileNav";
 import { fetchGetUsers } from "../../redux/sagas/requests/fetchUsers";
 
 export default function EditProfileScreen({ route }) {

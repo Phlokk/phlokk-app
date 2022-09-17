@@ -7,7 +7,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import SettingsNavBar from "../../components/general/settings";
+import SettingsNavBar from "../../components/general/settings/SettingsNavBar";
 import * as SecureStore from "expo-secure-store";
 import axios from "../../redux/apis/axiosDeclaration";
 import { types } from "../../redux/constants";

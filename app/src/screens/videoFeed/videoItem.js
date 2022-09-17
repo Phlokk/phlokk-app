@@ -3,7 +3,7 @@ import { View, Pressable, StyleSheet } from "react-native";
 import { Video, Audio } from "expo-av";
 import { useIsFocused } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import PostSingleOverlay from "../../components/general/post/overlay";
+import PostSingleOverlay from "../../components/general/post/overlay/PostSingleOverlay";
 import UserProfileOverlay from "../../components/general/post/overlay/UserProfileOverlay";
 import colors from "../../../config/colors";
 import LinearGradient from "react-native-linear-gradient";

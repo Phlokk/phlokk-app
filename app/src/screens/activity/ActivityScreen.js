@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ActivityNavBar from "../../components/general/activityNav";
+import ActivityNavBar from "../../components/general/activityNav/ActivityNavBar";
 import {
   View,
   StyleSheet,

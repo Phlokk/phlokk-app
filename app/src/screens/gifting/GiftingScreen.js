@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import routes from "../../navigation/routes";
-import GiftingNavBar from "../../components/general/giftingNav/giftingNavBar";
+import GiftingNavBar from "../../components/general/giftingNav/GiftingNavBar";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/customAlert";
 

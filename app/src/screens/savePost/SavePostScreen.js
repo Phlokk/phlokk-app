@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { createPost } from "../../redux/actions";
-import PostNavBar from "../../components/general/postNav";
+import PostNavBar from "../../components/general/postNav/PostNavBar";
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import LottieView from "lottie-react-native";

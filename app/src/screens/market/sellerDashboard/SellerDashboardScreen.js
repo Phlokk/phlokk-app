@@ -6,14 +6,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
-import NavBarGeneral from "../../../components/general/navBar";
+import NavBarGeneral from "../../../components/general/navBar/NavBarGeneral";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import FormData from "form-data";
 // import { saveUserField } from "../../../services/user";
 import { useFocusEffect } from '@react-navigation/native';
 import { fetchMarketCreatorData} from "../../../redux/actions/creators";
-import MarketProfileNavBar from "../../../components/general/profileNavBar/market/marketProfileNav";
+import MarketProfileNavBar from "../../../components/general/profileNavBar/market/MarketProfileNavBar";
 
 
 

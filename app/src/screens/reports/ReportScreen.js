@@ -13,7 +13,7 @@ import React, { useState } from "react";
 import axios from "../../redux/apis/axiosDeclaration";
 
 import colors from "../../../config/colors";
-import PostNavBar from "../../components/general/postNav";
+import PostNavBar from "../../components/general/postNav/PostNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { generalStyles } from "../../styles";
 import { REPORT_TICKET } from "@env";

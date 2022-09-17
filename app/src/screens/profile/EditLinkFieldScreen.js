@@ -7,7 +7,7 @@ import { updateCreator } from "../../services/user";
 import generalStyles from "../../styles/GeneralStyles";
 
 import colors from "../../../config/colors"
-import InfoScreenNav from "../../components/general/navBar/infoScreenNav";
+import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 

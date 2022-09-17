@@ -9,7 +9,7 @@ import axios from "../../redux/apis/axiosDeclaration";
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import { useNavigation } from "@react-navigation/native";
-import NavBarGeneral from "../../components/general/navBar";
+import NavBarGeneral from "../../components/general/navBar/NavBarGeneral";
 
 export default function DeleteProfileScreen() {
   const [user, setUser] = useState("");

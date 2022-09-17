@@ -1,5 +1,5 @@
 import ProfileHeader from "../../components/header/ProfileHeader";
-import ProfileNavBar from "../../components/general/profileNavBar";
+import ProfileNavBar from "../../components/general/profileNavBar/ProfileNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, View, StyleSheet, Text, RefreshControl } from "react-native";
 import ProfilePostListItem from "../../components/profile/postList/item/ProfilePostListItem";

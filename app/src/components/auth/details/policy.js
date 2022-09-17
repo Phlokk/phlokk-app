@@ -3,7 +3,7 @@ import { Text, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import colors from "../../../../config/colors";
-import PostNavBar from "../../general/navBar";
+import PostNavBar from "../../general/navBar/NavBarGeneral";
 
 
 export default function EndUserLicenseAgreement() {

@@ -20,7 +20,7 @@ import {
   Pressable
 } from "react-native";
 import { Audio } from "expo-av";
-import RecordingNavBar from "../../components/general/navBar/recordingNav";
+import RecordingNavBar from "../../components/general/navBar/RecordingNavBar";
 import { Entypo } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";

@@ -2,7 +2,7 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Divider } from "react-native-paper";
-import NavBarGeneral from "../../../components/general/navBar";
+import NavBarGeneral from "../../../components/general/navBar/NavBarGeneral";
 import generalStyles from "../../../styles/GeneralStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { saveUserDonateLink } from "../../../services/user";

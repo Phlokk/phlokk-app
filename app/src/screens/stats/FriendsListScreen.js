@@ -12,7 +12,7 @@ import {
 import colors from '../../../config/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import StatsNavBar from '../../components/general/profileNavBar/statsNavBar';
+import StatsNavBar from '../../components/general/profileNavBar/StatsNavBar';
 import SearchFollowing from './SearchFollowing';
 import SearchInput from '../../components/search/SearchInput';
 import VerifiedIcon from '../../components/common/VerifiedIcon';

@@ -2,7 +2,7 @@
 import { View, StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
-import RisingStarsNavBar from "../../components/general/profileNavBar/risingStarNavBar";
+import RisingStarsNavBar from "../../components/general/profileNavBar/RisingStarsNavBar";
 
 export default function FoodieScreen() {
 

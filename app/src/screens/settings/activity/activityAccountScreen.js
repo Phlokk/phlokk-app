@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
-import SettingsNavBar from "../../../components/general/settings";
+import SettingsNavBar from "../../../components/general/settings/SettingsNavBar";
 import colors from "../../../../config/colors";
 import { Linking } from "react-native";
 import * as SecureStore from "expo-secure-store";

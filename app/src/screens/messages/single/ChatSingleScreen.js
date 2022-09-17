@@ -13,7 +13,7 @@ import ChatSingleItem from "../../../components/messages/chatSingle/item/ChatSin
 import { useMessages } from "../../../hooks/useMessages";
 import { sendMessage } from "../../../services/chats";
 
-import MessagesNavBar from "../../../components/general/messagesNav";
+import MessagesNavBar from "../../../components/general/messagesNav/MessagesNavBar";
 
 import colors from "../../../../config/colors"
 

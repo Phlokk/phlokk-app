@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
-import GiftingNavBar from "../../components/general/giftingNav/giftingNavBar"
+import GiftingNavBar from "../../components/general/giftingNav/GiftingNavBar"
 
 function FireRulesScreen() {
   const navigation = useNavigation();

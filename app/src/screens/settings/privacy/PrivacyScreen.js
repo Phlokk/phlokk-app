@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from '@expo/vector-icons'; 
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
-import SettingsNavBar from "../../../components/general/settings";
+import SettingsNavBar from "../../../components/general/settings/SettingsNavBar";
 
 
 export default function PrivacyScreen() {

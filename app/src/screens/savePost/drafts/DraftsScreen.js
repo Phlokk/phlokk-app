@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import DraftsNavBar from "../../../components/general/draftsNav";
+import DraftsNavBar from "../../../components/general/draftsNav/DraftsNavBar";
 
 import colors from "../../../../config/colors"
 
