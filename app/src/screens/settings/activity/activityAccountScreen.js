@@ -8,12 +8,13 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import SettingsNavBar from "../../../components/general/settings";
 import colors from "../../../../config/colors";
 import { Linking } from "react-native";
+import * as SecureStore from "expo-secure-store";
 import {
   enableNotificationsForDevice,
   disableNotificationsForDevice,
@@ -23,17 +24,21 @@ import {
 export default function ActivityAccountScreen() {
   const auth = useSelector((state) => state.auth);
   const [user, setUser] = useState("");
+
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
 
-  console.log(user);
+  const loadNotificationState = async function () {
+    let user = JSON.parse(await SecureStore.getItemAsync("user"));
+    setIsNotificationsEnabled(user.notificationsForDeviceEnabled);
+  };
 
   const toggleNotifications = async function () {
-    setIsNotificationsEnabled(isNotificationsEnabled ? false : true); // switch off or on
-    console.log("notifications are ".isNotificationsEnabled);
     if (!isNotificationsEnabled) {
       await enableNotificationsForDevice();
+      await loadNotificationState();
     } else {
       await disableNotificationsForDevice();
+      Alert.alert("Disable notifications coming in Beta 3");
     }
   };
 
@@ -50,6 +55,8 @@ export default function ActivityAccountScreen() {
         );
       });
   };
+
+  loadNotificationState();
 
   return (
     <SafeAreaView style={styles.container}>

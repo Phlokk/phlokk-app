@@ -36,8 +36,8 @@ export default function SearchUserItem({ item }) {
       </View>
 
       <View>
-        {item.photo_url !== null || !undefined ? (
-          <Image style={styles.image} source={{ uri: item.photo_url }} />
+        {item.photo_thumb_url !== null || !undefined ? (
+          <Image style={styles.image} source={{ uri: item.photo_thumb_url }} />
         ) : (
           <Image
             style={styles.image}

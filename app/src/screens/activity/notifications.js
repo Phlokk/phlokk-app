@@ -5,8 +5,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  FlatList,
-  ScrollView,
   Pressable,
   Alert,
 } from "react-native";
@@ -15,24 +13,28 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import { timeSince } from "../../services/posts";
 import routes from "../../navigation/routes";
+import { getPost } from "../../services/posts";
+import FastImage from "react-native-fast-image";
 
 const NotificationItem = ({ navigation, item }) => {
   const [user, setUser] = useAtom(userAtom);
 
-  const posts = [item.associated];
+  const goToPost = async function () {
+    const post = await getPost(item.associated._id).then((resp) => {
+      return resp.data.post;
+    });
+
+    navigation.navigate(routes.USER_POSTS, {
+      creator: post.user,
+      profile: true,
+      selectedVideo: post.media[0].original_url,
+      selectedIndex: 0,
+      preloadedPosts: [post],
+    });
+  };
 
   return (
-    <TouchableOpacity
-    onPress={() => {
-      navigation.navigate(routes.USER_POSTS, {
-        creator: item.associated.user,
-        profile: true,
-        selectedVideo: item.associated.media[0].original_url,
-        selectedIndex: 0,
-        preloadedPosts: posts,
-      });
-    }}
-    >
+    <TouchableOpacity onPress={() => goToPost()}>
       <View style={styles.containerInput}>
         {!item.user.photo_url ? (
           <Image
@@ -42,9 +44,13 @@ const NotificationItem = ({ navigation, item }) => {
           />
         ) : (
           <TouchableOpacity>
-            <Image
+            <FastImage
               style={styles.avatar}
-              source={{ uri: item.user.photo_url }}
+              source={{
+                uri: item.user.photo_url,
+                priority: FastImage.priority.high,
+              }}
+              cache={FastImage.cacheControl.web}
             />
           </TouchableOpacity>
         )}
@@ -65,9 +71,13 @@ const NotificationItem = ({ navigation, item }) => {
                 //   });
                 // }}
               >
-                <Image
+                <FastImage
                   style={styles.avatarList}
-                  source={{ uri: item.pictures[key] }}
+                  source={{
+                    uri: item.pictures[key],
+                    priority: FastImage.priority.low,
+                  }}
+                  cache={FastImage.cacheControl.web}
                 />
               </Pressable>
             ))}

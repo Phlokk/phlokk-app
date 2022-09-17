@@ -134,7 +134,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       <Text style={styles.postCountText}>{commentList.length} comments</Text>
 
       <View style={styles.containerInput}>
-        {!user?.photo_url && !user?.photo_url ? (
+        {!user?.photo_thumb_url && !user?.photo_thumb_url ? (
           <Image
             style={styles.avatar}
             source={require("../../../../assets/userImage.png")}
@@ -142,7 +142,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
           />
         ) : (
           <TouchableOpacity>
-            <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+            <Image style={styles.avatar} source={{ uri: user.photo_thumb_url }} />
           </TouchableOpacity>
         )}
         <TextInput

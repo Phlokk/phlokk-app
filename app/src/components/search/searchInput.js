@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { TextInput, View, StyleSheet } from "react-native";
-import { color } from "react-native-reanimated";
-// import axios from "../../redux/apis/axiosDeclaration";
-// import * as SecureStore from "expo-secure-store";
-// import { useDebounce } from "use-debounce";
+import {
+  TextInput,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import colors from "../../../config/colors";
 import { queryUsers } from "../../services/user";
+import { Feather } from "@expo/vector-icons";
 
 function useDebounce(value, delay) {
   // State and setters for debounced value
@@ -71,14 +74,30 @@ const SearchInput = ({ placeholder, setSearchUsers }) => {
         placeholder={placeholder}
         placeholderTextColor={colors.green}
         underlineColorAndroid="transparent"
-        clearButtonMode="always"
       />
+      {textInput !== "" && (
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => setTextInput("")}
+        >
+          <Feather name="x" size={22} color={colors.green} />
+        </TouchableOpacity>
+      )}
+      {isSearching && (
+        <ActivityIndicator
+          size="large"
+          color={colors.green}
+          style={styles.loading}
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    zIndex: 10,
+    flexDirection: "row",
     backgroundColor: colors.primary,
     padding: 10,
   },
@@ -90,6 +109,18 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     marginVertical: 10,
+  },
+  closeButton: {
+    top: 28,
+    right: 20,
+    position: "absolute",
+  },
+  loading: {
+    position: "absolute",
+    top: 250,
+    bottom: 0,
+    right: 0,
+    left: 0,
   },
 });
 

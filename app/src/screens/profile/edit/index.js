@@ -32,6 +32,8 @@ export default function EditProfileScreen({ route }) {
 
   const user = passedUser?._id === currentUser._id ? currentUser : passedUser;
 
+  
+
   const chooseImage = async () => {
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
@@ -83,14 +85,14 @@ export default function EditProfileScreen({ route }) {
       <EditProfileNav title="Edit Profile" leftButton={{ display: false }} />
       <ScrollView>
         <View style={styles.imageContainer}>
-          {user.photo_url !== null ? (
+          {user.photo_thumb_url !== null ? (
             <TouchableOpacity
               style={styles.imageViewContainer}
               onPress={() => chooseImage()}
             >
               <Image
                 style={styles.image}
-                source={{ uri: image ? image : user.photo_url }}
+                source={{ uri: image ? image : user.photo_thumb_url }}
                 cache="only-if-cached"
               />
 

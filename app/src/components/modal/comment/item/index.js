@@ -119,7 +119,7 @@ const CommentItem = ({
         >
           <Image
             style={styles.avatar}
-            source={{ uri: comment.user.photo_url }}
+            source={{ uri: comment.user.photo_thumb_url }}
           />
         </TouchableOpacity>
       )}
@@ -166,16 +166,18 @@ const CommentItem = ({
           </TouchableOpacity>
         </View>
       </Pressable>
-      <View style={styles.starRow}>
-        <TouchableOpacity onPress={likeButtonHandler}>
-          <MaterialCommunityIcons
-            color={colors.green}
-            size={20}
-            name={isLiked ? "star" : "star-outline"}
-          />
-        </TouchableOpacity>
-        <Text style={styles.starCount}>{likeCount}</Text>
-      </View>
+      {comment._id.indexOf("-temp") === -1 && (
+        <View style={styles.starRow}>
+          <TouchableOpacity onPress={likeButtonHandler}>
+            <MaterialCommunityIcons
+              color={colors.green}
+              size={20}
+              name={isLiked ? "star" : "star-outline"}
+            />
+          </TouchableOpacity>
+          <Text style={styles.starCount}>{likeCount}</Text>
+        </View>
+      )}
 
       <CustomAlert
         alertTitle="Alert"

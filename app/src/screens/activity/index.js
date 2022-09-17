@@ -24,6 +24,7 @@ export default function ActivityScreen({ navigation }) {
     return () => clearNotificationListener();
   }, []);
 
+  
   const renderItem = ({ item, index }) => {
     // console.log(item);
     return (

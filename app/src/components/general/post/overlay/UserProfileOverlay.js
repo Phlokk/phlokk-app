@@ -46,14 +46,14 @@ function UserProfileOverlay({post, user, currentUser, areTabsShowing}) {
 							});
 						}}
 					>
-						{!user?.photo_url && !user?.photo_url ? (
+						{!user?.photo_thumb_url && !user?.photo_thumb_url ? (
 							<Image
 								style={styles.avatar}
 								source={require('../../../../../assets/userImage.png')}
 								cache="only-if-cached"
 							/>
 						) : (
-							<Image style={styles.avatar} source={{uri: user.photo_url}} />
+							<Image style={styles.avatar} source={{uri: user.photo_thumb_url}} />
 						)}
 					</TouchableOpacity>
 				</View>

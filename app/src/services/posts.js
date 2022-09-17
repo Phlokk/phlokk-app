@@ -20,6 +20,14 @@ export const getFeed = () =>
       Alert.alert("Could not get feed!");
     });
 
+export const getPost = async (postId) => {
+  try {
+    return axios.get(`/api/post/view/${postId}`);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const getFeedAsync = async (page) => {
   const paramsObject = { page, perPage: POSTS_PER_PAGE };
   const params = querystring.stringify(paramsObject);
