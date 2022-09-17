@@ -7,11 +7,11 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileScreen from "../../screens/profile/ProfileScreen";
 import SearchScreen from "../../screens/search/SearchScreen";
-import FeedNavigation from "../feed";
+import FeedNavigation from "../feed/FeedNavigation";
 import ActivityScreen from "../../screens/activity/ActivityScreen";
 
 import colors from "../../../config/colors";
-import SearchNavigation from "../feed/searchDiscover";
+import SearchNavigation from "../feed/SearchDiscover";
 
 const Tab = createBottomTabNavigator();
 

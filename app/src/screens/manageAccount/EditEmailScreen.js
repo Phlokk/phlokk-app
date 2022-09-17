@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Divider } from "react-native-paper";
 import { saveUserEmail } from "../../services/user";
 import { useNavigation } from "@react-navigation/native";
-import { generalStyles } from "../../styles/generalStyles";
+import { generalStyles } from "../../styles/GeneralStyles";
 import NavBarGeneral from "../../components/general/navBar";
 
 import colors from "../../../config/colors"

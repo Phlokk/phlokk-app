@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Divider } from "react-native-paper";
 import NavBarGeneral from "../../../components/general/navBar";
-import generalStyles from "../../../styles/generalStyles";
+import generalStyles from "../../../styles/GeneralStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { saveUserDonateLink } from "../../../services/user";
 

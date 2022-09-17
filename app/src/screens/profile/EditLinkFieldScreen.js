@@ -4,7 +4,7 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { updateCreator } from "../../services/user";
-import generalStyles from "../../styles/generalStyles";
+import generalStyles from "../../styles/GeneralStyles";
 
 import colors from "../../../config/colors"
 import InfoScreenNav from "../../components/general/navBar/infoScreenNav";

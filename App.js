@@ -1,19 +1,17 @@
 import "react-native-gesture-handler";
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import store from "./app/src/redux/reducers/configureStore";
 import { Provider } from "react-redux";
-import Route from "./app/src/navigation/main";
-import { LogBox, StatusBar, Text, View, Button, Platform } from "react-native";
+import Route from "./app/src/navigation/main/Route";
+import { LogBox, StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { atom, useAtom } from "jotai";
 import { fetchGetUsers } from "./app/src/redux/sagas/requests/fetchUsers";
 import * as SplashScreen from "expo-splash-screen";
-
 // imports for notifications.js
 import * as Notifications from "expo-notifications";
-import { registerForPushNotificationsAsync } from "./app/src/services/notifications";
-import * as SecureStore from "expo-secure-store";
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -49,8 +47,8 @@ Notifications.setNotificationHandler({
 export default function App() {
   const [user, setUser] = useAtom(userAtom);
 
-  const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState(false);
+
+  const [setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
 

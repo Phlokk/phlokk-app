@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useState } from "react";
-import generalStyles from "../../../styles/generalStyles";
+import generalStyles from "../../../styles/GeneralStyles";
 import { useNavigation } from "@react-navigation/native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import generalStyles from "../../styles/generalStyles";
+import generalStyles from "../../styles/GeneralStyles";
 import { updateCreator } from "../../services/user";
 
 import colors from "../../../config/colors";

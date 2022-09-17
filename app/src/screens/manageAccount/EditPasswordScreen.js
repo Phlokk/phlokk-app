@@ -5,7 +5,7 @@ import { Divider } from "react-native-paper";
 import { saveUserPassword } from "../../services/user";
 import { useNavigation } from "@react-navigation/native";
 import NavBarGeneral from "../../components/general/navBar";
-import { generalStyles } from "../../styles/generalStyles";
+import { generalStyles } from "../../styles/GeneralStyles";
 
 import colors from "../../../config/colors";
 

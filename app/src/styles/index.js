@@ -1,4 +1,4 @@
-import buttonStyles from "./buttonStyles";
-import generalStyles from "./generalStyles";
+import buttonStyles from "./ButtonStyles";
+import generalStyles from "./GeneralStyles";
 
 export { buttonStyles, generalStyles };
