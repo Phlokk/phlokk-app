@@ -20,7 +20,7 @@ import { useTogglePasswordVisibility } from "../../../services/passwordVisibilit
 import colors from "../../../../config/colors";
 import axios from "../../../redux/apis/axiosDeclaration";
 import routes from "../../../navigation/routes";
-import CustomPolicyModal from "../../eulaScreenModal/eulaModal";
+import CustomPolicyModal from "../../eulaScreenModal/CustomPolicyModal";
 import {registerForPushNotificationsAsync} from "../../../services/notifications";
 
 export default function AuthDetails({ authPage, setDetailsPage }) {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import AuthDetails from "../../components/auth/details";
-import AuthMenu from "../../components/auth/menu";
+import AuthDetails from "../../components/auth/details/AuthDetails";
+import AuthMenu from "../../components/auth/menu/AuthMenu";
 
 import colors from "../../../config/colors"
 

@@ -41,7 +41,7 @@ import ChatSingleScreen from "../../screens/messages/single/ChatSingleScreen";
 import PhlokkMarketToolsScreen from "../../screens/market/sellerTools/PhlokkMarketToolsScreen";
 import EditCreatorFieldScreen from "../../screens/profile/EditCreatorFieldScreen";
 import RelationshipCategoryScreen from "../../screens/profile/RelationshipCategoryScreen";
-import EndUserLicenseAgreement from "../../components/auth/details/policy";
+import EndUserLicenseAgreement from "../../components/auth/details/EndUserLicenseAgreement";
 import ReportScreen from "../../screens/reports/ReportScreen";
 import EditQuotesFieldScreen from "../../screens/profile/EditQuotesFieldScreen";
 import ComedyScreen from "../../screens/risingStars/comedy";
