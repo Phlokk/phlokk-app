@@ -9,63 +9,15 @@ import UserProfile from '../../screens/profile/UserProfile';
 import ProfileStatsContainer from '../profile/profileStats/ProfileStatsContainer';
 
 import colors from '../../../config/colors';
+import {useState} from "react";
+import axios from "../../redux/apis/axiosDeclaration";
 
 function ProfileHeader({user}) {
 	const dispatch = useDispatch();
 
-	const isFollowing = useFollowing(user);
-	// // const isFollowingMutation = useFollowingMutation();
-	const renderFollowButton = () => {
-		if (isFollowing === null) {
-			return (
-				<View style={{flexDirection: 'row'}}>
-					<TouchableOpacity
-						style={styles.profileIconButton}
-						// onPress={() =>
-						//   navigation.navigate(routes.CHAT_SINGLE, { contactId: user.id })
-						// }
-					>
-						<MaterialCommunityIcons
-							name="message-processing-outline"
-							size={22}
-							color="lightgray"
-						/>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.profileIconButton}
-						// onPress={() =>
-						//   isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
-						// }
-					>
-						<Feather name="user-check" size={20} color={colors.green} />
-					</TouchableOpacity>
-				</View>
-			);
-		} else {
-			return (
-				<TouchableOpacity
-					style={styles.filledButton}
-					// onPress={() =>
-					//   isFollowingMutation.mutate({ otherUserId: user.id, isFollowing })
-					// }
-				>
-					<Text style={styles.text}>
-						<Feather name="user-plus" size={20} color="white" />
-					</Text>
-				</TouchableOpacity>
-			);
-		}
-	};
-
 	return (
 		<View style={styles.container}>
-			<ProfileStatsContainer />
-
-			{user !== null || !undefined ? (
-				<TouchableOpacity></TouchableOpacity>
-			) : (
-				renderFollowButton()
-			)}
+			<ProfileStatsContainer currentUser={user} />
 
 			<View>
 				<UserProfile user={user} />
@@ -142,23 +94,6 @@ const styles = StyleSheet.create({
 		borderRadius: 4,
 		paddingVertical: 10,
 		paddingHorizontal: 30,
-	},
-	profileIconButton: {
-		borderColor: colors.secondary,
-		borderWidth: 1,
-		borderRadius: 4,
-		paddingVertical: 7,
-		marginBottom: 5,
-		paddingHorizontal: 30,
-		marginHorizontal: 5,
-	},
-	filledButton: {
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: colors.secondary,
-		paddingVertical: 7,
-		paddingHorizontal: 50,
-		marginBottom: 5,
 	},
 	messageText: {
 		color: colors.black,
