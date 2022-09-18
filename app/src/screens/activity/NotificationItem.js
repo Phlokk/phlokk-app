@@ -15,26 +15,43 @@ import { timeSince } from "../../services/posts";
 import routes from "../../navigation/routes";
 import { getPost } from "../../services/posts";
 import FastImage from "react-native-fast-image";
+import {useNavigation} from "@react-navigation/core";
 
 const NotificationItem = ({ navigation, item }) => {
+
+  /**
+   * Notification "types"
+   * 1 = DEVICE REGISTRATION; // no navigation / navigate to "session list"
+   * 2 = POST REACTION; // navigate to post / comment???
+   * 3 = POST COMMENT; // navigate to comment???
+   * 4 = POST DELETED; // no navigation
+   * 5 = NEW FOLLOW; // navigate to user
+   */
+
+
+  const inAppNavigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
 
-  const goToPost = async function () {
-    const post = await getPost(item.associated._id).then((resp) => {
-      return resp.data.post;
-    });
+  const goToAssociated = async function () {
+    if (item.type == 5) {
+      inAppNavigation.navigate("profileOther", { initialUser: item.associated })
+    } else {
+      const post = await getPost(item.associated._id).then((resp) => {
+        return resp.data.post;
+      });
 
-    navigation.navigate(routes.USER_POSTS, {
-      creator: post.user,
-      profile: true,
-      selectedVideo: post.media[0].original_url,
-      selectedIndex: 0,
-      preloadedPosts: [post],
-    });
+      navigation.navigate(routes.USER_POSTS, {
+        creator: post.user,
+        profile: true,
+        selectedVideo: post.media[0].original_url,
+        selectedIndex: 0,
+        preloadedPosts: [post],
+      });
+    }
   };
 
   return (
-    <TouchableOpacity onPress={() => goToPost()}>
+    <TouchableOpacity onPress={() => goToAssociated()}>
       <View style={styles.containerInput}>
         {!item.user.photo_url ? (
           <Image
