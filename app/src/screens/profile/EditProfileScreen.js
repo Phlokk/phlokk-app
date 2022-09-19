@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -22,6 +21,9 @@ import { userAtom } from "../../../../App";
 import EditProfileNav from "../../components/general/navBar/EditProfileNav";
 import { fetchGetUsers } from "../../redux/sagas/requests/fetchUsers";
 
+
+import {apiUrls} from "../../globals";
+
 export default function EditProfileScreen({ route }) {
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
@@ -32,7 +34,7 @@ export default function EditProfileScreen({ route }) {
 
   const user = passedUser?._id === currentUser._id ? currentUser : passedUser;
 
-  
+
 
   const chooseImage = async () => {
     let user = await SecureStore.getItemAsync("user");
@@ -59,7 +61,7 @@ export default function EditProfileScreen({ route }) {
       type: "image/*",
     });
 
-    let res = await fetch("https://api.phlokk.com/api/me/profile-picture", {
+    let res = await fetch(apiUrls.BASE_URL + "/api/me/profile-picture", {
       method: "POST",
       body: formData,
       headers: {
@@ -365,7 +367,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 13,
     marginTop: 60,
-    fontWeight: "600",
   },
   avatar: {
     height: 100,

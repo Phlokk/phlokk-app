@@ -2,6 +2,8 @@ import FormData from "form-data";
 import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
+import {apiUrls} from "../globals";
+
 export const saveMediaToStorage = (description, source, thumbnail) => {
   new Promise(async (resolve, reject) => {
     let formData = new FormData();
@@ -30,10 +32,10 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
     }, thumbFileName);
 
     const user = await SecureStore.getItemAsync("user");
-    
+
     if (user) {
       const parsedUser = JSON.parse(user);
-      let url = "https://api.phlokk.com/api/post/create";
+      let url = apiUrls.BASE_URL + "/api/post/create";
       await fetch(url,
           {
             method: 'POST',
