@@ -142,7 +142,10 @@ function CommentModal({ post, onNewCommentSubmitted }) {
           />
         ) : (
           <TouchableOpacity>
-            <Image style={styles.avatar} source={{ uri: user.photo_thumb_url }} />
+            <Image
+              style={styles.avatar}
+              source={{ uri: user.photo_thumb_url }}
+            />
           </TouchableOpacity>
         )}
         <TextInput

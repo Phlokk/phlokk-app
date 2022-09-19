@@ -9,7 +9,6 @@ import * as SecureStore from "expo-secure-store";
 
 const axios = defaultAxios.create({
   baseURL: "https://api.phlokk.com",
-  // baseURL: BASE_URL_AXIOS,
   timeout: 30000,
   responseType: "json",
   headers: { "content-type": "application/json", Accept: "application/json" },

@@ -10,12 +10,10 @@ import { Feather } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import colors from "../../../config/colors";
 import { useState } from "react";
 import axios from "../../redux/apis/axiosDeclaration";
-
 
 export default function CustomImageModal({
   modalVisible,
@@ -23,17 +21,22 @@ export default function CustomImageModal({
   user,
   currentUser,
 }) {
-
-  const [following, setFollowing] = useState(currentUser?.follow_count || user?.follow_count);
-  const [isFollowing, setIsFollowing] = useState(currentUser?.is_following || user?.is_following);
+  const [following, setFollowing] = useState(
+    currentUser?.follow_count || user?.follow_count
+  );
+  const [isFollowing, setIsFollowing] = useState(
+    currentUser?.is_following || user?.is_following
+  );
   // const [isFriends, setIsFriends] = useState(false);
 
-
   const toggleIsFollowing = async function (userId) {
-    await axios.post('/api/creator/' + userId + '/' + isFollowing ? 'unfollow' : 'follow'), {};
+    await axios.post(
+      "/api/creator/" + userId + "/" + (isFollowing ? "unfollow" : "follow")
+    ),
+      {};
     setIsFollowing(!isFollowing);
-    setFollowing((!isFollowing) ? (following + 1) : (following - 1));
-  }
+    setFollowing(!isFollowing ? following + 1 : following - 1);
+  };
 
   const renderFollowButton = () => {
     if (user._id == currentUser._id) {
@@ -42,30 +45,27 @@ export default function CustomImageModal({
     if (isFollowing) {
       return (
         <TouchableOpacity
-        style={[styles.imageViewContainer, styles.followingView]}
-        onPress={() => toggleIsFollowing(currentUser._id)}
-      >
-        <View style={styles.followingBtn}>
-        <Text style={styles.alertMessageFriendsText}>Following</Text>
-        </View>
-      </TouchableOpacity>
+          style={[styles.imageViewContainer, styles.followingView]}
+          onPress={() => toggleIsFollowing(currentUser._id)}
+        >
+          <View style={styles.followingBtn}>
+            <Text style={styles.alertMessageFriendsText}>Following</Text>
+          </View>
+        </TouchableOpacity>
       );
     } else {
       return (
         <TouchableOpacity
-        onPress={() => toggleIsFollowing(currentUser._id)}
-        style={[styles.imageViewContainer, styles.followingView]}
-      >
-        <View style={styles.followBtn}>
-        <Text style={styles.alertMessageFollowText}>Follow</Text>
-        </View>
-      </TouchableOpacity>
+          onPress={() => toggleIsFollowing(currentUser._id)}
+          style={[styles.imageViewContainer, styles.followingView]}
+        >
+          <View style={styles.followBtn}>
+            <Text style={styles.alertMessageFollowText}>Follow</Text>
+          </View>
+        </TouchableOpacity>
       );
-    } 
+    }
   };
-
-
-
 
   return (
     <Modal
@@ -100,7 +100,7 @@ export default function CustomImageModal({
             <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
               {user.relationship_type}
             </Text>
-            { renderFollowButton() }
+            {renderFollowButton()}
 
             <Text style={styles.alertMessageTextStyle}>{user.bio}</Text>
 
@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
     height: 175,
     width: 175,
-    
   },
   statusText: {
     color: colors.secondary,
@@ -217,16 +216,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.green,
     padding: 5,
-    borderRadius: 5, 
-
+    borderRadius: 5,
   },
   followingBtn: {
     width: 100,
     borderWidth: 1,
     borderColor: colors.green,
     padding: 5,
-    borderRadius: 5, 
-
+    borderRadius: 5,
   },
   relationshipStatusIcon: {
     color: colors.secondary,
