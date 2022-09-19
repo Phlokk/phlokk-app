@@ -31,6 +31,10 @@ export default function ProfileScreen({route}) {
 			return;
 		}
 
+		if (!loggedInUser) {
+			return;
+		}
+
 		const userProfile = route?.params?.initialUser;
 		if (!userProfile) {
 			setProfile(loggedInUser);
@@ -38,7 +42,7 @@ export default function ProfileScreen({route}) {
 			setProfile(userProfile);
 			fetchUser(userProfile._id);
 		}
-	}, [route]);
+	}, [route, loggedInUser]);
 
 	const {posts, getMoreUserPosts, refresh, loading} = useUserVideoFeed(
 		profile?._id
