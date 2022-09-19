@@ -1,18 +1,16 @@
-import {View, StyleSheet } from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import DisplayMenuScreen from '../../screens/profile/DisplayMenuScreen';
 import UserProfile from '../../screens/profile/UserProfile';
 import ProfileStatsContainer from '../profile/profileStats/ProfileStatsContainer';
 import colors from '../../../config/colors';
 
-
-function ProfileHeader({user}) {
-
+function ProfileHeader({user, setPopUpImage}) {
 	return (
 		<View style={styles.container}>
-			<ProfileStatsContainer currentUser={user} />
+			<ProfileStatsContainer user={user} />
 
 			<View>
-				<UserProfile user={user} />
+				<UserProfile user={user} setPopUpImage={setPopUpImage} />
 			</View>
 			<View>
 				<DisplayMenuScreen user={user} />
