@@ -3,6 +3,9 @@ import { Alert } from "react-native";
 import { useQuery } from "react-query";
 import axios from "../redux/apis/axiosDeclaration";
 import querystring from "query-string";
+// import config from '../../../config'
+
+// const {BASE_URL_AXIOS} = config;
 
 export const POSTS_PER_PAGE = 10;
 export const POSTS_PER_USER_PAGE = 20; // Changed to 20 since profiles display thumbnails, and may need more on initial load

@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
-import { useUser } from "../../../../hooks/useUser";
+// import { useUser } from "../../../../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import routes from "../../../../navigation/routes";
@@ -16,9 +16,9 @@ const MessageListItem = ({ chat, user }) => {
     dispatch(fetchUserData({}));
   }, []);
 
-  const { data: userData } = useUser(
-    chat.members[0] === user ? chat.members[1] : chat.members[0]
-  );
+  // const { data: userData } = useUser(
+  //   chat.members[0] === user ? chat.members[1] : chat.members[0]
+  // );
 
   return (
     <TouchableOpacity

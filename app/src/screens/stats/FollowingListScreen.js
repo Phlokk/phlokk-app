@@ -65,11 +65,6 @@ export default function FollowingListScreen({placeholder}) {
 						{item.name}
 						<View style={styles.logoRow}>
 							<VerifiedIcon />
-							{/* <Image
-                style={styles.logo}
-                source={smallLogo}
-                cache="only-if-cached"
-              /> */}
 						</View>
 					</Text>
 					<Text style={styles.itemCreator}> {item.creator}</Text>

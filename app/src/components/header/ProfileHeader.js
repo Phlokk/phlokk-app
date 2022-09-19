@@ -1,19 +1,11 @@
-import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet } from 'react-native';
 import DisplayMenuScreen from '../../screens/profile/DisplayMenuScreen';
-import {useDispatch} from 'react-redux';
-import {Feather} from '@expo/vector-icons';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
-import {useFollowing} from '../../hooks/useFollowing';
-// import { useFollowingMutation } from "../../../hooks/useFollowingMutation";
 import UserProfile from '../../screens/profile/UserProfile';
 import ProfileStatsContainer from '../profile/profileStats/ProfileStatsContainer';
-
 import colors from '../../../config/colors';
-import {useState} from "react";
-import axios from "../../redux/apis/axiosDeclaration";
+
 
 function ProfileHeader({user}) {
-	const dispatch = useDispatch();
 
 	return (
 		<View style={styles.container}>
@@ -33,7 +25,6 @@ const styles = StyleSheet.create({
 	container: {
 		alignItems: 'center',
 		paddingHorizontal: 50,
-		// backgroundColor: colors.primary,
 	},
 	creatorText: {
 		padding: 20,

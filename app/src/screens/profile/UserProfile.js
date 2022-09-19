@@ -91,6 +91,7 @@ function UserProfile({user}) {
 				dismissAlert={setPopUpImage}
 				animationType="fade"
 				user={user}
+				currentUser={currentUser}
 			/>
 		</View>
 	);
