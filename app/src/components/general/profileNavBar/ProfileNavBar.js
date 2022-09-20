@@ -11,6 +11,7 @@ import {userAtom} from '../../../../../App';
 import CustomAlert from '../../Alerts/CustomAlert';
 import {blockUserById} from '../../../services/user';
 import {forceRefreshAtom} from '../../../screens/videoFeed/VideoFeed';
+import BlockAlert from '../../Alerts/BlockAlert';
 
 export default function ProfileNavBar({userProfile, isCurrentUser}) {
 	const navigation = useNavigation();
@@ -59,9 +60,8 @@ export default function ProfileNavBar({userProfile, isCurrentUser}) {
 				<TouchableOpacity style={styles.blockButton}>
 					<MaterialIcons
 						onPress={() => setIsBlockUserModalOpen(true)}
-						// onPress={() => Linking.openURL(reportEmail)}
 						name="block"
-						size={21}
+						size={18}
 						color={colors.secondary}
 					/>
 				</TouchableOpacity>
@@ -84,10 +84,10 @@ export default function ProfileNavBar({userProfile, isCurrentUser}) {
 			/>
 
 			{/* Block modal */}
-			<CustomAlert
-				customAlertMessage="Would you like to block this user?"
-				positiveBtn="Yes"
-				negativeBtn="No"
+			<BlockAlert
+				customAlertMessage={<Text>{user.username} would you like to block @{userProfile.username}? This creator will not be able to send you instant messages, see your content, or view or find your profile. This user will not be notified that you have blocked them.</Text>}
+				positiveBtn="Block"
+				negativeBtn="Cancel"
 				modalVisible={isBlockUserModalOpen}
 				dismissAlert={setIsBlockUserModalOpen}
 				animationType="fade"
