@@ -18,6 +18,7 @@ import colors from "../../../config/colors";
 import AccountScreen from "./account/AccountScreen";
 import SupportScreen from "./support/SupportScreen";
 import {enableNotificationsForDevice, sendTestPushNotification} from "../../services/notifications";
+import Constants from "expo-constants";
 
 export default function SettingsScreen() {
   const auth = useSelector((state) => state.auth);
@@ -31,6 +32,7 @@ export default function SettingsScreen() {
   }
 
   const dispatch = useDispatch();
+
 
   const handleLogout = async () => {
     axios
@@ -87,7 +89,7 @@ export default function SettingsScreen() {
         <SupportScreen />
 
         <View style={styles.divider}></View>
-        
+
         <Text style={styles.socialText}>ABOUT</Text>
         <TouchableOpacity
           style={styles.fieldItemContainer}
@@ -169,8 +171,8 @@ export default function SettingsScreen() {
             <MaterialIcons name="logout" size={14} color={colors.white} />   Logout
           </Text>
         </TouchableOpacity>
-        <Text style={styles.versionText}>v0.1.1-229160003</Text>
-      </ScrollView>   
+        <Text style={styles.versionText}>v{Constants.nativeAppVersion}-{Constants.nativeBuildVersion}</Text>
+      </ScrollView>
     </SafeAreaView>
   );
 }

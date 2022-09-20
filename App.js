@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import store from "./app/src/redux/reducers/configureStore";
 import { Provider } from "react-redux";
 import Route from "./app/src/navigation/main/Route";
-import { LogBox, StatusBar } from "react-native";
+import {Alert, LogBox, StatusBar, Text} from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { atom, useAtom } from "jotai";
 import { fetchGetUsers } from "./app/src/redux/sagas/requests/fetchUsers";
@@ -12,6 +12,7 @@ import * as SplashScreen from "expo-splash-screen";
 // imports for notifications.js
 import * as Notifications from "expo-notifications";
 import { navigationRef } from "./app/src/navigation/rootNavigation.js/index";
+import {apiUrls} from "./app/src/globals";
 
 
 SplashScreen.preventAutoHideAsync();
@@ -47,89 +48,123 @@ Notifications.setNotificationHandler({
   }),
 });
 
+const checkSystemStatus = async function() {
+    fetch(apiUrls.BASE_URL + '/api/system-status')
+        .then((response) => {
+            console.log(response);
+        })
+}
+
 export default function App() {
-  const [user, setUser] = useAtom(userAtom);
+    const [user, setUser] = useAtom(userAtom);
 
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
 
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
+    const [appIsAvailable, setAppIsAvailable] = useState(false);
 
-  useEffect(() => {
-    const hideSplash = async () => {
-      await wait(2000);
-      await SplashScreen.hideAsync();
-    };
+    useEffect(() => {
+        const hideSplash = async () => {
+            await wait(2000);
+            await SplashScreen.hideAsync();
+        };
 
-    hideSplash();
-  }, []);
+        if (appIsAvailable) {
+            hideSplash();
+        }
+    }, [appIsAvailable]);
 
-  useEffect(async () => {
-    const loadUser = async () => {
-      const response = await fetchGetUsers();
-      setUser(response.user);
-    };
+    useEffect(async () => {
+        const checkStatus = async () => {
+            const response = await fetch(apiUrls.BASE_URL + '/api/system-status', {
+                method: "GET"
+            })
+                .then((response) => response.json());
+            setAppIsAvailable(response.status === "available");
+            return (response.status === "available");
+        }
 
-    loadUser();
-    // This listener is fired whenever a notification is received while the app is foregrounded
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
-        console.log("notification received event");
-      });
-    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-      responseListener.current =
-          Notifications.addNotificationResponseReceivedListener(response => {
-              switch (response.notification.request.content.data.type) {
-                  case 1:
-                      // Device registered for notifications
-                      console.log('==============');
-                      console.log('device registered');
-                      break;
-                  case 2:
-                      // Reaction to a post
-                      console.log('==============');
-                      console.log('post reaction');
-                      break;
-                  case 3:
-                      // Comment on a post
-                      console.log('==============');
-                      console.log('post comment');
-                      break;
-                  case 4:
-                      // Post has been deleted
-                      console.log('==============');
-                      console.log('post deleted');
-                      break;
-                  case 5:
-                      console.log('==============');
-                      console.log('new follow');
-                      const targetUser = response.notification.request.content.data.associated;
-                      navigationRef.current.navigate("profileOther", { initialUser: targetUser });
-                      break;
-                  default:
-                  // Something else, navigate to notification list
-              }
-          });
+        const appIsAvailable = await checkStatus();
+        if (!appIsAvailable) {
+            Alert.alert("System is down for maintenance. Please try again later");
+        } else {
 
-    return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar barStyle="light-content" />
+            const loadUser = async () => {
+                const response = await fetchGetUsers();
+                setUser(response.user);
+            };
 
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <Route />
-        </QueryClientProvider>
-      </Provider>
-    </GestureHandlerRootView>
-  );
+            loadUser();
+            // This listener is fired whenever a notification is received while the app is foregrounded
+            notificationListener.current =
+                Notifications.addNotificationReceivedListener((notification) => {
+                    setNotification(notification);
+                    console.log("notification received event");
+                });
+            // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+            responseListener.current =
+                Notifications.addNotificationResponseReceivedListener(response => {
+                    switch (response.notification.request.content.data.type) {
+                        case 1:
+                            // Device registered for notifications
+                            console.log('==============');
+                            console.log('device registered');
+                            break;
+                        case 2:
+                            // Reaction to a post
+                            console.log('==============');
+                            console.log('post reaction');
+                            break;
+                        case 3:
+                            // Comment on a post
+                            console.log('==============');
+                            console.log('post comment');
+                            break;
+                        case 4:
+                            // Post has been deleted
+                            console.log('==============');
+                            console.log('post deleted');
+                            break;
+                        case 5:
+                            console.log('==============');
+                            console.log('new follow');
+                            const targetUser = response.notification.request.content.data.associated;
+                            navigationRef.current.navigate("profileOther", {initialUser: targetUser});
+                            break;
+                        default:
+                        // Something else, navigate to notification list
+                    }
+                });
+
+            return () => {
+                Notifications.removeNotificationSubscription(
+                    notificationListener.current
+                );
+                Notifications.removeNotificationSubscription(responseListener.current);
+            };
+        }
+    }, [setAppIsAvailable]);
+
+    if (appIsAvailable) {
+        return (
+            <GestureHandlerRootView style={{flex: 1}}>
+                <StatusBar barStyle="light-content"/>
+
+                <Provider store={store}>
+                    <QueryClientProvider client={queryClient}>
+                        <Route/>
+                    </QueryClientProvider>
+                </Provider>
+            </GestureHandlerRootView>
+        );
+    } else {
+        return (
+            <>
+                <Text>App currently down for maintenance. Please try again later.</Text>
+            </>
+        )
+    }
 }
 
 const wait = (timeout) => {
