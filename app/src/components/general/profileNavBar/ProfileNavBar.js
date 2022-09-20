@@ -22,7 +22,6 @@ export default function ProfileNavBar({userProfile, isCurrentUser}) {
 	const [isBlockUserModalOpen, setIsBlockUserModalOpen] = useState(false);
 	const [forceRefresh, setForceRefresh] = useAtom(forceRefreshAtom);
 
-	const reportEmail = 'https://support.phlokk.com';
 
 	const onBlockConfirmed = async () => {
 		try {
@@ -122,11 +121,11 @@ const styles = StyleSheet.create({
 	fireButton: {
 		position: 'absolute',
 		top: 0,
-		left: 8,
+		left: 12,
 	},
 	blockButton: {
 		position: 'absolute',
-		top: 0,
-		right: 8,
+		top: 5,
+		right: 12,
 	},
 });
