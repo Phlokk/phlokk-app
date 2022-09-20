@@ -86,6 +86,8 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       );
     }
 
+    setCommentCount(prev => prev + 1)
+
     onNewCommentSubmitted();
   };
 
