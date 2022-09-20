@@ -66,7 +66,7 @@ function ProfileStatsContainer({user}) {
 const styles = StyleSheet.create({
 	outerContainer: {
 		alignItems: 'center',
-		paddingHorizontal: 50,
+		paddingHorizontal: 20,
 	},
 	counterContainer: {
 		paddingBottom: 10,

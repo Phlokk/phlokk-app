@@ -18,13 +18,7 @@ const SettingsSheetModalScreen = ( post ) => {
     const [isDuo, setIsDuo] = useState(false);
     const [isLink, setIsLink] = useState(false);
     const [isShare, setIsShare] = useState(false);
-    const [isBlocked, setIsBlocked] = useState(false);
 
-
-
-    
-
-    
 
   const onShare = async () => {
     try {
@@ -50,32 +44,6 @@ const SettingsSheetModalScreen = ( post ) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.topBar} horizontal={true}>
-      <BlockAlert
-        customAlertMessage={<Text>Block User:{"\n"}{"\n"}Creator will not be able to send you messages, see your posts, or find your profile in search. They will not be notified that you blocked their account. You can unblock their profile at anytime in settings under privacy and reports.</Text>}
-        negativeBtn={"Cancel"}
-        positiveBtn={"Block"}
-        modalVisible={isBlocked}
-        dismissAlert={setIsBlocked}
-        animationType="fade"
-        post={post}
-      />
-      <TouchableOpacity 
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-        onPress={() => setIsBlocked(true)}
-      >
-        <View style={styles.bubble}>
-        <Feather
-            name="user"
-            style={styles.blockIcon}
-            size={24}
-            color={colors.secondary}
-          />
-          
-          </View>
-          <Text style={styles.text}>Block</Text>
-      </TouchableOpacity >
-
       <TouchableOpacity 
         style={styles.fieldItemContainer}
         onPress={() => {
@@ -90,17 +58,7 @@ const SettingsSheetModalScreen = ( post ) => {
           </View>
           <Text style={styles.text}>Report</Text>
       </TouchableOpacity >
-      
-        
-      
-      <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Add to Favorites{"\n"}coming in beta 3</Text>}
-        positiveBtn="Ok"
-        modalVisible={isFavorites}
-        dismissAlert={setIsFavorites}
-        animationType="fade"
-      />
+
       <TouchableOpacity 
         style={styles.fieldItemContainer}
         autoCapitalize="none"
@@ -115,14 +73,7 @@ const SettingsSheetModalScreen = ( post ) => {
           </View>
           <Text style={styles.text}>FAV</Text>
       </TouchableOpacity >
-      <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Duo{"\n"}coming in beta 3</Text>}
-        positiveBtn="Ok"
-        modalVisible={isDuo}
-        dismissAlert={setIsDuo}
-        animationType="fade"
-      />
+
       <TouchableOpacity 
         style={styles.fieldItemContainer}
         autoCapitalize="none"
@@ -137,14 +88,7 @@ const SettingsSheetModalScreen = ( post ) => {
           </View>
           <Text style={styles.text}>Duo</Text>
       </TouchableOpacity >
-      <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Links{"\n"}coming in beta 3</Text>}
-        positiveBtn="Ok"
-        modalVisible={isLink}
-        dismissAlert={setIsLink}
-        animationType="fade"
-      />
+      
       <TouchableOpacity 
         style={styles.fieldItemContainer}
         autoCapitalize="none"
@@ -158,14 +102,7 @@ const SettingsSheetModalScreen = ( post ) => {
           </View>
           <Text style={styles.text}>Link</Text>
       </TouchableOpacity >
-      <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Downloads{"\n"}coming in beta 3</Text>}
-        positiveBtn="Ok"
-        modalVisible={isDownload}
-        dismissAlert={setIsDownload}
-        animationType="fade"
-      />
+      
       <TouchableOpacity 
         style={styles.fieldItemContainer}
         autoCapitalize="none"
@@ -179,14 +116,7 @@ const SettingsSheetModalScreen = ( post ) => {
           </View>
           <Text style={styles.text}>DL</Text>
       </TouchableOpacity >
-      <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Share{"\n"}coming in beta 3</Text>}
-        positiveBtn="Ok"
-        modalVisible={isShare}
-        dismissAlert={setIsShare}
-        animationType="fade"
-      />
+
       <TouchableOpacity 
         style={styles.fieldItemContainer}
         onPress={() => setIsShare(true)}
@@ -204,6 +134,48 @@ const SettingsSheetModalScreen = ( post ) => {
           <Text style={styles.text}>Share</Text>
       </TouchableOpacity >
       </ScrollView>
+
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Add to Favorites{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isFavorites}
+        dismissAlert={setIsFavorites}
+        animationType="fade"
+      />
+
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Duo{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isDuo}
+        dismissAlert={setIsDuo}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Links{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isLink}
+        dismissAlert={setIsLink}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Downloads{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isDownload}
+        dismissAlert={setIsDownload}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
+        customAlertMessage={<Text>Share{"\n"}coming in beta 3</Text>}
+        positiveBtn="Ok"
+        modalVisible={isShare}
+        dismissAlert={setIsShare}
+        animationType="fade"
+      />
     </View>
     
   );

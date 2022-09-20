@@ -55,6 +55,8 @@ const SearchScreen = () => {
     );
   };
 
+  
+
   return (
     <SafeAreaView style={styles.container}>
       <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />

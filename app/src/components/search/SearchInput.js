@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+import { useIsFocused } from '@react-navigation/native';
 import colors from "../../../config/colors";
 import { queryUsers } from "../../services/user";
 import { Feather } from "@expo/vector-icons";
@@ -13,6 +14,7 @@ import { Feather } from "@expo/vector-icons";
 function useDebounce(value, delay) {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState(value);
+  
 
   useEffect(
     () => {
@@ -36,13 +38,20 @@ function useDebounce(value, delay) {
 
 const SearchInput = ({ placeholder, setSearchUsers }) => {
   const [textInput, setTextInput] = useState("");
-
+  const isFocused = useIsFocused();
   const [isSearching, setIsSearching] = useState(false);
   // Debounce search term so that it only gives us latest value ...
   // ... if searchTerm has not been updated within last 500ms.
   // The goal is to only have the API call fire when user stops typing ...
   // ... so that we aren't hitting our API rapidly.
   const debouncedSearchTerm = useDebounce(textInput, 500);
+
+  useEffect(() => {
+    if (!isFocused) {
+        setTextInput('');
+    }
+    }, [isFocused]);
+
 
   // Effect for API call
   useEffect(
