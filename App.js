@@ -70,9 +70,9 @@ export default function App() {
             await SplashScreen.hideAsync();
         };
 
-        if (appIsAvailable) {
+        // if (appIsAvailable) {
             hideSplash();
-        }
+        // }
     }, [appIsAvailable]);
 
     useEffect(async () => {
