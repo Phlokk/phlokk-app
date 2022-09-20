@@ -202,11 +202,12 @@ export const deleteCommentReply = async (postId, commentId, replyId) => {
   );
 };
 
-export const commentListener = async (postId, setCommentList) => {
+export const commentListener = async (postId, setCommentList, setCommentCount) => {
   await axios
     .get("/api/post/view/" + postId + "/comments")
     .then((result) => {
       setCommentList(result.data.comments);
+      setCommentCount(result.data.comment_count);
       return result.data;
     })
     .catch((error) => {

@@ -11,6 +11,7 @@ import { fetchGetUsers } from "./app/src/redux/sagas/requests/fetchUsers";
 import * as SplashScreen from "expo-splash-screen";
 // imports for notifications.js
 import * as Notifications from "expo-notifications";
+import { navigationRef } from "./app/src/navigation/rootNavigation.js/index";
 
 
 SplashScreen.preventAutoHideAsync();
@@ -50,7 +51,7 @@ export default function App() {
   const [user, setUser] = useAtom(userAtom);
 
 
-  const [setNotification] = useState(false);
+  const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
 
@@ -82,15 +83,29 @@ export default function App() {
               switch (response.notification.request.content.data.type) {
                   case 1:
                       // Device registered for notifications
+                      console.log('==============');
+                      console.log('device registered');
                       break;
                   case 2:
                       // Reaction to a post
+                      console.log('==============');
+                      console.log('post reaction');
                       break;
                   case 3:
                       // Comment on a post
+                      console.log('==============');
+                      console.log('post comment');
                       break;
                   case 4:
                       // Post has been deleted
+                      console.log('==============');
+                      console.log('post deleted');
+                      break;
+                  case 5:
+                      console.log('==============');
+                      console.log('new follow');
+                      const targetUser = response.notification.request.content.data.associated;
+                      navigationRef.current.navigate("profileOther", { initialUser: targetUser });
                       break;
                   default:
                   // Something else, navigate to notification list

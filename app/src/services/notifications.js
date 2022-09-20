@@ -8,8 +8,6 @@ import axios from "../redux/apis/axiosDeclaration";
 export async function enableNotificationsForDevice() {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
 
-  console.log(user.expoPushToken);
-
   axios
     .post("/api/me/enroll-notifications", {
       expoPushToken: user.expoPushToken,
@@ -26,8 +24,6 @@ export async function enableNotificationsForDevice() {
 
 export async function disableNotificationsForDevice() {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
-
-  console.log(user.expoPushToken);
 
   axios
     .post("/api/me/unenroll-notifications", {
@@ -92,7 +88,6 @@ export async function registerForPushNotificationsAsync(setExpoPushToken) {
     const token = (await Notifications.getExpoPushTokenAsync({ experienceId }))
       .data;
     /* @end */
-    console.log(token);
 
     /* @info On Android, we need to specify a channel. Find out more specifics in the expo-notifications.js documentation. */
     if (Platform.OS === "android") {

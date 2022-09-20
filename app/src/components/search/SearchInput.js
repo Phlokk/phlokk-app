@@ -50,7 +50,6 @@ const SearchInput = ({ placeholder, setSearchUsers }) => {
       if (debouncedSearchTerm) {
         setIsSearching(true);
         queryUsers(debouncedSearchTerm).then((resp) => {
-          console.log(resp.data);
           setIsSearching(false);
           const data = resp.data;
           setSearchUsers(data);

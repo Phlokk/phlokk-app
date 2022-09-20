@@ -26,12 +26,13 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState("");
+  const [commentCount, setCommentCount] = useState("");
   const [repliedToComment, setRepliedToComment] = useState();
 
   const [user, setUser] = useAtom(userAtom);
 
   useEffect(async () => {
-    await commentListener(post._id, setCommentList);
+    await commentListener(post._id, setCommentList, setCommentCount);
     return () => clearCommentListener();
   }, []);
 
@@ -131,7 +132,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.postCountText}>{commentList.length} comments</Text>
+      <Text style={styles.postCountText}>{commentCount} comments</Text>
 
       <View style={styles.containerInput}>
         {!user?.photo_thumb_url && !user?.photo_thumb_url ? (

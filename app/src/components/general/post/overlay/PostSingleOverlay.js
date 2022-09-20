@@ -30,7 +30,7 @@ export default function PostSingleOverlay({post, user}) {
 		setCommentModalOpen(false);
 	}, [isFocused]);
 
-	const [commentCount, setCommentCount] = useState(post.comments.length);
+	const [commentCount, setCommentCount] = useState(post.comment_count);
 	const [isLightItUp, setLightItUp] = useState(false);
 	const [isGifting, setIsGifting] = useState(false);
 
