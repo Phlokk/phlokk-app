@@ -70,7 +70,7 @@ export default function ProfileScreen({route}) {
 		<SafeAreaView style={styles.container} edges={['top']}>
 			<ProfileNavBar
 				userProfile={profile}
-				showFireIcon={loggedInUser?._id === profile?._id}
+				isCurrentUser={loggedInUser?._id === profile?._id}
 			/>
 			<FlatList
 				numColumns={3}

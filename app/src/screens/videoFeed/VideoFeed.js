@@ -21,18 +21,24 @@ import colors from '../../../config/colors';
 
 import {useDispatch} from 'react-redux';
 import CustomAlert from '../../components/Alerts/CustomAlert';
+import {useIsFocused} from '@react-navigation/native';
 
 export const newFeedItemAtom = atom('');
+export const forceRefreshAtom = atom(false);
 
 const VideoFeed = ({navigation, route}) => {
 	const {profile, selectedIndex, creator, preloadedPosts} = route.params;
 
 	const [currentUser, setCurrentUser] = useAtom(userAtom);
+	const [forceRefresh, setForceRefresh] = useAtom(forceRefreshAtom);
+
 	const [pageSize, setPageSize] = useState(); // Used for making a the flatlist full screen
 	const [postFeed, setPostFeed] = useState([]);
 	const [marketAlert, setMarketAlert] = useState(false);
 	const [areTabsShowing, setAreTabsShowing] = useState();
+
 	const windowSize = useWindowDimensions();
+	const isFocused = useIsFocused();
 
 	const flatListRef = useRef();
 	const dispatch = useDispatch();
@@ -110,6 +116,21 @@ const VideoFeed = ({navigation, route}) => {
 	useEffect(() => {
 		setAreTabsShowing(pageSize?.height < windowSize?.height);
 	}, [pageSize, windowSize]);
+
+	useEffect(() => {
+		if (!isFocused) {
+			return;
+		}
+
+		if (!forceRefresh) {
+			return;
+		}
+
+		if (!profile) {
+			setForceRefresh(false);
+			refreshMainFeed();
+		}
+	}, [isFocused, forceRefresh]);
 
 	const handleLikeCount = likes => {
 		if (typeof likes === 'number') {
