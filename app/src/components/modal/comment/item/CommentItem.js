@@ -38,6 +38,8 @@ const CommentItem = ({
   const [isLiked, setIsLiked] = useState(comment.is_liked);
   const [likeCount, setLikeCount] = useState(comment.like_count);
 
+  const isActiveAccount = comment.user !== null;
+
   const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
     useState(false);
 
@@ -93,7 +95,7 @@ const CommentItem = ({
 
   return (
     <View style={styles.container}>
-      {!user?.photo_url && !user?.photo_url ? (
+      {!user?.photo_thumb_url && !user?.photo_thumb_url ? (
         <TouchableOpacity
           disabled={user._id == comment.user._id}
           onPress={() => {
@@ -110,16 +112,17 @@ const CommentItem = ({
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
-          disabled={user._id == comment.user._id}
+          disabled={isActiveAccount ? user._id == comment.user._id : null}
           onPress={() => {
+            isActiveAccount ?
             navigation.navigate("feedProfile", {
               initialUser: comment.user,
-            });
+            }) : null;
           }}
         >
           <Image
             style={styles.avatar}
-            source={{ uri: comment.user.photo_thumb_url }}
+            source={isActiveAccount ? { uri: comment.user.photo_thumb_url} : require("../../../../../assets/userImage.png")}
           />
         </TouchableOpacity>
       )}
@@ -139,14 +142,15 @@ const CommentItem = ({
       >
         <View style={styles.verifiedRow}>
           <TouchableOpacity
-            disabled={user._id == comment.user._id}
+            disabled={isActiveAccount ? user._id == comment.user._id : null}
             onPress={() => {
+              isActiveAccount ?
               navigation.navigate("feedProfile", {
                 initialUser: comment.user,
-              });
+              }) : null;
             }}
           >
-            <Text style={styles.username}>@{comment.user.username}</Text>
+            <Text style={styles.username}>@{isActiveAccount ? comment.user.username : "deleted user"}</Text>
           </TouchableOpacity>
           {comment.user && comment.user.is_verified === 1 && <VerifiedIcon />}
         </View>
@@ -157,16 +161,21 @@ const CommentItem = ({
               ? timeSince(new Date(comment.created_at))
               : "Now"}
           </Text>
-          <TouchableOpacity
+
+
+          { isActiveAccount && (
+            <TouchableOpacity
             onPress={() => {
               onReplyPressed(comment);
             }}
           >
             <Text style={styles.textReplies}>Reply</Text>
           </TouchableOpacity>
+          )}
+           
         </View>
       </Pressable>
-      {comment._id.indexOf("-temp") === -1 && (
+      {comment._id.indexOf("-temp") === -1 && isActiveAccount &&(
         <View style={styles.starRow}>
           <TouchableOpacity onPress={likeButtonHandler}>
             <MaterialCommunityIcons
