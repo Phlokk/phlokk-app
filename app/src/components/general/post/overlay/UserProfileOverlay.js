@@ -14,7 +14,6 @@ const DEFAULT_DESC_DISPLAY_LINES = 2;
 
 function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
   const navigation = useNavigation();
-  const songTicker = "official phlokk audio...official phlokk audio... ";
   const username = user.username;
 
   const [descriptionDisplayLines, setDescriptionDisplayLines] = useState(
@@ -92,8 +91,7 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
           />
           <TextTicker
             style={styles.songName}
-            // useNativeDriver
-            duration={5000}
+            duration={8000}
             loop={true}
 
           >
