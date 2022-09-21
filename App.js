@@ -13,6 +13,10 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Notifications from "expo-notifications";
 import { navigationRef } from "./app/src/navigation/rootNavigation.js/index";
 import {apiUrls} from "./app/src/globals";
+import axios from "./app/src/redux/apis/axiosDeclaration";
+import {getPost} from "./app/src/services/posts";
+import routes from "./app/src/navigation/routes";
+import * as navigation from "./app/src/navigation/rootNavigation.js";
 
 
 SplashScreen.preventAutoHideAsync();
@@ -104,33 +108,87 @@ export default function App() {
                 });
             // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
             responseListener.current =
-                Notifications.addNotificationResponseReceivedListener(response => {
-                    switch (response.notification.request.content.data.type) {
+                Notifications.addNotificationResponseReceivedListener(async response => {
+                    const receievedNotification = response;
+
+                    const notificationObject = await axios.get(apiUrls.BASE_URL + '/api/me/notification/' + response.notification.request.content.data._id)
+                        .then(function (response) {
+                            return response.data;
+                        });
+
+                    switch (notificationObject.type) {
                         case 1:
                             // Device registered for notifications
-                            console.log('==============');
-                            console.log('device registered');
+                            navigationRef.current.navigate(routes.USER_POSTS, {
+                                creator: notificationObject.associated.user,
+                                profile: true,
+                                selectedVideo: notificationObject.associated.media[0].original_url,
+                                selectedIndex: 0,
+                                preloadedPosts: [notificationObject.associated],
+                            });
                             break;
                         case 2:
                             // Reaction to a post
-                            console.log('==============');
-                            console.log('post reaction');
+                            navigationRef.current.navigate(routes.USER_POSTS, {
+                                creator: notificationObject.associated.user,
+                                profile: true,
+                                selectedVideo: notificationObject.associated.media[0].original_url,
+                                selectedIndex: 0,
+                                preloadedPosts: [notificationObject.associated],
+                            });
                             break;
                         case 3:
                             // Comment on a post
-                            console.log('==============');
-                            console.log('post comment');
+                            navigationRef.current.navigate(routes.USER_POSTS, {
+                                creator: notificationObject.associated.user,
+                                profile: true,
+                                selectedVideo: notificationObject.associated.media[0].original_url,
+                                selectedIndex: 0,
+                                preloadedPosts: [notificationObject.associated],
+                            });
                             break;
                         case 4:
                             // Post has been deleted
-                            console.log('==============');
-                            console.log('post deleted');
                             break;
                         case 5:
-                            console.log('==============');
-                            console.log('new follow');
-                            const targetUser = response.notification.request.content.data.associated;
+                            const targetUser = notificationObject.associated;
                             navigationRef.current.navigate("profileOther", {initialUser: targetUser});
+                            break;
+                        case 6:
+                            navigationRef.current.navigate(routes.USER_POSTS, {
+                                creator: notificationObject.associated.user,
+                                profile: true,
+                                selectedVideo: notificationObject.associated.media[0].original_url,
+                                selectedIndex: 0,
+                                preloadedPosts: [notificationObject.associated],
+                            });
+                            break;
+                        case 7:
+                            navigationRef.current.navigate(routes.USER_POSTS, {
+                                creator: notificationObject.associated.user,
+                                profile: true,
+                                selectedVideo: notificationObject.associated.media[0].original_url,
+                                selectedIndex: 0,
+                                preloadedPosts: [notificationObject.associated],
+                            });
+                            break;
+                        case 8:
+                            navigationRef.current.navigate(routes.USER_POSTS, {
+                                creator: notificationObject.associated.user,
+                                profile: true,
+                                selectedVideo: notificationObject.associated.media[0].original_url,
+                                selectedIndex: 0,
+                                preloadedPosts: [notificationObject.associated],
+                            });
+                            break;
+                        case 9:
+                            navigationRef.current.navigate(routes.USER_POSTS, {
+                                creator: notificationObject.associated.user,
+                                profile: true,
+                                selectedVideo: notificationObject.associated.media[0].original_url,
+                                selectedIndex: 0,
+                                preloadedPosts: [notificationObject.associated],
+                            });
                             break;
                         default:
                         // Something else, navigate to notification list
