@@ -92,7 +92,7 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 					size={14}
 					color={colors.white}
 				/>{' '}
-				250
+				{ item?.play_count ?? 0 }
 			</Text>
 		</TouchableOpacity>
 	);
