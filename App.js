@@ -13,6 +13,7 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Notifications from "expo-notifications";
 import { navigationRef } from "./app/src/navigation/rootNavigation.js/index";
 import {apiUrls} from "./app/src/globals";
+import InformationGraphics from "./app/src/screens/profile/InformationGraphics";
 
 
 SplashScreen.preventAutoHideAsync();
