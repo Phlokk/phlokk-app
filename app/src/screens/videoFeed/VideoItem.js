@@ -8,6 +8,8 @@ import UserProfileOverlay from '../../components/general/post/overlay/UserProfil
 import colors from '../../../config/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import Slider from '@react-native-community/slider';
+import axios from "../../redux/apis/axiosDeclaration";
+import {apiUrls} from "../../globals";
 
 const VideoItem = ({
 	item,
@@ -26,6 +28,8 @@ const VideoItem = ({
 	);
 	const videoPlayerRef = useRef();
 
+	const [isMarkedPlayed, setIsMarkedPlayed] = useState(false);
+
 	// Set up audio play mode for iOS
 	useEffect(() => {
 		const setupAudio = async () => {
@@ -43,6 +47,13 @@ const VideoItem = ({
 	const playPauseVideo = () => {
 		setShouldPlay(!shouldPlay);
 	};
+
+	if (playbackStatus?.positionMillis >= (playbackStatus?.playableDurationMillis / 2) && !isMarkedPlayed) {
+		setIsMarkedPlayed(true);
+		axios.post(apiUrls.BASE_URL + '/api/post/view/' + item._id, {
+			'play_count': true
+		});
+	}
 
 	return (
 		<View style={{height: itemHeight, backgroundColor: 'black'}}>

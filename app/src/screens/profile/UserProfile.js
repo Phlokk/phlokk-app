@@ -15,10 +15,10 @@ function UserProfile({user, setPopUpImage}) {
 	});
 
 
-	function infoGraphics() {
-		if (user.username !== null || user.photo_url !== null) {
-		  return <InformationGraphics/>;
-		}}
+	// function infoGraphics() {
+	// 	if (user.username !== null || user.photo_url !== null) {
+	// 	  return <InformationGraphics/>;
+	// 	}}
 	
 
 	return (
@@ -80,7 +80,7 @@ function UserProfile({user, setPopUpImage}) {
 					/>
 				</TouchableOpacity>
 			</>
-			{infoGraphics()}
+			{/* {infoGraphics()} */}
 		</View>
 	);
 }
