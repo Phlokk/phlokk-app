@@ -13,7 +13,22 @@ import {
   clearNotificationListener,
   notificationListener,
 } from "../../services/notifications";
-const { height, width } = Dimensions.get('window');
+import NotificationItem from "./NotificationItem";
+import {Placeholder, PlaceholderContainer} from "react-native-loading-placeholder";
+import {LinearGradient} from "expo-linear-gradient";
+import Colors from "../../../config/colors";
+
+
+
+export default function ActivityScreen({ navigation }) {
+  const [notificationList, setNotificationList] = useState("");
+  const { height, width } = Dimensions.get('window');
+
+  useEffect(async () => {
+    await notificationListener(setNotificationList);
+    return () => clearNotificationListener();
+  }, []);
+ 
 
 const Gradient = () => {
   return (
@@ -29,18 +44,6 @@ const Gradient = () => {
   );
 };
 
-import NotificationItem from "./NotificationItem";
-import {Placeholder, PlaceholderContainer} from "react-native-loading-placeholder";
-import {LinearGradient} from "expo-linear-gradient";
-import Colors from "../../../config/colors";
-
-export default function ActivityScreen({ navigation }) {
-  const [notificationList, setNotificationList] = useState("");
-
-  useEffect(async () => {
-    await notificationListener(setNotificationList);
-    return () => clearNotificationListener();
-  }, []);
 
 
   const renderItem = ({ item, index }) => {
@@ -62,10 +65,13 @@ export default function ActivityScreen({ navigation }) {
     );
   };
 
-  if (notificationList.length == 0) {
+  if (notificationList.length == 0 || notificationList.length == null ) {
     return (
         <View style={styles.container}>
           <ActivityNavBar title={"Activity feed"}/>
+          <View style={styles.alertView}>
+            <Text style={styles.alertText}>You have no notifications</Text>
+          </View>
           <PlaceholderContainer
               style={styles.placeholderContainer}
               animatedComponent={<Gradient />}
@@ -155,6 +161,14 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     marginTop: 30,
+  },
+  alertText: {
+    color: colors.white,
+    padding: 20,
+    fontSize: 16,
+  },
+  alertView: {
+    alignItems: "center",
   },
   placeholderContainer: {
     justifyContent: 'space-around',

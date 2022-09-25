@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         zIndex: 10,
         position: 'absolute',
         width,
-        backgroundColor: colors.black,
+        backgroundColor: colors.primary,
         height,
     },
     placeholder: {
