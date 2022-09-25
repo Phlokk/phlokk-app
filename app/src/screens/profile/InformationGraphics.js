@@ -23,7 +23,7 @@ import { fetchGetUsers } from "../../redux/sagas/requests/fetchUsers";
 
 import {apiUrls} from "../../globals";
 
-export default function EditProfileScreen({ route }) {
+export default function InformationGraphicsScreen({ route }) {
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
 
@@ -83,7 +83,6 @@ export default function EditProfileScreen({ route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <EditProfileNav title="Edit Profile" leftButton={{ display: false }} /> */}
       <ScrollView>
         <View style={styles.imageContainer}>
             <Text style={styles.text}>Hello</Text>

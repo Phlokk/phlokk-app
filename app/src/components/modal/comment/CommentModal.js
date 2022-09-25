@@ -29,7 +29,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
   const [commentCount, setCommentCount] = useState("");
   const [repliedToComment, setRepliedToComment] = useState();
 
-  const [user, setUser] = useAtom(userAtom);
+  const [ user ] = useAtom(userAtom);
 
   useEffect(async () => {
     await commentListener(post._id, setCommentList, setCommentCount);
