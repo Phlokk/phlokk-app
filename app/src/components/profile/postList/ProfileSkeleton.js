@@ -5,13 +5,14 @@ import {
     PlaceholderContainer,
     Placeholder,
 } from 'react-native-loading-placeholder';
+import colors from '../../../../config/colors';
 
 const { height, width } = Dimensions.get('window');
 
 const Gradient = () => {
     return (
         <LinearGradient
-            colors={['#eeeeee', '#dddddd', '#eeeeee']}
+            colors={[colors.darkGrey, colors.secondary, colors.darkGrey]}
             start={{ x: 1.0, y: 0.0 }}
             end={{ x: 0.0, y: 0.0 }}
             style={{
@@ -34,168 +35,120 @@ const ProfileSkeleton = () => {
             <View style={styles.banner}>
                 <Placeholder
                     style={{
-                        ...styles.placeholder,
-                        width: '33%',
-                        height: 130,
+                        ...styles.profileImage,
+                        width: '29%',
+                        height: 110,
                     }}
                 />
             </View>
             <View style={styles.text}>
                 <Placeholder
                     style={{
-                        ...styles.placeholder,
+                        ...styles.username,
+                        width: '20%',
+                        height: 25,
+                    }}
+                />
+            </View>
+            <View style={styles.text}>
+                <Placeholder
+                    style={{
+                        ...styles.quote,
                         width: '60%',
                         height: 30,
                     }}
                 />
             </View>
-            <View style={styles.content}>
-                <View style={{ width: '49%' }}>
+            <View style={styles.mediaContent}>
+                <View style={{ width: '33%' }}>
                     <Placeholder
                         style={{
                             ...styles.placeholder,
-                            width: '95%',
-                            height: 95,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '80%',
-                            height: 20,
-                            marginTop: 5,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '30%',
-                            height: 20,
-                            marginTop: 5,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '95%',
-                            height: 40,
-                            marginTop: 5,
+                            width: '90%',
+                            height: 150,
                         }}
                     />
                 </View>
-                <View style={{ width: '49%' }}>
-                    <Placeholder
+                <View style={{ width: '33%' }}>
+                <Placeholder
                         style={{
                             ...styles.placeholder,
-                            width: '95%',
-                            height: 95,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '80%',
-                            height: 20,
-                            marginTop: 5,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '30%',
-                            height: 20,
-                            marginTop: 5,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '95%',
-                            height: 40,
-                            marginTop: 5,
+                            width: '90%',
+                            height: 150,
                         }}
                     />
                 </View>
-                <View style={{ width: '49%', marginTop: 15 }}>
-                    <Placeholder
+                <View style={{ width: '33%' }}>
+                <Placeholder
                         style={{
                             ...styles.placeholder,
-                            width: '95%',
-                            height: 95,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '80%',
-                            height: 20,
-                            marginTop: 5,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '30%',
-                            height: 20,
-                            marginTop: 5,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '95%',
-                            height: 40,
-                            marginTop: 5,
+                            width: '90%',
+                            height: 150,
                         }}
                     />
                 </View>
-                <View style={{ width: '49%', marginTop: 15 }}>
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '95%',
-                            height: 95,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '80%',
-                            height: 20,
-                            marginTop: 5,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '30%',
-                            height: 20,
-                            marginTop: 5,
-                        }}
-                    />
-                    <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '95%',
-                            height: 40,
-                            marginTop: 5,
-                        }}
-                    />
-                </View>
+                
             </View>
-            {height < 668 ? (
-                <View />
-            ) : (
-                <View style={{ ...styles.text, marginTop: 10 }}>
+            <View style={styles.mediaContent}>
+                <View style={{ width: '33%' }}>
                     <Placeholder
                         style={{
                             ...styles.placeholder,
-                            width: '100%',
-                            height: 50,
+                            width: '90%',
+                            height: 150,
                         }}
                     />
                 </View>
-            )}
+                <View style={{ width: '33%' }}>
+                <Placeholder
+                        style={{
+                            ...styles.placeholder,
+                            width: '90%',
+                            height: 150,
+                        }}
+                    />
+                </View>
+                <View style={{ width: '33%' }}>
+                <Placeholder
+                        style={{
+                            ...styles.placeholder,
+                            width: '90%',
+                            height: 150,
+                        }}
+                    />
+                </View>
+                
+            </View>
+            <View style={styles.mediaContent}>
+                <View style={{ width: '33%' }}>
+                    <Placeholder
+                        style={{
+                            ...styles.placeholder,
+                            width: '90%',
+                            height: 150,
+                        }}
+                    />
+                </View>
+                <View style={{ width: '33%' }}>
+                <Placeholder
+                        style={{
+                            ...styles.placeholder,
+                            width: '90%',
+                            height: 150,
+                        }}
+                    />
+                </View>
+                <View style={{ width: '33%' }}>
+                <Placeholder
+                        style={{
+                            ...styles.placeholder,
+                            width: '90%',
+                            height: 150,
+                        }}
+                    />
+                </View>
+                
+            </View>
         </PlaceholderContainer>
     );
 };
@@ -206,13 +159,26 @@ const styles = StyleSheet.create({
         zIndex: 10,
         position: 'absolute',
         width,
-        backgroundColor: '#fff',
+        backgroundColor: colors.primary,
         height,
-        marginTop: 80,
+
     },
     placeholder: {
-        backgroundColor: '#eeeeee',
+        backgroundColor: colors.lightBlack,
         borderRadius: 5,
+    },
+    profileImage: {
+        backgroundColor: colors.lightBlack,
+        borderRadius: 100,
+        top: 120,
+    },
+    username: {
+        backgroundColor: colors.lightBlack,
+        top: 100,
+    },
+    quote: {
+        backgroundColor: colors.lightBlack,
+        top: 100,
     },
     banner: {
         display: 'flex',
@@ -224,13 +190,16 @@ const styles = StyleSheet.create({
     text: {
         marginTop: 30,
         paddingHorizontal: 10,
+        alignItems: "center",
     },
-    content: {
+    mediaContent:{
+        top: 180,
         marginTop: 20,
         flexDirection: 'row',
         paddingLeft: 10,
         justifyContent: 'space-between',
-        flexWrap: 'wrap',
+
+
     },
 });
 
