@@ -57,6 +57,15 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 		}
 	};
 
+	const thumbUrl = item.media[1].original_url;
+	if ((item.media[1].generated_conversions.length ?? 0) > 0) {
+		if ((item.media[1].generated_conversions.optimal ?? false) == true) {
+			if ((item.media[1].conversions_disk ?? 'local') == 'digitalocean') {
+				const thumbUrl = 'https://cdn.phlokk.com/' + item.media[1].id + '/conversions/' + item.media[1].name + '-optimal.png';
+			}
+		}
+	}
+
 	return (
 		<TouchableOpacity
 			style={styles.container}
@@ -71,7 +80,7 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 				});
 			}}
 		>
-			<Image style={styles.image} source={{uri: item.media[1].original_url}} />
+			<Image style={styles.image} source={{uri: thumbUrl}} />
 			{isLoading && (
 				<View
 					style={{
