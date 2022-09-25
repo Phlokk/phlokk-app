@@ -4,18 +4,22 @@ import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {MaterialIcons} from '@expo/vector-icons';
 import colors from '../../../config/colors';
 import {useFonts} from 'expo-font';
-
 import CustomAlert from '../../components/Alerts/CustomAlert';
-import CustomImageModal from '../../components/Image/CustomImageModal';
-import {useAtom} from 'jotai';
-import {userAtom} from '../../../../App';
 import VerifiedIcon from '../../components/common/VerifiedIcon';
+import InformationGraphics from './InformationGraphics';
 
 function UserProfile({user, setPopUpImage}) {
 	const [topFavFive, setTopFavFive] = useState(false);
 	const [fontsLoaded] = useFonts({
 		'Waterfall-Regular': require('../../../assets/fonts/Waterfall-Regular.ttf'),
 	});
+
+
+	// function infoGraphics() {
+	// 	if (user.username !== null || user.photo_url !== null) {
+	// 	  return <InformationGraphics/>;
+	// 	}}
+	
 
 	return (
 		<View style={styles.container}>
@@ -76,6 +80,7 @@ function UserProfile({user, setPopUpImage}) {
 					/>
 				</TouchableOpacity>
 			</>
+			{/* {infoGraphics()} */}
 		</View>
 	);
 }
