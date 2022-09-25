@@ -6,18 +6,19 @@ import {
     Placeholder,
 } from 'react-native-loading-placeholder';
 import colors from '../../../../config/colors';
+import Colors from "../../../../config/colors";
 
 const { height, width } = Dimensions.get('window');
 
 const Gradient = () => {
     return (
         <LinearGradient
-            colors={[colors.darkGrey, colors.secondary, colors.darkGrey]}
-            start={{ x: 1.0, y: 0.0 }}
+            colors={['#131313', Colors.darkGrey, '#131313']}
+            start={{ x: 6.0, y: 0.0 }}
             end={{ x: 0.0, y: 0.0 }}
             style={{
                 flex: 1,
-                width: 120,
+                width: 100,
             }}
         />
     );
@@ -29,7 +30,7 @@ const ProfileSkeleton = () => {
         <PlaceholderContainer
             style={styles.container}
             animatedComponent={<Gradient />}
-            duration={1000}
+            duration={2500}
             replace={true}
         >
             <View style={styles.banner}>
@@ -85,7 +86,7 @@ const ProfileSkeleton = () => {
                         }}
                     />
                 </View>
-                
+
             </View>
             <View style={styles.mediaContent}>
                 <View style={{ width: '33%' }}>
@@ -113,7 +114,7 @@ const ProfileSkeleton = () => {
                         }}
                     />
                 </View>
-                
+
             </View>
             <View style={styles.mediaContent}>
                 <View style={{ width: '33%' }}>
@@ -141,7 +142,7 @@ const ProfileSkeleton = () => {
                         }}
                     />
                 </View>
-                
+
             </View>
         </PlaceholderContainer>
     );
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
         zIndex: 10,
         position: 'absolute',
         width,
-        backgroundColor: colors.primary,
+        backgroundColor: colors.black,
         height,
     },
     placeholder: {

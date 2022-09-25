@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Pressable,
-  Alert,
+  Alert, ActivityIndicator,
 } from "react-native";
 import colors from "../../../config/colors";
 import { useAtom } from "jotai";
@@ -16,6 +16,8 @@ import routes from "../../navigation/routes";
 import { getPost } from "../../services/posts";
 import FastImage from "react-native-fast-image";
 import {useNavigation} from "@react-navigation/core";
+
+import NotificationItemSecondaryAvatar from './NotificationItemSecondaryAvatar';
 
 const NotificationItem = ({ navigation, item }) => {
 
@@ -50,6 +52,15 @@ const NotificationItem = ({ navigation, item }) => {
     }
   };
 
+
+  const [isNotificationImageLoading, setIsNotificationImageLoading] = useState(true);
+
+  const renderAvatarRow = (key, keyIndex) => {
+    return (
+        <NotificationItemSecondaryAvatar image={item.pictures[key]} key={key} />
+    )
+  }
+
   return (
     <TouchableOpacity onPress={() => goToAssociated()}>
       <View style={styles.containerInput}>
@@ -67,8 +78,22 @@ const NotificationItem = ({ navigation, item }) => {
                 uri: item.user.photo_url,
                 priority: FastImage.priority.high,
               }}
+              onLoadStart={() => {setIsNotificationImageLoading(true)}}
+              onLoadEnd={() => {setIsNotificationImageLoading(false)}}
               cache={FastImage.cacheControl.web}
             />
+            {isNotificationImageLoading && (
+                <View
+                    style={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: 42,
+                      justifyContent: 'center',
+                    }}
+                >
+                  <ActivityIndicator size="small" color={colors.green} />
+                </View>
+            )}
           </TouchableOpacity>
         )}
         <View style={styles.notificationView}>
@@ -77,26 +102,7 @@ const NotificationItem = ({ navigation, item }) => {
           {/* TODO still need to hide all but 4 avatars and show button that connects to FlatList of all users who liked, commented on post. Also add thumbnail for each post */}
           <View style={styles.iconRow}>
             {Object.keys(item.pictures).map((key, keyIndex) => (
-              <Pressable
-                key={key}
-                style={styles.iconRowAvatars}
-                // TODO navigate to initialUser profile when clicked
-
-                // onPress={() => {
-                //   navigation.navigate("feedProfile", {
-                //     initialUserId: key,
-                //   });
-                // }}
-              >
-                <FastImage
-                  style={styles.avatarList}
-                  source={{
-                    uri: item.pictures[key],
-                    priority: FastImage.priority.low,
-                  }}
-                  cache={FastImage.cacheControl.web}
-                />
-              </Pressable>
+                renderAvatarRow(key, keyIndex)
             ))}
           </View>
 
