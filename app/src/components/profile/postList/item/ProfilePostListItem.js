@@ -80,7 +80,13 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 				});
 			}}
 		>
-			<Image style={styles.image} source={{uri: thumbUrl}} />
+			<Image
+				style={styles.image}
+				source={{uri: thumbUrl}}
+				onLoadStart={() => {
+					setIsLoading(true)
+				}}
+				onLoadEnd={() => setIsLoading(false)}/>
 			{isLoading && (
 				<View
 					style={{

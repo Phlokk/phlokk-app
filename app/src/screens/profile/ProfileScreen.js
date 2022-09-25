@@ -7,9 +7,10 @@ import colors from '../../../config/colors';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../App';
 import {useUserVideoFeed} from '../../services/posts';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {fetchGetUser} from '../../redux/sagas/requests/fetchUsers';
 import CustomImageModal from '../../components/Image/CustomImageModal';
+import ProfileSkeleton from "../../components/profile/postList/ProfileSkeleton";
 
 export default function ProfileScreen({route}) {
 	const [postsToDisplay, setPostsToDisplay] = useState([]);
@@ -66,62 +67,66 @@ export default function ProfileScreen({route}) {
 		);
 	};
 
-	return (
-		<SafeAreaView style={styles.container} edges={['top']}>
-			<ProfileNavBar
-				userProfile={profile}
-				isCurrentUser={loggedInUser?._id === profile?._id}
-			/>
-			<FlatList
-				numColumns={3}
-				showsVerticalScrollIndicator={false}
-				removeClippedSubviews
-				nestedScrollEnabled={false}
-				data={postsToDisplay}
-				keyExtractor={item => item.id}
-				ListHeaderComponent={ListHeader}
-				renderItem={({item, index}) => (
-					<ProfilePostListItem
-						item={item}
-						index={index}
-						posts={postsToDisplay}
-						setPosts={setPostsToDisplay}
-					/>
-				)}
-				refreshControl={
-					<RefreshControl
-						refreshing={isRefreshing}
-						tintColor="white"
-						onRefresh={async () => {
-							setIsRefreshing(true);
-							await refresh();
-							setIsRefreshing(false);
-						}}
-					/>
-				}
-				onEndReached={() => {
-					if (postsToDisplay?.length <= 10) {
-						return;
+	if (posts.length == 0) {
+		return (<ProfileSkeleton />);
+	} else {
+		return (
+			<SafeAreaView style={styles.container} edges={['top']}>
+				<ProfileNavBar
+					userProfile={profile}
+					isCurrentUser={loggedInUser?._id === profile?._id}
+				/>
+				<FlatList
+					numColumns={3}
+					showsVerticalScrollIndicator={false}
+					removeClippedSubviews
+					nestedScrollEnabled={false}
+					data={postsToDisplay}
+					keyExtractor={item => item.id}
+					ListHeaderComponent={ListHeader}
+					renderItem={({item, index}) => (
+						<ProfilePostListItem
+							item={item}
+							index={index}
+							posts={postsToDisplay}
+							setPosts={setPostsToDisplay}
+						/>
+					)}
+					refreshControl={
+						<RefreshControl
+							refreshing={isRefreshing}
+							tintColor="white"
+							onRefresh={async () => {
+								setIsRefreshing(true);
+								await refresh();
+								setIsRefreshing(false);
+							}}
+						/>
 					}
+					onEndReached={() => {
+						if (postsToDisplay?.length <= 10) {
+							return;
+						}
 
-					if (!loading) {
-						getMoreUserPosts();
-					}
-				}}
-			/>
+						if (!loading) {
+							getMoreUserPosts();
+						}
+					}}
+				/>
 
-			<CustomImageModal
-				customAlertMessage={<Text>User Bio</Text>}
-				positiveBtn="Back"
-				modalVisible={popUpImage}
-				dismissAlert={setPopUpImage}
-				animationType="fade"
-				user={profile}
-				setUser={setProfile}
-				isCurrentUser={loggedInUser?._id === profile?._id}
-			/>
-		</SafeAreaView>
-	);
+				<CustomImageModal
+					customAlertMessage={<Text>User Bio</Text>}
+					positiveBtn="Back"
+					modalVisible={popUpImage}
+					dismissAlert={setPopUpImage}
+					animationType="fade"
+					user={profile}
+					setUser={setProfile}
+					isCurrentUser={loggedInUser?._id === profile?._id}
+				/>
+			</SafeAreaView>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
