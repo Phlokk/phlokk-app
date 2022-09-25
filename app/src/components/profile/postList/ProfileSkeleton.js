@@ -64,8 +64,15 @@ const ProfileSkeleton = () => {
                     <Placeholder
                         style={{
                             ...styles.placeholder,
-                            width: '90%',
-                            height: 150,
+                            height: 180,
+                        }}
+                    />
+                </View>
+                <View style={{ width: '33%' }}>
+                <Placeholder
+                        style={{
+                            ...styles.placeholder,
+                            height: 180,
                         }}
                     />
                 </View>
@@ -74,16 +81,7 @@ const ProfileSkeleton = () => {
                         style={{
                             ...styles.placeholder,
                             width: '90%',
-                            height: 150,
-                        }}
-                    />
-                </View>
-                <View style={{ width: '33%' }}>
-                <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '90%',
-                            height: 150,
+                            height: 180,
                         }}
                     />
                 </View>
@@ -94,8 +92,15 @@ const ProfileSkeleton = () => {
                     <Placeholder
                         style={{
                             ...styles.placeholder,
-                            width: '90%',
-                            height: 150,
+                            height: 180,
+                        }}
+                    />
+                </View>
+                <View style={{ width: '33%' }}>
+                <Placeholder
+                        style={{
+                            ...styles.placeholder,
+                            height: 180,
                         }}
                     />
                 </View>
@@ -104,16 +109,7 @@ const ProfileSkeleton = () => {
                         style={{
                             ...styles.placeholder,
                             width: '90%',
-                            height: 150,
-                        }}
-                    />
-                </View>
-                <View style={{ width: '33%' }}>
-                <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '90%',
-                            height: 150,
+                            height: 180,
                         }}
                     />
                 </View>
@@ -124,8 +120,15 @@ const ProfileSkeleton = () => {
                     <Placeholder
                         style={{
                             ...styles.placeholder,
-                            width: '90%',
-                            height: 150,
+                            height: 180,
+                        }}
+                    />
+                </View>
+                <View style={{ width: '33%' }}>
+                <Placeholder
+                        style={{
+                            ...styles.placeholder,
+                            height: 180,
                         }}
                     />
                 </View>
@@ -134,16 +137,7 @@ const ProfileSkeleton = () => {
                         style={{
                             ...styles.placeholder,
                             width: '90%',
-                            height: 150,
-                        }}
-                    />
-                </View>
-                <View style={{ width: '33%' }}>
-                <Placeholder
-                        style={{
-                            ...styles.placeholder,
-                            width: '90%',
-                            height: 150,
+                            height: 180,
                         }}
                     />
                 </View>
@@ -161,11 +155,9 @@ const styles = StyleSheet.create({
         width,
         backgroundColor: colors.primary,
         height,
-
     },
     placeholder: {
         backgroundColor: colors.lightBlack,
-        borderRadius: 5,
     },
     profileImage: {
         backgroundColor: colors.lightBlack,
@@ -193,8 +185,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     mediaContent:{
-        top: 180,
-        marginTop: 20,
+        top: 200,
+        marginTop: 2,
         flexDirection: 'row',
         paddingLeft: 10,
         justifyContent: 'space-between',

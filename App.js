@@ -18,7 +18,7 @@ import axios from "./app/src/redux/apis/axiosDeclaration";
 import {getPost} from "./app/src/services/posts";
 import routes from "./app/src/navigation/routes";
 import * as navigation from "./app/src/navigation/rootNavigation.js";
-import ProfileSkeleton from "./app/src/components/profile/postList/ProfileSkeleton";
+
 
 
 
@@ -214,8 +214,7 @@ export default function App() {
 
                 <Provider store={store}>
                     <QueryClientProvider client={queryClient}>
-                        {/* <Route/> */}
-                        <ProfileSkeleton />
+                        <Route/>
                     </QueryClientProvider>
                 </Provider>
             </GestureHandlerRootView>
