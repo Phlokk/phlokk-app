@@ -32,8 +32,6 @@ const CommentItem = ({
 }) => {
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
-  const [isUsernameProfile, setIsUsernameProfile] = useState(false);
-  const [isReplies, setIsReplies] = useState(false);
 
   const [isLiked, setIsLiked] = useState(comment.is_liked);
   const [likeCount, setLikeCount] = useState(comment.like_count);

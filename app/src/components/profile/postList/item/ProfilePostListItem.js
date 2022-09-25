@@ -22,7 +22,7 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 	const [isLoading, setIsLoading] = useState(false);
 	const queryClient = useQueryClient();
 
-	const [currentUser, setCurrentUser] = useAtom(userAtom);
+	const [currentUser] = useAtom(userAtom);
 
 	const deleteUserPost = async () => {
 		try {
