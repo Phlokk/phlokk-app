@@ -17,6 +17,7 @@ import {apiUrls} from "./app/src/globals";
 import axios from "./app/src/redux/apis/axiosDeclaration";
 import {getPost} from "./app/src/services/posts";
 import routes from "./app/src/navigation/routes";
+import * as Updates from 'expo-updates';
 import * as navigation from "./app/src/navigation/rootNavigation.js";
 
 
@@ -70,17 +71,8 @@ export default function App() {
     const responseListener = useRef();
 
     const [appIsAvailable, setAppIsAvailable] = useState(false);
-
-    useEffect(() => {
-        const hideSplash = async () => {
-            await wait(2000);
-            await SplashScreen.hideAsync();
-        };
-
-        // if (appIsAvailable) {
-            hideSplash();
-        // }
-    }, [appIsAvailable]);
+    const [updateIsAvailable, setUpdateIsAvailable] = useState(false);
+    const [isCheckingForUpdate, setIsCheckingForUpdate] = useState(false);
 
     useEffect(async () => {
         const checkStatus = async () => {
@@ -92,118 +84,139 @@ export default function App() {
             return (response.status === "available");
         }
 
+        const checkForUpdates = async () => {
+            setIsCheckingForUpdate(true);
+            const update = await Updates.checkForUpdateAsync();
+            if (update.isAvailable) {
+                Alert.alert('There is an update available. Please restart to complete the update');
+                setUpdateIsAvailable(true);
+                return true;
+            } else {
+                Alert.alert('No update available');
+                setUpdateIsAvailable(false);
+                return false;
+            }
+        }
+
+        // check if server is available
         const appIsAvailable = await checkStatus();
         if (!appIsAvailable) {
             Alert.alert("System is down for maintenance. Please try again later");
         } else {
+            // check for updates
+            await checkForUpdates();
 
-            const loadUser = async () => {
-                const response = await fetchGetUsers();
-                setUser(response.user);
-            };
+            if (!updateIsAvailable) {
+                const loadUser = async () => {
+                    const response = await fetchGetUsers();
+                    setUser(response.user);
+                };
 
-            loadUser();
-            // This listener is fired whenever a notification is received while the app is foregrounded
-            notificationListener.current =
-                Notifications.addNotificationReceivedListener((notification) => {
-                    setNotification(notification);
-                    console.log("notification received event");
-                });
-            // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-            responseListener.current =
-                Notifications.addNotificationResponseReceivedListener(async response => {
-                    const receievedNotification = response;
+                loadUser();
+                // This listener is fired whenever a notification is received while the app is foregrounded
+                notificationListener.current =
+                    Notifications.addNotificationReceivedListener((notification) => {
+                        setNotification(notification);
+                        console.log("notification received event");
+                    });
+                // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+                responseListener.current =
+                    Notifications.addNotificationResponseReceivedListener(async response => {
+                        const receievedNotification = response;
 
-                    const notificationObject = await axios.get(apiUrls.BASE_URL + '/api/me/notification/' + response.notification.request.content.data._id)
-                        .then(function (response) {
-                            return response.data;
-                        });
+                        const notificationObject = await axios.get(apiUrls.BASE_URL + '/api/me/notification/' + response.notification.request.content.data._id)
+                            .then(function (response) {
+                                return response.data;
+                            });
 
-                    switch (notificationObject.type) {
-                        case 1:
-                            // Device registered for notifications
-                            navigationRef.current.navigate(routes.USER_POSTS, {
-                                creator: notificationObject.associated.user,
-                                profile: true,
-                                selectedVideo: notificationObject.associated.media[0].original_url,
-                                selectedIndex: 0,
-                                preloadedPosts: [notificationObject.associated],
-                            });
-                            break;
-                        case 2:
-                            // Reaction to a post
-                            navigationRef.current.navigate(routes.USER_POSTS, {
-                                creator: notificationObject.associated.user,
-                                profile: true,
-                                selectedVideo: notificationObject.associated.media[0].original_url,
-                                selectedIndex: 0,
-                                preloadedPosts: [notificationObject.associated],
-                            });
-                            break;
-                        case 3:
-                            // Comment on a post
-                            navigationRef.current.navigate(routes.USER_POSTS, {
-                                creator: notificationObject.associated.user,
-                                profile: true,
-                                selectedVideo: notificationObject.associated.media[0].original_url,
-                                selectedIndex: 0,
-                                preloadedPosts: [notificationObject.associated],
-                            });
-                            break;
-                        case 4:
-                            // Post has been deleted
-                            break;
-                        case 5:
-                            const targetUser = notificationObject.associated;
-                            navigationRef.current.navigate("profileOther", {initialUser: targetUser});
-                            break;
-                        case 6:
-                            navigationRef.current.navigate(routes.USER_POSTS, {
-                                creator: notificationObject.associated.user,
-                                profile: true,
-                                selectedVideo: notificationObject.associated.media[0].original_url,
-                                selectedIndex: 0,
-                                preloadedPosts: [notificationObject.associated],
-                            });
-                            break;
-                        case 7:
-                            navigationRef.current.navigate(routes.USER_POSTS, {
-                                creator: notificationObject.associated.user,
-                                profile: true,
-                                selectedVideo: notificationObject.associated.media[0].original_url,
-                                selectedIndex: 0,
-                                preloadedPosts: [notificationObject.associated],
-                            });
-                            break;
-                        case 8:
-                            navigationRef.current.navigate(routes.USER_POSTS, {
-                                creator: notificationObject.associated.user,
-                                profile: true,
-                                selectedVideo: notificationObject.associated.media[0].original_url,
-                                selectedIndex: 0,
-                                preloadedPosts: [notificationObject.associated],
-                            });
-                            break;
-                        case 9:
-                            navigationRef.current.navigate(routes.USER_POSTS, {
-                                creator: notificationObject.associated.user,
-                                profile: true,
-                                selectedVideo: notificationObject.associated.media[0].original_url,
-                                selectedIndex: 0,
-                                preloadedPosts: [notificationObject.associated],
-                            });
-                            break;
-                        default:
-                        // Something else, navigate to notification list
-                    }
-                });
+                        switch (notificationObject.type) {
+                            case 1:
+                                // Device registered for notifications
+                                navigationRef.current.navigate(routes.USER_POSTS, {
+                                    creator: notificationObject.associated.user,
+                                    profile: true,
+                                    selectedVideo: notificationObject.associated.media[0].original_url,
+                                    selectedIndex: 0,
+                                    preloadedPosts: [notificationObject.associated],
+                                });
+                                break;
+                            case 2:
+                                // Reaction to a post
+                                navigationRef.current.navigate(routes.USER_POSTS, {
+                                    creator: notificationObject.associated.user,
+                                    profile: true,
+                                    selectedVideo: notificationObject.associated.media[0].original_url,
+                                    selectedIndex: 0,
+                                    preloadedPosts: [notificationObject.associated],
+                                });
+                                break;
+                            case 3:
+                                // Comment on a post
+                                navigationRef.current.navigate(routes.USER_POSTS, {
+                                    creator: notificationObject.associated.user,
+                                    profile: true,
+                                    selectedVideo: notificationObject.associated.media[0].original_url,
+                                    selectedIndex: 0,
+                                    preloadedPosts: [notificationObject.associated],
+                                });
+                                break;
+                            case 4:
+                                // Post has been deleted
+                                break;
+                            case 5:
+                                const targetUser = notificationObject.associated;
+                                navigationRef.current.navigate("profileOther", {initialUser: targetUser});
+                                break;
+                            case 6:
+                                navigationRef.current.navigate(routes.USER_POSTS, {
+                                    creator: notificationObject.associated.user,
+                                    profile: true,
+                                    selectedVideo: notificationObject.associated.media[0].original_url,
+                                    selectedIndex: 0,
+                                    preloadedPosts: [notificationObject.associated],
+                                });
+                                break;
+                            case 7:
+                                navigationRef.current.navigate(routes.USER_POSTS, {
+                                    creator: notificationObject.associated.user,
+                                    profile: true,
+                                    selectedVideo: notificationObject.associated.media[0].original_url,
+                                    selectedIndex: 0,
+                                    preloadedPosts: [notificationObject.associated],
+                                });
+                                break;
+                            case 8:
+                                navigationRef.current.navigate(routes.USER_POSTS, {
+                                    creator: notificationObject.associated.user,
+                                    profile: true,
+                                    selectedVideo: notificationObject.associated.media[0].original_url,
+                                    selectedIndex: 0,
+                                    preloadedPosts: [notificationObject.associated],
+                                });
+                                break;
+                            case 9:
+                                navigationRef.current.navigate(routes.USER_POSTS, {
+                                    creator: notificationObject.associated.user,
+                                    profile: true,
+                                    selectedVideo: notificationObject.associated.media[0].original_url,
+                                    selectedIndex: 0,
+                                    preloadedPosts: [notificationObject.associated],
+                                });
+                                break;
+                            default:
+                            // Something else, navigate to notification list
+                        }
+                    });
 
-            return () => {
-                Notifications.removeNotificationSubscription(
-                    notificationListener.current
-                );
-                Notifications.removeNotificationSubscription(responseListener.current);
-            };
+                return () => {
+                    Notifications.removeNotificationSubscription(
+                        notificationListener.current
+                    );
+                    Notifications.removeNotificationSubscription(responseListener.current);
+                };
+            } else {
+                setAppIsAvailable(false);
+            }
         }
     }, [setAppIsAvailable]);
 
@@ -220,11 +233,19 @@ export default function App() {
             </GestureHandlerRootView>
         );
     } else {
-        return (
-            <>
-                <Text>App currently down for maintenance. Please try again later.</Text>
-            </>
-        )
+        if (updateIsAvailable) {
+            return (
+                <>
+                    <Text style={{padding: 20}}>Update is available</Text>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <Text style={{padding: 20}}>App currently down for maintenance. Please try again later.</Text>
+                </>
+            )
+        }
     }
 }
 
