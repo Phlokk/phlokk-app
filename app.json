@@ -13,6 +13,7 @@
       "backgroundColor": "#131313"
     },
     "updates": {
+      "url": "https://u.expo.dev/0ce22039-8e13-4b97-84ce-82e13de2bced",
       "fallbackToCacheTimeout": 0,
       "checkAutomatically": "ON_ERROR_RECOVERY"
     },
