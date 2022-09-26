@@ -227,6 +227,7 @@ export default function App() {
             <>
                 <Text style={{padding: 20}}>Update not available</Text>
                 <Text>Manifest :: { JSON.stringify(updateManifest) }</Text>
+                <Text>Update ID :: { Updates.updateId }</Text>
                 <Text>Channel :: { Updates.releaseChannel }</Text>
                 <Text>Version :: { Updates.runtimeVersion }</Text>
             </>
@@ -246,6 +247,7 @@ export default function App() {
                 <>
                     <Text style={{padding: 20}}>Update is available</Text>
                     <Text>Manifest :: { JSON.stringify(updateManifest) }</Text>
+                    <Text>Update ID :: { Updates.updateId }</Text>
                     <Text>Channel :: { Updates.releaseChannel }</Text>
                     <Text>Version :: { Updates.runtimeVersion }</Text>
                 </>
