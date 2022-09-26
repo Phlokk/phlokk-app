@@ -6,7 +6,6 @@ import colors from '../../../config/colors';
 import {useFonts} from 'expo-font';
 import CustomAlert from '../../components/Alerts/CustomAlert';
 import VerifiedIcon from '../../components/common/VerifiedIcon';
-import InformationGraphics from './InformationGraphics';
 
 function UserProfile({user, setPopUpImage}) {
 	const [topFavFive, setTopFavFive] = useState(false);
@@ -14,11 +13,10 @@ function UserProfile({user, setPopUpImage}) {
 		'Waterfall-Regular': require('../../../assets/fonts/Waterfall-Regular.ttf'),
 	});
 
+	if(!fontsLoaded) {
+		return null;
+	}
 
-	// function infoGraphics() {
-	// 	if (user.username !== null || user.photo_url !== null) {
-	// 	  return <InformationGraphics/>;
-	// 	}}
 	
 
 	return (

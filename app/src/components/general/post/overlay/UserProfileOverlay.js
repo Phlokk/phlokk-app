@@ -8,7 +8,6 @@ import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import colors from "../../../../../config/colors";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import TextTicker from "react-native-text-ticker";
-import { Easing } from "react-native-reanimated";
 
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
@@ -61,7 +60,6 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
           </Text>
           <View style={{ paddingTop: 2, top: 2 }}>
             {user.is_verified === 1 && (
-              // <Image style={styles.phlokkVerified} source={verifiedCheck} />
               <VerifiedIcon />
             )}
           </View>
