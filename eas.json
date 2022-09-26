@@ -14,9 +14,11 @@
     },
     "preview": {
       "distribution": "internal",
-      "releaseChannel": "beta"
+      "channel": "preview"
     },
-    "production": {}
+    "production": {
+      "channel": "production"
+    }
   },
   "submit": {
     "production": {}
