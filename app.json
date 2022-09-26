@@ -9,8 +9,8 @@
     "icon": "./app/assets/Phlokk_App_Logo_2022_1024x1024.png",
     "splash": {
       "image": "./app/assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#131313"
     },
     "updates": {
       "fallbackToCacheTimeout": 0,
@@ -21,11 +21,11 @@
     ],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
-      "buildNumber": "229250000",
+      "buildNumber": "229260001",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 229250000,
+      "versionCode": 229260001,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
         "backgroundColor": "#04cccc"

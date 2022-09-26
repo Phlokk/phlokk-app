@@ -134,7 +134,7 @@ android {
         applicationId 'com.phlokk.phlokkapp'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 229200002
+        versionCode 229260001
         versionName "0.1.1"
     }
     splits {

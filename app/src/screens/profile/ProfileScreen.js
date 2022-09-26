@@ -11,6 +11,7 @@ import React, {useEffect, useState} from 'react';
 import {fetchGetUser} from '../../redux/sagas/requests/fetchUsers';
 import CustomImageModal from '../../components/Image/CustomImageModal';
 import ProfileSkeleton from "../../components/profile/postList/ProfileSkeleton";
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function ProfileScreen({route}) {
 	const [postsToDisplay, setPostsToDisplay] = useState([]);
@@ -113,6 +114,7 @@ export default function ProfileScreen({route}) {
 						}
 					}}
 				/>
+				
 
 				<CustomImageModal
 					customAlertMessage={<Text>User Bio</Text>}

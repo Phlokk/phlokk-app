@@ -16,6 +16,7 @@ import {deletePostById} from '../../../../services/posts';
 import {useQueryClient} from 'react-query';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../../../App';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function ProfilePostListItem({item, index, posts, setPosts}) {
 	const navigation = useNavigation();
@@ -99,6 +100,12 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 					<ActivityIndicator size="small" color={colors.green} />
 				</View>
 			)}
+			<View pointerEvents="none" style={styles.bottomGradientWrapper}>
+				<LinearGradient
+					colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.3)']}
+					style={{height: 50, width: '100%'}}
+				/>
+			</View>
 
 			<Text style={styles.playCountText}>
 				<Ionicons
@@ -106,9 +113,9 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 					name="ios-play-outline"
 					size={14}
 					color={colors.white}
-				/>{' '}
-				{ item?.play_count ?? 0 }
+				/> { item?.play_count ?? 0 }
 			</Text>
+			
 		</TouchableOpacity>
 	);
 }
@@ -138,5 +145,12 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		bottom: 3,
 		left: 0,
+	},
+	bottomGradientWrapper: {
+		position: 'absolute',
+		left: 0,
+		right: 0,
+		bottom: 0,
+		height: 50,
 	},
 });

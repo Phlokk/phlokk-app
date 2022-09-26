@@ -6,7 +6,6 @@ import colors from '../../../config/colors';
 import {useFonts} from 'expo-font';
 import CustomAlert from '../../components/Alerts/CustomAlert';
 import VerifiedIcon from '../../components/common/VerifiedIcon';
-import InformationGraphics from './InformationGraphics';
 
 function UserProfile({user, setPopUpImage}) {
 	const [topFavFive, setTopFavFive] = useState(false);
@@ -14,11 +13,10 @@ function UserProfile({user, setPopUpImage}) {
 		'Waterfall-Regular': require('../../../assets/fonts/Waterfall-Regular.ttf'),
 	});
 
+	if (!fontsLoaded) {
+		return null;
+	}
 
-	// function infoGraphics() {
-	// 	if (user.username !== null || user.photo_url !== null) {
-	// 	  return <InformationGraphics/>;
-	// 	}}
 	
 
 	return (
@@ -38,7 +36,7 @@ function UserProfile({user, setPopUpImage}) {
 			</TouchableOpacity>
 
 			<View style={styles.usernameView}>
-				{user.username !== null || !undefined ? (
+				{user.username !== null ? (
 					<Text selectable={true} style={styles.username}>
 						@{user.username}
 						<View>{user && user.is_verified === 1 && <VerifiedIcon />}</View>
@@ -49,7 +47,7 @@ function UserProfile({user, setPopUpImage}) {
 			</View>
 
 			<View style={styles.quotesView}>
-				{user.quote !== null || !undefined ? (
+				{user.quote !== null ? (
 					<Text style={styles.quotes}>{user.quote}</Text>
 				) : (
 					<></>
@@ -80,7 +78,6 @@ function UserProfile({user, setPopUpImage}) {
 					/>
 				</TouchableOpacity>
 			</>
-			{/* {infoGraphics()} */}
 		</View>
 	);
 }
@@ -90,27 +87,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 5,
 		alignItems: 'center',
 		backgroundColor: colors.primary,
-	},
-	relationshipNameContainer: {
-		flexDirection: 'row',
-		paddingTop: 5,
-		justifyContent: 'space-between',
-		bottom: 2,
-	},
-	verifiedRow: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		// bottom: 2,
-	},
-	creatorText: {
-		color: colors.white,
-		fontSize: 15,
-		marginBottom: 20,
-	},
-	relationshipText: {
-		color: colors.white,
-		marginBottom: 10,
-		marginHorizontal: 2,
 	},
 	avatar: {
 		height: 100,
@@ -131,18 +107,6 @@ const styles = StyleSheet.create({
 		fontFamily: 'Waterfall-Regular',
 		fontSize: 27,
 	},
-	users: {
-		color: colors.white,
-	},
-	error: {
-		color: colors.red,
-	},
-	phlokkVerified: {
-		width: 12,
-		height: 12,
-		bottom: 0,
-		marginHorizontal: 3,
-	},
 	usernameView: {
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -156,14 +120,6 @@ const styles = StyleSheet.create({
 		paddingBottom: 10,
 		paddingRight: 25,
 		paddingLeft: 25,
-	},
-	messageText: {
-		color: colors.black,
-		fontWeight: '700',
-	},
-	dividerBar: {
-		backgroundColor: '#fff',
-		width: 20,
 	},
 });
 
