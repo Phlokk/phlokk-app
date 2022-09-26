@@ -13,7 +13,8 @@
       }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "releaseChannel": "beta"
     },
     "production": {}
   },

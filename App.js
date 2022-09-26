@@ -89,12 +89,12 @@ export default function App() {
             setIsCheckingForUpdate(true);
             const update = await Updates.checkForUpdateAsync();
             if (update.isAvailable) {
-                Alert.alert('There is an update available. Please restart to complete the update');
                 setUpdateIsAvailable(true);
                 setUpdateManifest(update.manifest || {})
             } else {
                 Alert.alert('No update available');
                 setUpdateIsAvailable(false);
+                setUpdateManifest({updateIsAvailable: false, checkComplete: true});
             }
         }
 
@@ -225,7 +225,10 @@ export default function App() {
     if (appIsAvailable) {
         return (
             <>
+                <Text style={{padding: 20}}>Update not available</Text>
                 <Text>Manifest :: { JSON.stringify(updateManifest) }</Text>
+                <Text>Channel :: { Updates.releaseChannel }</Text>
+                <Text>Version :: { Updates.runtimeVersion }</Text>
             </>
             // <GestureHandlerRootView style={{flex: 1}}>
             //     <StatusBar barStyle="light-content"/>
@@ -242,6 +245,9 @@ export default function App() {
             return (
                 <>
                     <Text style={{padding: 20}}>Update is available</Text>
+                    <Text>Manifest :: { JSON.stringify(updateManifest) }</Text>
+                    <Text>Channel :: { Updates.releaseChannel }</Text>
+                    <Text>Version :: { Updates.runtimeVersion }</Text>
                 </>
             )
         } else {
