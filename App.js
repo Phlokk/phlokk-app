@@ -73,6 +73,7 @@ export default function App() {
     const [appIsAvailable, setAppIsAvailable] = useState(false);
     const [updateIsAvailable, setUpdateIsAvailable] = useState(false);
     const [isCheckingForUpdate, setIsCheckingForUpdate] = useState(false);
+    const [updateManifest, setUpdateManifest] = useState({})
 
     useEffect(async () => {
         const checkStatus = async () => {
@@ -90,11 +91,10 @@ export default function App() {
             if (update.isAvailable) {
                 Alert.alert('There is an update available. Please restart to complete the update');
                 setUpdateIsAvailable(true);
-                return true;
+                setUpdateManifest(update.manifest || {})
             } else {
                 Alert.alert('No update available');
                 setUpdateIsAvailable(false);
-                return false;
             }
         }
 
@@ -103,6 +103,8 @@ export default function App() {
         if (!appIsAvailable) {
             Alert.alert("System is down for maintenance. Please try again later");
         } else {
+            await SplashScreen.hideAsync()
+
             // check for updates
             await checkForUpdates();
 
@@ -222,15 +224,18 @@ export default function App() {
 
     if (appIsAvailable) {
         return (
-            <GestureHandlerRootView style={{flex: 1}}>
-                <StatusBar barStyle="light-content"/>
-
-                <Provider store={store}>
-                    <QueryClientProvider client={queryClient}>
-                        <Route/>
-                    </QueryClientProvider>
-                </Provider>
-            </GestureHandlerRootView>
+            <>
+                <Text>Manifest :: { JSON.stringify(updateManifest) }</Text>
+            </>
+            // <GestureHandlerRootView style={{flex: 1}}>
+            //     <StatusBar barStyle="light-content"/>
+            //
+            //     <Provider store={store}>
+            //         <QueryClientProvider client={queryClient}>
+            //             <Route/>
+            //         </QueryClientProvider>
+            //     </Provider>
+            // </GestureHandlerRootView>
         );
     } else {
         if (updateIsAvailable) {
