@@ -17,19 +17,40 @@ import {useIsFocused} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../App';
 
-function DisplayMenuScreen({user}) {
+const RenderButton = ({onPress, isSelected, icon}) => {
+	return (
+		<TouchableOpacity style={styles.itemContainer} onPress={onPress}>
+			{typeof icon === 'string' && (
+				<MaterialIcons
+					style={
+						isSelected ? styles.nonTransparentIcons : styles.transparentIcons
+					}
+					name={icon}
+					size={24}
+					color={isSelected ? colors.green : colors.secondary}
+				/>
+			)}
+			{typeof icon !== 'string' && icon}
+			{isSelected && <View style={styles.underline} />}
+		</TouchableOpacity>
+	);
+};
+
+function DisplayMenuScreen({user, onTabSelected}) {
 	const isFocused = useIsFocused();
 
 	useEffect(() => {
 		setIsSettingsModalOpen(false);
 	}, [isFocused]);
 
-	const [currentUser, setCurrentUser] = useAtom(userAtom);
+	const [currentUser] = useAtom(userAtom);
 
 	const [isVisible, setIsVisible] = useState(false);
 	const [isBookmark, setIsBookmark] = useState(false);
 	const [isPrivate, setIsPrivate] = useState(false);
 	const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+
+	const [selectedTab, setSelectedTab] = useState('cloud');
 
 	if (user._id !== currentUser._id) {
 		return null;
@@ -38,6 +59,77 @@ function DisplayMenuScreen({user}) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.menuContainer}>
+				<RenderButton
+					onPress={() => {
+						setSelectedTab('cloud');
+						onTabSelected('cloud');
+					}}
+					isSelected={selectedTab === 'cloud'}
+					icon="cloud-upload"
+					onTabSelected={onTabSelected}
+				/>
+
+				<RenderButton
+					onPress={() => {
+						setSelectedTab('star');
+						onTabSelected('star');
+						//setIsVisible(true)
+					}}
+					isSelected={selectedTab === 'star'}
+					icon={
+						<AntDesign
+							style={
+								selectedTab === 'star'
+									? styles.nonTransparentIcons
+									: styles.transparentIcons
+							}
+							name="star"
+							size={24}
+							color={selectedTab === 'star' ? colors.green : colors.secondary}
+						/>
+					}
+				/>
+
+				<RenderButton
+					onPress={() => {
+						setSelectedTab('bookmark');
+						onTabSelected('bookmark');
+						//setIsBookmark(true);
+					}}
+					isSelected={selectedTab === 'bookmark'}
+					icon="bookmark"
+				/>
+
+				<RenderButton
+					onPress={() => {
+						setSelectedTab('private');
+						onTabSelected('private');
+						//setIsPrivate(true);
+					}}
+					isSelected={selectedTab === 'private'}
+					icon={
+						<FontAwesome
+							style={
+								selectedTab === 'private'
+									? styles.nonTransparentIcons
+									: styles.transparentIcons
+							}
+							name="lock"
+							size={24}
+							color={
+								selectedTab === 'private' ? colors.green : colors.secondary
+							}
+						/>
+					}
+				/>
+
+				<RenderButton
+					onPress={() => setIsSettingsModalOpen(true)}
+					isSelected={false}
+					icon="settings"
+				/>
+
+				{/* Alerts and modals */}
 				<CustomAlert
 					alertTitle={
 						<Text>
@@ -50,25 +142,6 @@ function DisplayMenuScreen({user}) {
 					dismissAlert={setIsVisible}
 					animationType="fade"
 				/>
-				<TouchableOpacity style={styles.itemContainer}>
-					<MaterialIcons
-						style={styles.transparentIcons}
-						name="cloud-upload"
-						size={24}
-						color={colors.secondary}
-					/>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.itemContainer}
-					onPress={() => setIsVisible(true)}
-				>
-					<AntDesign
-						style={styles.transparentIcons}
-						name="star"
-						size={24}
-						color={colors.secondary}
-					/>
-				</TouchableOpacity>
 				<CustomAlert
 					alertTitle={
 						<Text>
@@ -83,17 +156,6 @@ function DisplayMenuScreen({user}) {
 					dismissAlert={setIsBookmark}
 					animationType="fade"
 				/>
-				<TouchableOpacity
-					style={styles.itemContainer}
-					onPress={() => setIsBookmark(true)}
-				>
-					<MaterialIcons
-						style={styles.transparentIcons}
-						name="bookmark"
-						size={24}
-						color={colors.secondary}
-					/>
-				</TouchableOpacity>
 				<CustomAlert
 					alertTitle={
 						<Text>
@@ -106,28 +168,6 @@ function DisplayMenuScreen({user}) {
 					dismissAlert={setIsPrivate}
 					animationType="fade"
 				/>
-				<TouchableOpacity
-					style={styles.itemContainer}
-					onPress={() => setIsPrivate(true)}
-				>
-					<FontAwesome
-						style={styles.transparentIcons}
-						name="lock"
-						size={24}
-						color={colors.secondary}
-					/>
-				</TouchableOpacity>
-
-				<TouchableOpacity style={styles.itemContainer}>
-					<MaterialIcons
-						style={styles.transparentIcons}
-						name="admin-panel-settings"
-						size={24}
-						color={colors.secondary}
-						onPress={() => setIsSettingsModalOpen(true)}
-					/>
-				</TouchableOpacity>
-
 				<Modal
 					animationType="slide"
 					transparent={true}
@@ -179,6 +219,15 @@ const styles = StyleSheet.create({
 	},
 	transparentIcons: {
 		opacity: 0.3,
+	},
+	nonTransparentIcons: {
+		opacity: 1,
+	},
+	underline: {
+		width: 20,
+		height: 2,
+		backgroundColor: colors.green,
+		marginTop: 6,
 	},
 });
 

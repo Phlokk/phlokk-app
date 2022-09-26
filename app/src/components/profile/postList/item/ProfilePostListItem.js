@@ -62,7 +62,12 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 	if ((item.media[1].generated_conversions.length ?? 0) > 0) {
 		if ((item.media[1].generated_conversions.optimal ?? false) == true) {
 			if ((item.media[1].conversions_disk ?? 'local') == 'digitalocean') {
-				const thumbUrl = 'https://cdn.phlokk.com/' + item.media[1].id + '/conversions/' + item.media[1].name + '-optimal.png';
+				const thumbUrl =
+					'https://cdn.phlokk.com/' +
+					item.media[1].id +
+					'/conversions/' +
+					item.media[1].name +
+					'-optimal.png';
 			}
 		}
 	}
@@ -85,9 +90,10 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 				style={styles.image}
 				source={{uri: thumbUrl}}
 				onLoadStart={() => {
-					setIsLoading(true)
+					setIsLoading(true);
 				}}
-				onLoadEnd={() => setIsLoading(false)}/>
+				onLoadEnd={() => setIsLoading(false)}
+			/>
 			{isLoading && (
 				<View
 					style={{
@@ -100,10 +106,22 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 					<ActivityIndicator size="small" color={colors.green} />
 				</View>
 			)}
-			<View pointerEvents="none" style={styles.bottomGradientWrapper}>
+			<View
+				pointerEvents="none"
+				style={[
+					styles.bottomGradientWrapper,
+					{
+						transform: [{rotate: '40deg'}],
+					},
+				]}
+			>
 				<LinearGradient
-					colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.3)']}
-					style={{height: 50, width: '100%'}}
+					colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1.1)']}
+					style={{
+						height: 50,
+						width: '100%',
+						marginLeft: -50,
+					}}
 				/>
 			</View>
 
@@ -113,9 +131,9 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 					name="ios-play-outline"
 					size={14}
 					color={colors.white}
-				/> { item?.play_count ?? 0 }
+				/>{' '}
+				{item?.play_count ?? 0}
 			</Text>
-			
 		</TouchableOpacity>
 	);
 }
@@ -124,6 +142,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1 / 3,
 		height: 180,
+		overflow: 'hidden',
 	},
 	image: {
 		flex: 1,
@@ -152,5 +171,6 @@ const styles = StyleSheet.create({
 		right: 0,
 		bottom: 0,
 		height: 50,
+		marginLeft: -110,
 	},
 });

@@ -4,7 +4,7 @@ import UserProfile from '../../screens/profile/UserProfile';
 import ProfileStatsContainer from '../profile/profileStats/ProfileStatsContainer';
 import colors from '../../../config/colors';
 
-function ProfileHeader({user, setPopUpImage}) {
+function ProfileHeader({user, setPopUpImage, onTabSelected}) {
 	return (
 		<View style={styles.container}>
 			<ProfileStatsContainer user={user} />
@@ -13,7 +13,7 @@ function ProfileHeader({user, setPopUpImage}) {
 				<UserProfile user={user} setPopUpImage={setPopUpImage} />
 			</View>
 			<View>
-				<DisplayMenuScreen user={user} />
+				<DisplayMenuScreen user={user} onTabSelected={onTabSelected} />
 			</View>
 		</View>
 	);

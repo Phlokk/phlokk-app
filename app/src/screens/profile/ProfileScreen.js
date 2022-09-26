@@ -7,16 +7,19 @@ import colors from '../../../config/colors';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../App';
 import {useUserVideoFeed} from '../../services/posts';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {fetchGetUser} from '../../redux/sagas/requests/fetchUsers';
 import CustomImageModal from '../../components/Image/CustomImageModal';
-import ProfileSkeleton from "../../components/profile/postList/ProfileSkeleton";
+import ProfileSkeleton from '../../components/profile/postList/ProfileSkeleton';
 import LinearGradient from 'react-native-linear-gradient';
+import {useIsFocused} from '@react-navigation/native';
 
 export default function ProfileScreen({route}) {
 	const [postsToDisplay, setPostsToDisplay] = useState([]);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [popUpImage, setPopUpImage] = useState(false);
+	const isFocused = useIsFocused();
+	const [selectedTab, setSelectedTab] = useState('cloud');
 
 	const [loggedInUser] = useAtom(userAtom);
 	const [profile, setProfile] = useState();
@@ -51,25 +54,49 @@ export default function ProfileScreen({route}) {
 	);
 
 	useEffect(() => {
+		if (!isFocused) {
+			return;
+		}
+
+		if (loading) {
+			return;
+		}
+
+		refresh();
+	}, [isFocused]);
+
+	useEffect(() => {
 		if (posts?.length > 0) {
 			setPostsToDisplay(posts);
 		}
 	}, [posts]);
 
+	const ListHeader = useCallback(() => {
+		return (
+			<View style={styles.container} edges={['top']}>
+				<ProfileHeader
+					user={profile}
+					setPopUpImage={setPopUpImage}
+					onTabSelected={tab => {
+						setSelectedTab(tab);
+
+						if (selectedTab === 'cloud') {
+							setPostsToDisplay(posts);
+						} else {
+							setPostsToDisplay([]);
+						}
+					}}
+				/>
+			</View>
+		);
+	}, [profile]);
+
 	if (!profile) {
 		return <SafeAreaView style={styles.container} edges={['top']} />;
 	}
 
-	const ListHeader = () => {
-		return (
-			<View style={styles.container} edges={['top']}>
-				<ProfileHeader user={profile} setPopUpImage={setPopUpImage} />
-			</View>
-		);
-	};
-
-	if (posts.length == 0) {
-		return (<ProfileSkeleton />);
+	if (loading) {
+		return <ProfileSkeleton />;
 	} else {
 		return (
 			<SafeAreaView style={styles.container} edges={['top']}>
@@ -77,6 +104,7 @@ export default function ProfileScreen({route}) {
 					userProfile={profile}
 					isCurrentUser={loggedInUser?._id === profile?._id}
 				/>
+
 				<FlatList
 					numColumns={3}
 					showsVerticalScrollIndicator={false}
@@ -114,7 +142,26 @@ export default function ProfileScreen({route}) {
 						}
 					}}
 				/>
-				
+
+				{selectedTab !== 'cloud' ? (
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							// backgroundColor: 'red',
+
+							width: '100%',
+							position: 'absolute',
+							right: 0,
+							bottom: 0,
+							left: 0,
+						}}
+					>
+						<Text style={{color: 'white', marginTop: 20, marginBottom: 20}}>
+							{selectedTab} videos coming soon.
+						</Text>
+					</View>
+				) : null}
 
 				<CustomImageModal
 					customAlertMessage={<Text>User Bio</Text>}

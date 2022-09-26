@@ -9,15 +9,6 @@ import VerifiedIcon from '../../components/common/VerifiedIcon';
 
 function UserProfile({user, setPopUpImage}) {
 	const [topFavFive, setTopFavFive] = useState(false);
-	const [fontsLoaded] = useFonts({
-		'Waterfall-Regular': require('../../../assets/fonts/Waterfall-Regular.ttf'),
-	});
-
-	if (!fontsLoaded) {
-		return null;
-	}
-
-	
 
 	return (
 		<View style={styles.container}>
