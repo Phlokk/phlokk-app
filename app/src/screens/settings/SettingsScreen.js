@@ -168,7 +168,7 @@ export default function SettingsScreen() {
           onPress={handleLogout}
         >
           <Text style={styles.text}>
-            <MaterialIcons name="logout" size={14} color={colors.white} />   Sign out
+            This is the logout button
           </Text>
         </TouchableOpacity>
         <Text style={styles.versionText}>v{Constants.nativeAppVersion}-{Constants.nativeBuildVersion}</Text>
