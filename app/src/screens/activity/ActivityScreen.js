@@ -24,11 +24,11 @@ export default function ActivityScreen({ navigation }) {
   const [notificationList, setNotificationList] = useState("");
   const { height, width } = Dimensions.get('window');
 
-  useEffect(async () => {
-    await notificationListener(setNotificationList);
-    return () => clearNotificationListener();
+    useEffect(async () => {
+      await notificationListener(setNotificationList);
+      return () => clearNotificationListener();
   }, []);
- 
+
 
 const Gradient = () => {
   return (
@@ -65,69 +65,71 @@ const Gradient = () => {
     );
   };
 
-  if (notificationList.length == 0 || notificationList.length == null ) {
+  if (notificationList == "" || notificationList.length == 0 ) {
     return (
         <View style={styles.container}>
-          <ActivityNavBar title={"Activity feed"}/>
-          <View style={styles.alertView}>
-            <Text style={styles.alertText}>You have no notifications</Text>
-          </View>
-          <PlaceholderContainer
-              style={styles.placeholderContainer}
-              animatedComponent={<Gradient />}
-              duration={1250}
-              replace={true}
-          >
-            <View style={{ width: '100%', marginLeft: 24 }}>
-                <Placeholder
-                    style={{
-                        ...styles.placeholder,
-                        width: '94%',
-                        height: 80,
-                    }}
-                />
-                <Placeholder
-                    style={{
-                        ...styles.placeholder,
-                        width: '94%',
-                        height: 80,
-                        marginTop: 24,
-                    }}
-                />
-                <Placeholder
-                    style={{
-                        ...styles.placeholder,
-                        width: '94%',
-                        height: 80,
-                        marginTop: 24,
-                    }}
-                />
-                <Placeholder
-                    style={{
-                        ...styles.placeholder,
-                        width: '94%',
-                        height: 80,
-                        marginTop: 24,
-                    }}
-                />
-                <Placeholder
-                    style={{
-                        ...styles.placeholder,
-                        width: '94%',
-                        height: 80,
-                        marginTop: 24,
-                    }}
-                />
-                <Placeholder
-                    style={{
-                        ...styles.placeholder,
-                        width: '94%',
-                        height: 80,
-                        marginTop: 24,
-                    }}
-                />
-            </View>
-          </PlaceholderContainer>
+            <ActivityNavBar title={"Activity Feed"}/>
+            {typeof notificationList == "string" ? (
+                <PlaceholderContainer
+                    style={styles.placeholderContainer}
+                    animatedComponent={<Gradient />}
+                    duration={1250}
+                    replace={true}
+                >
+                    <View style={{ width: '100%', marginLeft: 24 }}>
+                        <Placeholder
+                            style={{
+                                ...styles.placeholder,
+                                width: '94%',
+                                height: 80,
+                            }}
+                        />
+                        <Placeholder
+                            style={{
+                                ...styles.placeholder,
+                                width: '94%',
+                                height: 80,
+                                marginTop: 24,
+                            }}
+                        />
+                        <Placeholder
+                            style={{
+                                ...styles.placeholder,
+                                width: '94%',
+                                height: 80,
+                                marginTop: 24,
+                            }}
+                        />
+                        <Placeholder
+                            style={{
+                                ...styles.placeholder,
+                                width: '94%',
+                                height: 80,
+                                marginTop: 24,
+                            }}
+                        />
+                        <Placeholder
+                            style={{
+                                ...styles.placeholder,
+                                width: '94%',
+                                height: 80,
+                                marginTop: 24,
+                            }}
+                        />
+                        <Placeholder
+                            style={{
+                                ...styles.placeholder,
+                                width: '94%',
+                                height: 80,
+                                marginTop: 24,
+                            }}
+                        />
+                    </View>
+                </PlaceholderContainer>
+            ) : (
+                <View style={styles.alertView}>
+                    <Text style={styles.alertText}>You have no notifications</Text>
+                </View>)}
         </View>
     );
   } else {
@@ -173,7 +175,8 @@ const styles = StyleSheet.create({
   placeholderContainer: {
     justifyContent: 'space-around',
     flexDirection: "row",
-    width: '100%'
+    width: '100%',
+    marginTop: 20
   },
   placeholder: {
     backgroundColor: Colors.lightBlack,
