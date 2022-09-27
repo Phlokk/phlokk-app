@@ -10,7 +10,7 @@ import {useUserVideoFeed} from '../../services/posts';
 import React, {useCallback, useEffect, useState} from 'react';
 import {fetchGetUser} from '../../redux/sagas/requests/fetchUsers';
 import CustomImageModal from '../../components/Image/CustomImageModal';
-// import ProfileSkeleton from '../../components/profile/postList/ProfileSkeleton';
+import ProfileSkeleton from '../../components/profile/postList/ProfileSkeleton';
 import {useIsFocused} from '@react-navigation/native';
 
 export default function ProfileScreen({route}) {
@@ -78,7 +78,6 @@ export default function ProfileScreen({route}) {
 						setSelectedTab(tab);
 
 						if (selectedTab === 'cloud') {
-							
 							setPostsToDisplay(posts);
 						} else {
 							setPostsToDisplay([]);
@@ -93,9 +92,9 @@ export default function ProfileScreen({route}) {
 		return <SafeAreaView style={styles.container} edges={['top']} />;
 	}
 
-	// if (loading) {
-	// 	return <ProfileSkeleton />;
-	// } else {
+	if (loading && postsToDisplay.length === 0) {
+		return <ProfileSkeleton />;
+	} else {
 		return (
 			<SafeAreaView style={styles.container} edges={['top']}>
 				<ProfileNavBar
@@ -171,7 +170,7 @@ export default function ProfileScreen({route}) {
 				/>
 			</SafeAreaView>
 		);
-	// }
+	}
 }
 
 const styles = StyleSheet.create({
