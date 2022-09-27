@@ -10,7 +10,7 @@ import {useUserVideoFeed} from '../../services/posts';
 import React, {useCallback, useEffect, useState} from 'react';
 import {fetchGetUser} from '../../redux/sagas/requests/fetchUsers';
 import CustomImageModal from '../../components/Image/CustomImageModal';
-// import ProfileSkeleton from '../../components/profile/postList/ProfileSkeleton';
+import ProfileSkeleton from '../../components/profile/postList/ProfileSkeleton';
 import {useIsFocused} from '@react-navigation/native';
 
 export default function ProfileScreen({route}) {
@@ -60,6 +60,8 @@ export default function ProfileScreen({route}) {
 		if (loading) {
 			return;
 		}
+
+		// refresh();
 	}, [isFocused]);
 
 	useEffect(() => {
