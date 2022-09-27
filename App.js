@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import 'react-native-reanimated'
 import React, {useEffect, useState, useRef} from 'react';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import store from './app/src/redux/reducers/configureStore';
@@ -13,12 +14,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Notifications from 'expo-notifications';
 import {navigationRef} from './app/src/navigation/rootNavigation.js/index';
 import {apiUrls} from './app/src/globals';
-
 import axios from './app/src/redux/apis/axiosDeclaration';
-import {getPost} from './app/src/services/posts';
 import routes from './app/src/navigation/routes';
-import * as navigation from './app/src/navigation/rootNavigation.js';
 import {useFonts} from 'expo-font';
+
+
+
 
 SplashScreen.preventAutoHideAsync();
 

@@ -90,7 +90,7 @@ const UserTabs = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primary 
   },
   iconContainer: {
     flexDirection: "row",

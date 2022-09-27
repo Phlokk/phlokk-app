@@ -3,9 +3,9 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {MaterialIcons} from '@expo/vector-icons';
 import colors from '../../../config/colors';
-import {useFonts} from 'expo-font';
 import CustomAlert from '../../components/Alerts/CustomAlert';
 import VerifiedIcon from '../../components/common/VerifiedIcon';
+
 
 function UserProfile({user, setPopUpImage}) {
 	const [topFavFive, setTopFavFive] = useState(false);
@@ -46,7 +46,7 @@ function UserProfile({user, setPopUpImage}) {
 			</View>
 
 			<>
-				<TouchableOpacity>
+				<TouchableOpacity style={{ marginBottom: 10,}}>
 					<CustomAlert
 						alertTitle={
 							<Text>
@@ -83,12 +83,17 @@ const styles = StyleSheet.create({
 		height: 100,
 		width: 100,
 		borderRadius: 50,
-		borderWidth: 1,
-		borderColor: 'lightgray',
+        borderWidth: 1,
+        borderColor: colors.secondary,
+        shadowColor: colors.secondary,
+        shadowOffset: {width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 0.5,
 	},
 	username: {
+		fontSize: 12,
 		color: colors.white,
-		marginTop: 10,
+		marginTop: 5,
 		marginBottom: 20,
 	},
 	quotes: {

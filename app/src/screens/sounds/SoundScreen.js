@@ -14,7 +14,6 @@ import {
   Text,
   FlatList,
   Image,
-  ActivityIndicator,
   TouchableOpacity,
   Modal,
   Pressable
@@ -29,6 +28,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SearchAudio from "./searchAudio/SearchAudio";
 // import { openSettingsAudioModal } from "../../redux/actions/modal";
 import SettingsAudioModalScreen from "../../components/modal/settingsAudioModalScreen/SettingsAudioModalScreen"
+import CustomActivityIndicator from "../../components/common/ActivityIndicator";
 
 const smallLogo = require("../../../assets/pmd_logo_green.png");
 const Sounds = [
@@ -132,7 +132,7 @@ export default function SoundScreen({placeholder, user}) {
   {
     <View>
           {Loading ? (
-            <ActivityIndicator
+            <CustomActivityIndicator
               style={styles.activity}
               size={"small"}
               color={colors.secondary}
@@ -141,7 +141,7 @@ export default function SoundScreen({placeholder, user}) {
             <>
               {Loaded === false ? (
                 <>
-                  <ActivityIndicator />
+                  <CustomActivityIndicator />
                 </>
               ) : (
                 <>

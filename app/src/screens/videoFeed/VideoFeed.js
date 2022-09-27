@@ -255,13 +255,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: 'black',
 	},
-	activityIndicator: {
-		position: 'absolute',
-		height: '100%',
-		width: '100%',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
 	bottomGradientWrapper: {
 		position: 'absolute',
 		left: 0,

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Pressable,
-  Alert, ActivityIndicator,
+  Alert,
 } from "react-native";
 import colors from "../../../config/colors";
 import { useAtom } from "jotai";
@@ -18,6 +18,7 @@ import FastImage from "react-native-fast-image";
 import {useNavigation} from "@react-navigation/core";
 
 import NotificationItemSecondaryAvatar from './NotificationItemSecondaryAvatar';
+import CustomActivityIndicator from "../../components/common/ActivityIndicator";
 
 const NotificationItem = ({ navigation, item }) => {
 
@@ -91,7 +92,7 @@ const NotificationItem = ({ navigation, item }) => {
                       justifyContent: 'center',
                     }}
                 >
-                  <ActivityIndicator size="small" color={colors.green} />
+                  <CustomActivityIndicator size="small" color={colors.green} />
                 </View>
             )}
           </TouchableOpacity>

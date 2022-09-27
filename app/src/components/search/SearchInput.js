@@ -12,6 +12,7 @@ import {queryUsers} from '../../services/user';
 import {Feather} from '@expo/vector-icons';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../App';
+// import CustomActivityIndicator from '../common/ActivityIndicator';
 
 function useDebounce(value, delay) {
 	// State and setters for debounced value
@@ -98,7 +99,7 @@ const SearchInput = ({placeholder, setSearchUsers}) => {
 			{isSearching && (
 				<ActivityIndicator
 					size="large"
-					color={colors.green}
+					color={colors.secondary}
 					style={styles.loading}
 				/>
 			)}

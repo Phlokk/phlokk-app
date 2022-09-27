@@ -10,8 +10,7 @@ import {useUserVideoFeed} from '../../services/posts';
 import React, {useCallback, useEffect, useState} from 'react';
 import {fetchGetUser} from '../../redux/sagas/requests/fetchUsers';
 import CustomImageModal from '../../components/Image/CustomImageModal';
-import ProfileSkeleton from '../../components/profile/postList/ProfileSkeleton';
-import LinearGradient from 'react-native-linear-gradient';
+// import ProfileSkeleton from '../../components/profile/postList/ProfileSkeleton';
 import {useIsFocused} from '@react-navigation/native';
 
 export default function ProfileScreen({route}) {
@@ -61,8 +60,6 @@ export default function ProfileScreen({route}) {
 		if (loading) {
 			return;
 		}
-
-		refresh();
 	}, [isFocused]);
 
 	useEffect(() => {
@@ -81,6 +78,7 @@ export default function ProfileScreen({route}) {
 						setSelectedTab(tab);
 
 						if (selectedTab === 'cloud') {
+							
 							setPostsToDisplay(posts);
 						} else {
 							setPostsToDisplay([]);
@@ -95,9 +93,9 @@ export default function ProfileScreen({route}) {
 		return <SafeAreaView style={styles.container} edges={['top']} />;
 	}
 
-	if (loading) {
-		return <ProfileSkeleton />;
-	} else {
+	// if (loading) {
+	// 	return <ProfileSkeleton />;
+	// } else {
 		return (
 			<SafeAreaView style={styles.container} edges={['top']}>
 				<ProfileNavBar
@@ -124,7 +122,7 @@ export default function ProfileScreen({route}) {
 					refreshControl={
 						<RefreshControl
 							refreshing={isRefreshing}
-							tintColor="white"
+							tintColor={colors.secondary}
 							onRefresh={async () => {
 								setIsRefreshing(true);
 								await refresh();
@@ -148,8 +146,6 @@ export default function ProfileScreen({route}) {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							// backgroundColor: 'red',
-
 							width: '100%',
 							position: 'absolute',
 							right: 0,
@@ -157,7 +153,7 @@ export default function ProfileScreen({route}) {
 							left: 0,
 						}}
 					>
-						<Text style={{color: 'white', marginTop: 20, marginBottom: 20}}>
+						<Text style={{color: 'white', marginTop: 20, marginBottom: 190}}>
 							{selectedTab} videos coming soon.
 						</Text>
 					</View>
@@ -175,7 +171,7 @@ export default function ProfileScreen({route}) {
 				/>
 			</SafeAreaView>
 		);
-	}
+	// }
 }
 
 const styles = StyleSheet.create({

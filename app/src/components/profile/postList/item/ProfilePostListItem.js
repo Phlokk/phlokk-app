@@ -5,7 +5,6 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	Alert,
-	ActivityIndicator,
 	View,
 	Text,
 } from 'react-native';
@@ -17,6 +16,7 @@ import {useQueryClient} from 'react-query';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../../../App';
 import LinearGradient from 'react-native-linear-gradient';
+import CustomActivityIndicator from '../../../common/ActivityIndicator';
 
 export default function ProfilePostListItem({item, index, posts, setPosts}) {
 	const navigation = useNavigation();
@@ -103,7 +103,7 @@ export default function ProfilePostListItem({item, index, posts, setPosts}) {
 						justifyContent: 'center',
 					}}
 				>
-					<ActivityIndicator size="small" color={colors.green} />
+					<CustomActivityIndicator />
 				</View>
 			)}
 			<View

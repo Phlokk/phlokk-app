@@ -45,7 +45,7 @@ export default function ProfileNavBar({userProfile, isCurrentUser}) {
 					<MaterialCommunityIcons
 						name="fire"
 						size={22}
-						color={colors.red}
+						color={colors.green}
 						style={{opacity: isCurrentUser ? 1 : 0}}
 					/>
 				</TouchableOpacity>

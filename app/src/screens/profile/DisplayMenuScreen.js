@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		justifyContent: 'center',
 		alignItems: 'center',
+		
 	},
 	text: {
 		color: colors.white,
@@ -219,6 +220,7 @@ const styles = StyleSheet.create({
 	},
 	transparentIcons: {
 		opacity: 0.3,
+
 	},
 	nonTransparentIcons: {
 		opacity: 1,

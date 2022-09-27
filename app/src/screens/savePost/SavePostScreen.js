@@ -26,6 +26,7 @@ import * as MediaLibrary from "expo-media-library";
 import CustomSwitch from "./CustomSwitch";
 import { useAtom } from "jotai";
 import { newFeedItemAtom } from "../videoFeed/VideoFeed";
+import CustomActivityIndicator from "../../components/common/ActivityIndicator";
 
 export default function SavePostScreen({ route }) {
   const navigation = useNavigation();
@@ -76,7 +77,7 @@ export default function SavePostScreen({ route }) {
           <Text style={styles.uploadText}>Uploading...</Text>
         </View>
 
-        <ActivityIndicator color={colors.green} size="large" />
+        <CustomActivityIndicator />
       </View>
     );
   }

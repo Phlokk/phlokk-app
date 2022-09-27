@@ -1,8 +1,9 @@
 import FastImage from "react-native-fast-image";
-import {ActivityIndicator, Pressable, StyleSheet, View} from "react-native";
+import { Pressable, StyleSheet, View} from "react-native";
 import colors from "../../../config/colors";
 import {useState} from "react";
 import NotificationItem from "./NotificationItem";
+import CustomActivityIndicator from "../../components/common/ActivityIndicator";
 
 const NotificationItemSecondaryAvatar = ({notification, image, key}) => {
 
@@ -40,7 +41,7 @@ const NotificationItemSecondaryAvatar = ({notification, image, key}) => {
                         justifyContent: 'center',
                     }}
                 >
-                    <ActivityIndicator size="small" color={colors.green} />
+                    <CustomActivityIndicator />
                 </View>
             )}
         </Pressable>

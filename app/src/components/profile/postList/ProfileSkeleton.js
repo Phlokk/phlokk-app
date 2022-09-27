@@ -167,11 +167,12 @@ const styles = StyleSheet.create({
     },
     username: {
         backgroundColor: colors.lightBlack,
-        top: 100,
+        top: 95,
+        
     },
     quote: {
         backgroundColor: colors.lightBlack,
-        top: 100,
+        top: 95,
     },
     banner: {
         display: 'flex',

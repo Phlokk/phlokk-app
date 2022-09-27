@@ -167,8 +167,6 @@ const styles = StyleSheet.create({
 	},
 	alertIconStyle: {
 		borderRadius: 100,
-		borderWidth: 1,
-		borderColor: colors.secondary,
 		marginTop: 50,
 		height: 175,
 		width: 175,

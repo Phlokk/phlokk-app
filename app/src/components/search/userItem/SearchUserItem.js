@@ -1,15 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
+import React from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import colors from "../../../../config/colors";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../../../App";
 import VerifiedIcon from "../../common/VerifiedIcon";
-import routes from "../../../navigation/routes";
+
 
 export default function SearchUserItem({ item }) {
   const navigation = useNavigation();
-  //   const [user, setUser] = useAtom(userAtom);
 
   return (
     <TouchableOpacity
@@ -24,7 +21,6 @@ export default function SearchUserItem({ item }) {
             <Text style={styles.text}>@{item.username}</Text>
             <View>
               {item && item.is_verified === 1 && (
-                // <Image style={styles.verifiedBadge} source={verifiedCheck} />
                 <VerifiedIcon />
               )}
             </View>
