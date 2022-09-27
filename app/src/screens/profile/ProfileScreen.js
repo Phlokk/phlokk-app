@@ -80,7 +80,6 @@ export default function ProfileScreen({route}) {
 						setSelectedTab(tab);
 
 						if (selectedTab === 'cloud') {
-							
 							setPostsToDisplay(posts);
 						} else {
 							setPostsToDisplay([]);
@@ -95,9 +94,9 @@ export default function ProfileScreen({route}) {
 		return <SafeAreaView style={styles.container} edges={['top']} />;
 	}
 
-	// if (loading) {
-	// 	return <ProfileSkeleton />;
-	// } else {
+	if (loading && postsToDisplay.length === 0) {
+		return <ProfileSkeleton />;
+	} else {
 		return (
 			<SafeAreaView style={styles.container} edges={['top']}>
 				<ProfileNavBar
@@ -173,7 +172,7 @@ export default function ProfileScreen({route}) {
 				/>
 			</SafeAreaView>
 		);
-	// }
+	}
 }
 
 const styles = StyleSheet.create({
