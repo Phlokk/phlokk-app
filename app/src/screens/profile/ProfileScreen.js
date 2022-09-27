@@ -70,25 +70,37 @@ export default function ProfileScreen({route}) {
 		}
 	}, [posts]);
 
+	useEffect(() => {
+		if (selectedTab === 'cloud') {
+			setPostsToDisplay(posts);
+		} else {
+			setPostsToDisplay([]);
+		}
+	}, [selectedTab]);
+
 	const ListHeader = useCallback(() => {
 		return (
 			<View style={styles.container} edges={['top']}>
 				<ProfileHeader
 					user={profile}
 					setPopUpImage={setPopUpImage}
-					onTabSelected={tab => {
-						setSelectedTab(tab);
-
-						if (selectedTab === 'cloud') {
-							setPostsToDisplay(posts);
-						} else {
-							setPostsToDisplay([]);
-						}
-					}}
+					onTabSelected={tab => setSelectedTab(tab)}
 				/>
 			</View>
 		);
 	}, [profile]);
+
+	// This is temporary, so the message we're showing "{} videos coming soon" will use better terminology
+	// This function will be unnecessary when actually loading those posts
+	const convertTabNameToDisplayName = tabName => {
+		if (tabName === 'star') {
+			return 'Favorite';
+		} else if (tabName === 'bookmark') {
+			return 'Saved';
+		} else if (tabName === 'private') {
+			return 'Private';
+		}
+	};
 
 	if (!profile) {
 		return <SafeAreaView style={styles.container} edges={['top']} />;
@@ -155,7 +167,7 @@ export default function ProfileScreen({route}) {
 						}}
 					>
 						<Text style={{color: 'white', marginTop: 20, marginBottom: 190}}>
-							{selectedTab} videos coming soon.
+							{convertTabNameToDisplayName(selectedTab)} videos coming soon.
 						</Text>
 					</View>
 				) : null}
