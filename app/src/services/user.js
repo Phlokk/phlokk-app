@@ -1,5 +1,6 @@
 import axios from "../redux/apis/axiosDeclaration";
 import { useState } from "react";
+import {Alert} from "react-native";
 
 export const getUserById = async (data) => {
   let url = "/api/creator/" + data;
@@ -33,6 +34,22 @@ export const sendReportData = async (data) => {
 
 export const getIsFollowing = (user, otherUserId) =>
   new Promise((resolve, reject) => {});
+
+export const getFollowers = async (me, id = null) => {
+  try {
+    if (me) {
+      const result = await axios.get( '/api/me/follower-list');
+      return result.data.followers;
+    } else {
+      const result = await axios.get('/api/creator/' + id + '/followers');
+      return result.data.followers;
+    }
+  } catch (e) {
+    console.log(e);
+    Alert.alert('Followers not found');
+    return [];
+  }
+};
 
 export const queryUsers = async (searchQuery) => {
   return await axios.post("/api/creators/search", {

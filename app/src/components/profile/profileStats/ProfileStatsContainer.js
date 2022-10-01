@@ -7,8 +7,10 @@ import {MaterialIcons} from '@expo/vector-icons';
 import colors from '../../../../config/colors';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../../App';
+import routes from "../../../navigation/routes";
 
-function ProfileStatsContainer({user}) {
+function ProfileStatsContainer({user, isCurrentUser}) {
+	const navigation = useNavigation();
 	const [starCount, setStarCount] = useState(user?.like_count);
 	const [following, setFollowing] = useState(user?.follow_count);
 
@@ -22,9 +24,11 @@ function ProfileStatsContainer({user}) {
 			<View style={styles.counterContainer}>
 				<View style={styles.counterItemContainer}>
 					<TouchableOpacity
-						onPress={() => setIsFollowing(true)}
-
-						// onPress={() => navigation.navigate(routes.FOLLOWING_LIST)}
+						// onPress={() => setIsFollowing(true)}
+						onPress={() => navigation.navigate(routes.FOLLOWING_LIST, {
+							user: user,
+							isCurrentUser: isCurrentUser
+						})}
 					>
 						<Text style={styles.counterNumberText}>{following}</Text>
 					</TouchableOpacity>
