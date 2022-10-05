@@ -85,6 +85,7 @@ export default function ProfileScreen({route}) {
 					user={profile}
 					setPopUpImage={setPopUpImage}
 					onTabSelected={tab => setSelectedTab(tab)}
+					isCurrentUser={loggedInUser?._id === profile?._id}
 				/>
 			</View>
 		);

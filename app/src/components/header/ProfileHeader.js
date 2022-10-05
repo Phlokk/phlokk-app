@@ -4,10 +4,10 @@ import UserProfile from '../../screens/profile/UserProfile';
 import ProfileStatsContainer from '../profile/profileStats/ProfileStatsContainer';
 import colors from '../../../config/colors';
 
-function ProfileHeader({user, setPopUpImage, onTabSelected}) {
+function ProfileHeader({user, setPopUpImage, onTabSelected, isCurrentUser}) {
 	return (
 		<View style={styles.container}>
-			<ProfileStatsContainer user={user} />
+			<ProfileStatsContainer user={user} isCurrentUser={isCurrentUser} />
 
 			<View>
 				<UserProfile user={user} setPopUpImage={setPopUpImage} />
