@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
