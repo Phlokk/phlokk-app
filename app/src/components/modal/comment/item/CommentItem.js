@@ -93,22 +93,6 @@ const CommentItem = ({
 
   return (
     <View style={styles.container}>
-      {!user?.photo_thumb_url && !user?.photo_thumb_url ? (
-        <TouchableOpacity
-          disabled={user._id == comment.user._id}
-          onPress={() => {
-            navigation.navigate("feedProfile", {
-              initialUser: comment.user,
-            });
-          }}
-        >
-          <Image
-            style={styles.avatar}
-            source={require("../../../../../assets/userImage.png")}
-            cache="only-if-cached"
-          />
-        </TouchableOpacity>
-      ) : (
         <TouchableOpacity
           disabled={isActiveAccount ? user._id == comment.user._id : null}
           onPress={() => {
@@ -120,10 +104,10 @@ const CommentItem = ({
         >
           <Image
             style={styles.avatar}
-            source={isActiveAccount ? { uri: comment.user.photo_thumb_url} : require("../../../../../assets/userImage.png")}
+            source={isActiveAccount && comment.user?.photo_thumb_url ? { uri: comment.user?.photo_thumb_url} : require("../../../../../assets/userImage.png")}
           />
         </TouchableOpacity>
-      )}
+    
 
       <Pressable
         style={styles.containerText}

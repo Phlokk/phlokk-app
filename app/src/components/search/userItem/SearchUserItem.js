@@ -4,7 +4,6 @@ import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import colors from "../../../../config/colors";
 import VerifiedIcon from "../../common/VerifiedIcon";
 
-
 export default function SearchUserItem({ item }) {
   const navigation = useNavigation();
 
@@ -19,11 +18,7 @@ export default function SearchUserItem({ item }) {
         {item.username !== null || !undefined ? (
           <Text>
             <Text style={styles.text}>@{item.username}</Text>
-            <View>
-              {item && item.is_verified === 1 && (
-                <VerifiedIcon />
-              )}
-            </View>
+            <View>{item && item.is_verified === 1 && <VerifiedIcon />}</View>
           </Text>
         ) : (
           <Text style={styles.username}>@user</Text>
@@ -31,14 +26,14 @@ export default function SearchUserItem({ item }) {
       </View>
 
       <View>
-        {item.photo_thumb_url !== null || !undefined ? (
-          <Image style={styles.image} source={{ uri: item.photo_thumb_url }} />
-        ) : (
-          <Image
-            style={styles.image}
-            source={require("../../../../assets/userImage.png")}
-          />
-        )}
+        <Image
+          style={styles.image}
+          source={
+            item?.photo_thumb_url
+              ? { uri: item?.photo_thumb_url }
+              : require("../../../../assets/userImage.png")
+          }
+        />
       </View>
     </TouchableOpacity>
   );

@@ -1,12 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   Text,
   TouchableOpacity,
-  Image,
-  Pressable,
-  Alert,
 } from "react-native";
 import colors from "../../../config/colors";
 import { useAtom } from "jotai";
@@ -15,13 +12,12 @@ import { timeSince } from "../../services/posts";
 import routes from "../../navigation/routes";
 import { getPost } from "../../services/posts";
 import FastImage from "react-native-fast-image";
-import {useNavigation} from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/core";
 
-import NotificationItemSecondaryAvatar from './NotificationItemSecondaryAvatar';
+import NotificationItemSecondaryAvatar from "./NotificationItemSecondaryAvatar";
 import CustomActivityIndicator from "../../components/common/ActivityIndicator";
 
 const NotificationItem = ({ navigation, item }) => {
-
   /**
    * Notification "types"
    * 1 = DEVICE REGISTRATION; // no navigation / navigate to "session list"
@@ -31,13 +27,14 @@ const NotificationItem = ({ navigation, item }) => {
    * 5 = NEW FOLLOW; // navigate to user
    */
 
-
   const inAppNavigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
 
   const goToAssociated = async function () {
     if (item.type == 5) {
-      inAppNavigation.navigate("profileOther", { initialUser: item.associated })
+      inAppNavigation.navigate("profileOther", {
+        initialUser: item.associated,
+      });
     } else {
       const post = await getPost(item.associated._id).then((resp) => {
         return resp.data.post;
@@ -53,58 +50,58 @@ const NotificationItem = ({ navigation, item }) => {
     }
   };
 
-
-  const [isNotificationImageLoading, setIsNotificationImageLoading] = useState(true);
+  const [isNotificationImageLoading, setIsNotificationImageLoading] =
+    useState(true);
 
   const renderAvatarRow = (key, keyIndex) => {
     return (
-        <NotificationItemSecondaryAvatar image={item.pictures[key]} key={key} />
-    )
-  }
+      <NotificationItemSecondaryAvatar image={item.pictures[key]} key={key} />
+    );
+  };
 
   return (
     <TouchableOpacity onPress={() => goToAssociated()}>
       <View style={styles.containerInput}>
-        {!item.user.photo_url ? (
-          <Image
+        <TouchableOpacity>
+          <FastImage
             style={styles.avatar}
-            source={require("../../../assets/userImage.png")}
-            cache="only-if-cached"
+            source={
+              item.user?.photo_url
+                ? {
+                    uri: item.user?.photo_url,
+                    priority: FastImage.priority.high,
+                  }
+                : require("../../../assets/userImage.png")
+            }
+            onLoadStart={() => {
+              setIsNotificationImageLoading(true);
+            }}
+            onLoadEnd={() => {
+              setIsNotificationImageLoading(false);
+            }}
+            cache={FastImage.cacheControl.web}
           />
-        ) : (
-          <TouchableOpacity>
-            <FastImage
-              style={styles.avatar}
-              source={{
-                uri: item.user.photo_url,
-                priority: FastImage.priority.high,
+          {isNotificationImageLoading && (
+            <View
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: 42,
+                justifyContent: "center",
               }}
-              onLoadStart={() => {setIsNotificationImageLoading(true)}}
-              onLoadEnd={() => {setIsNotificationImageLoading(false)}}
-              cache={FastImage.cacheControl.web}
-            />
-            {isNotificationImageLoading && (
-                <View
-                    style={{
-                      position: 'absolute',
-                      width: '100%',
-                      height: 42,
-                      justifyContent: 'center',
-                    }}
-                >
-                  <CustomActivityIndicator size="small" color={colors.green} />
-                </View>
-            )}
-          </TouchableOpacity>
-        )}
+            >
+              <CustomActivityIndicator size="small" color={colors.green} />
+            </View>
+          )}
+        </TouchableOpacity>
         <View style={styles.notificationView}>
-          <Text style={styles.usernameView}>{item.user.username}</Text>
+          <Text style={styles.usernameView}>{item.user?.username}</Text>
 
           {/* TODO still need to hide all but 4 avatars and show button that connects to FlatList of all users who liked, commented on post. Also add thumbnail for each post */}
           <View style={styles.iconRow}>
-            {Object.keys(item.pictures).map((key, keyIndex) => (
-                renderAvatarRow(key, keyIndex)
-            ))}
+            {Object.keys(item.pictures).map((key, keyIndex) =>
+              renderAvatarRow(key, keyIndex)
+            )}
           </View>
 
           <View style={styles.mentionsView}>
