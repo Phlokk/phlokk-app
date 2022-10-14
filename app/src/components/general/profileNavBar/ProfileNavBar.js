@@ -3,8 +3,6 @@ import {View, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {MaterialIcons} from '@expo/vector-icons';
-import routes from '../../../navigation/routes';
-import * as Linking from 'expo-linking';
 import colors from '../../../../config/colors';
 import {useAtom} from 'jotai';
 import {userAtom} from '../../../../../App';
