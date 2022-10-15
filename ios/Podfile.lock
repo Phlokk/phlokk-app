@@ -115,13 +115,6 @@ PODS:
   - EXSplashScreen (0.14.2):
     - ExpoModulesCore
     - React-Core
-  - EXStructuredHeaders (2.1.1)
-  - EXUpdates (0.11.7):
-    - EXManifests
-    - ExpoModulesCore
-    - EXStructuredHeaders
-    - EXUpdatesInterface
-    - React-Core
   - EXUpdatesInterface (0.5.1)
   - EXVideoThumbnails (6.1.0):
     - ExpoModulesCore
@@ -495,8 +488,6 @@ DEPENDENCIES:
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSharing (from `../node_modules/expo-sharing/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
-  - EXStructuredHeaders (from `../node_modules/expo-structured-headers/ios`)
-  - EXUpdates (from `../node_modules/expo-updates/ios`)
   - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
   - EXVideoThumbnails (from `../node_modules/expo-video-thumbnails/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -606,10 +597,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-sharing/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
-  EXStructuredHeaders:
-    :path: "../node_modules/expo-structured-headers/ios"
-  EXUpdates:
-    :path: "../node_modules/expo-updates/ios"
   EXUpdatesInterface:
     :path: "../node_modules/expo-updates-interface/ios"
   EXVideoThumbnails:
@@ -726,8 +713,6 @@ SPEC CHECKSUMS:
   EXSecureStore: b80c74c5ee29d0160c2aace3fd9a24a5edc20015
   EXSharing: 2e26cf64fb2a89484b4f6ff8da12d6d752f83962
   EXSplashScreen: 21669e598804ee810547dbb6692c8deb5dd8dbf3
-  EXStructuredHeaders: 4993087b2010dbcc510f5d92555b36f523425e8d
-  EXUpdates: a83e036243b0f6ece53a8c1cb883b6751c88a5f8
   EXUpdatesInterface: a9814f422d3cd6e7cfd260d13c27786148ece20e
   EXVideoThumbnails: 6c08e978ed7a5542c5dca04a1757363fd29cb2a1
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
