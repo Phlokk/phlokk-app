@@ -25,10 +25,10 @@ function ProfileStatsContainer({user, isCurrentUser}) {
 				<View style={styles.counterItemContainer}>
 					<TouchableOpacity
 						// onPress={() => setIsFollowing(true)}
-						onPress={() => navigation.navigate(routes.FOLLOWING_LIST, {
-							user: user,
-							isCurrentUser: isCurrentUser
-						})}
+						// onPress={() => navigation.navigate(routes.FOLLOWING_LIST, {
+						// 	user: user,
+						// 	isCurrentUser: isCurrentUser
+						// })}
 					>
 						<Text style={styles.counterNumberText}>{following}</Text>
 					</TouchableOpacity>
