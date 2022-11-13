@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>EXUpdatesCheckOnLaunch</key>
-    <string>NEVER</string>
+    <string>ALWAYS</string>
     <key>EXUpdatesEnabled</key>
     <true/>
     <key>EXUpdatesLaunchWaitMs</key>
@@ -11,6 +11,6 @@
     <key>EXUpdatesRuntimeVersion</key>
     <string>0.1.0</string>
     <key>EXUpdatesURL</key>
-    <string>https://u.expo.dev/0ce22039-8e13-4b97-84ce-82e13de2bced</string>
+    <string>https://exp.host/@batslion/PhlokkApp</string>
   </dict>
 </plist>
