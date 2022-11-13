@@ -39,7 +39,7 @@ function IconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={<Text>Seconds{"\n"}coming in beta 3</Text>}
+          customAlertMessage={<Text>Seconds{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
           modalVisible={isSeconds}
           dismissAlert={setIsSeconds}
@@ -59,9 +59,7 @@ function IconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={
-            <Text>Text w/ keyframes{"\n"}coming in beta 3</Text>
-          }
+          customAlertMessage={<Text>Text w/ keyframes{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
           modalVisible={textFrames}
           dismissAlert={setTextFrames}
@@ -80,7 +78,7 @@ function IconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={<Text>Digital Timing{"\n"}coming in beta 3</Text>}
+          customAlertMessage={<Text>Digital Timing{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
           modalVisible={digitalTiming}
           dismissAlert={setDigitalTiming}
@@ -103,7 +101,7 @@ function IconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={<Text>Speed{"\n"}coming in beta 3</Text>}
+          customAlertMessage={<Text>Speed{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
           modalVisible={speed}
           dismissAlert={setSpeed}
@@ -122,7 +120,7 @@ function IconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={<Text>FX{"\n"}coming in beta 3</Text>}
+          customAlertMessage={<Text>FX{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
           modalVisible={fX}
           dismissAlert={setFx}
@@ -141,7 +139,7 @@ function IconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={<Text>Replies{"\n"}coming in beta 3</Text>}
+          customAlertMessage={<Text>Replies{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
           modalVisible={replies}
           dismissAlert={setReplies}
@@ -164,9 +162,7 @@ function IconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={
-            <Text>Sound Bar{"\n"}coming in Official release</Text>
-          }
+          customAlertMessage={<Text>Sound Bar{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
           modalVisible={soundbar}
           dismissAlert={setSoundBar}
@@ -188,7 +184,7 @@ function IconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={<Text>LIVE{"\n"}coming in Official release</Text>}
+          customAlertMessage={<Text>LIVE{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
           modalVisible={isLive}
           dismissAlert={setIsLive}
@@ -201,7 +197,6 @@ function IconOverlay() {
           <Feather name="video" size={24} color={colors.red} />
           <Text style={styles.iconText}>LIVE</Text>
         </TouchableOpacity>
-
       </ScrollView>
     </View>
   );

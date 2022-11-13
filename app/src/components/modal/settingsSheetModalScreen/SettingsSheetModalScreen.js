@@ -1,5 +1,12 @@
-import { View, Text, StyleSheet, Share, ScrollView, TouchableOpacity } from "react-native";
-import React, {useState} from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Share,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -9,16 +16,15 @@ import CustomAlert from "../../Alerts/CustomAlert";
 import BlockAlert from "../../Alerts/BlockAlert";
 import colors from "../../../../config/colors";
 
-const SettingsSheetModalScreen = ( post ) => {
-    const navigation = useNavigation();
-    const [posts, setPosts] = useState([]);
+const SettingsSheetModalScreen = (post) => {
+  const navigation = useNavigation();
+  const [posts, setPosts] = useState([]);
 
-    const [isDownload, setIsDownload] = useState(false);
-    const [isFavorites, setIsFavorites] = useState(false);
-    const [isDuo, setIsDuo] = useState(false);
-    const [isLink, setIsLink] = useState(false);
-    const [isShare, setIsShare] = useState(false);
-
+  const [isDownload, setIsDownload] = useState(false);
+  const [isFavorites, setIsFavorites] = useState(false);
+  const [isDuo, setIsDuo] = useState(false);
+  const [isLink, setIsLink] = useState(false);
+  const [isShare, setIsShare] = useState(false);
 
   const onShare = async () => {
     try {
@@ -40,104 +46,102 @@ const SettingsSheetModalScreen = ( post ) => {
     }
   };
 
-
   return (
     <View style={styles.container}>
       <ScrollView style={styles.topBar} horizontal={true}>
-      <TouchableOpacity 
-        style={styles.fieldItemContainer}
-        onPress={() => {
-          navigation.navigate(routes.REPORTS, { post });
-        }}
-      >
-        <View style={styles.bubble}>
-          <MaterialIcons
-          name="report-problem" 
-          size={25} 
-          color={colors.secondary} /> 
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          onPress={() => {
+            navigation.navigate(routes.REPORTS, { post });
+          }}
+        >
+          <View style={styles.bubble}>
+            <MaterialIcons
+              name="report-problem"
+              size={25}
+              color={colors.secondary}
+            />
           </View>
           <Text style={styles.text}>Report</Text>
-      </TouchableOpacity >
+        </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-        onPress={() => setIsFavorites(true)}
-      >
-        <View style={styles.bubble}>
-          <MaterialIcons
-            name="bookmark-outline"
-            size={24}
-            color={colors.secondary}
-          />
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+          onPress={() => setIsFavorites(true)}
+        >
+          <View style={styles.bubble}>
+            <MaterialIcons
+              name="bookmark-outline"
+              size={24}
+              color={colors.secondary}
+            />
           </View>
           <Text style={styles.text}>FAV</Text>
-      </TouchableOpacity >
+        </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-        onPress={() => setIsDuo(true)}
-      >
-        <View style={styles.bubble}>
-          <MaterialCommunityIcons
-            name="account-box-multiple-outline"
-            size={24}
-            color={colors.secondary}
-          />
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+          onPress={() => setIsDuo(true)}
+        >
+          <View style={styles.bubble}>
+            <MaterialCommunityIcons
+              name="account-box-multiple-outline"
+              size={24}
+              color={colors.secondary}
+            />
           </View>
           <Text style={styles.text}>Duo</Text>
-      </TouchableOpacity >
-      
-      <TouchableOpacity 
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-        onPress={() => setIsLink(true)}
-      >
-        <View style={styles.bubble}>
-          <Feather 
-          name="link" 
-          size={24} 
-          color={colors.secondary} /> 
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+          onPress={() => setIsLink(true)}
+        >
+          <View style={styles.bubble}>
+            <Feather name="link" size={24} color={colors.secondary} />
           </View>
           <Text style={styles.text}>Link</Text>
-      </TouchableOpacity >
-      
-      <TouchableOpacity 
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-        onPress={() => setIsDownload(true)}
-      >
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+          onPress={() => setIsDownload(true)}
+        >
           <View style={styles.bubble}>
-          <Feather 
-          name="download-cloud" 
-          size={24} 
-          color={colors.secondary} />
+            <Feather name="download-cloud" size={24} color={colors.secondary} />
           </View>
           <Text style={styles.text}>DL</Text>
-      </TouchableOpacity >
+        </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={styles.fieldItemContainer}
-        onPress={() => setIsShare(true)}
-        // onPress={() => {
-        //   onShare();
-        // }}
-      >
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          onPress={() => setIsShare(true)}
+          // onPress={() => {
+          //   onShare();
+          // }}
+        >
           <View style={styles.bubble}>
-          <MaterialCommunityIcons
-            name="share-all-outline"
-            size={26}
-            color={colors.secondary}
-          />
+            <MaterialCommunityIcons
+              name="share-all-outline"
+              size={26}
+              color={colors.secondary}
+            />
           </View>
           <Text style={styles.text}>Share</Text>
-      </TouchableOpacity >
+        </TouchableOpacity>
       </ScrollView>
 
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Add to Favorites{"\n"}coming in beta 3</Text>}
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Add to Favorites{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
         modalVisible={isFavorites}
         dismissAlert={setIsFavorites}
@@ -145,39 +149,54 @@ const SettingsSheetModalScreen = ( post ) => {
       />
 
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Duo{"\n"}coming in beta 3</Text>}
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Duo{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
         modalVisible={isDuo}
         dismissAlert={setIsDuo}
         animationType="fade"
       />
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Links{"\n"}coming in beta 3</Text>}
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Links{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
         modalVisible={isLink}
         dismissAlert={setIsLink}
         animationType="fade"
       />
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Downloads{"\n"}coming in beta 3</Text>}
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Downloads{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
         modalVisible={isDownload}
         dismissAlert={setIsDownload}
         animationType="fade"
       />
       <CustomAlert
-        alertTitle={<Text><MaterialIcons name="info" size={24} color={colors.green} /></Text>}
-        customAlertMessage={<Text>Share{"\n"}coming in beta 3</Text>}
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Share{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
         modalVisible={isShare}
         dismissAlert={setIsShare}
         animationType="fade"
       />
     </View>
-    
   );
 };
 
@@ -191,9 +210,8 @@ const styles = StyleSheet.create({
     bottom: 20,
     fontSize: 10,
     position: "absolute",
-    top: 45, 
+    top: 45,
     bottom: 0,
-
   },
   settingsText: {
     color: colors.secondary,
@@ -212,7 +230,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bubble: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
     height: 45,
@@ -220,9 +238,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     marginTop: 10,
-  }
-  
-  
+  },
 });
 
 export default SettingsSheetModalScreen;
