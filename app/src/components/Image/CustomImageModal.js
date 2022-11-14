@@ -5,6 +5,7 @@ import {
   Image,
   Modal,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
@@ -95,10 +96,12 @@ export default function CustomImageModal({
                 </Text>
               </View>
 
-              <Text style={styles.aboutText}>Bio:</Text>
-              <Text style={styles.bioText}>{user.bio}</Text>
-              <Text style={styles.aboutText}>Skills: (coming soon)</Text>
-              <Text style={styles.aboutText}>Education: (coming soon)</Text>
+              <ScrollView>
+                <Text style={styles.aboutText}>Bio:</Text>
+                <Text style={styles.bioText}>{user.bio}</Text>
+                <Text style={styles.aboutText}>Skills: (coming soon)</Text>
+                <Text style={styles.aboutText}>Education: (coming soon)</Text>
+              </ScrollView>
 
               {/* follow button  */}
               {!isCurrentUser && (
@@ -177,7 +180,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     height: "100%",
     width: "100%",
-    padding: 2,
+    padding: 4,
+  },
+  scroll: {
+    backgroundColor: colors.red,
+    // padding: 10,
   },
   top: {
     alignItems: "center",
@@ -185,7 +192,7 @@ const styles = StyleSheet.create({
   },
   middle: {
     textAlign: "center",
-    padding: 10,
+    padding: 15,
 
     color: colors.white,
     fontSize: 16,
@@ -228,7 +235,7 @@ const styles = StyleSheet.create({
     fontFamily: "DarkerGrotesque-Medium",
   },
   bioView: {
-    top: 100,
+    top: 80,
     backgroundColor: colors.lightBlack,
     borderColor: colors.secondary,
     borderWidth: 0.3,
@@ -238,7 +245,6 @@ const styles = StyleSheet.create({
     shadowRadius: 0.9,
     padding: 30,
     borderRadius: 7,
-    marginBottom: 20,
   },
   aboutText: {
     color: colors.white,
@@ -290,7 +296,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 25,
     fontWeight: "bold",
-    color: colors.green,
+    color: colors.secondary,
   },
   text: {
     color: colors.white,
@@ -302,12 +308,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 50,
     paddingBottom: 20,
-    top: 40,
+    top: 30,
+    // backgroundColor: colors.red,
   },
   linkText: {
     color: colors.secondary,
     alignSelf: "center",
-    padding: 20,
+    justifyContent: "center",
+    padding: 30,
+    // backgroundColor: colors.red,
+    top: 30,
   },
 
   goBackView: {
