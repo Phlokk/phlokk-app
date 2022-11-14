@@ -23,6 +23,7 @@ export default function SearchUserItem({ item }) {
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
+        <Text style={styles.creatorText}>{item.creator_type}</Text>
       </View>
 
       <View>
@@ -71,5 +72,10 @@ const styles = StyleSheet.create({
     color: colors.white,
     marginTop: 10,
     marginBottom: 20,
+  },
+  creatorText: {
+    color: colors.secondary,
+    opacity: 0.7,
+    fontSize: 10,
   },
 });

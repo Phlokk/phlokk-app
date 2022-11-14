@@ -21,8 +21,7 @@ import { userAtom } from "../../../../App";
 import EditProfileNav from "../../components/general/navBar/EditProfileNav";
 import { fetchGetUsers } from "../../redux/sagas/requests/fetchUsers";
 
-
-import {apiUrls} from "../../globals";
+import { apiUrls } from "../../globals";
 
 export default function EditProfileScreen({ route }) {
   const navigation = useNavigation();
@@ -33,8 +32,6 @@ export default function EditProfileScreen({ route }) {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
 
   const user = passedUser?._id === currentUser._id ? currentUser : passedUser;
-
-
 
   const chooseImage = async () => {
     let user = await SecureStore.getItemAsync("user");
@@ -135,7 +132,11 @@ export default function EditProfileScreen({ route }) {
             </Text>
             <View style={styles.fieldValueContainer}>
               <Text style={styles.text}>{user.username}</Text>
-              <Feather name="chevron-right" size={20} color={colors.secondary} />
+              <Feather
+                name="chevron-right"
+                size={20}
+                color={colors.secondary}
+              />
             </View>
           </TouchableOpacity>
 
@@ -155,7 +156,11 @@ export default function EditProfileScreen({ route }) {
               <Text numberOfLines={1} style={styles.text}>
                 {user.creator_type}
               </Text>
-              <Feather name="chevron-right" size={20} color={colors.secondary} />
+              <Feather
+                name="chevron-right"
+                size={20}
+                color={colors.secondary}
+              />
             </View>
           </TouchableOpacity>
 
@@ -175,7 +180,11 @@ export default function EditProfileScreen({ route }) {
               <Text numberOfLines={1} style={styles.text}>
                 {user.link}
               </Text>
-              <Feather name="chevron-right" size={20} color={colors.secondary} />
+              <Feather
+                name="chevron-right"
+                size={20}
+                color={colors.secondary}
+              />
             </View>
           </TouchableOpacity>
 
@@ -195,7 +204,11 @@ export default function EditProfileScreen({ route }) {
               <Text numberOfLines={1} style={styles.text}>
                 {user.quote}
               </Text>
-              <Feather name="chevron-right" size={20} color={colors.secondary} />
+              <Feather
+                name="chevron-right"
+                size={20}
+                color={colors.secondary}
+              />
             </View>
           </TouchableOpacity>
 
@@ -215,9 +228,15 @@ export default function EditProfileScreen({ route }) {
               <Text numberOfLines={1} style={styles.text}>
                 {user.relationship_type}
               </Text>
-              <Feather name="chevron-right" size={20} color={colors.secondary} />
+              <Feather
+                name="chevron-right"
+                size={20}
+                color={colors.secondary}
+              />
             </View>
           </TouchableOpacity>
+
+          {/* PROFILE BIO SECTION */}
 
           <Text style={styles.socialText}>Bio</Text>
           <TouchableOpacity
@@ -237,7 +256,11 @@ export default function EditProfileScreen({ route }) {
                 <Text numberOfLines={1} style={styles.text}>
                   Add Bio
                 </Text>
-                <Feather name="chevron-right" size={20} color={colors.secondary} />
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  color={colors.secondary}
+                />
               </View>
             ) : (
               <View>
@@ -250,6 +273,76 @@ export default function EditProfileScreen({ route }) {
               </View>
             )}
           </TouchableOpacity>
+          {/* PROFILE SKILLS SECTION */}
+          {/* <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.SKILLS, {
+                title: "Skills",
+                field: "skills",
+                value: user.skills,
+              })
+            }
+          >
+            <Text style={styles.text}>Skills</Text>
+            {user.skills === null || undefined ? (
+              <View style={styles.fieldValueContainer}>
+                <Text numberOfLines={1} style={styles.text}>
+                  Add Skills
+                </Text>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  color={colors.secondary}
+                />
+              </View>
+            ) : (
+              <View>
+                <Text numberOfLines={1} style={styles.text}></Text>
+                <FontAwesome
+                  name="pencil-square-o"
+                  size={16}
+                  color={colors.secondary}
+                />
+              </View>
+            )}
+          </TouchableOpacity> */}
+          {/* PROFILE EDUCATION SECTION */}
+          {/* <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.EDUCATION, {
+                title: "Education",
+                field: "education",
+                value: user.education,
+              })
+            }
+          >
+            <Text style={styles.text}>Education</Text>
+            {user.education === null || undefined ? (
+              <View style={styles.fieldValueContainer}>
+                <Text numberOfLines={1} style={styles.text}>
+                  Add Education
+                </Text>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  color={colors.secondary}
+                />
+              </View>
+            ) : (
+              <View>
+                <Text numberOfLines={1} style={styles.text}></Text>
+                <FontAwesome
+                  name="pencil-square-o"
+                  size={16}
+                  color={colors.secondary}
+                />
+              </View>
+            )}
+          </TouchableOpacity> */}
 
           <Text style={styles.socialText}>Social Media</Text>
           <TouchableOpacity
@@ -269,7 +362,11 @@ export default function EditProfileScreen({ route }) {
                 <Text numberOfLines={1} style={styles.text}>
                   Add Youtube Channel
                 </Text>
-                <Feather name="chevron-right" size={20} color={colors.secondary} />
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  color={colors.secondary}
+                />
               </View>
             ) : (
               <View>
@@ -295,7 +392,11 @@ export default function EditProfileScreen({ route }) {
                 <Text numberOfLines={1} style={styles.text}>
                   Add Instagram Account
                 </Text>
-                <Feather name="chevron-right" size={20} color={colors.secondary} />
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  color={colors.secondary}
+                />
               </View>
             ) : (
               <View>

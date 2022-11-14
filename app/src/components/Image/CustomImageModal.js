@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
   },
   aboutText: {
     color: colors.white,
-    marginTop: 40,
+    marginTop: 20,
     opacity: 0.8,
     textAlign: "left",
     fontSize: 18,

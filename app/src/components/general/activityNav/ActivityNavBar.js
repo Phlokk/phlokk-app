@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -27,20 +27,18 @@ export default function ActivityNavBar(props) {
       <Text style={styles.title}>{props.title}</Text>
 
       <TouchableOpacity>
-      <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={
-              <Text>Instant messages{"\n"}coming in beta 3</Text>
-            }
-            positiveBtn="Ok"
-            modalVisible={messages}
-            dismissAlert={setMessages}
-            animationType="fade"
-          />
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>Instant messages{"\n"}coming soon!</Text>}
+          positiveBtn="Ok"
+          modalVisible={messages}
+          dismissAlert={setMessages}
+          animationType="fade"
+        />
 
         <MaterialCommunityIcons
           name="message-processing-outline"
