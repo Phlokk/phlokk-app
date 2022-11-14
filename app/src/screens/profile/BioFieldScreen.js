@@ -10,7 +10,6 @@ import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 
-
 export default function BioFieldScreen({ route }) {
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
@@ -54,7 +53,9 @@ export default function BioFieldScreen({ route }) {
       </View>
       <View style={styles.infoView}>
         <Text style={styles.info}>
-          <Text style={styles.infoTextGreen}>Info:</Text> Tell us about yourself in 200 characters or less. When user clicks on your profile image this bio will display.
+          <Text style={styles.infoTextGreen}>Info:</Text> Tell us about yourself
+          in 200 characters or less. When user clicks on your profile image this
+          bio will display.
         </Text>
       </View>
     </SafeAreaView>
