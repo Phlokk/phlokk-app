@@ -97,26 +97,26 @@ export default function SavePostScreen({ route }) {
                 maxLength={150}
                 multiline
                 onChangeText={(text) => setDescription(text)}
-                placeholderTextColor={"gray"}
+                placeholderTextColor={colors.white}
                 placeholder="Description: 0/150"
               />
               <Image
                 style={styles.mediaPreview}
                 source={{ uri: route.params.sourceThumb }}
-              />   
+              />
               <CustomAlert
-               customAlertMessage={<Text>Select cover{"\n"}coming in beta 3</Text>}
-               positiveBtn="Ok"
-               modalVisible={isSelectedImage}
-               dismissAlert={setIsSelectedImage}
-               animationType="fade"
-      /> 
+                customAlertMessage={<Text>Select cover{"\n"}coming soon!</Text>}
+                positiveBtn="Ok"
+                modalVisible={isSelectedImage}
+                dismissAlert={setIsSelectedImage}
+                animationType="fade"
+              />
               <Pressable
-              onPress={() => setIsSelectedImage(true)} 
-              style={styles.coverSelectView}
+                onPress={() => setIsSelectedImage(true)}
+                style={styles.coverSelectView}
               >
-              <Text style={styles.coverSelect}>Select cover</Text>
-              </Pressable>  
+                <Text style={styles.coverSelect}>Select cover</Text>
+              </Pressable>
             </View>
             <Text style={styles.switchStatement}>
               Notice: Switches do not work in beta
@@ -142,7 +142,7 @@ export default function SavePostScreen({ route }) {
 
         <View style={styles.buttonsContainer}>
           <CustomAlert
-            customAlertMessage={<Text>Drafts{"\n"}coming in beta 3</Text>}
+            customAlertMessage={<Text>Drafts{"\n"}coming soon!</Text>}
             positiveBtn="Ok"
             modalVisible={drafts}
             dismissAlert={setDrafts}
@@ -221,7 +221,9 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: "row",
     padding: 10,
-    backgroundColor: colors.lightBlack,
+    borderColor: colors.secondary,
+    borderWidth: 0.8,
+    borderRadius: 7,
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -329,8 +331,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 98,
     bottom: 0,
-    left: 284,
-    right: 0,
+
+    right: 10,
     backgroundColor: colors.black,
-  }
+  },
 });

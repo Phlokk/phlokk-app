@@ -2,6 +2,7 @@ import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 
@@ -25,11 +26,7 @@ export default function PostNavBar(props) {
         style={styles.button}
         onPress={() => navigation.navigate(routes.FEED)}
       >
-        <MaterialIcons
-          name="cancel-presentation"
-          size={24}
-          color={colors.secondary}
-        />
+        <Feather name="x" size={24} color={colors.secondary} />
       </TouchableOpacity>
     </View>
   );
