@@ -1,18 +1,30 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  Pressable,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
+import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioSheetModalScreen";
 
 function UserProfile({ user, setPopUpImage }) {
   const [topFavFive, setTopFavFive] = useState(false);
 
+  const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => setPopUpImage(true)}
+        // onPress={() => setPopUpImage(true)}
+        onPress={() => setIsBioModalScreenOpen(true)}
         disabled={!user?.photo_url}
       >
         <Image
@@ -52,9 +64,7 @@ function UserProfile({ user, setPopUpImage }) {
                 <MaterialIcons name="info" size={24} color={colors.green} />
               </Text>
             }
-            customAlertMessage={
-              <Text>Top Favorite 5{"\n"}coming in beta 3</Text>
-            }
+            customAlertMessage={<Text>Top Favorite 5{"\n"}coming soon!</Text>}
             positiveBtn="Ok"
             modalVisible={topFavFive}
             dismissAlert={setTopFavFive}
@@ -68,6 +78,20 @@ function UserProfile({ user, setPopUpImage }) {
           />
         </TouchableOpacity>
       </>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isBioModalScreenOpen}
+      >
+        <View style={styles.pressedModal}>
+          <Pressable
+            style={styles.pressedStyle}
+            onPress={() => setIsBioModalScreenOpen(false)}
+          />
+          <BioSheetModalScreen user={user} />
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -115,6 +139,17 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingRight: 25,
     paddingLeft: 25,
+  },
+  pressedStyle: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
+  pressedModal: {
+    flex: 1,
+    justifyContent: "flex-end",
   },
 });
 

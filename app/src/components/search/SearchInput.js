@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     color: colors.green,
-    borderColor: colors.secondary,
+    borderColor: colors.green,
     borderWidth: 0.5,
     borderRadius: 5,
     flexDirection: "row",
