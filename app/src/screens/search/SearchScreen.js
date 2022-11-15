@@ -66,15 +66,8 @@ const SearchScreen = () => {
         keyExtractor={(item) => item._id}
       />
       <View style={styles.risingStarView}>
-        <View style={styles.risingStarRow}>
-          <Text style={styles.text}>Rising stars</Text>
-          <MaterialCommunityIcons
-            style={styles.star}
-            color={colors.gray}
-            size={20}
-            name={"star"}
-          />
-        </View>
+        <Text style={styles.text}>Rising stars</Text>
+
         <FlatList
           data={Categories}
           renderItem={({ item }) => (
@@ -109,7 +102,7 @@ const styles = StyleSheet.create({
   text: {
     color: colors.gray,
     fontSize: 12,
-    marginBottom: 5,
+    marginBottom: 10,
     marginHorizontal: 3,
   },
   risingStarView: {
@@ -125,12 +118,12 @@ const styles = StyleSheet.create({
   },
   item: {
     padding: 5,
-    backgroundColor: colors.lightBlack,
+    borderColor: colors.green,
+    // backgroundColor: colors.lightBlack,
     width: 60,
     height: 60,
     borderRadius: 100,
-    borderWidth: 0.75,
-    borderColor: colors.primary,
+    borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -138,6 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: colors.green,
     textAlign: "center",
+    fontWeight: "bold",
   },
 });
 

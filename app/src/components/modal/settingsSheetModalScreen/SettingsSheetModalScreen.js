@@ -202,7 +202,7 @@ const SettingsSheetModalScreen = (post) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.modals,
     height: "12%",
   },
   text: {

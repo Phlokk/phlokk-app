@@ -107,19 +107,19 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
             </View>
           </TouchableOpacity>
         )}
-        <ScrollView>
-          <Text style={styles.statusText}>Relationship status</Text>
-          <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
-            <Ionicons name="md-heart-sharp" size={12} color={colors.white} />{" "}
-            {user.relationship_type}
-          </Text>
 
-          <Text style={styles.aboutText}>Bio:</Text>
-          <Text style={styles.bioText}>{user.bio}</Text>
-          <Text style={styles.aboutText}>Skills: (coming soon)</Text>
-          <Text style={styles.aboutText}>Education: (coming soon)</Text>
-        </ScrollView>
+        <Text style={styles.statusText}>Relationship status</Text>
+        <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
+          <Ionicons name="md-heart-sharp" size={12} color={colors.white} />{" "}
+          {user.relationship_type}
+        </Text>
       </View>
+      <ScrollView showsVerticalScrollIndicator="false">
+        <Text style={styles.aboutText}>Bio:</Text>
+        <Text style={styles.bioText}>{user.bio}</Text>
+        <Text style={styles.aboutText}>Skills: (coming soon)</Text>
+        <Text style={styles.aboutText}>Education: (coming soon)</Text>
+      </ScrollView>
     </View>
   );
 }
@@ -128,8 +128,9 @@ const styles = StyleSheet.create({
   container: {
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    backgroundColor: colors.black,
+    backgroundColor: colors.modals,
     height: "80%",
+    padding: 20,
   },
 
   top: {
@@ -150,7 +151,8 @@ const styles = StyleSheet.create({
 
   bioText: {
     color: colors.white,
-    paddingLeft: 20,
+    padding: 5,
+
     marginTop: 20,
     opacity: 0.9,
     textAlign: "left",
@@ -160,7 +162,8 @@ const styles = StyleSheet.create({
 
   aboutText: {
     color: colors.white,
-    paddingLeft: 20,
+
+    padding: 5,
     marginTop: 20,
     opacity: 0.8,
     textAlign: "left",

@@ -3,7 +3,7 @@ import colors from "../../config/colors";
 
 const generalStyles = StyleSheet.create({
   textInput: {
-    backgroundColor: "#131313",
+    backgroundColor: colors.black,
     borderColor: colors.secondary,
     borderBottomWidth: 1,
     borderStyle: "solid",
@@ -12,15 +12,15 @@ const generalStyles = StyleSheet.create({
     color: colors.secondary,
   },
   textInputReport: {
-    backgroundColor: "#0C0C0C",
     borderColor: colors.secondary,
+    borderWidth: 0.5,
     borderRadius: 5,
     borderStyle: "solid",
     paddingVertical: 10,
-    padding: 5,
+    padding: 10,
     color: colors.secondary,
-    height:150, 
-    textAlignVertical: 'top', 
+    height: 150,
+    textAlignVertical: "top",
     marginVertical: 10,
     marginTop: 20,
   },
@@ -34,13 +34,13 @@ const generalStyles = StyleSheet.create({
     color: colors.secondary,
   },
   textGiftingInput: {
-    textAlign: 'center',
+    textAlign: "center",
     backgroundColor: "#0C0C0C",
     paddingHorizontal: 10,
     borderRadius: 5,
     color: "orange",
-    width: '100%',
-    height: '40%',
+    width: "100%",
+    height: "40%",
     fontSize: 40,
   },
   avatarSmall: {

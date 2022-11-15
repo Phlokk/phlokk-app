@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   placeholder: {
+    opacity: 0.2,
     backgroundColor: Colors.lightBlack,
     borderRadius: 5,
   },
