@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, Modal, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -18,12 +25,11 @@ export default function CustomPolicyModal({
       onRequestClose={() => setModalVisible(false)}
     >
       <SafeAreaView style={styles.container}>
-          <View style={styles.eulaView}>
+        <View style={styles.eulaView}>
           <Text style={styles.eulaText}>EULA</Text>
-          </View>
-      
+        </View>
+
         <ScrollView style={styles.spacer}>
-            
           <Text style={styles.middlePar}>
             End-User License Agreement (EULA) of Phlokk
           </Text>
@@ -134,7 +140,6 @@ export default function CustomPolicyModal({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
   },
   spacer: {
     paddingTop: 30,
@@ -173,15 +178,14 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     margin: 10,
     bottom: 15,
-    alignSelf: 'center',
-    
+    alignSelf: "center",
   },
   alertMessageButtonText: {
     textAlign: "center",
     fontSize: 15,
     fontWeight: "bold",
     color: colors.white,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   alertMessageButtonStyle: {
     width: "30%",
@@ -194,18 +198,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   eulaText: {
-      color: colors.green,
-      fontSize: 18,
-      fontWeight: 'bold',
-      alignItems: 'center',
-      justifyContent: "center",
-      
-      
+    color: colors.green,
+    fontSize: 18,
+    fontWeight: "bold",
+    alignItems: "center",
+    justifyContent: "center",
   },
   eulaView: {
-      paddingBottom: 25,
-    alignItems: 'center',
+    paddingBottom: 25,
+    alignItems: "center",
     justifyContent: "center",
-
   },
 });

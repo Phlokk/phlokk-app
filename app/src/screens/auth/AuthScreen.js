@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import AuthDetails from "../../components/auth/details/AuthDetails";
 import AuthMenu from "../../components/auth/menu/AuthMenu";
 
-import colors from "../../../config/colors"
+import colors from "../../../config/colors";
 
 export default function AuthScreen() {
   const [authPage, setAuthPage] = useState(0);
@@ -11,10 +11,7 @@ export default function AuthScreen() {
   return (
     <View style={styles.container}>
       {detailsPage ? (
-        <AuthDetails 
-        authPage={authPage} 
-        setDetailsPage={setDetailsPage} 
-        />
+        <AuthDetails authPage={authPage} setDetailsPage={setDetailsPage} />
       ) : (
         <AuthMenu
           authPage={authPage}
@@ -28,10 +25,7 @@ export default function AuthScreen() {
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      backgroundColor: colors.primary
-  }
- 
+    flex: 1,
+    backgroundColor: colors.primary,
+  },
 });
-
-

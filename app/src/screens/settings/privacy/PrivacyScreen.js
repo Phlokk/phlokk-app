@@ -1,13 +1,18 @@
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import SettingsNavBar from "../../../components/general/settings/SettingsNavBar";
-
 
 export default function PrivacyScreen() {
   const auth = useSelector((state) => state.auth);
@@ -16,28 +21,30 @@ export default function PrivacyScreen() {
   const [blocking, setBlocking] = useState(false);
   const [security, setSecurity] = useState(false);
 
-
-
   return (
     <SafeAreaView style={styles.container}>
-        <SettingsNavBar title="Privacy" />
-        <View style={styles.rowContainer}>
+      <SettingsNavBar title="Privacy" />
+      <View style={styles.rowContainer}>
         <TouchableOpacity
-        onPress={() =>
-          navigation.navigate(routes.BLOCKED_LIST_SCREEN, {
-            title: "Blocked Accounts",
-          })
-        }
+          onPress={() =>
+            navigation.navigate(routes.BLOCKED_LIST_SCREEN, {
+              title: "Blocked Accounts",
+            })
+          }
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >
-          <Text style={styles.text}>
-            Blocked Accounts</Text>
+          <Text style={styles.text}>Blocked Accounts</Text>
           <View style={styles.fieldValueContainer}>
-            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
+            <Feather
+              style={styles.chevron}
+              name="chevron-right"
+              size={20}
+              color={colors.secondary}
+            />
           </View>
         </TouchableOpacity>
-        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -73,5 +80,4 @@ const styles = StyleSheet.create({
   chevron: {
     opacity: 0.6,
   },
- 
 });

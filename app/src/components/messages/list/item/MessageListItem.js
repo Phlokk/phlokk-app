@@ -57,7 +57,6 @@ const MessageListItem = ({ chat, user }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
     padding: 14,
     flexDirection: "row",
     alignItems: "center",

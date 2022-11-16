@@ -1,7 +1,7 @@
 export default {
   // primary: '#0f0f0f',
   primary: "#000000",
-  modals: "#171A2A",
+  modals: "#0f0f0f",
   secondary: "lightgrey",
   black: "#000",
   orange: "#e17055",

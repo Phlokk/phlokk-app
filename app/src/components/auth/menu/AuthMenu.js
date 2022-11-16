@@ -56,7 +56,6 @@ export default function AuthMenu({ authPage, setAuthPage, setDetailsPage }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
   },
   containerMain: {
     flex: 1,
@@ -108,6 +107,6 @@ const styles = StyleSheet.create({
   },
   phlokkLogo: {
     marginBottom: 40,
-    bottom: 100
+    bottom: 100,
   },
 });

@@ -39,6 +39,41 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
+        <View style={styles.usernameView}>
+          {user.username !== null ? (
+            <Text selectable={true} style={styles.username}>
+              @{user.username}
+              <View>{user && user.is_verified === 1 && <VerifiedIcon />}</View>
+            </Text>
+          ) : (
+            <Text style={styles.username}>@user</Text>
+          )}
+        </View>
+
+        <Text style={styles.statusText}>Relationship status</Text>
+        <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
+          <Ionicons name="md-heart-sharp" size={12} color={colors.white} />{" "}
+          {user.relationship_type}
+        </Text>
+
+        {!isCurrentUser && (
+          <TouchableOpacity
+            style={styles.imageViewContainer}
+            onPress={() => toggleIsFollowing(user._id)}
+          >
+            <View style={isFollowing ? styles.followingBtn : styles.followBtn}>
+              <Text
+                style={
+                  isFollowing
+                    ? styles.alertMessageFriendsText
+                    : styles.alertMessageFollowText
+                }
+              >
+                {isFollowing ? "Following" : "Follow"}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
         <View style={styles.linkRow}>
           <View style={styles.linkText}>
             <SimpleLineIcons
@@ -76,44 +111,6 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
           </View>
         </View>
       </View>
-      <View style={styles.top}>
-        <Text style={styles.text}>Creator</Text>
-        <View style={styles.usernameView}>
-          {user.username !== null ? (
-            <Text selectable={true} style={styles.username}>
-              @{user.username}
-              <View>{user && user.is_verified === 1 && <VerifiedIcon />}</View>
-            </Text>
-          ) : (
-            <Text style={styles.username}>@user</Text>
-          )}
-        </View>
-        {/* follow button  */}
-        {!isCurrentUser && (
-          <TouchableOpacity
-            style={styles.imageViewContainer}
-            onPress={() => toggleIsFollowing(user._id)}
-          >
-            <View style={isFollowing ? styles.followingBtn : styles.followBtn}>
-              <Text
-                style={
-                  isFollowing
-                    ? styles.alertMessageFriendsText
-                    : styles.alertMessageFollowText
-                }
-              >
-                {isFollowing ? "Following" : "Follow"}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-
-        <Text style={styles.statusText}>Relationship status</Text>
-        <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
-          <Ionicons name="md-heart-sharp" size={12} color={colors.white} />{" "}
-          {user.relationship_type}
-        </Text>
-      </View>
       <ScrollView showsVerticalScrollIndicator="false">
         <Text style={styles.aboutText}>Bio:</Text>
         <Text style={styles.bioText}>{user.bio}</Text>
@@ -126,9 +123,7 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
 
 const styles = StyleSheet.create({
   container: {
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    backgroundColor: colors.modals,
+    backgroundColor: colors.black,
     height: "80%",
     padding: 20,
   },
@@ -136,6 +131,11 @@ const styles = StyleSheet.create({
   top: {
     alignItems: "center",
     bottom: 10,
+    backgroundColor: colors.black,
+    borderColor: colors.green,
+    borderWidth: 0.3,
+    borderRadius: 25,
+    padding: 10,
   },
   middle: {
     textAlign: "center",
@@ -143,10 +143,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   username: {
-    fontSize: 12,
+    fontSize: 14,
     color: colors.green,
     marginTop: 5,
-    marginBottom: 20,
+    marginBottom: 5,
   },
 
   bioText: {
@@ -161,8 +161,7 @@ const styles = StyleSheet.create({
   },
 
   aboutText: {
-    color: colors.white,
-
+    color: colors.green,
     padding: 5,
     marginTop: 20,
     opacity: 0.8,
@@ -235,7 +234,7 @@ const styles = StyleSheet.create({
   imageViewContainer: {
     alignItems: "center",
     justifyContent: "center",
-    bottom: 5,
+    top: 20,
   },
   imageOverlay: {
     backgroundColor: "rgba(0,0,0, 0.5)",

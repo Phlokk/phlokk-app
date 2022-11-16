@@ -14,10 +14,8 @@ import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
 import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioSheetModalScreen";
-// import { useTheme } from "@react-navigation/native";
 
 function UserProfile({ user, setPopUpImage }) {
-  // const { colorMode } = useTheme();
   const [topFavFive, setTopFavFive] = useState(false);
 
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
@@ -102,7 +100,6 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 5,
     alignItems: "center",
-    backgroundColor: colors.primary,
   },
   avatar: {
     height: 100,

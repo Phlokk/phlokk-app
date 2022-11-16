@@ -320,8 +320,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 8,
     color: colors.white,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   coverSelectView: {
     justifyContent: "center",
@@ -331,7 +329,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 98,
     bottom: 0,
-
     right: 10,
     backgroundColor: colors.black,
   },
