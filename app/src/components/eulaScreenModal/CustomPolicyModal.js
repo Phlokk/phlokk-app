@@ -140,6 +140,7 @@ export default function CustomPolicyModal({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.primary,
   },
   spacer: {
     paddingTop: 30,

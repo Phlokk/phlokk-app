@@ -74,6 +74,7 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
             </View>
           </TouchableOpacity>
         )}
+
         <View style={styles.linkRow}>
           <View style={styles.linkText}>
             <SimpleLineIcons

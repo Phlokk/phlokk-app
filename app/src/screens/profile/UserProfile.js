@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Modal,
   Pressable,
+  Switch,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -14,8 +15,15 @@ import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
 import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioSheetModalScreen";
+// import { useTheme } from "../../theme/ThemeProvider";
 
 function UserProfile({ user, setPopUpImage }) {
+  // color theme change
+  // const { dark, colors, setScheme } = useTheme();
+  // const toggleTheme = () => {
+  //   dark ? setScheme("light") : setScheme("dark");
+  // };
+
   const [topFavFive, setTopFavFive] = useState(false);
 
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
@@ -23,7 +31,6 @@ function UserProfile({ user, setPopUpImage }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        // onPress={() => setPopUpImage(true)}
         onPress={() => setIsBioModalScreenOpen(true)}
         disabled={!user?.photo_url}
       >
@@ -47,6 +54,7 @@ function UserProfile({ user, setPopUpImage }) {
           <Text style={styles.username}>@user</Text>
         )}
       </View>
+      {/* <Switch value={dark} onValueChange={toggleTheme} /> */}
 
       <View style={styles.quotesView}>
         {user.quote !== null ? (
@@ -100,6 +108,7 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 5,
     alignItems: "center",
+    backgroundColor: colors.primary,
   },
   avatar: {
     height: 100,
