@@ -17,13 +17,7 @@ import VerifiedIcon from "../../components/common/VerifiedIcon";
 import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioSheetModalScreen";
 // import { useTheme } from "../../theme/ThemeProvider";
 
-function UserProfile({ user, setPopUpImage }) {
-  // color theme change
-  // const { dark, colors, setScheme } = useTheme();
-  // const toggleTheme = () => {
-  //   dark ? setScheme("light") : setScheme("dark");
-  // };
-
+function UserProfile({ user, setPopUpImage, isCurrentUser }) {
   const [topFavFive, setTopFavFive] = useState(false);
 
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
@@ -31,6 +25,7 @@ function UserProfile({ user, setPopUpImage }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity
+        // onPress={() => setPopUpImage(true)}
         onPress={() => setIsBioModalScreenOpen(true)}
         disabled={!user?.photo_url}
       >
@@ -54,7 +49,6 @@ function UserProfile({ user, setPopUpImage }) {
           <Text style={styles.username}>@user</Text>
         )}
       </View>
-      {/* <Switch value={dark} onValueChange={toggleTheme} /> */}
 
       <View style={styles.quotesView}>
         {user.quote !== null ? (
@@ -97,7 +91,7 @@ function UserProfile({ user, setPopUpImage }) {
             style={styles.pressedStyle}
             onPress={() => setIsBioModalScreenOpen(false)}
           />
-          <BioSheetModalScreen user={user} />
+          <BioSheetModalScreen user={user} isCurrentUser={isCurrentUser} />
         </View>
       </Modal>
     </View>
