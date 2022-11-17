@@ -8,8 +8,8 @@ import UserProfileOverlay from '../../components/general/post/overlay/UserProfil
 import colors from '../../../config/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import Slider from '@react-native-community/slider';
-import axios from "../../redux/apis/axiosDeclaration";
-import {apiUrls} from "../../globals";
+import axios from '../../redux/apis/axiosDeclaration';
+import {apiUrls} from '../../globals';
 
 const VideoItem = ({
 	item,
@@ -48,10 +48,14 @@ const VideoItem = ({
 		setShouldPlay(!shouldPlay);
 	};
 
-	if (playbackStatus?.positionMillis >= (playbackStatus?.playableDurationMillis / 2) && !isMarkedPlayed) {
+	if (
+		playbackStatus?.positionMillis >=
+			playbackStatus?.playableDurationMillis / 2 &&
+		!isMarkedPlayed
+	) {
 		setIsMarkedPlayed(true);
 		axios.post(apiUrls.BASE_URL + '/api/post/view/' + item._id, {
-			'play_count': true
+			play_count: true,
 		});
 	}
 
@@ -107,7 +111,11 @@ const VideoItem = ({
 				areTabsShowing={areTabsShowing}
 			/>
 
-			<PostSingleOverlay user={item.user} post={item} />
+			<PostSingleOverlay
+				user={item.user}
+				post={item}
+				isCurrentUser={item.user.username === currentUser.username}
+			/>
 
 			<Slider
 				style={[styles.timelineSlider, areTabsShowing && {bottom: 0}]}
