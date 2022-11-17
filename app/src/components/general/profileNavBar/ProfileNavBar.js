@@ -20,17 +20,10 @@ export default function ProfileNavBar({userProfile, isCurrentUser}) {
 	const [isBlockUserModalOpen, setIsBlockUserModalOpen] = useState(false);
 	const [forceRefresh, setForceRefresh] = useAtom(forceRefreshAtom);
 
-
-	const onBlockConfirmed = async () => {
-		try {
-			await blockUserById(userProfile._id);
-
-			setForceRefresh(true); // This will tell the video feed to refresh the post list, because we blocked someone
-
-			navigation.goBack();
-		} catch {
-			Alert.alert('Error blocking user.');
-		}
+	const onBlockCompleted = async () => {
+		setIsBlockUserModalOpen(false);
+		setForceRefresh(true); // This will tell the video feed to refresh the post list, because we blocked someone
+		navigation.goBack();
 	};
 
 	return (
@@ -82,13 +75,20 @@ export default function ProfileNavBar({userProfile, isCurrentUser}) {
 
 			{/* Block modal */}
 			<BlockAlert
-				customAlertMessage={<Text>{user.username} would you like to block @{userProfile.username}? This creator will not be able to send you instant messages, see your content, or view or find your profile. This user will not be notified that you have blocked them.</Text>}
+				customAlertMessage={
+					<Text>
+						{user.username} would you like to block @{userProfile.username}?
+						This creator will not be able to send you instant messages, see your
+						content, or view or find your profile. This user will not be
+						notified that you have blocked them.
+					</Text>
+				}
 				positiveBtn="Block"
 				negativeBtn="Cancel"
 				modalVisible={isBlockUserModalOpen}
 				dismissAlert={setIsBlockUserModalOpen}
-				animationType="fade"
-				onPositivePressed={onBlockConfirmed}
+				userIdToBlock={userProfile._id}
+				onCompleted={onBlockCompleted}
 			/>
 		</View>
 	);
