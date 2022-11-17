@@ -8,6 +8,7 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
@@ -69,7 +70,11 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
                     : styles.alertMessageFollowText
                 }
               >
-                {isFollowing ? "Following" : "Follow"}
+                {isFollowing ? (
+                  <AntDesign name="swap" size={20} color={colors.white} />
+                ) : (
+                  <Feather name="user-plus" size={20} color={colors.white} />
+                )}
               </Text>
             </View>
           </TouchableOpacity>
@@ -123,7 +128,9 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.black,
+    backgroundColor: colors.modals,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     height: "80%",
     padding: 20,
   },
@@ -131,9 +138,9 @@ const styles = StyleSheet.create({
   top: {
     alignItems: "center",
     bottom: 10,
-    backgroundColor: colors.black,
-    borderColor: colors.green,
-    borderWidth: 0.3,
+    // backgroundColor: colors.modals,
+    // borderColor: colors.green,
+
     borderRadius: 25,
     padding: 10,
   },
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 14,
-    color: colors.green,
+    color: colors.white,
     marginTop: 5,
     marginBottom: 5,
   },

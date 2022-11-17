@@ -12,7 +12,7 @@ const generalStyles = StyleSheet.create({
     color: colors.secondary,
   },
   textInputReport: {
-    borderColor: colors.secondary,
+    backgroundColor: "#0C0C0C",
     borderWidth: 0.5,
     borderRadius: 5,
     borderStyle: "solid",
@@ -30,7 +30,7 @@ const generalStyles = StyleSheet.create({
     borderRadius: 5,
     borderStyle: "solid",
     paddingVertical: 10,
-    padding: 5,
+    padding: 10,
     color: colors.secondary,
   },
   textGiftingInput: {
