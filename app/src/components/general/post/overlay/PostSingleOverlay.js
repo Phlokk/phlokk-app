@@ -67,12 +67,14 @@ export default function PostSingleOverlay({post, user, isCurrentUser}) {
 			<Text style={styles.statsLabel}>{likeCount}</Text>
 
 			<View style={styles.iconContainer}>
-				<TouchableOpacity style={styles.iconContainer}>
+				<TouchableOpacity
+					style={styles.iconContainer}
+					onPress={() => setCommentModalOpen(true, post)}
+				>
 					<Ionicons
 						name="md-chatbubble-ellipses-outline"
 						size={35}
 						color={colors.white}
-						onPress={() => setCommentModalOpen(true, post)}
 					/>
 				</TouchableOpacity>
 				<Modal
@@ -105,13 +107,11 @@ export default function PostSingleOverlay({post, user, isCurrentUser}) {
 				dismissAlert={setIsGifting}
 				animationType="fade"
 			/>
-			<TouchableOpacity style={styles.iconContainer}>
-				<MaterialCommunityIcons
-					onPress={() => setIsGifting(true)}
-					name="fire"
-					size={40}
-					color={colors.white}
-				/>
+			<TouchableOpacity
+				style={styles.iconContainer}
+				onPress={() => setIsGifting(true)}
+			>
+				<MaterialCommunityIcons name="fire" size={40} color={colors.white} />
 			</TouchableOpacity>
 			<Modal animationType="slide" transparent={true} visible={isLightItUp}>
 				<View style={styles.pressedModal}>
