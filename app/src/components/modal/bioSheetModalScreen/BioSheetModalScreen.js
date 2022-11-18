@@ -73,7 +73,7 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
                 {isFollowing ? (
                   <AntDesign name="swap" size={20} color={colors.white} />
                 ) : (
-                  <Feather name="user-plus" size={20} color={colors.white} />
+                  <Feather name="user-plus" size={19} color={colors.white} />
                 )}
               </Text>
             </View>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
 
   aboutText: {
-    color: colors.green,
+    color: colors.secondary,
     padding: 5,
     marginTop: 20,
     opacity: 0.8,
@@ -239,6 +239,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     top: 20,
+    zIndex: 99999,
   },
   imageOverlay: {
     backgroundColor: "rgba(0,0,0, 0.5)",

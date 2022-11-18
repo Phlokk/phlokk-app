@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from "@expo/vector-icons";
 // import { LOGOUT } from "@env";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
@@ -17,69 +17,92 @@ export default function AccountScreen() {
   const [blocking, setBlocking] = useState(false);
   const [security, setSecurity] = useState(false);
 
-
-
   return (
     <View>
-        <TouchableOpacity
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
-          onPress={() =>
-            navigation.navigate(routes.MANAGE_ACCOUNT, {
-              title: "Manage Account",
-            })
-          }
-        >
-          <Text style={styles.text}>
-            <Feather name="user" size={14} color={colors.white} />   Manage Account
-          </Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
-          </View>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.fieldItemContainer}
+        autoCapitalize="none"
+        onPress={() =>
+          navigation.navigate(routes.MANAGE_ACCOUNT, {
+            title: "Manage Account",
+          })
+        }
+      >
+        <Text style={styles.text}>
+          <Feather name="user" size={14} color={colors.white} /> Manage Account
+        </Text>
+        <View style={styles.fieldValueContainer}>
+          <Feather
+            style={styles.chevron}
+            name="chevron-right"
+            size={20}
+            color={colors.secondary}
+          />
+        </View>
+      </TouchableOpacity>
 
-        <CustomAlert
-        customAlertMessage={<Text>Security{"\n"}coming in official release</Text>}
+      <CustomAlert
+        customAlertMessage={
+          <Text>Security{"\n"}coming in official release</Text>
+        }
         positiveBtn="Ok"
         modalVisible={security}
         dismissAlert={setSecurity}
         animationType="fade"
       />
-        <TouchableOpacity
-         onPress={() =>setSecurity(true)}
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
-        >
-          <Text style={styles.text}>
-            <Ionicons name="md-shield-checkmark-outline" size={14} color={colors.white} />   Security</Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
-          </View>
-        </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => setSecurity(true)}
+        style={styles.fieldItemContainer}
+        autoCapitalize="none"
+      >
+        <Text style={styles.text}>
+          <Ionicons
+            name="md-shield-checkmark-outline"
+            size={14}
+            color={colors.white}
+          />{" "}
+          Security
+        </Text>
+        <View style={styles.fieldValueContainer}>
+          <Feather
+            style={styles.chevron}
+            name="chevron-right"
+            size={20}
+            color={colors.secondary}
+          />
+        </View>
+      </TouchableOpacity>
 
-        <CustomAlert
+      <CustomAlert
         customAlertMessage={<Text>Privacy{"\n"}coming in beta 2</Text>}
         positiveBtn="Ok"
         modalVisible={blocking}
         dismissAlert={setBlocking}
         animationType="fade"
       />
-        <TouchableOpacity
-        //  onPress={() =>setBlocking(true)}
-        onPress={() =>
-          navigation.navigate(routes.PRIVACY_SCREEN, {
-            title: "Privacy",
-          })
-        }
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
-        >
-          <Text style={styles.text}>
-            <MaterialIcons name="lock-outline" size={14} color={colors.white} />   Privacy</Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
-          </View>
-        </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => setBlocking(true)}
+        // onPress={() =>
+        //   navigation.navigate(routes.PRIVACY_SCREEN, {
+        //     title: "Privacy",
+        //   })
+        // }
+        style={styles.fieldItemContainer}
+        autoCapitalize="none"
+      >
+        <Text style={styles.text}>
+          <MaterialIcons name="lock-outline" size={14} color={colors.white} />{" "}
+          Privacy
+        </Text>
+        <View style={styles.fieldValueContainer}>
+          <Feather
+            style={styles.chevron}
+            name="chevron-right"
+            size={20}
+            color={colors.secondary}
+          />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -108,19 +131,18 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 12,
   },
-  
+
   authText: {
     color: colors.secondary,
   },
   socialText: {
     color: colors.secondary,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 8,
     marginTop: 20,
-    opacity: 0.3
+    opacity: 0.3,
   },
-  chevron:{
+  chevron: {
     opacity: 0.6,
-
   },
 });
