@@ -138,9 +138,6 @@ const styles = StyleSheet.create({
   top: {
     alignItems: "center",
     bottom: 10,
-    // backgroundColor: colors.modals,
-    // borderColor: colors.green,
-
     borderRadius: 25,
     padding: 10,
   },
