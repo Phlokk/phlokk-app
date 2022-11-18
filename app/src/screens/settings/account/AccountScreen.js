@@ -74,7 +74,7 @@ export default function AccountScreen() {
       </TouchableOpacity>
 
       <CustomAlert
-        customAlertMessage={<Text>Privacy{"\n"}coming in beta 2</Text>}
+        customAlertMessage={<Text>Privacy{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
         modalVisible={blocking}
         dismissAlert={setBlocking}
