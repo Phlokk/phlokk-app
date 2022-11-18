@@ -128,7 +128,7 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.modals,
+    backgroundColor: colors.bioModal,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     height: "80%",
