@@ -14,6 +14,7 @@ import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useState } from "react";
 import VerifiedIcon from "../../common/VerifiedIcon";
+import { LinearGradient } from "expo-linear-gradient";
 import axios from "../../../redux/apis/axiosDeclaration";
 
 function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
@@ -39,100 +40,119 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.top}>
-        <View style={styles.usernameView}>
-          {user.username !== null ? (
-            <Text selectable={true} style={styles.username}>
-              @{user.username}
-              <View>{user && user.is_verified === 1 && <VerifiedIcon />}</View>
-            </Text>
-          ) : (
-            <Text style={styles.username}>@user</Text>
-          )}
-        </View>
-
-        <Text style={styles.statusText}>Relationship status</Text>
-        <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
-          <Ionicons name="md-heart-sharp" size={12} color={colors.white} />{" "}
-          {user.relationship_type}
-        </Text>
-
-        {!isCurrentUser && (
-          <TouchableOpacity
-            style={styles.imageViewContainer}
-            onPress={() => toggleIsFollowing(user._id)}
-          >
-            <View style={isFollowing ? styles.followingBtn : styles.followBtn}>
-              <Text
-                style={
-                  isFollowing
-                    ? styles.alertMessageFriendsText
-                    : styles.alertMessageFollowText
-                }
-              >
-                {isFollowing ? (
-                  <AntDesign name="swap" size={20} color={colors.white} />
-                ) : (
-                  <Feather name="user-plus" size={19} color={colors.white} />
-                )}
+      <LinearGradient
+        colors={["#101548", "#2A1979", "#320D41"]}
+        start={{ x: 2.0, y: 5.0 }}
+        end={{ x: 1.0, y: 0.0 }}
+        locations={[1.0, 0.5, 0.7]}
+        style={{
+          flex: 1,
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+        }}
+      >
+        <View style={styles.top}>
+          <View style={styles.usernameView}>
+            {user.username !== null ? (
+              <Text selectable={true} style={styles.username}>
+                @{user.username}
+                <View>
+                  {user && user.is_verified === 1 && <VerifiedIcon />}
+                </View>
               </Text>
+            ) : (
+              <Text style={styles.username}>@user</Text>
+            )}
+          </View>
+
+          <Text style={styles.statusText}>Relationship status</Text>
+          <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
+            <Ionicons name="md-heart-sharp" size={12} color={colors.white} />{" "}
+            {user.relationship_type}
+          </Text>
+
+          {!isCurrentUser && (
+            <TouchableOpacity
+              style={styles.imageViewContainer}
+              onPress={() => toggleIsFollowing(user._id)}
+            >
+              <View
+                style={isFollowing ? styles.followingBtn : styles.followBtn}
+              >
+                <Text
+                  style={
+                    isFollowing
+                      ? styles.alertMessageFriendsText
+                      : styles.alertMessageFollowText
+                  }
+                >
+                  {isFollowing ? (
+                    <AntDesign name="swap" size={20} color={colors.white} />
+                  ) : (
+                    <Feather name="user-plus" size={19} color={colors.white} />
+                  )}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          <View style={styles.linkRow}>
+            <View style={styles.linkText}>
+              <SimpleLineIcons
+                onPress={
+                  user && user.youtube_link
+                    ? () => Linking.openURL(user.youtube_link)
+                    : null
+                }
+                name="social-youtube"
+                size={23}
+                color={user && user.youtube_link ? colors.green : colors.white}
+              />
             </View>
-          </TouchableOpacity>
-        )}
-        <View style={styles.linkRow}>
-          <View style={styles.linkText}>
-            <SimpleLineIcons
-              onPress={
-                user && user.youtube_link
-                  ? () => Linking.openURL(user.youtube_link)
-                  : null
-              }
-              name="social-youtube"
-              size={23}
-              color={user && user.youtube_link ? colors.green : colors.white}
-            />
-          </View>
-          <View style={styles.linkText}>
-            <Octicons
-              onPress={
-                user && user.link ? () => Linking.openURL(user.link) : null
-              }
-              name="link-external"
-              size={21}
-              color={user && user.link ? colors.green : colors.white}
-            />
-          </View>
-          <View style={styles.linkText}>
-            <Feather
-              onPress={
-                user && user.instagram_link
-                  ? () => Linking.openURL(user.instagram_link)
-                  : null
-              }
-              name="instagram"
-              size={18}
-              color={user && user.instagram_link ? colors.green : colors.white}
-            />
+            <View style={styles.linkText}>
+              <Octicons
+                onPress={
+                  user && user.link ? () => Linking.openURL(user.link) : null
+                }
+                name="link-external"
+                size={21}
+                color={user && user.link ? colors.green : colors.white}
+              />
+            </View>
+            <View style={styles.linkText}>
+              <Feather
+                onPress={
+                  user && user.instagram_link
+                    ? () => Linking.openURL(user.instagram_link)
+                    : null
+                }
+                name="instagram"
+                size={18}
+                color={
+                  user && user.instagram_link ? colors.green : colors.white
+                }
+              />
+            </View>
           </View>
         </View>
-      </View>
-      <ScrollView showsVerticalScrollIndicator="false">
-        <Text style={styles.aboutText}>Bio:</Text>
-        <Text style={styles.bioText}>{user.bio}</Text>
-        <Text style={styles.aboutText}>Skills: (coming soon)</Text>
-        <Text style={styles.aboutText}>Education: (coming soon)</Text>
-      </ScrollView>
+
+        <ScrollView showsVerticalScrollIndicator="false">
+          <Text style={styles.aboutText}>Bio:</Text>
+          <Text style={styles.bioText}>{user.bio}</Text>
+          <Text style={styles.aboutText}>Skills: (coming soon)</Text>
+          <Text style={styles.aboutText}>Education: (coming soon)</Text>
+        </ScrollView>
+      </LinearGradient>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.bioModal,
+    // backgroundColor: colors.bioModal,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     height: "80%",
-    padding: 20,
+    overflow: "hidden",
   },
 
   top: {
@@ -155,7 +175,7 @@ const styles = StyleSheet.create({
 
   bioText: {
     color: colors.white,
-    padding: 5,
+    paddingLeft: 15,
 
     marginTop: 20,
     opacity: 0.9,
@@ -166,7 +186,7 @@ const styles = StyleSheet.create({
 
   aboutText: {
     color: colors.secondary,
-    padding: 5,
+    paddingLeft: 15,
     marginTop: 20,
     opacity: 0.8,
     textAlign: "left",
