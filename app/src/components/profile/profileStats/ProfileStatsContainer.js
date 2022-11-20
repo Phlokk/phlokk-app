@@ -87,17 +87,20 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   counterLabelText: {
-    color: colors.diamondBlue,
+    color: colors.secondary,
     fontSize: 11,
+    opacity: 0.7,
   },
   counterLabelConnections: {
-    color: colors.diamondBlue,
+    color: colors.secondary,
+    opacity: 0.7,
     fontSize: 11,
     marginTop: 0,
   },
   counterLabelTextStar: {
-    color: colors.diamondBlue,
+    color: colors.secondary,
     fontSize: 11,
+    opacity: 0.7,
   },
   profileIconButton: {
     paddingVertical: 7,

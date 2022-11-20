@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  Modal,
-  Pressable,
-} from "react-native";
+import React, { useState } from "react";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import CustomAlert from "../../components/Alerts/CustomAlert";
-import SettingsModalScreen from "../../components/modal/settingsModalScreen/SettingsModalScreen";
 import colors from "../../../config/colors";
-import { useIsFocused } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 
@@ -37,19 +28,7 @@ const RenderButton = ({ onPress, isSelected, icon }) => {
 };
 
 function DisplayMenuScreen({ user, onTabSelected }) {
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    setIsSettingsModalOpen(false);
-  }, [isFocused]);
-
   const [currentUser] = useAtom(userAtom);
-
-  const [isVisible, setIsVisible] = useState(false);
-  const [isBookmark, setIsBookmark] = useState(false);
-  const [isPrivate, setIsPrivate] = useState(false);
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-
   const [selectedTab, setSelectedTab] = useState("cloud");
 
   if (user._id !== currentUser._id) {
@@ -122,26 +101,26 @@ function DisplayMenuScreen({ user, onTabSelected }) {
             />
           }
         />
-
         <RenderButton
-          onPress={() => setIsSettingsModalOpen(true)}
-          isSelected={false}
-          icon="settings"
-        />
-
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={isSettingsModalOpen}
-        >
-          <View style={styles.pressedModal}>
-            <Pressable
-              style={styles.pressedStyle}
-              onPress={() => setIsSettingsModalOpen(false)}
+          onPress={() => {
+            setSelectedTab("fire");
+            onTabSelected("fire");
+            //setIsVisible(true)
+          }}
+          isSelected={selectedTab === "fire"}
+          icon={
+            <MaterialCommunityIcons
+              style={
+                selectedTab === "fire"
+                  ? styles.nonTransparentIcons
+                  : styles.transparentIcons
+              }
+              name="fire"
+              size={24}
+              color={selectedTab === "fire" ? colors.green : colors.secondary}
             />
-            <SettingsModalScreen user={user} />
-          </View>
-        </Modal>
+          }
+        />
       </View>
     </View>
   );

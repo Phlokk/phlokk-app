@@ -41,10 +41,10 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["#101548", "#2A1979", "#320D41"]}
+        colors={["#101548"]}
         start={{ x: 2.0, y: 5.0 }}
         end={{ x: 1.0, y: 0.0 }}
-        locations={[1.0, 0.5, 0.7]}
+        locations={[1.0]}
         style={{
           flex: 1,
           borderTopLeftRadius: 25,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 14,
     color: colors.white,
-    marginTop: 5,
+    marginTop: 15,
     marginBottom: 5,
   },
 

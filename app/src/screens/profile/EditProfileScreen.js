@@ -84,14 +84,14 @@ export default function EditProfileScreen({ route }) {
       <EditProfileNav title="Edit Profile" leftButton={{ display: false }} />
       <ScrollView>
         <View style={styles.imageContainer}>
-          {user.photo_thumb_url !== null ? (
+          {currentUser.photo_thumb_url !== null ? (
             <TouchableOpacity
               style={styles.imageViewContainer}
               onPress={() => chooseImage()}
             >
               <Image
                 style={styles.image}
-                source={{ uri: image ? image : user.photo_thumb_url }}
+                source={{ uri: image ? image : currentUser.photo_thumb_url }}
                 cache="only-if-cached"
               />
 
@@ -123,7 +123,7 @@ export default function EditProfileScreen({ route }) {
               navigation.navigate(routes.EDIT_PROFILE_FIELD, {
                 title: "Username",
                 field: "username",
-                value: user.username,
+                value: currentUser.username,
               })
             }
           >
@@ -131,7 +131,7 @@ export default function EditProfileScreen({ route }) {
               Username
             </Text>
             <View style={styles.fieldValueContainer}>
-              <Text style={styles.text}>{user.username}</Text>
+              <Text style={styles.text}>{currentUser.username}</Text>
               <Feather
                 name="chevron-right"
                 size={20}
@@ -147,14 +147,14 @@ export default function EditProfileScreen({ route }) {
               navigation.navigate(routes.CREATOR, {
                 title: "Creator",
                 field: "Creator",
-                value: user.creator_type,
+                value: currentUser.creator_type,
               })
             }
           >
             <Text style={styles.text}>Creator</Text>
             <View style={styles.fieldValueContainer}>
               <Text numberOfLines={1} style={styles.text}>
-                {user.creator_type}
+                {currentUser.creator_type}
               </Text>
               <Feather
                 name="chevron-right"
@@ -171,14 +171,14 @@ export default function EditProfileScreen({ route }) {
               navigation.navigate(routes.LINK, {
                 title: "Link",
                 field: "link",
-                value: user.link,
+                value: currentUser.link,
               })
             }
           >
             <Text style={styles.text}>Website</Text>
             <View style={styles.fieldValueContainer}>
               <Text numberOfLines={1} style={styles.text}>
-                {user.link}
+                {currentUser.link}
               </Text>
               <Feather
                 name="chevron-right"
@@ -195,14 +195,14 @@ export default function EditProfileScreen({ route }) {
               navigation.navigate(routes.QUOTES, {
                 title: "Quotes",
                 field: "quotes",
-                value: user.quote,
+                value: currentUser.quote,
               })
             }
           >
             <Text style={styles.text}>Quote</Text>
             <View style={styles.fieldValueContainer}>
               <Text numberOfLines={1} style={styles.text}>
-                {user.quote}
+                {currentUser.quote}
               </Text>
               <Feather
                 name="chevron-right"
@@ -219,14 +219,14 @@ export default function EditProfileScreen({ route }) {
               navigation.navigate(routes.RELATIONSHIP, {
                 title: "Relationship",
                 field: "relationship",
-                value: user.relationship_type,
+                value: currentUser.relationship_type,
               })
             }
           >
             <Text style={styles.text}>Status</Text>
             <View style={styles.fieldValueContainer}>
               <Text numberOfLines={1} style={styles.text}>
-                {user.relationship_type}
+                {currentUser.relationship_type}
               </Text>
               <Feather
                 name="chevron-right"
@@ -246,12 +246,12 @@ export default function EditProfileScreen({ route }) {
               navigation.navigate(routes.BIO, {
                 title: "Bio",
                 field: "bio",
-                value: user.bio,
+                value: currentUser.bio,
               })
             }
           >
             <Text style={styles.text}>Profile Bio</Text>
-            {user.bio === null || undefined ? (
+            {currentUser.bio === null || undefined ? (
               <View style={styles.fieldValueContainer}>
                 <Text numberOfLines={1} style={styles.text}>
                   Add Bio
@@ -352,12 +352,12 @@ export default function EditProfileScreen({ route }) {
               navigation.navigate(routes.YOUTUBE_LINK, {
                 title: "Youtube",
                 field: "youtube_link",
-                value: user.youtube_link,
+                value: currentUser.youtube_link,
               })
             }
           >
             <Text style={styles.text}>Youtube</Text>
-            {user.youtube_link === null ? (
+            {currentUser.youtube_link === null ? (
               <View style={styles.fieldValueContainer}>
                 <Text numberOfLines={1} style={styles.text}>
                   Add Youtube Channel
@@ -382,12 +382,12 @@ export default function EditProfileScreen({ route }) {
               navigation.navigate(routes.INSTAGRAM_LINK, {
                 title: "Instagram",
                 field: "instagram_link",
-                value: user.instagram_link,
+                value: currentUser.instagram_link,
               })
             }
           >
             <Text style={styles.text}>Instagram</Text>
-            {user.instagram_link === null ? (
+            {currentUser.instagram_link === null ? (
               <View style={styles.fieldValueContainer}>
                 <Text numberOfLines={1} style={styles.text}>
                   Add Instagram Account

@@ -100,6 +100,8 @@ export default function ProfileScreen({ route }) {
       return "Saved";
     } else if (tabName === "private") {
       return "Private";
+    } else if (tabName === "fire") {
+      return "Gifted";
     }
   };
 
