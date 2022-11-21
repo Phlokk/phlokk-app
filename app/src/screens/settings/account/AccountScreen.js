@@ -1,16 +1,17 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-// import { LOGOUT } from "@env";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import CustomAlert from "../../../components/Alerts/CustomAlert";
+import { ThemeContext } from "../../../theme/context";
 
 export default function AccountScreen() {
+  const { theme, setTheme } = useContext(ThemeContext);
   const auth = useSelector((state) => state.auth);
   const navigation = useNavigation();
   const [user, setUser] = useState("");
@@ -28,12 +29,19 @@ export default function AccountScreen() {
           })
         }
       >
-        <Text style={styles.text}>
-          <Feather name="user" size={14} color={colors.white} /> Manage Account
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+          <Feather
+            name="user"
+            size={14}
+            style={theme == "light" ? styles.icon_light : styles.icon_dark}
+          />{" "}
+          Manage Account
         </Text>
         <View style={styles.fieldValueContainer}>
           <Feather
-            style={styles.chevron}
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
             name="chevron-right"
             size={20}
             color={colors.secondary}
@@ -55,17 +63,19 @@ export default function AccountScreen() {
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >
-        <Text style={styles.text}>
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
           <Ionicons
             name="md-shield-checkmark-outline"
             size={14}
-            color={colors.white}
+            style={theme == "light" ? styles.icon_light : styles.icon_dark}
           />{" "}
           Security
         </Text>
         <View style={styles.fieldValueContainer}>
           <Feather
-            style={styles.chevron}
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
             name="chevron-right"
             size={20}
             color={colors.secondary}
@@ -90,13 +100,19 @@ export default function AccountScreen() {
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >
-        <Text style={styles.text}>
-          <MaterialIcons name="lock-outline" size={14} color={colors.white} />{" "}
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+          <MaterialIcons
+            name="lock-outline"
+            size={14}
+            style={theme == "light" ? styles.icon_light : styles.icon_dark}
+          />{" "}
           Privacy
         </Text>
         <View style={styles.fieldValueContainer}>
           <Feather
-            style={styles.chevron}
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
             name="chevron-right"
             size={20}
             color={colors.secondary}
@@ -127,7 +143,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  text: {
+  text_light: {
+    color: colors.black,
+    fontSize: 12,
+  },
+  text_dark: {
     color: colors.white,
     fontSize: 12,
   },
@@ -142,7 +162,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     opacity: 0.3,
   },
-  chevron: {
+  chevron_light: {
+    color: colors.black,
+  },
+  chevron_dark: {
     opacity: 0.6,
+  },
+  icon_light: {
+    color: colors.black,
+  },
+  icon_dark: {
+    color: colors.white,
   },
 });

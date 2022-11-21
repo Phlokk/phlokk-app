@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomAlert from "../../Alerts/CustomAlert";
@@ -8,9 +8,11 @@ import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import routes from "../../../navigation/routes";
+import { ThemeContext } from "../../../theme/context";
 
 function ProfileStatsContainer({ user, isCurrentUser }) {
-  const navigation = useNavigation();
+  const { theme, setTheme } = useContext(ThemeContext);
+  // const navigation = useNavigation();
   const [starCount, setStarCount] = useState(user?.like_count);
   const [following, setFollowing] = useState(user?.follow_count);
 
@@ -30,10 +32,26 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
           // 	isCurrentUser: isCurrentUser
           // })}
           >
-            <Text style={styles.counterNumberText}>{following}</Text>
+            <Text
+              style={
+                theme == "light"
+                  ? styles.counterNumberText_light
+                  : styles.counterNumberText_dark
+              }
+            >
+              {following}
+            </Text>
           </TouchableOpacity>
 
-          <Text style={styles.counterLabelText}>Following</Text>
+          <Text
+            style={
+              theme == "light"
+                ? styles.counterLabelText_light
+                : styles.counterLabelText_dark
+            }
+          >
+            Following
+          </Text>
         </View>
 
         <View style={styles.counterItemContainer}>
@@ -54,13 +72,45 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
 
             // onPress={() => navigation.navigate(routes.FRIENDS_LIST)}
           >
-            <Text style={styles.counterNumberText}>{friends}</Text>
+            <Text
+              style={
+                theme == "light"
+                  ? styles.counterNumberText_light
+                  : styles.counterNumberText_dark
+              }
+            >
+              {friends}
+            </Text>
           </TouchableOpacity>
-          <Text style={styles.counterLabelConnections}>Friends</Text>
+          <Text
+            style={
+              theme == "light"
+                ? styles.counterLabelConnections_light
+                : styles.counterLabelConnections_dark
+            }
+          >
+            Friends
+          </Text>
         </View>
         <View style={styles.counterItemContainer}>
-          <Text style={styles.counterNumberText}>{starCount}</Text>
-          <Text style={styles.counterLabelTextStar}>Stars</Text>
+          <Text
+            style={
+              theme == "light"
+                ? styles.counterNumberText_light
+                : styles.counterNumberText_dark
+            }
+          >
+            {starCount}
+          </Text>
+          <Text
+            style={
+              theme == "light"
+                ? styles.counterLabelTextStar_light
+                : styles.counterLabelTextStar_dark
+            }
+          >
+            Stars
+          </Text>
         </View>
       </View>
     </View>
@@ -81,23 +131,44 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
   },
-  counterNumberText: {
+  counterNumberText_light: {
+    fontWeight: "bold",
+    fontSize: 14,
+    color: colors.black,
+  },
+  counterNumberText_dark: {
     fontWeight: "bold",
     fontSize: 14,
     color: colors.white,
   },
-  counterLabelText: {
+  counterLabelText_light: {
+    color: colors.black,
+    fontSize: 11,
+    opacity: 0.7,
+  },
+  counterLabelText_dark: {
     color: colors.secondary,
     fontSize: 11,
     opacity: 0.7,
   },
-  counterLabelConnections: {
-    color: colors.secondary,
+  counterLabelConnections_light: {
+    color: colors.black,
     opacity: 0.7,
     fontSize: 11,
     marginTop: 0,
   },
-  counterLabelTextStar: {
+  counterLabelConnections_dark: {
+    color: colors.white,
+    opacity: 0.7,
+    fontSize: 11,
+    marginTop: 0,
+  },
+  counterLabelTextStar_light: {
+    color: colors.black,
+    fontSize: 11,
+    opacity: 0.7,
+  },
+  counterLabelTextStar_dark: {
     color: colors.secondary,
     fontSize: 11,
     opacity: 0.7,

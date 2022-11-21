@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,11 +14,11 @@ import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
 import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioSheetModalScreen";
-// import { useTheme } from "../../theme/ThemeProvider";
+import { ThemeContext } from "../../theme/context";
 
-function UserProfile({ user, setPopUpImage, isCurrentUser }) {
+function UserProfile({ user, isCurrentUser }) {
+  const { theme, setTheme } = useContext(ThemeContext);
   const [topFavFive, setTopFavFive] = useState(false);
-
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
 
   return (
@@ -40,7 +40,12 @@ function UserProfile({ user, setPopUpImage, isCurrentUser }) {
 
       <View style={styles.usernameView}>
         {user.username !== null ? (
-          <Text selectable={true} style={styles.username}>
+          <Text
+            selectable={true}
+            style={
+              theme == "light" ? styles.username_light : styles.username_dark
+            }
+          >
             @{user.username}
             <View>{user && user.is_verified === 1 && <VerifiedIcon />}</View>
           </Text>
@@ -51,7 +56,11 @@ function UserProfile({ user, setPopUpImage, isCurrentUser }) {
 
       <View style={styles.quotesView}>
         {user.quote !== null ? (
-          <Text style={styles.quotes}>{user.quote}</Text>
+          <Text
+            style={theme == "light" ? styles.quotes_light : styles.quotes_dark}
+          >
+            {user.quote}
+          </Text>
         ) : (
           <></>
         )}
@@ -101,7 +110,6 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 5,
     alignItems: "center",
-    backgroundColor: colors.primary,
   },
   avatar: {
     height: 100,
@@ -114,13 +122,26 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 0.5,
   },
-  username: {
+  username_light: {
+    fontSize: 12,
+    color: colors.black,
+    marginTop: 5,
+    marginBottom: 20,
+  },
+  username_dark: {
     fontSize: 12,
     color: colors.white,
     marginTop: 5,
     marginBottom: 20,
   },
-  quotes: {
+  quotes_light: {
+    color: colors.black,
+    marginBottom: 20,
+    textAlign: "center",
+    fontFamily: "Waterfall-Regular",
+    fontSize: 27,
+  },
+  quotes_dark: {
     color: colors.white,
     marginBottom: 20,
     textAlign: "center",

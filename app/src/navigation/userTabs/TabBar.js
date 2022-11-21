@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, StyleSheet } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -12,10 +12,12 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 import colors from "../../../config/colors";
 import SearchNavigation from "../feed/SearchDiscover";
+import { ThemeContext } from "../../theme/context";
 
 const Tab = createBottomTabNavigator();
 
 const TabBar = ({ state, navigation }) => {
+  const { theme, setTheme } = useContext(ThemeContext);
   const selectedTabIndex = navigation?.getState()?.index;
 
   const onPress = (index) => {
@@ -36,7 +38,7 @@ const TabBar = ({ state, navigation }) => {
 
   return (
     <View
-      style={selectedTabIndex === 0 ? styles.containerBlack : styles.container}
+      style={theme == "light" ? styles.container_light : styles.container_dark}
     >
       <View style={styles.iconContainer}>
         <AntDesign
@@ -99,8 +101,11 @@ const styles = StyleSheet.create({
   containerBlack: {
     backgroundColor: colors.black,
   },
-  container: {
-    backgroundColor: colors.primary,
+  container_light: {
+    backgroundColor: colors.white,
+  },
+  container_dark: {
+    backgroundColor: colors.black,
   },
   iconContainer: {
     flexDirection: "row",

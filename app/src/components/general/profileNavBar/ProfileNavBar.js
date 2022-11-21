@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -10,10 +10,11 @@ import CustomAlert from "../../Alerts/CustomAlert";
 import { blockUserById } from "../../../services/user";
 import { forceRefreshAtom } from "../../../screens/videoFeed/VideoFeed";
 import BlockAlert from "../../Alerts/BlockAlert";
+import { ThemeContext } from "../../../theme/context";
 
 export default function ProfileNavBar({ userProfile, isCurrentUser }) {
   const navigation = useNavigation();
-
+  const { theme, setTheme } = useContext(ThemeContext);
   const [user, setUser] = useAtom(userAtom);
   const [isGifting, setIsGifting] = useState(false);
   //const [isSupportAlert, setIsSupportAlert] = useState(false);
@@ -28,7 +29,7 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.middleText}>
+      <Text style={theme == "light" ? styles.middle_light : styles.middle_dark}>
         {userProfile?.creator_type || user.creator_type}
       </Text>
 
@@ -48,7 +49,7 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
             onPress={() => navigation.openDrawer()}
             name="menu"
             size={23}
-            color={colors.secondary}
+            style={theme == "light" ? styles.toggle_light : styles.toggle_dark}
           />
         </TouchableOpacity>
       )}
@@ -81,6 +82,12 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginTop: 8,
   },
+  toggle_light: {
+    color: colors.black,
+  },
+  toggle_dark: {
+    color: colors.white,
+  },
   text: {
     fontSize: 16,
     color: colors.white,
@@ -88,7 +95,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
-  middleText: {
+  middle_light: {
+    color: colors.black,
+    flex: 1,
+    textAlign: "center",
+    alignSelf: "center",
+    fontWeight: "bold",
+    opacity: 0.5,
+  },
+  middle_dark: {
     color: colors.secondary,
     flex: 1,
     textAlign: "center",

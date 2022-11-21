@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useContext } from "react";
 import {
   FlatList,
   View,
@@ -7,15 +7,15 @@ import {
   TouchableOpacity,
 } from "react-native";
 import SearchUserItem from "../../components/search/userItem/SearchUserItem";
-// import axios from "../../redux/apis/axiosDeclaration";
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import SearchInput from "../../components/search/SearchInput";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemeContext } from "../../theme/context";
 
 const SearchScreen = () => {
+  const { theme, setTheme } = useContext(ThemeContext);
   const navigation = useNavigation();
   const [textInput, setTextInput] = useState("");
   const [searchUsers, setSearchUsers] = useState([]);
@@ -57,7 +57,9 @@ const SearchScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
       <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
       <FlatList
         style={styles.list}
@@ -66,7 +68,9 @@ const SearchScreen = () => {
         keyExtractor={(item) => item._id}
       />
       <View style={styles.risingStarView}>
-        <Text style={styles.text}>Rising stars</Text>
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+          Rising stars
+        </Text>
 
         <FlatList
           data={Categories}
@@ -85,10 +89,16 @@ const SearchScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
     flex: 1,
     paddingTop: 25,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
+    padding: 5,
+  },
+  container_dark: {
+    flex: 1,
+    paddingTop: 25,
+    backgroundColor: colors.black,
     padding: 5,
   },
   textInput: {
@@ -99,7 +109,13 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
   },
-  text: {
+  text_light: {
+    color: colors.black,
+    fontSize: 12,
+    marginBottom: 10,
+    marginHorizontal: 3,
+  },
+  text_dark: {
     color: colors.gray,
     fontSize: 12,
     marginBottom: 10,

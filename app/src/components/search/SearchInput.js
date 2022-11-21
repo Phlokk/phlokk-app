@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   TextInput,
   View,
@@ -12,6 +12,8 @@ import { queryUsers } from "../../services/user";
 import { Feather } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
+import { ThemeContext } from "../../theme/context";
+
 // import CustomActivityIndicator from '../common/ActivityIndicator';
 
 function useDebounce(value, delay) {
@@ -39,6 +41,7 @@ function useDebounce(value, delay) {
 }
 
 const SearchInput = ({ placeholder, setSearchUsers }) => {
+  const { theme, setTheme } = useContext(ThemeContext);
   const [textInput, setTextInput] = useState("");
   const isFocused = useIsFocused();
   const [isSearching, setIsSearching] = useState(false);
@@ -85,7 +88,9 @@ const SearchInput = ({ placeholder, setSearchUsers }) => {
         value={textInput}
         autoCorrect={false}
         onChangeText={(val) => setTextInput(val.toLowerCase())}
-        style={styles.textInput}
+        style={
+          theme == "light" ? styles.textInput_light : styles.textInput_dark
+        }
         placeholder={placeholder}
         placeholderTextColor={colors.green}
         underlineColorAndroid="transparent"
@@ -115,7 +120,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
   },
-  textInput: {
+  textInput_light: {
+    color: colors.black,
+    borderColor: colors.black,
+    borderWidth: 0.5,
+    borderRadius: 5,
+    flexDirection: "row",
+    width: "100%",
+    padding: 10,
+    marginVertical: 10,
+  },
+  textInput_dark: {
     color: colors.green,
     borderColor: colors.green,
     borderWidth: 0.5,

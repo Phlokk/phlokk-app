@@ -19,7 +19,6 @@ import { types } from "../../../redux/constants";
 import { useTogglePasswordVisibility } from "../../../services/passwordVisibility";
 import colors from "../../../../config/colors";
 import axios from "../../../redux/apis/axiosDeclaration";
-import routes from "../../../navigation/routes";
 import CustomPolicyModal from "../../eulaScreenModal/CustomPolicyModal";
 import { registerForPushNotificationsAsync } from "../../../services/notifications";
 import { useAtom } from "jotai";

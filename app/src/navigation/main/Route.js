@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { StyleSheet } from "react-native";
 import { userAuthStateListener } from "../../redux/actions";
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthScreen from "../../screens/auth/AuthScreen";
 import SavePostScreen from "../../screens/savePost/SavePostScreen";
@@ -10,8 +10,6 @@ import EditProfileFieldScreen from "../../screens/profile/EditProfileFieldScreen
 import VideoFeed from "../../screens/videoFeed/VideoFeed";
 import ProfileScreen from "../../screens/profile/ProfileScreen";
 import Market from "../../screens/market/Market";
-import DisplayMenuScreen from "../../screens/profile/DisplayMenuScreen";
-import SettingsScreen from "../../screens/settings/SettingsScreen";
 import PrivacyPolicyScreen from "../../screens/policies/PrivacyPolicyScreen";
 import TermsOfServiceScreen from "../../screens/policies/TermsOfServiceScreen";
 import CopyrightPolicyScreen from "../../screens/policies/CopyrightScreen";
@@ -30,7 +28,6 @@ import EditEmailScreen from "../../screens/manageAccount/EditEmailScreen";
 import EditPasswordScreen from "../../screens/manageAccount/EditPasswordScreen";
 import EditYoutubeScreen from "../../screens/profile/EditYoutubeScreen";
 import EditInstagramScreen from "../../screens/profile/EditInstagramScreen";
-import { navigationRef } from "../rootNavigation.js/index.js";
 import UserTabs from "../userTabs/TabBar";
 import DeleteProfileScreen from "../../screens/manageAccount/DeleteProfileScreen";
 import SoundScreen from "../../screens/sounds/SoundScreen";
@@ -61,24 +58,14 @@ import GiftingScreen from "../../screens/gifting/Gifting";
 import FollowingListScreen from "../../screens/stats/FollowingListScreen";
 import FriendsListScreen from "../../screens/stats/FriendsListScreen";
 import CameraScreen from "../../screens/camera/CameraScreen";
-import { StyleSheet, View } from "react-native";
-import colors from "../../../config/colors";
+import { View } from "react-native";
 import FireRulesScreen from "../../screens/gifting/FireRulesScreen";
 import PrivacyScreen from "../../screens/settings/privacy/PrivacyScreen";
 import BlockedListScreen from "../../screens/settings/privacy/BlockedListScreen";
 import ActivityAccountScreen from "../../screens/settings/activity/ActivityAccountScreen";
+import colors from "../../../config/colors";
+import Root from "../../components/drawer/drawer-navigation";
 
-import FeedNavigation from "../feed/FeedNavigation";
-import { AntDesign } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import CustomDrawer from "../../components/CustomDrawer";
-
-const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function Route() {
@@ -95,421 +82,322 @@ export default function Route() {
   }
 
   {
-    /* Add Drawer.Navigation to a function.*/
   }
-  function Root() {
-    return (
-      <Drawer.Navigator
-        drawerContent={(props) => <CustomDrawer {...props} />}
-        screenOptions={{
-          headerShown: false,
-          drawerLabelStyle: { marginLeft: -20, fontSize: 12 },
-          drawerActiveBackgroundColor: colors.black,
-          drawerActiveTintColor: colors.white,
-          drawerInactiveTintColor: colors.green,
-        }}
-      >
-        <Drawer.Screen
-          name=" Home"
-          component={UserTabs}
-          options={{
-            drawerIcon: ({ color }) => (
-              <AntDesign name="home" size={21} color={color} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name=" Profile"
-          component={ProfileScreen}
-          options={{
-            drawerIcon: ({ color }) => (
-              <Feather name="user" size={20} color={color} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name=" Edit Profile"
-          component={EditProfileScreen}
-          options={{
-            drawerIcon: ({ color }) => (
-              <Feather name="edit-2" size={19} color={color} />
-            ),
-          }}
-        />
-        {/* <Drawer.Screen
-          name="Gifts"
-          component={GiftingScreen}
-          options={{
-            drawerIcon: ({ color }) => (
-              <MaterialCommunityIcons name="gift" size={20} color={color} />
-            ),
-          }}
-        /> */}
-
-        <Drawer.Screen
-          name=" Settings"
-          component={SettingsScreen}
-          options={{
-            drawerIcon: ({ color }) => (
-              <MaterialIcons name="settings" size={21} color={color} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="Account"
-          component={ManageAccountScreen}
-          options={{
-            drawerIcon: ({ color }) => (
-              <MaterialIcons
-                name="admin-panel-settings"
-                size={24}
-                color={color}
-              />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name=" Community Guidelines"
-          component={CommunityGuidelinesScreen}
-          options={{
-            drawerIcon: ({ color }) => (
-              <MaterialCommunityIcons
-                name="police-badge-outline"
-                size={21}
-                color={color}
-              />
-            ),
-          }}
-        />
-        {/* <Drawer.Screen name="Edit Profile" component={EditProfileScreen} /> */}
-      </Drawer.Navigator>
-    );
-  }
+  // Drawer Navigation
+  <Root />;
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator>
-        {auth.currentUser === null ? (
+    <Stack.Navigator>
+      {auth.currentUser === null ? (
+        <Stack.Screen
+          name="auth"
+          component={AuthScreen}
+          options={{ headerShown: false }}
+        />
+      ) : (
+        <>
           <Stack.Screen
-            name="auth"
-            component={AuthScreen}
+            name="root"
+            component={Root}
             options={{ headerShown: false }}
           />
-        ) : (
-          <>
-            <Stack.Screen
-              name="root"
-              component={Root}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="home"
-              component={UserTabs}
-              options={{ headerShown: false }}
-            />
+          <Stack.Screen
+            name="home"
+            component={UserTabs}
+            options={{ headerShown: false }}
+          />
 
-            <Stack.Screen
-              name="Cam"
-              component={CameraScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="savePost"
-              component={SavePostScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="userPosts"
-              component={VideoFeed}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="profileOther"
-              component={ProfileScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="edit"
-              component={EditProfileScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="messages"
-              component={MessageScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="editProfileField"
-              component={EditProfileFieldScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="market"
-              component={Market}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="phlokkMarketTools"
-              component={PhlokkMarketToolsScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="profile"
-              component={DisplayMenuScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="creator"
-              component={EditCreatorFieldScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="link"
-              component={EditLinkFieldScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="settingsScreen"
-              component={SettingsScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="activityAccount"
-              component={ActivityAccountScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="privacyScreen"
-              component={PrivacyScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="blockedKListScreen"
-              component={BlockedListScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="guidelines"
-              component={CommunityGuidelinesScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="terms"
-              component={TermsOfServiceScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="privacy"
-              component={PrivacyPolicyScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="copyright"
-              component={CopyrightPolicyScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="manageAccount"
-              component={ManageAccountScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="admission"
-              component={EditAdmissionScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="buyLink"
-              component={EditBuyLinkScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="donation"
-              component={EditDonationLinkScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="ads"
-              component={EditAdsScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="reviews"
-              component={ReviewScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="subscriptions"
-              component={SubscriptionScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="activity"
-              component={ActivityScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="phone"
-              component={EditPhoneScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="emailAddress"
-              component={EditEmailScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="profilePassword"
-              component={EditPasswordScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="youtubeLink"
-              component={EditYoutubeScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="instagramLink"
-              component={EditInstagramScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="deleteProfile"
-              component={DeleteProfileScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="sounds"
-              component={SoundScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="drafts"
-              component={DraftsScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="editPost"
-              component={EditPostScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="chatSingle"
-              component={ChatSingleScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="relationship"
-              component={RelationshipCategoryScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="eula"
-              component={EndUserLicenseAgreement}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="reports"
-              component={ReportScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="quotes"
-              component={EditQuotesFieldScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="bio"
-              component={BioFieldScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="comedyScreen"
-              component={ComedyScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="foodiesScreen"
-              component={FoodiesScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="cosplayScreen"
-              component={CosplayScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="dancersScreen"
-              component={DancersScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="designScreen"
-              component={DesignScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="fashionScreen"
-              component={FashionScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="fitnessScreen"
-              component={FitnessScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="inventionScreen"
-              component={InventionScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="lipSyncScreen"
-              component={LipSyncScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="musicianScreen"
-              component={MusicianScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="recording"
-              component={RecordingScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="audioPlay"
-              component={AudioPlay}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="buyGifts"
-              component={GiftingScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="followingList"
-              component={FollowingListScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="friendsList"
-              component={FriendsListScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="fireRules"
-              component={FireRulesScreen}
-              options={{ headerShown: false }}
-            />
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name="Cam"
+            component={CameraScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="savePost"
+            component={SavePostScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="userPosts"
+            component={VideoFeed}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="profileOther"
+            component={ProfileScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="edit"
+            component={EditProfileScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="messages"
+            component={MessageScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="editProfileField"
+            component={EditProfileFieldScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="market"
+            component={Market}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="phlokkMarketTools"
+            component={PhlokkMarketToolsScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="creator"
+            component={EditCreatorFieldScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="link"
+            component={EditLinkFieldScreen}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="activityAccount"
+            component={ActivityAccountScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="privacyScreen"
+            component={PrivacyScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="blockedKListScreen"
+            component={BlockedListScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="guidelines"
+            component={CommunityGuidelinesScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="terms"
+            component={TermsOfServiceScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="privacy"
+            component={PrivacyPolicyScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="copyright"
+            component={CopyrightPolicyScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="manageAccount"
+            component={ManageAccountScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="admission"
+            component={EditAdmissionScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="buyLink"
+            component={EditBuyLinkScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="donation"
+            component={EditDonationLinkScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ads"
+            component={EditAdsScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="reviews"
+            component={ReviewScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="subscriptions"
+            component={SubscriptionScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="activity"
+            component={ActivityScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="phone"
+            component={EditPhoneScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="emailAddress"
+            component={EditEmailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="profilePassword"
+            component={EditPasswordScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="youtubeLink"
+            component={EditYoutubeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="instagramLink"
+            component={EditInstagramScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="deleteProfile"
+            component={DeleteProfileScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="sounds"
+            component={SoundScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="drafts"
+            component={DraftsScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="editPost"
+            component={EditPostScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="chatSingle"
+            component={ChatSingleScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="relationship"
+            component={RelationshipCategoryScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="eula"
+            component={EndUserLicenseAgreement}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="reports"
+            component={ReportScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="quotes"
+            component={EditQuotesFieldScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="bio"
+            component={BioFieldScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="comedyScreen"
+            component={ComedyScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="foodiesScreen"
+            component={FoodiesScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="cosplayScreen"
+            component={CosplayScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="dancersScreen"
+            component={DancersScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="designScreen"
+            component={DesignScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="fashionScreen"
+            component={FashionScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="fitnessScreen"
+            component={FitnessScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="inventionScreen"
+            component={InventionScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="lipSyncScreen"
+            component={LipSyncScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="musicianScreen"
+            component={MusicianScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="recording"
+            component={RecordingScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="audioPlay"
+            component={AudioPlay}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="buyGifts"
+            component={GiftingScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="followingList"
+            component={FollowingListScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="friendsList"
+            component={FriendsListScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="fireRules"
+            component={FireRulesScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      )}
+    </Stack.Navigator>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.green,

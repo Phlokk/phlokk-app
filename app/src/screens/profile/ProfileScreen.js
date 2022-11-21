@@ -7,13 +7,15 @@ import colors from "../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import { useUserVideoFeed } from "../../services/posts";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { fetchGetUser } from "../../redux/sagas/requests/fetchUsers";
 import CustomImageModal from "../../components/Image/CustomImageModal";
 import ProfileSkeleton from "../../components/profile/postList/ProfileSkeleton";
 import { useIsFocused } from "@react-navigation/native";
+import { ThemeContext } from "../../theme/context";
 
 export default function ProfileScreen({ route }) {
+  const { theme, setTheme } = useContext(ThemeContext);
   const [postsToDisplay, setPostsToDisplay] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [popUpImage, setPopUpImage] = useState(false);
@@ -80,7 +82,12 @@ export default function ProfileScreen({ route }) {
 
   const ListHeader = useCallback(() => {
     return (
-      <View style={styles.container} edges={["top"]}>
+      <View
+        style={
+          theme == "light" ? styles.container_light : styles.container_dark
+        }
+        edges={["top"]}
+      >
         <ProfileHeader
           user={profile}
           setPopUpImage={setPopUpImage}
@@ -95,25 +102,61 @@ export default function ProfileScreen({ route }) {
   // This function will be unnecessary when actually loading those posts
   const convertTabNameToDisplayName = (tabName) => {
     if (tabName === "star") {
-      return "Favorite";
+      return (
+        <Text
+          style={theme == "light" ? styles.vidText_light : styles.vidText_dark}
+        >
+          Favorite
+        </Text>
+      );
     } else if (tabName === "bookmark") {
-      return "Saved";
+      return (
+        <Text
+          style={theme == "light" ? styles.vidText_light : styles.vidText_dark}
+        >
+          Saved
+        </Text>
+      );
     } else if (tabName === "private") {
-      return "Private";
+      return (
+        <Text
+          style={theme == "light" ? styles.vidText_light : styles.vidText_dark}
+        >
+          Private
+        </Text>
+      );
     } else if (tabName === "fire") {
-      return "Gifted";
+      return (
+        <Text
+          style={theme == "light" ? styles.vidText_light : styles.vidText_dark}
+        >
+          Gifted
+        </Text>
+      );
     }
   };
 
   if (!profile) {
-    return <SafeAreaView style={styles.container} edges={["top"]} />;
+    return (
+      <SafeAreaView
+        style={
+          theme == "light" ? styles.container_light : styles.container_dark
+        }
+        edges={["top"]}
+      />
+    );
   }
 
   if (loading && postsToDisplay.length === 0) {
     return <ProfileSkeleton />;
   } else {
     return (
-      <SafeAreaView style={styles.container} edges={["top"]}>
+      <SafeAreaView
+        style={
+          theme == "light" ? styles.container_light : styles.container_dark
+        }
+        edges={["top"]}
+      >
         <ProfileNavBar
           userProfile={profile}
           isCurrentUser={loggedInUser?._id === profile?._id}
@@ -170,7 +213,13 @@ export default function ProfileScreen({ route }) {
               left: 0,
             }}
           >
-            <Text style={{ color: "white", marginTop: 20, marginBottom: 190 }}>
+            <Text
+              style={
+                theme == "light"
+                  ? styles.comingSoon_light
+                  : styles.comingSoon_dark
+              }
+            >
               {convertTabNameToDisplayName(selectedTab)} videos coming soon.
             </Text>
           </View>
@@ -192,14 +241,34 @@ export default function ProfileScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
+  },
+  container_dark: {
+    flex: 1,
+    backgroundColor: colors.black,
   },
   text: {
     color: colors.green,
   },
   textPad: {
     padding: 10,
+  },
+  vidText_light: {
+    color: colors.black,
+  },
+  vidText_dark: {
+    color: colors.white,
+  },
+  comingSoon_light: {
+    color: colors.black,
+    marginTop: 20,
+    marginBottom: 190,
+  },
+  comingSoon_dark: {
+    color: colors.white,
+    marginTop: 20,
+    marginBottom: 190,
   },
 });

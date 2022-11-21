@@ -1,9 +1,11 @@
-// export const lightColors = {
-//   primary: "white",
-//   text: "black",
-// };
+// import colors from "../../config/colors";
 
-// export const darkColors = {
-//   primary: "black",
-//   text: "white",
-// };
+export const lightColors = {
+  primary: "#ffffff",
+  text: "#000000",
+};
+
+export const darkColors = {
+  primary: "#000000",
+  text: "#ffffff",
+};

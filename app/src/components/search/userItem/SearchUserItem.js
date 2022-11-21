@@ -1,10 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import React, { useContext } from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import colors from "../../../../config/colors";
 import VerifiedIcon from "../../common/VerifiedIcon";
+import { ThemeContext } from "../../../theme/context";
 
 export default function SearchUserItem({ item }) {
+  const { theme, setTheme } = useContext(ThemeContext);
   const navigation = useNavigation();
 
   return (
@@ -17,13 +19,25 @@ export default function SearchUserItem({ item }) {
       <View style={styles.verifiedRow}>
         {item.username !== null || !undefined ? (
           <Text>
-            <Text style={styles.text}>@{item.username}</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              @{item.username}
+            </Text>
             <View>{item && item.is_verified === 1 && <VerifiedIcon />}</View>
           </Text>
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
-        <Text style={styles.creatorText}>{item.creator_type}</Text>
+        <Text
+          style={
+            theme == "light"
+              ? styles.creatorText_light
+              : styles.creatorText_dark
+          }
+        >
+          {item.creator_type}
+        </Text>
       </View>
 
       <View>
@@ -58,7 +72,11 @@ const styles = StyleSheet.create({
     top: 1,
     marginHorizontal: 3,
   },
-  text: {
+  text_light: {
+    fontSize: 12,
+    color: colors.black,
+  },
+  text_dark: {
     fontSize: 12,
     color: colors.secondary,
   },
@@ -73,7 +91,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
-  creatorText: {
+  creatorText_light: {
+    color: colors.grey,
+    opacity: 0.4,
+    fontSize: 10,
+  },
+  creatorText_dark: {
     color: colors.secondary,
     opacity: 0.7,
     fontSize: 10,

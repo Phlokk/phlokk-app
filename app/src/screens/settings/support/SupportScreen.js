@@ -1,13 +1,16 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 // import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import CustomAlert from "../../../components/Alerts/CustomAlert";
+import { ThemeContext } from "../../../theme/context";
 
 export default function SupportScreen() {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const navigation = useNavigation();
   const [user, setUser] = useState("");
   const [knowledgeBase, setKnowledgeBase] = useState(false);
@@ -27,17 +30,19 @@ export default function SupportScreen() {
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >
-        <Text style={styles.text}>
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
           <MaterialCommunityIcons
             name="lead-pencil"
             size={14}
-            color={colors.white}
+            style={theme == "light" ? styles.icon_light : styles.icon_dark}
           />{" "}
           Report a problem
         </Text>
         <View style={styles.fieldValueContainer}>
           <Feather
-            style={styles.chevron}
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
             name="chevron-right"
             size={20}
             color={colors.secondary}
@@ -59,17 +64,19 @@ export default function SupportScreen() {
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >
-        <Text style={styles.text}>
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
           <MaterialCommunityIcons
             name="shield-plus"
             size={14}
-            color={colors.white}
+            style={theme == "light" ? styles.icon_light : styles.icon_dark}
           />{" "}
           Help Center
         </Text>
         <View style={styles.fieldValueContainer}>
           <Feather
-            style={styles.chevron}
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
             name="chevron-right"
             size={20}
             color={colors.secondary}
@@ -90,7 +97,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
-  text: {
+  text_light: {
+    color: colors.black,
+    fontSize: 12,
+  },
+  text_dark: {
     color: colors.white,
     fontSize: 12,
   },
@@ -100,7 +111,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     opacity: 0.1,
   },
-  chevron: {
+  chevron_light: {
+    color: colors.black,
+  },
+  chevron_dark: {
     opacity: 0.6,
+  },
+  icon_light: {
+    color: colors.black,
+  },
+  icon_dark: {
+    color: colors.white,
   },
 });

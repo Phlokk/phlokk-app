@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as SecureStore from "expo-secure-store";
 import axios from "../redux/apis/axiosDeclaration";
 import { types } from "../redux/constants";
@@ -16,13 +16,22 @@ import { Ionicons } from "@expo/vector-icons";
 import VerifiedIcon from "../components/common/VerifiedIcon";
 import CustomAlert from "../components/Alerts/CustomAlert";
 import colors from "../../config/colors";
+import { ThemeContext } from "../theme/context";
 
 const CustomDrawer = (props) => {
-  const auth = useSelector((state) => state.auth);
   const [user, setUser] = useState("");
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [setAccounts, isSetAccounts] = useState(false);
-  const [setTheme, isSetTheme] = useState(false);
+
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  const handleThemeChange = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  useEffect(() => {
+    console.log("theme changed");
+  }, [theme]);
 
   const dispatch = useDispatch();
 
@@ -50,9 +59,13 @@ const CustomDrawer = (props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
       <DrawerContentScrollView
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={
+          theme == "light" ? styles.container_light : styles.container_dark
+        }
         {...props}
       >
         <View style={styles.imageView}>
@@ -90,7 +103,11 @@ const CustomDrawer = (props) => {
 
         <View style={styles.usernameView}>
           {currentUser.username !== null ? (
-            <Text style={styles.username}>
+            <Text
+              style={
+                theme == "light" ? styles.usernameLight : styles.usernameDark
+              }
+            >
               @{currentUser.username}
               <View style={styles.verifiedIcon}>
                 {currentUser && currentUser.is_verified === 1 && (
@@ -105,19 +122,27 @@ const CustomDrawer = (props) => {
           )}
         </View>
         <View style={styles.balanceView}>
-          <Text style={styles.giftText}>Bank:</Text>
+          <Text style={theme == "light" ? styles.bankLight : styles.bankDark}>
+            Bank:
+          </Text>
           <TouchableOpacity style={styles.balanceView}>
             <Text style={styles.balance}> $0.00</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.balanceView}>
-          <Text style={styles.giftText}>Fire:</Text>
+          <Text style={theme == "light" ? styles.bankLight : styles.bankDark}>
+            Fire:
+          </Text>
           <TouchableOpacity style={styles.balanceView}>
             <Text style={styles.coinsText}> 0</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.drawerItem}>
+        <View
+          style={
+            theme == "light" ? styles.drawerItemDark : styles.drawerItemLight
+          }
+        >
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
@@ -125,31 +150,21 @@ const CustomDrawer = (props) => {
         <View style={styles.divider}></View>
         <TouchableOpacity
           style={{ paddingVertical: 15 }}
-          onPress={() => isSetTheme(true)}
+          onPress={handleThemeChange}
         >
-          <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={
-              <Text>Light & Dark Mode{"\n"}coming soon!</Text>
-            }
-            positiveBtn="Ok"
-            modalVisible={setTheme}
-            dismissAlert={isSetTheme}
-            animationType="fade"
-          />
           <View style={styles.iconBtmView}>
             <Text>
               <MaterialCommunityIcons
                 name="theme-light-dark"
                 size={15}
-                color={colors.secondary}
+                style={theme == "light" ? styles.icon_light : styles.icon_dark}
               />{" "}
             </Text>
-            <Text style={styles.bottomText}>Theme</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Theme
+            </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -158,9 +173,18 @@ const CustomDrawer = (props) => {
         >
           <View style={styles.iconBtmView}>
             <Text>
-              <MaterialIcons name="logout" size={15} color={colors.secondary} />{" "}
+              <MaterialIcons
+                name="logout"
+                size={15}
+                style={theme == "light" ? styles.icon_light : styles.icon_dark}
+              />{" "}
             </Text>
-            <Text style={styles.bottomText}> Logout</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              {" "}
+              Logout
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -169,13 +193,21 @@ const CustomDrawer = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container_dark: {
     flex: 1,
     backgroundColor: colors.black,
   },
-  contentContainer: {
-    backgroundColor: colors.black,
+  container_light: {
+    flex: 1,
+    backgroundColor: colors.white,
   },
+  icon_light: {
+    color: colors.black,
+  },
+  icon_dark: {
+    color: colors.white,
+  },
+
   avatar: {
     height: 50,
     width: 50,
@@ -183,16 +215,33 @@ const styles = StyleSheet.create({
     margin: 20,
     paddingLeft: 20,
   },
-  giftText: {
-    color: colors.white,
+  bankLight: {
+    color: colors.black,
     paddingLeft: 20,
     marginBottom: 10,
     fontSize: 12,
   },
-  drawerItem: {
+  bankDark: {
+    color: colors.secondary,
+    paddingLeft: 20,
+    marginBottom: 10,
+    fontSize: 12,
+  },
+  text_light: {
+    color: colors.black,
+  },
+  text_dark: {
+    color: colors.white,
+  },
+  drawerItemLight: {
     flex: 1,
     paddingTop: 10,
     backgroundColor: colors.black,
+  },
+  drawerItemDark: {
+    flex: 1,
+    paddingTop: 10,
+    backgroundColor: colors.white,
   },
   bottomView: {
     padding: 20,
@@ -208,7 +257,13 @@ const styles = StyleSheet.create({
   bottomText: {
     color: colors.secondary,
   },
-  username: {
+  usernameLight: {
+    fontSize: 14,
+    color: colors.black,
+    paddingLeft: 20,
+    marginBottom: 20,
+  },
+  usernameDark: {
     fontSize: 14,
     color: colors.white,
     paddingLeft: 20,

@@ -6,7 +6,6 @@ import {
   Placeholder,
 } from "react-native-loading-placeholder";
 import colors from "../../../../config/colors";
-import Colors from "../../../../config/colors";
 
 const { height, width } = Dimensions.get("window");
 
