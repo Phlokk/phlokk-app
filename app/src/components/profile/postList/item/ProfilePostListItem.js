@@ -15,7 +15,6 @@ import { deletePostById } from "../../../../services/posts";
 import { useQueryClient } from "react-query";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
-import LinearGradient from "react-native-linear-gradient";
 import CustomActivityIndicator from "../../../common/ActivityIndicator";
 
 export default function ProfilePostListItem({ item, index, posts, setPosts }) {
@@ -106,24 +105,6 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
           <CustomActivityIndicator />
         </View>
       )}
-      <View
-        pointerEvents="none"
-        style={[
-          styles.bottomGradientWrapper,
-          {
-            transform: [{ rotate: "40deg" }],
-          },
-        ]}
-      >
-        <LinearGradient
-          colors={["rgba(0,0,0,0)", "rgba(0,0,0,1.1)"]}
-          style={{
-            height: 50,
-            width: "100%",
-            marginLeft: -50,
-          }}
-        />
-      </View>
 
       <Text style={styles.playCountText}>
         <Ionicons
@@ -158,18 +139,11 @@ const styles = StyleSheet.create({
   },
   playCountText: {
     color: colors.white,
+    fontWeight: "bold",
     marginLeft: 5,
     fontSize: 11,
     position: "absolute",
     bottom: 3,
     left: 0,
-  },
-  bottomGradientWrapper: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 50,
-    marginLeft: -110,
   },
 });

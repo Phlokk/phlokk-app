@@ -13,6 +13,7 @@ import * as SplashScreen from "expo-splash-screen";
 // imports for notifications.js
 import * as Notifications from "expo-notifications";
 import { navigationRef } from "./app/src/navigation/rootNavigation.js/index";
+
 import { apiUrls } from "./app/src/globals";
 import axios from "./app/src/redux/apis/axiosDeclaration";
 import routes from "./app/src/navigation/routes";

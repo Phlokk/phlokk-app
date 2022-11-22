@@ -18,7 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { generalStyles } from "../../styles";
 import { ThemeContext } from "../../theme/context";
 
-import { REPORT_TICKET } from "@env";
+// import { REPORT_TICKET } from "@env";
 
 let categoryId = null;
 
@@ -105,20 +105,20 @@ const ReportScreen = ({ route, navigation }) => {
   };
 
   const submitForm = function () {
-    let post = route.params.post;
+    let postId = route.params.post;
 
     if (titleValue.trim() === "" || messageValue.trim() === "") {
       Alert.alert("Please fill out all of the fields.");
       return false;
     }
-    // change url of post API call, right now set on https://phlokk.com/test/ticket
+
     axios
-      .post("/api/support/create-ticket", {
+      .post("/api/support/create-ticket", "create", {
         title: titleValue,
         message: messageValue,
-        post: post._id,
+        post: postId,
         category_id: categoryId,
-        // customer_id: currentUser.uid
+        // user_id: currentUser.uid
       })
       .then(function (response) {
         Alert.alert(

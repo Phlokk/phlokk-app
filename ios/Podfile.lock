@@ -453,7 +453,7 @@ PODS:
     - React-RCTImage
   - RNShare (7.3.3):
     - React-Core
-  - RNSVG (12.4.4):
+  - RNSVG (13.6.0):
     - React-Core
   - RNVectorIcons (9.0.0):
     - React-Core
@@ -769,7 +769,7 @@ SPEC CHECKSUMS:
   RNReanimated: 0e5ef4a7e4e79f84efbe5b40771c31044c51e7d0
   RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
   RNShare: 3185c074441b7e8897014d95ba982434a0a024a1
-  RNSVG: ecd661f380a07ba690c9c5929c475a44f432d674
+  RNSVG: 3a79c0c4992213e4f06c08e62730c5e7b9e4dc17
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d

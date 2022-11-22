@@ -10,7 +10,7 @@ import { useUserVideoFeed } from "../../services/posts";
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import { fetchGetUser } from "../../redux/sagas/requests/fetchUsers";
 import CustomImageModal from "../../components/Image/CustomImageModal";
-import ProfileSkeleton from "../../components/profile/postList/ProfileSkeleton";
+import ProfileLoading from "../../components/profile/postList/ProfileLoading";
 import { useIsFocused } from "@react-navigation/native";
 import { ThemeContext } from "../../theme/context";
 
@@ -148,7 +148,7 @@ export default function ProfileScreen({ route }) {
   }
 
   if (loading && postsToDisplay.length === 0) {
-    return <ProfileSkeleton />;
+    return <ProfileLoading />;
   } else {
     return (
       <SafeAreaView
