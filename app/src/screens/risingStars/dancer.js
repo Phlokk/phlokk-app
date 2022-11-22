@@ -1,30 +1,50 @@
-
-
-import { View, StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
+import React, { useContext } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
 import RisingStarsNavBar from "../../components/general/profileNavBar/RisingStarsNavBar";
+import { ThemeContext } from "../../theme/context";
 
 export default function DancersScreen() {
+  const { theme, setTheme } = useContext(ThemeContext);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
       <RisingStarsNavBar title="Rising Stars Dancers " />
-      <Text style={styles.text}>Find your favorite rising star dancers on this channel:</Text>
+      <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+        Find your favorite rising star dancers on this channel:
+      </Text>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
   },
-  text: {
+  container_dark: {
+    flex: 1,
+    backgroundColor: colors.dark,
+  },
+  text_light: {
+    color: colors.black,
+    marginTop: 30,
+    margin: 20,
+    textAlign: "center",
+  },
+  text_dark: {
     color: colors.white,
     marginTop: 30,
     margin: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
-  
 });

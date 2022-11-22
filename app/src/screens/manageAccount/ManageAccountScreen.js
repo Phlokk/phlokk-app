@@ -1,14 +1,18 @@
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React from "react";
+import React, { useContext } from "react";
 import AccountNavBar from "../../components/general/manageAccount/AccountNavBar";
-import colors from "../../../config/colors"
+import colors from "../../../config/colors";
 import AccountControl from "./AccountControl";
+import { ThemeContext } from "../../theme/context";
 
 export default function ManageAccountScreen() {
- 
+  const { theme, setTheme } = useContext(ThemeContext);
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
       <AccountNavBar />
       <AccountControl />
     </SafeAreaView>
@@ -16,8 +20,12 @@ export default function ManageAccountScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      backgroundColor: colors.primary
-  }, 
+  container_light: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+  container_dark: {
+    flex: 1,
+    backgroundColor: colors.primary,
+  },
 });

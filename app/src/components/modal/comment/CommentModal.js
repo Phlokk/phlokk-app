@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   Image,
@@ -20,8 +20,11 @@ import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import uuid from "uuid-random";
+import { ThemeContext } from "../../../theme/context";
 
 function CommentModal({ post, onNewCommentSubmitted }) {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const commentTextInputRef = useRef();
 
   const [comment, setComment] = useState("");
@@ -132,8 +135,18 @@ function CommentModal({ post, onNewCommentSubmitted }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.postCountText}>{commentCount} comments</Text>
+    <View
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
+      <Text
+        style={
+          theme == "light"
+            ? styles.postCountText_light
+            : styles.postCountText_dark
+        }
+      >
+        {commentCount} comments
+      </Text>
 
       <View style={styles.containerInput}>
         {!user?.photo_thumb_url && !user?.photo_thumb_url ? (
@@ -205,10 +218,16 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
     padding: 10,
     justifyContent: "flex-end",
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
+    height: "60%",
+  },
+  container_dark: {
+    padding: 10,
+    justifyContent: "flex-end",
+    backgroundColor: colors.black,
     height: "60%",
   },
   containerInput: {
@@ -236,10 +255,14 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 50,
-    borderWidth: 1,
-    borderColor: "lightgray",
   },
-  postCountText: {
+  postCountText_light: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: colors.black,
+    textAlign: "center",
+  },
+  postCountText_dark: {
     fontSize: 10,
     fontWeight: "bold",
     color: colors.secondary,

@@ -44,31 +44,55 @@ const TabBar = ({ state, navigation }) => {
         <AntDesign
           name="home"
           size={25}
-          color={state.index === 0 ? colors.green : colors.secondary}
+          color={
+            state.index === 0
+              ? colors.green
+              : theme == "light"
+              ? colors.black
+              : colors.secondary
+          }
           onPress={() => onPress(0)}
         />
         <EvilIcons
           name="search"
           size={33}
-          color={state.index === 1 ? colors.green : colors.secondary}
+          color={
+            state.index === 1
+              ? colors.green
+              : theme == "light"
+              ? colors.black
+              : colors.secondary
+          }
           onPress={() => onPress(1)}
         />
         <MaterialCommunityIcons
           name="fingerprint"
           size={40}
-          color={colors.secondary}
+          color={theme == "light" ? colors.black : colors.secondary}
           onPress={() => navigation.navigate("Cam")}
         />
         <Feather
           name="message-square"
           size={25}
-          color={state.index === 2 ? colors.green : colors.secondary}
+          color={
+            state.index === 2
+              ? colors.green
+              : theme == "light"
+              ? colors.black
+              : colors.secondary
+          }
           onPress={() => onPress(2)}
         />
         <Feather
           name="user"
           size={25}
-          color={state.index === 3 ? colors.green : colors.secondary}
+          color={
+            state.index === 3
+              ? colors.green
+              : theme == "light"
+              ? colors.black
+              : colors.secondary
+          }
           onPress={() => onPress(3)}
         />
       </View>

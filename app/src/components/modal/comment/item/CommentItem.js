@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,7 @@ import {
 } from "../../../../services/posts";
 import { likeComment, likeCommentReply } from "../../../../redux/actions/likes";
 import VerifiedIcon from "../../../common/VerifiedIcon";
+import { ThemeContext } from "../../../../theme/context";
 
 const CommentItem = ({
   comment,
@@ -30,6 +31,8 @@ const CommentItem = ({
   onReplyPressed,
   isReply,
 }) => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
 
@@ -93,21 +96,25 @@ const CommentItem = ({
 
   return (
     <View style={styles.container}>
-        <TouchableOpacity
-          disabled={isActiveAccount ? user._id == comment.user._id : null}
-          onPress={() => {
-            isActiveAccount ?
-            navigation.navigate("feedProfile", {
-              initialUser: comment.user,
-            }) : null;
-          }}
-        >
-          <Image
-            style={styles.avatar}
-            source={isActiveAccount && comment.user?.photo_thumb_url ? { uri: comment.user?.photo_thumb_url} : require("../../../../../assets/userImage.png")}
-          />
-        </TouchableOpacity>
-    
+      <TouchableOpacity
+        disabled={isActiveAccount ? user._id == comment.user._id : null}
+        onPress={() => {
+          isActiveAccount
+            ? navigation.navigate("feedProfile", {
+                initialUser: comment.user,
+              })
+            : null;
+        }}
+      >
+        <Image
+          style={styles.avatar}
+          source={
+            isActiveAccount && comment.user?.photo_thumb_url
+              ? { uri: comment.user?.photo_thumb_url }
+              : require("../../../../../assets/userImage.png")
+          }
+        />
+      </TouchableOpacity>
 
       <Pressable
         style={styles.containerText}
@@ -126,38 +133,59 @@ const CommentItem = ({
           <TouchableOpacity
             disabled={isActiveAccount ? user._id == comment.user._id : null}
             onPress={() => {
-              isActiveAccount ?
-              navigation.navigate("feedProfile", {
-                initialUser: comment.user,
-              }) : null;
+              isActiveAccount
+                ? navigation.navigate("feedProfile", {
+                    initialUser: comment.user,
+                  })
+                : null;
             }}
           >
-            <Text style={styles.username}>@{isActiveAccount ? comment.user.username : "deleted user"}</Text>
+            <Text
+              style={
+                theme == "light" ? styles.username_light : styles.username_dark
+              }
+            >
+              @{isActiveAccount ? comment.user.username : "deleted user"}
+            </Text>
           </TouchableOpacity>
           {comment.user && comment.user.is_verified === 1 && <VerifiedIcon />}
         </View>
-        <Text style={styles.textComment}>{comment.message}</Text>
+        <Text
+          style={
+            theme == "light"
+              ? styles.textComment_light
+              : styles.textComment_dark
+          }
+        >
+          {comment.message}
+        </Text>
         <View style={styles.replyRow}>
-          <Text style={styles.date}>
+          <Text style={theme == "light" ? styles.date_light : styles.date_dark}>
             {comment.created_at
               ? timeSince(new Date(comment.created_at))
               : "Now"}
           </Text>
 
-
-          { isActiveAccount && (
+          {isActiveAccount && (
             <TouchableOpacity
-            onPress={() => {
-              onReplyPressed(comment);
-            }}
-          >
-            <Text style={styles.textReplies}>Reply</Text>
-          </TouchableOpacity>
+              onPress={() => {
+                onReplyPressed(comment);
+              }}
+            >
+              <Text
+                style={
+                  theme == "light"
+                    ? styles.textReplies_light
+                    : styles.textReplies_dark
+                }
+              >
+                Reply
+              </Text>
+            </TouchableOpacity>
           )}
-           
         </View>
       </Pressable>
-      {comment._id.indexOf("-temp") === -1 && isActiveAccount &&(
+      {comment._id.indexOf("-temp") === -1 && isActiveAccount && (
         <View style={styles.starRow}>
           <TouchableOpacity onPress={likeButtonHandler}>
             <MaterialCommunityIcons
@@ -166,7 +194,13 @@ const CommentItem = ({
               name={isLiked ? "star" : "star-outline"}
             />
           </TouchableOpacity>
-          <Text style={styles.starCount}>{likeCount}</Text>
+          <Text
+            style={
+              theme == "light" ? styles.starCount_light : styles.starCount_dark
+            }
+          >
+            {likeCount}
+          </Text>
         </View>
       )}
 
@@ -203,25 +237,49 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5,
   },
-  username: {
+  username_light: {
+    flex: 1,
+    color: colors.lightBlack,
+    fontSize: 11,
+  },
+  username_dark: {
     flex: 1,
     color: colors.green,
     fontSize: 11,
   },
-  textComment: {
+  textComment_light: {
+    color: colors.lightBlack,
+    paddingRight: 40,
+    fontSize: 12,
+    marginTop: 2,
+    opacity: 0.8,
+  },
+  textComment_dark: {
     color: colors.secondary,
     paddingRight: 40,
     fontSize: 12,
     marginTop: 2,
     opacity: 0.9,
   },
-  textReplies: {
+  textReplies_light: {
+    color: colors.lightBlack,
+    paddingRight: 20,
+    fontSize: 10,
+    marginHorizontal: 5,
+    opacity: 0.6,
+  },
+  textReplies_dark: {
     color: colors.secondary,
     paddingRight: 20,
     fontSize: 10,
     marginHorizontal: 5,
   },
-  date: {
+  date_light: {
+    color: colors.lightBlack,
+    fontSize: 9,
+    opacity: 0.6,
+  },
+  date_dark: {
     color: colors.secondary,
     fontSize: 9,
   },
@@ -229,8 +287,6 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 50,
-    borderWidth: 1,
-    borderColor: colors.secondary,
   },
   phlokkVerified: {
     width: 10,
@@ -240,7 +296,12 @@ const styles = StyleSheet.create({
   starRow: {
     alignItems: "center",
   },
-  starCount: {
+  starCount_light: {
+    color: colors.black,
+    fontSize: 10,
+    paddingTop: 5,
+  },
+  starCount_dark: {
     color: colors.secondary,
     fontSize: 10,
     paddingTop: 5,

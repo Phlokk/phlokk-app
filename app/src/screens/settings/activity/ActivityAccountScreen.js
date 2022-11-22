@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import SettingsNavBar from "../../../components/general/settings/SettingsNavBar";
@@ -20,8 +20,11 @@ import {
   disableNotificationsForDevice,
   sendTestPushNotification,
 } from "../../../services/notifications";
+import { ThemeContext } from "../../../theme/context";
 
 export default function ActivityAccountScreen() {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const auth = useSelector((state) => state.auth);
   const [user, setUser] = useState("");
 
@@ -59,7 +62,9 @@ export default function ActivityAccountScreen() {
   loadNotificationState();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
       <SettingsNavBar title="Notifications" />
       <ScrollView style={styles.fieldsContainer}>
         <View
@@ -69,7 +74,9 @@ export default function ActivityAccountScreen() {
           // This setting is used for turning on and off notifications in the actual Phlokk app
           // onPress={() => Linking.openSettings()}
         >
-          <Text style={styles.text}>Push Notifications</Text>
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+            Push Notifications
+          </Text>
           <View style={styles.fieldValueContainer}>
             <Switch
               style={styles.switch}
@@ -82,7 +89,11 @@ export default function ActivityAccountScreen() {
         </View>
         {isNotificationsEnabled && (
           <>
-            <View style={styles.divider}></View>
+            <View
+              style={
+                theme == "light" ? styles.divider_light : styles.divider_dark
+              }
+            ></View>
             <View
               style={styles.fieldItemContainer}
               autoCapitalize="none"
@@ -114,9 +125,13 @@ export default function ActivityAccountScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
+  },
+  container_dark: {
+    flex: 1,
+    backgroundColor: colors.black,
   },
   fieldsContainer: {
     marginTop: 20,
@@ -133,7 +148,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  text: {
+  text_light: {
+    color: colors.black,
+    fontSize: 12,
+  },
+  text_dark: {
     color: colors.white,
     fontSize: 12,
   },
@@ -144,7 +163,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     opacity: 0.3,
   },
-  divider: {
+  divider_light: {
+    borderBottomWidth: 0.3,
+    borderColor: colors.black,
+    marginTop: 10,
+    opacity: 0.2,
+  },
+  divider_dark: {
     borderBottomWidth: 0.3,
     borderColor: colors.secondary,
     marginTop: 10,

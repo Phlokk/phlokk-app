@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../../../config/colors";
 import { useAtom } from "jotai";
@@ -8,11 +8,13 @@ import routes from "../../navigation/routes";
 import { getPost } from "../../services/posts";
 import FastImage from "react-native-fast-image";
 import { useNavigation } from "@react-navigation/core";
-
 import NotificationItemSecondaryAvatar from "./NotificationItemSecondaryAvatar";
 import CustomActivityIndicator from "../../components/common/ActivityIndicator";
+import { ThemeContext } from "../../theme/context";
 
 const NotificationItem = ({ navigation, item }) => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   /**
    * Notification "types"
    * 1 = DEVICE REGISTRATION; // no navigation / navigate to "session list"
@@ -90,7 +92,13 @@ const NotificationItem = ({ navigation, item }) => {
           )}
         </TouchableOpacity>
         <View style={styles.notificationView}>
-          <Text style={styles.usernameView}>{item.user?.username}</Text>
+          {/* <Text
+            style={
+              theme == "light" ? styles.username_light : styles.username_dark
+            }
+          >
+            {item.user?.username}
+          </Text> */}
 
           {/* TODO still need to hide all but 4 avatars and show button that connects to FlatList of all users who liked, commented on post. Also add thumbnail for each post */}
           <View style={styles.iconRow}>
@@ -101,11 +109,21 @@ const NotificationItem = ({ navigation, item }) => {
 
           <View style={styles.mentionsView}>
             <TouchableOpacity>
-              <Text style={styles.mentionsText}>{item.body}</Text>
+              <Text
+                style={
+                  theme == "light"
+                    ? styles.mentionText_light
+                    : styles.mentionText_dark
+                }
+              >
+                {item.body}
+              </Text>
             </TouchableOpacity>
           </View>
           <View>
-            <Text style={styles.date}>
+            <Text
+              style={theme == "light" ? styles.date_light : styles.date_dark}
+            >
               {item.created_at ? timeSince(new Date(item.created_at)) : "Now"}
             </Text>
           </View>
@@ -132,15 +150,31 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
   },
-  usernameView: {
-    color: colors.white,
+  username_light: {
+    color: colors.black,
+    fontSize: 12,
   },
-  mentionsText: {
+  username_dark: {
+    color: colors.white,
+    fontSize: 12,
+  },
+  mentionText_light: {
+    fontSize: 10,
+    marginTop: 5,
+    color: colors.black,
+  },
+  mentionText_dark: {
     fontSize: 10,
     marginTop: 5,
     color: colors.green,
   },
-  date: {
+  date_light: {
+    fontSize: 10,
+    marginTop: 5,
+    color: colors.grey,
+    opacity: 0.8,
+  },
+  date_dark: {
     fontSize: 10,
     marginTop: 5,
     color: colors.secondary,
@@ -150,8 +184,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: 50,
-    borderWidth: 1,
-    borderColor: "lightgray",
   },
   avatarList: {
     height: 30,

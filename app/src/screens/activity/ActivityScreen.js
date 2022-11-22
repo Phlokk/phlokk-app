@@ -1,30 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ActivityNavBar from "../../components/general/activityNav/ActivityNavBar";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  Dimensions,
-} from "react-native";
+import { View, StyleSheet, Text, FlatList } from "react-native";
 import colors from "../../../config/colors";
-import axios from "../../redux/apis/axiosDeclaration";
 import {
   clearNotificationListener,
   getNotifications,
   notificationListener,
 } from "../../services/notifications";
 import NotificationItem from "./NotificationItem";
-import {
-  Placeholder,
-  PlaceholderContainer,
-} from "react-native-loading-placeholder";
+import LottieView from "lottie-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../../../config/colors";
 import { useIsFocused } from "@react-navigation/native";
+import { ThemeContext } from "../../theme/context";
 
 export default function ActivityScreen({ navigation }) {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const [notificationList, setNotificationList] = useState("");
   const [isLoading, setIsLoading] = useState();
   const isFocused = useIsFocused();
@@ -57,7 +49,6 @@ export default function ActivityScreen({ navigation }) {
   };
 
   const renderItem = ({ item, index }) => {
-    // console.log(item);
     return (
       <NotificationItem index={index} item={item} navigation={navigation} />
     );
@@ -77,74 +68,47 @@ export default function ActivityScreen({ navigation }) {
 
   if (isLoading) {
     return (
-      <View style={styles.container}>
+      <View
+        style={
+          theme == "light" ? styles.container_light : styles.container_dark
+        }
+      >
         <ActivityNavBar title={"Activity feed"} />
-        <PlaceholderContainer
-          style={styles.placeholderContainer}
-          animatedComponent={<Gradient />}
-          duration={1250}
-          replace={true}
-        >
-          <View style={{ width: "100%", marginLeft: 24 }}>
-            <Placeholder
-              style={{
-                ...styles.placeholder,
-                width: "94%",
-                height: 80,
-              }}
-            />
-            <Placeholder
-              style={{
-                ...styles.placeholder,
-                width: "94%",
-                height: 80,
-                marginTop: 24,
-              }}
-            />
-            <Placeholder
-              style={{
-                ...styles.placeholder,
-                width: "94%",
-                height: 80,
-                marginTop: 24,
-              }}
-            />
-            <Placeholder
-              style={{
-                ...styles.placeholder,
-                width: "94%",
-                height: 80,
-                marginTop: 24,
-              }}
-            />
-            <Placeholder
-              style={{
-                ...styles.placeholder,
-                width: "94%",
-                height: 80,
-                marginTop: 24,
-              }}
-            />
-            <Placeholder
-              style={{
-                ...styles.placeholder,
-                width: "94%",
-                height: 80,
-                marginTop: 24,
-              }}
-            />
-          </View>
-        </PlaceholderContainer>
+        <View style={styles.lottieView}>
+          <LottieView
+            autoPlay
+            style={{
+              alignItems: "center",
+              width: 200,
+              height: 200,
+            }}
+            // Find more Lottie files at https://lottiefiles.com/featured
+            source={require("../../../assets/animations/splashAnimation.json")}
+          />
+          <Text
+            style={theme == "light" ? styles.splash_light : styles.splash_dark}
+          >
+            Loading Notifications...
+          </Text>
+        </View>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
       <ActivityNavBar title={"Activity feed"} />
       {notificationList.length === 0 && (
         <View style={styles.alertView}>
-          <Text style={styles.alertText}>You have no notifications</Text>
+          <Text
+            style={
+              theme == "light" ? styles.alertText_light : styles.alertText_dark
+            }
+          >
+            You have no notifications!
+          </Text>
         </View>
       )}
       <FlatList
@@ -159,9 +123,13 @@ export default function ActivityScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_dark: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.black,
+  },
+  container_light: {
+    flex: 1,
+    backgroundColor: colors.white,
   },
   userContainer: {
     flex: 1,
@@ -174,7 +142,12 @@ const styles = StyleSheet.create({
     color: colors.white,
     marginTop: 30,
   },
-  alertText: {
+  alertText_light: {
+    color: colors.black,
+    padding: 20,
+    fontSize: 16,
+  },
+  alertText_dark: {
     color: colors.white,
     padding: 20,
     fontSize: 16,
@@ -190,6 +163,18 @@ const styles = StyleSheet.create({
   placeholder: {
     opacity: 0.2,
     backgroundColor: Colors.lightBlack,
+    marginTop: 24,
     borderRadius: 5,
+    width: "94%",
+    height: 80,
+  },
+  lottieView: {
+    alignItems: "center",
+  },
+  splash_light: {
+    color: colors.lightBlack,
+  },
+  splash_dark: {
+    color: colors.green,
   },
 });

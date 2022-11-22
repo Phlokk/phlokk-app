@@ -2,7 +2,16 @@ import { StyleSheet } from "react-native";
 import colors from "../../config/colors";
 
 const generalStyles = StyleSheet.create({
-  textInput: {
+  textInput_light: {
+    backgroundColor: colors.white,
+    borderColor: colors.secondary,
+    borderBottomWidth: 1,
+    borderStyle: "solid",
+    paddingVertical: 10,
+    padding: 2,
+    color: colors.black,
+  },
+  textInput_dark: {
     backgroundColor: colors.black,
     borderColor: colors.secondary,
     borderBottomWidth: 1,
@@ -11,7 +20,20 @@ const generalStyles = StyleSheet.create({
     padding: 2,
     color: colors.secondary,
   },
-  textInputReport: {
+  textInputReport_light: {
+    backgroundColor: colors.lightBlack,
+    borderWidth: 0.5,
+    borderRadius: 5,
+    borderStyle: "solid",
+    paddingVertical: 10,
+    padding: 10,
+    color: colors.white,
+    height: 150,
+    textAlignVertical: "top",
+    marginVertical: 10,
+    marginTop: 20,
+  },
+  textInputReport_dark: {
     backgroundColor: "#0C0C0C",
     borderWidth: 0.5,
     borderRadius: 5,
@@ -24,7 +46,16 @@ const generalStyles = StyleSheet.create({
     marginVertical: 10,
     marginTop: 20,
   },
-  textInputTitle: {
+  textInputTitle_light: {
+    backgroundColor: colors.lightBlack,
+    borderColor: colors.secondary,
+    borderRadius: 5,
+    borderStyle: "solid",
+    paddingVertical: 10,
+    padding: 10,
+    color: colors.white,
+  },
+  textInputTitle_dark: {
     backgroundColor: "#0C0C0C",
     borderColor: colors.secondary,
     borderRadius: 5,

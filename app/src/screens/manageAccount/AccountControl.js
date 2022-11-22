@@ -1,18 +1,15 @@
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import AccountNavBar from "../../components/general/manageAccount/AccountNavBar";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import AccountInformation from "./AccountInformation";
-import CustomAlert from "../../components/Alerts/CustomAlert"
+import CustomAlert from "../../components/Alerts/CustomAlert";
+import { ThemeContext } from "../../theme/context";
 
 const AccountControl = () => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const [businessAccount, setBusinessAccount] = useState(false);
   const [deleteAccount, setDeleteAccount] = useState(false);
 
@@ -21,10 +18,20 @@ const AccountControl = () => {
     <View style={styles.fieldsContainer}>
       <AccountInformation />
 
-      <View style={styles.divider}></View>
-      <Text style={styles.socialText}>ACCOUNT CONTROL</Text>
+      <View
+        style={theme == "light" ? styles.divider_light : styles.divider_dark}
+      ></View>
+      <Text
+        style={
+          theme == "light" ? styles.socialText_light : styles.socialText_dark
+        }
+      >
+        ACCOUNT CONTROL
+      </Text>
       <CustomAlert
-        customAlertMessage={<Text>Business & Analytics{"\n"}coming in official release</Text>}
+        customAlertMessage={
+          <Text>Business & Analytics{"\n"}coming in official release</Text>
+        }
         positiveBtn="Ok"
         modalVisible={businessAccount}
         dismissAlert={setBusinessAccount}
@@ -34,13 +41,24 @@ const AccountControl = () => {
         style={styles.fieldItemContainer}
         onPress={() => setBusinessAccount(true)}
       >
-        <Text style={styles.text}>Switch to Business Account</Text>
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+          Switch to Business Account
+        </Text>
         <View style={styles.fieldValueContainer}>
-          <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
+          <Feather
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
+            name="chevron-right"
+            size={20}
+            color={colors.secondary}
+          />
         </View>
       </TouchableOpacity>
       <CustomAlert
-        customAlertMessage={<Text>Delete account{"\n"}coming in official release</Text>}
+        customAlertMessage={
+          <Text>Delete account{"\n"}coming in official release</Text>
+        }
         positiveBtn="Ok"
         modalVisible={deleteAccount}
         dismissAlert={setDeleteAccount}
@@ -48,16 +66,25 @@ const AccountControl = () => {
       />
       <TouchableOpacity
         style={styles.fieldItemContainer}
-        onPress={() =>setDeleteAccount(true)}
+        onPress={() => setDeleteAccount(true)}
         // onPress={() =>
         //   navigation.navigate(routes.DELETE_PROFILE, {
         //     title: "Delete account",
         //   })
         // }
       >
-        <Text style={styles.text}>Delete account</Text>
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+          Delete account
+        </Text>
         <View style={styles.fieldValueContainer}>
-          <Feather style={styles.chevron} name="chevron-right" size={20} color={colors.secondary} />
+          <Feather
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
+            name="chevron-right"
+            size={20}
+            color={colors.secondary}
+          />
         </View>
       </TouchableOpacity>
     </View>
@@ -84,26 +111,45 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  text: {
+  text_light: {
+    color: colors.black,
+    fontSize: 12,
+  },
+  text_dark: {
     color: colors.white,
     fontSize: 12,
   },
-  socialText: {
-    color: colors.white,
-    fontWeight: 'bold',
+  socialText_light: {
+    color: colors.black,
+    fontWeight: "bold",
     fontSize: 8,
     marginTop: 20,
-    opacity: 0.5
+    opacity: 0.5,
   },
-  divider: {
+  socialText_dark: {
+    color: colors.white,
+    fontWeight: "bold",
+    fontSize: 8,
+    marginTop: 20,
+    opacity: 0.5,
+  },
+  divider_light: {
+    borderBottomWidth: 0.3,
+    borderColor: colors.black,
+    marginTop: 10,
+    opacity: 0.2,
+  },
+  divider_dark: {
     borderBottomWidth: 0.3,
     borderColor: colors.secondary,
     marginTop: 10,
     opacity: 0.2,
   },
-  chevron:{
+  chevron_light: {
+    color: colors.black,
+  },
+  chevron_dark: {
     opacity: 0.6,
-
   },
 });
 

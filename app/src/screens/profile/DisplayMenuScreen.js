@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -7,8 +7,11 @@ import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
+import { ThemeContext } from "../../theme/context";
 
 const RenderButton = ({ onPress, isSelected, icon }) => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   return (
     <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
       {typeof icon === "string" && (
@@ -18,7 +21,13 @@ const RenderButton = ({ onPress, isSelected, icon }) => {
           }
           name={icon}
           size={24}
-          color={isSelected ? colors.green : colors.secondary}
+          color={
+            isSelected
+              ? colors.green
+              : theme == "light"
+              ? colors.black
+              : colors.secondary
+          }
         />
       )}
       {typeof icon !== "string" && icon}
@@ -28,6 +37,8 @@ const RenderButton = ({ onPress, isSelected, icon }) => {
 };
 
 function DisplayMenuScreen({ user, onTabSelected }) {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const [currentUser] = useAtom(userAtom);
   const [selectedTab, setSelectedTab] = useState("cloud");
 
@@ -64,7 +75,13 @@ function DisplayMenuScreen({ user, onTabSelected }) {
               }
               name="star"
               size={24}
-              color={selectedTab === "star" ? colors.green : colors.secondary}
+              color={
+                selectedTab === "star"
+                  ? colors.green
+                  : theme == "light"
+                  ? colors.black
+                  : colors.secondary
+              }
             />
           }
         />
@@ -96,7 +113,11 @@ function DisplayMenuScreen({ user, onTabSelected }) {
               name="lock"
               size={24}
               color={
-                selectedTab === "private" ? colors.green : colors.secondary
+                selectedTab === "private"
+                  ? colors.green
+                  : theme == "light"
+                  ? colors.black
+                  : colors.secondary
               }
             />
           }
@@ -117,7 +138,13 @@ function DisplayMenuScreen({ user, onTabSelected }) {
               }
               name="fire"
               size={24}
-              color={selectedTab === "fire" ? colors.green : colors.secondary}
+              color={
+                selectedTab === "fire"
+                  ? colors.green
+                  : theme == "light"
+                  ? colors.black
+                  : colors.secondary
+              }
             />
           }
         />
@@ -168,6 +195,12 @@ const styles = StyleSheet.create({
     height: 2,
     backgroundColor: colors.green,
     marginTop: 6,
+  },
+  star_light: {
+    color: colors.lightBlack,
+  },
+  star_dark: {
+    color: colors.secondary,
   },
 });
 

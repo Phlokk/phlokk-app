@@ -1,20 +1,29 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
+import { ThemeContext } from "../../theme/context";
 
 const AccountInformation = () => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const [phoneNumber, setPhoneNumber] = useState(false);
   const [email, setEmail] = useState(false);
   const [password, setPassword] = useState(false);
 
   return (
     <View>
-      <Text style={styles.socialText}>ACCOUNT INFORMATION</Text>
+      <Text
+        style={
+          theme == "light" ? styles.socialText_light : styles.socialText_dark
+        }
+      >
+        ACCOUNT INFORMATION
+      </Text>
       <CustomAlert
         customAlertMessage={<Text>Add phone number{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
@@ -27,10 +36,14 @@ const AccountInformation = () => {
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >
-        <Text style={styles.text}>Phone number</Text>
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+          Phone number
+        </Text>
         <View style={styles.fieldValueContainer}>
           <Feather
-            style={styles.chevron}
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
             name="chevron-right"
             size={20}
             color={colors.secondary}
@@ -49,10 +62,14 @@ const AccountInformation = () => {
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >
-        <Text style={styles.text}>Email</Text>
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+          Email
+        </Text>
         <View style={styles.fieldValueContainer}>
           <Feather
-            style={styles.chevron}
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
             name="chevron-right"
             size={20}
             color={colors.secondary}
@@ -71,10 +88,14 @@ const AccountInformation = () => {
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >
-        <Text style={styles.text}>Password</Text>
+        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+          Password
+        </Text>
         <View style={styles.fieldValueContainer}>
           <Feather
-            style={styles.chevron}
+            style={
+              theme == "light" ? styles.chevron_light : styles.chevron_dark
+            }
             name="chevron-right"
             size={20}
             color={colors.secondary}
@@ -96,18 +117,32 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  text: {
+  text_light: {
+    color: colors.black,
+    fontSize: 12,
+  },
+  text_dark: {
     color: colors.white,
     fontSize: 12,
   },
-  socialText: {
+  socialText_light: {
+    color: colors.black,
+    fontWeight: "bold",
+    fontSize: 8,
+    marginTop: 20,
+    opacity: 0.5,
+  },
+  socialText_dark: {
     color: colors.white,
     fontWeight: "bold",
     fontSize: 8,
     marginTop: 20,
     opacity: 0.5,
   },
-  chevron: {
+  chevron_light: {
+    color: colors.black,
+  },
+  chevron_dark: {
     opacity: 0.6,
   },
 });

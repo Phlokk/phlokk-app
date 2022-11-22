@@ -9,13 +9,15 @@ import {
   Keyboard,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "../../redux/apis/axiosDeclaration";
 
 import colors from "../../../config/colors";
 import PostNavBar from "../../components/general/postNav/PostNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { generalStyles } from "../../styles";
+import { ThemeContext } from "../../theme/context";
+
 import { REPORT_TICKET } from "@env";
 
 let categoryId = null;
@@ -88,6 +90,7 @@ const ReportScreen = ({ route, navigation }) => {
     },
     { id: 11, key: "cat12", value: false, category: "other", selected: false },
   ]);
+  const { theme, setTheme } = useContext(ThemeContext);
   const [titleValue, setTitleValue] = useState("");
   const [messageValue, setMessageValue] = useState("");
 
@@ -110,7 +113,7 @@ const ReportScreen = ({ route, navigation }) => {
     }
     // change url of post API call, right now set on https://phlokk.com/test/ticket
     axios
-      .post('/api/support/create-ticket', {
+      .post("/api/support/create-ticket", {
         title: titleValue,
         message: messageValue,
         post: post._id,
@@ -128,7 +131,9 @@ const ReportScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
       <PostNavBar title="Report" />
       <ScrollView>
         <TouchableWithoutFeedback
@@ -138,7 +143,11 @@ const ReportScreen = ({ route, navigation }) => {
         >
           <View style={styles.reportView}>
             <TextInput
-              style={generalStyles.textInputTitle}
+              style={
+                theme == "light"
+                  ? generalStyles.textInputTitle_light
+                  : generalStyles.textInputTitle_dark
+              }
               placeholder="Subject:"
               placeholderTextColor={colors.secondary}
               autoCapitalize="none"
@@ -149,7 +158,11 @@ const ReportScreen = ({ route, navigation }) => {
               onChangeText={setTitleValue}
             />
             <TextInput
-              style={generalStyles.textInputReport}
+              style={
+                theme == "light"
+                  ? generalStyles.textInputReport_light
+                  : generalStyles.textInputReport_dark
+              }
               placeholder="Reason for report..."
               placeholderTextColor={colors.secondary}
               autoCapitalize="none"
@@ -162,18 +175,38 @@ const ReportScreen = ({ route, navigation }) => {
               onChangeText={setMessageValue}
             />
             <View>
-              <Text style={styles.selectText}>Select category</Text>
+              <Text
+                style={
+                  theme == "light"
+                    ? styles.selectText_light
+                    : styles.selectText_dark
+                }
+              >
+                Select category
+              </Text>
             </View>
 
             {categories.map((item) => (
               <View style={styles.radioButtonContainer} key={item.id}>
                 <TouchableOpacity onPress={() => onRadioBtnClick(item)}>
-                  <Text style={styles.radioButtonText}>{item.category}</Text>
+                  <Text
+                    style={
+                      theme == "light"
+                        ? styles.radioButtonText_light
+                        : styles.radioButtonText_dark
+                    }
+                  >
+                    {item.category}
+                  </Text>
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}></View>
                 <TouchableOpacity
                   onPress={() => onRadioBtnClick(item)}
-                  style={styles.radioButton}
+                  style={
+                    theme == "light"
+                      ? styles.radioButton_light
+                      : styles.radioButton_dark
+                  }
                 >
                   {item.selected ? (
                     <View style={styles.radioButtonIcon} />
@@ -200,9 +233,13 @@ const ReportScreen = ({ route, navigation }) => {
 export default ReportScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  container_dark: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.black,
+  },
+  container_light: {
+    flex: 1,
+    backgroundColor: colors.white,
   },
 
   text: {
@@ -210,7 +247,13 @@ const styles = StyleSheet.create({
     padding: 5,
     fontSize: 16,
   },
-  selectText: {
+  selectText_light: {
+    color: colors.black,
+    marginBottom: 10,
+    fontSize: 10,
+    marginHorizontal: 5,
+  },
+  selectText_dark: {
     color: colors.secondary,
     marginBottom: 10,
     fontSize: 10,
@@ -236,7 +279,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     opacity: 0.9,
   },
-  radioButton: {
+  radioButton_light: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: colors.grey,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  radioButton_dark: {
     height: 20,
     width: 20,
     borderRadius: 10,
@@ -251,8 +303,14 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: colors.red,
   },
-  radioButtonText: {
+  radioButtonText_light: {
+    color: colors.black,
+    fontSize: 12,
+    marginLeft: 16,
+  },
+  radioButtonText_dark: {
     color: colors.secondary,
-    fontSize: 14,
+    fontSize: 12,
+    marginLeft: 16,
   },
 });

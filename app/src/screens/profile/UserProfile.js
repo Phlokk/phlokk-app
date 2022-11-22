@@ -83,7 +83,9 @@ function UserProfile({ user, isCurrentUser }) {
           <MaterialCommunityIcons
             name="diamond-stone"
             size={25}
-            color={colors.diamondBlue}
+            style={
+              theme == "light" ? styles.diamond_light : styles.diamond_dark
+            }
             onPress={() => setTopFavFive(true)}
           />
         </TouchableOpacity>
@@ -115,8 +117,6 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 50,
-    borderWidth: 1,
-    borderColor: colors.secondary,
     shadowColor: colors.secondary,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.3,
@@ -172,6 +172,12 @@ const styles = StyleSheet.create({
   pressedModal: {
     flex: 1,
     justifyContent: "flex-end",
+  },
+  diamond_light: {
+    color: colors.secondary,
+  },
+  diamond_dark: {
+    color: colors.diamondBlue,
   },
 });
 

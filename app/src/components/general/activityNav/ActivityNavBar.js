@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -7,8 +7,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CustomAlert from "../../Alerts/CustomAlert";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
+import { ThemeContext } from "../../../theme/context";
 
 export default function ActivityNavBar(props) {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const navigation = useNavigation();
 
   const [messages, setMessages] = useState(false);
@@ -19,12 +22,14 @@ export default function ActivityNavBar(props) {
         <MaterialIcons
           name="keyboard-arrow-left"
           size={28}
-          color="lightgray"
+          style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
           onPress={() => navigation.goBack()}
         />
       </TouchableOpacity>
 
-      <Text style={styles.title}>{props.title}</Text>
+      <Text style={theme == "light" ? styles.title_light : styles.title_dark}>
+        {props.title}
+      </Text>
 
       <TouchableOpacity>
         <CustomAlert
@@ -43,7 +48,7 @@ export default function ActivityNavBar(props) {
         <MaterialCommunityIcons
           name="message-processing-outline"
           size={26}
-          color="lightgray"
+          style={theme == "light" ? styles.message_light : styles.message_dark}
           onPress={() => setMessages(true)}
         />
       </TouchableOpacity>
@@ -60,12 +65,29 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
 
-  title: {
-    fontSize: 16,
+  title_light: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: colors.black,
+  },
+  title_dark: {
+    fontSize: 12,
     fontWeight: "bold",
     color: colors.secondary,
   },
   text: {
+    color: colors.white,
+  },
+  chevron_light: {
+    color: colors.black,
+  },
+  chevron_dark: {
+    opacity: 0.6,
+  },
+  message_light: {
+    color: colors.black,
+  },
+  message_dark: {
     color: colors.white,
   },
 });

@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   textInput_light: {
     color: colors.black,
-    borderColor: colors.black,
+    borderColor: colors.lightBlack,
     borderWidth: 0.5,
     borderRadius: 5,
     flexDirection: "row",

@@ -97,14 +97,15 @@ const styles = StyleSheet.create({
   },
   middle_light: {
     color: colors.black,
+    fontSize: 12,
     flex: 1,
     textAlign: "center",
     alignSelf: "center",
     fontWeight: "bold",
-    opacity: 0.5,
   },
   middle_dark: {
     color: colors.secondary,
+    fontSize: 12,
     flex: 1,
     textAlign: "center",
     alignSelf: "center",

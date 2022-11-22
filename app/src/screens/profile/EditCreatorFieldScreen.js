@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,8 +14,11 @@ import { useAtom } from "jotai";
 import colors from "../../../config/colors";
 import { updateCreator } from "../../services/user";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
+import { ThemeContext } from "../../theme/context";
 
 export default function EditCreatorFieldScreen({ route }) {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const { title } = route.params;
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState();
@@ -171,7 +174,6 @@ export default function EditCreatorFieldScreen({ route }) {
       category: "Youtuber",
       selected: false,
     },
-    
   ]);
 
   const onSave = async () => {
@@ -187,7 +189,9 @@ export default function EditCreatorFieldScreen({ route }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
       <InfoScreenNav
         title={title}
         leftButton={{ display: true, name: "save", action: onSave }}
@@ -195,11 +199,23 @@ export default function EditCreatorFieldScreen({ route }) {
       <ScrollView>
         {categories.map((item) => (
           <View style={styles.radioButtonContainer} key={item.id}>
-              <Text style={styles.radioButtonText}>{item.category}</Text>
+            <Text
+              style={
+                theme == "light"
+                  ? styles.radioButtonText_light
+                  : styles.radioButtonText_dark
+              }
+            >
+              {item.category}
+            </Text>
             <View style={{ flex: 1 }}></View>
             <TouchableOpacity
               onPress={() => setSelectedCategory(item)}
-              style={styles.radioButton}
+              style={
+                theme == "light"
+                  ? styles.radioButton_light
+                  : styles.radioButton_dark
+              }
             >
               {selectedCategory?.id === item.id && (
                 <View style={styles.radioButtonIcon} />
@@ -213,9 +229,13 @@ export default function EditCreatorFieldScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
+  },
+  container_dark: {
+    flex: 1,
+    backgroundColor: colors.black,
   },
   text: {
     color: colors.white,
@@ -240,7 +260,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     opacity: 0.9,
   },
-  radioButton: {
+  radioButton_light: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: colors.grey,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  radioButton_dark: {
     height: 20,
     width: 20,
     borderRadius: 10,
@@ -248,7 +277,6 @@ const styles = StyleSheet.create({
     borderColor: colors.secondary,
     alignItems: "center",
     justifyContent: "center",
-    
   },
   radioButtonIcon: {
     height: 12,
@@ -256,12 +284,14 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: colors.green,
   },
-  radioButtonText: {
-    color: colors.secondary,
+  radioButtonText_light: {
+    color: colors.black,
     fontSize: 12,
     marginLeft: 16,
   },
-  divider: {
-    backgroundColor: colors.secondary,
+  radioButtonText_dark: {
+    color: colors.secondary,
+    fontSize: 12,
+    marginLeft: 16,
   },
 });

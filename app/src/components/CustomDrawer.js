@@ -11,7 +11,7 @@ import { types } from "../redux/constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../App";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import VerifiedIcon from "../components/common/VerifiedIcon";
 import CustomAlert from "../components/Alerts/CustomAlert";
@@ -19,11 +19,10 @@ import colors from "../../config/colors";
 import { ThemeContext } from "../theme/context";
 
 const CustomDrawer = (props) => {
+  const { theme, setTheme } = useContext(ThemeContext);
   const [user, setUser] = useState("");
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [setAccounts, isSetAccounts] = useState(false);
-
-  const { theme, setTheme } = useContext(ThemeContext);
 
   const handleThemeChange = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -95,7 +94,9 @@ const CustomDrawer = (props) => {
             <Ionicons
               name="ellipsis-horizontal-circle"
               size={24}
-              color={colors.secondary}
+              style={
+                theme == "light" ? styles.accounts_light : styles.accounts_dark
+              }
               onPress={() => isSetAccounts(true)}
             />
           </TouchableOpacity>
@@ -126,7 +127,14 @@ const CustomDrawer = (props) => {
             Bank:
           </Text>
           <TouchableOpacity style={styles.balanceView}>
-            <Text style={styles.balance}> $0.00</Text>
+            <Text
+              style={
+                theme == "light" ? styles.balance_light : styles.balance_dark
+              }
+            >
+              {" "}
+              $0.00
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.balanceView}>
@@ -134,7 +142,14 @@ const CustomDrawer = (props) => {
             Fire:
           </Text>
           <TouchableOpacity style={styles.balanceView}>
-            <Text style={styles.coinsText}> 0</Text>
+            <Text
+              style={
+                theme == "light" ? styles.coinText_light : styles.coinText_dark
+              }
+            >
+              {" "}
+              0
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -154,17 +169,15 @@ const CustomDrawer = (props) => {
         >
           <View style={styles.iconBtmView}>
             <Text>
-              <MaterialCommunityIcons
-                name="theme-light-dark"
+              <Entypo
+                name="light-up"
                 size={15}
                 style={theme == "light" ? styles.icon_light : styles.icon_dark}
               />{" "}
             </Text>
             <Text
               style={theme == "light" ? styles.text_light : styles.text_dark}
-            >
-              Theme
-            </Text>
+            ></Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -258,13 +271,13 @@ const styles = StyleSheet.create({
     color: colors.secondary,
   },
   usernameLight: {
-    fontSize: 14,
+    fontSize: 12,
     color: colors.black,
     paddingLeft: 20,
     marginBottom: 20,
   },
   usernameDark: {
-    fontSize: 14,
+    fontSize: 12,
     color: colors.white,
     paddingLeft: 20,
     marginBottom: 20,
@@ -287,12 +300,26 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     opacity: 0.2,
   },
-  balance: {
+  balance_light: {
+    color: colors.lightBlack,
+    fontSize: 12,
+  },
+  balance_dark: {
     color: colors.green,
     fontSize: 12,
   },
-  coinsText: {
+  coinText_light: {
     fontSize: 12,
+    color: colors.lightBlack,
+  },
+  coinText_dark: {
+    fontSize: 12,
+    color: colors.secondary,
+  },
+  accounts_light: {
+    color: colors.lightBlack,
+  },
+  accounts_dark: {
     color: colors.secondary,
   },
 });

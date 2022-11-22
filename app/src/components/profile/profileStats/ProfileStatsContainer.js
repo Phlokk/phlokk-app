@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   counterLabelText_light: {
     color: colors.black,
     fontSize: 11,
-    opacity: 0.7,
+    opacity: 0.5,
   },
   counterLabelText_dark: {
     color: colors.secondary,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   counterLabelConnections_light: {
     color: colors.black,
-    opacity: 0.7,
+    opacity: 0.5,
     fontSize: 11,
     marginTop: 0,
   },
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   counterLabelTextStar_light: {
     color: colors.black,
     fontSize: 11,
-    opacity: 0.7,
+    opacity: 0.5,
   },
   counterLabelTextStar_dark: {
     color: colors.secondary,

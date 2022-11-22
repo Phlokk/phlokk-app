@@ -1,32 +1,38 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 import { updateCreator } from "../../services/user";
-
+import { ThemeContext } from "../../theme/context";
 
 export default function RelationshipCategoryScreen({ route, props }) {
+  const { theme, setTheme } = useContext(ThemeContext);
   const { title } = route.params;
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState();
   const [user, setUser] = useAtom(userAtom);
 
   const [categories, setCategories] = useState([
-    {id: 1,key: "cat1", value: false, category: "Single",selected: false},
-    {id: 2, key: "cat2", value: false, category: "Married",selected: false},
-    {id: 3, key: "cat3", value: false, category: "Taken",selected: false},
-    {id: 4, key: "cat4", value: false,category: "Looking",selected: false},
-    {id: 5, key: "cat5", value: false, category: "Divorced",selected: false},
-    {id: 6, key: "cat6", value: false, category: "Widow",selected: false},
-    {id: 7, key: "cat7", value: false, category: "It's complicated",selected: false},
-    {id: 8, key: "cat8", value: false, category: "n/a",selected: false},
+    { id: 1, key: "cat1", value: false, category: "Single", selected: false },
+    { id: 2, key: "cat2", value: false, category: "Married", selected: false },
+    { id: 3, key: "cat3", value: false, category: "Taken", selected: false },
+    { id: 4, key: "cat4", value: false, category: "Looking", selected: false },
+    { id: 5, key: "cat5", value: false, category: "Divorced", selected: false },
+    { id: 6, key: "cat6", value: false, category: "Widow", selected: false },
+    {
+      id: 7,
+      key: "cat7",
+      value: false,
+      category: "It's complicated",
+      selected: false,
+    },
+    { id: 8, key: "cat8", value: false, category: "n/a", selected: false },
   ]);
-
 
   const onSave = async () => {
     const updateObject = { relationship_type: selectedCategory.category };
@@ -40,39 +46,55 @@ export default function RelationshipCategoryScreen({ route, props }) {
     }
   };
 
-
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
       <InfoScreenNav
         title={title}
         leftButton={{ display: true, name: "save", action: onSave }}
       />
       <View style={styles.reportView}>
-      {categories.map((item) => (
-              <View style={styles.radioButtonContainer} key={item.id}>
+        {categories.map((item) => (
+          <View style={styles.radioButtonContainer} key={item.id}>
+            <Text
+              style={
+                theme == "light"
+                  ? styles.radioButtonText_light
+                  : styles.radioButtonText_dark
+              }
+            >
+              {item.category}
+            </Text>
 
-                  <Text style={styles.radioButtonText}>{item.category}</Text>
-
-                <View style={{ flex: 1 }}></View>
-                <TouchableOpacity
-                  onPress={() => setSelectedCategory(item)}
-                  style={styles.radioButton}
-                >
-                  {selectedCategory?.id === item.id && (
-                    <View style={styles.radioButtonIcon} />
-                  )}
-                </TouchableOpacity>
-              </View>
-            ))}
+            <View style={{ flex: 1 }}></View>
+            <TouchableOpacity
+              onPress={() => setSelectedCategory(item)}
+              style={
+                theme == "light"
+                  ? styles.radioButton_light
+                  : styles.radioButton_dark
+              }
+            >
+              {selectedCategory?.id === item.id && (
+                <View style={styles.radioButtonIcon} />
+              )}
+            </TouchableOpacity>
+          </View>
+        ))}
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
+  },
+  container_dark: {
+    flex: 1,
+    backgroundColor: colors.black,
   },
   text: {
     color: colors.white,
@@ -97,7 +119,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     opacity: 0.9,
   },
-  radioButton: {
+  radioButton_light: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: colors.grey,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  radioButton_dark: {
     height: 20,
     width: 20,
     borderRadius: 10,
@@ -112,10 +143,14 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: colors.green,
   },
-  radioButtonText: {
+  radioButtonText_light: {
+    color: colors.black,
+    fontSize: 12,
+    marginLeft: 16,
+  },
+  radioButtonText_dark: {
     color: colors.secondary,
-    fontSize: 14,
-
-    marginLeft: 5,
+    fontSize: 12,
+    marginLeft: 16,
   },
 });

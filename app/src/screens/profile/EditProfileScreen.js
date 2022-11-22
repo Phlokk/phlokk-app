@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import FormData from "form-data";
@@ -20,10 +20,11 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import EditProfileNav from "../../components/general/navBar/EditProfileNav";
 import { fetchGetUsers } from "../../redux/sagas/requests/fetchUsers";
-
+import { ThemeContext } from "../../theme/context";
 import { apiUrls } from "../../globals";
 
 export default function EditProfileScreen({ route }) {
+  const { theme, setTheme } = useContext(ThemeContext);
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
 
@@ -80,8 +81,10 @@ export default function EditProfileScreen({ route }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <EditProfileNav title="Edit Profile" leftButton={{ display: false }} />
+    <SafeAreaView
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
+      <EditProfileNav />
       <ScrollView>
         <View style={styles.imageContainer}>
           {currentUser.photo_thumb_url !== null ? (
@@ -115,7 +118,15 @@ export default function EditProfileScreen({ route }) {
         </View>
 
         <View style={styles.fieldsContainer}>
-          <Text style={styles.socialText}>Profile Info</Text>
+          <Text
+            style={
+              theme == "light"
+                ? styles.socialText_light
+                : styles.socialText_dark
+            }
+          >
+            Profile Info
+          </Text>
           <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
@@ -127,15 +138,24 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text numberOfLines={1} style={styles.text}>
+            <Text
+              numberOfLines={1}
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
               Username
             </Text>
             <View style={styles.fieldValueContainer}>
-              <Text style={styles.text}>{currentUser.username}</Text>
+              <Text
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
+                {currentUser.username}
+              </Text>
               <Feather
                 name="chevron-right"
                 size={20}
-                color={colors.secondary}
+                style={
+                  theme == "light" ? styles.chevron_light : styles.chevron_dark
+                }
               />
             </View>
           </TouchableOpacity>
@@ -151,15 +171,24 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={styles.text}>Creator</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Creator
+            </Text>
             <View style={styles.fieldValueContainer}>
-              <Text numberOfLines={1} style={styles.text}>
+              <Text
+                numberOfLines={1}
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
                 {currentUser.creator_type}
               </Text>
               <Feather
                 name="chevron-right"
                 size={20}
-                color={colors.secondary}
+                style={
+                  theme == "light" ? styles.chevron_light : styles.chevron_dark
+                }
               />
             </View>
           </TouchableOpacity>
@@ -175,15 +204,24 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={styles.text}>Website</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Website
+            </Text>
             <View style={styles.fieldValueContainer}>
-              <Text numberOfLines={1} style={styles.text}>
+              <Text
+                numberOfLines={1}
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
                 {currentUser.link}
               </Text>
               <Feather
                 name="chevron-right"
                 size={20}
-                color={colors.secondary}
+                style={
+                  theme == "light" ? styles.chevron_light : styles.chevron_dark
+                }
               />
             </View>
           </TouchableOpacity>
@@ -199,15 +237,24 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={styles.text}>Quote</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Quote
+            </Text>
             <View style={styles.fieldValueContainer}>
-              <Text numberOfLines={1} style={styles.text}>
+              <Text
+                numberOfLines={1}
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
                 {currentUser.quote}
               </Text>
               <Feather
                 name="chevron-right"
                 size={20}
-                color={colors.secondary}
+                style={
+                  theme == "light" ? styles.chevron_light : styles.chevron_dark
+                }
               />
             </View>
           </TouchableOpacity>
@@ -223,22 +270,39 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={styles.text}>Status</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Status
+            </Text>
             <View style={styles.fieldValueContainer}>
-              <Text numberOfLines={1} style={styles.text}>
+              <Text
+                numberOfLines={1}
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
                 {currentUser.relationship_type}
               </Text>
               <Feather
                 name="chevron-right"
                 size={20}
-                color={colors.secondary}
+                style={
+                  theme == "light" ? styles.chevron_light : styles.chevron_dark
+                }
               />
             </View>
           </TouchableOpacity>
 
           {/* PROFILE BIO SECTION */}
 
-          <Text style={styles.socialText}>Bio</Text>
+          <Text
+            style={
+              theme == "light"
+                ? styles.socialText_light
+                : styles.socialText_dark
+            }
+          >
+            Bio
+          </Text>
           <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
@@ -250,25 +314,47 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={styles.text}>Profile Bio</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Profile Bio
+            </Text>
             {currentUser.bio === null || undefined ? (
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
                   Add Bio
                 </Text>
                 <Feather
                   name="chevron-right"
                   size={20}
-                  color={colors.secondary}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
                 />
               </View>
             ) : (
               <View>
-                <Text numberOfLines={1} style={styles.text}></Text>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                ></Text>
                 <FontAwesome
                   name="pencil-square-o"
                   size={16}
-                  color={colors.secondary}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
                 />
               </View>
             )}
@@ -285,25 +371,31 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={styles.text}>Skills</Text>
+            <Text style={theme == "light"
+                ? styles.text_light
+                : styles.text_dark}>Skills</Text>
             {user.skills === null || undefined ? (
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text}>
+                <Text numberOfLines={1} style={theme == "light"
+                ? styles.text_light
+                : styles.text_dark}>
                   Add Skills
                 </Text>
                 <Feather
                   name="chevron-right"
                   size={20}
-                  color={colors.secondary}
+                  style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
                 />
               </View>
             ) : (
               <View>
-                <Text numberOfLines={1} style={styles.text}></Text>
+                <Text numberOfLines={1} style={theme == "light"
+                ? styles.text_light
+                : styles.text_dark}></Text>
                 <FontAwesome
                   name="pencil-square-o"
                   size={16}
-                  color={colors.secondary}
+                  style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
                 />
               </View>
             )}
@@ -320,31 +412,45 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={styles.text}>Education</Text>
+            <Text style={theme == "light"
+                ? styles.text_light
+                : styles.text_dark}>Education</Text>
             {user.education === null || undefined ? (
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text}>
+                <Text numberOfLines={1} style={theme == "light"
+                ? styles.text_light
+                : styles.text_dark}>
                   Add Education
                 </Text>
                 <Feather
                   name="chevron-right"
                   size={20}
-                  color={colors.secondary}
+                  style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
                 />
               </View>
             ) : (
               <View>
-                <Text numberOfLines={1} style={styles.text}></Text>
+                <Text numberOfLines={1} style={theme == "light"
+                ? styles.text_light
+                : styles.text_dark}></Text>
                 <FontAwesome
                   name="pencil-square-o"
                   size={16}
-                  color={colors.secondary}
+                  style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
                 />
               </View>
             )}
           </TouchableOpacity> */}
 
-          <Text style={styles.socialText}>Social Media</Text>
+          <Text
+            style={
+              theme == "light"
+                ? styles.socialText_light
+                : styles.socialText_dark
+            }
+          >
+            Social Media
+          </Text>
           <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
@@ -356,21 +462,39 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={styles.text}>Youtube</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Youtube
+            </Text>
             {currentUser.youtube_link === null ? (
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
                   Add Youtube Channel
                 </Text>
                 <Feather
                   name="chevron-right"
                   size={20}
-                  color={colors.secondary}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
                 />
               </View>
             ) : (
               <View>
-                <Text numberOfLines={1} style={styles.text}></Text>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                ></Text>
                 <Feather name="check-circle" size={16} color={colors.green} />
               </View>
             )}
@@ -386,16 +510,29 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={styles.text}>Instagram</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Instagram
+            </Text>
             {currentUser.instagram_link === null ? (
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={styles.text}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
                   Add Instagram Account
                 </Text>
                 <Feather
                   name="chevron-right"
                   size={20}
-                  color={colors.secondary}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
                 />
               </View>
             ) : (
@@ -412,9 +549,13 @@ export default function EditProfileScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
+  },
+  container_dark: {
+    flex: 1,
+    backgroundColor: colors.black,
   },
   imageContainer: {
     alignItems: "center",
@@ -455,7 +596,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  text: {
+  text_light: {
+    color: colors.black,
+    fontSize: 12,
+    opacity: 0.8,
+  },
+  text_dark: {
     color: colors.secondary,
     fontSize: 12,
     opacity: 0.8,
@@ -463,7 +609,13 @@ const styles = StyleSheet.create({
   authText: {
     color: colors.white,
   },
-  socialText: {
+  socialText_light: {
+    color: colors.black,
+    fontWeight: "bold",
+    fontSize: 13,
+    marginTop: 60,
+  },
+  socialText_dark: {
     color: colors.green,
     fontWeight: "bold",
     fontSize: 13,
@@ -475,5 +627,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     borderColor: "lightgray",
+  },
+  chevron_light: {
+    color: colors.black,
+  },
+  chevron_dark: {
+    color: colors.secondary,
+    opacity: 0.6,
   },
 });

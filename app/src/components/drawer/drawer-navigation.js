@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -11,8 +12,10 @@ import EditProfileScreen from "../../screens/profile/EditProfileScreen";
 import SettingsScreen from "../../screens/settings/SettingsScreen";
 import ManageAccountScreen from "../../screens/manageAccount/ManageAccountScreen";
 import CommunityGuidelinesScreen from "../../screens/policies/CommunityGuidelinesScreen";
+import { ThemeContext } from "../../theme/context";
 
 export default function Root() {
+  const { theme, setTheme } = useContext(ThemeContext);
   const Drawer = createDrawerNavigator();
   return (
     <Drawer.Navigator
@@ -20,9 +23,12 @@ export default function Root() {
       screenOptions={{
         headerShown: false,
         drawerLabelStyle: { marginLeft: -20, fontSize: 12 },
-        drawerActiveBackgroundColor: colors.black,
-        drawerActiveTintColor: colors.white,
-        drawerInactiveTintColor: colors.green,
+        drawerActiveBackgroundColor:
+          theme == "light" ? colors.white : colors.black,
+        drawerActiveTintColor:
+          theme == "light" ? colors.lightBlack : colors.white,
+        drawerInactiveTintColor:
+          theme == "light" ? colors.lightBlack : colors.green,
       }}
     >
       <Drawer.Screen
