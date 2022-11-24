@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   chevron_dark: {
+    color: colors.white,
     opacity: 0.6,
   },
   icon_light: {

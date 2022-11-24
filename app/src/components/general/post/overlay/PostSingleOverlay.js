@@ -164,7 +164,11 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
             style={styles.pressedStyle}
             onPress={() => setIsSettingsModalScreenOpen(false)}
           />
-          <SettingsSheetModalScreen user={user} isCurrentUser={isCurrentUser} />
+          <SettingsSheetModalScreen
+            post={post}
+            user={user}
+            isCurrentUser={isCurrentUser}
+          />
         </View>
       </Modal>
     </View>

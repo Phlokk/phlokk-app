@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   container_dark: {
     flex: 1,
-    backgroundColor: colors.dark,
+    backgroundColor: colors.black,
   },
   text_light: {
     color: colors.black,

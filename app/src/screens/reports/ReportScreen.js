@@ -17,7 +17,8 @@ import PostNavBar from "../../components/general/postNav/PostNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { generalStyles } from "../../styles";
 import { ThemeContext } from "../../theme/context";
-
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../App";
 // import { REPORT_TICKET } from "@env";
 
 let categoryId = null;
@@ -90,9 +91,10 @@ const ReportScreen = ({ route, navigation }) => {
     },
     { id: 11, key: "cat12", value: false, category: "other", selected: false },
   ]);
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const { theme, setTheme } = useContext(ThemeContext);
-  const [titleValue, setTitleValue] = useState("");
-  const [messageValue, setMessageValue] = useState("");
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
 
   const onRadioBtnClick = (item) => {
     categoryId = item.id;
@@ -105,29 +107,39 @@ const ReportScreen = ({ route, navigation }) => {
   };
 
   const submitForm = function () {
-    let postId = route.params.post;
+    const post = route.params.post;
+    const postId = post._id;
 
-    if (titleValue.trim() === "" || messageValue.trim() === "") {
+    if (title.trim() === "" || message.trim() === "") {
       Alert.alert("Please fill out all of the fields.");
       return false;
     }
+    console.log(title);
+    console.log(message, "(message)");
+    console.log(postId, "(post Id)");
+    console.log(categoryId, "(category)");
+    console.log(currentUser._id, "(user Id)");
 
     axios
       .post("/api/support/create-ticket", "create", {
-        title: titleValue,
-        message: messageValue,
+        title: title,
+        message: message,
         post: postId,
         category_id: categoryId,
-        // user_id: currentUser.uid
+        user_id: currentUser._id,
       })
       .then(function (response) {
+        console.log(response);
         Alert.alert(
           "Notice",
           "Thank you for submitting your report. We will look into this matter."
         );
         navigation.goBack();
       })
-      .catch(function (error) {});
+      .catch(function (error) {
+        console.log(error.message);
+        Alert.alert("Notice", "There was an error in sending your report");
+      });
   };
 
   return (
@@ -154,8 +166,8 @@ const ReportScreen = ({ route, navigation }) => {
               autoCorrect={false}
               textContentType="none"
               maxLength={50}
-              value={titleValue}
-              onChangeText={setTitleValue}
+              value={title}
+              onChangeText={setTitle}
             />
             <TextInput
               style={
@@ -171,8 +183,8 @@ const ReportScreen = ({ route, navigation }) => {
               multiline
               maxLength={850}
               numberOfLines={10}
-              value={messageValue}
-              onChangeText={setMessageValue}
+              value={message}
+              onChangeText={setMessage}
             />
             <View>
               <Text
