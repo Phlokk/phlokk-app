@@ -1,7 +1,11 @@
 {
-	"workbench.colorCustomizations": {
-		"titleBar.activeBackground": "#00b894",
-		"titleBar.inactiveBackground": "#00755e"
-	},
-	"git.ignoreLimitWarning": true
+  "editor.fontSize": 18,
+  "workbench.colorTheme": "Material Theme Ocean",
+  "editor.fontFamily": "JetBrains Mono",
+  "editor.fontLigatures": true,
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#00CEC9",
+    "titleBar.inactiveBackground": "#00755e"
+  },
+  "git.ignoreLimitWarning": true
 }

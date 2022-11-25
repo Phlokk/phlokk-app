@@ -34,20 +34,6 @@ export default function ActivityScreen({ navigation }) {
     }
   }, [isFocused]);
 
-  const Gradient = () => {
-    return (
-      <LinearGradient
-        colors={[Colors.lightBlack, Colors.darkGrey, Colors.lightBlack]}
-        start={{ x: 6.0, y: 0.0 }}
-        end={{ x: 0.0, y: 0.0 }}
-        style={{
-          flex: 1,
-          width: 100,
-        }}
-      />
-    );
-  };
-
   const renderItem = ({ item, index }) => {
     return (
       <NotificationItem index={index} item={item} navigation={navigation} />

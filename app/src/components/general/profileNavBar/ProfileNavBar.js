@@ -1,13 +1,10 @@
 import React, { useState, useContext } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
-import CustomAlert from "../../Alerts/CustomAlert";
-import { blockUserById } from "../../../services/user";
 import { forceRefreshAtom } from "../../../screens/videoFeed/VideoFeed";
 import BlockAlert from "../../Alerts/BlockAlert";
 import { ThemeContext } from "../../../theme/context";
@@ -17,7 +14,6 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
   const { theme, setTheme } = useContext(ThemeContext);
   const [user, setUser] = useAtom(userAtom);
   const [isGifting, setIsGifting] = useState(false);
-  //const [isSupportAlert, setIsSupportAlert] = useState(false);
   const [isBlockUserModalOpen, setIsBlockUserModalOpen] = useState(false);
   const [forceRefresh, setForceRefresh] = useAtom(forceRefreshAtom);
 

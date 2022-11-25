@@ -52,7 +52,7 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
         }}
       >
         <View style={styles.top}>
-          <View style={styles.usernameView}>
+          <View>
             {user.username !== null ? (
               <Text selectable={true} style={styles.username}>
                 @{user.username}
@@ -148,7 +148,6 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: colors.bioModal,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     height: "80%",

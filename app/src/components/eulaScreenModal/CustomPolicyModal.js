@@ -11,8 +11,6 @@ import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CustomPolicyModal({
-  alertTitle,
-  customAlertMessage,
   positiveBtn,
   modalVisible,
   dismissAlert,

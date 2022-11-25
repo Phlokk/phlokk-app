@@ -5,7 +5,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomAlert from "../../Alerts/CustomAlert";
-import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import { ThemeContext } from "../../../theme/context";
 

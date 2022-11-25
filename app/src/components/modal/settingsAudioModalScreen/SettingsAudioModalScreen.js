@@ -1,12 +1,11 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+// import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
 
-const SettingsAudioModalScreen = ( props ) => {
-  const navigation = useNavigation();
-
+const SettingsAudioModalScreen = (props) => {
+  // const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -16,7 +15,6 @@ const SettingsAudioModalScreen = ( props ) => {
         autoCapitalize="none"
         onPress={() => {
           // navigation.navigate(routes.MARKET)
-
         }}
       >
         <Text style={styles.text}>
@@ -24,33 +22,29 @@ const SettingsAudioModalScreen = ( props ) => {
             name="bookmark-music"
             size={14}
             color={colors.green}
-          /> Add to Favorites</Text>
+          />{" "}
+          Add to Favorites
+        </Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.fieldItemContainer}
-        onPress={() => {
-
-        }}
-      >
+      <TouchableOpacity style={styles.fieldItemContainer} onPress={() => {}}>
         <Text style={styles.text}>
           <MaterialCommunityIcons
             name="playlist-music-outline"
             size={16}
             color={colors.green}
-          /> Use audio</Text>
+          />{" "}
+          Use audio
+        </Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.fieldItemContainer}
-        onPress={() => {
-
-        }}
-      >
+      <TouchableOpacity style={styles.fieldItemContainer} onPress={() => {}}>
         <Text style={styles.text}>
           <MaterialCommunityIcons
             name="music-circle-outline"
             size={16}
             color={colors.green}
-          /> Buy song </Text>
+          />{" "}
+          Buy song{" "}
+        </Text>
       </TouchableOpacity>
     </View>
   );

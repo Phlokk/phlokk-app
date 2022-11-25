@@ -6,10 +6,7 @@ import { Octicons } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
 import { ThemeContext } from "../../../theme/context";
 
-export default function RisingStarsNavBar({
-  title = "Phlokk Market",
-  leftButton = { display: false },
-}) {
+export default function RisingStarsNavBar({ title = "Phlokk Market" }) {
   const { theme, setTheme } = useContext(ThemeContext);
 
   const navigation = useNavigation();

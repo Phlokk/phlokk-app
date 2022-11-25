@@ -8,12 +8,12 @@ import {
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+// import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
 import { generalStyles } from "../../../styles";
 
 const GiftingModalScreen = (props, route) => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const [giftPoints, setGiftPoints] = useState(0);
 
   return (
@@ -38,21 +38,20 @@ const GiftingModalScreen = (props, route) => {
           autoCorrect={false}
           maxLength={24}
           returnKeyType="done"
-          
         />
         <View style={styles.pointsContainer}>
           <Text style={styles.giftPointText}>
             Gift accumulations: {giftPoints}
           </Text>
-          <Text style={styles.priceOfGiftText}>
-      </Text>
+          <Text style={styles.priceOfGiftText}></Text>
         </View>
       </View>
 
-      <TouchableOpacity style={styles.giftButtonContainer}
-      onPress={() => {
-        // navigation.navigate(routes.MARKET)
-      }}
+      <TouchableOpacity
+        style={styles.giftButtonContainer}
+        onPress={() => {
+          // navigation.navigate(routes.MARKET)
+        }}
       >
         <MaterialCommunityIcons name="fire" size={20} color={colors.red} />
         <Text style={styles.text}> Light Up Post</Text>

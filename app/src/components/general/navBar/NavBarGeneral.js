@@ -1,15 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import colors from "../../../../config/colors";
 
-export default function NavBarGeneral({
-  title = "Edit profile",
-  leftButton = { display: false },
-}) {
+export default function NavBarGeneral({ title = "Edit profile" }) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -22,9 +18,7 @@ export default function NavBarGeneral({
 
       <Text style={styles.title}>{title}</Text>
 
-      <TouchableOpacity
-        style={styles.button}
-      >
+      <TouchableOpacity style={styles.button}>
         <MaterialIcons name="info" size={24} color={colors.green} />
       </TouchableOpacity>
     </View>

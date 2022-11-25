@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -8,10 +7,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 
-export default function GiftingNavBar({
-  title = "Edit profile",
-  leftButton = { display: false },
-}) {
+export default function GiftingNavBar({ title = "Edit profile" }) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -24,14 +20,12 @@ export default function GiftingNavBar({
 
       <Text style={styles.title}>{title}</Text>
 
-      <TouchableOpacity
-        style={styles.button}
-      >
-        <MaterialCommunityIcons 
-        name="fire" 
-        size={24} 
-        color={colors.red} 
-        onPress={() => navigation.navigate(routes.FIRE_RULES)}
+      <TouchableOpacity style={styles.button}>
+        <MaterialCommunityIcons
+          name="fire"
+          size={24}
+          color={colors.red}
+          onPress={() => navigation.navigate(routes.FIRE_RULES)}
         />
       </TouchableOpacity>
     </View>
