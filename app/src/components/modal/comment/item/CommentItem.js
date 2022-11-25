@@ -204,10 +204,10 @@ const CommentItem = ({
       )}
 
       <CustomAlert
-        alertTitle="Alert"
-        customAlertMessage="Would you like to delete this comment?"
+        // alertTitle="Delete"
+        customAlertMessage="Delete this comment?"
         negativeBtn="Cancel"
-        positiveBtn="Yes"
+        positiveBtn="Delete"
         modalVisible={isDeleteCommentModalOpen}
         dismissAlert={setIsDeleteCommentModalOpen}
         onPositivePressed={onDeleteCommentConfirmed}

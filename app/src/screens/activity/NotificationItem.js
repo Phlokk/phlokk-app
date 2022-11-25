@@ -102,9 +102,9 @@ const NotificationItem = ({ navigation, item }) => {
 
           {/* TODO still need to hide all but 4 avatars and show button that connects to FlatList of all users who liked, commented on post. Also add thumbnail for each post */}
           <View style={styles.iconRow}>
-            {Object.keys(item.pictures).map((key, keyIndex) =>
-              renderAvatarRow(key, keyIndex)
-            )}
+            {Object.keys(item.pictures)
+              .slice(0, 7)
+              .map((key, keyIndex) => renderAvatarRow(key, keyIndex))}
           </View>
 
           <View style={styles.mentionsView}>

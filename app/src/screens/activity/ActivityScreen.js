@@ -3,13 +3,12 @@ import ActivityNavBar from "../../components/general/activityNav/ActivityNavBar"
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import colors from "../../../config/colors";
 import {
-  clearNotificationListener,
+  // clearNotificationListener,
   getNotifications,
-  notificationListener,
+  // notificationListener,
 } from "../../services/notifications";
 import NotificationItem from "./NotificationItem";
 import LottieView from "lottie-react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../../../config/colors";
 import { useIsFocused } from "@react-navigation/native";
 import { ThemeContext } from "../../theme/context";
