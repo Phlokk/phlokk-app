@@ -10,61 +10,25 @@ import React, { useState, useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import SettingsNavBar from "../../components/general/settings/SettingsNavBar";
-import * as SecureStore from "expo-secure-store";
-import axios from "../../redux/apis/axiosDeclaration";
-import { types } from "../../redux/constants";
 
 // import { LOGOUT } from "@env";
 import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import AccountScreen from "./account/AccountScreen";
 import SupportScreen from "./support/SupportScreen";
-import {
-  enableNotificationsForDevice,
-  sendTestPushNotification,
-} from "../../services/notifications";
+import { enableNotificationsForDevice } from "../../services/notifications";
 import Constants from "expo-constants";
 import { ThemeContext } from "../../theme/context";
 
 export default function SettingsScreen() {
   const { theme, setTheme } = useContext(ThemeContext);
-  const auth = useSelector((state) => state.auth);
   const navigation = useNavigation();
   const [user, setUser] = useState("");
-  // const [blocking, setBlocking] = useState(false);
-  // const [expoPushToken, getExpoPushToken] = useState('');
 
   const enableNotifications = async function () {
     await enableNotificationsForDevice();
-  };
-
-  const dispatch = useDispatch();
-
-  const handleLogout = async () => {
-    axios
-      .post("/api/logout")
-      .then((response) => {
-        setUser(null);
-        SecureStore.deleteItemAsync("user");
-        dispatch({
-          type: types.USER_STATE_CHANGE,
-          currentUser: null,
-          loaded: true,
-        });
-      })
-      .catch((error) => {
-        setUser(null);
-        SecureStore.deleteItemAsync("user");
-        dispatch({
-          type: types.USER_STATE_CHANGE,
-          currentUser: null,
-          loaded: true,
-        });
-      });
   };
 
   return (
@@ -255,27 +219,6 @@ export default function SettingsScreen() {
 
         <View style={styles.divider}></View>
 
-        <Text
-          style={
-            theme == "light" ? styles.socialText_light : styles.socialText_dark
-          }
-        >
-          LOGIN
-        </Text>
-
-        <TouchableOpacity
-          style={styles.fieldItemContainer}
-          onPress={handleLogout}
-        >
-          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-            <MaterialIcons
-              name="logout"
-              size={14}
-              style={theme == "light" ? styles.icon_light : styles.icon_dark}
-            />{" "}
-            Logout
-          </Text>
-        </TouchableOpacity>
         <Text
           style={
             theme == "light"

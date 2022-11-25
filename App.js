@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import "react-native-reanimated";
 import React, { useEffect, useState, useRef } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import store from "./app/src/redux/reducers/configureStore";
+import store from "./app/src/redux/store";
 import { Provider } from "react-redux";
 import Route from "./app/src/navigation/main/Route";
 import { Alert, LogBox, StatusBar, Text } from "react-native";

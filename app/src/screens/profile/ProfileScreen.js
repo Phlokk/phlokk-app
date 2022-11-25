@@ -9,7 +9,7 @@ import { userAtom } from "../../../../App";
 import { useUserVideoFeed } from "../../services/posts";
 import React, { useCallback, useEffect, useState, useContext } from "react";
 import { fetchGetUser } from "../../redux/sagas/requests/fetchUsers";
-import CustomImageModal from "../../components/Image/CustomImageModal";
+
 import ProfileLoading from "../../components/profile/postList/ProfileLoading";
 import { useIsFocused } from "@react-navigation/native";
 import { ThemeContext } from "../../theme/context";
@@ -224,17 +224,6 @@ export default function ProfileScreen({ route }) {
             </Text>
           </View>
         ) : null}
-
-        <CustomImageModal
-          customAlertMessage={<Text>User Bio</Text>}
-          positiveBtn="Back"
-          modalVisible={popUpImage}
-          dismissAlert={setPopUpImage}
-          animationType="fade"
-          user={profile}
-          setUser={setProfile}
-          isCurrentUser={loggedInUser?._id === profile?._id}
-        />
       </SafeAreaView>
     );
   }
