@@ -4,7 +4,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert,
+  // Alert,
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
@@ -19,7 +19,6 @@ import { generalStyles } from "../../styles";
 import { ThemeContext } from "../../theme/context";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
-// import { REPORT_TICKET } from "@env";
 
 let categoryId = null;
 
@@ -106,41 +105,87 @@ const ReportScreen = ({ route, navigation }) => {
     setCategories(updatedState);
   };
 
-  const submitForm = function () {
+  const onChangeTitleHandler = (title) => {
+    setTitle(title);
+  };
+
+  const onChangeMessageHandler = (message) => {
+    setMessage(message);
+  };
+
+  const submitForm = async () => {
     const post = route.params.post;
     const postId = post._id;
 
-    if (title.trim() === "" || message.trim() === "") {
-      Alert.alert("Please fill out all of the fields.");
-      return false;
+    if (!title.trim() || !message.trim()) {
+      alert("Please fill out all of the fields.");
+      return;
     }
-    console.log(title);
-    console.log(message, "(message)");
-    console.log(postId, "(post Id)");
-    console.log(categoryId, "(category)");
-    console.log(currentUser._id, "(user Id)");
 
-    axios
-      .post("/api/support/create-ticket", "create", {
-        title: title,
-        message: message,
-        post: postId,
-        category_id: categoryId,
-        user_id: currentUser._id,
-      })
-      .then(function (response) {
+    try {
+      const response = await axios.post(
+        "/api/support/create-ticket",
+        "create",
+        {
+          title,
+          message,
+          post: postId,
+          category_id: categoryId,
+          user_id: currentUser._id,
+        }
+      );
+      if (response.status === 200) {
         console.log(response);
-        Alert.alert(
-          "Notice",
-          "Thank you for submitting your report. We will look into this matter."
+        alert(
+          "Thank you for submitting your report. We will look into this matter"
         );
         navigation.goBack();
-      })
-      .catch(function (error) {
-        console.log(error.message);
-        Alert.alert("Notice", "There was an error in sending your report");
-      });
+      } else {
+        console.log(response.status);
+
+        // throw new Error("Notice", "There was an error in sending your report");
+      }
+    } catch (error) {
+      console.log(error.message);
+      alert("An server error has occurred");
+    }
   };
+
+  // const submitForm = function () {
+  //   const post = route.params.post;
+  //   const postId = post._id;
+
+  //   if (!title.trim() || !message.trim()) {
+  //     Alert.alert("Please fill out all of the fields.");
+  //     return false;
+  //   }
+  //   // console.log(title);
+  //   // console.log(message, "(message)");
+  //   // console.log(postId, "(post Id)");
+  //   // console.log(categoryId, "(category)");
+  //   // console.log(currentUser._id, "(user Id)");
+
+  //   axios
+  //     .post("/api/support/create-ticket", "create", {
+  //       title: title,
+  //       message: message,
+  //       post: postId,
+  //       category_id: categoryId,
+  //       user_id: currentUser._id,
+  //     })
+  //     .then(function (response) {
+  //       console.log(response);
+  //       Alert.alert(
+  //         "Notice",
+  //         "Thank you for submitting your report. We will look into this matter."
+  //       );
+  //       navigation.goBack();
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error.message);
+  //       Alert.alert("Notice", "There was an error in sending your report");
+  //     });
+  // };
 
   return (
     <SafeAreaView
@@ -167,7 +212,7 @@ const ReportScreen = ({ route, navigation }) => {
               textContentType="none"
               maxLength={50}
               value={title}
-              onChangeText={setTitle}
+              onChangeText={onChangeTitleHandler}
             />
             <TextInput
               style={
@@ -184,7 +229,7 @@ const ReportScreen = ({ route, navigation }) => {
               maxLength={850}
               numberOfLines={10}
               value={message}
-              onChangeText={setMessage}
+              onChangeText={onChangeMessageHandler}
             />
             <View>
               <Text
