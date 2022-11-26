@@ -188,7 +188,7 @@ export const addCommentReply = async (postId, commentId, comment) => {
     })
     .catch((error) => {
       console.log(error);
-      Alert.alert("Comment not added!");
+      Alert.alert("Comment Reply not added!");
     });
 };
 
@@ -202,7 +202,11 @@ export const deleteCommentReply = async (postId, commentId, replyId) => {
   );
 };
 
-export const commentListener = async (postId, setCommentList, setCommentCount) => {
+export const commentListener = async (
+  postId,
+  setCommentList,
+  setCommentCount
+) => {
   await axios
     .get("/api/post/view/" + postId + "/comments")
     .then((result) => {
