@@ -77,13 +77,14 @@
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "0.17.1",
     "react-query": "^3.34.8",
-    "react-redux": "^7.2.6",
+    "react-redux": "^7.2.9",
     "throttle-debounce": "^3.0.1",
     "use-debounce": "^8.0.4",
     "uuid-random": "^1.3.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@redux-devtools/core": "^3.13.1"
   },
   "private": true
 }
