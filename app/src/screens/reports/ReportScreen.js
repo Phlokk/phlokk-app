@@ -128,7 +128,7 @@ const ReportScreen = ({ route, navigation }) => {
       return;
     }
 
-    // console.log(post, "this is post object");
+    console.log(postId, "this is post ID");
     // console.log(post.media[0].original_url);
 
     const movie = post.media[0].original_url;
@@ -140,6 +140,7 @@ const ReportScreen = ({ route, navigation }) => {
           title,
           message,
           url: movie,
+          post_id: postId,
           category_id: categoryId,
           creator: currentUser.username,
         },
