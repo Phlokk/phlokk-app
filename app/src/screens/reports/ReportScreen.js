@@ -26,69 +26,75 @@ const ReportScreen = ({ route, navigation }) => {
   const [categories, setCategories] = useState([
     {
       id: 1,
+      key: "cat1",
+      value: false,
+      category: "Customer Service",
+      selected: false,
+    },
+    {
+      id: 2,
       key: "cat2",
       value: false,
       category: "Illegal activities",
       selected: false,
     },
-    { id: 2, key: "cat3", value: false, category: "Fraud", selected: false },
+    { id: 3, key: "cat3", value: false, category: "Fraud", selected: false },
     {
-      id: 3,
+      id: 4,
       key: "cat4",
       value: false,
       category: "Graphic content",
       selected: false,
     },
     {
-      id: 4,
+      id: 5,
       key: "cat5",
       value: false,
       category: "Dangerous individuals",
       selected: false,
     },
     {
-      id: 5,
+      id: 6,
       key: "cat6",
       value: false,
       category: "Suicide or self-harm",
       selected: false,
     },
     {
-      id: 6,
+      id: 7,
       key: "cat7",
       value: false,
       category: "Hate speech and Bullying",
       selected: false,
     },
     {
-      id: 7,
+      id: 8,
       key: "cat8",
       value: false,
       category: "Pornographic content",
       selected: false,
     },
     {
-      id: 8,
+      id: 9,
       key: "cat9",
       value: false,
       category: "Harassment",
       selected: false,
     },
     {
-      id: 9,
+      id: 10,
       key: "cat10",
       value: false,
       category: "Minor safety",
       selected: false,
     },
     {
-      id: 10,
+      id: 11,
       key: "cat11",
       value: false,
       category: "Underage",
       selected: false,
     },
-    { id: 11, key: "cat12", value: false, category: "other", selected: false },
   ]);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const { theme, setTheme } = useContext(ThemeContext);
@@ -113,7 +119,7 @@ const ReportScreen = ({ route, navigation }) => {
     setMessage(message);
   };
 
-  const submitForm = async () => {
+  const submitForm = () => {
     const post = route.params.post;
     const postId = post._id;
 
@@ -122,70 +128,35 @@ const ReportScreen = ({ route, navigation }) => {
       return;
     }
 
-    try {
-      const response = await axios.post(
+    // console.log(post, "this is post object");
+    // console.log(post.media[0].original_url);
+
+    const movie = post.media[0].original_url;
+
+    axios
+      .post(
         "/api/support/create-ticket",
-        "create",
         {
           title,
           message,
-          post: postId,
+          url: movie,
           category_id: categoryId,
-          user_id: currentUser._id,
-        }
-      );
-      if (response.status === 200) {
+          creator: currentUser.username,
+        },
+        "create"
+      )
+      .then(function (response) {
         console.log(response);
         alert(
           "Thank you for submitting your report. We will look into this matter"
         );
         navigation.goBack();
-      } else {
-        console.log(response.status);
-
-        // throw new Error("Notice", "There was an error in sending your report");
-      }
-    } catch (error) {
-      console.log(error.message);
-      alert("An server error has occurred");
-    }
+      })
+      .catch(function (error) {
+        console.log(error.message);
+        alert("There was an error in sending your report");
+      });
   };
-
-  // const submitForm = function () {
-  //   const post = route.params.post;
-  //   const postId = post._id;
-
-  //   if (!title.trim() || !message.trim()) {
-  //     Alert.alert("Please fill out all of the fields.");
-  //     return false;
-  //   }
-  //   // console.log(title);
-  //   // console.log(message, "(message)");
-  //   // console.log(postId, "(post Id)");
-  //   // console.log(categoryId, "(category)");
-  //   // console.log(currentUser._id, "(user Id)");
-
-  //   axios
-  //     .post("/api/support/create-ticket", "create", {
-  //       title: title,
-  //       message: message,
-  //       post: postId,
-  //       category_id: categoryId,
-  //       user_id: currentUser._id,
-  //     })
-  //     .then(function (response) {
-  //       console.log(response);
-  //       Alert.alert(
-  //         "Notice",
-  //         "Thank you for submitting your report. We will look into this matter."
-  //       );
-  //       navigation.goBack();
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error.message);
-  //       Alert.alert("Notice", "There was an error in sending your report");
-  //     });
-  // };
 
   return (
     <SafeAreaView
