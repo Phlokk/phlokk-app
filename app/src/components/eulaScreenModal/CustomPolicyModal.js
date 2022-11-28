@@ -16,12 +16,7 @@ export default function CustomPolicyModal({
   dismissAlert,
 }) {
   return (
-    <Modal
-      visible={modalVisible}
-      transparent={true}
-      animationType={"fade"}
-      onRequestClose={() => setModalVisible(false)}
-    >
+    <Modal visible={modalVisible} transparent={true} animationType={"fade"}>
       <SafeAreaView style={styles.container}>
         <View style={styles.eulaView}>
           <Text style={styles.eulaText}>EULA</Text>
@@ -174,36 +169,31 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   goBackView: {
+    marginTop: 40,
     marginBottom: 40,
     margin: 10,
     bottom: 15,
     alignSelf: "center",
   },
   alertMessageButtonText: {
+    marginHorizontal: 10,
     textAlign: "center",
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: "bold",
     color: colors.white,
     alignSelf: "center",
   },
   alertMessageButtonStyle: {
     width: "30%",
-    paddingHorizontal: 6,
-    marginVertical: 8,
-    borderRadius: 10,
+    padding: 5,
+    borderRadius: 5,
     borderColor: colors.green,
     borderWidth: 1,
     backgroundColor: colors.lightBlack,
     justifyContent: "center",
   },
-  eulaText: {
-    color: colors.green,
-    fontSize: 18,
-    fontWeight: "bold",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   eulaView: {
+    marginTop: 20,
     paddingBottom: 25,
     alignItems: "center",
     justifyContent: "center",

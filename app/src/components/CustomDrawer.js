@@ -28,9 +28,7 @@ const CustomDrawer = (props) => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-  useEffect(() => {
-    console.log("theme changed");
-  }, [theme]);
+  useEffect(() => {}, [theme]);
 
   const dispatch = useDispatch();
 

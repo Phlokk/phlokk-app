@@ -8,6 +8,7 @@ import {
   Image,
   Alert,
   KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import Checkbox from "expo-checkbox";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -20,6 +21,7 @@ import { useTogglePasswordVisibility } from "../../../services/passwordVisibilit
 import colors from "../../../../config/colors";
 import axios from "../../../redux/apis/axiosDeclaration";
 import CustomPolicyModal from "../../eulaScreenModal/CustomPolicyModal";
+import CustomTOSModal from "../../eulaScreenModal/CustomTOSModal";
 import { registerForPushNotificationsAsync } from "../../../services/notifications";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
@@ -39,6 +41,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const [isChecked, setChecked] = useState(false);
 
   const [policyModal, setPolicyModal] = useState(false);
+  const [isTosModal, setTosModal] = useState(false);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -100,88 +103,32 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch(function (error) {
+        console.log(error);
         Alert.alert("Registration was not successful");
       });
   };
 
   return (
     <>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={() => setDetailsPage(false)}>
-          <MaterialIcons
-            style={styles.keyLeft}
-            name="keyboard-arrow-left"
-            size={28}
-            color="lightgray"
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.logoContainer}>
-        <Image source={require("../../../../../app/assets/phlokk_logo.png")} />
-      </View>
-      <View style={styles.fields} behavior="padding">
-        {authPage === 0 ? (
-          <>
-            <TextInput
-              style={styles.textInput}
-              keyboardType="email-address"
-              placeholderTextColor={colors.green}
-              autoCapitalize="none"
-              autoCorrect={false}
-              textContentType="emailAddress"
-              maxLength={50}
-              onChangeText={(text) => setEmail(text)}
-              placeholder="Email"
-              value={email}
+      <ScrollView>
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => setDetailsPage(false)}>
+            <MaterialIcons
+              style={styles.keyLeft}
+              name="keyboard-arrow-left"
+              size={28}
+              color="lightgray"
             />
-            <View>
-              <TextInput
-                style={styles.textInput}
-                placeholderTextColor={colors.green}
-                autoCapitalize="none"
-                autoCorrect={false}
-                textContentType="password"
-                maxLength={24}
-                onChangeText={(text) => setPassword(text)}
-                secureTextEntry={passwordVisibility}
-                placeholder="Password"
-                value={password}
-              />
-              <TouchableOpacity
-                onPress={handlePasswordVisibility}
-                style={styles.eye}
-              >
-                <MaterialCommunityIcons
-                  name={rightIcon}
-                  size={22}
-                  color={colors.green}
-                />
-              </TouchableOpacity>
-            </View>
-          </>
-        ) : (
-          <>
-            <KeyboardAvoidingView behavior="padding">
-              <TextInput
-                style={styles.textInput}
-                placeholderTextColor={colors.green}
-                autoCapitalize="words"
-                autoCorrect={false}
-                maxLength={50}
-                onChangeText={(text) => setName(text)}
-                placeholder="Name"
-                value={name}
-              />
-              <TextInput
-                style={styles.textInput}
-                placeholderTextColor={colors.green}
-                autoCapitalize="none"
-                autoCorrect={false}
-                maxLength={24}
-                onChangeText={(text) => setUsername(text)}
-                placeholder="Username"
-                value={username}
-              />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.logoContainer}>
+          <Image
+            source={require("../../../../../app/assets/phlokk_logo.png")}
+          />
+        </View>
+        <View style={styles.fields} behavior="padding">
+          {authPage === 0 ? (
+            <>
               <TextInput
                 style={styles.textInput}
                 keyboardType="email-address"
@@ -194,77 +141,152 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
                 placeholder="Email"
                 value={email}
               />
-              <TextInput
-                style={styles.textInput}
-                placeholderTextColor={colors.green}
-                autoCapitalize="none"
-                autoCorrect={false}
-                textContentType="password"
-                maxLength={24}
-                onChangeText={(text) => setPassword(text)}
-                secureTextEntry={passwordVisibility}
-                placeholder="Password"
-                value={password}
-                enablesReturnKeyAutomatically
-              />
-              <TouchableOpacity
-                onPress={handlePasswordVisibility}
-                style={styles.eyeRegister}
-              >
-                <MaterialCommunityIcons
-                  name={rightIcon}
-                  size={22}
-                  color={colors.green}
+              <View>
+                <TextInput
+                  style={styles.textInput}
+                  placeholderTextColor={colors.green}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  textContentType="password"
+                  maxLength={24}
+                  onChangeText={(text) => setPassword(text)}
+                  secureTextEntry={passwordVisibility}
+                  placeholder="Password"
+                  value={password}
                 />
-              </TouchableOpacity>
-            </KeyboardAvoidingView>
-          </>
-        )}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => (authPage === 0 ? handleLogin() : handleRegister())}
-        >
-          <Text style={styles.buttonText}>
-            {authPage === 0 ? "Sign In" : "Sign Up "}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.forgotPass}
-          // onPress={() => navigation.navigate(REST_PASS)}
-        >
-          <Text style={styles.forgotButtonText}>Forgot Password?</Text>
-          <View />
-        </TouchableOpacity>
-
-        {authPage === 0 ? (
-          <></>
-        ) : (
-          <View style={styles.checkboxRow}>
-            <Checkbox
-              // onPress={() => acceptOnCheck()}
-              style={styles.checkbox}
-              value={isChecked}
-              onValueChange={setChecked}
-              color={isChecked ? "#00cec9" : undefined}
-            />
-            <CustomPolicyModal
-              positiveBtn="Back"
-              modalVisible={policyModal}
-              dismissAlert={setPolicyModal}
-              animationType="fade"
-            />
-            <Text style={styles.eulaText}>
-              Accept{" "}
-              <Text
-                onPress={() => setPolicyModal(true)}
-                style={styles.eulaInfoText}
-              >
-                EULA
-              </Text>
+                <TouchableOpacity
+                  onPress={handlePasswordVisibility}
+                  style={styles.eye}
+                >
+                  <MaterialCommunityIcons
+                    name={rightIcon}
+                    size={22}
+                    color={colors.green}
+                  />
+                </TouchableOpacity>
+              </View>
+            </>
+          ) : (
+            <>
+              <KeyboardAvoidingView behavior="padding">
+                <TextInput
+                  style={styles.textInput}
+                  placeholderTextColor={colors.green}
+                  autoCapitalize="words"
+                  autoCorrect={false}
+                  maxLength={50}
+                  onChangeText={(text) => setName(text)}
+                  placeholder="Name"
+                  value={name}
+                />
+                <TextInput
+                  style={styles.textInput}
+                  placeholderTextColor={colors.green}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  maxLength={24}
+                  onChangeText={(text) => setUsername(text)}
+                  placeholder="Username"
+                  value={username}
+                />
+                <TextInput
+                  style={styles.textInput}
+                  keyboardType="email-address"
+                  placeholderTextColor={colors.green}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  textContentType="emailAddress"
+                  maxLength={50}
+                  onChangeText={(text) => setEmail(text)}
+                  placeholder="Email"
+                  value={email}
+                />
+                <TextInput
+                  style={styles.textInput}
+                  placeholderTextColor={colors.green}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  textContentType="password"
+                  maxLength={24}
+                  onChangeText={(text) => setPassword(text)}
+                  secureTextEntry={passwordVisibility}
+                  placeholder="Password"
+                  value={password}
+                  enablesReturnKeyAutomatically
+                />
+                <TouchableOpacity
+                  onPress={handlePasswordVisibility}
+                  style={styles.eyeRegister}
+                >
+                  <MaterialCommunityIcons
+                    name={rightIcon}
+                    size={22}
+                    color={colors.green}
+                  />
+                </TouchableOpacity>
+              </KeyboardAvoidingView>
+            </>
+          )}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => (authPage === 0 ? handleLogin() : handleRegister())}
+          >
+            <Text style={styles.buttonText}>
+              {authPage === 0 ? "Sign In" : "Sign Up "}
             </Text>
-          </View>
-        )}
-      </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.forgotPass}
+            // onPress={() => navigation.navigate(REST_PASS)}
+          >
+            <Text style={styles.forgotButtonText}>Forgot Password?</Text>
+            <View />
+          </TouchableOpacity>
+
+          {authPage === 0 ? (
+            <></>
+          ) : (
+            <View style={styles.checkboxRow}>
+              <Checkbox
+                style={styles.checkbox}
+                value={isChecked}
+                onValueChange={setChecked}
+                color={isChecked ? "#00cec9" : undefined}
+              />
+              <CustomPolicyModal
+                positiveBtn="Back"
+                modalVisible={policyModal}
+                dismissAlert={setPolicyModal}
+                animationType="fade"
+              />
+              <CustomTOSModal
+                positiveBtn="Back"
+                modalVisible={isTosModal}
+                dismissAlert={setTosModal}
+                animationType="fade"
+              />
+              <Text style={styles.eulaText}>
+                <Text>
+                  By clicking Sign Up you agree to our{" "}
+                  <Text
+                    onPress={() => setTosModal(true)}
+                    style={styles.eulaInfoText}
+                  >
+                    Terms and Conditions
+                  </Text>
+                </Text>
+                <Text> and </Text>
+                <Text
+                  onPress={() => setPolicyModal(true)}
+                  style={styles.eulaInfoText}
+                >
+                  EULA
+                </Text>
+              </Text>
+            </View>
+          )}
+        </View>
+      </ScrollView>
     </>
   );
 }
@@ -279,6 +301,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     paddingTop: 10,
+  },
+  termsRow: {
+    paddingTop: 10,
+    flexDirection: "row",
   },
   textInput: {
     borderColor: colors.secondary,
@@ -295,7 +321,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderStyle: "solid",
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: "center",
   },
@@ -333,11 +359,11 @@ const styles = StyleSheet.create({
   },
   fields: {
     flex: 1,
-    top: 200,
+    top: 100,
     paddingHorizontal: 30,
   },
   eulaText: {
-    textAlign: "center",
+    textAlign: "left",
     marginTop: 10,
     color: colors.secondary,
   },
@@ -367,7 +393,9 @@ const styles = StyleSheet.create({
     height: 20,
   },
   eulaInfoText: {
+    fontSize: 12,
     color: colors.green,
+    textDecorationLine: "underline",
   },
   keyLeft: {
     top: 60,
