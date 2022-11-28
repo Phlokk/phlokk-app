@@ -3,9 +3,9 @@ import ActivityNavBar from "../../components/general/activityNav/ActivityNavBar"
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import colors from "../../../config/colors";
 import {
-  // clearNotificationListener,
+  clearNotificationListener,
   getNotifications,
-  // notificationListener,
+  notificationListener,
 } from "../../services/notifications";
 import NotificationItem from "./NotificationItem";
 import LottieView from "lottie-react-native";
@@ -101,7 +101,7 @@ export default function ActivityScreen({ navigation }) {
         ItemSeparatorComponent={Separator}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );
