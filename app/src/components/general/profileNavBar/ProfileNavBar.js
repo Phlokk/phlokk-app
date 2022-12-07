@@ -1,27 +1,33 @@
-import React, { useState, useContext } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  Pressable,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
-import { forceRefreshAtom } from "../../../screens/videoFeed/VideoFeed";
-import BlockAlert from "../../Alerts/BlockAlert";
+import { useIsFocused } from "@react-navigation/native";
 import { ThemeContext } from "../../../theme/context";
+import ReportUserModalScreen from "../../modal/reportModal/ReportUserModalScreen";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function ProfileNavBar({ userProfile, isCurrentUser }) {
   const navigation = useNavigation();
   const { theme, setTheme } = useContext(ThemeContext);
   const [user, setUser] = useAtom(userAtom);
-  const [isGifting, setIsGifting] = useState(false);
-  const [isBlockUserModalOpen, setIsBlockUserModalOpen] = useState(false);
-  const [forceRefresh, setForceRefresh] = useAtom(forceRefreshAtom);
 
-  const onBlockCompleted = async () => {
-    setIsBlockUserModalOpen(false);
-    setForceRefresh(true); // This will tell the video feed to refresh the post list, because we blocked someone
-    navigation.goBack();
-  };
+  const [isReportModalScreenOpen, setIsReportModalScreenOpen] = useState(false);
+
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    setIsReportModalScreenOpen(false);
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>
@@ -30,17 +36,18 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
       </Text>
 
       {!isCurrentUser && (
-        <TouchableOpacity style={styles.blockButton}>
-          <MaterialIcons
-            onPress={() => setIsBlockUserModalOpen(true)}
-            name="block"
-            size={18}
-            color={colors.red}
+        <TouchableOpacity style={styles.drawerBtn}>
+          <Ionicons
+            name="ellipsis-horizontal-sharp"
+            size={28}
+            style={theme == "light" ? styles.toggle_light : styles.toggle_dark}
+            onPress={() => setIsReportModalScreenOpen(true)}
           />
         </TouchableOpacity>
       )}
+
       {isCurrentUser && (
-        <TouchableOpacity style={styles.blockButton}>
+        <TouchableOpacity style={styles.drawerBtn}>
           <MaterialIcons
             onPress={() => navigation.openDrawer()}
             name="menu"
@@ -50,23 +57,19 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
         </TouchableOpacity>
       )}
 
-      {/* Block modal */}
-      <BlockAlert
-        customAlertMessage={
-          <Text>
-            {user.username} would you like to block @{userProfile.username}?
-            This creator will not be able to send you instant messages, see your
-            content, or view or find your profile. This user will not be
-            notified that you have blocked them.
-          </Text>
-        }
-        positiveBtn="Block"
-        negativeBtn="Cancel"
-        modalVisible={isBlockUserModalOpen}
-        dismissAlert={setIsBlockUserModalOpen}
-        userIdToBlock={userProfile._id}
-        onCompleted={onBlockCompleted}
-      />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isReportModalScreenOpen}
+      >
+        <View style={styles.pressedModal}>
+          <Pressable
+            style={styles.pressedStyle}
+            onPress={() => setIsReportModalScreenOpen(false)}
+          />
+          <ReportUserModalScreen user={user} isCurrentUser={isCurrentUser} />
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -108,14 +111,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     opacity: 0.5,
   },
-  fireButton: {
-    position: "absolute",
-    top: 0,
-    left: 12,
-  },
-  blockButton: {
+  drawerBtn: {
     position: "absolute",
     top: 5,
     right: 12,
+  },
+  pressedStyle: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
+  pressedModal: {
+    flex: 1,
+    justifyContent: "flex-end",
   },
 });

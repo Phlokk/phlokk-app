@@ -128,9 +128,6 @@ const ReportScreen = ({ route, navigation }) => {
       return;
     }
 
-    console.log(postId, "this is post ID");
-    // console.log(post.media[0].original_url);
-
     const movie = post.media[0].original_url;
 
     axios
