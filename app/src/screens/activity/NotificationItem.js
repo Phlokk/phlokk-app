@@ -92,15 +92,6 @@ const NotificationItem = ({ navigation, item }) => {
           )}
         </TouchableOpacity>
         <View style={styles.notificationView}>
-          {/* <Text
-            style={
-              theme == "light" ? styles.username_light : styles.username_dark
-            }
-          >
-            {item.user?.username}
-          </Text> */}
-
-          {/* TODO still need to hide all but 4 avatars and show button that connects to FlatList of all users who liked, commented on post. Also add thumbnail for each post */}
           <View style={styles.iconRow}>
             {Object.keys(item.pictures)
               .slice(0, 7)

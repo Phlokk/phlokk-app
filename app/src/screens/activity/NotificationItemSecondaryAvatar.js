@@ -3,21 +3,11 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { useState } from "react";
 import CustomActivityIndicator from "../../components/common/ActivityIndicator";
 
-const NotificationItemSecondaryAvatar = ({ image, key }) => {
+const NotificationItemSecondaryAvatar = ({ image }) => {
   const [imageIsLoading, setImageIsLoading] = useState(false);
 
   return (
-    <Pressable
-      key={key}
-      style={styles.iconRowAvatars}
-      // TODO navigate to initialUser profile when clicked
-
-      // onPress={() => {
-      //   navigation.navigate("feedProfile", {
-      //     initialUserId: key,
-      //   });
-      // }}
-    >
+    <Pressable style={styles.iconRowAvatars}>
       <FastImage
         style={styles.avatarList}
         source={{

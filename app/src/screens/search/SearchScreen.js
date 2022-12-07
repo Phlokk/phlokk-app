@@ -66,6 +66,7 @@ const SearchScreen = () => {
         data={searchUsers}
         renderItem={({ item }) => <SearchUserItem item={item} />}
         keyExtractor={(item) => item._id}
+        showsVerticalScrollIndicator={false}
       />
       <View style={styles.risingStarView}>
         <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
@@ -81,6 +82,7 @@ const SearchScreen = () => {
           initialNumToRender={5}
           ItemSeparatorComponent={Separator}
           showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           horizontal={true}
         />
       </View>

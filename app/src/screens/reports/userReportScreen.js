@@ -17,13 +17,13 @@ import { userAtom } from "../../../../App";
 
 let categoryId = null;
 
-const UserReportScreen = ({ route, userProfile, navigation }) => {
+const UserReportScreen = ({ route, navigation }) => {
   const [categories, setCategories] = useState([
     {
       id: 2,
       key: "cat2",
       value: false,
-      category: "Illegal activities",
+      category: "Illegal Activities",
       selected: false,
     },
     { id: 3, key: "cat3", value: false, category: "Fraud", selected: false },
@@ -31,35 +31,35 @@ const UserReportScreen = ({ route, userProfile, navigation }) => {
       id: 4,
       key: "cat4",
       value: false,
-      category: "Graphic content",
+      category: "Graphic Content",
       selected: false,
     },
     {
       id: 5,
       key: "cat5",
       value: false,
-      category: "Dangerous individuals",
+      category: "Dangerous Individuals",
       selected: false,
     },
     {
       id: 6,
       key: "cat6",
       value: false,
-      category: "Suicide or self-harm",
+      category: "Suicide or Self-Harm",
       selected: false,
     },
     {
       id: 7,
       key: "cat7",
       value: false,
-      category: "Hate speech and Bullying",
+      category: "Hate Speech and Bullying",
       selected: false,
     },
     {
       id: 8,
       key: "cat8",
       value: false,
-      category: "Pornographic content",
+      category: "Pornographic Content",
       selected: false,
     },
     {
@@ -73,7 +73,7 @@ const UserReportScreen = ({ route, userProfile, navigation }) => {
       id: 10,
       key: "cat10",
       value: false,
-      category: "Minor safety",
+      category: "Minor Safety",
       selected: false,
     },
     {
@@ -96,9 +96,12 @@ const UserReportScreen = ({ route, userProfile, navigation }) => {
     );
     setCategories(updatedState);
   };
+
   // need user_id of the creator who is in violation to come with report
   const submitForm = () => {
+    // console.log(categories.category);
     const { profile } = route.params;
+
     axios
 
       .post(
