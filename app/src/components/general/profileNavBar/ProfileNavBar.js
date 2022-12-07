@@ -45,7 +45,6 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
           />
         </TouchableOpacity>
       )}
-
       {isCurrentUser && (
         <TouchableOpacity style={styles.drawerBtn}>
           <MaterialIcons
@@ -56,7 +55,6 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
           />
         </TouchableOpacity>
       )}
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -67,7 +65,11 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
             style={styles.pressedStyle}
             onPress={() => setIsReportModalScreenOpen(false)}
           />
-          <ReportUserModalScreen user={user} isCurrentUser={isCurrentUser} />
+          <ReportUserModalScreen
+            userProfile={userProfile}
+            user={user}
+            isCurrentUser={isCurrentUser}
+          />
         </View>
       </Modal>
     </View>

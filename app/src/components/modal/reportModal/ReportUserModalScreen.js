@@ -2,12 +2,12 @@ import {
   View,
   Text,
   StyleSheet,
-  Share,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import { useAtom } from "jotai";
@@ -17,7 +17,7 @@ import BlockAlert from "../../Alerts/BlockAlert";
 import colors from "../../../../config/colors";
 import { useIsFocused } from "@react-navigation/native";
 
-const ReportUserModalScreen = ({ post, isCurrentUser, userProfile }) => {
+const ReportUserModalScreen = ({ isCurrentUser, userProfile }) => {
   const navigation = useNavigation();
   const [forceRefresh, setForceRefresh] = useAtom(forceRefreshAtom);
   const [isBlockUserModalOpen, setIsBlockUserModalOpen] = useState(false);
@@ -42,27 +42,25 @@ const ReportUserModalScreen = ({ post, isCurrentUser, userProfile }) => {
             <TouchableOpacity
               style={styles.fieldItemContainer}
               onPress={() => {
-                navigation.navigate(routes.REPORTS, { post });
+                navigation.navigate(routes.USER_REPORTS, {
+                  profile: userProfile.username,
+                });
               }}
             >
-              <View style={styles.bubble}>
-                <MaterialIcons
-                  name="report-problem"
-                  size={25}
-                  color={colors.secondary}
-                />
+              <View style={styles.iconView}>
+                <Feather name="flag" size={24} color={colors.secondary} />
               </View>
               <Text style={styles.text}>Report</Text>
             </TouchableOpacity>
 
             {!isCurrentUser && (
               <TouchableOpacity style={styles.fieldItemContainer}>
-                <View style={styles.bubble}>
+                <View style={styles.iconView}>
                   <MaterialIcons
                     onPress={() => setIsBlockUserModalOpen(true)}
-                    name="block"
+                    name="block-flipped"
                     size={25}
-                    color={colors.red}
+                    color={colors.secondary}
                   />
                 </View>
                 <Text style={styles.text}>Block</Text>
@@ -72,24 +70,20 @@ const ReportUserModalScreen = ({ post, isCurrentUser, userProfile }) => {
             {/* Block modal */}
             <BlockAlert
               customAlertMessage={
-                // <Text>
-                //   {user.username} would you like to block @
-                //   {userProfile.username}? This creator will not be able to send
-                //   you instant messages, see your content, or view or find your
-                //   profile. This user will not be notified that you have blocked
-                //   them.
-                // </Text>
+                //   {userProfile.username}?
                 <Text>
-                  This creator will not be able to send you instant messages,
-                  see your content, or view or find your profile. This user will
-                  not be notified that you have blocked them.
+                  {user.username} would you like to block @
+                  {userProfile.username}? This creator will not be able to send
+                  you instant messages, see your content, or view or find your
+                  profile. This user will not be notified that you have blocked
+                  them.
                 </Text>
               }
               positiveBtn="Block"
               negativeBtn="Cancel"
               modalVisible={isBlockUserModalOpen}
               dismissAlert={setIsBlockUserModalOpen}
-              // userIdToBlock={userProfile._id}
+              userIdToBlock={userProfile._id}
               onCompleted={onBlockCompleted}
             />
           </>
@@ -128,7 +122,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  bubble: {
+  iconView: {
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",

@@ -56,11 +56,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
               }}
             >
               <View style={styles.bubble}>
-                <MaterialIcons
-                  name="report-problem"
-                  size={25}
-                  color={colors.secondary}
-                />
+                <Feather name="flag" size={24} color={colors.secondary} />
               </View>
               <Text style={styles.text}>Report</Text>
             </TouchableOpacity>

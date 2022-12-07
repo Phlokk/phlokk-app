@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard,
   ScrollView,
 } from "react-native";
 import React, { useState, useContext } from "react";
@@ -18,7 +17,7 @@ import { userAtom } from "../../../../App";
 
 let categoryId = null;
 
-const ReportScreen = ({ route, navigation }) => {
+const UserReportScreen = ({ route, userProfile, navigation }) => {
   const [categories, setCategories] = useState([
     {
       id: 2,
@@ -87,8 +86,6 @@ const ReportScreen = ({ route, navigation }) => {
   ]);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const { theme, setTheme } = useContext(ThemeContext);
-  const [title, setTitle] = useState("");
-  const [message, setMessage] = useState("");
 
   const onRadioBtnClick = (item) => {
     categoryId = item.id;
@@ -99,24 +96,15 @@ const ReportScreen = ({ route, navigation }) => {
     );
     setCategories(updatedState);
   };
-
+  // need user_id of the creator who is in violation to come with report
   const submitForm = () => {
-    const post = route.params.post;
-    const postId = post._id;
-
-    if (!title.trim() || !message.trim()) {
-      alert("Please fill out all of the fields.");
-      return;
-    }
-
-    const movie = post.media[0].original_url;
-
+    const { profile } = route.params;
     axios
+
       .post(
         "/api/support/create-ticket",
         {
-          url: movie,
-          post_id: postId,
+          profile,
           category_id: categoryId,
           creator: currentUser.username,
         },
@@ -125,7 +113,7 @@ const ReportScreen = ({ route, navigation }) => {
       .then(function (response) {
         console.log(response);
         alert(
-          "Thank you for submitting a content violation report. We will look into this matter"
+          "Thank you for reporting this creator. We will look into this matter"
         );
         navigation.goBack();
       })
@@ -139,7 +127,7 @@ const ReportScreen = ({ route, navigation }) => {
     <SafeAreaView
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
-      <PostNavBar title="Report Content" />
+      <PostNavBar title="Report Creator" />
       <ScrollView>
         <TouchableWithoutFeedback>
           <View style={styles.reportView}>
@@ -186,6 +174,7 @@ const ReportScreen = ({ route, navigation }) => {
           </View>
         </TouchableWithoutFeedback>
       </ScrollView>
+
       <View style={styles.submitBtnView}>
         <TouchableOpacity
           style={styles.submitButton}
@@ -198,7 +187,7 @@ const ReportScreen = ({ route, navigation }) => {
   );
 };
 
-export default ReportScreen;
+export default UserReportScreen;
 
 const styles = StyleSheet.create({
   container_dark: {

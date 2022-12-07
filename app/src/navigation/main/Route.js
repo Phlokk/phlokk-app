@@ -65,6 +65,7 @@ import BlockedListScreen from "../../screens/settings/privacy/BlockedListScreen"
 import ActivityAccountScreen from "../../screens/settings/activity/ActivityAccountScreen";
 import colors from "../../../config/colors";
 import Root from "../../components/drawer/drawer-navigation";
+import UserReportScreen from "../../screens/reports/userReportScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -301,6 +302,11 @@ export default function Route() {
           <Stack.Screen
             name="reports"
             component={ReportScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="userReports"
+            component={UserReportScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen
