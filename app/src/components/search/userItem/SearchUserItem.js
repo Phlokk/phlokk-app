@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   text_light: {
     fontSize: 12,
-    color: colors.black,
+    color: colors.secondary,
   },
   text_dark: {
     fontSize: 12,
@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   creatorText_light: {
-    color: colors.grey,
-    opacity: 0.4,
+    color: colors.secondary,
+    opacity: 0.7,
     fontSize: 10,
   },
   creatorText_dark: {

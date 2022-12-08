@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Entypo } from "@expo/vector-icons";
+import { EvilIcons } from "@expo/vector-icons";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
 import pmdLogo from "../../../../../assets/pmd_logo_green.png";
 import colors from "../../../../../config/colors";
 import VerifiedIcon from "../../../common/VerifiedIcon";
+import * as Linking from "expo-linking";
 import TextTicker from "react-native-text-ticker";
 
 const DEFAULT_DESC_DISPLAY_LINES = 2;
@@ -18,7 +20,7 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
   const [descriptionDisplayLines, setDescriptionDisplayLines] = useState(
     DEFAULT_DESC_DISPLAY_LINES
   );
-
+  const userLink = user.link;
   const rotate = useRotation();
   const animatedStyle = { transform: [{ rotate }] };
   const isFocused = useIsFocused();
@@ -54,14 +56,32 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
             )}
           </TouchableOpacity>
         </View>
+
+        <View style={styles.linkView}>
+          {user.link !== null ? (
+            <TouchableOpacity
+              style={styles.linkIconRow}
+              onPress={
+                user && user.link ? () => Linking.openURL(user.link) : null
+              }
+            >
+              <EvilIcons
+                name="external-link"
+                size={24}
+                color={colors.secondary}
+              />
+              <Text style={styles.linkText}>Visit site</Text>
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
+        </View>
         <View style={styles.usernameRow} pointerEvents="box-none">
           <Text style={styles.username} key={user._id}>
             @{user.username}
           </Text>
           <View style={{ paddingTop: 2, top: 2 }}>
-            {user.is_verified === 1 && (
-              <VerifiedIcon />
-            )}
+            {user.is_verified === 1 && <VerifiedIcon />}
           </View>
         </View>
 
@@ -87,12 +107,7 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
             size={15}
             color="white"
           />
-          <TextTicker
-            style={styles.songName}
-            duration={8000}
-            loop={true}
-
-          >
+          <TextTicker style={styles.songName} duration={8000} loop={true}>
             {tickerText}
           </TextTicker>
 
@@ -192,5 +207,20 @@ const styles = StyleSheet.create({
   },
   note: {
     marginRight: 5,
+  },
+  linkView: {
+    flexDirection: "row",
+    // backgroundColor: colors.modals,
+    borderRadius: 7,
+    padding: 5,
+    // opacity: 0.4,
+  },
+  linkText: {
+    color: colors.secondary,
+  },
+  linkIconRow: {
+    marginBottom: 2,
+    right: 10,
+    flexDirection: "row",
   },
 });

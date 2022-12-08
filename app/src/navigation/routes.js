@@ -38,6 +38,8 @@ export default Object.freeze({
   QUOTES: "quotes",
   BIO: "bio",
   CAMERA: "Cam",
+  EDIT_POSTS: "editPosts",
+  SAVE_POST: "savePost",
   SOUNDS: "sounds",
   RECORDING_SCREEN: "recording",
   AUDIO_PLAYER: "audioPlay",

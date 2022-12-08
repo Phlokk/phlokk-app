@@ -66,6 +66,7 @@ import ActivityAccountScreen from "../../screens/settings/activity/ActivityAccou
 import colors from "../../../config/colors";
 import Root from "../../components/drawer/drawer-navigation";
 import UserReportScreen from "../../screens/reports/userReportScreen";
+import EditPostsScreen from "../../screens/camera/EditPostsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -284,6 +285,11 @@ export default function Route() {
             component={EditPostScreen}
             options={{ headerShown: false }}
           />
+          {/* <Stack.Screen
+            name="editPosts"
+            component={EditPostsScreen}
+            options={{ headerShown: false }}
+          /> */}
           <Stack.Screen
             name="chatSingle"
             component={ChatSingleScreen}

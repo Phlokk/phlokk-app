@@ -92,7 +92,7 @@ const SearchInput = ({ placeholder, setSearchUsers }) => {
           theme == "light" ? styles.textInput_light : styles.textInput_dark
         }
         placeholder={placeholder}
-        placeholderTextColor={colors.green}
+        placeholderTextColor={colors.secondary}
         underlineColorAndroid="transparent"
       />
       {textInput !== "" && (
@@ -100,7 +100,7 @@ const SearchInput = ({ placeholder, setSearchUsers }) => {
           style={styles.closeButton}
           onPress={() => setTextInput("")}
         >
-          <Feather name="x" size={22} color={colors.green} />
+          <Feather name="x" size={22} color={colors.secondary} />
         </TouchableOpacity>
       )}
       {isSearching && (
@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   textInput_light: {
-    color: colors.black,
-    borderColor: colors.lightBlack,
+    color: colors.secondary,
+    borderColor: colors.secondary,
     borderWidth: 0.5,
     borderRadius: 5,
     flexDirection: "row",

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import SearchUserItem from "../../components/search/userItem/SearchUserItem";
 import routes from "../../navigation/routes";
@@ -19,6 +20,8 @@ const SearchScreen = () => {
   const navigation = useNavigation();
   const [textInput, setTextInput] = useState("");
   const [searchUsers, setSearchUsers] = useState([]);
+
+  const image = require("../../../assets/pattern4.png");
 
   const Categories = [
     { id: 1, name: "Comedy", navigateTo: routes.COMEDY_SCREEN },
@@ -35,12 +38,16 @@ const SearchScreen = () => {
 
   const ItemRender = ({ name, navigateTo }) => (
     <TouchableOpacity
-      style={styles.item}
+      style={theme == "light" ? styles.item_light : styles.item_dark}
       onPress={() => {
         navigation.navigate(navigateTo);
       }}
     >
-      <Text style={styles.itemText}>{name}</Text>
+      <Text
+        style={theme == "light" ? styles.itemText_light : styles.itemText_dark}
+      >
+        {name}
+      </Text>
     </TouchableOpacity>
   );
 
@@ -57,7 +64,9 @@ const SearchScreen = () => {
   };
 
   return (
-    <SafeAreaView
+    <ImageBackground
+      source={image}
+      resizeMode="cover"
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
       <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
@@ -86,7 +95,7 @@ const SearchScreen = () => {
           horizontal={true}
         />
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   );
 };
 
@@ -112,7 +121,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   text_light: {
-    color: colors.black,
+    color: colors.gray,
     fontSize: 12,
     marginBottom: 10,
     marginHorizontal: 3,
@@ -134,7 +143,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingBottom: 3,
   },
-  item: {
+  item_light: {
+    padding: 5,
+    borderColor: colors.secondary,
+    width: 60,
+    height: 60,
+    borderRadius: 10,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  item_dark: {
     padding: 5,
     borderColor: colors.green,
     // backgroundColor: colors.lightBlack,
@@ -145,7 +164,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  itemText: {
+  itemText_light: {
+    fontSize: 8,
+    color: colors.secondary,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  itemText_dark: {
     fontSize: 8,
     color: colors.green,
     textAlign: "center",
