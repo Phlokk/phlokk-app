@@ -7,6 +7,7 @@ import {
   Animated,
   FlatList,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";

@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -284,7 +291,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   verifiedIcon: {
-    left: 20,
+    left: Platform.OS === "android" ? 1 : 20,
+    top: 1,
   },
   imageView: {
     flexDirection: "row",

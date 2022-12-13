@@ -41,7 +41,7 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["#101548"]}
+        colors={["#101548, #ffffff"]}
         start={{ x: 2.0, y: 5.0 }}
         end={{ x: 1.0, y: 0.0 }}
         locations={[1.0]}
@@ -135,7 +135,7 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
           </View>
         </View>
 
-        <ScrollView showsVerticalScrollIndicator="false">
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.aboutText}>Bio:</Text>
           <Text style={styles.bioText}>{user.bio}</Text>
           <Text style={styles.aboutText}>Skills: (coming soon)</Text>
