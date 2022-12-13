@@ -104,11 +104,6 @@ const ReportScreen = ({ route, navigation }) => {
     const post = route.params.post;
     const postId = post._id;
 
-    if (!title.trim() || !message.trim()) {
-      alert("Please fill out all of the fields.");
-      return;
-    }
-
     const movie = post.media[0].original_url;
 
     axios
