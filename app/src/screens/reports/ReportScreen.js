@@ -114,6 +114,7 @@ const ReportScreen = ({ route, navigation }) => {
           post_id: postId,
           category_id: categoryId,
           creator: currentUser.username,
+          email: currentUser.email,
         },
         "create"
       )

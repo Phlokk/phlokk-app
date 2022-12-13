@@ -9,6 +9,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   ScrollView,
+  Platform,
 } from "react-native";
 import Checkbox from "expo-checkbox";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -359,7 +360,8 @@ const styles = StyleSheet.create({
   },
   fields: {
     flex: 1,
-    top: 100,
+    top: 50,
+    paddingTop: Platform.OS === "android" ? 80 : 150,
     paddingHorizontal: 30,
   },
   eulaText: {
@@ -398,7 +400,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
   keyLeft: {
-    top: 60,
+    top: Platform.OS === "android" ? 10 : 60,
   },
   providerButtonPass: {
     borderColor: colors.secondary,
