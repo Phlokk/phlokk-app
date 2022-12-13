@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+
 import com.android.build.OutputFile
 
 /**
@@ -120,9 +121,7 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
  * and the benefits of using Hermes will therefore be sharply reduced.
  */
-def enableHermes = project.ext.react.get("enableHermes", false)
-
-
+def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -184,18 +183,14 @@ android {
     }
 }
 
-
-
-
-
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true"
-    def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true"
-    def isWebpAnimatedEnabled = (findProperty('expo.webp.animated') ?: "") == "true"
+    def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
+    def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
+    def isWebpAnimatedEnabled = (findProperty('expo.webp.animated') ?: "") == "true";
 
     // If your app supports Android versions before Ice Cream Sandwich (API level 14)
     // All fresco packages should use the same version
@@ -217,7 +212,7 @@ dependencies {
             implementation 'com.facebook.fresco:animated-webp:2.0.0'
         }
     }
-
+    
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
@@ -236,10 +231,6 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-
-    implementation platform('com.google.firebase:firebase-bom:29.0.1')
-    implementation("com.google.firebase:firebase-iid")
-    implementation 'com.google.firebase:firebase-messaging'
 }
 
 // Run this once to be able to run the application with BUCK
@@ -249,6 +240,7 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
-apply from: new File(["node", "--print", "require.resolve('@react-native-community/cli-platform-android/package.json')"].execute(null, rootDir).text.trim(), "../native_modules.gradle")
+apply from: new File(["node", "--print", "require.resolve('@react-native-community/cli-platform-android/package.json')"].execute(null, rootDir).text.trim(), "../native_modules.gradle");
 applyNativeModulesAppBuildGradle(project)
+
 apply plugin: 'com.google.gms.google-services'

@@ -52,11 +52,11 @@ Notifications.setNotificationHandler({
   }),
 });
 
-const checkSystemStatus = async function () {
-  fetch(apiUrls.BASE_URL + "/api/system-status").then((response) => {
-    console.log(response);
-  });
-};
+// const checkSystemStatus = async function () {
+//   fetch(apiUrls.BASE_URL + "/api/system-status").then((response) => {
+//     console.log(response);
+//   });
+// };
 
 export default function App() {
   const [user, setUser] = useAtom(userAtom);
@@ -241,11 +241,9 @@ export default function App() {
     );
   } else {
     return (
-      <>
-        <Text style={{ padding: 20 }}>
-          App currently down for maintenance. Please try again later.
-        </Text>
-      </>
+      <Text style={{ padding: 40 }}>
+        App currently down for maintenance. Please try again later.
+      </Text>
     );
   }
 }
