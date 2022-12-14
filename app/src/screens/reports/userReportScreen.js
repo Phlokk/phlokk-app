@@ -110,7 +110,7 @@ const UserReportScreen = ({ route, navigation }) => {
           profile,
           category_id: categoryId,
           creator: currentUser.username,
-          email: currentUser.username,
+          email: currentUser.email,
         },
         "create"
       )

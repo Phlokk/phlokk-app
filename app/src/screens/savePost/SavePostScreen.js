@@ -177,7 +177,7 @@ export default function SavePostScreen({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: Platform.OS === "android" ? 10 : 30,
     backgroundColor: colors.primary,
   },
   uploadingContainer: {
