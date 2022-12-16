@@ -80,7 +80,8 @@
     "react-redux": "^7.2.9",
     "throttle-debounce": "^3.0.1",
     "use-debounce": "^8.0.4",
-    "uuid-random": "^1.3.2"
+    "uuid-random": "^1.3.2",
+    "expo-crypto": "~10.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

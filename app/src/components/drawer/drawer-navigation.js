@@ -19,7 +19,7 @@ export default function Root() {
   const Drawer = createDrawerNavigator();
   return (
     <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawer {...props} />}
+      // drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
         headerShown: false,
         drawerLabelStyle: { marginLeft: -20, fontSize: 12 },
