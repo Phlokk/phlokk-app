@@ -8,8 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useState, useContext } from "react";
-import { Feather } from "@expo/vector-icons";
+import React, { useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import SettingsNavBar from "../../../components/general/settings/SettingsNavBar";
 import colors from "../../../../config/colors";
