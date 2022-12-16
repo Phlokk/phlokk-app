@@ -12,9 +12,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#131313"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
       "buildNumber": "22140801",

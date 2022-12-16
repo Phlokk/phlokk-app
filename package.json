@@ -28,6 +28,7 @@
     "expo-camera": "~12.1.2",
     "expo-checkbox": "~2.0.0",
     "expo-constants": "~13.0.1",
+    "expo-crypto": "~10.1.1",
     "expo-dev-client": "~0.8.6",
     "expo-device": "~4.1.0",
     "expo-file-system": "~13.1.4",
@@ -71,7 +72,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-share": "^7.3.3",
-    "react-native-svg": "^12.1.1",
+    "react-native-svg": "12.1.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-text-ticker": "^1.14.0",
     "react-native-vector-icons": "^9.0.0",
@@ -80,8 +81,7 @@
     "react-redux": "^7.2.9",
     "throttle-debounce": "^3.0.1",
     "use-debounce": "^8.0.4",
-    "uuid-random": "^1.3.2",
-    "expo-crypto": "~10.1.1"
+    "uuid-random": "^1.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
