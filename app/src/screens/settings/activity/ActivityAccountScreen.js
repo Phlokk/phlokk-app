@@ -102,20 +102,20 @@ export default function ActivityAccountScreen() {
               // onPress={() => Linking.openSettings()}
             >
               <TouchableOpacity>
-                <Text style={styles.text}>Send Test Notification</Text>
+                <Text style={theme == "light" ? styles.text_light : styles.text_dark}>Send Test Notification</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
               onPress={() => Linking.openSettings()}
               style={styles.fieldItemContainer}
             >
-              <Text style={styles.text}>Open Device Settings</Text>
+              <Text style={theme == "light" ? styles.text_light : styles.text_dark}>Open Device Settings</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => Linking.openSettings()}
               style={styles.fieldItemContainer}
             >
-              <Text style={styles.text}>View Enrolled Devices</Text>
+              <Text style={theme == "light" ? styles.text_light : styles.text_dark}>View Enrolled Devices</Text>
             </TouchableOpacity>
           </>
         )}
