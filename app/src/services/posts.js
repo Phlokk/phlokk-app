@@ -168,6 +168,8 @@ export const deletePostById = async (postId) => {
 };
 
 export const addComment = async (postId, comment) => {
+  console.log({ comment, url: `/api/post/${postId}/add-comment` });
+
   await axios
     .post(`/api/post/${postId}/add-comment`, { comment: comment })
     .then((result) => {

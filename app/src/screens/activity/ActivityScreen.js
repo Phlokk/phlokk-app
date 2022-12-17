@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import ActivityNavBar from "../../components/general/activityNav/ActivityNavBar";
 import { View, StyleSheet, Text, FlatList } from "react-native";
+import uuid from 'uuid-random'
 import colors from "../../../config/colors";
 import {
   clearNotificationListener,
@@ -35,7 +36,7 @@ export default function ActivityScreen({ navigation }) {
 
   const renderItem = ({ item, index }) => {
     return (
-      <NotificationItem index={index} item={item} navigation={navigation} />
+      <NotificationItem item={item} navigation={navigation} />
     );
   };
 
@@ -101,7 +102,7 @@ export default function ActivityScreen({ navigation }) {
         ItemSeparatorComponent={Separator}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={() => uuid().toString()}
       />
     </View>
   );
