@@ -1,5 +1,5 @@
 diff --git a/node_modules/@react-navigation/drawer/src/views/modern/Overlay.tsx b/node_modules/@react-navigation/drawer/src/views/modern/Overlay.tsx
-index c91d08d..9acdcc6 100644
+index c91d08d..4fdbd7d 100644
 --- a/node_modules/@react-navigation/drawer/src/views/modern/Overlay.tsx
 +++ b/node_modules/@react-navigation/drawer/src/views/modern/Overlay.tsx
 @@ -42,7 +42,7 @@ const Overlay = React.forwardRef(function Overlay(
@@ -7,7 +7,7 @@ index c91d08d..9acdcc6 100644
        animatedProps={animatedProps}
      >
 -      <Pressable onPress={onPress} style={styles.pressable} />
-+      <Pressable onPress={onPress} style={styles.pressable} pointerEvents="none" />
++      <Pressable onPress={onPress} style={styles.pressable} pointerEvents="auto" />
      </Animated.View>
    );
  });
