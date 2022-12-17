@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import ActivityNavBar from "../../components/general/activityNav/ActivityNavBar";
 import { View, StyleSheet, Text, FlatList } from "react-native";
-import uuid from 'uuid-random'
+import uuid from 'uuid-random';
 import colors from "../../../config/colors";
 import {
   clearNotificationListener,

@@ -520,7 +520,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.white,
     position: "absolute",
-    right: 83,
+    right: 90,
     bottom: 7,
   },
 });
