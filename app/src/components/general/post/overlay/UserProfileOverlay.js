@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons'; 
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
@@ -10,6 +12,7 @@ import colors from "../../../../../config/colors";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import * as Linking from "expo-linking";
 import TextTicker from "react-native-text-ticker";
+
 
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
@@ -65,12 +68,12 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
                 user && user.link ? () => Linking.openURL(user.link) : null
               }
             >
-              <EvilIcons
-                name="external-link"
-                size={24}
-                color={colors.secondary}
+              <FontAwesome5
+                name="globe"
+                size={16}
+                color={colors.green}
               />
-              <Text style={styles.linkText}>Visit site</Text>
+              <Text style={styles.linkText}> Visit site</Text>
             </TouchableOpacity>
           ) : (
             <></>
@@ -216,11 +219,18 @@ const styles = StyleSheet.create({
     // opacity: 0.4,
   },
   linkText: {
-    color: colors.secondary,
+    color: colors.white,
   },
   linkIconRow: {
-    marginBottom: 2,
-    right: 10,
     flexDirection: "row",
+    alignItems: "center",
+    padding: 3,
+    paddingRight: 4,
+    borderRadius: 5,
+    backgroundColor: 'rgba(125, 125, 125, 0.5)',
+    marginBottom: 5,
+    right: 7,
+    
+   
   },
 });

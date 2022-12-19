@@ -13,7 +13,7 @@ export default {
   red: "#d63031",
   redBorder: "#d63031",
   blue: "#239BFE",
-  green: "#00cec9",
+  green: "#00CEC9",
   linkGreen: "#00b894",
   yellow: "#ffeaa7",
   greenCheck: "#00e640",
