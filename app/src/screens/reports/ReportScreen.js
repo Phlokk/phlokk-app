@@ -105,7 +105,6 @@ const ReportScreen = ({ route, navigation }) => {
     const postId = post._id;
 
     const movie = post.media[0].original_url;
-
     axios
       .post(
         "/api/support/create-ticket",

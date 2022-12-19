@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
   title_light: {
     fontSize: 12,
     fontWeight: "bold",
-    color: colors.white,
+    color: colors.black,
   },
   title_dark: {
     fontSize: 12,
     fontWeight: "bold",
-    color: colors.black,
+    color: colors.white,
   },
   text: {
     color: colors.white,
@@ -71,12 +71,12 @@ const styles = StyleSheet.create({
     color: colors.secondary,
   },
   x_dark: {
-    color: colors.black,
+    color: colors.white,
   },
   chevron_light: {
     color: colors.secondary,
   },
   chevron_dark: {
-    color: colors.black,
+    color: colors.white,
   },
 });

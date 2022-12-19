@@ -168,7 +168,6 @@ export const deletePostById = async (postId) => {
 };
 
 export const addComment = async (postId, comment) => {
-  console.log({ comment, url: `/api/post/${postId}/add-comment` });
 
   await axios
     .post(`/api/post/${postId}/add-comment`, { comment: comment })
@@ -181,6 +180,9 @@ export const addComment = async (postId, comment) => {
 };
 
 export const addCommentReply = async (postId, commentId, comment) => {
+  console.log(commentId, "here is COMMENT ID");
+  console.log(postId, "here is POST ID");
+  
   await axios
     .post(`/api/post/${postId}/${commentId}/add-comment-reply`, {
       comment: comment,

@@ -65,6 +65,8 @@ function CommentModal({ post, onNewCommentSubmitted }) {
     // We can then replicate that same thing above, so when we had a new reply to the UI, we can add a property saying
     // that its a reply
 
+    
+
     commentList.splice(indexToInsertNewComment, 0, {
       _id: uuid().toString() + "-temp",
       message: commentTextToSubmit,
