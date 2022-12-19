@@ -181,6 +181,7 @@ export const addComment = async (postId, comment) => {
 
 export const addCommentReply = async (postId, commentId, comment) => {
   console.log(commentId, "here is COMMENT ID");
+  console.log(comment, "here is COMMENT");
   console.log(postId, "here is POST ID");
   
   await axios
@@ -188,10 +189,11 @@ export const addCommentReply = async (postId, commentId, comment) => {
       comment: comment,
     })
     .then((result) => {
+      console.log(result, "Results is HERE!!!!!!");
       return result.data;
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error, "Error is HERE!!!!!!");
       Alert.alert("Comment Reply not added!");
     });
 };

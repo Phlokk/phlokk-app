@@ -86,7 +86,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
     } else {
       await addCommentReply(
         post._id,
-        repliedToComment.comment_id,
+        repliedToComment._id,
         commentTextToSubmit
       );
     }

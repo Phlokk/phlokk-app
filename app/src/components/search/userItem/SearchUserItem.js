@@ -24,7 +24,7 @@ export default function SearchUserItem({ item }) {
             >
               @{item.username}
             </Text>
-            <View>{item && item.is_verified === 1 && <VerifiedIcon />}</View>
+            <View style={styles.check}>{item && item.is_verified === 1 && <VerifiedIcon />}</View>
           </Text>
         ) : (
           <Text style={styles.username}>@user</Text>

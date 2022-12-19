@@ -6,13 +6,13 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 import SearchUserItem from "../../components/search/userItem/SearchUserItem";
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import SearchInput from "../../components/search/SearchInput";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemeContext } from "../../theme/context";
 
 const SearchScreen = () => {
@@ -46,7 +46,7 @@ const SearchScreen = () => {
       <Text
         style={theme == "light" ? styles.itemText_light : styles.itemText_dark}
       >
-        {name}
+        #{name}
       </Text>
     </TouchableOpacity>
   );
@@ -70,6 +70,26 @@ const SearchScreen = () => {
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
       <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
+      <ScrollView contentContainerStyle={styles.hashRow}>
+        <TouchableOpacity>
+        <Text style={styles.catText}>Stars</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Text style={styles.catText}>Users</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Text style={styles.catText}>Videos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Text style={styles.catText}>Sounds</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Text style={styles.catText}>LIVE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Text style={styles.catText}>Tags</Text>
+        </TouchableOpacity>
+      </ScrollView>
       <FlatList
         style={styles.list}
         data={searchUsers}
@@ -144,37 +164,50 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
   },
   item_light: {
-    padding: 5,
+    padding: 3,
     borderColor: colors.secondary,
-    width: 60,
-    height: 60,
-    borderRadius: 10,
+    width: 65,
+    height: 30,
+    borderRadius: 7,
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   item_dark: {
-    padding: 5,
+    padding: 3,
     borderColor: colors.green,
-    // backgroundColor: colors.lightBlack,
-    width: 60,
-    height: 60,
-    borderRadius: 10,
+    width: 65,
+    height: 30,
+    borderRadius: 7,
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   itemText_light: {
-    fontSize: 8,
+    fontSize: 9,
     color: colors.secondary,
     textAlign: "center",
     fontWeight: "bold",
   },
   itemText_dark: {
-    fontSize: 8,
+    fontSize: 9,
     color: colors.green,
     textAlign: "center",
     fontWeight: "bold",
+  },
+  catText: {
+    fontSize: 10,
+    color: colors.secondary,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  
+  hashRow: {
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
