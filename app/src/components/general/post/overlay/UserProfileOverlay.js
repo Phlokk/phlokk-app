@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Entypo } from "@expo/vector-icons";
-import { EvilIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+
+
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
@@ -12,6 +12,8 @@ import colors from "../../../../../config/colors";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import * as Linking from "expo-linking";
 import TextTicker from "react-native-text-ticker";
+import RisingStar from "../../../common/RisingStar";
+
 
 
 const DEFAULT_DESC_DISPLAY_LINES = 2;
@@ -58,7 +60,9 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
               />
             )}
           </TouchableOpacity>
+
         </View>
+       
 
         <View style={styles.linkView}>
           {user.link !== null ? (
@@ -85,7 +89,9 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
           </Text>
           <View style={{ paddingTop: 2, top: 2 }}>
             {user.is_verified === 1 && <VerifiedIcon />}
+            {user.is_rising === 1 && <RisingStar />}
           </View>
+          
         </View>
 
         <Text
@@ -119,6 +125,7 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
               style={[styles.songImage, isFocused && animatedStyle]}
               source={pmdLogo}
             />
+            
           </View>
         </View>
       </View>

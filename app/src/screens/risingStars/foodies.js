@@ -1,3 +1,4 @@
+import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import React, { useContext } from "react";
 import {
   View,
@@ -5,8 +6,8 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  SafeAreaView 
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
 import RisingStarsNavBar from "../../components/general/profileNavBar/RisingStarsNavBar";
 import { ThemeContext } from "../../theme/context";
@@ -18,10 +19,14 @@ export default function FoodieScreen() {
     <SafeAreaView
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
+      
+      
       <RisingStarsNavBar title="Rising Stars of Foodies" />
+      
       <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
         Find your favorite rising star foodies on this channel:
       </Text>
+      
     </SafeAreaView>
   );
 }
@@ -47,4 +52,9 @@ const styles = StyleSheet.create({
     margin: 20,
     textAlign: "center",
   },
+  image: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  }
 });

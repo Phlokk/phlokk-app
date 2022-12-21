@@ -23,6 +23,7 @@ function UserProfile({ user, isCurrentUser }) {
 
   return (
     <View style={styles.container}>
+      
       <TouchableOpacity
         // onPress={() => setPopUpImage(true)}
         onPress={() => setIsBioModalScreenOpen(true)}
@@ -178,6 +179,12 @@ const styles = StyleSheet.create({
   },
   diamond_dark: {
     color: colors.diamondBlue,
+  },
+  shootingStarRow: {
+    bottom: 20,
+    right: -70,
+
+
   },
 });
 

@@ -5,6 +5,8 @@ import colors from "../../../../config/colors";
 import VerifiedIcon from "../../common/VerifiedIcon";
 import { ThemeContext } from "../../../theme/context";
 
+
+
 export default function SearchUserItem({ item }) {
   const { theme, setTheme } = useContext(ThemeContext);
   const navigation = useNavigation();
@@ -24,7 +26,8 @@ export default function SearchUserItem({ item }) {
             >
               @{item.username}
             </Text>
-            <View style={styles.check}>{item && item.is_verified === 1 && <VerifiedIcon />}</View>
+            <View style={styles.check}>{item && item.is_verified === 1 && <VerifiedIcon />}
+            </View>
           </Text>
         ) : (
           <Text style={styles.username}>@user</Text>

@@ -15,6 +15,7 @@ export default {
   blue: "#239BFE",
   green: "#00CEC9",
   linkGreen: "#00b894",
+  starGreen: '#4cd0e1',
   yellow: "#ffeaa7",
   greenCheck: "#00e640",
   gray: "#dfe6e9",

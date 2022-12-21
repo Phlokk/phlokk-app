@@ -70,7 +70,8 @@ const SearchScreen = () => {
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
       <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
-      <ScrollView contentContainerStyle={styles.hashRow}>
+      
+        <View style={styles.hashRow}>
         <TouchableOpacity>
         <Text style={styles.catText}>Stars</Text>
         </TouchableOpacity>
@@ -89,9 +90,9 @@ const SearchScreen = () => {
         <TouchableOpacity>
         <Text style={styles.catText}>Tags</Text>
         </TouchableOpacity>
-      </ScrollView>
+        </View>
+        
       <FlatList
-        style={styles.list}
         data={searchUsers}
         renderItem={({ item }) => <SearchUserItem item={item} />}
         keyExtractor={(item) => item._id}
@@ -198,17 +199,18 @@ const styles = StyleSheet.create({
   catText: {
     fontSize: 10,
     color: colors.secondary,
-    textAlign: "center",
     fontWeight: "bold",
   },
   
   hashRow: {
+    height: 15,
     paddingHorizontal: 15,
     marginBottom: 20,
-    flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    
   },
+  
 });
 
 export default SearchScreen;
