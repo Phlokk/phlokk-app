@@ -110,6 +110,17 @@ export default function CameraScreen() {
         }
         const videoRecordPromise = cameraRef.recordAsync(options);
 
+        // setIsRecording(true);
+        // if (videoRecordPromise) {
+        //   const data = await videoRecordPromise;
+        //   const source = data.uri;
+        //   let sourceThumb = await generateThumbnail(source);
+        //   setIsRecording(false);
+        //   clearInterval(recordingTimerRef.current);
+        //   setRecordingTime(0);
+        //   navigation.navigate("savePost", { source, sourceThumb });
+        // }
+
         setIsRecording(true);
         if (videoRecordPromise) {
           const data = await videoRecordPromise;
@@ -118,7 +129,7 @@ export default function CameraScreen() {
           setIsRecording(false);
           clearInterval(recordingTimerRef.current);
           setRecordingTime(0);
-          navigation.navigate("savePost", { source, sourceThumb });
+          navigation.navigate("editPosts", { source, sourceThumb });
         }
       } catch (error) {
         clearInterval(recordingTimerRef.current);
@@ -139,6 +150,21 @@ export default function CameraScreen() {
     setIsRecording(false);
   };
 
+  // const pickFromGallery = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+  //     includeBase64: true,
+  //     mediaType: "video",
+  //     allowsEditing: true,
+  //     aspect: [16, 9],
+  //     quality: 1,
+  //   });
+  //   if (!result.cancelled) {
+  //     let sourceThumb = await generateThumbnail(result.uri);
+  //     navigation.navigate("savePost", { source: result.uri, sourceThumb });
+  //   }
+  // };
+
   const pickFromGallery = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
@@ -150,7 +176,7 @@ export default function CameraScreen() {
     });
     if (!result.cancelled) {
       let sourceThumb = await generateThumbnail(result.uri);
-      navigation.navigate("savePost", { source: result.uri, sourceThumb });
+      navigation.navigate("editPosts", { source: result.uri, sourceThumb });
     }
   };
 
@@ -383,7 +409,7 @@ export default function CameraScreen() {
         </View>
       </View>
 
-      <BottomMenu />
+      {/* <BottomMenu /> */}
 
       {showCountdown && (
         <Animated.View

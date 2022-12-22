@@ -21,6 +21,7 @@ import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
 
+
 SplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreLogs(["Setting a timer"]);

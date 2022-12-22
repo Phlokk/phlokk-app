@@ -1,85 +1,79 @@
-// import React, { useEffect, useRef, useState } from "react";
-// import {
-//   View,
-//   Text,
-//   TouchableOpacity,
-//   Pressable,
-//   StyleSheet,
-//   SafeAreaView,
-// } from "react-native";
-// import { useIsFocused } from "@react-navigation/core";
-// import { Feather } from "@expo/vector-icons";
-// import { useNavigation } from "@react-navigation/native";
-// import BottomMenu from "./BottomMenu";
-// import colors from "../../../config/colors";
-// import routes from "../../navigation/routes";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
+import {Video, Audio} from 'expo-av';
+import { useIsFocused } from "@react-navigation/core";
+import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import BottomMenu from "./BottomMenu";
+import colors from "../../../config/colors";
 
-// export default function EditPostsScreen(sourceThumb, uri) {
-//   const isFocused = useIsFocused();
-//   const navigation = useNavigation();
+export default function EditPostsScreen(sourceThumb, source) {
+  const isFocused = useIsFocused();
+  const navigation = useNavigation();
 
-//   return (
-//     <View style={styles.container}>
-//       <TouchableOpacity
-//         style={{ position: "absolute", top: 50, right: 360 }}
-//         onPress={() =>
-//           navigation.navigate(routes.SAVE_POST, {
-//             // source: uri,
-//             sourceThumb,
-//           })
-//         }
-//       >
-//         <Feather name="x" size={25} color={colors.black} />
-//       </TouchableOpacity>
+  console.log(source);
 
-//       <View style={styles.bottomBarContainer}>
-//         <BottomMenu />
-//       </View>
-//     </View>
-//   );
-// }
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={{ position: "absolute", top: 50, right: 360 }}
+        onPress={() => navigation.goBack()}
+      >
+        <Feather name="arrow-left-circle" size={25} color={colors.secondary} />
+      </TouchableOpacity>
+      <Video style={styles.videoPlayer} source={{ uri: source }} />
+      <TouchableOpacity
+        style={styles.savePostsArrow}
+        onPress={() =>
+          navigation.navigate("savePost", { source: result.uri, sourceThumb })
+        }
+      >
+        <Feather name="arrow-right-circle" size={25} color={colors.green} />
+      </TouchableOpacity>
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   bottomBarContainer: {
-//     backgroundColor: colors.danger,
-//     flex: 1,
-//     position: "absolute",
-//     bottom: 120,
-//     flexDirection: "row",
-//     alignItems: "center",
-//   },
+      <View style={styles.bottomBarContainer}>
+        <BottomMenu />
+      </View>
+    </View>
+  );
+}
 
-//   sideBarContainer: {
-//     top: 48,
-//     right: 0,
-//     marginHorizontal: 20,
-//     position: "absolute",
-//   },
-//   iconText: {
-//     color: colors.white,
-//     fontSize: 8,
-//     marginTop: 1,
-//   },
-//   sideBarButton: {
-//     alignItems: "center",
-//     marginBottom: 25,
-//   },
-//   soundText: {
-//     color: colors.white,
-//   },
-//   errorView: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.black,
+  },
+  bottomBarContainer: {
+    flex: 1,
+    position: "absolute",
+    flexDirection: "row",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 0,
+  },
+  savePostsArrow: {
+    position: "absolute",
+    bottom: 100,
+    left: 360,
+  },
+  iconText: {
+    color: colors.white,
+    fontSize: 8,
+    marginTop: 1,
+  },
 
-//     backgroundColor: colors.primary,
-//   },
-//   cameraErrorText: {
-//     margin: 20,
-//     textAlign: "center",
-//     color: colors.green,
-//   },
-// });
+  soundText: {
+    color: colors.white,
+  },
+  videoPlayer: {
+    flex: 1,
+
+  },
+});

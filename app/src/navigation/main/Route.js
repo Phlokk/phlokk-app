@@ -285,11 +285,11 @@ export default function Route() {
             component={EditPostScreen}
             options={{ headerShown: false }}
           />
-          {/* <Stack.Screen
+          <Stack.Screen
             name="editPosts"
             component={EditPostsScreen}
             options={{ headerShown: false }}
-          /> */}
+          />
           <Stack.Screen
             name="chatSingle"
             component={ChatSingleScreen}

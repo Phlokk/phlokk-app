@@ -7,7 +7,6 @@ import {
   Alert,
 
 } from "react-native";
-
 import React, { useState } from "react";
 import Share from "react-native-share";
 import { Feather } from "@expo/vector-icons";
@@ -17,8 +16,10 @@ import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import CustomAlert from "../../Alerts/CustomAlert";
 import colors from "../../../../config/colors";
-import uuid from 'uuid-random';
+import uuid from "uuid-random";
 import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
+
 
 const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   const navigation = useNavigation();
@@ -47,8 +48,10 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   };
 
   const randStr = uuid().toString();
-// Is it possible to add a progress circle that shows percentage of remaining download time?
- 
+
+  const watermarkImage = require("../../../../assets/phlokk_logo.png");
+  // Is it possible to add a progress circle that shows percentage of remaining download time?
+
   const downloadVideo = async () => {
     const url = post.media[0].original_url;
     const outputDir = `${FileSystem.documentDirectory}${randStr}.mov`;
@@ -65,9 +68,21 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
       }
 
       const { uri } = await downloadResumable.downloadAsync();
+
+      // Load the watermark image from the app's assets
+      // const watermark = watermarkImage;
+      //then 
+      // Add the watermark to the video and save the result to a new file?? 
+      // const newWaterMarkVideoFile = `${FileSystem.documentDirectory}${randStr}.mov`;
+      //This is the issue I am having trying to add these two files together (Video & WaterMark file)
+      //How is this done Tony?? // Right now video is being downloaded to Camera Roll as the code sits, 
+      // so I just need to figure out how to mash these 2 files together and save final version. 
+
+      
+      MediaLibrary.saveToLibraryAsync(uri)
       setIsDownloading(true)
     } catch (e) {
-      console.error(e);
+      Alert.alert(e, 'Video could not be downloaded to your camera roll{"\n"}check permissions.');
     }
   };
 
@@ -227,7 +242,9 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
             <Feather name="download" size={24} color={colors.green} />
           </Text>
         }
-        customAlertMessage={<Text>Finished downloading to device</Text>}
+        customAlertMessage={
+          <Text>Video has been {"\n"} saved to camera roll!</Text>
+        }
         positiveBtn="Ok"
         modalVisible={isDownloading}
         dismissAlert={setIsDownloading}
