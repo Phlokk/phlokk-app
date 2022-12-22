@@ -4,10 +4,10 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Linking, 
   Alert,
+
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+
 import React, { useState } from "react";
 import Share from "react-native-share";
 import { Feather } from "@expo/vector-icons";
@@ -17,7 +17,8 @@ import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import CustomAlert from "../../Alerts/CustomAlert";
 import colors from "../../../../config/colors";
-import * as FileSystem from 'expo-file-system';
+import uuid from 'uuid-random';
+import * as FileSystem from "expo-file-system";
 
 const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   const navigation = useNavigation();
@@ -27,46 +28,48 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   const [isDuo, setIsDuo] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isShare, setIsShare] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
 
   const onShare = async () => {
     const shareOptions = {
-      message: 'Check out my latest video on Phlokk!',
+      message: "Check out my latest video on Phlokk!",
       url: post.media[0].original_url,
-      type: 'video/mp4/mov/', 
-    }
+      type: "video/mp4/mov/",
+    };
     try {
       const ShareResponse = await Share.open(shareOptions);
       console.log(JSON.stringify(ShareResponse));
     } catch (error) {
-      console.log('Error => ', error)
+      console.log("Error => ", error);
     }
   };
 
-
-    // const downloadVideo = async () => {
-    //   setIsLoading(true);
-    //   try {
-    //     const videoUrl = post.media[0].original_url;
-    //     const fileUri = FileSystem.documentDirectory + 'video.mov';
-    //     // await FileSystem.makeDirectoryAsync(fileUri, { intermediates: true })
-    //     const res = await FileSystem.downloadAsync(videoUrl, fileUri);
-    //     if (res.status !== 200) {
-    //       throw new Error('Error downloading video');
-    //     }
-    //     Linking.openURL(fileUri);
-    //   } catch (err) {
-    //     setError(err);
-    //     Alert.alert('Error', err.message);
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
-    // };
-
-    
+  const randStr = uuid().toString();
+// Is it possible to add a progress circle that shows percentage of remaining download time?
  
+  const downloadVideo = async () => {
+    const url = post.media[0].original_url;
+    const outputDir = `${FileSystem.documentDirectory}${randStr}.mov`;
 
+    const downloadResumable = FileSystem.createDownloadResumable(
+      url,
+      outputDir
+    );
+
+    try {
+      const directoryInfo = await FileSystem.getInfoAsync(outputDir);
+      if (!directoryInfo.exists) {
+        await FileSystem.makeDirectoryAsync(outputDir, { intermediates: true });
+      }
+
+      const { uri } = await downloadResumable.downloadAsync();
+      setIsDownloading(true)
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
 
   return (
@@ -132,8 +135,8 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
-          onPress={() => setIsDownload(true)}
-          // onPress={downloadVideo}
+          // onPress={() => setIsDownload(true)}
+          onPress={downloadVideo}
         >
           <View style={styles.bubble}>
             <Feather name="download-cloud" size={24} color={colors.secondary} />
@@ -216,6 +219,18 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
         positiveBtn="Ok"
         modalVisible={isShare}
         dismissAlert={setIsShare}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <Feather name="download" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Finished downloading to device</Text>}
+        positiveBtn="Ok"
+        modalVisible={isDownloading}
+        dismissAlert={setIsDownloading}
         animationType="fade"
       />
     </View>

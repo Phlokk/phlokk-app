@@ -16,6 +16,7 @@ import VerifiedIcon from "../../components/common/VerifiedIcon";
 import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioSheetModalScreen";
 import { ThemeContext } from "../../theme/context";
 
+
 function UserProfile({ user, isCurrentUser }) {
   const { theme, setTheme } = useContext(ThemeContext);
   const [topFavFive, setTopFavFive] = useState(false);
@@ -48,7 +49,8 @@ function UserProfile({ user, isCurrentUser }) {
             }
           >
             @{user.username}
-            <View>{user && user.is_verified === 1 && <VerifiedIcon />}</View>
+            <View>{user && user.is_verified === 1 && <VerifiedIcon />}
+            </View>
           </Text>
         ) : (
           <Text style={styles.username}>@user</Text>
@@ -180,12 +182,9 @@ const styles = StyleSheet.create({
   diamond_dark: {
     color: colors.diamondBlue,
   },
-  shootingStarRow: {
-    bottom: 20,
-    right: -70,
-
-
-  },
+  starIconView: {
+    bottom: 50,
+  }
 });
 
 export default React.memo(UserProfile);
