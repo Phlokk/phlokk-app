@@ -34,7 +34,7 @@ export default function ActivityScreen({ navigation }) {
     }
   }, [isFocused]);
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({ item }) => {
     return (
       <NotificationItem item={item} navigation={navigation} />
     );
@@ -59,7 +59,6 @@ export default function ActivityScreen({ navigation }) {
           theme == "light" ? styles.container_light : styles.container_dark
         }
       >
-        <ActivityNavBar title={"Activity feed"} />
         <View style={styles.lottieView}>
           <LottieView
             autoPlay

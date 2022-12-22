@@ -132,6 +132,8 @@ const VideoItem = ({
 				}}
 				minimumTrackTintColor={colors.green}
 				thumbTintColor="transparent"
+				
+				
 			/>
 		</View>
 	);
@@ -164,7 +166,10 @@ const styles = StyleSheet.create({
 		right: 0,
 		bottom: 20,
 		marginHorizontal: -4,
+		
+		
 	},
+
 });
 
 export default VideoItem;

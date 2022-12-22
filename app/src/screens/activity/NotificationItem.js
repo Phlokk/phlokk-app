@@ -55,6 +55,7 @@ const NotificationItem = ({ navigation, item }) => {
       <NotificationItemSecondaryAvatar image={item.pictures[key]} key={key} />
     );
   };
+  
 
   return (
     <TouchableOpacity onPress={() => goToAssociated()}>

@@ -1,5 +1,6 @@
 import { Animated } from 'react-native';
 import { useEffect, useRef } from 'react';
+import { Easing } from 'react-native-reanimated';
 
 export default function useRotation() {
     const animation = useRef(new Animated.Value(0)).current;
@@ -8,7 +9,8 @@ export default function useRotation() {
         Animated.sequence([
           Animated.timing(animation, {
             toValue: 1,
-            duration: 1000,
+            duration: 4000,
+            easing: Easing.linear,
             useNativeDriver: true,
           }),
           Animated.delay(0),

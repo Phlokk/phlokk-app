@@ -2,12 +2,15 @@ require File.join(File.dirname(`node --print "require.resolve('expo/package.json
 require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
 require File.join(File.dirname(`node --print "require.resolve('@react-native-community/cli-platform-ios/package.json')"`), "native_modules")
 
-platform :ios, '12.0'
+platform :ios, '14.0'
 
 require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
+
+
 target 'Phlokk' do
+ 
   use_expo_modules!
   config = use_native_modules!
 
@@ -18,11 +21,6 @@ target 'Phlokk' do
     :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes'
   )
 
-  # Uncomment to opt-in to using Flipper
-  #
-  # if !ENV['CI']
-  #   use_flipper!('Flipper' => '0.75.1', 'Flipper-Folly' => '2.5.3', 'Flipper-RSocket' => '1.3.1')
-  # end
 
   post_install do |installer|
     react_native_post_install(installer)
@@ -50,20 +48,6 @@ target 'Phlokk' do
       end
     end
   end
-
-   # Work around signing problems (https://stackoverflow.com/a/74129238/136829):
-  #  installer.pods_project.targets.each do |target|
-#     target.build_configurations.each do |config|
-#         if config.build_settings['WRAPPER_EXTENSION'] == 'bundle'
-#             config.build_settings['DEVELOPMENT_TEAM'] = '(
-#               VUFS8WPZ6H)'
-
-#            # Undo CODE_SIGNING_ALLOWED = NO set by react-native/scripts/cocoapods/utils.rb.
-#            config.build_settings['CODE_SIGNING_ALLOWED'] = 'YES'
-#         end
-#     end
-# end
-# end
 
 
 
