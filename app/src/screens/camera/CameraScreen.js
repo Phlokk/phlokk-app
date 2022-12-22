@@ -19,11 +19,14 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import BottomMenu from "./BottomMenu";
+import { Octicons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
 import routes from "../../navigation/routes";
+import CustomAlert from "../../components/Alerts/CustomAlert";
+
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 60;
@@ -59,6 +62,11 @@ export default function CameraScreen() {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
+
+  // Camera FX & Settings States
+  const [speed, setSpeed] = useState(false);
+  const [fX, setFx] = useState(false);
+ 
 
   useEffect(() => {
     (async () => {
@@ -149,21 +157,6 @@ export default function CameraScreen() {
     setRecordingTime(0);
     setIsRecording(false);
   };
-
-  // const pickFromGallery = async () => {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-  //     includeBase64: true,
-  //     mediaType: "video",
-  //     allowsEditing: true,
-  //     aspect: [16, 9],
-  //     quality: 1,
-  //   });
-  //   if (!result.cancelled) {
-  //     let sourceThumb = await generateThumbnail(result.uri);
-  //     navigation.navigate("savePost", { source: result.uri, sourceThumb });
-  //   }
-  // };
 
   const pickFromGallery = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -316,6 +309,44 @@ export default function CameraScreen() {
         >
           <Feather name="zap" size={24} color={colors.white} />
           <Text style={styles.iconText}>Flash</Text>
+        </TouchableOpacity>
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>Speed{"\n"}coming soon!</Text>}
+          positiveBtn="Ok"
+          modalVisible={speed}
+          dismissAlert={setSpeed}
+          animationType="fade"
+        />
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => setSpeed(true)}
+        >
+          <Octicons name="dashboard" size={24} color={colors.white} />
+          <Text style={styles.iconText}>Speed</Text>
+        </TouchableOpacity>
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>FX{"\n"}coming soon!</Text>}
+          positiveBtn="Ok"
+          modalVisible={fX}
+          dismissAlert={setFx}
+          animationType="fade"
+        />
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => setFx(true)}
+        >
+          <FontAwesome name="magic" size={24} color={colors.white} />
+          <Text style={styles.iconText}>FX</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

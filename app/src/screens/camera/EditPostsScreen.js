@@ -14,25 +14,66 @@ import { useNavigation } from "@react-navigation/native";
 import BottomMenu from "./BottomMenu";
 import colors from "../../../config/colors";
 
-export default function EditPostsScreen(sourceThumb, source) {
+export default function EditPostsScreen({route}) {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
-  console.log(source);
+  const [shouldPlay, setShouldPlay] = useState(true);
+
+  const [videoResizeMode, setVideoResizeMode] = useState(
+		Video.RESIZE_MODE_COVER
+	);
+
+  const videoUrl = (
+    route.params.source
+  );
+
+  const videoThumb = (
+    route.params.sourceThumb
+  );
+
+  useEffect(() => {
+		const setupAudio = async () => {
+			await Audio.setAudioModeAsync({playsInSilentModeIOS: true});
+		};
+		setupAudio();
+	}, []);
+  
+
+  console.log(videoUrl);
 
   return (
     <View style={styles.container}>
+      
+      
+      <Video 
+      isMuted={!isFocused}
+      resizeMode={videoResizeMode}
+      shouldPlay={true}
+      style={styles.videoPlayer} 
+      source={{ uri: videoUrl }}
+      isLooping 
+      onReadyForDisplay={e => {
+        const orientation = e.naturalSize.orientation;
+        if (orientation === 'landscape') {
+          setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
+        } else {
+          setVideoResizeMode(Video.RESIZE_MODE_COVER);
+        }
+      }}
+      />
+     
       <TouchableOpacity
-        style={{ position: "absolute", top: 50, right: 360 }}
+        style={{ position: "absolute", top: 50, right: 380 }}
         onPress={() => navigation.goBack()}
       >
         <Feather name="arrow-left-circle" size={25} color={colors.secondary} />
       </TouchableOpacity>
-      <Video style={styles.videoPlayer} source={{ uri: source }} />
+      
       <TouchableOpacity
         style={styles.savePostsArrow}
         onPress={() =>
-          navigation.navigate("savePost", { source: result.uri, sourceThumb })
+          navigation.navigate("savePost", { videoUrl, videoThumb })
         }
       >
         <Feather name="arrow-right-circle" size={25} color={colors.green} />
@@ -52,6 +93,7 @@ const styles = StyleSheet.create({
   },
   bottomBarContainer: {
     flex: 1,
+    backgroundColor: colors.black,
     position: "absolute",
     flexDirection: "row",
     alignItems: "center",

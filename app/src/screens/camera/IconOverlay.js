@@ -10,11 +10,9 @@ import React, { useEffect, useState } from "react";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import uuid from 'uuid-random';
 
@@ -24,8 +22,7 @@ function IconOverlay() {
 
   const [textFrames, setTextFrames] = useState(false);
   const [digitalTiming, setDigitalTiming] = useState(false);
-  const [speed, setSpeed] = useState(false);
-  const [fX, setFx] = useState(false);
+
   const [replies, setReplies] = useState(false);
   const [soundbar, setSoundBar] = useState(false);
   const [isSeconds, setIsSeconds] = useState(false);
@@ -120,44 +117,7 @@ function IconOverlay() {
           />
           <Text style={styles.iconText}>Timing</Text>
         </TouchableOpacity>
-        <CustomAlert
-          alertTitle={
-            <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
-            </Text>
-          }
-          customAlertMessage={<Text>Speed{"\n"}coming soon!</Text>}
-          positiveBtn="Ok"
-          modalVisible={speed}
-          dismissAlert={setSpeed}
-          animationType="fade"
-        />
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setSpeed(true)}
-        >
-          <Octicons name="dashboard" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Speed</Text>
-        </TouchableOpacity>
-        <CustomAlert
-          alertTitle={
-            <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
-            </Text>
-          }
-          customAlertMessage={<Text>FX{"\n"}coming soon!</Text>}
-          positiveBtn="Ok"
-          modalVisible={fX}
-          dismissAlert={setFx}
-          animationType="fade"
-        />
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setFx(true)}
-        >
-          <FontAwesome name="magic" size={24} color={colors.white} />
-          <Text style={styles.iconText}>FX</Text>
-        </TouchableOpacity>
+        
         <CustomAlert
           alertTitle={
             <Text>

@@ -41,19 +41,21 @@ export default function SavePostScreen({ route }) {
 
   const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
 
+  console.log(route.params.videoUrl);
+
   const handleSavePost = () => {
     setRequestRunning(true);
     dispatch(
       createPost(
         description,
-        route.params.source,
-        route.params.sourceThumb,
-        route.params.source
+        route.params.videoUrl,
+        route.params.videoThumb,
+        route.params.videoUrl
       )
     )
       .then(async (res) => {
         // console.log(res);
-        await MediaLibrary.saveToLibraryAsync(route.params.source);
+        await MediaLibrary.saveToLibraryAsync(route.params.videoUrl);
         navigation.navigate(routes.FEED);
         // setNewFeedItem(res);
       })
@@ -102,7 +104,7 @@ export default function SavePostScreen({ route }) {
               />
               <Image
                 style={styles.mediaPreview}
-                source={{ uri: route.params.sourceThumb }}
+                source={{ uri: route.params.videoThumb }}
               />
               <CustomAlert
                 customAlertMessage={<Text>Select cover{"\n"}coming soon!</Text>}
