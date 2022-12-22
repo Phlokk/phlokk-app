@@ -1,7 +1,6 @@
 import FormData from "form-data";
 import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
-
 import { apiUrls } from "../globals";
 
 export const saveMediaToStorage = (description, source, thumbnail) => {

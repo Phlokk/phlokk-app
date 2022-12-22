@@ -15,11 +15,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
-      "buildNumber": "22220801",
+      "buildNumber": "22220802",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 22220801,
+      "versionCode": 22220802,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
         "backgroundColor": "#04cccc"

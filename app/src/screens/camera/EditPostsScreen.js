@@ -38,9 +38,7 @@ export default function EditPostsScreen({route}) {
 		};
 		setupAudio();
 	}, []);
-  
 
-  console.log(videoUrl);
 
   return (
     <View style={styles.container}>

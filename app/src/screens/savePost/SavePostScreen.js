@@ -41,8 +41,6 @@ export default function SavePostScreen({ route }) {
 
   const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
 
-  console.log(route.params.videoUrl);
-
   const handleSavePost = () => {
     setRequestRunning(true);
     dispatch(

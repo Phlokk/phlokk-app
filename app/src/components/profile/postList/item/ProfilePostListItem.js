@@ -15,12 +15,18 @@ import { deletePostById } from "../../../../services/posts";
 import { useQueryClient } from "react-query";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../../App";
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons'; 
+import { MaterialIcons } from "@expo/vector-icons";
+import CustomAlert from "../../../../components/Alerts/CustomAlert";
 import CustomActivityIndicator from "../../../common/ActivityIndicator";
 
 export default function ProfilePostListItem({ item, index, posts, setPosts }) {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
+  const [isVideoDeleted, setIsVideoDeleted] = useState(false);
+  const [isConfirmedDeletion, setIsConfirmedDeletion] = useState(false);
 
   const [currentUser] = useAtom(userAtom);
 
@@ -30,8 +36,9 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
       await deletePostById(item._id);
       queryClient.invalidateQueries(["userPosts", item.creator]);
 
+      setIsVideoDeleted(true);
       setIsLoading(false);
-      alert("Video Deleted Successfully");
+      
 
       setPosts((prev) => prev.filter((postItem) => postItem._id !== item._id));
     } catch (err) {
@@ -115,6 +122,31 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
         />{" "}
         {item?.play_count ?? 0}
       </Text>
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <FontAwesome5 name="user-astronaut" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Video Deleted Successfully!</Text>}
+        positiveBtn="Ok"
+        modalVisible={isVideoDeleted}
+        dismissAlert={setIsVideoDeleted}
+        animationType="fade"
+      />
+      {/* <CustomAlert
+        alertTitle={
+          <Text>
+            <MaterialCommunityIcons name="check-circle-outline" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Delete Video{"/n"}
+        Are you sure you want to delete this video?</Text>}
+        positiveBtn="Ok"
+        modalVisible={isConfirmedDeletion}
+        dismissAlert={setIsConfirmedDeletion}
+        animationType="fade"
+      /> */}
     </TouchableOpacity>
   );
 }
