@@ -93,12 +93,6 @@ const NotificationItem = ({ navigation, item }) => {
           )}
         </TouchableOpacity>
         <View style={styles.notificationView}>
-          <View style={styles.iconRow}>
-            {Object.keys(item.pictures)
-              .slice(0, 7)
-              .map((key, keyIndex) => renderAvatarRow(key, keyIndex))}
-          </View>
-
           <View style={styles.mentionsView}>
             <TouchableOpacity>
               <Text
@@ -108,7 +102,8 @@ const NotificationItem = ({ navigation, item }) => {
                     : styles.mentionText_dark
                 }
               >
-                {item.body}
+                {item.body} 
+
               </Text>
             </TouchableOpacity>
           </View>
@@ -118,6 +113,11 @@ const NotificationItem = ({ navigation, item }) => {
             >
               {item.created_at ? timeSince(new Date(item.created_at)) : "Now"}
             </Text>
+          </View>
+          <View style={styles.iconRow}>
+            {Object.keys(item.pictures)
+              .slice(0, 7)
+              .map((key, keyIndex) => renderAvatarRow(key, keyIndex))}
           </View>
         </View>
       </View>
