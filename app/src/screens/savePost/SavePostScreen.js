@@ -16,6 +16,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
+import { FontAwesome } from '@expo/vector-icons'; 
 import { createPost } from "../../redux/actions";
 import PostNavBar from "../../components/general/postNav/PostNavBar";
 import routes from "../../navigation/routes";
@@ -156,6 +157,12 @@ export default function SavePostScreen({ route }) {
               size={35}
             />
           </TouchableOpacity>
+          <TouchableOpacity>
+          <FontAwesome name="snapchat-ghost" size={35} style={styles.shareIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <FontAwesome name="whatsapp" size={35} style={styles.shareIcon} />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.buttonsContainer}>
@@ -271,6 +278,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     margin: 20,
+    left: 7,
     bottom: 20,
   },
   movieImageContainer: {
@@ -303,9 +311,9 @@ const styles = StyleSheet.create({
   },
   shareText: {
     bottom: -10,
-    color: colors.white,
+    color: colors.secondary,
     fontSize: 12,
-    marginLeft: 10,
+    marginLeft: 22,
   },
   uploadText: {
     color: colors.white,

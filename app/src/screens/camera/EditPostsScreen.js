@@ -10,9 +10,13 @@ import {
 import { Video, Audio } from "expo-av";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
+import { Entypo } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons'; 
+import { MaterialIcons } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
-import BottomMenu from "./BottomMenu";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 import colors from "../../../config/colors";
+import IconOverlay from "./IconOverlay";
 
 export default function EditPostsScreen({ route }) {
   const isFocused = useIsFocused();
@@ -51,25 +55,29 @@ export default function EditPostsScreen({ route }) {
           }
         }}
       />
-
-      <TouchableOpacity
-        style={styles.exitBtn}
-        onPress={() => navigation.goBack()}
-      >
-        <Feather name="chevron-left" size={24} color={colors.secondary} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.nextText}
-        onPress={() =>
-          navigation.navigate("savePost", { videoUrl, videoThumb })
-        }
-      >
-        <Text style={styles.postButtonText}>Next</Text>
-      </TouchableOpacity>
-
-      <View style={styles.bottomBarContainer}>
-        <BottomMenu />
+      <View style={styles.sideBarContainer}>
+        <IconOverlay />
       </View>
+      <View style={styles.buttonsContainer}>
+          <TouchableOpacity
+            // onPress={() => navigation.navigate(routes.DRAFTS)}
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+          > 
+            <MaterialIcons name="arrow-left" size={24} color={colors.red} />
+            <Text style={styles.backButtonText}>Back </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("savePost", { videoUrl, videoThumb })
+            }
+            style={styles.postButton}
+          >
+            <Text style={styles.postButtonText}>Next </Text>
+            <MaterialIcons name="arrow-right" size={24} color={colors.green} />
+          </TouchableOpacity>
+        </View>
     </View>
   );
 }
@@ -79,24 +87,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
   },
-  bottomBarContainer: {
-    flex: 1,
-    backgroundColor: colors.black,
+  sideBarContainer: {
+    // flex: 1,
     position: "absolute",
-    flexDirection: "row",
-    alignItems: "center",
-    position: "absolute",
-    bottom: 0,
-  },
-  nextText: {
-    backgroundColor: colors.red,
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    padding: 3,
-
-    position: "absolute",
-    bottom: 100,
-    left: 370,
+    right: 2,
+    top: 30,
+    
   },
   iconText: {
     color: colors.white,
@@ -114,12 +110,49 @@ const styles = StyleSheet.create({
   videoPlayer: {
     flex: 1,
   },
-  exitBtn: {
-    position: "absolute", 
+
+  // Bottom Container Next Button
+  buttonsContainer: {
+    flexDirection: "row",
+    margin: 20,
+    left: 7,
+    bottom: 10,
+  },
+  backButton: {
     alignItems: "center",
-    borderRadius: 50,
-    top: 50, 
-    right: 380, 
-    backgroundColor: colors.red,
+    flex: 1,
+    borderColor: colors.red,
+    borderWidth: 0.5,
+    flexDirection: "row",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    justifyContent: "center",
+    borderRadius: 4,
+    marginRight: 10,
+  },
+  postButton: {
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: colors.black,
+    borderColor: colors.green,
+    borderWidth: 0.5,
+    flexDirection: "row",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    justifyContent: "center",
+    borderRadius: 4,
+    marginRight: 10,
+  },
+  backButtonText: {
+    marginLeft: 5,
+    color: colors.secondary,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  postButtonText: {
+    marginLeft: 5,
+    color: colors.green,
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });

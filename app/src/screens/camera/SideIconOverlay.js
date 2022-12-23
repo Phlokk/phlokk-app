@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { Camera } from "expo-camera";
 import React, { useState } from "react";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
@@ -18,6 +19,10 @@ function SideIconOverlay() {
   const [isLive, setIsLive] = useState(false);
   const [speed, setSpeed] = useState(false);
   const [fX, setFx] = useState(false);
+  const [cameraType, setCameraType] = useState(Camera.Constants.Type.front);
+  const [cameraFlash, setCameraFlash] = useState(
+    Camera.Constants.FlashMode.off
+  );
 
 // Leaving this code here for the time being until I am ready to work on it. Still trying to figure out the local storage issue of why i cannot write to it. 
 
@@ -45,6 +50,33 @@ function SideIconOverlay() {
 
   return (
     <View style={styles.iconRow}>
+      <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() =>
+            setCameraType(
+              cameraType === Camera.Constants.Type.front
+                ? Camera.Constants.Type.back
+                : Camera.Constants.Type.front
+            )
+          }
+        >
+          <Feather name="refresh-ccw" size={24} color={colors.white} />
+          <Text style={styles.iconText}>Flip</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() =>
+            setCameraFlash(
+              cameraFlash === Camera.Constants.FlashMode.off
+                ? Camera.Constants.FlashMode.torch
+                : Camera.Constants.FlashMode.off
+            )
+          }
+        >
+          <Feather name="zap" size={24} color={colors.white} />
+          <Text style={styles.iconText}>Flash</Text>
+        </TouchableOpacity>
       <CustomAlert
           alertTitle={
             <Text>
@@ -112,8 +144,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flex: 1,
     position: "absolute",
-    top: 95,
-   
+    top: -25,
+    left: 1,
+    
   },
   iconText: {
     color: colors.white,

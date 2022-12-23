@@ -25,7 +25,6 @@ import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
 import routes from "../../navigation/routes";
-import CustomAlert from "../../components/Alerts/CustomAlert";
 import SideIconOverlay from "./SideIconOverlay";
 
 
@@ -114,17 +113,6 @@ export default function CameraScreen() {
           options.codec = Camera.Constants.VideoCodec.H264;
         }
         const videoRecordPromise = cameraRef.recordAsync(options);
-
-        // setIsRecording(true);
-        // if (videoRecordPromise) {
-        //   const data = await videoRecordPromise;
-        //   const source = data.uri;
-        //   let sourceThumb = await generateThumbnail(source);
-        //   setIsRecording(false);
-        //   clearInterval(recordingTimerRef.current);
-        //   setRecordingTime(0);
-        //   navigation.navigate("savePost", { source, sourceThumb });
-        // }
 
         setIsRecording(true);
         if (videoRecordPromise) {
@@ -280,41 +268,16 @@ export default function CameraScreen() {
       ) : null}
 
       <View style={styles.sideBarContainer}>
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() =>
-            setCameraType(
-              cameraType === Camera.Constants.Type.front
-                ? Camera.Constants.Type.back
-                : Camera.Constants.Type.front
-            )
-          }
-        >
-          <Feather name="refresh-ccw" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Flip</Text>
-        </TouchableOpacity>
+        <SideIconOverlay />
+        </View>
 
         <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() =>
-            setCameraFlash(
-              cameraFlash === Camera.Constants.FlashMode.off
-                ? Camera.Constants.FlashMode.torch
-                : Camera.Constants.FlashMode.off
-            )
-          }
-        >
-          <Feather name="zap" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Flash</Text>
-        </TouchableOpacity>
-        <SideIconOverlay />
-        <TouchableOpacity
-          style={{ position: "absolute", top: 0, right: 360 }}
+          style={{ position: "absolute", top: 45, right: 375 }}
           onPress={() => navigation.navigate(routes.FEED)}
         >
           <Feather name="x" size={25} color={colors.white} />
         </TouchableOpacity>
-      </View>
+      
       <View
         style={[
           styles.bottomBarContainer,
@@ -472,7 +435,7 @@ const styles = StyleSheet.create({
   },
   sideBarContainer: {
     top: 48,
-    right: 0,
+    right: 20,
     marginHorizontal: 20,
     position: "absolute",
   },

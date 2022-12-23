@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import uuid from 'uuid-random';
+// import uuid from 'uuid-random';
 
 // import routes from "../../navigation/routes";
 function IconOverlay() {
@@ -54,7 +54,7 @@ function IconOverlay() {
 
   return (
     <View style={styles.iconRow}>
-      <ScrollView horizontal={true}>
+      <ScrollView >
         <CustomAlert
           alertTitle={
             <Text>
@@ -168,12 +168,9 @@ function IconOverlay() {
 }
 
 const styles = StyleSheet.create({
-  iconRow: {
-    justifyContent: "space-between",
-    alignItems: "center",
-    flex: 1,
-    paddingTop: 20,
-  },
+  // iconRow: {
+  //   paddingTop: 20,
+  // },
   iconText: {
     color: colors.white,
     fontSize: 7,
@@ -182,7 +179,8 @@ const styles = StyleSheet.create({
   sideBarButton: {
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
+    marginTop: 20,
   },
   backBtn: {
     justifyContent: "center",
