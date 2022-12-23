@@ -41,6 +41,8 @@ export default function AccountNavBar({ title = "Edit Profile" }) {
 
 const styles = StyleSheet.create({
   container: {
+    borderBottomWidth: 0.2, 
+    borderBottomColor: 'rgba(255, 255, 255, 0.2)',
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

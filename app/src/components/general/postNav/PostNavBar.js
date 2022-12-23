@@ -43,7 +43,6 @@ export default function PostNavBar(props) {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: colors.red,
     borderBottomWidth: 0.2, 
     borderBottomColor: 'rgba(255, 255, 255, 0.2)',
     flexDirection: "row",
@@ -56,12 +55,12 @@ const styles = StyleSheet.create({
   title_light: {
     fontSize: 12,
     fontWeight: "bold",
-    color: colors.secondary,
+    color: colors.black,
   },
   title_dark: {
     fontSize: 12,
     fontWeight: "bold",
-    color: colors.black,
+    color: colors.secondary,
   },
   text: {
     color: colors.white,
