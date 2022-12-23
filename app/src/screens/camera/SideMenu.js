@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
 import React from "react";
-import IconOverlay from "./IconOverlay";
+import SideIconOverlay from "./SideIconOverlay";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function BottomMenu() {
+export default function SideMenu() {
   return (
-    <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <IconOverlay />
+    <SafeAreaView style={styles.container}>
+      <SideIconOverlay />
     </SafeAreaView>
   );
 }
@@ -14,7 +14,7 @@ export default function BottomMenu() {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    flexDirection: "row",
+    
     
   },
 });

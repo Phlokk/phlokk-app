@@ -19,13 +19,14 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
+
 import { useNavigation } from "@react-navigation/native";
-import { Octicons } from "@expo/vector-icons";
+
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
 import routes from "../../navigation/routes";
 import CustomAlert from "../../components/Alerts/CustomAlert";
+import SideIconOverlay from "./SideIconOverlay";
 
 
 const START_RECORDING_DELAY = 3000;
@@ -63,10 +64,6 @@ export default function CameraScreen() {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
-  // Camera FX & Settings States
-  const [speed, setSpeed] = useState(false);
-  const [fX, setFx] = useState(false);
- 
 
   useEffect(() => {
     (async () => {
@@ -310,45 +307,7 @@ export default function CameraScreen() {
           <Feather name="zap" size={24} color={colors.white} />
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
-        <CustomAlert
-          alertTitle={
-            <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
-            </Text>
-          }
-          customAlertMessage={<Text>Speed{"\n"}coming soon!</Text>}
-          positiveBtn="Ok"
-          modalVisible={speed}
-          dismissAlert={setSpeed}
-          animationType="fade"
-        />
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setSpeed(true)}
-        >
-          <Octicons name="dashboard" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Speed</Text>
-        </TouchableOpacity>
-        <CustomAlert
-          alertTitle={
-            <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
-            </Text>
-          }
-          customAlertMessage={<Text>FX{"\n"}coming soon!</Text>}
-          positiveBtn="Ok"
-          modalVisible={fX}
-          dismissAlert={setFx}
-          animationType="fade"
-        />
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setFx(true)}
-        >
-          <FontAwesome name="magic" size={24} color={colors.white} />
-          <Text style={styles.iconText}>FX</Text>
-        </TouchableOpacity>
-
+        <SideIconOverlay />
         <TouchableOpacity
           style={{ position: "absolute", top: 0, right: 360 }}
           onPress={() => navigation.navigate(routes.FEED)}
@@ -440,7 +399,6 @@ export default function CameraScreen() {
         </View>
       </View>
 
-      {/* <BottomMenu /> */}
 
       {showCountdown && (
         <Animated.View

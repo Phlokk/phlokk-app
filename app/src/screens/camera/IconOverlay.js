@@ -162,26 +162,6 @@ function IconOverlay() {
           <Entypo name="beamed-note" size={24} color={colors.white} />
           <Text style={styles.iconText}>Sounds</Text>
         </TouchableOpacity>
-
-        <CustomAlert
-          alertTitle={
-            <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
-            </Text>
-          }
-          customAlertMessage={<Text>LIVE{"\n"}coming soon!</Text>}
-          positiveBtn="Ok"
-          modalVisible={isLive}
-          dismissAlert={setIsLive}
-          animationType="fade"
-        />
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setIsLive(true)}
-        >
-          <Feather name="video" size={24} color={colors.red} />
-          <Text style={styles.iconText}>LIVE</Text>
-        </TouchableOpacity>
       </ScrollView>
     </View>
   );
@@ -190,6 +170,7 @@ function IconOverlay() {
 const styles = StyleSheet.create({
   iconRow: {
     justifyContent: "space-between",
+    alignItems: "center",
     flex: 1,
     paddingTop: 20,
   },

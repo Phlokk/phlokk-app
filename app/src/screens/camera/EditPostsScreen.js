@@ -7,74 +7,64 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
-import {Video, Audio} from 'expo-av';
+import { Video, Audio } from "expo-av";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import BottomMenu from "./BottomMenu";
 import colors from "../../../config/colors";
 
-export default function EditPostsScreen({route}) {
+export default function EditPostsScreen({ route }) {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
-  const [shouldPlay, setShouldPlay] = useState(true);
-
   const [videoResizeMode, setVideoResizeMode] = useState(
-		Video.RESIZE_MODE_COVER
-	);
-
-  const videoUrl = (
-    route.params.source
+    Video.RESIZE_MODE_COVER
   );
 
-  const videoThumb = (
-    route.params.sourceThumb
-  );
+  const videoUrl = route.params.source;
+
+  const videoThumb = route.params.sourceThumb;
 
   useEffect(() => {
-		const setupAudio = async () => {
-			await Audio.setAudioModeAsync({playsInSilentModeIOS: true});
-		};
-		setupAudio();
-	}, []);
-
+    const setupAudio = async () => {
+      await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+    };
+    setupAudio();
+  }, []);
 
   return (
     <View style={styles.container}>
-      
-      
-      <Video 
-      isMuted={!isFocused}
-      resizeMode={videoResizeMode}
-      shouldPlay={true}
-      style={styles.videoPlayer} 
-      source={{ uri: videoUrl }}
-      isLooping 
-      onReadyForDisplay={e => {
-        const orientation = e.naturalSize.orientation;
-        if (orientation === 'landscape') {
-          setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
-        } else {
-          setVideoResizeMode(Video.RESIZE_MODE_COVER);
-        }
-      }}
+      <Video
+        isMuted={!isFocused}
+        resizeMode={videoResizeMode}
+        shouldPlay={true}
+        style={styles.videoPlayer}
+        source={{ uri: videoUrl }}
+        isLooping
+        onReadyForDisplay={(e) => {
+          const orientation = e.naturalSize.orientation;
+          if (orientation === "landscape") {
+            setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
+          } else {
+            setVideoResizeMode(Video.RESIZE_MODE_COVER);
+          }
+        }}
       />
-     
+
       <TouchableOpacity
-        style={{ position: "absolute", top: 50, right: 380 }}
+        style={styles.exitBtn}
         onPress={() => navigation.goBack()}
       >
-        <Feather name="arrow-left-circle" size={25} color={colors.secondary} />
+        <Feather name="chevron-left" size={24} color={colors.secondary} />
       </TouchableOpacity>
-      
       <TouchableOpacity
-        style={styles.savePostsArrow}
+        style={styles.nextText}
         onPress={() =>
           navigation.navigate("savePost", { videoUrl, videoThumb })
         }
       >
-        <Feather name="arrow-right-circle" size={25} color={colors.green} />
+        <Text style={styles.postButtonText}>Next</Text>
       </TouchableOpacity>
 
       <View style={styles.bottomBarContainer}>
@@ -98,22 +88,38 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
   },
-  savePostsArrow: {
+  nextText: {
+    backgroundColor: colors.red,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    padding: 3,
+
     position: "absolute",
     bottom: 100,
-    left: 360,
+    left: 370,
   },
   iconText: {
     color: colors.white,
     fontSize: 8,
     marginTop: 1,
   },
-
   soundText: {
     color: colors.white,
   },
+  postButtonText: {
+    color: colors.secondary,
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
   videoPlayer: {
     flex: 1,
-
+  },
+  exitBtn: {
+    position: "absolute", 
+    alignItems: "center",
+    borderRadius: 50,
+    top: 50, 
+    right: 380, 
+    backgroundColor: colors.red,
   },
 });

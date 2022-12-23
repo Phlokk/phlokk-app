@@ -134,6 +134,7 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
         dismissAlert={setIsVideoDeleted}
         animationType="fade"
       />
+      {/* // need to figure out how to get the function for delete video to wrok with this custom alert button.  */}
       {/* <CustomAlert
         alertTitle={
           <Text>
