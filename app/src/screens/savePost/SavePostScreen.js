@@ -39,6 +39,10 @@ export default function SavePostScreen({ route }) {
   const [drafts, setDrafts] = useState(false);
   const [isSelectedImage, setIsSelectedImage] = useState(false);
 
+  // Custom Alerts
+  const [isTags, setIsTags] = useState(false);
+  const [isMentions, setIsMentions] = useState(false);
+
   const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
 
   const handleSavePost = () => {
@@ -88,7 +92,7 @@ export default function SavePostScreen({ route }) {
       }}
     >
       <View style={styles.container}>
-        <PostNavBar style={styles.postContainer} title="Post" />
+        <PostNavBar title="Post" />
         <View style={{ flex: 1 }}>
           <ScrollView>
             <View style={styles.formContainer}>
@@ -97,8 +101,8 @@ export default function SavePostScreen({ route }) {
                 maxLength={150}
                 multiline
                 onChangeText={(text) => setDescription(text)}
-                placeholderTextColor={colors.white}
-                placeholder="Description: 0/150"
+                placeholderTextColor="#3d3d3d"
+                placeholder="Describe your post, add hash tags, mention those who inspire you"
               />
               <Image
                 style={styles.mediaPreview}
@@ -118,6 +122,20 @@ export default function SavePostScreen({ route }) {
                 <Text style={styles.coverSelect}>Select cover</Text>
               </Pressable>
             </View>
+            <View style={styles.mentionView}>
+              <TouchableOpacity
+                onPress={() => setIsTags(true)}
+                style={styles.boxBtn}
+              >
+                <Text style={styles.hashText}># Tags</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setIsMentions(true)}
+                style={styles.boxBtn}
+              >
+                <Text style={styles.hashText}>@ Mention</Text>
+              </TouchableOpacity>
+            </View>
             <Text style={styles.switchStatement}>
               Notice: Switches do not work in beta
             </Text>
@@ -125,7 +143,7 @@ export default function SavePostScreen({ route }) {
             <CustomSwitch />
           </ScrollView>
         </View>
-
+        <Text style={styles.shareText}>Automatically share to:</Text>
         <View style={styles.shareContainer}>
           <TouchableOpacity>
             <Feather style={styles.shareIcon} name="message-circle" size={35} />
@@ -169,6 +187,30 @@ export default function SavePostScreen({ route }) {
             <Text style={styles.postButtonText}>Post</Text>
           </TouchableOpacity>
         </View>
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>Tags{"\n"}coming soon!</Text>}
+          positiveBtn="Ok"
+          modalVisible={isTags}
+          dismissAlert={setIsTags}
+          animationType="fade"
+        />
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>Mentions{"\n"}coming soon!</Text>}
+          positiveBtn="Ok"
+          modalVisible={isMentions}
+          dismissAlert={setIsMentions}
+          animationType="fade"
+        />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -218,12 +260,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   formContainer: {
-    margin: 20,
+    borderBottomWidth: 0.2,
+    borderBottomColor: "rgba(255, 255, 255, 0.2)",
+    marginTop: 10,
     flexDirection: "row",
-    padding: 10,
-    borderColor: colors.secondary,
-    borderWidth: 0.8,
-    borderRadius: 7,
+    paddingHorizontal: 10,
+    paddingTop: 5,
+    paddingBottom: 40,
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -235,11 +278,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  mentionView: {
+    flexDirection: "row",
+  },
   inputText: {
     paddingVertical: 10,
     marginRight: 20,
     flex: 1,
     color: colors.white,
+  },
+  hashText: {
+    fontWeight: "bold",
+    fontSize: 12,
+    color: colors.secondary,
+  },
+  boxBtn: {
+    paddingHorizontal: 5,
+    padding: 1,
+    left: 10,
+    bottom: 40,
+    margin: 5,
+    backgroundColor: colors.darkGrey,
+    borderRadius: 5,
+  },
+  shareText: {
+    bottom: -10,
+    color: colors.white,
+    fontSize: 12,
+    marginLeft: 10,
   },
   uploadText: {
     color: colors.white,
@@ -312,7 +378,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   switchStatement: {
-    color: colors.green,
+    fontSize: 12,
+    paddingTop: 20,
+    color: colors.secondary,
     textAlign: "center",
   },
   coverSelect: {

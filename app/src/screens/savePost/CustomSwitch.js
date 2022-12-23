@@ -134,7 +134,7 @@ function CustomSwitch() {
               size={13}
               color={colors.white}
             />{" "}
-            Duets ON
+            Duos ON
           </Text>
           <View style={styles.fieldValueContainer}>
             <Switch

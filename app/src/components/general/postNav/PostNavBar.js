@@ -17,7 +17,7 @@ export default function PostNavBar(props) {
       <TouchableOpacity style={styles.button}>
         <MaterialIcons
           name="keyboard-arrow-left"
-          size={28}
+          size={30}
           style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
           onPress={() => navigation.goBack()}
         />
@@ -43,6 +43,9 @@ export default function PostNavBar(props) {
 
 const styles = StyleSheet.create({
   container: {
+    // backgroundColor: colors.red,
+    borderBottomWidth: 0.2, 
+    borderBottomColor: 'rgba(255, 255, 255, 0.2)',
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -53,12 +56,12 @@ const styles = StyleSheet.create({
   title_light: {
     fontSize: 12,
     fontWeight: "bold",
-    color: colors.black,
+    color: colors.secondary,
   },
   title_dark: {
     fontSize: 12,
     fontWeight: "bold",
-    color: colors.white,
+    color: colors.black,
   },
   text: {
     color: colors.white,
