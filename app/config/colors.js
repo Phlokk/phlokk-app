@@ -22,6 +22,5 @@ export default {
   lightBlack: "#181818",
   diamondBlue: "#c5eff7",
   commentInput: "#2f3640",
-
-  //Instagram Youtube Link SearchRow Components
+  starLight: "#a5b1c2",
 };

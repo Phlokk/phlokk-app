@@ -65,7 +65,7 @@ export default function EditLinkFieldScreen({ route }) {
         <Text style={styles.info}>
           <Text style={styles.infoText}>
             Add your online store link. You must use "http or https" before all
-            links.
+            links. Your link will be displayed publicly on the "Home" screen and your bio section.
           </Text>{" "}
         </Text>
       </View>

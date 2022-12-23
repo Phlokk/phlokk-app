@@ -43,8 +43,8 @@ export default function BioFieldScreen({ route }) {
         <TextInput
           style={
             theme == "light"
-              ? generalStyles.textInputReport_light
-              : generalStyles.textInputReport_dark
+              ? generalStyles.textInputBio_light
+              : generalStyles.textInputBio_dark
           }
           placeholder="bio"
           placeholderTextColor={"gray"}

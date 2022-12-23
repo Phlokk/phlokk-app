@@ -12,7 +12,8 @@ import colors from "../../../../../config/colors";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import * as Linking from "expo-linking";
 import TextTicker from "react-native-text-ticker";
-import RisingStar from "../../../common/RisingStar";
+
+import RisingStarFeed from "../../../common/RisingStarFeed";
 
 
 
@@ -89,7 +90,7 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
           </Text>
           <View style={{ paddingTop: 2, top: 2 }}>
             {user.is_verified === 1 && <VerifiedIcon />}
-            {user.is_rising === 1 && <RisingStar />}
+            {user.is_rising === 1 && <RisingStarFeed />}
           </View>
           
         </View>

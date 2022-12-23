@@ -34,6 +34,7 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
       <Text style={theme == "light" ? styles.middle_light : styles.middle_dark}>
         {userProfile?.creator_type || user.creator_type}
       </Text>
+      
 
       {!isCurrentUser && (
         <TouchableOpacity style={styles.drawerBtn}>

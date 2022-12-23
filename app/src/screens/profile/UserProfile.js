@@ -15,6 +15,8 @@ import CustomAlert from "../../components/Alerts/CustomAlert";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
 import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioSheetModalScreen";
 import { ThemeContext } from "../../theme/context";
+import RisingStar from "../../components/common/RisingStar";
+
 
 
 function UserProfile({ user, isCurrentUser }) {
@@ -55,7 +57,12 @@ function UserProfile({ user, isCurrentUser }) {
         ) : (
           <Text style={styles.username}>@user</Text>
         )}
+        <View style={styles.risingStarView}>
+      {user.is_rising === 1 && <RisingStar />}
       </View>
+      </View>
+      
+      
 
       <View style={styles.quotesView}>
         {user.quote !== null ? (
@@ -184,7 +191,13 @@ const styles = StyleSheet.create({
   },
   starIconView: {
     bottom: 50,
-  }
+  },
+  risingStarView: {
+    right: 16,
+    top: 4,
+    // alignItems: "center",
+
+  },
 });
 
 export default React.memo(UserProfile);
