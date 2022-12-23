@@ -268,11 +268,38 @@ export default function CameraScreen() {
       ) : null}
 
       <View style={styles.sideBarContainer}>
+      <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() =>
+            setCameraType(
+              cameraType === Camera.Constants.Type.front
+                ? Camera.Constants.Type.back
+                : Camera.Constants.Type.front
+            )
+          }
+        >
+          <Feather name="refresh-ccw" size={24} color={colors.white} />
+          <Text style={styles.iconText}>Flip</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() =>
+            setCameraFlash(
+              cameraFlash === Camera.Constants.FlashMode.off
+                ? Camera.Constants.FlashMode.torch
+                : Camera.Constants.FlashMode.off
+            )
+          }
+        >
+          <Feather name="zap" size={24} color={colors.white} />
+          <Text style={styles.iconText}>Flash</Text>
+        </TouchableOpacity>
         <SideIconOverlay />
         </View>
 
         <TouchableOpacity
-          style={{ position: "absolute", top: 45, right: 375 }}
+          style={{ position: "absolute", top: 48, right: 375 }}
           onPress={() => navigation.navigate(routes.FEED)}
         >
           <Feather name="x" size={25} color={colors.white} />
@@ -434,8 +461,8 @@ const styles = StyleSheet.create({
     height: 50,
   },
   sideBarContainer: {
-    top: 48,
-    right: 20,
+    top: 50,
+    right: -5,
     marginHorizontal: 20,
     position: "absolute",
   },
