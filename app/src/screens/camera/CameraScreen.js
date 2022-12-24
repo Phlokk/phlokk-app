@@ -19,9 +19,7 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-
 import { useNavigation } from "@react-navigation/native";
-
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
 import routes from "../../navigation/routes";
@@ -62,7 +60,6 @@ export default function CameraScreen() {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-
 
   useEffect(() => {
     (async () => {
@@ -295,6 +292,7 @@ export default function CameraScreen() {
           <Feather name="zap" size={24} color={colors.white} />
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
+
         <SideIconOverlay />
         </View>
 
@@ -462,13 +460,13 @@ const styles = StyleSheet.create({
   },
   sideBarContainer: {
     top: 50,
-    right: -5,
+    right: 5,
     marginHorizontal: 20,
     position: "absolute",
   },
   iconText: {
     color: colors.white,
-    fontSize: 8,
+    fontSize: 7,
     marginTop: 1,
   },
   sideBarButton: {

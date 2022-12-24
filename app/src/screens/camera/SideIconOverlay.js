@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
   },
   iconText: {
     color: colors.white,
-    fontSize: 7,
-    marginTop: 1,
+    fontSize: 6,
+    marginTop: 10,
   },
   sideBarButton: {
     marginTop: 25,
