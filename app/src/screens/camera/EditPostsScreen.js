@@ -18,9 +18,15 @@ import CustomAlert from "../../components/Alerts/CustomAlert";
 import colors from "../../../config/colors";
 import IconOverlay from "./IconOverlay";
 
+
 export default function EditPostsScreen({ route }) {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
+
+  // Video Trimmer State
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState(null);
+
 
   const [videoResizeMode, setVideoResizeMode] = useState(
     Video.RESIZE_MODE_COVER
@@ -36,6 +42,28 @@ export default function EditPostsScreen({ route }) {
     };
     setupAudio();
   }, []);
+
+
+  // Video Trimmer function
+ 
+  // const trimVideo = (inputFile, outputFile, startTime, endTime) => {
+  //   setProcessing(true);
+  //   setError(null);
+  //   return new Promise((resolve, reject) => {
+  //     const ffmpegCommand = `${ffmpeg} -i ${inputFile} -ss ${startTime} -to ${endTime} -c copy ${outputFile}`;
+  //     exec(ffmpegCommand, (error, stdout, stderr) => {
+  //       setProcessing(false);
+  //       if (error) {
+  //         console.error(`Error: ${error}`);
+  //         setError(error);
+  //         reject(error);
+  //       }
+  //       resolve(outputFile);
+  //     });
+  //   });
+  // };
+
+
 
   return (
     <View style={styles.container}>
@@ -58,13 +86,14 @@ export default function EditPostsScreen({ route }) {
       <View style={styles.sideBarContainer}>
         <IconOverlay />
       </View>
+      
       <View style={styles.buttonsContainer}>
           <TouchableOpacity
             // onPress={() => navigation.navigate(routes.DRAFTS)}
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           > 
-            <MaterialIcons name="arrow-left" size={24} color={colors.red} />
+            <MaterialIcons name="arrow-left" size={24} color={colors.secondary} />
             <Text style={styles.backButtonText}>Back </Text>
           </TouchableOpacity>
 
@@ -121,7 +150,7 @@ const styles = StyleSheet.create({
   backButton: {
     alignItems: "center",
     flex: 1,
-    borderColor: colors.red,
+    borderColor: colors.secondary,
     borderWidth: 0.5,
     flexDirection: "row",
     paddingVertical: 10,
@@ -155,4 +184,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
+
+  // Trimmer 
+  videoTrimmer: {
+    height: 20, 
+  },
+ 
 });

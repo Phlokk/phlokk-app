@@ -15,6 +15,7 @@ import colors from "../../../config/colors";
 import SearchInput from "../../components/search/SearchInput";
 import { ThemeContext } from "../../theme/context";
 
+
 const SearchScreen = () => {
   const { theme, setTheme } = useContext(ThemeContext);
   const navigation = useNavigation();

@@ -261,6 +261,7 @@ export default function CameraScreen() {
           type={cameraType}
           flashMode={cameraFlash}
           onCameraReady={() => setIsCameraReady(true)}
+          // zoom={0.02}
         />
       ) : null}
 
@@ -466,7 +467,7 @@ const styles = StyleSheet.create({
   },
   iconText: {
     color: colors.white,
-    fontSize: 7,
+    fontSize: 6,
     marginTop: 1,
   },
   sideBarButton: {
