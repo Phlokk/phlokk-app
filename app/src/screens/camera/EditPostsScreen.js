@@ -44,24 +44,6 @@ export default function EditPostsScreen({ route }) {
   }, []);
 
 
-  // Video Trimmer function
- 
-  // const trimVideo = (inputFile, outputFile, startTime, endTime) => {
-  //   setProcessing(true);
-  //   setError(null);
-  //   return new Promise((resolve, reject) => {
-  //     const ffmpegCommand = `${ffmpeg} -i ${inputFile} -ss ${startTime} -to ${endTime} -c copy ${outputFile}`;
-  //     exec(ffmpegCommand, (error, stdout, stderr) => {
-  //       setProcessing(false);
-  //       if (error) {
-  //         console.error(`Error: ${error}`);
-  //         setError(error);
-  //         reject(error);
-  //       }
-  //       resolve(outputFile);
-  //     });
-  //   });
-  // };
 
 
 
@@ -83,6 +65,7 @@ export default function EditPostsScreen({ route }) {
           }
         }}
       />
+
       <View style={styles.sideBarContainer}>
         <IconOverlay />
       </View>

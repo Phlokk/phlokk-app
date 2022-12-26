@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View  } from "react-native";
 import { userAuthStateListener } from "../../redux/actions";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthScreen from "../../screens/auth/AuthScreen";
@@ -58,7 +58,6 @@ import GiftingScreen from "../../screens/gifting/Gifting";
 import FollowingListScreen from "../../screens/stats/FollowingListScreen";
 import FriendsListScreen from "../../screens/stats/FriendsListScreen";
 import CameraScreen from "../../screens/camera/CameraScreen";
-import { View } from "react-native";
 import FireRulesScreen from "../../screens/gifting/FireRulesScreen";
 import PrivacyScreen from "../../screens/settings/privacy/PrivacyScreen";
 import BlockedListScreen from "../../screens/settings/privacy/BlockedListScreen";
