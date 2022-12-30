@@ -8,6 +8,8 @@ import UserProfileOverlay from '../../components/general/post/overlay/UserProfil
 import colors from '../../../config/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import Slider from '@react-native-community/slider';
+
+
 import axios from '../../redux/apis/axiosDeclaration';
 import {apiUrls} from '../../globals';
 

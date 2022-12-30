@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
   },
   sideBarContainer: {
     top: 50,
-    right: 5,
+    right: 8,
     marginHorizontal: 20,
     position: "absolute",
   },

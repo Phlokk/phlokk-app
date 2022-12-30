@@ -20,6 +20,7 @@ import routes from "./app/src/navigation/routes";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
+import LoadingIndicator from './app/src/components/common/ActivityIndicator'
 
 
 SplashScreen.preventAutoHideAsync();
@@ -39,6 +40,7 @@ LogBox.ignoreLogs([
 ]);
 
 export const userAtom = atom({});
+
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: false, staleTime: Infinity } },
@@ -231,7 +233,8 @@ export default function App() {
 
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <NavigationContainer ref={navigationRef}>
+            <NavigationContainer 
+             ref={navigationRef}>
               <ThemeProvider>
                 <Route />
               </ThemeProvider>

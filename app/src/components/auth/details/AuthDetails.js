@@ -26,6 +26,7 @@ import CustomTOSModal from "../../eulaScreenModal/CustomTOSModal";
 import { registerForPushNotificationsAsync } from "../../../services/notifications";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
+import routes from "../../../navigation/routes";
 
 export default function AuthDetails({ authPage, setDetailsPage }) {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
@@ -238,7 +239,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.forgotPass}
-            // onPress={() => navigation.navigate(REST_PASS)}
+            onPress={() => navigation.navigate(routes.RESET_PASS)}
           >
             <Text style={styles.forgotButtonText}>Forgot Password?</Text>
             <View />
@@ -339,8 +340,8 @@ const styles = StyleSheet.create({
   },
   forgotButtonText: {
     fontSize: 14,
-    color: colors.secondary,
-    opacity: 0.5,
+    color: colors.green,
+    
   },
   buttonForgotPassword: {
     marginTop: 20,

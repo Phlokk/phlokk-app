@@ -66,6 +66,8 @@ import colors from "../../../config/colors";
 import Root from "../../components/drawer/drawer-navigation";
 import UserReportScreen from "../../screens/reports/userReportScreen";
 import EditPostsScreen from "../../screens/camera/EditPostsScreen";
+import ResetPassword from "../../components/auth/details/ResetPassword";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -90,11 +92,18 @@ export default function Route() {
   return (
     <Stack.Navigator>
       {auth.currentUser === null ? (
+        <>
         <Stack.Screen
           name="auth"
           component={AuthScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="resetPassword"
+          component={ResetPassword}
+          options={{ headerShown: false }}
+        />
+        </>
       ) : (
         <>
           <Stack.Screen
