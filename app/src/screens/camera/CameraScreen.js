@@ -430,7 +430,7 @@ export default function CameraScreen() {
                 </Text>
               }
               customAlertMessage={
-                <Text>Video is too long! {"\n"}{"\n"} Video cannot be longer than{"\n"} 2 minutes</Text>
+                <Text>Video is too long! {"\n"}{"\n"} Max upload = 120 secs</Text>
               }
               positiveBtn="Ok"
               modalVisible={isUploaded}
