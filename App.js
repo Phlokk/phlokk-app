@@ -13,14 +13,14 @@ import * as SplashScreen from "expo-splash-screen";
 // imports for notifications.js
 import * as Notifications from "expo-notifications";
 import { navigationRef } from "./app/src/navigation/rootNavigation.js/index";
-
 import { apiUrls } from "./app/src/globals";
 import axios from "./app/src/redux/apis/axiosDeclaration";
 import routes from "./app/src/navigation/routes";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
-import LoadingIndicator from './app/src/components/common/ActivityIndicator'
+import * as Linking from 'expo-linking';
+
 
 
 SplashScreen.preventAutoHideAsync();
@@ -226,6 +226,14 @@ export default function App() {
     }
   }, [setAppIsAvailable]);
 
+  const config = {
+    screens: {
+      ResetPassword: "resetPassword",
+    }
+  }
+
+  const prefix = Linking.createURL('phlokkapp://phlokk')
+
   if (appIsAvailable) {
     return (
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -234,7 +242,12 @@ export default function App() {
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
             <NavigationContainer 
-             ref={navigationRef}>
+            linking={{
+              prefixes: [prefix],
+              config
+            }}
+             ref={navigationRef}
+             >
               <ThemeProvider>
                 <Route />
               </ThemeProvider>

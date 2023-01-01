@@ -27,7 +27,7 @@ import SideIconOverlay from "./SideIconOverlay";
 
 
 const START_RECORDING_DELAY = 3000;
-const MAX_DURATION = 60;
+const MAX_DURATION = 200;
 const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking every interval
 
 const convertMillisToPercentage = (ms) => ms / 1000 / 60;

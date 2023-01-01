@@ -1,20 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
-  Pressable,
   StyleSheet,
-  SafeAreaView,
 } from "react-native";
 import { Video, Audio } from "expo-av";
 import { useIsFocused } from "@react-navigation/core";
-import { Feather } from "@expo/vector-icons";
-import { Entypo } from '@expo/vector-icons'; 
-import { Ionicons } from '@expo/vector-icons'; 
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { useNavigation } from "@react-navigation/native";
-import CustomAlert from "../../components/Alerts/CustomAlert";
 import colors from "../../../config/colors";
 import IconOverlay from "./IconOverlay";
 

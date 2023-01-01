@@ -237,13 +237,18 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               {authPage === 0 ? "Sign In" : "Sign Up "}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
+
+          {authPage === 0 ? (
+            <TouchableOpacity
             style={styles.forgotPass}
             onPress={() => navigation.navigate(routes.RESET_PASS)}
           >
             <Text style={styles.forgotButtonText}>Forgot Password?</Text>
             <View />
           </TouchableOpacity>
+          ) : (
+          null
+          )}
 
           {authPage === 0 ? (
             <></>
