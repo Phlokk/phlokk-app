@@ -39,7 +39,7 @@ function SideIconOverlay() {
           onPress={() => setSpeed(true)}
         >
           <Octicons name="dashboard" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Speed</Text>
+          <Text style={styles.iconText}>SPD</Text>
         </TouchableOpacity>
         <CustomAlert
           alertTitle={

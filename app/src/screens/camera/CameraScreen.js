@@ -32,7 +32,7 @@ const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 120;
 const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking every interval
 
-const convertMillisToPercentage = (ms) => ms / 1000 / 60;
+const convertMillisToPercentage = (ms) => ms / 1000 / 120;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 
 export default function CameraScreen() {
@@ -148,14 +148,14 @@ export default function CameraScreen() {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       includeBase64: true,
       mediaType: "video",
-      duration: 80100,
+      duration: 120000,
       allowsEditing: true,
       aspect: [16, 9],
       quality: 1,
     });
     console.log(result)
     
-    if (!result.cancelled && result.duration < 80100) {
+    if (!result.cancelled && result.duration < 120000) {
       let sourceThumb = await generateThumbnail(result.uri);
       navigation.navigate("editPosts", { source: result.uri, sourceThumb });
     } else {
@@ -430,7 +430,7 @@ export default function CameraScreen() {
                 </Text>
               }
               customAlertMessage={
-                <Text>Video is too long! {"\n"}{"\n"} Video cannot be longer than 120 seconds</Text>
+                <Text>Video is too long! {"\n"}{"\n"} Video cannot be longer than{"\n"} 2 minutes</Text>
               }
               positiveBtn="Ok"
               modalVisible={isUploaded}
