@@ -3,8 +3,13 @@ import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { apiUrls } from "../globals";
 
+
+
 export const saveMediaToStorage = (description, source, thumbnail) => {
+
   new Promise(async (resolve, reject) => {
+
+
     let formData = new FormData();
 
     // Video file

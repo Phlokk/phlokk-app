@@ -20,20 +20,23 @@ import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from '@expo/vector-icons'; 
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
 import routes from "../../navigation/routes";
 import SideIconOverlay from "./SideIconOverlay";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 
 
 const START_RECORDING_DELAY = 3000;
-const MAX_DURATION = 200;
+const MAX_DURATION = 120;
 const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking every interval
 
 const convertMillisToPercentage = (ms) => ms / 1000 / 60;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 
 export default function CameraScreen() {
+  const [isUploaded, setIsUploaded] = useState(false);
   const [hasCameraPermissions, setHasCameraPermissions] = useState();
   const [hasAudioPermissions, setHasAudioPermissions] = useState();
   const [hasGalleryPermissions, setHasGalleryPermissions] = useState();
@@ -145,13 +148,18 @@ export default function CameraScreen() {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       includeBase64: true,
       mediaType: "video",
+      duration: 80100,
       allowsEditing: true,
       aspect: [16, 9],
       quality: 1,
     });
-    if (!result.cancelled) {
+    console.log(result)
+    
+    if (!result.cancelled && result.duration < 80100) {
       let sourceThumb = await generateThumbnail(result.uri);
       navigation.navigate("editPosts", { source: result.uri, sourceThumb });
+    } else {
+      setIsUploaded(true);
     }
   };
 
@@ -415,6 +423,20 @@ export default function CameraScreen() {
           </View>
         </Animated.View>
       )}
+      <CustomAlert
+              alertTitle={
+                <Text>
+                  <AntDesign name="warning" size={24} color={colors.red} />
+                </Text>
+              }
+              customAlertMessage={
+                <Text>Video is too long! {"\n"}{"\n"} Video cannot be longer than 120 seconds</Text>
+              }
+              positiveBtn="Ok"
+              modalVisible={isUploaded}
+              dismissAlert={setIsUploaded}
+              animationType="fade"
+            />
     </View>
   );
 }
