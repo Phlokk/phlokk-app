@@ -153,7 +153,6 @@ export default function CameraScreen() {
       aspect: [16, 9],
       quality: 1,
     });
-    console.log(result)
     
     if (!result.cancelled && result.duration < 120000) {
       let sourceThumb = await generateThumbnail(result.uri);
@@ -301,16 +300,18 @@ export default function CameraScreen() {
           <Feather name="zap" size={24} color={colors.white} />
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
-
+        {!isRecording && (
         <SideIconOverlay />
+        )}
         </View>
-
+        {!isRecording && (
         <TouchableOpacity
           style={{ position: "absolute", top: 48, right: 375 }}
           onPress={() => navigation.navigate(routes.FEED)}
         >
           <Feather name="x" size={25} color={colors.white} />
         </TouchableOpacity>
+        )}
       
       <View
         style={[
@@ -483,7 +484,7 @@ const styles = StyleSheet.create({
   },
   sideBarContainer: {
     top: 50,
-    right: 8,
+    right: 5,
     marginHorizontal: 20,
     position: "absolute",
   },

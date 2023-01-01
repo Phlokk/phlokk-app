@@ -40,12 +40,15 @@ export default function SavePostScreen({ route }) {
   const [drafts, setDrafts] = useState(false);
   const [isSelectedImage, setIsSelectedImage] = useState(false);
 
+  const [isDescription, setIsDescription] = useState(false);
+
   // Custom Alerts
   const [isTags, setIsTags] = useState(false);
   const [isMentions, setIsMentions] = useState(false);
 
   const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
 
+   
   const handleSavePost = () => {
     setRequestRunning(true);
     dispatch(
@@ -216,6 +219,18 @@ export default function SavePostScreen({ route }) {
           positiveBtn="Ok"
           modalVisible={isMentions}
           dismissAlert={setIsMentions}
+          animationType="fade"
+        />
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>Please add a description to post</Text>}
+          positiveBtn="Ok"
+          modalVisible={isDescription}
+          dismissAlert={setIsDescription}
           animationType="fade"
         />
       </View>

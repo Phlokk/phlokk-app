@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   title_light: {
     fontSize: 12,
     fontWeight: "bold",
-    color: colors.black,
+    color: colors.white,
   },
   title_dark: {
     fontSize: 12,

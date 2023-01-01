@@ -833,14 +833,3 @@ static void InitializeFlipper(UIApplication *application) {
 @end
 #endif
 
-#if defined(EX_DEV_LAUNCHER_ENABLED)
-@implementation AppDelegate (EXDevLauncherControllerDelegate)
-
-- (void)devLauncherController:(EXDevLauncherController *)developmentClientController
-    didStartWithSuccess:(BOOL)success
-{
-  developmentClientController.appBridge = [self initializeReactNativeApp:[EXDevLauncherController.sharedInstance getLaunchOptions]];
-}
-
-@end
-#endif
