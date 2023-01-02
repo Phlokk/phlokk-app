@@ -26,9 +26,12 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
     );
 
     // Description
-    formData.append("description", description, {
-      description: description || " ",
-    });
+    if (description) {
+      formData.append("description", description, {
+        description: description || " ",
+      });
+    }
+
 
     // Thumbnail
     let thumbSplit = thumbnail.split("/");

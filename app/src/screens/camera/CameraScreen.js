@@ -272,6 +272,7 @@ export default function CameraScreen() {
         />
       ) : null}
 
+      {!isRecording && (
       <View style={styles.sideBarContainer}>
       <TouchableOpacity
           style={styles.sideBarButton}
@@ -300,10 +301,14 @@ export default function CameraScreen() {
           <Feather name="zap" size={24} color={colors.white} />
           <Text style={styles.iconText}>Flash</Text>
         </TouchableOpacity>
-        {!isRecording && (
+
+
+        
         <SideIconOverlay />
-        )}
         </View>
+        )}
+
+
         {!isRecording && (
         <TouchableOpacity
           style={{ position: "absolute", top: 48, right: 375 }}
