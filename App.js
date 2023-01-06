@@ -19,9 +19,7 @@ import routes from "./app/src/navigation/routes";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
-import * as Linking from 'expo-linking';
-
-
+import * as Linking from "expo-linking";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -40,7 +38,6 @@ LogBox.ignoreLogs([
 ]);
 
 export const userAtom = atom({});
-
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: false, staleTime: Infinity } },
@@ -229,10 +226,10 @@ export default function App() {
   const config = {
     screens: {
       ResetPassword: "resetPassword",
-    }
-  }
+    },
+  };
 
-  const prefix = Linking.createURL('phlokkapp://phlokk')
+  const prefix = Linking.createURL("phlokkapp://phlokk");
 
   if (appIsAvailable) {
     return (
@@ -241,13 +238,13 @@ export default function App() {
 
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <NavigationContainer 
-            linking={{
-              prefixes: [prefix],
-              config
-            }}
-             ref={navigationRef}
-             >
+            <NavigationContainer
+              linking={{
+                prefixes: [prefix],
+                config,
+              }}
+              ref={navigationRef}
+            >
               <ThemeProvider>
                 <Route />
               </ThemeProvider>
