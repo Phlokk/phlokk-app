@@ -96,6 +96,7 @@ export default function CameraScreen() {
 
   const recordVideo = async () => {
     if (cameraRef) {
+      console.log(recordingTimerRef.current)
       // Start up the timer to display the circle progress bar
       clearInterval(recordingTimerRef.current);
       setRecordingTime(0);
@@ -464,7 +465,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   recordButton: {
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: colors.white,
     borderRadius: 100,
     height: 80,

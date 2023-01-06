@@ -42,11 +42,11 @@ export default function EditProfileFieldScreen({ route }) {
       <Divider />
       <View style={styles.mainContainer}>
         <TextInput
-          style={
+          style={[
             theme == "light"
               ? generalStyles.textInput_light
-              : generalStyles.textInput_dark
-          }
+              : generalStyles.textInput_dark, styles.textInputField
+          ]}
           placeholder="username"
           placeholderTextColor={"gray"}
           autoCapitalize="none"
@@ -58,6 +58,7 @@ export default function EditProfileFieldScreen({ route }) {
             setTextInputValue(val.toLowerCase().replaceAll(" ", ""));
           }}
         />
+        <Text style={styles.textCount}>{`${textInputValue.length}/24`}</Text>
       </View>
       <View style={styles.infoView}>
         <Text style={theme == "light" ? styles.info_light : styles.info_dark}>
@@ -80,6 +81,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
   },
   mainContainer: {
+    alignItems: "center",
+    flexDirection: 'row',
     padding: 20,
   },
   divider: {
@@ -110,4 +113,11 @@ const styles = StyleSheet.create({
     bottom: 30,
     zIndex: 999,
   },
+  textCount: {
+    right: 25,
+    color: colors.secondary,
+  },
+  textInputField: {
+    width: "100%",
+  }
 });

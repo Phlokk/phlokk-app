@@ -139,6 +139,10 @@ export default function SavePostScreen({ route }) {
               >
                 <Text style={styles.hashText}>@ Mention</Text>
               </TouchableOpacity>
+              <View style={styles.boxBtn}>
+              <Text style={[styles.hashText, styles.countText]}>{`${description.length}/150`}</Text>
+              </View>
+              
             </View>
             <Text style={styles.switchStatement}>
               Notice: Switches do not work in beta
@@ -423,4 +427,12 @@ const styles = StyleSheet.create({
     right: 10,
     backgroundColor: colors.black,
   },
+  countText: {
+    color: colors.secondary,
+    opacity: 0.5,
+    fontSize: 8,
+    
+    
+
+  }
 });

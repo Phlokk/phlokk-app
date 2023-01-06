@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
@@ -7,31 +7,43 @@ import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 import { updateCreator } from "../../services/user";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function RelationshipCategoryScreen({ route, props }) {
-  const { theme, setTheme } = useContext(ThemeContext);
-  const { title } = route.params;
+  const { theme, setTheme } = useTheme();
+  const { title, value } = route.params;
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState();
   const [user, setUser] = useAtom(userAtom);
 
-  const [categories, setCategories] = useState([
-    { id: 1, key: "cat1", value: false, category: "Single", selected: false },
-    { id: 2, key: "cat2", value: false, category: "Married", selected: false },
-    { id: 3, key: "cat3", value: false, category: "Taken", selected: false },
-    { id: 4, key: "cat4", value: false, category: "Looking", selected: false },
-    { id: 5, key: "cat5", value: false, category: "Divorced", selected: false },
-    { id: 6, key: "cat6", value: false, category: "Widow", selected: false },
-    {
-      id: 7,
-      key: "cat7",
-      value: false,
-      category: "It's complicated",
-      selected: false,
-    },
-    { id: 8, key: "cat8", value: false, category: "n/a", selected: false },
-  ]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    setCategories(initializeCategories());
+    setSelectedCategory(categories.find(cat => cat.selected))
+  }, []);
+
+  const initializeCategories = () => {
+    const options = [
+      "Single",
+      "Married",
+      "Taken",
+      "Looking",
+      "Divorced",
+      "Widow",
+      "Its complicated",
+      "n/a",
+    ];
+
+    return options.map((category, index) => {
+    return {
+      id: index,
+      key: `cat${index + 1}`,
+      category: category,
+      selected: value === category
+    }
+    });
+  };
 
   const onSave = async () => {
     const updateObject = { relationship_type: selectedCategory.category };
@@ -75,11 +87,12 @@ export default function RelationshipCategoryScreen({ route, props }) {
                   : styles.radioButton_dark
               }
             >
-              {selectedCategory?.id === item.id && (
+              {selectedCategory?.id === item.id  && (
                 <View style={styles.radioButtonIcon} />
               )}
             </TouchableOpacity>
           </View>
+          
         ))}
       </View>
     </SafeAreaView>

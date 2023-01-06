@@ -23,17 +23,13 @@ import { Ionicons } from "@expo/vector-icons";
 import VerifiedIcon from "../components/common/VerifiedIcon";
 import CustomAlert from "../components/Alerts/CustomAlert";
 import colors from "../../config/colors";
-import { ThemeContext } from "../theme/context";
+import { useTheme } from "../theme/context";
 
 const CustomDrawer = (props) => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useTheme();
   const [user, setUser] = useState("");
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [setAccounts, isSetAccounts] = useState(false);
-
-  const handleThemeChange = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
 
   useEffect(() => {}, [theme]);
 
@@ -170,7 +166,7 @@ const CustomDrawer = (props) => {
         <View style={styles.divider}></View>
         <TouchableOpacity
           style={{ paddingVertical: 15 }}
-          onPress={handleThemeChange}
+          onPress={toggleTheme}
         >
           <View style={styles.iconBtmView}>
             <Text>
