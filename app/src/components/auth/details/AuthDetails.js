@@ -187,7 +187,9 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
                   autoCapitalize="none"
                   autoCorrect={false}
                   maxLength={24}
-                  onChangeText={(text) => setUsername(text)}
+                  onChangeText={(val) => {
+                    setUsername(val.toLowerCase().replaceAll(" ", ""));
+                  }}
                   placeholder="Username"
                   value={username}
                 />
