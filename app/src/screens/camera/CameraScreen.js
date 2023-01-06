@@ -20,13 +20,12 @@ import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
 import routes from "../../navigation/routes";
 import SideIconOverlay from "./SideIconOverlay";
 import CustomAlert from "../../components/Alerts/CustomAlert";
-
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 120;
@@ -153,10 +152,12 @@ export default function CameraScreen() {
       aspect: [16, 9],
       quality: 1,
     });
-    
+
     if (!result.cancelled && result.duration < 120000) {
       let sourceThumb = await generateThumbnail(result.uri);
       navigation.navigate("editPosts", { source: result.uri, sourceThumb });
+    } else if (result.cancelled) {
+      null;
     } else {
       setIsUploaded(true);
     }
@@ -273,51 +274,48 @@ export default function CameraScreen() {
       ) : null}
 
       {!isRecording && (
-      <View style={styles.sideBarContainer}>
-      <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() =>
-            setCameraType(
-              cameraType === Camera.Constants.Type.front
-                ? Camera.Constants.Type.back
-                : Camera.Constants.Type.front
-            )
-          }
-        >
-          <Feather name="refresh-ccw" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Flip</Text>
-        </TouchableOpacity>
+        <View style={styles.sideBarContainer}>
+          <TouchableOpacity
+            style={styles.sideBarButton}
+            onPress={() =>
+              setCameraType(
+                cameraType === Camera.Constants.Type.front
+                  ? Camera.Constants.Type.back
+                  : Camera.Constants.Type.front
+              )
+            }
+          >
+            <Feather name="refresh-ccw" size={24} color={colors.white} />
+            <Text style={styles.iconText}>Flip</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() =>
-            setCameraFlash(
-              cameraFlash === Camera.Constants.FlashMode.off
-                ? Camera.Constants.FlashMode.torch
-                : Camera.Constants.FlashMode.off
-            )
-          }
-        >
-          <Feather name="zap" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Flash</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.sideBarButton}
+            onPress={() =>
+              setCameraFlash(
+                cameraFlash === Camera.Constants.FlashMode.off
+                  ? Camera.Constants.FlashMode.torch
+                  : Camera.Constants.FlashMode.off
+              )
+            }
+          >
+            <Feather name="zap" size={24} color={colors.white} />
+            <Text style={styles.iconText}>Flash</Text>
+          </TouchableOpacity>
 
-
-        
-        <SideIconOverlay />
+          <SideIconOverlay />
         </View>
-        )}
+      )}
 
-
-        {!isRecording && (
+      {!isRecording && (
         <TouchableOpacity
           style={{ position: "absolute", top: 48, right: 375 }}
           onPress={() => navigation.navigate(routes.FEED)}
         >
           <Feather name="x" size={25} color={colors.white} />
         </TouchableOpacity>
-        )}
-      
+      )}
+
       <View
         style={[
           styles.bottomBarContainer,
@@ -402,7 +400,6 @@ export default function CameraScreen() {
         </View>
       </View>
 
-
       {showCountdown && (
         <Animated.View
           style={[
@@ -430,19 +427,19 @@ export default function CameraScreen() {
         </Animated.View>
       )}
       <CustomAlert
-              alertTitle={
-                <Text>
-                  <AntDesign name="warning" size={24} color={colors.red} />
-                </Text>
-              }
-              customAlertMessage={
-                <Text>Video is too long! {"\n"} Max upload time = 2 mins</Text>
-              }
-              positiveBtn="Ok"
-              modalVisible={isUploaded}
-              dismissAlert={setIsUploaded}
-              animationType="fade"
-            />
+        alertTitle={
+          <Text>
+            <AntDesign name="warning" size={24} color={colors.red} />
+          </Text>
+        }
+        customAlertMessage={
+          <Text>Video is too long! {"\n"} Max upload time = 2 mins</Text>
+        }
+        positiveBtn="Ok"
+        modalVisible={isUploaded}
+        dismissAlert={setIsUploaded}
+        animationType="fade"
+      />
     </View>
   );
 }
