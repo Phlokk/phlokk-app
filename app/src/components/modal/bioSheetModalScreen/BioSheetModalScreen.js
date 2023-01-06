@@ -67,16 +67,15 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
 
           {user.relationship_type !== "n/a" && (
             <>
-              {" "}
               <Text style={styles.statusText}>Relationship status</Text>
               <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
                 <Ionicons
                   name="md-heart-sharp"
                   size={12}
                   color={colors.white}
-                />{" "}
+                />
                 {user.relationship_type}
-              </Text>{" "}
+              </Text>
             </>
           )}
 
