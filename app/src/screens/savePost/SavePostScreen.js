@@ -60,10 +60,8 @@ export default function SavePostScreen({ route }) {
       )
     )
       .then(async (res) => {
-        // console.log(res);
         await MediaLibrary.saveToLibraryAsync(route.params.videoUrl);
         navigation.navigate(routes.FEED);
-        // setNewFeedItem(res);
       })
       .catch((err) => {
         alert(err);
@@ -428,8 +426,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
   },
   countText: {
+    top: 2.8,
     color: colors.secondary,
-    opacity: 0.5,
+    opacity: 0.6,
     fontSize: 8,
     
     

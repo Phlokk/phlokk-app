@@ -97,7 +97,7 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
 
         <Text
           numberOfLines={descriptionDisplayLines}
-          style={styles.description}
+          style={post.description !== null ? styles.description : styles.descriptionEmpty}
           key={user}
           onPress={() => {
             if (descriptionDisplayLines > DEFAULT_DESC_DISPLAY_LINES) {
@@ -160,6 +160,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "300",
     marginBottom: 10,
+    marginRight: 10,
+  },
+  descriptionEmpty: {
+    color: colors.white,
+    fontSize: 13,
+    fontWeight: "300",
+    marginBottom: -10,
     marginRight: 10,
   },
   seeMoreText: {
