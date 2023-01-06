@@ -5,10 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
-import { ThemeContext } from "../../../theme/context";
+import { useTheme } from "../../../theme/context";
 
 export default function PostNavBar(props) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const navigation = useNavigation();
 

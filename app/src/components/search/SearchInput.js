@@ -12,7 +12,7 @@ import { queryUsers } from "../../services/user";
 import { Feather } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 // import CustomActivityIndicator from '../common/ActivityIndicator';
 
@@ -41,7 +41,7 @@ function useDebounce(value, delay) {
 }
 
 const SearchInput = ({ placeholder, setSearchUsers }) => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const [textInput, setTextInput] = useState("");
   const isFocused = useIsFocused();
   const [isSearching, setIsSearching] = useState(false);

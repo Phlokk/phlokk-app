@@ -12,12 +12,12 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 import colors from "../../../config/colors";
 import SearchNavigation from "../feed/SearchDiscover";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 const Tab = createBottomTabNavigator();
 
 const TabBar = ({ state, navigation }) => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const selectedTabIndex = navigation?.getState()?.index;
 
   const onPress = (index) => {

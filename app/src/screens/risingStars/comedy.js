@@ -9,10 +9,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../../config/colors";
 import RisingStarsNavBar from "../../components/general/profileNavBar/RisingStarsNavBar";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function ComedyScreen() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   return (
     <SafeAreaView

@@ -19,10 +19,10 @@ import {
   disableNotificationsForDevice,
   sendTestPushNotification,
 } from "../../../services/notifications";
-import { ThemeContext } from "../../../theme/context";
+import { useTheme } from "../../../theme/context";
 
 export default function ActivityAccountScreen() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const auth = useSelector((state) => state.auth);
   const [user, setUser] = useState("");

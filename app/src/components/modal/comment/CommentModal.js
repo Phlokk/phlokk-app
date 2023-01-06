@@ -20,10 +20,10 @@ import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import uuid from "uuid-random";
-import { ThemeContext } from "../../../theme/context";
+import { useTheme } from "../../../theme/context";
 
 function CommentModal({ post, onNewCommentSubmitted }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const commentTextInputRef = useRef();
 

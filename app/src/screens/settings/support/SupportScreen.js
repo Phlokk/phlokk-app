@@ -6,10 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 // import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import CustomAlert from "../../../components/Alerts/CustomAlert";
-import { ThemeContext } from "../../../theme/context";
+import { useTheme } from "../../../theme/context";
 
 export default function SupportScreen() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const navigation = useNavigation();
   const [user, setUser] = useState("");

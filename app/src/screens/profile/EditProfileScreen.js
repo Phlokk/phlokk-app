@@ -20,11 +20,11 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import EditProfileNav from "../../components/general/navBar/EditProfileNav";
 import { fetchGetUsers } from "../../redux/sagas/requests/fetchUsers";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 import { apiUrls } from "../../globals";
 
 export default function EditProfileScreen({ route }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
 

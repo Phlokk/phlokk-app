@@ -12,10 +12,10 @@ import { fetchGetUser } from "../../redux/sagas/requests/fetchUsers";
 
 import ProfileLoading from "../../components/profile/postList/ProfileLoading";
 import { useIsFocused } from "@react-navigation/native";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function ProfileScreen({ route }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const [postsToDisplay, setPostsToDisplay] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [popUpImage, setPopUpImage] = useState(false);

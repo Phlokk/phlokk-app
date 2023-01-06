@@ -21,7 +21,7 @@ import {
 } from "../../../../services/posts";
 import { likeComment, likeCommentReply } from "../../../../redux/actions/likes";
 import VerifiedIcon from "../../../common/VerifiedIcon";
-import { ThemeContext } from "../../../../theme/context";
+import { useTheme } from "../../../../theme/context";
 
 const CommentItem = ({
   comment,
@@ -30,7 +30,7 @@ const CommentItem = ({
   onReplyPressed,
   isReply,
 }) => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);

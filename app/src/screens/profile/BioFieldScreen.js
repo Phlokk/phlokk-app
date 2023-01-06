@@ -9,10 +9,10 @@ import colors from "../../../config/colors";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function BioFieldScreen({ route }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
   const navigation = useNavigation();
@@ -41,11 +41,11 @@ export default function BioFieldScreen({ route }) {
       <Divider />
       <View style={styles.mainContainer}>
         <TextInput
-          style={
+          style={[
             theme == "light"
               ? generalStyles.textInputBio_light
-              : generalStyles.textInputBio_dark
-          }
+              : generalStyles.textInputBio_dark, styles.textInputField
+          ]}
           placeholder="bio"
           placeholderTextColor={"gray"}
           autoCapitalize="sentences"
@@ -63,7 +63,7 @@ export default function BioFieldScreen({ route }) {
         <Text style={theme == "light" ? styles.info_light : styles.info_dark}>
           <Text style={styles.infoTextGreen}>Info:</Text> Tell us about yourself
           in 200 characters or less. When user clicks on your profile image this
-          bio will display.
+          bio will display. { textInputValue !== null  &&<Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/200`}</Text>}
         </Text>
       </View>
     </SafeAreaView>
@@ -80,6 +80,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
   },
   mainContainer: {
+    alignItems: "center",
+    flexDirection: 'row',
     padding: 20,
   },
   divider: {
@@ -110,4 +112,20 @@ const styles = StyleSheet.create({
     bottom: 30,
     zIndex: 999,
   },
+  textCount_light: {
+    fontSize: 10,
+    right: 45,
+    top: 70,
+    color: colors.black,
+  },
+  textCount_dark: {
+    fontSize: 10,
+    opacity: 0.6,
+    right: 45,
+    top: 70,
+    color: colors.secondary,
+  },
+  textInputField: {
+    width: "100%",
+  }
 });

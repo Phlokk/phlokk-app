@@ -5,10 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import AccountInformation from "./AccountInformation";
 import CustomAlert from "../../components/Alerts/CustomAlert";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 const AccountControl = () => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const [businessAccount, setBusinessAccount] = useState(false);
   const [deleteAccount, setDeleteAccount] = useState(false);

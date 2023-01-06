@@ -14,13 +14,13 @@ import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
 import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioSheetModalScreen";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 import RisingStar from "../../components/common/RisingStar";
 
 
 
 function UserProfile({ user, isCurrentUser }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const [topFavFive, setTopFavFive] = useState(false);
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
 

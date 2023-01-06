@@ -3,12 +3,12 @@ import React, { useContext } from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import colors from "../../../../config/colors";
 import VerifiedIcon from "../../common/VerifiedIcon";
-import { ThemeContext } from "../../../theme/context";
+import { useTheme } from "../../../theme/context";
 
 
 
 export default function SearchUserItem({ item }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
 
   return (

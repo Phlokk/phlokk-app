@@ -7,10 +7,10 @@ import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 const RenderButton = ({ onPress, isSelected, icon }) => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   return (
     <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
@@ -37,7 +37,7 @@ const RenderButton = ({ onPress, isSelected, icon }) => {
 };
 
 function DisplayMenuScreen({ user, onTabSelected }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const [currentUser] = useAtom(userAtom);
   const [selectedTab, setSelectedTab] = useState("cloud");

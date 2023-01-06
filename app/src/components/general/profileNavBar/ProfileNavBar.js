@@ -13,13 +13,13 @@ import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import { useIsFocused } from "@react-navigation/native";
-import { ThemeContext } from "../../../theme/context";
+import { useTheme } from "../../../theme/context";
 import ReportUserModalScreen from "../../modal/reportModal/ReportUserModalScreen";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function ProfileNavBar({ userProfile, isCurrentUser }) {
   const navigation = useNavigation();
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const [user, setUser] = useAtom(userAtom);
 
   const [isReportModalScreenOpen, setIsReportModalScreenOpen] = useState(false);

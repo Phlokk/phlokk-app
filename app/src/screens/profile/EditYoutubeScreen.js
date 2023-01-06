@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useContext } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import generalStyles from "../../styles/GeneralStyles";
@@ -9,10 +9,10 @@ import colors from "../../../config/colors";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function EditYoutubeScreen({ route }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
@@ -41,20 +41,20 @@ export default function EditYoutubeScreen({ route }) {
       <Divider />
       <View style={styles.mainContainer}>
         <TextInput
-          style={
+          style={[
             theme == "light"
               ? generalStyles.textInput_light
-              : generalStyles.textInput_dark
-          }
+              : generalStyles.textInput_dark, styles.textInputField
+          ]}
           placeholder="Youtube link"
           placeholderTextColor={"gray"}
           dataDetectorTypes={"link"}
           autoCapitalize="none"
           autoCorrect={false}
-          maxLength={255}
+          maxLength={90}
           value={textInputValue}
           onChangeText={setTextInputValue}
-          clearTextOnFocus={true}
+          // clearTextOnFocus={true}
           keyboardType="url"
         />
       </View>
@@ -62,7 +62,7 @@ export default function EditYoutubeScreen({ route }) {
       <View style={styles.infoView}>
         <Text style={theme == "light" ? styles.info_light : styles.info_dark}>
           <Text style={styles.infoTextGreen}>Info:</Text> Set your Youtube link
-          here. You must use "http or https" before all links. 0/255
+          here. You must use "http or https" before all links. { textInputValue !== null  && <Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/90`}</Text>}
         </Text>
       </View>
     </SafeAreaView>
@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
   },
   mainContainer: {
+    alignItems: "center",
+    flexDirection: 'row',
     padding: 20,
   },
   divider: {
@@ -104,4 +106,20 @@ const styles = StyleSheet.create({
   infoView: {
     paddingHorizontal: 20,
   },
+  textCount_light: {
+    fontSize: 10,
+    right: 45,
+    top: 70,
+    color: colors.black,
+  },
+  textCount_dark: {
+    fontSize: 10,
+    opacity: 0.6,
+    right: 45,
+    top: 70,
+    color: colors.secondary,
+  },
+  textInputField: {
+    width: "100%",
+  }
 });

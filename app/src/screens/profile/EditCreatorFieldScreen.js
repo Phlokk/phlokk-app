@@ -14,10 +14,10 @@ import { useAtom } from "jotai";
 import colors from "../../../config/colors";
 import { updateCreator } from "../../services/user";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function EditCreatorFieldScreen({ route }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const { title } = route.params;
   const navigation = useNavigation();

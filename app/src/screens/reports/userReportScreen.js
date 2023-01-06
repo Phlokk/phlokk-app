@@ -11,7 +11,7 @@ import axios from "../../redux/apis/axiosDeclaration";
 import colors from "../../../config/colors";
 import PostNavBar from "../../components/general/postNav/PostNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 
@@ -85,7 +85,7 @@ const UserReportScreen = ({ route, navigation }) => {
     },
   ]);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const onRadioBtnClick = (item) => {
     categoryId = item.id;

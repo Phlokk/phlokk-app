@@ -8,10 +8,10 @@ import colors from "../../../../config/colors";
 // import { useAtom } from "jotai";
 // import { userAtom } from "../../../../../App";
 import routes from "../../../navigation/routes";
-import { ThemeContext } from "../../../theme/context";
+import { useTheme } from "../../../theme/context";
 
 function ProfileStatsContainer({ user, isCurrentUser }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
   const [starCount, setStarCount] = useState(user?.like_count);
   const [following, setFollowing] = useState(user?.follow_count);

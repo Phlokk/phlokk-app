@@ -6,10 +6,10 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 const AccountInformation = () => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const [phoneNumber, setPhoneNumber] = useState(false);
   const [email, setEmail] = useState(false);

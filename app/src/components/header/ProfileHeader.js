@@ -4,10 +4,10 @@ import DisplayMenuScreen from "../../screens/profile/DisplayMenuScreen";
 import UserProfile from "../../screens/profile/UserProfile";
 import ProfileStatsContainer from "../profile/profileStats/ProfileStatsContainer";
 import colors from "../../../config/colors";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 function ProfileHeader({ user, setPopUpImage, onTabSelected, isCurrentUser }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   return (
     <View
       style={theme == "light" ? styles.container_light : styles.container_dark}

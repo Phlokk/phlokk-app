@@ -13,11 +13,11 @@ import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import SearchInput from "../../components/search/SearchInput";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 
 const SearchScreen = () => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
   const [textInput, setTextInput] = useState("");
   const [searchUsers, setSearchUsers] = useState([]);

@@ -8,10 +8,10 @@ import { Ionicons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import CustomAlert from "../../../components/Alerts/CustomAlert";
-import { ThemeContext } from "../../../theme/context";
+import { useTheme } from "../../../theme/context";
 
 export default function AccountScreen() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const auth = useSelector((state) => state.auth);
   const navigation = useNavigation();
   const [user, setUser] = useState("");

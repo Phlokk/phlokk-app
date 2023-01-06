@@ -6,10 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomAlert from "../../Alerts/CustomAlert";
 import colors from "../../../../config/colors";
-import { ThemeContext } from "../../../theme/context";
+import { useTheme } from "../../../theme/context";
 
 export default function ActivityNavBar(props) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const navigation = useNavigation();
 

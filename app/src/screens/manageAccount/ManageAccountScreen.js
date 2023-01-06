@@ -4,10 +4,10 @@ import React, { useContext } from "react";
 import AccountNavBar from "../../components/general/manageAccount/AccountNavBar";
 import colors from "../../../config/colors";
 import AccountControl from "./AccountControl";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function ManageAccountScreen() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   return (
     <SafeAreaView

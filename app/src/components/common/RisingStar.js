@@ -3,9 +3,9 @@ import React, { useContext } from "react";
 import {View, StyleSheet,} from 'react-native';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from '../../../config/colors'
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 function RisingStar() {
-	const { theme, setTheme } = useContext(ThemeContext);
+	const { theme, setTheme } = useTheme();
 	return (
 		<View
 			style={{

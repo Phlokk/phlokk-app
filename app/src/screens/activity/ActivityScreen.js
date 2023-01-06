@@ -12,10 +12,10 @@ import NotificationItem from "./NotificationItem";
 import LottieView from "lottie-react-native";
 import Colors from "../../../config/colors";
 import { useIsFocused } from "@react-navigation/native";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function ActivityScreen({ navigation }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const [notificationList, setNotificationList] = useState("");
   const [isLoading, setIsLoading] = useState();

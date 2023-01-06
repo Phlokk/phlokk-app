@@ -9,10 +9,10 @@ import colors from "../../../config/colors";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function EditProfileFieldScreen({ route }) {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
@@ -58,13 +58,12 @@ export default function EditProfileFieldScreen({ route }) {
             setTextInputValue(val.toLowerCase().replaceAll(" ", ""));
           }}
         />
-        <Text style={styles.textCount}>{`${textInputValue.length}/24`}</Text>
       </View>
       <View style={styles.infoView}>
         <Text style={theme == "light" ? styles.info_light : styles.info_dark}>
           <Text style={styles.infoText}>Info:</Text> Can only contain lowercase
           letters, numbers, underscores and periods. When you change your
-          username it will update the link to your profile.
+          username it will update the link to your profile. { textInputValue !== null  &&<Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/24`}</Text>}
         </Text>
       </View>
     </SafeAreaView>
@@ -113,8 +112,17 @@ const styles = StyleSheet.create({
     bottom: 30,
     zIndex: 999,
   },
-  textCount: {
-    right: 25,
+  textCount_light: {
+    fontSize: 10,
+    right: 45,
+    top: 70,
+    color: colors.black,
+  },
+  textCount_dark: {
+    fontSize: 10,
+    opacity: 0.6,
+    right: 45,
+    top: 70,
     color: colors.secondary,
   },
   textInputField: {

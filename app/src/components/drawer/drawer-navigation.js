@@ -12,10 +12,10 @@ import EditProfileScreen from "../../screens/profile/EditProfileScreen";
 import SettingsScreen from "../../screens/settings/SettingsScreen";
 import ManageAccountScreen from "../../screens/manageAccount/ManageAccountScreen";
 import CommunityGuidelinesScreen from "../../screens/policies/CommunityGuidelinesScreen";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function Root() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const Drawer = createDrawerNavigator();
   return (
     <Drawer.Navigator

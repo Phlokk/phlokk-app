@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -20,10 +20,10 @@ import AccountScreen from "./account/AccountScreen";
 import SupportScreen from "./support/SupportScreen";
 import { enableNotificationsForDevice } from "../../services/notifications";
 import Constants from "expo-constants";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function SettingsScreen() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
   const [user, setUser] = useState("");
 

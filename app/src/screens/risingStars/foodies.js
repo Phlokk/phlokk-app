@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import colors from "../../../config/colors";
 import RisingStarsNavBar from "../../components/general/profileNavBar/RisingStarsNavBar";
-import { ThemeContext } from "../../theme/context";
+import { useTheme } from "../../theme/context";
 
 export default function FoodieScreen() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   return (
     <SafeAreaView
