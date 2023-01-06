@@ -214,6 +214,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id}
+        // keyExtractor={() => uuid().toString()}
       />
     </View>
   );

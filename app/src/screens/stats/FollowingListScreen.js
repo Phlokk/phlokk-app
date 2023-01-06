@@ -4,6 +4,7 @@ import {
 	StyleSheet,
 	FlatList,
 } from 'react-native';
+import uuid from 'uuid-random';
 import colors from '../../../config/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import StatsNavBar from '../../components/general/profileNavBar/StatsNavBar';
@@ -42,7 +43,7 @@ export default function FollowingListScreen({route}) {
 
 	const renderItem = ({item, index}) => {
 		return (
-			<FollowingListItem item={item} />
+			<FollowingListItem item={item} index={index} />
 		)
 	}
 
@@ -53,7 +54,7 @@ export default function FollowingListScreen({route}) {
 			<FlatList
 				data={followersList}
 				renderItem={renderItem}
-				keyExtractor={item => item.id}
+				keyExtractor={() => uuid().toString()}
 				showsVerticalScrollIndicator={false}
 			/>
 		</SafeAreaView>

@@ -5,18 +5,19 @@ import CustomAlert from "../../Alerts/CustomAlert";
 import { MaterialIcons } from "@expo/vector-icons";
 // import routes from "../../../navigation/routes"
 import colors from "../../../../config/colors";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../../../App";
+// import { useAtom } from "jotai";
+// import { userAtom } from "../../../../../App";
 import routes from "../../../navigation/routes";
 import { ThemeContext } from "../../../theme/context";
 
 function ProfileStatsContainer({ user, isCurrentUser }) {
   const { theme, setTheme } = useContext(ThemeContext);
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   const [starCount, setStarCount] = useState(user?.like_count);
   const [following, setFollowing] = useState(user?.follow_count);
 
-  const [isFollowing, setIsFollowing] = useState(user?.is_following);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isStar, setIsStar] = useState(false);
   const [friends, setFriends] = useState("0");
 
   const [isFriends, setIsFriends] = useState(false);
@@ -26,7 +27,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
       <View style={styles.counterContainer}>
         <View style={styles.counterItemContainer}>
           <TouchableOpacity
-          // onPress={() => setIsFollowing(true)}
+          onPress={() => setIsFollowing(true)}
           // onPress={() => navigation.navigate(routes.FOLLOWING_LIST, {
           // 	user: user,
           // 	isCurrentUser: isCurrentUser
@@ -55,18 +56,6 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
         </View>
 
         <View style={styles.counterItemContainer}>
-          <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={<Text>Friends{"\n"}coming soon!</Text>}
-            positiveBtn="Ok"
-            modalVisible={isFriends}
-            dismissAlert={setIsFriends}
-            animationType="fade"
-          />
           <TouchableOpacity
             onPress={() => setIsFriends(true)}
 
@@ -93,6 +82,10 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
           </Text>
         </View>
         <View style={styles.counterItemContainer}>
+          <TouchableOpacity
+          onPress={() => setIsStar(true)}
+          >
+        
           <Text
             style={
               theme == "light"
@@ -102,6 +95,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
           >
             {starCount}
           </Text>
+          </TouchableOpacity>
           <Text
             style={
               theme == "light"
@@ -111,8 +105,45 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
           >
             Stars
           </Text>
+          
         </View>
       </View>
+      <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Friends{"\n"}coming soon!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isFriends}
+            dismissAlert={setIsFriends}
+            animationType="fade"
+          />
+      <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Following{"\n"}coming soon!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isFollowing}
+            dismissAlert={setIsFollowing}
+            animationType="fade"
+          />
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Star count{"\n"}coming soon!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isStar}
+            dismissAlert={setIsStar}
+            animationType="fade"
+          />
     </View>
   );
 }

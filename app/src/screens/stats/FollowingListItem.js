@@ -1,10 +1,12 @@
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import axios from "../../redux/apis/axiosDeclaration";
 
 const FollowingListItem = ({ item }) => {
+  const navigation = useNavigation();
   const [isFollowing, setIsFollowing] = useState(item.is_following);
   const toggleIsFollowing = async function () {
     await axios.post(
@@ -30,7 +32,15 @@ const FollowingListItem = ({ item }) => {
       </View>
       <View style={styles.followingInfoRow}>
         <TouchableOpacity>
-          <Text style={styles.itemInfo}>
+          <Text
+          // TODO:Needs to navigate to the correct user account
+            // onPress={() => {
+            //   navigation.navigate("feedProfile", {
+            //     initialUser: item.user,
+            //   });
+            // }}
+            style={styles.itemInfo}
+          >
             {item.username}
             {item.is_verified && (
               <View style={styles.logoRow}>
