@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -26,7 +26,7 @@ import { useTheme } from "../../theme/context";
 import { apiUrls } from "../../globals";
 
 export default function EditProfileScreen({ route }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
 
@@ -37,6 +37,9 @@ export default function EditProfileScreen({ route }) {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
 
   const user = passedUser?._id === currentUser._id ? currentUser : passedUser;
+
+
+
 
   const chooseImage = async () => {
     let user = await SecureStore.getItemAsync("user");
@@ -105,7 +108,7 @@ export default function EditProfileScreen({ route }) {
 
               <View style={styles.imageOverlay} />
 
-              <Feather name="camera" size={26} color={colors.white} />
+              <Feather name="camera" size={26} color={colors.secondary} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -117,10 +120,16 @@ export default function EditProfileScreen({ route }) {
                 source={require("../../../assets/userImage.png")}
               />
               <View style={styles.imageOverlay} />
-              <Feather name="camera" size={26} color={colors.white} />
+              <Feather name="camera" size={26} color={colors.secondary} />
             </TouchableOpacity>
           )}
+          <View style={styles.mediaRow}>
+          <Text style={[theme == "light" ? styles.text_light : styles.text_dark, styles.imageRowText]}>Change photo</Text>
+          </View>
+          
         </View>
+
+
         <View style={styles.imageContainer}>
           {currentUser.photo_thumb_url !== null ? (
             <TouchableOpacity
@@ -135,7 +144,7 @@ export default function EditProfileScreen({ route }) {
 
               <View style={styles.imageOverlay} />
 
-              <Feather name="video" size={26} color={colors.white} />
+              <Feather name="video" size={26} color={colors.secondary} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -147,9 +156,12 @@ export default function EditProfileScreen({ route }) {
                 source={require("../../../assets/userImage.png")}
               />
               <View style={styles.imageOverlay} />
-              <Feather name="video" size={26} color={colors.white} />
+              <Feather name="video" size={26} color={colors.secondary} />
             </TouchableOpacity>
           )}
+          <View style={styles.mediaRow}>
+          <Text style={[theme == "light" ? styles.text_light : styles.text_dark, styles.imageRowText]}>Change video</Text>
+          </View>
         </View>
         </View>
 
@@ -606,22 +618,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
   },
   imageContainer: {
-    marginHorizontal: 10,
+    marginHorizontal: 40,
     alignItems: "center",
     marginTop: 20,
   },
   imageViewContainer: {
     backgroundColor: "gray",
-    height: 100,
-    width: 100,
+    height: 80,
+    width: 80,
     borderRadius: 50,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
   },
   image: {
-    height: 100,
-    width: 100,
+    height: 80,
+    width: 80,
     position: "absolute",
   },
   imageOverlay: {
@@ -670,13 +682,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 60,
   },
-  avatar: {
-    height: 100,
-    width: 100,
-    borderRadius: 50,
-    borderWidth: 1,
-    borderColor: "lightgray",
-  },
   chevron_light: {
     color: colors.black,
   },
@@ -689,5 +694,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
 
+  },
+  imageRowText: {
+    fontSize: 10, 
+  },
+  mediaRow: {
+  marginTop: 20, 
   },
 });
