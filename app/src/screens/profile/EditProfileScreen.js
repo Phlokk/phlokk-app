@@ -11,6 +11,7 @@ import * as SecureStore from "expo-secure-store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import routes from "../../navigation/routes";
@@ -19,6 +20,7 @@ import FormData from "form-data";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import EditProfileNav from "../../components/general/navBar/EditProfileNav";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 import { fetchGetUsers } from "../../redux/sagas/requests/fetchUsers";
 import { useTheme } from "../../theme/context";
 import { apiUrls } from "../../globals";
@@ -27,6 +29,8 @@ export default function EditProfileScreen({ route }) {
   const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
+
+  const [isBrandingVideo, setIsBrandingVideo] = useState(false);
 
   const passedUser = route?.params?.user;
 
@@ -47,7 +51,7 @@ export default function EditProfileScreen({ route }) {
 
     if (!result.cancelled) {
       setImage(result.uri);
-    }
+    } 
 
     let split = result.uri.split("/");
     let fileName = split[split.length - 1];
@@ -86,6 +90,7 @@ export default function EditProfileScreen({ route }) {
     >
       <EditProfileNav />
       <ScrollView>
+        <View style={styles.imageRow}>
         <View style={styles.imageContainer}>
           {currentUser.photo_thumb_url !== null ? (
             <TouchableOpacity
@@ -115,6 +120,37 @@ export default function EditProfileScreen({ route }) {
               <Feather name="camera" size={26} color={colors.white} />
             </TouchableOpacity>
           )}
+        </View>
+        <View style={styles.imageContainer}>
+          {currentUser.photo_thumb_url !== null ? (
+            <TouchableOpacity
+              style={styles.imageViewContainer}
+              onPress={() => setIsBrandingVideo(true)}
+            >
+              <Image
+                style={styles.image}
+                source={{ uri: image ? image : currentUser.photo_thumb_url }}
+                cache="only-if-cached"
+              />
+
+              <View style={styles.imageOverlay} />
+
+              <Feather name="video" size={26} color={colors.white} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.imageViewContainer}
+              onPress={() => setIsBrandingVideo(true)}
+            >
+              <Image
+                style={styles.image}
+                source={require("../../../assets/userImage.png")}
+              />
+              <View style={styles.imageOverlay} />
+              <Feather name="video" size={26} color={colors.white} />
+            </TouchableOpacity>
+          )}
+        </View>
         </View>
 
         <View style={styles.fieldsContainer}>
@@ -543,6 +579,18 @@ export default function EditProfileScreen({ route }) {
             )}
           </TouchableOpacity>
         </View>
+        <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Intro Video{"\n"}coming soon!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isBrandingVideo}
+            dismissAlert={setIsBrandingVideo}
+            animationType="fade"
+          />
       </ScrollView>
     </SafeAreaView>
   );
@@ -558,6 +606,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
   },
   imageContainer: {
+    marginHorizontal: 10,
     alignItems: "center",
     marginTop: 20,
   },
@@ -634,5 +683,11 @@ const styles = StyleSheet.create({
   chevron_dark: {
     color: colors.secondary,
     opacity: 0.6,
+  },
+  imageRow: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+
   },
 });

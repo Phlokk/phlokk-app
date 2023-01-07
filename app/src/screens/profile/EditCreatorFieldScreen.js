@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -19,162 +19,56 @@ import { useTheme } from "../../theme/context";
 export default function EditCreatorFieldScreen({ route }) {
   const { theme, setTheme } = useTheme();
 
-  const { title } = route.params;
+  const { title, value } = route.params;
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState();
   const [user, setUser] = useAtom(userAtom);
 
-  const [categories, setCategories] = useState([
-    { id: 1, key: "cat1", value: false, category: "Actor", selected: false },
-    {
-      id: 2,
-      key: "cat2",
-      value: false,
-      category: "Actress",
-      selected: false,
-    },
-    {
-      id: 3,
-      key: "cat3",
-      value: false,
-      category: "Artist",
-      selected: false,
-    },
-    {
-      id: 4,
-      key: "cat4",
-      value: false,
-      category: "Athlete",
-      selected: false,
-    },
-    { id: 5, key: "cat5", value: false, category: "Brand", selected: false },
-    {
-      id: 6,
-      key: "cat6",
-      value: false,
-      category: "Black Sheep",
-      selected: false,
-    },
-    {
-      id: 7,
-      key: "cat7",
-      value: false,
-      category: "Comedian",
-      selected: false,
-    },
-    {
-      id: 8,
-      key: "cat8",
-      value: false,
-      category: "Cosplay",
-      selected: false,
-    },
-    {
-      id: 9,
-      key: "cat9",
-      value: false,
-      category: "Creator",
-      selected: false,
-    },
-    {
-      id: 10,
-      key: "cat10",
-      value: false,
-      category: "Dancer",
-      selected: false,
-    },
-    {
-      id: 11,
-      key: "cat11",
-      value: false,
-      category: "Developer",
-      selected: false,
-    },
-    {
-      id: 12,
-      key: "cat12",
-      value: false,
-      category: "Entrepreneur",
-      selected: false,
-    },
-    {
-      id: 13,
-      key: "cat13",
-      value: false,
-      category: "Gym & Fitness",
-      selected: false,
-    },
-    {
-      id: 14,
-      key: "cat14",
-      value: false,
-      category: "Foodie",
-      selected: false,
-    },
-    {
-      id: 15,
-      key: "cat15",
-      value: false,
-      category: "Health & Beauty",
-      selected: false,
-    },
-    {
-      id: 16,
-      key: "cat16",
-      value: false,
-      category: "Model",
-      selected: false,
-    },
-    {
-      id: 17,
-      key: "cat17",
-      value: false,
-      category: "Musician",
-      selected: false,
-    },
-    {
-      id: 18,
-      key: "cat18",
-      value: false,
-      category: "Producer",
-      selected: false,
-    },
-    {
-      id: 19,
-      key: "cat19",
-      value: false,
-      category: "Promoter",
-      selected: false,
-    },
-    {
-      id: 20,
-      key: "cat20",
-      value: false,
-      category: "Public Figure",
-      selected: false,
-    },
-    {
-      id: 21,
-      key: "cat21",
-      value: false,
-      category: "Education",
-      selected: false,
-    },
-    {
-      id: 22,
-      key: "cat22",
-      value: false,
-      category: "Watcher",
-      selected: false,
-    },
-    {
-      id: 23,
-      key: "cat23",
-      value: false,
-      category: "Youtuber",
-      selected: false,
-    },
-  ]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    setCategories(initializeCategories());
+    setSelectedCategory(categories.find(cat => cat.selected))
+  }, []);
+
+  const initializeCategories = () => {
+    const options = [
+      "Actor",
+      "Actress",
+      "Artist",
+      "Athlete",
+      "Brand",
+      "Black Sheep",
+      "Comedian",
+      "Cosplay",
+      "Creator",
+      "Dancer",
+      "Developer",
+      "Entrepreneur",
+      "Gym & Fitness",
+      "Foodie",
+      "Health & Beauty",
+      "Model",
+      "Musician",
+      "Producer",
+      "Promoter",
+      "Public Figure",
+      "Teacher",
+      "Watcher",
+      "Youtuber",
+    ];
+
+    return options.map((category, index) => {
+      return {
+        id: index,
+        key: `cat${index + 1}`,
+        category: category,
+        selected: value === category
+      }
+      });
+    };
+
+
 
   const onSave = async () => {
     const updateObject = { creator_type: selectedCategory.category };
