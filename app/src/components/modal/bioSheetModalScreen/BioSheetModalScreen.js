@@ -147,7 +147,6 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.userInfoBox}>
           <Feather style={styles.icons} name="user" color={colors.secondary} />
-          <Text style={styles.aboutText}>Bio:</Text>
           <Text style={styles.bioText}>{user.bio}</Text>
           <View
           style={styles.divider_light}
@@ -156,7 +155,6 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
           
           <View style={styles.userInfoBox}>
           <Feather style={styles.icons} name="award" color={colors.secondary} />
-          <Text style={styles.aboutText}>Skills:</Text>
           <Text style={styles.bioText}>{user.skills}</Text>
           <View
           style={styles.divider_light}
@@ -168,7 +166,6 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
   
           <View style={styles.userInfoBox}>
           <FontAwesome5 style={styles.icons} name="user-graduate" color={colors.secondary} />
-          <Text style={styles.aboutText}>Education:</Text>
           <Text style={styles.bioText}>{user.education}</Text>
           <View
           style={styles.divider_light}
@@ -217,7 +214,7 @@ const styles = StyleSheet.create({
   },
 
   aboutText: {
-    color: colors.green,
+    color: colors.secondary,
     paddingLeft: 15,
     marginTop: 5,
     opacity: 0.8,

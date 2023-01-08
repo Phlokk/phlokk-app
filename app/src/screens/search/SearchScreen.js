@@ -6,15 +6,16 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
-  ScrollView,
 } from "react-native";
+import { Octicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import SearchUserItem from "../../components/search/userItem/SearchUserItem";
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import SearchInput from "../../components/search/SearchInput";
 import { useTheme } from "../../theme/context";
-
 
 const SearchScreen = () => {
   const { theme, setTheme } = useTheme();
@@ -47,7 +48,7 @@ const SearchScreen = () => {
       <Text
         style={theme == "light" ? styles.itemText_light : styles.itemText_dark}
       >
-        #{name}
+        {name}
       </Text>
     </TouchableOpacity>
   );
@@ -71,28 +72,36 @@ const SearchScreen = () => {
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
       <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
-      
-        <View style={styles.hashRow}>
+
+      <View style={styles.hashRow}>
         <TouchableOpacity>
-        <Text style={styles.catText}>Stars</Text>
+          <Text style={styles.catText}>
+            <Octicons name="globe" size={14} color={colors.green} />
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-        <Text style={styles.catText}>Users</Text>
+          <Text style={styles.catText}>
+            <Feather name="user" size={14} color={colors.secondary} />
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-        <Text style={styles.catText}>Videos</Text>
+          <Text style={styles.catText}>
+            <Feather name="video" size={14} color={colors.secondary} />
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-        <Text style={styles.catText}>Sounds</Text>
+          <Text style={styles.catText}>
+            <Entypo name="beamed-note"  size={14} color={colors.secondary}/>
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-        <Text style={styles.catText}>LIVE</Text>
+          <Text style={styles.catText}>LIVE</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-        <Text style={styles.catText}>Tags</Text>
+          <Text style={styles.catText}><Feather name="hash" size={14} color={colors.secondary} /></Text>
         </TouchableOpacity>
-        </View>
-        
+      </View>
+
       <FlatList
         data={searchUsers}
         renderItem={({ item }) => <SearchUserItem item={item} />}
@@ -202,16 +211,14 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontWeight: "bold",
   },
-  
+
   hashRow: {
     height: 15,
     paddingHorizontal: 15,
     marginBottom: 20,
     justifyContent: "space-between",
-    flexDirection: 'row',
-    
+    flexDirection: "row",
   },
-  
 });
 
 export default SearchScreen;
