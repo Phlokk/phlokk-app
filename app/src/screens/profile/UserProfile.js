@@ -20,7 +20,7 @@ import RisingStar from "../../components/common/RisingStar";
 
 
 function UserProfile({ user, isCurrentUser }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [topFavFive, setTopFavFive] = useState(false);
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
 
@@ -194,7 +194,8 @@ const styles = StyleSheet.create({
   },
   risingStarView: {
     right: 16,
-    top: 5,
+    top: 4,
+    // alignItems: "center",
 
   },
 });

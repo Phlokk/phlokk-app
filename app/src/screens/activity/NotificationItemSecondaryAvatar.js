@@ -10,10 +10,14 @@ const NotificationItemSecondaryAvatar = ({ image }) => {
     <Pressable style={styles.iconRowAvatars}>
       <FastImage
         style={styles.avatarList}
-        source={{
+        source={
+          image ?
+          {
           uri: image,
           priority: FastImage.priority.low,
-        }}
+          }
+          : require("../../../assets/userImage.png")
+      }
         cache={FastImage.cacheControl.web}
         onLoadStart={() => {
           setImageIsLoading(true);

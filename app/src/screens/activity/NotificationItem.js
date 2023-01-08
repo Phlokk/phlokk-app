@@ -50,7 +50,7 @@ const NotificationItem = ({ navigation, item }) => {
   const [isNotificationImageLoading, setIsNotificationImageLoading] =
     useState(true);
 
-  const renderAvatarRow = (key, keyIndex) => {
+  const renderAvatarRow = ( key ) => {
     return (
       <NotificationItemSecondaryAvatar image={item.pictures[key]} key={key} />
     );
