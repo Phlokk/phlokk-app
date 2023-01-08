@@ -37,6 +37,8 @@ export default Object.freeze({
   SETTING_SHEET: "settingsSheet",
   QUOTES: "quotes",
   BIO: "bio",
+  SKILLS: "skills",
+  EDUCATION: "education",
   CAMERA: "Cam",
   EDIT_POSTS: "editPosts",
   SAVE_POST: "savePost",

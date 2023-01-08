@@ -108,7 +108,7 @@ export default function EditProfileScreen({ route }) {
 
               <View style={styles.imageOverlay} />
 
-              <Feather name="camera" size={26} color={colors.secondary} />
+              <Feather name="camera" size={26} style={styles.icon} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -144,17 +144,13 @@ export default function EditProfileScreen({ route }) {
 
               <View style={styles.imageOverlay} />
 
-              <Feather name="video" size={26} color={colors.secondary} />
+              <Feather name="video" size={26} style={styles.icon} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               style={styles.imageViewContainer}
               onPress={() => setIsBrandingVideo(true)}
             >
-              <Image
-                style={styles.image}
-                source={require("../../../assets/userImage.png")}
-              />
               <View style={styles.imageOverlay} />
               <Feather name="video" size={26} color={colors.secondary} />
             </TouchableOpacity>
@@ -407,22 +403,21 @@ export default function EditProfileScreen({ route }) {
               </View>
             )}
           </TouchableOpacity>
-          {/* PROFILE SKILLS SECTION */}
-          {/* <TouchableOpacity
+           <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
             onPress={() =>
               navigation.navigate(routes.SKILLS, {
                 title: "Skills",
                 field: "skills",
-                value: user.skills,
+                value: currentUser.skills,
               })
             }
           >
             <Text style={theme == "light"
                 ? styles.text_light
                 : styles.text_dark}>Skills</Text>
-            {user.skills === null || undefined ? (
+            {currentUser.skills === null || undefined ? (
               <View style={styles.fieldValueContainer}>
                 <Text numberOfLines={1} style={theme == "light"
                 ? styles.text_light
@@ -447,23 +442,22 @@ export default function EditProfileScreen({ route }) {
                 />
               </View>
             )}
-          </TouchableOpacity> */}
-          {/* PROFILE EDUCATION SECTION */}
-          {/* <TouchableOpacity
+          </TouchableOpacity> 
+           <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
             onPress={() =>
               navigation.navigate(routes.EDUCATION, {
                 title: "Education",
                 field: "education",
-                value: user.education,
+                value: currentUser.education,
               })
             }
           >
             <Text style={theme == "light"
                 ? styles.text_light
                 : styles.text_dark}>Education</Text>
-            {user.education === null || undefined ? (
+            {currentUser.education === null || undefined ? (
               <View style={styles.fieldValueContainer}>
                 <Text numberOfLines={1} style={theme == "light"
                 ? styles.text_light
@@ -488,7 +482,7 @@ export default function EditProfileScreen({ route }) {
                 />
               </View>
             )}
-          </TouchableOpacity> */}
+          </TouchableOpacity> 
 
           <Text
             style={
@@ -637,7 +631,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   imageOverlay: {
-    backgroundColor: "rgba(0,0,0, 0.5)",
+    backgroundColor: "rgba(0,0,0, 0.8)",
     ...StyleSheet.absoluteFill,
   },
 
@@ -700,5 +694,9 @@ const styles = StyleSheet.create({
   },
   mediaRow: {
   marginTop: 20, 
+  },
+  icon: {
+    color: colors.secondary,
+    opacity: 0.8,
   },
 });

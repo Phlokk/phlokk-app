@@ -10,6 +10,7 @@ import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from '@expo/vector-icons'; 
 import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useState } from "react";
@@ -144,10 +145,35 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.userInfoBox}>
+          <Feather style={styles.icons} name="user" color={colors.secondary} />
           <Text style={styles.aboutText}>Bio:</Text>
           <Text style={styles.bioText}>{user.bio}</Text>
-          <Text style={styles.aboutText}>Skills: (coming soon)</Text>
-          <Text style={styles.aboutText}>Education: (coming soon)</Text>
+          <View
+          style={styles.divider_light}
+        ></View>
+          </View>
+          
+          <View style={styles.userInfoBox}>
+          <Feather style={styles.icons} name="award" color={colors.secondary} />
+          <Text style={styles.aboutText}>Skills:</Text>
+          <Text style={styles.bioText}>{user.skills}</Text>
+          <View
+          style={styles.divider_light}
+        ></View>
+        <View
+          style={styles.divider_light}
+        ></View>
+          </View>
+  
+          <View style={styles.userInfoBox}>
+          <FontAwesome5 style={styles.icons} name="user-graduate" color={colors.secondary} />
+          <Text style={styles.aboutText}>Education:</Text>
+          <Text style={styles.bioText}>{user.education}</Text>
+          <View
+          style={styles.divider_light}
+        ></View>
+          </View>
         </ScrollView>
       </LinearGradient>
     </View>
@@ -182,9 +208,8 @@ const styles = StyleSheet.create({
 
   bioText: {
     color: colors.white,
-    paddingLeft: 15,
-
-    marginTop: 20,
+    paddingHorizontal: 15,
+    marginTop: 5,
     opacity: 0.9,
     textAlign: "left",
     fontSize: 16,
@@ -192,9 +217,9 @@ const styles = StyleSheet.create({
   },
 
   aboutText: {
-    color: colors.secondary,
+    color: colors.green,
     paddingLeft: 15,
-    marginTop: 20,
+    marginTop: 5,
     opacity: 0.8,
     textAlign: "left",
     fontSize: 18,
@@ -252,14 +277,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    // backgroundColor: colors.red,
   },
   linkText: {
     color: colors.secondary,
     alignSelf: "center",
     justifyContent: "center",
     padding: 30,
-    // backgroundColor: colors.red,
     top: 30,
   },
   imageViewContainer: {
@@ -271,6 +294,30 @@ const styles = StyleSheet.create({
   imageOverlay: {
     backgroundColor: "rgba(0,0,0, 0.5)",
     ...StyleSheet.absoluteFill,
+  },
+  userInfoBox: {
+    // backgroundColor: "rgba(0,0,0, 0.2)",
+    margin: 10, 
+    padding: 5,
+    borderRadius: 10,
+    paddingBottom: 20,
+  },
+  divider_light: {
+    top: 20,
+    borderBottomWidth: 0.3,
+    borderColor: colors.secondary,
+    marginTop: 10,
+    opacity: 0.2,
+    // width: '80%',
+  },
+  icons: {
+    color: colors.secondary,
+    paddingLeft: 15,
+    marginTop: 5,
+    opacity: 0.8,
+    textAlign: "left",
+    fontSize: 16,
+    fontFamily: "DarkerGrotesque-Medium",
   },
 });
 

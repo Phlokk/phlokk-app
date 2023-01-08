@@ -67,6 +67,8 @@ import Root from "../../components/drawer/drawer-navigation";
 import UserReportScreen from "../../screens/reports/userReportScreen";
 import EditPostsScreen from "../../screens/camera/EditPostsScreen";
 import ResetPassword from "../../components/auth/details/ResetPassword";
+import EditSkillsFieldScreen from "../../screens/profile/EditSkillsFieldScreen";
+import EditEducationFieldScreen from "../../screens/profile/EditEducationFieldScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -331,6 +333,16 @@ export default function Route() {
           <Stack.Screen
             name="bio"
             component={BioFieldScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="skills"
+            component={EditSkillsFieldScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="education"
+            component={EditEducationFieldScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen

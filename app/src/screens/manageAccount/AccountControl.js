@@ -30,7 +30,7 @@ const AccountControl = () => {
       </Text>
       <CustomAlert
         customAlertMessage={
-          <Text>Business & Analytics{"\n"}coming in official release</Text>
+          <Text>Business & Analytics{"\n"}coming soon!</Text>
         }
         positiveBtn="Ok"
         modalVisible={businessAccount}

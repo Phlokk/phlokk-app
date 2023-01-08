@@ -11,7 +11,7 @@ import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
 
-export default function BioFieldScreen({ route }) {
+export default function EditSkillsFieldScreen({ route }) {
   const { theme } = useTheme();
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
@@ -19,7 +19,7 @@ export default function BioFieldScreen({ route }) {
   const [user, setUser] = useAtom(userAtom);
 
   const onSave = async () => {
-    const updateObject = { bio: textInputValue };
+    const updateObject = { skills: textInputValue };
     try {
       await updateCreator(updateObject);
       const updatedUser = { ...user, ...updateObject };
@@ -46,7 +46,7 @@ export default function BioFieldScreen({ route }) {
               ? generalStyles.textInputBio_light
               : generalStyles.textInputBio_dark, styles.textInputField
           ]}
-          placeholder="bio"
+          placeholder="Tell us about your skills and talents"
           placeholderTextColor={"gray"}
           autoCapitalize="sentences"
           autoCorrect={false}
@@ -61,9 +61,7 @@ export default function BioFieldScreen({ route }) {
       </View>
       <View style={styles.infoView}>
         <Text style={theme == "light" ? styles.info_light : styles.info_dark}>
-          <Text style={styles.infoTextGreen}>Info:</Text> Tell us about yourself
-          in 200 characters or less. When user clicks on your profile image this
-          bio will display. { textInputValue !== null  &&<Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/200`}</Text>}
+          <Text style={styles.infoTextGreen}>Info:</Text> This is where you can let users know your skills and talents you have. This will help people understand your level of expertise. { textInputValue !== null  &&<Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/200`}</Text>}
         </Text>
       </View>
     </SafeAreaView>
