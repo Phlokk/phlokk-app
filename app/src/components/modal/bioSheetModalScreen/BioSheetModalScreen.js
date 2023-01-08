@@ -10,7 +10,7 @@ import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useState } from "react";
@@ -66,16 +66,15 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
             )}
           </View>
 
-          {user.relationship_type !== "n/a" && (
+          {user.relationship_type !== "n/a" && user.relationship_type !== null && (
             <>
               <Text style={styles.statusText}>Relationship status</Text>
               <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
                 <Ionicons
                   name="md-heart-sharp"
                   size={12}
-                  color={colors.white}
-                />
-                {user.relationship_type}
+                  color={colors.secondary}
+                /> {user.relationship_type}
               </Text>
             </>
           )}
@@ -146,30 +145,47 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.userInfoBox}>
-          <Feather style={styles.icons} name="user" color={colors.secondary} />
-          <Text style={styles.bioText}>{user.bio}</Text>
-          <View
-          style={styles.divider_light}
-        ></View>
+            {user.bio !== null && (
+              <>
+                <Text style={styles.aboutText}><Feather
+                  style={styles.icons}
+                  name="user"
+                  color={colors.secondary}
+                /> Bio:</Text>
+                <Text style={styles.bioText}>{user.bio}</Text>
+
+                <View style={styles.divider_light}></View>
+              </>
+            )}
           </View>
-          
+
           <View style={styles.userInfoBox}>
-          <Feather style={styles.icons} name="award" color={colors.secondary} />
-          <Text style={styles.bioText}>{user.skills}</Text>
-          <View
-          style={styles.divider_light}
-        ></View>
-        <View
-          style={styles.divider_light}
-        ></View>
+            {user.skills !== null && (
+              <>
+                <Text style={styles.aboutText}><Feather
+                  style={styles.icons}
+                  name="award"
+                  color={colors.secondary}
+                /> Skills:</Text>
+                <Text style={styles.bioText}>{user.skills}</Text>
+                <View style={styles.divider_light}></View>
+                <View style={styles.divider_light}></View>
+              </>
+            )}
           </View>
-  
+
           <View style={styles.userInfoBox}>
-          <FontAwesome5 style={styles.icons} name="user-graduate" color={colors.secondary} />
-          <Text style={styles.bioText}>{user.education}</Text>
-          <View
-          style={styles.divider_light}
-        ></View>
+          {user.education !== null && (
+              <>
+            <Text style={styles.aboutText}><FontAwesome5
+              style={styles.icons}
+              name="user-graduate"
+              color={colors.secondary}
+            />  Education:</Text>
+            <Text style={styles.bioText}>{user.education}</Text>
+            <View style={styles.divider_light}></View>
+            </>
+            )}
           </View>
         </ScrollView>
       </LinearGradient>
@@ -294,7 +310,7 @@ const styles = StyleSheet.create({
   },
   userInfoBox: {
     // backgroundColor: "rgba(0,0,0, 0.2)",
-    margin: 10, 
+    margin: 10,
     padding: 5,
     borderRadius: 10,
     paddingBottom: 20,
