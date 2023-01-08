@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useContext } from "react";
+import React from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import colors from "../../../../config/colors";
 import VerifiedIcon from "../../common/VerifiedIcon";
@@ -8,7 +8,7 @@ import { useTheme } from "../../../theme/context";
 
 
 export default function SearchUserItem({ item }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const navigation = useNavigation();
 
   return (

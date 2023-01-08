@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextInput,
   View,
@@ -41,7 +41,7 @@ function useDebounce(value, delay) {
 }
 
 const SearchInput = ({ placeholder, setSearchUsers }) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [textInput, setTextInput] = useState("");
   const isFocused = useIsFocused();
   const [isSearching, setIsSearching] = useState(false);
@@ -95,14 +95,22 @@ const SearchInput = ({ placeholder, setSearchUsers }) => {
         placeholderTextColor={colors.secondary}
         underlineColorAndroid="transparent"
       />
-      {textInput !== "" && (
+      {textInput !== "" ? (
         <TouchableOpacity
           style={styles.closeButton}
           onPress={() => setTextInput("")}
         >
           <Feather name="x" size={22} color={colors.secondary} />
         </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => setTextInput("")}
+        >
+          <Feather name="search" size={22} color={colors.secondary} />
+        </TouchableOpacity>
       )}
+
       {isSearching && (
         <ActivityIndicator
           size="large"
@@ -116,7 +124,6 @@ const SearchInput = ({ placeholder, setSearchUsers }) => {
 
 const styles = StyleSheet.create({
   container: {
-    zIndex: 10,
     flexDirection: "row",
     padding: 10,
   },
@@ -124,9 +131,9 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     borderColor: colors.secondary,
     borderWidth: 0.5,
-    borderRadius: 5,
+    borderRadius: 50,
     flexDirection: "row",
-    width: "100%",
+    width: "95%",
     padding: 10,
     marginVertical: 10,
   },
@@ -134,9 +141,9 @@ const styles = StyleSheet.create({
     color: colors.green,
     borderColor: colors.green,
     borderWidth: 0.5,
-    borderRadius: 5,
+    borderRadius: 50,
     flexDirection: "row",
-    width: "100%",
+    width: "95%",
     padding: 10,
     marginVertical: 10,
   },

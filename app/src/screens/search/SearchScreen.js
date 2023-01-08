@@ -71,7 +71,11 @@ const SearchScreen = () => {
       resizeMode="cover"
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
+      <View style={styles.searchBarView}>
       <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
+      </View>
+      
+      
 
       <View style={styles.hashRow}>
         <TouchableOpacity>
@@ -218,6 +222,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: "space-between",
     flexDirection: "row",
+  },
+  searchBarView: {
+    marginTop: 10,
+    alignItems: "center",
+
   },
 });
 
