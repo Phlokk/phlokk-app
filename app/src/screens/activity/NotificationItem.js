@@ -55,6 +55,8 @@ const NotificationItem = ({ navigation, item }) => {
       <NotificationItemSecondaryAvatar image={item.pictures[key]} key={key} />
     );
   };
+
+  console.log(item.pictures)
   
 
   return (

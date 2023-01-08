@@ -1,7 +1,6 @@
 import FastImage from "react-native-fast-image";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useState } from "react";
-import CustomActivityIndicator from "../../components/common/ActivityIndicator";
 
 const NotificationItemSecondaryAvatar = ({ image }) => {
   const [imageIsLoading, setImageIsLoading] = useState(false);
@@ -11,6 +10,7 @@ const NotificationItemSecondaryAvatar = ({ image }) => {
       <FastImage
         style={styles.avatarList}
         source={
+          
           image ?
           {
           uri: image,
@@ -19,26 +19,7 @@ const NotificationItemSecondaryAvatar = ({ image }) => {
           : require("../../../assets/userImage.png")
       }
         cache={FastImage.cacheControl.web}
-        onLoadStart={() => {
-          setImageIsLoading(true);
-        }}
-        onLoadEnd={() => {
-          setImageIsLoading(false);
-        }}
       />
-      {imageIsLoading && (
-        <View
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: 30,
-            marginLeft: 1,
-            justifyContent: "center",
-          }}
-        >
-          <CustomActivityIndicator />
-        </View>
-      )}
     </Pressable>
   );
 };
