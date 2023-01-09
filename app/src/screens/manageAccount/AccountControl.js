@@ -6,7 +6,7 @@ import colors from "../../../config/colors";
 import AccountInformation from "./AccountInformation";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { useTheme } from "../../theme/context";
-
+import routes from '../../navigation/routes'
 const AccountControl = () => {
   const { theme, setTheme } = useTheme();
 

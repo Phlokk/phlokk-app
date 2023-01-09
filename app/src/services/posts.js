@@ -3,9 +3,7 @@ import { Alert } from "react-native";
 import { useQuery } from "react-query";
 import axios from "../redux/apis/axiosDeclaration";
 import querystring from "query-string";
-// import config from '../../../config'
 
-// const {BASE_URL_AXIOS} = config;
 
 export const POSTS_PER_PAGE = 10;
 export const POSTS_PER_USER_PAGE = 20; // Changed to 20 since profiles display thumbnails, and may need more on initial load
@@ -180,20 +178,15 @@ export const addComment = async (postId, comment) => {
 };
 
 export const addCommentReply = async (postId, commentId, comment) => {
-  console.log(commentId, "here is COMMENT ID");
-  console.log(comment, "here is COMMENT");
-  console.log(postId, "here is POST ID");
   
   await axios
     .post(`/api/post/${postId}/${commentId}/add-comment-reply`, {
       comment: comment,
     })
     .then((result) => {
-      console.log(result, "Results is HERE!!!!!!");
       return result.data;
     })
     .catch((error) => {
-      console.log(error, "Error is HERE!!!!!!");
       Alert.alert("Comment Reply not added!");
     });
 };

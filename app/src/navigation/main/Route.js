@@ -69,6 +69,7 @@ import EditPostsScreen from "../../screens/camera/EditPostsScreen";
 import ResetPassword from "../../components/auth/details/ResetPassword";
 import EditSkillsFieldScreen from "../../screens/profile/EditSkillsFieldScreen";
 import EditEducationFieldScreen from "../../screens/profile/EditEducationFieldScreen";
+import ReportProblemScreen from "../../screens/reports/ReportProblemScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -319,6 +320,11 @@ export default function Route() {
             name="reports"
             component={ReportScreen}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+          name="report"
+          component={ReportProblemScreen}
+          options={{ headerShown: false }}
           />
           <Stack.Screen
             name="userReports"

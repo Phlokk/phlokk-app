@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -15,7 +15,7 @@ import CommunityGuidelinesScreen from "../../screens/policies/CommunityGuideline
 import { useTheme } from "../../theme/context";
 
 export default function Root() {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const Drawer = createDrawerNavigator();
   return (
     <Drawer.Navigator
@@ -67,7 +67,6 @@ export default function Root() {
             ),
           }}
         /> */}
-
       <Drawer.Screen
         name=" Settings"
         component={SettingsScreen}

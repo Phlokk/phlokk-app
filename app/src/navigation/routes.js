@@ -33,6 +33,7 @@ export default Object.freeze({
   MESSAGES: "messages",
   RELATIONSHIP: "relationship",
   REPORTS: "reports",
+  REPORT_PROBLEM: "report",
   USER_REPORTS: "userReports",
   SETTING_SHEET: "settingsSheet",
   QUOTES: "quotes",

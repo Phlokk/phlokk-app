@@ -8,7 +8,7 @@ import colors from "../../../../config/colors";
 import { useTheme } from "../../../theme/context";
 
 export default function PostNavBar(props) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const navigation = useNavigation();
 
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   title_light: {
     fontSize: 12,
     fontWeight: "bold",
-    color: colors.white,
+    color: colors.lightBlack,
   },
   title_dark: {
     fontSize: 12,

@@ -118,14 +118,14 @@ const ReportScreen = ({ route, navigation }) => {
         "create"
       )
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         alert(
           "Thank you for submitting a content violation report. We will look into this matter"
         );
         navigation.goBack();
       })
       .catch(function (error) {
-        console.log(error.message);
+        // console.log(error.message);
         alert("There was an error in sending your report");
       });
   };

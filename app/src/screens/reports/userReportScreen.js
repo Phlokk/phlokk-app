@@ -115,14 +115,14 @@ const UserReportScreen = ({ route, navigation }) => {
         "create"
       )
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         alert(
           "Thank you for reporting this creator. We will look into this matter"
         );
         navigation.goBack();
       })
       .catch(function (error) {
-        console.log(error.message);
+        // console.log(error.message);
         alert("There was an error in sending your report");
       });
   };

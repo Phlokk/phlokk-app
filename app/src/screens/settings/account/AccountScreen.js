@@ -11,12 +11,14 @@ import CustomAlert from "../../../components/Alerts/CustomAlert";
 import { useTheme } from "../../../theme/context";
 
 export default function AccountScreen() {
+
   const { theme, setTheme } = useTheme();
   const auth = useSelector((state) => state.auth);
   const navigation = useNavigation();
   const [user, setUser] = useState("");
   const [blocking, setBlocking] = useState(false);
   const [security, setSecurity] = useState(false);
+
 
   return (
     <View>

@@ -30,7 +30,7 @@ export const forceRefreshAtom = atom(false);
 const VideoFeed = ({ navigation, route }) => {
   const { profile, selectedIndex, creator, preloadedPosts } = route.params;
 
-  const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const [ currentUser ] = useAtom(userAtom);
   const [forceRefresh, setForceRefresh] = useAtom(forceRefreshAtom);
 
   const [pageSize, setPageSize] = useState(); // Used for making a the flatlist full screen

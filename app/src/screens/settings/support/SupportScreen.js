@@ -1,16 +1,19 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-// import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import CustomAlert from "../../../components/Alerts/CustomAlert";
 import { useTheme } from "../../../theme/context";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../../App";
+import routes from "../../../navigation/routes";
+
 
 export default function SupportScreen() {
   const { theme, setTheme } = useTheme();
-
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const navigation = useNavigation();
   const [user, setUser] = useState("");
   const [knowledgeBase, setKnowledgeBase] = useState(false);
@@ -27,6 +30,13 @@ export default function SupportScreen() {
       />
       <TouchableOpacity
         onPress={() => setReport(true)}
+        // onPress={() =>
+        //   navigation.navigate(routes.REPORT_PROBLEM, {
+        //     title: "Report",
+        //     field: "report",
+        //     value: currentUser.username,
+        //   })
+        // }
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >
