@@ -1,13 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import ActivityNavBar from "../../components/general/activityNav/ActivityNavBar";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import uuid from 'uuid-random';
 import colors from "../../../config/colors";
-import {
-  clearNotificationListener,
-  getNotifications,
-  notificationListener,
-} from "../../services/notifications";
+import { getNotifications } from "../../services/notifications";
 import NotificationItem from "./NotificationItem";
 import LottieView from "lottie-react-native";
 import Colors from "../../../config/colors";
@@ -15,7 +11,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useTheme } from "../../theme/context";
 
 export default function ActivityScreen({ navigation }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const [notificationList, setNotificationList] = useState("");
   const [isLoading, setIsLoading] = useState();

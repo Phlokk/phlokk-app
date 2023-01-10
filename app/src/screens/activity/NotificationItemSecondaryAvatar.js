@@ -1,9 +1,8 @@
 import FastImage from "react-native-fast-image";
-import { Pressable, StyleSheet, View } from "react-native";
-import { useState } from "react";
+import { Pressable, StyleSheet } from "react-native";
+
 
 const NotificationItemSecondaryAvatar = ({ image }) => {
-  const [imageIsLoading, setImageIsLoading] = useState(false);
 
   return (
     <Pressable style={styles.iconRowAvatars}>

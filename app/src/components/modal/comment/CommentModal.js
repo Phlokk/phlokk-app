@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Image,
@@ -17,13 +17,15 @@ import {
   addCommentReply,
 } from "../../../services/posts";
 import colors from "../../../../config/colors";
+import { Entypo } from '@expo/vector-icons'; 
+import { Feather } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import uuid from "uuid-random";
 import { useTheme } from "../../../theme/context";
 
 function CommentModal({ post, onNewCommentSubmitted }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const commentTextInputRef = useRef();
 
@@ -31,6 +33,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
   const [commentList, setCommentList] = useState([]);
   const [commentCount, setCommentCount] = useState("");
   const [repliedToComment, setRepliedToComment] = useState();
+  const [textInput, setTextInput] = useState("");
 
   const [user] = useAtom(userAtom);
 
@@ -64,8 +67,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
     // It may even need to signify which comment is replying to
     // We can then replicate that same thing above, so when we had a new reply to the UI, we can add a property saying
     // that its a reply
-
-    
 
     commentList.splice(indexToInsertNewComment, 0, {
       _id: uuid().toString() + "-temp",
@@ -182,7 +183,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             const authorNameLength =
               repliedToComment?.user.username.length || 0;
 
-            // If the username has a character deleted, we are longer responding, just delete the user name too
+            // If the username has a character deleted, we are no longer responding, just delete the user name too
             if (newCommentText.length - 1 <= authorNameLength) {
               setComment("");
               setRepliedToComment();
@@ -204,10 +205,24 @@ function CommentModal({ post, onNewCommentSubmitted }) {
           }}
           maxLength={150}
         />
-
-        <TouchableOpacity onPress={() => submitReply()}>
-          <Ionicons name="paper-plane" size={30} color={colors.green} />
-        </TouchableOpacity>
+        {comment !== "" ? (
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => submitReply()}
+          >
+             <Ionicons name="arrow-up-circle" size={24} color={colors.green} />
+          </TouchableOpacity>
+        ) : (
+          <Text
+            style={styles.closeButton}
+          >
+            <Ionicons
+              name="md-chatbubble-ellipses-outline"
+              size={23}
+              color={colors.secondary}
+            />
+          </Text>
+        )}
       </View>
       <FlatList
         data={commentList}
@@ -241,7 +256,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: colors.commentInput,
-    borderRadius: 10,
+    borderRadius: 50,
     flex: 1,
     paddingTop: 8,
     marginHorizontal: 10,
@@ -270,6 +285,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.secondary,
     textAlign: "center",
+  },
+  closeButton: {
+    top: 25,
+    right: 40,
+    position: "absolute",
   },
 });
 

@@ -1,19 +1,16 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../../../config/colors";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
 import { timeSince } from "../../services/posts";
 import routes from "../../navigation/routes";
 import { getPost } from "../../services/posts";
 import FastImage from "react-native-fast-image";
 import { useNavigation } from "@react-navigation/core";
 import NotificationItemSecondaryAvatar from "./NotificationItemSecondaryAvatar";
-import CustomActivityIndicator from "../../components/common/ActivityIndicator";
 import { useTheme } from "../../theme/context";
 
 const NotificationItem = ({ navigation, item }) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   /**
    * Notification "types"
@@ -25,7 +22,6 @@ const NotificationItem = ({ navigation, item }) => {
    */
 
   const inAppNavigation = useNavigation();
-  const [user, setUser] = useAtom(userAtom);
 
   const goToAssociated = async function () {
     if (item.type == 5) {
@@ -47,16 +43,11 @@ const NotificationItem = ({ navigation, item }) => {
     }
   };
 
-  const [isNotificationImageLoading, setIsNotificationImageLoading] =
-    useState(true);
-
   const renderAvatarRow = ( key ) => {
     return (
       <NotificationItemSecondaryAvatar image={item.pictures[key]} key={key} />
     );
   };
-
-  console.log(item.pictures)
   
 
   return (
@@ -73,26 +64,8 @@ const NotificationItem = ({ navigation, item }) => {
                   }
                 : require("../../../assets/userImage.png")
             }
-            onLoadStart={() => {
-              setIsNotificationImageLoading(true);
-            }}
-            onLoadEnd={() => {
-              setIsNotificationImageLoading(false);
-            }}
             cache={FastImage.cacheControl.web}
           />
-          {isNotificationImageLoading && (
-            <View
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: 42,
-                justifyContent: "center",
-              }}
-            >
-              <CustomActivityIndicator size="small" color={colors.green} />
-            </View>
-          )}
         </TouchableOpacity>
         <View style={styles.notificationView}>
           <View style={styles.mentionsView}>

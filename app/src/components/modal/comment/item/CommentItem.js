@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -30,10 +30,10 @@ const CommentItem = ({
   onReplyPressed,
   isReply,
 }) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const navigation = useNavigation();
-  const [user, setUser] = useAtom(userAtom);
+  const [ user ] = useAtom(userAtom);
 
   const [isLiked, setIsLiked] = useState(comment.is_liked);
   const [likeCount, setLikeCount] = useState(comment.like_count);
@@ -204,7 +204,6 @@ const CommentItem = ({
       )}
 
       <CustomAlert
-        // alertTitle="Delete"
         customAlertMessage="Delete this comment?"
         negativeBtn="Cancel"
         positiveBtn="Delete"
