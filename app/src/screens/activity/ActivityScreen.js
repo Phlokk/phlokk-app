@@ -48,7 +48,7 @@ export default function ActivityScreen({ navigation }) {
     );
   };
 
-  if (isLoading) {
+  if (!isLoading) {
     return (
       <View
         style={
@@ -150,6 +150,8 @@ const styles = StyleSheet.create({
     height: 80,
   },
   lottieView: {
+    flex: 1, 
+    justifyContent: "center",
     alignItems: "center",
   },
   splash_light: {

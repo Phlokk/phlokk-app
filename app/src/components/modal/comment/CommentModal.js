@@ -9,6 +9,7 @@ import {
   Text,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons'; 
 import CommentItem from "./item/CommentItem";
 import {
   commentListener,
@@ -17,8 +18,6 @@ import {
   addCommentReply,
 } from "../../../services/posts";
 import colors from "../../../../config/colors";
-import { Entypo } from '@expo/vector-icons'; 
-import { Feather } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import uuid from "uuid-random";
@@ -33,7 +32,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
   const [commentList, setCommentList] = useState([]);
   const [commentCount, setCommentCount] = useState("");
   const [repliedToComment, setRepliedToComment] = useState();
-  const [textInput, setTextInput] = useState("");
 
   const [user] = useAtom(userAtom);
 
@@ -210,6 +208,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             style={styles.closeButton}
             onPress={() => submitReply()}
           >
+            <FontAwesome style={styles.circle} name="circle" size={20} />
              <Ionicons name="arrow-up-circle" size={24} color={colors.green} />
           </TouchableOpacity>
         ) : (
@@ -287,10 +286,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   closeButton: {
-    top: 25,
-    right: 40,
+    top: 24,
+    right: 35,
     position: "absolute",
   },
+  circle: {
+    top: 3,
+    right: 3.2,
+    position: "absolute",
+    color: colors.white,
+  }
 });
 
 export default CommentModal;
