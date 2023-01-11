@@ -7,6 +7,8 @@ import {
   FlatList,
   TextInput,
   Text,
+  Platform,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -35,6 +37,8 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
   const [user] = useAtom(userAtom);
 
+
+
   useEffect(async () => {
     await commentListener(post._id, setCommentList, setCommentCount);
     return () => clearCommentListener();
@@ -60,7 +64,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
       indexToInsertNewComment = indexOfRepliedToComment + 1;
     }
-
+// TODO: reply to replies
     // The comments payload needs to signify that a comment is a reply to another comment
     // It may even need to signify which comment is replying to
     // We can then replicate that same thing above, so when we had a new reply to the UI, we can add a property saying
@@ -97,7 +101,8 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
   const renderItem = ({ item, index }) => {
     return (
-      <>
+      
+      <View>
         <View style={item.is_reply && { marginLeft: 40, marginTop: -10 }}>
           <CommentItem
             setCommentList={setCommentList}
@@ -130,8 +135,9 @@ function CommentModal({ post, onNewCommentSubmitted }) {
                 }}
               />
             </View>
+            
           ))}
-      </>
+      </View>
     );
   };
 
@@ -150,7 +156,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       </Text>
 
       <View style={styles.containerInput}>
-        {!user?.photo_thumb_url && !user?.photo_thumb_url ? (
+        {!user?.photo_thumb_url  ? (
           <Image
             style={styles.avatar}
             source={require("../../../../assets/userImage.png")}
@@ -164,12 +170,13 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             />
           </TouchableOpacity>
         )}
+        <ScrollView>
         <TextInput
           ref={commentTextInputRef}
           selectionColor={colors.green}
           style={styles.input}
           placeholder="Add comment..."
-          placeholderTextColor={"gray"}
+          placeholderTextColor="gray"
           multiline
           value={comment}
           onChangeText={(newCommentText) => {
@@ -203,31 +210,24 @@ function CommentModal({ post, onNewCommentSubmitted }) {
           }}
           maxLength={150}
         />
-        {comment !== "" ? (
+
+        {comment !== "" && (
+          <View style={styles.closeButton}>
           <TouchableOpacity
-            style={styles.closeButton}
             onPress={() => submitReply()}
           >
-            <FontAwesome style={styles.circle} name="circle" size={20} />
-             <Ionicons name="arrow-up-circle" size={24} color={colors.green} />
+             <FontAwesome style={styles.circle} name="circle" size={23} />
+             <Ionicons name="arrow-up-circle" size={27} color={colors.green} />
           </TouchableOpacity>
-        ) : (
-          <Text
-            style={styles.closeButton}
-          >
-            <Ionicons
-              name="md-chatbubble-ellipses-outline"
-              size={23}
-              color={colors.secondary}
-            />
-          </Text>
+          </View>
         )}
+        </ScrollView>
       </View>
       <FlatList
         data={commentList}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item, index) => index.toString()}
         // keyExtractor={() => uuid().toString()}
       />
     </View>
@@ -255,12 +255,14 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: colors.commentInput,
-    borderRadius: 50,
+    borderRadius: 20,
     flex: 1,
     paddingTop: 8,
-    marginHorizontal: 10,
-    paddingHorizontal: 10,
+    marginHorizontal: 5,
+    paddingHorizontal: 20,
+    paddingRight: 30,
     paddingVertical: 7,
+    paddingRight: 40,
     color: colors.secondary,
     maxHeight: 200,
   },
@@ -286,8 +288,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   closeButton: {
-    top: 24,
-    right: 35,
+    top: Platform.OS === "android" ? 7 : 2,
+    right: 10,
     position: "absolute",
   },
   circle: {

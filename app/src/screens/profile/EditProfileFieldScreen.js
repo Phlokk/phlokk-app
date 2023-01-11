@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,7 +12,7 @@ import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
 
 export default function EditProfileFieldScreen({ route }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
@@ -31,6 +31,8 @@ export default function EditProfileFieldScreen({ route }) {
     }
   };
 
+  
+
   return (
     <SafeAreaView
       style={theme == "light" ? styles.container_light : styles.container_dark}
@@ -44,19 +46,23 @@ export default function EditProfileFieldScreen({ route }) {
         <TextInput
           style={[
             theme == "light"
-              ? generalStyles.textInput_light
-              : generalStyles.textInput_dark, styles.textInputField
+              ? generalStyles.textInputUser_light
+              : generalStyles.textInputUser_dark, styles.textInputField
           ]}
           placeholder="username"
           placeholderTextColor={"gray"}
-          autoCapitalize="none"
           autoCorrect={false}
           textContentType="username"
           maxLength={24}
           value={textInputValue}
-          onChangeText={(val) => {
-            setTextInputValue(val.toLowerCase().replaceAll(" ", ""));
-          }}
+          onChangeText={(text) => {
+            if (text.includes(' ')) {
+              setTextInputValue(text.trim()); 
+             } else {
+              setTextInputValue(text);
+             }
+            }
+           }
         />
       </View>
       <View style={styles.infoView}>

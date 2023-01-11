@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,7 +13,7 @@ import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
 
 export default function EditLinkFieldScreen({ route }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
@@ -51,12 +51,18 @@ export default function EditLinkFieldScreen({ route }) {
           ]}
           placeholder="add link"
           placeholderTextColor={"gray"}
-          autoCapitalize="none"
           dataDetectorTypes={"link"}
           autoCorrect={false}
           maxLength={50}
           value={textInputValue}
-          onChangeText={setTextInputValue}
+          onChangeText={(text) => {
+            if (text.includes(' ')) {
+              setTextInputValue(text.trim()); 
+             } else {
+              setTextInputValue(text);
+             }
+            }
+           }
           keyboardType="url"
         />
       </View>

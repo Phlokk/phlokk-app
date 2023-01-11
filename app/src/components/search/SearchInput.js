@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   closeButton: {
-    top: 28,
+    top: Platform.OS === "android" ? 33 : 28,
     right: 20,
     position: "absolute",
   },

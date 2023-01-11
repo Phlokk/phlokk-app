@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   risingStarView: {
     right: 16,
-    top: 4,
+    top: 6,
     // alignItems: "center",
 
   },

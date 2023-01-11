@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,7 +12,7 @@ import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
 
 export default function EditQuotesFieldScreen({ route }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
@@ -50,7 +50,6 @@ export default function EditQuotesFieldScreen({ route }) {
           ]}
           placeholder="quote"
           placeholderTextColor={"gray"}
-          autoCapitalize="none"
           autoCorrect={false}
           textContentType="none"
           maxLength={40}

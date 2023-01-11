@@ -10,7 +10,7 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -21,9 +21,12 @@ import GiftingModalScreen from "../../../modal/giftingModalScreen/GiftingModalSc
 import CommentModal from "../../../modal/comment/CommentModal";
 import colors from "../../../../../config/colors";
 import { likeVideo } from "../../../../redux/actions/likes";
+import routes from "../../../../navigation/routes"
 
 export default function PostSingleOverlay({ post, user, isCurrentUser }) {
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
+
   useEffect(() => {
     setIsSettingsModalScreenOpen(false);
     setCommentModalOpen(false);
@@ -69,7 +72,7 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
       <View style={styles.iconContainer}>
         <TouchableOpacity
           style={styles.iconContainer}
-          onPress={() => setCommentModalOpen(true, post)}
+          onPress={() => setCommentModalOpen(true)} // (true, post)
         >
           <Ionicons
             name="md-chatbubble-ellipses-outline"
@@ -110,6 +113,7 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
       <TouchableOpacity
         style={styles.iconContainer}
         onPress={() => setIsGifting(true)}
+        // onPress={()=> navigation.navigate(routes.BUY_GIFTS)}
       >
         <MaterialCommunityIcons name="fire" size={40} color={colors.white} />
       </TouchableOpacity>

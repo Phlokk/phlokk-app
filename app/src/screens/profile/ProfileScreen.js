@@ -7,7 +7,7 @@ import colors from "../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
 import { useUserVideoFeed } from "../../services/posts";
-import React, { useCallback, useEffect, useState, useContext } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { fetchGetUser } from "../../redux/sagas/requests/fetchUsers";
 
 import ProfileLoading from "../../components/profile/postList/ProfileLoading";
@@ -15,7 +15,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useTheme } from "../../theme/context";
 
 export default function ProfileScreen({ route }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [postsToDisplay, setPostsToDisplay] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [popUpImage, setPopUpImage] = useState(false);

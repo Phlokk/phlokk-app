@@ -12,7 +12,7 @@ import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
 
 export default function EditYoutubeScreen({ route }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
@@ -49,12 +49,17 @@ export default function EditYoutubeScreen({ route }) {
           placeholder="Youtube link"
           placeholderTextColor={"gray"}
           dataDetectorTypes={"link"}
-          autoCapitalize="none"
           autoCorrect={false}
           maxLength={90}
           value={textInputValue}
-          onChangeText={setTextInputValue}
-          // clearTextOnFocus={true}
+          onChangeText={(text) => {
+            if (text.includes(' ')) {
+              setTextInputValue(text.trim()); 
+             } else {
+              setTextInputValue(text);
+             }
+            }
+           }
           keyboardType="url"
         />
       </View>

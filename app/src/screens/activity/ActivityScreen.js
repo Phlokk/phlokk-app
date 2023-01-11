@@ -48,7 +48,7 @@ export default function ActivityScreen({ navigation }) {
     );
   };
 
-  if (!isLoading) {
+  if (isLoading) {
     return (
       <View
         style={
@@ -134,6 +134,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   alertView: {
+    flex: 1, 
+    justifyContent: "center",
     alignItems: "center",
   },
   placeholderContainer: {

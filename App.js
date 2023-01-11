@@ -1,3 +1,4 @@
+
 import "react-native-gesture-handler";
 import "react-native-reanimated";
 import React, { useEffect, useState, useRef } from "react";
@@ -5,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import store from "./app/src/redux/reducers/configureStore";
 import { Provider } from "react-redux";
 import Route from "./app/src/navigation/main/Route";
-import { Alert, LogBox, StatusBar, Text } from "react-native";
+import { Alert, LogBox, StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { atom, useAtom } from "jotai";
 import { fetchGetUsers } from "./app/src/redux/sagas/requests/fetchUsers";
@@ -19,7 +20,7 @@ import routes from "./app/src/navigation/routes";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
-import * as Linking from "expo-linking";
+import colors from "./app/config/colors";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -52,11 +53,6 @@ Notifications.setNotificationHandler({
   }),
 });
 
-// const checkSystemStatus = async function () {
-//   fetch(apiUrls.BASE_URL + "/api/system-status").then((response) => {
-//     console.log(response);
-//   });
-// };
 
 export default function App() {
   const [user, setUser] = useAtom(userAtom);
@@ -100,6 +96,7 @@ export default function App() {
       const loadUser = async () => {
         const response = await fetchGetUsers();
         setUser(response.user);
+      
       };
 
       loadUser();
@@ -107,7 +104,6 @@ export default function App() {
       notificationListener.current =
         Notifications.addNotificationReceivedListener((notification) => {
           setNotification(notification);
-          console.log("notification received event");
         });
       // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
       responseListener.current =
@@ -223,13 +219,7 @@ export default function App() {
     }
   }, [setAppIsAvailable]);
 
-  const config = {
-    screens: {
-      ResetPassword: "resetPassword",
-    },
-  };
 
-  const prefix = Linking.createURL("phlokkapp://phlokk");
 
   if (appIsAvailable) {
     return (
@@ -239,10 +229,6 @@ export default function App() {
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
             <NavigationContainer
-              linking={{
-                prefixes: [prefix],
-                config,
-              }}
               ref={navigationRef}
             >
               <ThemeProvider>
@@ -255,9 +241,11 @@ export default function App() {
     );
   } else {
     return (
-      <Text style={{ padding: 40 }}>
+      <View style={{ flex: 1, backgroundColor: colors.primary, alignItems: "center", justifyContent: "center", }}>
+      <Text style={{ color: colors.white, padding: 40 }}>
         App currently down for maintenance. Please try again later.
       </Text>
+      </View>
     );
   }
 }

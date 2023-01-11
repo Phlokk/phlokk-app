@@ -33,7 +33,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
     useTogglePasswordVisibility();
 
   const [loggedInUser, setLoggedInUser] = useAtom(userAtom);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -170,7 +169,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             </>
           ) : (
             <>
-              <KeyboardAvoidingView behavior="padding">
+              <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <TextInput
                   style={styles.textInput}
                   placeholderTextColor={colors.green}
@@ -182,14 +181,12 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
                   value={name}
                 />
                 <TextInput
-                  style={styles.textInput}
+                  style={styles.textInputUser}
                   placeholderTextColor={colors.green}
                   autoCapitalize="none"
                   autoCorrect={false}
                   maxLength={24}
-                  onChangeText={(val) => {
-                    setUsername(val.toLowerCase().replaceAll(" ", ""));
-                  }}
+                  onChangeText={(text) => setUsername(text)}
                   placeholder="Username"
                   value={username}
                 />
@@ -238,7 +235,9 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             <Text style={styles.buttonText}>
               {authPage === 0 ? "Sign In" : "Sign Up "}
             </Text>
+            
           </TouchableOpacity>
+          
 
           {authPage === 0 ? (
             <TouchableOpacity
@@ -323,6 +322,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginTop: 20,
     color: colors.white,
+  },
+  textInputUser: {
+    borderColor: colors.secondary,
+    borderBottomWidth: 1,
+    borderStyle: "solid",
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    marginTop: 20,
+    color: colors.white,
+    textTransform: 'lowercase',
   },
   button: {
     marginTop: 25,
