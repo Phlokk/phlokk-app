@@ -62,14 +62,22 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         device_name: "mobile",
       })
       .then(async (response) => {
-        const expoPushToken = await registerForPushNotificationsAsync();
+        if (Platform.OS === 'ios') {
+          const expoPushToken = await registerForPushNotificationsAsync();
         setExpoPushToken(expoPushToken);
+
+        }
+        // const expoPushToken = await registerForPushNotificationsAsync();
+        // setExpoPushToken(expoPushToken);
 
         setLoggedInUser(response.data.user);
 
         const user = response.data.user;
         user.token = response.data.token;
-        user.expoPushToken = expoPushToken;
+        if (Platform.OS === 'ios') {
+          user.expoPushToken = expoPushToken;
+        }
+        // user.expoPushToken = expoPushToken;
         SecureStore.setItemAsync("user", JSON.stringify(user));
         dispatch({
           type: types.USER_STATE_CHANGE,
@@ -79,6 +87,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       })
       .catch((error) => {
         Alert.alert("Wrong username or password!");
+        console.log(error.message, "This is error at login")
       });
   };
 
