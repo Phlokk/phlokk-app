@@ -15,20 +15,24 @@ import colors from "../../../config/colors";
 import SettingsAudioModalScreen from "../../components/modal/settingsAudioModalScreen/SettingsAudioModalScreen";
 import { Audio } from "expo-av";
 import CustomAlert from "../../components/Alerts/CustomAlert";
+import FastImage from "react-native-fast-image";
 
 const smallLogo = require("../../../assets/pmd_logo_green.png");
 
 
-const SoundItem = ({ currentUser, soundsList }) => {
+const SoundItem = ({ currentUser, item }) => {
   const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
   const [isAudioError, setIsAudioError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
+
 
   const [openSettingsAudioModal, setOpenSettingsAudioModal] = useState(false);
-  const [audioStatus, setAudioStatus] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
 
   const sound = useRef(new Audio.Sound());
+
 
   
 
@@ -42,9 +46,12 @@ const SoundItem = ({ currentUser, soundsList }) => {
       if (result.isLoaded) {
         if (result.isPlaying === false) {
           sound.current.playAsync();
+          setIsAudioPlaying(true);
         }
       }
-    } catch (error) {}
+    } catch (error) {
+
+    }
   };
 
   const PauseAudio = async () => {
@@ -53,6 +60,8 @@ const SoundItem = ({ currentUser, soundsList }) => {
       if (result.isLoaded) {
         if (result.isPlaying === true) {
           sound.current.pauseAsync();
+          setIsAudioPlaying(false);
+
         }
       }
     } catch (error) {}
@@ -64,9 +73,9 @@ const SoundItem = ({ currentUser, soundsList }) => {
     if (checkLoading.isLoaded === false) {
       try {
         const result = await sound.current.loadAsync(
-          require("../../../assets/songs/long_road.mp3"),
-          {},
-          true
+          { uri: item.sound_url },
+          {shouldPlay: false},
+          false
         );
         if (result.isLoaded === false) {
           SetLoading(false);
@@ -76,7 +85,9 @@ const SoundItem = ({ currentUser, soundsList }) => {
           SetLoaded(true);
         }
       } catch (error) {
+        setIsAudioPlaying(false);
         setIsAudioError(true);
+        setErrorMessage("Audio file does not exist!")
         SetLoading(false);
       }
     } else {
@@ -94,7 +105,7 @@ const SoundItem = ({ currentUser, soundsList }) => {
     <View style={styles.item}>
       <View style={styles.albumRow}>
         <View style={styles.playBtnView}>
-          {!audioStatus ? (
+          {!isAudioPlaying ? (
             <Entypo
               onPress={PlayAudio}
               name="controller-play"
@@ -111,28 +122,32 @@ const SoundItem = ({ currentUser, soundsList }) => {
           )}
         </View>
         <View>
-          <Image style={styles.album} source={soundsList.artwork_url} />
+          <Image style={styles.album} source={item.artwork_url} />
         </View>
       </View>
       <View style={styles.albumInfoRow}>
         <View>
           <Text style={styles.itemInfo}>
             <View style={styles.logoRow}>
-              <Image
+              <FastImage
                 style={styles.logo}
                 source={smallLogo}
-                cache="only-if-cached"
+                // cache="only-if-cached"
               />
             </View>
-            {soundsList.song_name}
+            {item.song_name}
+            
           </Text>
-
-          <Text style={styles.artistText}>{soundsList.artist}</Text>
-          <Text style={styles.mins}>{soundsList.duration}</Text>
+          <Text style={styles.genreText}>Genre: {item.genre}</Text>
+          {errorMessage &&  (
+            <View style={styles.audioErrorView}>
+            <Text style={styles.warningText}>{errorMessage}</Text>
+            </View>
+          )}
+          <Text style={styles.artistText}>{item.artist}</Text>
+          <Text style={styles.mins}>{item.duration}</Text>
         </View>
-        <View style={styles.divider_light}></View>
-        <View style={styles.dotRow}>
-          <TouchableOpacity>
+        <View pointerEvents="auto" style={styles.dotRow}>
             <MaterialCommunityIcons
               style={styles.infoDots}
               name="dots-vertical"
@@ -140,7 +155,6 @@ const SoundItem = ({ currentUser, soundsList }) => {
               color={colors.secondary}
               onPress={() => setOpenSettingsAudioModal(true)}
             />
-          </TouchableOpacity>
           <Modal
             animationType="slide"
             transparent={true}
@@ -184,13 +198,7 @@ const SoundItem = ({ currentUser, soundsList }) => {
 };
 
 const styles = StyleSheet.create({
-  btnRow: {
-    flexDirection: "row",
-    zIndex: -9999,
-    top: -50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+ 
   item: {
     flexDirection: "row",
     color: colors.secondary,
@@ -210,15 +218,22 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   artistText: {
-    top: 6,
+    top: 3,
+    color: colors.gray,
+    paddingLeft: 6,
+    fontSize: 10,
+  },
+  genreText: {
+    top: -2,
+    left: -4,
     color: colors.gray,
     paddingLeft: 10,
     fontSize: 10,
   },
   mins: {
-    top: 20,
+    top: 15,
     color: colors.gray,
-    paddingLeft: 10,
+    paddingLeft: 6,
     fontSize: 10,
   },
   album: {
@@ -243,10 +258,6 @@ const styles = StyleSheet.create({
     bottom: 12,
     paddingLeft: 5,
   },
-  activity: {
-    top: -45,
-    zIndex: 9999,
-  },
   infoDots: {
     opacity: 0.3,
   },
@@ -257,18 +268,19 @@ const styles = StyleSheet.create({
   playBtnView: {
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 50,
     zIndex: 9999,
     top: 50,
     bottom: 10,
   },
-  divider_light: {
-    top: 20,
-    borderBottomWidth: 0.3,
-    borderColor: colors.secondary,
-    marginTop: 10,
-    opacity: 0.2,
-    // width: '80%',
+  warningText: {
+    right: 16,
+    color: colors.red,
+    fontSize: 12,
+  },
+  audioErrorView: {
+    left: 23,
+
+
   },
 });
 

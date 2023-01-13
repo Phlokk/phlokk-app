@@ -7,25 +7,18 @@ import SearchAudio from "./searchAudio/SearchAudio";
 import SoundItem from "./SoundItem";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../App";
-import {getAllSounds} from "../../services/sounds"
+import { getAllSounds } from "../../services/sounds";
 import { useIsFocused } from "@react-navigation/native";
-
-
-
-
-
 
 export default function SoundScreen({ placeholder }) {
   const isFocused = useIsFocused();
 
   const [soundsList, setSoundsList] = useState([]);
 
-
   useEffect(() => {
     const soundBites = async () => {
       const soundsList = await getAllSounds();
-      setSoundsList(soundsList);
-
+      setSoundsList(soundsList.sounds);
     };
 
     if (isFocused) {
@@ -33,10 +26,18 @@ export default function SoundScreen({ placeholder }) {
     }
   }, [isFocused]);
 
-  
 
 
-
+  const renderItem = ({ item, index }) => {
+    return (
+      <SoundItem
+        item={item}
+        index={index}
+        currentUser={currentUser}
+        
+      />
+    );
+  };
 
   const [currentUser] = useAtom(userAtom);
 
@@ -48,14 +49,7 @@ export default function SoundScreen({ placeholder }) {
       <FlatList
         style={styles.paddingFlat}
         data={soundsList}
-        renderItem={({ item, index }) => (
-          <SoundItem
-            item={item}
-            index={index}
-            currentUser={currentUser}
-            soundsList={soundsList}
-          />
-        )}
+        renderItem={renderItem}
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
       />
