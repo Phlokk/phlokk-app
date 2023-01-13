@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-// import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -16,9 +16,9 @@ import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 // import uuid from 'uuid-random';
 
-// import routes from "../../navigation/routes";
+import routes from "../../navigation/routes";
 function IconOverlay() {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const [textFrames, setTextFrames] = useState(false);
   const [digitalTiming, setDigitalTiming] = useState(false);
@@ -155,9 +155,9 @@ function IconOverlay() {
         />
         <TouchableOpacity
           style={styles.sideBarButton}
-          onPress={() => setSoundBar(true)}
+          // onPress={() => setSoundBar(true)}
 
-          // onPress={() => navigation.navigate(routes.SOUNDS)}
+          onPress={() => navigation.navigate(routes.SOUNDS)}
         >
           <Entypo name="beamed-note" size={24} color={colors.white} />
           <Text style={styles.iconText}>Sounds</Text>

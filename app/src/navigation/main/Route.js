@@ -51,8 +51,6 @@ import FitnessScreen from "../../screens/risingStars/fitness";
 import InventionScreen from "../../screens/risingStars/invention";
 import LipSyncScreen from "../../screens/risingStars/lipSync";
 import MusicianScreen from "../../screens/risingStars/musician";
-import RecordingScreen from "../../screens/sounds/recorder/RecordingScreen";
-import AudioPlay from "../../screens/sounds/recorder/AudioPlay";
 import BioFieldScreen from "../../screens/profile/BioFieldScreen";
 import GiftingScreen from "../../screens/gifting/Gifting";
 import FollowingListScreen from "../../screens/stats/FollowingListScreen";
@@ -399,16 +397,6 @@ export default function Route() {
           <Stack.Screen
             name="musicianScreen"
             component={MusicianScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="recording"
-            component={RecordingScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="audioPlay"
-            component={AudioPlay}
             options={{ headerShown: false }}
           />
           <Stack.Screen

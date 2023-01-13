@@ -1,15 +1,17 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from '@expo/vector-icons'; 
 // import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
 
-const SettingsAudioModalScreen = (props) => {
+const SettingsAudioModalScreen = (currentUser) => {
   // const navigation = useNavigation();
+
 
   return (
     <View style={styles.container}>
-      <Text style={styles.settingsText}>Audio Settings</Text>
+      <Text style={styles.settingsText}>Settings</Text>
       <TouchableOpacity
         style={styles.fieldItemContainer}
         autoCapitalize="none"
@@ -44,6 +46,12 @@ const SettingsAudioModalScreen = (props) => {
             color={colors.green}
           />{" "}
           Buy song{" "}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.fieldItemContainer} onPress={() => {}}>
+        <Text style={styles.text}>
+        <Feather name="book" size={16} color={colors.green} />{" "}
+          Buy Book
         </Text>
       </TouchableOpacity>
     </View>

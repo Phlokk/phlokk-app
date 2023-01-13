@@ -1,17 +1,17 @@
 import { View, FlatList, StyleSheet } from "react-native";
 import React, { useState } from "react";
-import SearchInput from "../../../components/search/SearchInput";
-
+import SearchMusicInput from "../../../components/search/SearchMusicInput";
 
 const SearchAudio = () => {
   const [textInput, setTextInput] = useState("");
   const [searchAudio, setSearchAudio] = useState([]);
+
   return (
     <View style={styles.container}>
-      <SearchInput placeholder="Search" />
+      <SearchMusicInput placeholder="Search sounds" setSearchUsers={setSearchAudio} />
       <FlatList
         data={searchAudio}
-        // renderItem={({ item }) => <SearchUserItem item={item} />}
+        // renderItem={({ item }) => <SoundItem item={item} />}
         keyExtractor={(item) => item.id}
       />
     </View>
@@ -22,6 +22,7 @@ export default SearchAudio;
 
 const styles = StyleSheet.create({
   container: {
-    height: '20%',  
+    alignItems: "center",
+    marginTop: 20,
   },
 });
