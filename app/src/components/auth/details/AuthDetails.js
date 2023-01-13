@@ -24,6 +24,7 @@ import axios from "../../../redux/apis/axiosDeclaration";
 import CustomPolicyModal from "../../eulaScreenModal/CustomPolicyModal";
 import CustomTOSModal from "../../eulaScreenModal/CustomTOSModal";
 import { registerForPushNotificationsAsync } from "../../../services/notifications";
+import CustomAlert from "../../../components/Alerts/CustomAlert";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../../App";
 import routes from "../../../navigation/routes";
@@ -40,7 +41,8 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const [user, setUser] = useState(null);
   const [expoPushToken, setExpoPushToken] = useState("");
   const [isChecked, setChecked] = useState(false);
-
+  const [isLogin, setIsLogin] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
   const [policyModal, setPolicyModal] = useState(false);
   const [isTosModal, setTosModal] = useState(false);
 
@@ -67,9 +69,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         setExpoPushToken(expoPushToken);
 
         }
-        // const expoPushToken = await registerForPushNotificationsAsync();
-        // setExpoPushToken(expoPushToken);
-
         setLoggedInUser(response.data.user);
 
         const user = response.data.user;
@@ -77,7 +76,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         if (Platform.OS === 'ios') {
           user.expoPushToken = expoPushToken;
         }
-        // user.expoPushToken = expoPushToken;
         SecureStore.setItemAsync("user", JSON.stringify(user));
         dispatch({
           type: types.USER_STATE_CHANGE,
@@ -86,8 +84,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch((error) => {
-        Alert.alert("Wrong username or password!");
-        // console.log(error.message, "This is error at login")
+        setIsLogin(true)
       });
   };
 
@@ -113,8 +110,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch(function (error) {
-        console.log(error);
-        Alert.alert("Registration was not successful");
+        setIsRegistered(true)
       });
   };
 
@@ -303,6 +299,30 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             </View>
           )}
         </View>
+        <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Wrong username or password!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isLogin}
+            dismissAlert={setIsLogin}
+            animationType="fade"
+          />
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Registration was not successful!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isRegistered}
+            dismissAlert={setIsRegistered}
+            animationType="fade"
+          />
       </ScrollView>
     </>
   );
