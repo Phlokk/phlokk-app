@@ -4,10 +4,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard,
   ScrollView,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import axios from "../../redux/apis/axiosDeclaration";
 import colors from "../../../config/colors";
 import PostNavBar from "../../components/general/postNav/PostNavBar";
@@ -118,14 +117,12 @@ const ReportScreen = ({ route, navigation }) => {
         "create"
       )
       .then(function (response) {
-        // console.log(response);
         alert(
           "Thank you for submitting a content violation report. We will look into this matter"
         );
         navigation.goBack();
       })
       .catch(function (error) {
-        // console.log(error.message);
         alert("There was an error in sending your report");
       });
   };

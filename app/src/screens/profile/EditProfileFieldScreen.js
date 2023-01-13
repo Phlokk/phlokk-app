@@ -5,17 +5,20 @@ import { Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { updateCreator } from "../../services/user";
 import { generalStyles } from "../../styles";
+import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 
 export default function EditProfileFieldScreen({ route }) {
   const { theme } = useTheme();
 
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
+  const [isDataNotSaved, setIsDataNotSaved] = useState(false);
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
 
@@ -27,7 +30,7 @@ export default function EditProfileFieldScreen({ route }) {
       setUser(updatedUser);
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Username already in use!");
+      setIsDataNotSaved(true);
     }
   };
 
@@ -71,6 +74,18 @@ export default function EditProfileFieldScreen({ route }) {
           letters, numbers, underscores and periods. When you change your
           username it will update the link to your profile. { textInputValue !== null  &&<Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/24`}</Text>}
         </Text>
+        <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Username is already in use!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isDataNotSaved}
+            dismissAlert={setIsDataNotSaved}
+            animationType="fade"
+          />
       </View>
     </SafeAreaView>
   );

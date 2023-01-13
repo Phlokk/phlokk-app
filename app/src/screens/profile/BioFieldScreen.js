@@ -6,15 +6,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { updateCreator } from "../../services/user";
 import { generalStyles } from "../../styles";
 import colors from "../../../config/colors";
+import { MaterialIcons } from "@expo/vector-icons";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 
 export default function BioFieldScreen({ route }) {
   const { theme } = useTheme();
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
+  const [isDataNotSaved, setIsDataNotSaved] = useState(false);
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
 
@@ -26,7 +29,7 @@ export default function BioFieldScreen({ route }) {
       setUser(updatedUser);
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Data not saved, please check user data");
+      setIsDataNotSaved(true);
     }
   };
 
@@ -65,6 +68,18 @@ export default function BioFieldScreen({ route }) {
           in 200 characters or less. When user clicks on your profile image this
           bio will display. { textInputValue !== null  &&<Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/200`}</Text>}
         </Text>
+        <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Data not saved, please check user data</Text>}
+            positiveBtn="Ok"
+            modalVisible={isDataNotSaved}
+            dismissAlert={setIsDataNotSaved}
+            animationType="fade"
+          />
       </View>
     </SafeAreaView>
   );

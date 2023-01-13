@@ -44,7 +44,6 @@ export const getFollowers = async (me, id = null) => {
       return result.data.followers;
     }
   } catch (e) {
-    console.log(e);
     Alert.alert("Followers not found");
     return [];
   }

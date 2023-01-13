@@ -4,12 +4,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert,
-
 } from "react-native";
 import React, { useState } from "react";
 import Share from "react-native-share";
 import { Feather } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -30,6 +29,9 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   const [isLink, setIsLink] = useState(false);
   const [isShare, setIsShare] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isSharedFailed, setIsSharedFailed] = useState(false);
+  const [isDownloadFailed, setIsDownloadFailed] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -41,9 +43,9 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
     };
     try {
       const ShareResponse = await Share.open(shareOptions);
-      console.log(JSON.stringify(ShareResponse));
+      JSON.stringify(ShareResponse);
     } catch (error) {
-      console.log("Error => ", error);
+      setIsSharedFailed(true);
     }
   };
 
@@ -75,14 +77,14 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
       // Add the watermark to the video and save the result to a new file?? 
       // const newWaterMarkVideoFile = `${FileSystem.documentDirectory}${randStr}.mov`;
       //This is the issue I am having trying to add these two files together (Video & WaterMark file)
-      //How is this done Tony?? // Right now video is being downloaded to Camera Roll as the code sits, 
+      //How is this done?? // Right now video is being downloaded to Camera Roll as the code sits, 
       // so I just need to figure out how to mash these 2 files together and save final version. 
 
       
       MediaLibrary.saveToLibraryAsync(uri)
       setIsDownloading(true)
     } catch (e) {
-      Alert.alert(e, 'Video could not be downloaded to your camera roll{"\n"}check permissions.');
+      setIsDownloadFailed(true);
     }
   };
 
@@ -239,7 +241,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
       <CustomAlert
         alertTitle={
           <Text>
-            <Feather name="download" size={24} color={colors.green} />
+            <FontAwesome name="photo" size={24} color={colors.green} />
           </Text>
         }
         customAlertMessage={
@@ -248,6 +250,34 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
         positiveBtn="Ok"
         modalVisible={isDownloading}
         dismissAlert={setIsDownloading}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <Feather name="share-2" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={
+          <Text>Video has failed to share!</Text>
+        }
+        positiveBtn="Ok"
+        modalVisible={isSharedFailed}
+        dismissAlert={setIsSharedFailed}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <Feather name="download" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={
+          <Text>Video could not be downloaded to your camera roll{"\n"}check permissions.</Text>
+        }
+        positiveBtn="Ok"
+        modalVisible={isDownloadFailed}
+        dismissAlert={setIsDownloadFailed}
         animationType="fade"
       />
     </View>

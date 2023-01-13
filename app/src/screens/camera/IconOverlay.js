@@ -28,7 +28,7 @@ function IconOverlay() {
   const [isSeconds, setIsSeconds] = useState(false);
   const [isLive, setIsLive] = useState(false);
 
-// Leaving this code here for the time being until I am ready to work on it. Still trying to figure out the local storage issue of why i cannot write to it. 
+
 
   // const randNum = uuid().toString();
 

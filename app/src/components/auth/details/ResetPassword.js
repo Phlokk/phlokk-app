@@ -39,7 +39,7 @@ export default function ResetPassword() {
         navigation.goBack();
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
         Alert.alert("There was an error in sending your request");
       });
   };

@@ -20,7 +20,6 @@ export default function BlockedListScreen() {
   const [user, setUser] = useState("");
 
     const renderItem = ({ item, index }) => {
-      // console.log(item);
     return <BlockedItem index={index} item={item} />;
   };
 

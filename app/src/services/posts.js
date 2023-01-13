@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import axios from "../redux/apis/axiosDeclaration";
 import querystring from "query-string";
 import { MaterialIcons } from "@expo/vector-icons";
+import CustomAlert from "../components/Alerts/CustomAlert";
 
 
 export const POSTS_PER_PAGE = 10;
@@ -28,7 +29,7 @@ export const getPost = async (postId) => {
   try {
     return axios.get(`/api/post/view/${postId}`);
   } catch (e) {
-    console.log(e);
+    setIsPosts(true);
   }
 };
 
@@ -259,6 +260,7 @@ export const timeSince = function (date) {
 
 const posts = () => {
   // State for Custom Alerts
+const [isPosts, setIsPosts] = useState(false);
 const [isComment, setIsComment] = useState(false);
 const [isCommentReply, setIsCommentReply] = useState(false);
 const [isDeletedVideo, setIsDeletedVideo] = useState(false);
@@ -342,6 +344,18 @@ const [isCommentsVisible, setIsCommentsVisible] = useState(false);
             positiveBtn="Ok"
             modalVisible={isCommentsVisible}
             dismissAlert={setIsCommentsVisible}
+            animationType="fade"
+          />
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Could not get Posts!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isPosts}
+            dismissAlert={setIsPosts}
             animationType="fade"
           />
     </View>

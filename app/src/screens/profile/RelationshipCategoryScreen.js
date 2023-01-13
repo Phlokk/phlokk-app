@@ -2,16 +2,19 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 import { updateCreator } from "../../services/user";
 import { useTheme } from "../../theme/context";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 
 export default function RelationshipCategoryScreen({ route, props }) {
   const { theme, setTheme } = useTheme();
   const { title, value } = route.params;
+  const [isDataNotSaved, setIsDataNotSaved] = useState(false);
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState();
   const [user, setUser] = useAtom(userAtom);
@@ -53,7 +56,7 @@ export default function RelationshipCategoryScreen({ route, props }) {
       setUser(updatedUser);
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Data not saved, please check user data");
+      setIsDataNotSaved(true);
     }
   };
 
@@ -94,6 +97,18 @@ export default function RelationshipCategoryScreen({ route, props }) {
           </View>
           
         ))}
+        <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Data not saved, please check user data</Text>}
+            positiveBtn="Ok"
+            modalVisible={isDataNotSaved}
+            dismissAlert={setIsDataNotSaved}
+            animationType="fade"
+          />
       </View>
     </SafeAreaView>
   );

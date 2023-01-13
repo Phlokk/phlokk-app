@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import axios from "../../redux/apis/axiosDeclaration";
 import colors from "../../../config/colors";
 import PostNavBar from "../../components/general/postNav/PostNavBar";
@@ -85,7 +85,7 @@ const UserReportScreen = ({ route, navigation }) => {
     },
   ]);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const onRadioBtnClick = (item) => {
     categoryId = item.id;
@@ -99,7 +99,6 @@ const UserReportScreen = ({ route, navigation }) => {
 
   // need user_id of the creator who is in violation to come with report
   const submitForm = () => {
-    // console.log(categories.category);
     const { profile } = route.params;
 
     axios
@@ -115,14 +114,12 @@ const UserReportScreen = ({ route, navigation }) => {
         "create"
       )
       .then(function (response) {
-        // console.log(response);
         alert(
           "Thank you for reporting this creator. We will look into this matter"
         );
         navigation.goBack();
       })
       .catch(function (error) {
-        // console.log(error.message);
         alert("There was an error in sending your report");
       });
   };

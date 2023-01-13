@@ -7,15 +7,18 @@ import { updateCreator } from "../../services/user";
 import { generalStyles } from "../../styles";
 import colors from "../../../config/colors";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
+import { MaterialIcons } from "@expo/vector-icons";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 
 export default function EditQuotesFieldScreen({ route }) {
   const { theme } = useTheme();
 
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
+  const [isDataNotSaved, setIsDataNotSaved] = useState(false);
   const navigation = useNavigation();
 
   const [user, setUser] = useAtom(userAtom);
@@ -28,7 +31,7 @@ export default function EditQuotesFieldScreen({ route }) {
       setUser(updatedUser);
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Data not saved, please check user data");
+      setIsDataNotSaved();
     }
   };
 
@@ -63,6 +66,18 @@ export default function EditQuotesFieldScreen({ route }) {
           with a favorite daily quote or inspire us with your vast wisdom in 40
           characters or less. { textInputValue !== null  &&<Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/40`}</Text>}
         </Text>
+        <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Data not saved, please check user data</Text>}
+            positiveBtn="Ok"
+            modalVisible={isDataNotSaved}
+            dismissAlert={setIsDataNotSaved}
+            animationType="fade"
+          />
       </View>
     </SafeAreaView> 
   );

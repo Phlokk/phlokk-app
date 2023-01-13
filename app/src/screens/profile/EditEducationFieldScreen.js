@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { Divider } from "react-native-paper";
+import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { updateCreator } from "../../services/user";
 import { generalStyles } from "../../styles";
@@ -10,11 +11,13 @@ import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 
 export default function EditEducationFieldScreen({ route }) {
   const { theme } = useTheme();
   const { title, value } = route.params;
   const [textInputValue, setTextInputValue] = useState(value);
+  const [isDataNotSaved, setIsDataNotSaved] = useState(false);
   const navigation = useNavigation();
   const [user, setUser] = useAtom(userAtom);
 
@@ -26,7 +29,7 @@ export default function EditEducationFieldScreen({ route }) {
       setUser(updatedUser);
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Data not saved, please check user data");
+      setIsDataNotSaved(true);
     }
   };
 
@@ -63,6 +66,18 @@ export default function EditEducationFieldScreen({ route }) {
         <Text style={theme == "light" ? styles.info_light : styles.info_dark}>
           <Text style={styles.infoTextGreen}>Info:</Text> This is where you can let users know your level of education. Where you went to High School and College, what you studied and what your passion about learning or teaching. This will make it easier for people to relate to you and find you from the past. { textInputValue !== null  &&<Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/200`}</Text>}
         </Text>
+        <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Data not saved, please check user data</Text>}
+            positiveBtn="Ok"
+            modalVisible={isDataNotSaved}
+            dismissAlert={setIsDataNotSaved}
+            animationType="fade"
+          />
       </View>
     </SafeAreaView>
   );

@@ -6,8 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Alert,
 } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { userAtom } from "../../../../App";
 import { useAtom } from "jotai";
@@ -15,13 +15,15 @@ import colors from "../../../config/colors";
 import { updateCreator } from "../../services/user";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { useTheme } from "../../theme/context";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 
 export default function EditCreatorFieldScreen({ route }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const { title, value } = route.params;
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState();
+  const [isDataNotSaved, setIsDataNotSaved] = useState(false);
   const [user, setUser] = useAtom(userAtom);
 
   const [categories, setCategories] = useState([]);
@@ -82,7 +84,7 @@ export default function EditCreatorFieldScreen({ route }) {
       setUser(updatedUser);
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Data not saved, please check user data");
+      setIsDataNotSaved(true);
     }
   };
 
@@ -121,6 +123,18 @@ export default function EditCreatorFieldScreen({ route }) {
             </TouchableOpacity>
           </View>
         ))}
+        <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Data not saved, please check user data</Text>}
+            positiveBtn="Ok"
+            modalVisible={isDataNotSaved}
+            dismissAlert={setIsDataNotSaved}
+            animationType="fade"
+          />
       </ScrollView>
     </SafeAreaView>
   );

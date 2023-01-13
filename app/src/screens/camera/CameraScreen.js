@@ -36,6 +36,8 @@ const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 
 export default function CameraScreen() {
   const [isUploaded, setIsUploaded] = useState(false);
+  const [isGeneratedThumb, setIsGeneratedThumb] = useState(false);
+
   const [hasCameraPermissions, setHasCameraPermissions] = useState();
   const [hasAudioPermissions, setHasAudioPermissions] = useState();
   const [hasGalleryPermissions, setHasGalleryPermissions] = useState();
@@ -96,7 +98,6 @@ export default function CameraScreen() {
 
   const recordVideo = async () => {
     if (cameraRef) {
-      console.log(recordingTimerRef.current)
       // Start up the timer to display the circle progress bar
       clearInterval(recordingTimerRef.current);
       setRecordingTime(0);
@@ -171,7 +172,7 @@ export default function CameraScreen() {
       });
       return uri;
     } catch (e) {
-      console.warn(e);
+      setIsThumbnail(true);
     }
   };
 
@@ -439,6 +440,20 @@ export default function CameraScreen() {
         positiveBtn="Ok"
         modalVisible={isUploaded}
         dismissAlert={setIsUploaded}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <AntDesign name="warning" size={24} color={colors.red} />
+          </Text>
+        }
+        customAlertMessage={
+          <Text>Could not generate thumbnail!</Text>
+        }
+        positiveBtn="Ok"
+        modalVisible={isGeneratedThumb}
+        dismissAlert={setIsGeneratedThumb}
         animationType="fade"
       />
     </View>
