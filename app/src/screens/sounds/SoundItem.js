@@ -18,31 +18,8 @@ import CustomAlert from "../../components/Alerts/CustomAlert";
 
 const smallLogo = require("../../../assets/pmd_logo_green.png");
 
-const Sounds = [
-  {
-    id: 1,
-    songName: "Yellow Brick Road",
-    artist: "Drama",
-    duration: "1:00",
-    artwork: require("../../../assets/yellowbrickroad.png"),
-  },
-  {
-    id: 2,
-    songName: "Dead Inside",
-    artist: "Drama",
-    duration: "1:00",
-    artwork: require("../../../assets/yellowbrickroad.png"),
-  },
-  {
-    id: 3,
-    songName: "Long Road",
-    artist: "Drama",
-    duration: "1:00",
-    artwork: require("../../../assets/yellowbrickroad.png"),
-  },
-];
 
-const SoundItem = ({ item, currentUser }) => {
+const SoundItem = ({ currentUser, soundsList }) => {
   const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
   const [isAudioError, setIsAudioError] = useState(false);
@@ -50,7 +27,10 @@ const SoundItem = ({ item, currentUser }) => {
   const [openSettingsAudioModal, setOpenSettingsAudioModal] = useState(false);
   const [audioStatus, setAudioStatus] = useState(false);
 
+
   const sound = useRef(new Audio.Sound());
+
+  
 
   useEffect(() => {
     LoadAudio();
@@ -131,7 +111,7 @@ const SoundItem = ({ item, currentUser }) => {
           )}
         </View>
         <View>
-          <Image style={styles.album} source={item.artwork} />
+          <Image style={styles.album} source={soundsList.artwork_url} />
         </View>
       </View>
       <View style={styles.albumInfoRow}>
@@ -144,11 +124,11 @@ const SoundItem = ({ item, currentUser }) => {
                 cache="only-if-cached"
               />
             </View>
-            {item.songName}
+            {soundsList.song_name}
           </Text>
 
-          <Text style={styles.artistText}>{item.artist}</Text>
-          <Text style={styles.mins}>{item.duration}</Text>
+          <Text style={styles.artistText}>{soundsList.artist}</Text>
+          <Text style={styles.mins}>{soundsList.duration}</Text>
         </View>
         <View style={styles.divider_light}></View>
         <View style={styles.dotRow}>
