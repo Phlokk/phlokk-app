@@ -310,7 +310,7 @@ export default function CameraScreen() {
 
       {!isRecording && (
         <TouchableOpacity
-          style={{ position: "absolute", top: 48, right: 375 }}
+          style={{ position: "absolute", top: 48, right: Platform.OS === "ios" ? 375 : 350, }}
           onPress={() => navigation.navigate(routes.FEED)}
         >
           <Feather name="x" size={25} color={colors.white} />
@@ -550,7 +550,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.white,
     position: "absolute",
-    right: 90,
+    right: Platform.OS === "ios" ? 90 : 84,
     bottom: 7,
   },
 });

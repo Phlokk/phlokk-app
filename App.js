@@ -1,4 +1,3 @@
-
 import "react-native-gesture-handler";
 import "react-native-reanimated";
 import React, { useEffect, useState, useRef } from "react";
@@ -96,7 +95,6 @@ export default function App() {
       const loadUser = async () => {
         const response = await fetchGetUsers();
         setUser(response.user);
-      
       };
 
       loadUser();
@@ -104,6 +102,7 @@ export default function App() {
       notificationListener.current =
         Notifications.addNotificationReceivedListener((notification) => {
           setNotification(notification);
+          console.log("notification received event");
         });
       // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
       responseListener.current =

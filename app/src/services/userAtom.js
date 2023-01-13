@@ -1,6 +1,12 @@
 // import React, { useEffect, useState, useRef } from "react";
 // import { fetchGetUsers } from "../redux/sagas/requests/fetchUsers";
+// import * as Notifications from "expo-notifications";
+// import { apiUrls } from "./../globals";
+// import axios from "./../redux/apis/axiosDeclaration";
+// import routes from "./../navigation/routes";
 // import { atom, useAtom } from "jotai";
+
+// export const userAtom = atom({});
 
 // export const usersAtom = async () => {
 //   const [user, setUser] = useAtom(userAtom);
@@ -8,6 +14,7 @@
 //   const [notification, setNotification] = useState(false);
 //   const notificationListener = useRef();
 //   const responseListener = useRef();
+//   const [setAppIsAvailable] = useState(false);
 
 
 //   const checkStatus = async () => {
@@ -149,4 +156,3 @@
 //   }
 // }
 
-// export const userAtom = atom({});

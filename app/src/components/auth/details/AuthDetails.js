@@ -87,7 +87,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       })
       .catch((error) => {
         Alert.alert("Wrong username or password!");
-        console.log(error.message, "This is error at login")
+        // console.log(error.message, "This is error at login")
       });
   };
 

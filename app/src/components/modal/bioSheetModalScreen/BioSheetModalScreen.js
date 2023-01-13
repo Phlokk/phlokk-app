@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Platform
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
@@ -168,7 +169,10 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
                   color={colors.secondary}
                 /> Skills:</Text>
                 <Text style={styles.bioText}>{user.skills}</Text>
-                <View style={styles.divider_light}></View>
+                {Platform.OS === 'ios' && (
+                  <View style={styles.divider_light}></View>
+
+                )}
                 <View style={styles.divider_light}></View>
               </>
             )}
