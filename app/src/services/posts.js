@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
-import { Alert } from "react-native";
+
+import React, { useEffect, useState } from "react";
+import { View, Text } from "react-native";
 import { useQuery } from "react-query";
 import axios from "../redux/apis/axiosDeclaration";
 import querystring from "query-string";
+import { MaterialIcons } from "@expo/vector-icons";
 
 
 export const POSTS_PER_PAGE = 10;
 export const POSTS_PER_USER_PAGE = 20; // Changed to 20 since profiles display thumbnails, and may need more on initial load
+
 
 export const getFeed = () =>
   axios
@@ -18,7 +21,7 @@ export const getFeed = () =>
       // 2 seconds later...
     })
     .catch(function (error) {
-      Alert.alert("Could not get feed!");
+      setIsFeedVisible(true);
     });
 
 export const getPost = async (postId) => {
@@ -37,7 +40,7 @@ export const getFeedAsync = async (page) => {
     const result = await axios.get(`/api/posts?${params}`);
     return result.data;
   } catch {
-    Alert.alert("Could not get feed!");
+    setIsFeedVisible(true);
   }
 };
 
@@ -51,7 +54,7 @@ export const getUserFeedAsync = async (userId, page) => {
     });
     return result.data;
   } catch {
-    Alert.alert("Could not connect to feed!");
+    setIsFeedConnected(true);
   }
 };
 
@@ -161,7 +164,7 @@ export const deletePostById = async (postId) => {
       return result.data;
     })
     .catch((error) => {
-      Alert.alert("Could not delete post");
+      setIsDeletedVideo(true);
     });
 };
 
@@ -173,7 +176,7 @@ export const addComment = async (postId, comment) => {
       return result.data;
     })
     .catch((error) => {
-      Alert.alert("Comment not added!");
+      setIsComment(true);
     });
 };
 
@@ -187,7 +190,7 @@ export const addCommentReply = async (postId, commentId, comment) => {
       return result.data;
     })
     .catch((error) => {
-      Alert.alert("Comment Reply not added!");
+      setIsCommentReply(true);
     });
 };
 
@@ -214,7 +217,7 @@ export const commentListener = async (
       return result.data;
     })
     .catch((error) => {
-      Alert.alert("Comments not found");
+      setIsCommentsVisible(true)
     });
 };
 
@@ -250,3 +253,99 @@ export const timeSince = function (date) {
   }
   return Math.floor(seconds) + " seconds";
 };
+
+
+
+
+const posts = () => {
+  // State for Custom Alerts
+const [isComment, setIsComment] = useState(false);
+const [isCommentReply, setIsCommentReply] = useState(false);
+const [isDeletedVideo, setIsDeletedVideo] = useState(false);
+const [isFeedVisible, setIsFeedVisible] = useState(false);
+const [isFeedConnected, setIsFeedConnected] = useState(false);
+const [isCommentsVisible, setIsCommentsVisible] = useState(false);
+
+
+
+
+  return (
+    <View>
+      <Text>posts</Text>
+      <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Comment not added!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isComment}
+            dismissAlert={setIsComment}
+            animationType="fade"
+          />
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Comment Reply not added!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isCommentReply}
+            dismissAlert={setIsCommentReply}
+            animationType="fade"
+          />
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Video could not be deleted!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isDeletedVideo}
+            dismissAlert={setIsDeletedVideo}
+            animationType="fade"
+          />
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Could not get feed!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isFeedVisible}
+            dismissAlert={setIsFeedVisible}
+            animationType="fade"
+          />
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Could not connect to feed!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isFeedConnected}
+            dismissAlert={setIsFeedConnected}
+            animationType="fade"
+          />
+          <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Comments not found!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isCommentsVisible}
+            dismissAlert={setIsCommentsVisible}
+            animationType="fade"
+          />
+    </View>
+  )
+}
+
+
