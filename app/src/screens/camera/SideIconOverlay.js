@@ -7,14 +7,17 @@ import {
 import React, { useState } from "react";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
+import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import routes from "../../navigation/routes";
 
-// import routes from "../../navigation/routes";
 function SideIconOverlay() {
-  // const navigation = useNavigation();
+
+  const navigation = useNavigation();
   const [isLive, setIsLive] = useState(false);
   const [speed, setSpeed] = useState(false);
   const [fX, setFx] = useState(false);
@@ -22,7 +25,38 @@ function SideIconOverlay() {
 
   return (
     <View style={styles.iconRow}>
-      <CustomAlert
+      
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => setSpeed(true)}
+        >
+          <Octicons name="dashboard" size={24} color={colors.white} />
+          <Text style={styles.iconText}>Speed</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => setFx(true)}
+        >
+          <FontAwesome name="magic" size={24} color={colors.white} />
+          <Text style={styles.iconText}>FX</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => navigation.navigate(routes.SOUNDS)}
+        >
+          <Entypo name="beamed-note" size={24} color={colors.white} />
+          <Text style={styles.iconText}>Sounds</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => setIsLive(true)}
+        >
+          <Feather name="video" size={24} color={colors.green} />
+          <Text style={styles.iconText}>LIVE</Text>
+        </TouchableOpacity>
+        <CustomAlert
           alertTitle={
             <Text>
               <MaterialIcons name="info" size={24} color={colors.green} />
@@ -34,13 +68,6 @@ function SideIconOverlay() {
           dismissAlert={setSpeed}
           animationType="fade"
         />
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setSpeed(true)}
-        >
-          <Octicons name="dashboard" size={24} color={colors.white} />
-          <Text style={styles.iconText}>SPD</Text>
-        </TouchableOpacity>
         <CustomAlert
           alertTitle={
             <Text>
@@ -53,14 +80,6 @@ function SideIconOverlay() {
           dismissAlert={setFx}
           animationType="fade"
         />
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setFx(true)}
-        >
-          <FontAwesome name="magic" size={24} color={colors.white} />
-          <Text style={styles.iconText}>FX</Text>
-        </TouchableOpacity>
-
         <CustomAlert
           alertTitle={
             <Text>
@@ -73,13 +92,6 @@ function SideIconOverlay() {
           dismissAlert={setIsLive}
           animationType="fade"
         />
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setIsLive(true)}
-        >
-          <Feather name="video" size={24} color={colors.green} />
-          <Text style={styles.iconText}>LIVE</Text>
-        </TouchableOpacity>
     </View>
   );
 }
@@ -93,6 +105,8 @@ const styles = StyleSheet.create({
    
   },
   iconText: {
+    textAlign: "center",
+    width: 30, 
     color: colors.white,
     fontSize: 7,
     marginTop: 10,

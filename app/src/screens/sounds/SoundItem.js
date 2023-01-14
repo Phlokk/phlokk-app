@@ -4,20 +4,22 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity,
   Pressable,
   Modal,
+  Platform,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 import colors from "../../../config/colors";
 import SettingsAudioModalScreen from "../../components/modal/settingsAudioModalScreen/SettingsAudioModalScreen";
 import { Audio } from "expo-av";
-import CustomAlert from "../../components/Alerts/CustomAlert";
-import FastImage from "react-native-fast-image";
 
-const smallLogo = require("../../../assets/pmd_logo_green.png");
+
+const brandingLogo = {
+  logo: require('../../../assets/pmd_logo_green.png'),
+}
+
 
 
 const SoundItem = ({ currentUser, item }) => {
@@ -33,8 +35,6 @@ const SoundItem = ({ currentUser, item }) => {
 
   const sound = useRef(new Audio.Sound());
 
-
-  
 
   useEffect(() => {
     LoadAudio();
@@ -87,7 +87,7 @@ const SoundItem = ({ currentUser, item }) => {
       } catch (error) {
         setIsAudioPlaying(false);
         setIsAudioError(true);
-        setErrorMessage("Audio file does not exist!")
+        setErrorMessage("No longer available")
         SetLoading(false);
       }
     } else {
@@ -102,6 +102,7 @@ const SoundItem = ({ currentUser, item }) => {
   }, [sound.current]);
 
   return (
+    <>
     <View style={styles.item}>
       <View style={styles.albumRow}>
         <View style={styles.playBtnView}>
@@ -129,10 +130,9 @@ const SoundItem = ({ currentUser, item }) => {
         <View>
           <Text style={styles.itemInfo}>
             <View style={styles.logoRow}>
-              <FastImage
+              <Image
                 style={styles.logo}
-                source={smallLogo}
-                // cache="only-if-cached"
+                source={brandingLogo.logo}
               />
             </View>
             {item.song_name}
@@ -147,15 +147,17 @@ const SoundItem = ({ currentUser, item }) => {
           <Text style={styles.artistText}>{item.artist}</Text>
           <Text style={styles.mins}>{item.duration}</Text>
         </View>
-        <View pointerEvents="auto" style={styles.dotRow}>
-            <MaterialCommunityIcons
-              style={styles.infoDots}
-              name="dots-vertical"
-              size={30}
+        </View>
+        </View>
+        <View style={styles.dotRow}>
+            <AntDesign 
+              style={styles.infoDots} 
+              name="bars" 
+              size={30} 
               color={colors.secondary}
-              onPress={() => setOpenSettingsAudioModal(true)}
-            />
-          <Modal
+              onPress={() => setOpenSettingsAudioModal(true)}/>
+        </View>
+        <Modal
             animationType="slide"
             transparent={true}
             visible={openSettingsAudioModal}
@@ -171,29 +173,14 @@ const SoundItem = ({ currentUser, item }) => {
                 }}
                 onPress={() => setOpenSettingsAudioModal(false)}
               />
-              <SettingsAudioModalScreen currentUser={currentUser} />
+              <SettingsAudioModalScreen item={item} currentUser={currentUser} />
             </View>
           </Modal>
-        </View>
+          
+      <View>
+      
       </View>
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <Entypo
-              style={styles.note}
-              name="beamed-note"
-              size={15}
-              color={colors.green}
-            />
-          </Text>
-        }
-        customAlertMessage={<Text>Error in Loading Audio</Text>}
-        positiveBtn="Ok"
-        modalVisible={isAudioError}
-        dismissAlert={setIsAudioError}
-        animationType="fade"
-      />
-    </View>
+      </>
   );
 };
 
@@ -206,13 +193,14 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     alignItems: "center",
     marginTop: 5,
+    width: "90%",
   },
   itemInfo: {
     color: colors.green,
     fontWeight: "bold",
     bottom: 3,
     fontSize: 11,
-    paddingLeft: 5,
+    right: 14,
   },
   itemLoad: {
     color: colors.white,
@@ -220,12 +208,12 @@ const styles = StyleSheet.create({
   artistText: {
     top: 3,
     color: colors.gray,
-    paddingLeft: 6,
+    paddingLeft: 5,
     fontSize: 10,
   },
   genreText: {
     top: -2,
-    left: -4,
+    left: -7,
     color: colors.gray,
     paddingLeft: 10,
     fontSize: 10,
@@ -247,10 +235,13 @@ const styles = StyleSheet.create({
   },
   albumInfoRow: {
     paddingHorizontal: 5,
-    top: 25,
+    left: 12,
+    top: -5,
     flex: 1,
   },
   logo: {
+    right: 5,
+    bottom: -2,
     height: 12,
     width: 12,
   },
@@ -262,8 +253,9 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   dotRow: {
+    right: Platform == "ios" ? 0 : 20, 
     flexDirection: "row-reverse",
-    bottom: 25,
+    bottom: 54,
   },
   playBtnView: {
     justifyContent: "center",
@@ -273,9 +265,9 @@ const styles = StyleSheet.create({
     bottom: 10,
   },
   warningText: {
-    right: 16,
-    color: colors.red,
-    fontSize: 12,
+    right: 18,
+    color: colors.danger,
+    fontSize: 10,
   },
   audioErrorView: {
     left: 23,
