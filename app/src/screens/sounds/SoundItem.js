@@ -24,6 +24,7 @@ const SoundItem = ({ currentUser, item }) => {
   const [isAudioError, setIsAudioError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
+  const [CurrentSong, SetCurrentSong] = useState(item.sound_url[0]);
   const [openSettingsAudioModal, setOpenSettingsAudioModal] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
@@ -32,6 +33,8 @@ const SoundItem = ({ currentUser, item }) => {
   useEffect(() => {
     LoadAudio();
   }, []);
+
+  
 
   const PlayAudio = async () => {
     try {
@@ -58,14 +61,25 @@ const SoundItem = ({ currentUser, item }) => {
     } catch (error) {}
   };
 
+const onPlaybackStatusUpdated = status => {
+  if (isAudioPlaying === status.isPlaying) {
+    return;
+  }
+  setIsAudioPlaying(status.isPlaying);
+}
+
+
   const LoadAudio = async () => {
     SetLoading(true);
+
+    sound.current.setOnPlaybackStatusUpdate(onPlaybackStatusUpdated);
     const checkLoading = await sound.current.getStatusAsync();
     if (checkLoading.isLoaded === false) {
       try {
         const result = await sound.current.loadAsync(
           { uri: item.sound_url },
-          { shouldPlay: false },
+          { shouldPlay: false, isLooping: true },
+          
           false
         );
         if (result.isLoaded === false) {
@@ -244,14 +258,15 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   dotRow: {
+    marginRight: 400, 
+
     right: Platform == "ios" ? 0 : 20,
     flexDirection: "row-reverse",
     bottom: 54,
   },
   playBtnView: {
-    justifyContent: "center",
     alignItems: "center",
-    zIndex: 9999,
+    zIndex: 1,
     top: 50,
     bottom: 10,
   },
