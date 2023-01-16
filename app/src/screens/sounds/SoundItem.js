@@ -7,20 +7,16 @@ import {
   Pressable,
   Modal,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import SettingsAudioModalScreen from "../../components/modal/settingsAudioModalScreen/SettingsAudioModalScreen";
 import { Audio } from "expo-av";
 
-
-const brandingLogo = {
-  logo: require('../../../assets/pmd_logo_green.png'),
-}
-
-
+const logo = require("../../../assets/pmd_logo_green.png");
 
 const SoundItem = ({ currentUser, item }) => {
   const [Loaded, SetLoaded] = useState(false);
@@ -28,13 +24,10 @@ const SoundItem = ({ currentUser, item }) => {
   const [isAudioError, setIsAudioError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
-
   const [openSettingsAudioModal, setOpenSettingsAudioModal] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
-
   const sound = useRef(new Audio.Sound());
-  console.log(item.artwork_url);
 
   useEffect(() => {
     LoadAudio();
@@ -45,13 +38,12 @@ const SoundItem = ({ currentUser, item }) => {
       const result = await sound.current.getStatusAsync();
       if (result.isLoaded) {
         if (result.isPlaying === false) {
-          sound.current.playAsync();
+          sound.current.replayAsync();
           setIsAudioPlaying(true);
+          isLooping(true);
         }
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const PauseAudio = async () => {
@@ -61,7 +53,6 @@ const SoundItem = ({ currentUser, item }) => {
         if (result.isPlaying === true) {
           sound.current.pauseAsync();
           setIsAudioPlaying(false);
-
         }
       }
     } catch (error) {}
@@ -74,7 +65,7 @@ const SoundItem = ({ currentUser, item }) => {
       try {
         const result = await sound.current.loadAsync(
           { uri: item.sound_url },
-          {shouldPlay: false},
+          { shouldPlay: false },
           false
         );
         if (result.isLoaded === false) {
@@ -87,13 +78,17 @@ const SoundItem = ({ currentUser, item }) => {
       } catch (error) {
         setIsAudioPlaying(false);
         setIsAudioError(true);
-        setErrorMessage("No longer available")
+        setErrorMessage("No longer available");
         SetLoading(false);
       }
     } else {
       SetLoading(false);
     }
   };
+
+  // sound.current.setOnPlaybackStatusUpdate((playState) => {
+  //   playState.isPlaying;
+  // });
 
   useEffect(() => {
     return () => {
@@ -103,89 +98,85 @@ const SoundItem = ({ currentUser, item }) => {
 
   return (
     <>
-    <View style={styles.item}>
-      <View style={styles.albumRow}>
-        <View style={styles.playBtnView}>
-          {!isAudioPlaying ? (
-            <Entypo
-              onPress={PlayAudio}
-              name="controller-play"
-              size={35}
-              color={colors.secondary}
-            />
-          ) : (
-            <Ionicons
-              onPress={PauseAudio}
-              name="pause-sharp"
-              size={34}
-              color={colors.secondary}
-            />
-          )}
+      <View style={styles.item}>
+        <View style={styles.albumRow}>
+          <View style={styles.playBtnView}>
+            {!isAudioPlaying ? (
+              <TouchableOpacity onPress={PlayAudio}>
+                <Entypo
+                  name="controller-play"
+                  size={35}
+                  color={colors.secondary}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={PauseAudio}>
+                <Ionicons
+                  name="pause-sharp"
+                  size={34}
+                  color={colors.secondary}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+          <View>
+            <Image style={styles.album} source={{ uri: item.artwork_url }} />
+          </View>
         </View>
-        <View>
-          <Image style={styles.album} source={item.artwork_url} />
+        <View style={styles.albumInfoRow}>
+          <View>
+            <Text style={styles.itemInfo}>
+              <View style={styles.logoRow}>
+                <Image style={styles.logo} source={logo} />
+              </View>
+              {item.song_name}
+            </Text>
+            <Text style={styles.genreText}>Genre: {item.genre}</Text>
+            {errorMessage && (
+              <View style={styles.audioErrorView}>
+                <Text style={styles.warningText}>{errorMessage}</Text>
+              </View>
+            )}
+            <Text style={styles.artistText}>{item.artist}</Text>
+            <Text style={styles.mins}>{item.duration}</Text>
+          </View>
         </View>
       </View>
-      <View style={styles.albumInfoRow}>
-        <View>
-          <Text style={styles.itemInfo}>
-            <View style={styles.logoRow}>
-              <Image
-                style={styles.logo}
-                source={brandingLogo.logo}
-              />
-            </View>
-            {item.song_name}
-            
-          </Text>
-          <Text style={styles.genreText}>Genre: {item.genre}</Text>
-          {errorMessage &&  (
-            <View style={styles.audioErrorView}>
-            <Text style={styles.warningText}>{errorMessage}</Text>
-            </View>
-          )}
-          <Text style={styles.artistText}>{item.artist}</Text>
-          <Text style={styles.mins}>{item.duration}</Text>
-        </View>
-        </View>
-        </View>
-        <View style={styles.dotRow}>
-            <AntDesign 
-              style={styles.infoDots} 
-              name="bars" 
-              size={30} 
-              color={colors.secondary}
-              onPress={() => setOpenSettingsAudioModal(true)}/>
-        </View>
-        <Modal
-            animationType="slide"
-            transparent={true}
-            visible={openSettingsAudioModal}
-          >
-            <View style={{ flex: 1, justifyContent: "flex-end" }}>
-              <Pressable
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: 0,
-                }}
-                onPress={() => setOpenSettingsAudioModal(false)}
-              />
-              <SettingsAudioModalScreen item={item} currentUser={currentUser} />
-            </View>
-          </Modal>
-          
-      <View>
-      
+      <View style={styles.dotRow}>
+        <AntDesign
+          style={styles.infoDots}
+          name="bars"
+          size={30}
+          color={colors.secondary}
+          onPress={() => setOpenSettingsAudioModal(true)}
+        />
       </View>
-      </>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={openSettingsAudioModal}
+      >
+        <View style={{ flex: 1, justifyContent: "flex-end" }}>
+          <Pressable
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            }}
+            onPress={() => setOpenSettingsAudioModal(false)}
+          />
+          <SettingsAudioModalScreen item={item} currentUser={currentUser} />
+        </View>
+      </Modal>
+
+      <View></View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
- 
   item: {
     flexDirection: "row",
     color: colors.secondary,
@@ -235,8 +226,8 @@ const styles = StyleSheet.create({
   },
   albumInfoRow: {
     paddingHorizontal: 5,
-    left: 12,
-    top: -5,
+    left: 15,
+    top: 10,
     flex: 1,
   },
   logo: {
@@ -253,7 +244,7 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   dotRow: {
-    right: Platform == "ios" ? 0 : 20, 
+    right: Platform == "ios" ? 0 : 20,
     flexDirection: "row-reverse",
     bottom: 54,
   },
@@ -271,8 +262,6 @@ const styles = StyleSheet.create({
   },
   audioErrorView: {
     left: 23,
-
-
   },
 });
 
