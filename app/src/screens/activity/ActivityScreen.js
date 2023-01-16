@@ -3,7 +3,11 @@ import ActivityNavBar from "../../components/general/activityNav/ActivityNavBar"
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import uuid from 'uuid-random';
 import colors from "../../../config/colors";
-import { getNotifications } from "../../services/notifications";
+import {
+  clearNotificationListener,
+  getNotifications,
+  notificationListener,
+} from "../../services/notifications";
 import NotificationItem from "./NotificationItem";
 import LottieView from "lottie-react-native";
 import Colors from "../../../config/colors";

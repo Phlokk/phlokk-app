@@ -34,7 +34,7 @@ const SoundItem = ({ currentUser, item }) => {
 
 
   const sound = useRef(new Audio.Sound());
-
+  console.log(item.artwork_url);
 
   useEffect(() => {
     LoadAudio();
