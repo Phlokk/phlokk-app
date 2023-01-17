@@ -7,8 +7,8 @@ import { Provider } from "react-redux";
 import Route from "./app/src/navigation/main/Route";
 import { Alert, LogBox, StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { atom, useAtom } from "jotai";
-import { fetchGetUsers } from "./app/src/redux/sagas/requests/fetchUsers";
+import { useAtom } from "jotai";
+import { fetchGetUser} from "./app/src/redux/sagas/requests/fetchUser";
 import * as SplashScreen from "expo-splash-screen";
 // imports for notifications.js
 import * as Notifications from "expo-notifications";
@@ -20,6 +20,9 @@ import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
 import colors from "./app/config/colors";
+import {userAtom} from "./app/src/services/appStateAtoms"
+
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -37,7 +40,7 @@ LogBox.ignoreLogs([
   "Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.",
 ]);
 
-export const userAtom = atom({});
+// export const userAtom = atom({});
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: false, staleTime: Infinity } },
@@ -53,12 +56,14 @@ Notifications.setNotificationHandler({
 });
 
 
+
 export default function App() {
   const [user, setUser] = useAtom(userAtom);
-
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+
+
 
   const [appIsAvailable, setAppIsAvailable] = useState(false);
 
@@ -87,15 +92,17 @@ export default function App() {
       return response.status === "available";
     };
 
+
     // check if server is available
     const appIsAvailable = await checkStatus();
     if (!appIsAvailable) {
       Alert.alert("System is down for maintenance. Please try again later");
     } else {
+
       const loadUser = async () => {
-        const response = await fetchGetUsers();
+        const response = await fetchGetUser();
         setUser(response.user);
-      };
+      }; 
 
       loadUser();
       // This listener is fired whenever a notification is received while the app is foregrounded

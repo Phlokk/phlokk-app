@@ -5,10 +5,10 @@ import { FlatList, View, StyleSheet, Text, RefreshControl } from "react-native";
 import ProfilePostListItem from "../../components/profile/postList/item/ProfilePostListItem";
 import colors from "../../../config/colors";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
+import { userAtom} from "../../services/appStateAtoms";
 import { useUserVideoFeed } from "../../services/posts";
 import React, { useCallback, useEffect, useState } from "react";
-import { fetchGetUser } from "../../redux/sagas/requests/fetchUsers";
+import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
 
 import ProfileLoading from "../../components/profile/postList/ProfileLoading";
 import { useIsFocused } from "@react-navigation/native";

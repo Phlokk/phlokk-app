@@ -17,7 +17,7 @@ import { types } from "../../redux/constants";
 import { useUserVideoFeed, useVideoFeed } from "../../services/posts";
 import LinearGradient from "react-native-linear-gradient";
 import { atom, useAtom } from "jotai";
-import { userAtom } from "../../../../App";
+import { userAtom } from "../../services/appStateAtoms";
 import colors from "../../../config/colors";
 
 import { useDispatch } from "react-redux";
@@ -49,6 +49,8 @@ const VideoFeed = ({ navigation, route }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(
     selectedIndex || 0
   );
+
+
 
   const {
     posts,

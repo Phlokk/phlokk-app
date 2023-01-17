@@ -6,7 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
+import { userAtom } from "../../services/appStateAtoms";
 import { useTheme } from "../../theme/context";
 
 const RenderButton = ({ onPress, isSelected, icon }) => {

@@ -70,6 +70,7 @@ import EditEducationFieldScreen from "../../screens/profile/EditEducationFieldSc
 import ReportProblemScreen from "../../screens/reports/ReportProblemScreen";
 
 
+
 const Stack = createNativeStackNavigator();
 
 export default function Route() {
@@ -77,7 +78,9 @@ export default function Route() {
 
   const auth = useSelector((state) => state.auth);
 
+
   useEffect(() => {
+   
     dispatch(userAuthStateListener());
   }, []);
 
@@ -89,6 +92,7 @@ export default function Route() {
   }
   // Drawer Navigation
   <Root />;
+
 
   return (
     <Stack.Navigator>

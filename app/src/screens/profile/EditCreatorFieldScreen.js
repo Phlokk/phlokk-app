@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { userAtom } from "../../../../App";
+import { userAtom } from "../../services/appStateAtoms";
 import { useAtom } from "jotai";
 import colors from "../../../config/colors";
 import { updateCreator } from "../../services/user";

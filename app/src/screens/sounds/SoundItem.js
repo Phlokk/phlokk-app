@@ -18,30 +18,60 @@ import { Audio } from "expo-av";
 
 const logo = require("../../../assets/pmd_logo_green.png");
 
-const SoundItem = ({ currentUser, item }) => {
+const SoundItem = ({ currentUser, item, currentSound, setCurrentSound }) => {
   const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
   const [isAudioError, setIsAudioError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
-  const [CurrentSong, SetCurrentSong] = useState(item.sound_url[0]);
   const [openSettingsAudioModal, setOpenSettingsAudioModal] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   const sound = useRef(new Audio.Sound());
 
+
   useEffect(() => {
     LoadAudio();
+    _onPlaybackStatusUpdate = playbackStatus => {
+      if (!playbackStatus.isLoaded) {
+        if (playbackStatus.error) {
+          console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+        }
+      } else {
+        if (playbackStatus.isPlaying) {
+          setIsAudioPlaying(true);
+        } else {
+          setIsAudioPlaying(false);
+  
+        }
+    
+        if (playbackStatus.isBuffering) {
+        }
+    
+        if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+        }
+  
+      }
+    };
+    sound.current.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
   }, []);
 
+
+  
+  
   
 
   const PlayAudio = async () => {
     try {
       const result = await sound.current.getStatusAsync();
       if (result.isLoaded) {
+        if (currentSound !== null) {
+          currentSound.pauseAsync();
+          setIsAudioPlaying(false);
+        }
         if (result.isPlaying === false) {
           sound.current.replayAsync();
+          setCurrentSound(sound.current)
           setIsAudioPlaying(true);
           isLooping(true);
         }
@@ -61,18 +91,10 @@ const SoundItem = ({ currentUser, item }) => {
     } catch (error) {}
   };
 
-const onPlaybackStatusUpdated = status => {
-  if (isAudioPlaying === status.isPlaying) {
-    return;
-  }
-  setIsAudioPlaying(status.isPlaying);
-}
-
 
   const LoadAudio = async () => {
     SetLoading(true);
 
-    sound.current.setOnPlaybackStatusUpdate(onPlaybackStatusUpdated);
     const checkLoading = await sound.current.getStatusAsync();
     if (checkLoading.isLoaded === false) {
       try {
@@ -99,10 +121,6 @@ const onPlaybackStatusUpdated = status => {
       SetLoading(false);
     }
   };
-
-  // sound.current.setOnPlaybackStatusUpdate((playState) => {
-  //   playState.isPlaying;
-  // });
 
   useEffect(() => {
     return () => {
@@ -154,6 +172,7 @@ const onPlaybackStatusUpdated = status => {
             <Text style={styles.artistText}>{item.artist}</Text>
             <Text style={styles.mins}>{item.duration}</Text>
           </View>
+          <View style={styles.divider_light}></View>
         </View>
       </View>
       <View style={styles.dotRow}>
@@ -195,10 +214,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     color: colors.secondary,
     paddingHorizontal: 10,
-    paddingVertical: 5,
     alignItems: "center",
     marginTop: 5,
-    width: "90%",
   },
   itemInfo: {
     color: colors.green,
@@ -213,7 +230,7 @@ const styles = StyleSheet.create({
   artistText: {
     top: 3,
     color: colors.gray,
-    paddingLeft: 5,
+    paddingLeft: 4,
     fontSize: 10,
   },
   genreText: {
@@ -224,14 +241,15 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   mins: {
-    top: 15,
+    top: 12,
     color: colors.gray,
-    paddingLeft: 6,
+    paddingLeft: 4,
     fontSize: 10,
   },
   album: {
     height: 65,
     width: 65,
+    borderRadius: 50,
   },
   albumRow: {
     paddingBottom: 3,
@@ -241,8 +259,8 @@ const styles = StyleSheet.create({
   albumInfoRow: {
     paddingHorizontal: 5,
     left: 15,
-    top: 10,
-    flex: 1,
+    top: 14,
+    flex: 1, 
   },
   logo: {
     right: 5,
@@ -259,10 +277,9 @@ const styles = StyleSheet.create({
   },
   dotRow: {
     marginRight: 400, 
-
-    right: Platform == "ios" ? 0 : 20,
+    right: Platform == "ios" ? 0: 20,
     flexDirection: "row-reverse",
-    bottom: 54,
+    bottom: 70,
   },
   playBtnView: {
     alignItems: "center",
@@ -277,6 +294,13 @@ const styles = StyleSheet.create({
   },
   audioErrorView: {
     left: 23,
+  },
+  divider_light: {
+    borderBottomWidth: 0.3,
+    borderColor: colors.secondary,
+    marginTop: 10,
+    opacity: 0.2,
+    top: 8, 
   },
 });
 

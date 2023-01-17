@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SearchAudio from "./searchAudio/SearchAudio";
 import SoundItem from "./SoundItem";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
+import { userAtom } from "../../services/appStateAtoms";
 import { getAllSounds } from "../../services/sounds";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -14,6 +14,7 @@ export default function SoundScreen({ placeholder }) {
   const isFocused = useIsFocused();
 
   const [soundsList, setSoundsList] = useState([]);
+  const [currentSound, setCurrentSound] = useState(null)
 
   useEffect(() => {
     const soundBites = async () => {
@@ -34,6 +35,9 @@ export default function SoundScreen({ placeholder }) {
         item={item}
         index={index}
         currentUser={currentUser}
+        currentSound={currentSound}
+        setCurrentSound={setCurrentSound}
+
         
       />
     );
@@ -61,16 +65,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-  },
-  btnRow: {
-    flexDirection: "row",
-    zIndex: -9999,
-    top: -50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  activity: {
-    top: -45,
-    zIndex: 9999,
   },
 });

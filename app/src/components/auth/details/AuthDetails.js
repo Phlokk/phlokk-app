@@ -26,7 +26,7 @@ import CustomTOSModal from "../../eulaScreenModal/CustomTOSModal";
 import { registerForPushNotificationsAsync } from "../../../services/notifications";
 import CustomAlert from "../../../components/Alerts/CustomAlert";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../../App";
+import { userAtom } from "../../../services/appStateAtoms";
 import routes from "../../../navigation/routes";
 
 export default function AuthDetails({ authPage, setDetailsPage }) {
@@ -57,6 +57,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   }
 
   const handleLogin = () => {
+    
     axios
       .post("/api/login", {
         email: email,

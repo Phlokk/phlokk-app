@@ -11,7 +11,7 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import routes from "../../../navigation/routes";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../../App";
+import { userAtom } from "../../../services/appStateAtoms";
 import { forceRefreshAtom } from "../../../screens/videoFeed/VideoFeed";
 import BlockAlert from "../../Alerts/BlockAlert";
 import colors from "../../../../config/colors";

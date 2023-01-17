@@ -18,10 +18,10 @@ import routes from "../../navigation/routes";
 import colors from "../../../config/colors";
 import FormData from "form-data";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
+import { userAtom } from "../../services/appStateAtoms";
 import EditProfileNav from "../../components/general/navBar/EditProfileNav";
 import CustomAlert from "../../components/Alerts/CustomAlert";
-import { fetchGetUsers } from "../../redux/sagas/requests/fetchUsers";
+import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
 import { useTheme } from "../../theme/context";
 import { apiUrls } from "../../globals";
 
@@ -83,7 +83,7 @@ export default function EditProfileScreen({ route }) {
       });
 
     // Once image is updated, load user profile from api
-    const response = await fetchGetUsers();
+    const response = await fetchGetUser();
     setCurrentUser(response.user);
   };
 

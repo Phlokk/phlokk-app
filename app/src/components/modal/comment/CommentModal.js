@@ -21,7 +21,7 @@ import {
 } from "../../../services/posts";
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../../App";
+import { userAtom } from "../../../services/appStateAtoms";
 import uuid from "uuid-random";
 import { useTheme } from "../../../theme/context";
 

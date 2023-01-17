@@ -7,8 +7,8 @@ import colors from "../../../../config/colors";
 import CustomAlert from "../../../components/Alerts/CustomAlert";
 import { useTheme } from "../../../theme/context";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../../App";
-import routes from "../../../navigation/routes";
+import { userAtom } from "../../../services/appStateAtoms";
+// import routes from "../../../navigation/routes";
 
 
 export default function SupportScreen() {

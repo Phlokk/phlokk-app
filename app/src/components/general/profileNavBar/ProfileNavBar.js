@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../../App";
+import { userAtom } from "../../../services/appStateAtoms";
 import { useIsFocused } from "@react-navigation/native";
 import { useTheme } from "../../../theme/context";
 import ReportUserModalScreen from "../../modal/reportModal/ReportUserModalScreen";

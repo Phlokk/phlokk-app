@@ -8,7 +8,7 @@ import { updateCreator } from "../../services/user";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
-import { userAtom } from "../../../../App";
+import { userAtom } from "../../services/appStateAtoms";
 import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
 

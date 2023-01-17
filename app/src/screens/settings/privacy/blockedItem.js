@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../../App";
+import { userAtom } from "../../../services/appStateAtoms";
 import { timeSince } from "../../../services/posts";
 
 const BlockedItem = ({ navigation, item }) => {

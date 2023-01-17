@@ -17,7 +17,7 @@ import PostNavBar from "../../components/general/postNav/PostNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../../theme/context";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
+import { userAtom } from "../../services/appStateAtoms";
 import { generalStyles } from "../../styles";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 

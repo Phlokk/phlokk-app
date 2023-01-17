@@ -10,11 +10,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
-// import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
 import CustomAlert from "../../Alerts/CustomAlert";
+import routes from "../../../navigation/routes";
+
 
 const SettingsAudioModalScreen = ({ currentUser, item }) => {
+  const navigation = useNavigation();
   const [isAuthorLink, setIsAuthorLink] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isUseAudio, setUseAudio] = useState(false);
@@ -27,6 +30,8 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
       <Text style={styles.infoArtistText}><Text style={styles.labelText}>Title:</Text> {item.song_name}</Text>
         <Text style={styles.infoArtistText}><Text style={styles.labelText}>Artist:</Text> {item.artist}</Text>
         <Text style={styles.infoArtistText}><Text style={styles.labelText}>Genre:</Text> {item.genre}</Text>
+        <Text style={styles.infoArtistText}><Text style={styles.labelText}>Label:</Text> {item.label}</Text>
+        <Text style={styles.infoArtistText}><Text style={styles.labelText}>Release Year:</Text> {item.release_date}</Text>
       </View>
       <ScrollView style={styles.topBar} horizontal={true}>
         <>
@@ -46,7 +51,9 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
           <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
-            onPress={() => setUseAudio(true)}
+            onPress={() => {
+              /* 1. Navigate to the Details route with params */
+              navigation.navigate(routes.CAMERA, {item: item })}}
           >
             <View style={styles.bubble}>
               <MaterialCommunityIcons
@@ -159,7 +166,7 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.modals,
-    height: "24%",
+    height: "25%",
   },
   text: {
     color: colors.secondary,
@@ -193,6 +200,7 @@ const styles = StyleSheet.create({
   artistView: {
     paddingHorizontal: 15, 
     marginTop: 15, 
+    marginBottom: 25, 
   },
   infoArtistText: {
     marginTop: 5,

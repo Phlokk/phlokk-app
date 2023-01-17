@@ -11,7 +11,7 @@ import colors from "../../../config/colors";
 import { queryUsers } from "../../services/user";
 import { Feather } from "@expo/vector-icons";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../../App";
+import { userAtom } from "../../services/appStateAtoms";
 import { useTheme } from "../../theme/context";
 
 // import CustomActivityIndicator from '../common/ActivityIndicator';

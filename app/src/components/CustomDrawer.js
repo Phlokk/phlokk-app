@@ -17,7 +17,7 @@ import axios from "../redux/apis/axiosDeclaration";
 import { types } from "../redux/constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useAtom } from "jotai";
-import { userAtom } from "../../../App";
+import { userAtom } from "../services/appStateAtoms";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import VerifiedIcon from "../components/common/VerifiedIcon";

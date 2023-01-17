@@ -34,7 +34,7 @@ const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking ev
 const convertMillisToPercentage = (ms) => ms / 1000 / 120;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 
-export default function CameraScreen() {
+export default function CameraScreen({route}) {
   const [isUploaded, setIsUploaded] = useState(false);
   const [isGeneratedThumb, setIsGeneratedThumb] = useState(false);
 
@@ -176,7 +176,70 @@ export default function CameraScreen() {
     }
   };
 
+  const sound = useRef(new Audio.Sound());
+  const [Loading, SetLoading] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isAudioError, setIsAudioError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
+
+
+
+  
+  useEffect(() => {
+    return () => {
+      sound.current && sound.current.unloadAsync();
+    };
+  }, [sound.current]);
+
+  const PlayAudio = async () => {
+    try {
+      const result = await sound.current.getStatusAsync();
+      if (result.isLoaded) {
+        if (result.isPlaying === false) {
+          sound.current.replayAsync();
+          isLooping(true);
+        }
+      }
+    } catch (error) {
+      console.log("Catch")
+    }
+  };
+
+
+
+  const LoadAudio = async () => {
+    SetLoading(true);
+
+    const checkLoading = await sound.current.getStatusAsync();
+    if (checkLoading.isLoaded === false) {
+      try {
+        const result = await sound.current.loadAsync(
+          { uri: route.params.sound_url },
+          { shouldPlay: false, isLooping: true },
+          
+          false
+        );
+        if (result.isLoaded === false) {
+          SetLoading(false);
+          setIsAudioError(true);
+        } else {
+          SetLoading(false);
+          SetLoaded(true);
+        }
+      } catch (error) {
+        setIsAudioPlaying(false);
+        setIsAudioError(true);
+        setErrorMessage("No longer available");
+        SetLoading(false);
+      }
+    } else {
+      SetLoading(false);
+
+    }
+  };
+
   const onPressRecord = () => {
+    
     if (!isRecording) {
       if (countdownTimerRef.current) {
         clearInterval(countdownTimerRef.current);
@@ -190,8 +253,13 @@ export default function CameraScreen() {
           return prev - 1;
         });
       }, 1000);
+    LoadAudio();
+    PlayAudio();
+      
     } else {
       stopVideo();
+      sound.current.pauseAsync();
+
     }
   };
 
@@ -370,6 +438,11 @@ export default function CameraScreen() {
               />
             </View>
           </View>
+          <TouchableOpacity
+          onPress={() => PlayAudio}
+          >
+              <Text style={styles.cameraExtraBtn}>Push</Text>
+          </TouchableOpacity>
           {!isRecording && (
             <View
               style={{
@@ -568,4 +641,7 @@ const styles = StyleSheet.create({
     right: Platform.OS === "ios" ? 90 : 84,
     bottom: 7,
   },
+  cameraExtraBtn: {
+    color: colors.white,
+  }
 });
