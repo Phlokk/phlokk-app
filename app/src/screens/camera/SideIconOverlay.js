@@ -46,7 +46,7 @@ function SideIconOverlay() {
           onPress={() => navigation.navigate(routes.SOUNDS)}
         >
           <Entypo name="beamed-note" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Sounds</Text>
+          <Text style={styles.iconText}>Sound</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

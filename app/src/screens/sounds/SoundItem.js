@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   },
   dotRow: {
     marginRight: 400, 
-    right: Platform == "ios" ? 0: 20,
+    right: Platform == "ios" ? 0 : 20,
     flexDirection: "row-reverse",
     bottom: 70,
   },

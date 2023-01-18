@@ -68,6 +68,7 @@ import ResetPassword from "../../components/auth/details/ResetPassword";
 import EditSkillsFieldScreen from "../../screens/profile/EditSkillsFieldScreen";
 import EditEducationFieldScreen from "../../screens/profile/EditEducationFieldScreen";
 import ReportProblemScreen from "../../screens/reports/ReportProblemScreen";
+import TrimmerScreen from "../../screens/camera/TrimmerScreen";
 
 
 
@@ -421,6 +422,11 @@ export default function Route() {
           <Stack.Screen
             name="fireRules"
             component={FireRulesScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="trimmer"
+            component={TrimmerScreen}
             options={{ headerShown: false }}
           />
         </>

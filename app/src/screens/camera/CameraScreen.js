@@ -13,9 +13,12 @@ import {
   Alert,
   SafeAreaView,
 } from "react-native";
+import uuid from "uuid-random";
+import { FFmpegKit, FFprobeKit } from "ffmpeg-kit-react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import * as VideoThumbnails from "expo-video-thumbnails";
+import * as FileSystem from 'expo-file-system';
 import { useIsFocused } from "@react-navigation/core";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -34,7 +37,7 @@ const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking ev
 const convertMillisToPercentage = (ms) => ms / 1000 / 120;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 
-export default function CameraScreen({route}) {
+export default function CameraScreen({ route }) {
   const [isUploaded, setIsUploaded] = useState(false);
   const [isGeneratedThumb, setIsGeneratedThumb] = useState(false);
 
@@ -64,6 +67,7 @@ export default function CameraScreen({route}) {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
+  const [duration, setDuration] = useState(null)
 
   useEffect(() => {
     (async () => {
@@ -113,6 +117,9 @@ export default function CameraScreen({route}) {
         if (Platform.OS === "ios") {
           options.codec = Camera.Constants.VideoCodec.H264;
         }
+        if (route.params !== undefined){
+        PlayAudio();
+        }
         const videoRecordPromise = cameraRef.recordAsync(options);
 
         setIsRecording(true);
@@ -123,7 +130,16 @@ export default function CameraScreen({route}) {
           setIsRecording(false);
           clearInterval(recordingTimerRef.current);
           setRecordingTime(0);
-          navigation.navigate("editPosts", { source, sourceThumb });
+
+          if (route.params === undefined){
+          const outputFilePath = source;
+          navigation.navigate("editPosts", { outputFilePath, sourceThumb });
+          
+          } else {
+          navigation.navigate("editPosts", { outputFilePath: await generateVideo(source), sourceThumb });
+
+          }
+          
         }
       } catch (error) {
         clearInterval(recordingTimerRef.current);
@@ -176,36 +192,104 @@ export default function CameraScreen({route}) {
     }
   };
 
+  const generateVideo = async (source) => {
+    
+    const ext = (Platform.OS === 'ios' ? 'mov' : 'mp4')
+    let ffmpegCommand = null;
+    const outputFilePath = FileSystem.cacheDirectory + "Camera/"+ uuid() +"." + ext;
+
+    console.log(source, "source File")
+    const ffprobeCommand = "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " + source;
+    // FFprobeKit.getMediaInformation(testUrl).then(async (session) => {
+      
+    //     setDuration(await session.getDuration());
+       
+        
+    // });
+    console.log(duration, "DURATION>>>>>>>>>>>>>")
+    if (
+      
+      route.params.item.sound_url.endsWith(".mp3") ||
+      route.params.item.sound_url.endsWith(".aac")
+      
+    ) {
+      
+      ffmpegCommand =
+        "-i " +
+        source +
+        "-ss 00:00:00 -t 02:00:00 -i " +
+        route.params.item.sound_url +
+        " -map 0:v -map 1:a -c:v copy -c:a copy " + outputFilePath +" -y";
+    }
+    if (
+      route.params.item.sound_url.endsWith(".m4a") ||
+      route.params.item.sound_url.endsWith(".ogg") ||
+      route.params.item.sound_url.endsWith(".wav")
+    ) {
+      ffmpegCommand =
+        "-i " +
+        source +
+        "-ss 00:00:00 -t 02:00:00 -i " +
+        route.params.item.sound_url +
+        " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " + outputFilePath +" -y";
+    }
+    FFmpegKit.execute(ffmpegCommand).then(async (session) => {
+
+        // SUCCESS
+        const sessionId = session.getSessionId();
+
+        // Command arguments as a single string
+        const command = session.getCommand();
+
+        // Command arguments
+        const commandArguments = session.getArguments();
+
+        // State of the execution. Shows whether it is still running or completed
+        const state = await session.getState();
+
+        // Return code for completed sessions. Will be undefined if session is still running or FFmpegKit fails to run it
+        const returnCode = await session.getReturnCode();
+
+        const startTime = session.getStartTime();
+        const endTime = await session.getEndTime();
+        const duration = await session.getDuration();
+
+        // Console output generated for this execution
+        const output = await session.getOutput();
+        
+        // The stack trace if FFmpegKit fails to run a command
+        const failStackTrace = await session.getFailStackTrace();
+
+        // The list of logs generated for this execution
+        const logs = await session.getLogs();
+
+        // The list of statistics generated for this execution (only available on FFmpegSession)
+        const statistics = await session.getStatistics();
+        
+    });
+    return outputFilePath;
+  };
+
   const sound = useRef(new Audio.Sound());
+
   const [Loading, SetLoading] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isAudioError, setIsAudioError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
-
-
-  
-  useEffect(() => {
-    return () => {
-      sound.current && sound.current.unloadAsync();
-    };
-  }, [sound.current]);
-
   const PlayAudio = async () => {
     try {
+      await LoadAudio();
       const result = await sound.current.getStatusAsync();
       if (result.isLoaded) {
         if (result.isPlaying === false) {
           sound.current.replayAsync();
           isLooping(true);
+          generateVideo();
         }
       }
-    } catch (error) {
-      console.log("Catch")
-    }
+    } catch (error) {}
   };
-
-
 
   const LoadAudio = async () => {
     SetLoading(true);
@@ -214,11 +298,12 @@ export default function CameraScreen({route}) {
     if (checkLoading.isLoaded === false) {
       try {
         const result = await sound.current.loadAsync(
-          { uri: route.params.sound_url },
-          { shouldPlay: false, isLooping: true },
-          
+          { uri: route.params.item.sound_url },
+          { shouldPlay: false, isLooping: false },
+
           false
         );
+        console.log(result);
         if (result.isLoaded === false) {
           SetLoading(false);
           setIsAudioError(true);
@@ -234,12 +319,16 @@ export default function CameraScreen({route}) {
       }
     } else {
       SetLoading(false);
-
     }
   };
 
-  const onPressRecord = () => {
-    
+  useEffect(() => {
+    return () => {
+      sound.current && sound.current.unloadAsync();
+    };
+  }, [sound.current]);
+
+  const onPressRecord = async () => {
     if (!isRecording) {
       if (countdownTimerRef.current) {
         clearInterval(countdownTimerRef.current);
@@ -253,13 +342,19 @@ export default function CameraScreen({route}) {
           return prev - 1;
         });
       }, 1000);
-    LoadAudio();
-    PlayAudio();
+     
+        LoadAudio();
+        PlayAudio();
+      
       
     } else {
       stopVideo();
+      const result = await sound.current.getStatusAsync();
+      if (result.isLoaded) {
+        if (result.isPlaying === true) {
       sound.current.pauseAsync();
-
+        }
+      }
     }
   };
 
@@ -379,7 +474,11 @@ export default function CameraScreen({route}) {
 
       {!isRecording && (
         <TouchableOpacity
-          style={{ position: "absolute", top: 48, right: Platform.OS === "ios" ? 375 : 350, }}
+          style={{
+            position: "absolute",
+            top: 48,
+            right: Platform.OS === "ios" ? 375 : 350,
+          }}
           onPress={() => navigation.navigate(routes.FEED)}
         >
           <Feather name="x" size={25} color={colors.white} />
@@ -438,11 +537,13 @@ export default function CameraScreen({route}) {
               />
             </View>
           </View>
-          <TouchableOpacity
-          onPress={() => PlayAudio}
+          {/* <TouchableOpacity
+            onPress={() => {
+              PlayAudio();
+            }}
           >
-              <Text style={styles.cameraExtraBtn}>Push</Text>
-          </TouchableOpacity>
+            <Text style={styles.cameraExtraBtn}>Play Audio</Text>
+          </TouchableOpacity> */}
           {!isRecording && (
             <View
               style={{
@@ -521,9 +622,7 @@ export default function CameraScreen({route}) {
             <AntDesign name="warning" size={24} color={colors.red} />
           </Text>
         }
-        customAlertMessage={
-          <Text>Could not generate thumbnail!</Text>
-        }
+        customAlertMessage={<Text>Could not generate thumbnail!</Text>}
         positiveBtn="Ok"
         modalVisible={isGeneratedThumb}
         dismissAlert={setIsGeneratedThumb}
@@ -643,5 +742,5 @@ const styles = StyleSheet.create({
   },
   cameraExtraBtn: {
     color: colors.white,
-  }
+  },
 });

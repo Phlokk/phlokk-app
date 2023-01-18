@@ -41,6 +41,7 @@ export default Object.freeze({
   SKILLS: "skills",
   EDUCATION: "education",
   CAMERA: "Cam",
+  TRIMMER: "trimmer",
   EDIT_POSTS: "editPosts",
   SAVE_POST: "savePost",
   SOUNDS: "sounds",

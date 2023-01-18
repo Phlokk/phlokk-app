@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } from "react-native";
 import { Video, Audio } from "expo-av";
 import { useIsFocused } from "@react-navigation/core";
@@ -20,17 +21,20 @@ export default function EditPostsScreen({ route }) {
   // Video Trimmer State
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState(null);
+  const [videoUrl, setVideoUrl] = useState(null);
 
 
   const [videoResizeMode, setVideoResizeMode] = useState(
     Video.RESIZE_MODE_COVER
   );
-
-  const videoUrl = route.params.source;
+  
 
   const videoThumb = route.params.sourceThumb;
 
   useEffect(() => {
+    console.log(route.params)
+    // const outputFilePath =  (Platform.OS === "android" ? route.params.outputFilePath : route.params.outputFilePath.replace('file:///', ''))
+    setVideoUrl(route.params.outputFilePath );
     const setupAudio = async () => {
       await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
     };

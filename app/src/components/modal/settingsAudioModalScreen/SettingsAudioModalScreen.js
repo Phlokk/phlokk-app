@@ -46,7 +46,7 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
                 color={colors.green}
               />
             </View>
-            <Text style={styles.text}>Favorites</Text>
+            <Text style={styles.text}>Favorite</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.fieldItemContainer}
@@ -166,7 +166,7 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.modals,
-    height: "25%",
+    height: "30%",
   },
   text: {
     color: colors.secondary,
