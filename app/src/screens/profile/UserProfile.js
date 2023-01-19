@@ -28,7 +28,6 @@ function UserProfile({ user, isCurrentUser }) {
     <View style={styles.container}>
       
       <TouchableOpacity
-        // onPress={() => setPopUpImage(true)}
         onPress={() => setIsBioModalScreenOpen(true)}
         disabled={!user?.photo_url}
       >

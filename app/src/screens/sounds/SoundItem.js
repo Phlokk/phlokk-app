@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableOpacity,
 } from "react-native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -19,6 +20,7 @@ import { Audio } from "expo-av";
 const logo = require("../../../assets/pmd_logo_green.png");
 
 const SoundItem = ({ currentUser, item, currentSound, setCurrentSound }) => {
+  const isFocused = useIsFocused();
   const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
   const [isAudioError, setIsAudioError] = useState(false);
@@ -28,6 +30,10 @@ const SoundItem = ({ currentUser, item, currentSound, setCurrentSound }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   const sound = useRef(new Audio.Sound());
+
+  useEffect(() => {
+    setOpenSettingsAudioModal(false);
+  }, [isFocused]);
 
 
   useEffect(() => {
@@ -276,7 +282,6 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   dotRow: {
-    marginRight: 400, 
     right: Platform == "ios" ? 0 : 20,
     flexDirection: "row-reverse",
     bottom: 70,

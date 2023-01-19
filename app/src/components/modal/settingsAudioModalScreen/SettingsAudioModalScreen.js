@@ -5,12 +5,12 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
 import CustomAlert from "../../Alerts/CustomAlert";
 import routes from "../../../navigation/routes";
@@ -18,10 +18,18 @@ import routes from "../../../navigation/routes";
 
 const SettingsAudioModalScreen = ({ currentUser, item }) => {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+
   const [isAuthorLink, setIsAuthorLink] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isUseAudio, setUseAudio] = useState(false);
   const [shareAudio, setShareAudio] = useState(false);
+  const [isAudioModalScreenOpen, setIsAudioModalScreenOpen] =
+    useState(false);
+
+  useEffect(() => {
+    setIsAudioModalScreenOpen(false);
+  }, [isFocused]);
 
 
   return (
@@ -53,7 +61,8 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
             autoCapitalize="none"
             onPress={() => {
               /* 1. Navigate to the Details route with params */
-              navigation.navigate(routes.CAMERA, {item: item })}}
+              navigation.navigate(routes.TRIMMER, {item: item })
+            }}
           >
             <View style={styles.bubble}>
               <MaterialCommunityIcons

@@ -8,7 +8,7 @@ import Route from "./app/src/navigation/main/Route";
 import { Alert, LogBox, StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useAtom } from "jotai";
-import { fetchGetUser} from "./app/src/redux/sagas/requests/fetchUser";
+import { fetchGetUsers} from "./app/src/redux/sagas/requests/fetchUser";
 import * as SplashScreen from "expo-splash-screen";
 // imports for notifications.js
 import * as Notifications from "expo-notifications";
@@ -100,7 +100,7 @@ export default function App() {
     } else {
 
       const loadUser = async () => {
-        const response = await fetchGetUser();
+        const response = await fetchGetUsers();
         setUser(response.user);
       }; 
 

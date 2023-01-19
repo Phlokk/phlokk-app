@@ -1,18 +1,24 @@
-import { View, Text, Button, TouchableOpacity, Dimensions, StyleSheet} from 'react-native'
-import React, {useState, useRef, useEffect} from 'react'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import { Audio } from "expo-av";
-import { MaterialCommunityIcons } from "@expo/vector-icons"; 
-import Trimmer from 'react-native-trimmer'
+import { Ionicons } from "@expo/vector-icons";
+import Trimmer from "react-native-trimmer";
+import { MaterialIcons } from "@expo/vector-icons";
 
+import colors from "../../../config/colors";
+import routes from "../../navigation/routes";
 
-import colors from "../../../config/colors"
+const TrimmerScreen = ({ route }) => {
+  const navigation = useNavigation();
 
-const TrimmerScreen = ({route}) => {
-const navigation = useNavigation();
-
-const [Loaded, SetLoaded] = useState(false);
+  const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
   const [isAudioError, setIsAudioError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
@@ -20,8 +26,9 @@ const [Loaded, SetLoaded] = useState(false);
   const [openSettingsAudioModal, setOpenSettingsAudioModal] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
-  const [trimmerLeftHandlePosition,setTrimmerLeftHandlePosition ] = useState(0);
-  const [trimmerRightHandlePosition, setTrimmerRightHandlePosition] = useState(5000);
+  const [trimmerLeftHandlePosition, setTrimmerLeftHandlePosition] = useState(0);
+  const [trimmerRightHandlePosition, setTrimmerRightHandlePosition] =
+    useState(5000);
 
   const [playing, setPlaying] = useState(false);
   const [scrubInterval, setScrubInterval] = useState(50);
@@ -29,37 +36,33 @@ const [Loaded, SetLoaded] = useState(false);
   const [clearInterval, setClearInterval] = useState(false);
   const [interval, setInterval] = useState(false);
 
-  const [scrubberPosition, setScrubberPosition] = useState(false);
+  const [scrubberPosition, setScrubberPosition] = useState(1);
 
   const minimumTrimDuration = 5000;
-  const [totalDuration, setTotalDuration] = useState(1)
+  const [totalDuration, setTotalDuration] = useState(1);
 
-  
-
-
-  
   const onLeftHandleChange = (newLeftHandleValue) => {
-    setTrimmerLeftHandlePosition(newLeftHandleValue)
-  }
- 
-  const onRightHandleChange = (newRightHandleValue) => {
-    setTrimmerRightHandlePosition(newRightHandleValue)
-  }
+    setTrimmerLeftHandlePosition(newLeftHandleValue);
+  };
 
-  const playScrubber = async  () => {
+  const onRightHandleChange = (newRightHandleValue) => {
+    setTrimmerRightHandlePosition(newRightHandleValue);
+  };
+
+  const playScrubber = async () => {
     setPlaying(true);
-    }
- 
-    const scrubberInterval = () =>  {
-      setInterval( scrubberPosition + scrubInterval)
-  }
- 
+  };
+
+  const scrubberInterval = () => {
+    setInterval(scrubberPosition + scrubInterval);
+  };
+
   const pauseScrubber = async () => {
-    setClearInterval(scrubberInterval)
-    setPlaying(false)
+    setClearInterval(scrubberInterval);
+    setPlaying(false);
     setScrubberPosition(trimmerLeftHandlePosition);
     await PauseAudio();
-  }
+  };
 
   const PauseAudio = async () => {
     try {
@@ -68,34 +71,29 @@ const [Loaded, SetLoaded] = useState(false);
         if (result.isPlaying === true) {
           sound.current.pauseAsync();
           setIsAudioPlaying(false);
-
         }
       }
     } catch (error) {}
   };
 
   const onScrubbingComplete = (newValue) => {
-    setPlaying(false)
-    setScrubberPosition(newValue)
-  }
-
-
-
+    setPlaying(false);
+    setScrubberPosition(newValue);
+  };
 
   const sound = useRef(new Audio.Sound());
 
-useEffect( async () => {
-  await LoadAudio()
-  
-}, [])
-
-
+  useEffect(async () => {
+    await LoadAudio();
+  }, []);
 
   const PlayAudio = async () => {
-    
-    console.log(sound.current.playableDurationMillis, "playableDurationMillis")
-    console.log(sound.current.progressUpdateIntervalMillis, "progressUpdateIntervalMillis")
-    console.log(sound.current.durationMillis, "durationMillis")
+    console.log(sound.current.playableDurationMillis, "playableDurationMillis");
+    console.log(
+      sound.current.progressUpdateIntervalMillis,
+      "progressUpdateIntervalMillis"
+    );
+    console.log(sound.current.durationMillis, "durationMillis");
     try {
       await LoadAudio();
       const result = await sound.current.getStatusAsync();
@@ -103,7 +101,6 @@ useEffect( async () => {
         if (result.isPlaying === false) {
           sound.current.playAsync();
           playScrubber();
-
         }
       }
     } catch (error) {}
@@ -121,9 +118,9 @@ useEffect( async () => {
 
           false
         );
-        setTotalDuration (result.playableDurationMillis);
+        setTotalDuration(result.playableDurationMillis);
         setScrubInterval(result.progressUpdateIntervalMillis);
-        
+
         console.log(result, "result");
         if (result.isLoaded === false) {
           SetLoading(false);
@@ -152,11 +149,17 @@ useEffect( async () => {
   return (
     <View style={styles.container}>
       <View style={styles.trimmerView}>
-      {
-          playing
-            ? <Button title="Pause" color="#f638dc" onPress={pauseScrubber}/>
-            : <Button title="Play" color="#f638dc" onPress={PlayAudio}/>
-        }
+        <View style={styles.playBtnView}>
+          {playing ? (
+            <TouchableOpacity onPress={pauseScrubber}>
+              <Ionicons name="pause-sharp" size={49} color={colors.secondary} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={PlayAudio}>
+              <Entypo name="controller-play" size={50} color={colors.green} />
+            </TouchableOpacity>
+          )}
+        </View>
         <Trimmer
           style={styles.trimmer}
           onLeftHandleChange={onLeftHandleChange}
@@ -166,42 +169,45 @@ useEffect( async () => {
           trimmerRightHandlePosition={trimmerRightHandlePosition}
           minimumTrimDuration={minimumTrimDuration}
           maxTrimDuration={totalDuration}
-          maximumZoomLevel={20}
+          maximumZoomLevel={100}
           zoomMultiplier={2}
           initialZoomValue={1}
           scaleInOnInit={false}
-          tintColor="#00CEC9"
-          markerColor="#5a3d5c"
-          trackBackgroundColor="#382039"
-          trackBorderColor="#5a3d5c"
-          scrubberColor="#00CEC9"
+          tintColor={colors.green}
+          markerColor={colors.secondary}
+          trackBackgroundColor={colors.black}
+          trackBorderColor={colors.green}
+          scrubberColor={colors.secondary}
           scrubberPosition={scrubberPosition}
           onScrubbingComplete={onScrubbingComplete}
-          onLeftHandlePressIn={() => console.log('onLeftHandlePressIn')}
-          onRightHandlePressIn={() => console.log('onRightHandlePressIn')}
-          onScrubberPressIn={() => console.log('onScrubberPressIn')}
+          onLeftHandlePressIn={() => console.log("onLeftHandlePressIn")}
+          onRightHandlePressIn={() => console.log("onRightHandlePressIn")}
+          onScrubberPressIn={() => console.log("onScrubberPressIn")}
         />
-        </View>
-      
-       
-     <TouchableOpacity
-            style={styles.fieldItemContainer}
-            autoCapitalize="none"
-            onPress={() => {
-              /* 1. Navigate to the Details route with params */
-              navigation.navigate(routes.CAMERA, {item: item })}}
-          >
-            <View style={styles.bubble}>
-              <MaterialCommunityIcons
-                name="playlist-music-outline"
-                size={29}
-                color={colors.green}
-              />
-            </View>
-          </TouchableOpacity>
+      </View>
+
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <MaterialIcons name="arrow-left" size={24} color={colors.secondary} />
+          <Text style={styles.backButtonText}>Back </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(routes.CAMERA, { item: item });
+          }}
+          style={styles.postButton}
+        >
+          <Text style={styles.postButtonText}>Next </Text>
+          <MaterialIcons name="arrow-right" size={24} color={colors.green} />
+        </TouchableOpacity>
+      </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -215,11 +221,10 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     top: 95,
-   
   },
   iconText: {
     textAlign: "center",
-    width: 30, 
+    width: 30,
     color: colors.white,
     fontSize: 7,
     marginTop: 10,
@@ -228,7 +233,6 @@ const styles = StyleSheet.create({
     marginTop: 25,
     justifyContent: "center",
     alignItems: "center",
-    
   },
   backBtn: {
     justifyContent: "center",
@@ -241,8 +245,68 @@ const styles = StyleSheet.create({
   trimmerView: {
     justifyContent: "center",
     alignItems: "center",
-    flex: 1, 
-  }
+    flex: 1,
+  },
+  nextBtn: {
+    justifyContent: "center",
+    alignItems: "center",
+    bottom: 50,
+  },
+
+  // Btns
+  postButtonText: {
+    color: colors.secondary,
+    fontWeight: "bold",
+    fontSize: 14,
+  },
+  // Bottom Container Next Button
+  buttonsContainer: {
+    flexDirection: "row",
+    margin: 20,
+    left: 7,
+    bottom: 10,
+  },
+  backButton: {
+    alignItems: "center",
+    flex: 1,
+    borderColor: colors.secondary,
+    borderWidth: 0.5,
+    flexDirection: "row",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    justifyContent: "center",
+    borderRadius: 4,
+    marginRight: 10,
+  },
+  postButton: {
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: colors.black,
+    borderColor: colors.green,
+    borderWidth: 0.5,
+    flexDirection: "row",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    justifyContent: "center",
+    borderRadius: 4,
+    marginRight: 10,
+  },
+  backButtonText: {
+    marginLeft: 5,
+    color: colors.secondary,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  postButtonText: {
+    marginLeft: 5,
+    color: colors.green,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  playBtnView: {
+    top: 300,
+    
+  },
 });
 
 export default TrimmerScreen;
