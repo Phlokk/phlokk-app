@@ -9,7 +9,6 @@ import { userAtom} from "../../services/appStateAtoms";
 import { useUserVideoFeed } from "../../services/posts";
 import React, { useCallback, useEffect, useState } from "react";
 import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
-
 import ProfileLoading from "../../components/profile/postList/ProfileLoading";
 import { useIsFocused } from "@react-navigation/native";
 import { useTheme } from "../../theme/context";

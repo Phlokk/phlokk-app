@@ -50,6 +50,7 @@ export default function SavePostScreen({ route }) {
 
    
   const handleSavePost = () => {
+    console.log("handlesavePost", route.params);
     setRequestRunning(true);
     dispatch(
       createPost(

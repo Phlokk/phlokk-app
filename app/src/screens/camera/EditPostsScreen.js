@@ -34,7 +34,7 @@ export default function EditPostsScreen({ route }) {
   useEffect(() => {
     console.log(route.params)
     // const outputFilePath =  (Platform.OS === "android" ? route.params.outputFilePath : route.params.outputFilePath.replace('file:///', ''))
-    setVideoUrl(route.params.outputFilePath );
+    setVideoUrl(route.params.source );
     const setupAudio = async () => {
       await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
     };
