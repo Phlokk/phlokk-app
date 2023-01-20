@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons'; 
 // import uuid from 'uuid-random';
 
 import routes from "../../navigation/routes";
@@ -61,7 +62,7 @@ function IconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={<Text>Seconds{"\n"}coming soon!</Text>}
+          customAlertMessage={<Text>Timeline Edit{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
           modalVisible={isSeconds}
           dismissAlert={setIsSeconds}
@@ -71,8 +72,8 @@ function IconOverlay() {
           style={styles.sideBarButton}
           onPress={() => setIsSeconds(true)}
         >
-          <Ionicons name="timer-outline" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Secs</Text>
+          <AntDesign name="menufold" size={24} color={colors.white} />
+          <Text style={styles.iconText}>Edit</Text>
         </TouchableOpacity>
 
         <CustomAlert
@@ -160,7 +161,7 @@ function IconOverlay() {
           onPress={() => navigation.navigate(routes.SOUNDS)}
         >
           <Entypo name="beamed-note" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Sounds</Text>
+          <Text style={styles.iconText}>Sound</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
