@@ -65,7 +65,10 @@ export default function EditPostsScreen({ route }) {
       />
 
       <View style={styles.sideBarContainer}>
-        <IconOverlay />
+        <IconOverlay 
+        videoUrl={videoUrl} 
+        videoThumb={videoThumb}
+        />
       </View>
       
       <View style={styles.buttonsContainer}>
@@ -84,9 +87,10 @@ export default function EditPostsScreen({ route }) {
             }
             style={styles.postButton}
           >
-            <Text style={styles.postButtonText}>Next </Text>
+            <Text style={styles.postButtonText}>Post </Text>
             <MaterialIcons name="arrow-right" size={24} color={colors.green} />
           </TouchableOpacity>
+          
         </View>
     </View>
   );
@@ -98,10 +102,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
   },
   sideBarContainer: {
-    // flex: 1,
-    position: "absolute",
-    right: 2,
-    top: 30,
+    top: 5, 
+    flexDirection: "row",
+    alignItems: "center",
+    
+   
     
   },
   iconText: {
@@ -135,7 +140,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     flexDirection: "row",
     paddingVertical: 10,
-    paddingHorizontal: 20,
     justifyContent: "center",
     borderRadius: 4,
     marginRight: 10,
@@ -148,7 +152,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     flexDirection: "row",
     paddingVertical: 10,
-    paddingHorizontal: 20,
     justifyContent: "center",
     borderRadius: 4,
     marginRight: 10,

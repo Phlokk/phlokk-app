@@ -381,7 +381,7 @@ export default function CameraScreen({ route }) {
 
       Animated.sequence([
         Animated.timing(whitePulseAnim, {
-          toValue: 1.1,
+          toValue: 1.05,
           duration: 200,
           useNativeDriver: true,
         }),
@@ -461,36 +461,25 @@ export default function CameraScreen({ route }) {
             <Feather name="zap" size={24} color={colors.white} />
             <Text style={styles.iconText}>Flash</Text>
           </TouchableOpacity>
-
-          <SideIconOverlay />
         </View>
       )}
 
-      {!isRecording && (
-        <TouchableOpacity
-          style={{
-            position: "absolute",
-            top: 48,
-            right: Platform.OS === "ios" ? 375 : 350,
-          }}
-          onPress={() => navigation.navigate(routes.FEED)}
-        >
-          <Feather name="x" size={25} color={colors.white} />
-        </TouchableOpacity>
-      )}
+      
 
       <View
         style={[
           styles.bottomBarContainer,
-          {
-            transform: [{ scale: isRecording ? 1.5 : 1 }],
-          },
+          
         ]}
       >
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          <Text style={{ color: "white" }}>
+          {!isRecording && (
+          <SideIconOverlay />
+          )}
+
+          <Text style={{ color: "white", paddingBottom: 5,  }}>
             {secondsToHms(convertMillisToSeconds(recordingTime))}
           </Text>
           <View style={{ flex: 1 }}>
@@ -502,7 +491,7 @@ export default function CameraScreen({ route }) {
               style={({ pressed }) => {
                 return [
                   styles.recordButton,
-                  { backgroundColor: isRecording ? colors.red : colors.green },
+                  { backgroundColor: colors.green },
                   { borderWidth: isRecording ? 4 : 3 },
                   { borderColor: isRecording ? colors.danger : colors.white },
                 ];

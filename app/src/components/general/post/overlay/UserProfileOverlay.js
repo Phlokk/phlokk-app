@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { Entypo } from "@expo/vector-icons";
-
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
@@ -111,12 +109,8 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
         </Text>
 
         <View style={styles.songRow}>
-          <Entypo
-            style={styles.note}
-            name="beamed-note"
-            size={15}
-            color="white"
-          />
+        <MaterialCommunityIcons style={styles.soundWav} name="waveform" size={28} color={colors.white}  />
+
           <TextTicker style={styles.songName} duration={8000} loop={true}>
             {tickerText}
           </TextTicker>
@@ -248,4 +242,8 @@ const styles = StyleSheet.create({
     
    
   },
+  soundWav: {
+    paddingRight: 3, 
+    right: 7,
+  }
 });

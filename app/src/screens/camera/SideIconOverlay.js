@@ -9,10 +9,9 @@ import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import routes from "../../navigation/routes";
 
 function SideIconOverlay() {
@@ -20,40 +19,52 @@ function SideIconOverlay() {
   const navigation = useNavigation();
   const [isLive, setIsLive] = useState(false);
   const [speed, setSpeed] = useState(false);
-  const [fX, setFx] = useState(false);
+  const [replies, setReplies] = useState(false);
 
 
   return (
     <View style={styles.iconRow}>
-      
+      <TouchableOpacity
+            // onPress={() => navigation.navigate(routes.DRAFTS)}
+            onPress={() => navigation.goBack()}
+            style={styles.sideBarButton}
+          > 
+            <MaterialIcons style={styles.iconOpacity} name="arrow-left" size={28} color={colors.green} />
+            
+          </TouchableOpacity>
         <TouchableOpacity
           style={styles.sideBarButton}
           onPress={() => setSpeed(true)}
         >
-          <Octicons name="dashboard" size={24} color={colors.white} />
+          <Octicons style={styles.iconOpacity} name="dashboard" size={18} color={colors.green} />
           <Text style={styles.iconText}>Speed</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sideBarButton}
-          onPress={() => setFx(true)}
+          onPress={() => setReplies(true)}
         >
-          <FontAwesome name="magic" size={24} color={colors.white} />
-          <Text style={styles.iconText}>FX</Text>
+          <MaterialIcons
+          style={styles.iconOpacity}
+            name="chat-bubble-outline"
+            size={18}
+            color={colors.green}
+          />
+          <Text style={styles.iconText}>Reply</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.sideBarButton}
           onPress={() => navigation.navigate(routes.SOUNDS)}
         >
-          <Entypo name="beamed-note" size={24} color={colors.white} />
-          <Text style={styles.iconText}>Sound</Text>
+          <MaterialCommunityIcons style={styles.iconOpacity} name="waveform" size={18} color={colors.green}  />
+          <Text style={styles.iconText}>Wav</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.sideBarButton}
           onPress={() => setIsLive(true)}
         >
-          <Feather name="video" size={24} color={colors.green} />
+          <Feather style={styles.iconOpacity} name="video" size={18} color={colors.green} />
           <Text style={styles.iconText}>LIVE</Text>
         </TouchableOpacity>
         <CustomAlert
@@ -74,10 +85,10 @@ function SideIconOverlay() {
               <MaterialIcons name="info" size={24} color={colors.green} />
             </Text>
           }
-          customAlertMessage={<Text>FX{"\n"}coming soon!</Text>}
+          customAlertMessage={<Text>Reply{"\n"}coming soon!</Text>}
           positiveBtn="Ok"
-          modalVisible={fX}
-          dismissAlert={setFx}
+          modalVisible={replies}
+          dismissAlert={setReplies}
           animationType="fade"
         />
         <CustomAlert
@@ -98,7 +109,8 @@ function SideIconOverlay() {
 
 const styles = StyleSheet.create({
   iconRow: {
-    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
     position: "absolute",
     top: 95,
@@ -107,18 +119,27 @@ const styles = StyleSheet.create({
   iconText: {
     textAlign: "center",
     width: 30, 
-    color: colors.white,
+    color: colors.green,
     fontSize: 7,
-    marginTop: 10,
+    
   },
   sideBarButton: {
-    marginTop: 25,
-    justifyContent: "center",
+    padding: 5,
+    margin: 15,
+    borderWidth: 0.7,
+    borderColor: colors.secondary,
+    borderRadius: 7,
+    top: 30,
+    paddingHorizontal: 10, 
+    justifyContent: "space-between",
     alignItems: "center",
     
   },
   backBtn: {
     justifyContent: "center",
+  },
+  iconOpacity: {
+    opacity: 0.7,
   },
 });
 
