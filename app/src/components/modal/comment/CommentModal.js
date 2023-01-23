@@ -155,6 +155,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       >
         Comments {commentCount}
       </Text>
+      {user._id === post.user._id && (
       <Text
         style={
           theme == "light"
@@ -164,6 +165,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       >
         Stars {post.like_count}
       </Text>
+)}
       </View>
 
       <View style={styles.containerInput}>
