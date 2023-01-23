@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity, Easing, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { useIsFocused, useNavigation } from "@react-navigation/native";
@@ -111,7 +111,13 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
         <View style={styles.songRow}>
         <MaterialCommunityIcons style={styles.soundWav} name="waveform" size={28} color={colors.green}  />
 
-          <TextTicker style={styles.songName} duration={8000} loop={true}>
+          <TextTicker 
+          style={styles.ticker} 
+          duration={8000} 
+          loop={true}
+          repeatSpacer={20}
+          easing={Easing.in(Easing.linear)}
+          >
             {tickerText}
           </TextTicker>
 
@@ -183,10 +189,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 150,
   },
-  songName: {
+  ticker: {
     color: colors.white,
     fontSize: 12,
-    marginLeft: 5,
+    marginLeft: 3,
   },
   avatar: {
     height: 50,
