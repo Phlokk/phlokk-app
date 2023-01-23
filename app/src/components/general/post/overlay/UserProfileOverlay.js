@@ -107,9 +107,9 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
         >
           {post.description}
         </Text>
-
+        <View style={styles.songView}>
         <View style={styles.songRow}>
-        <MaterialCommunityIcons style={styles.soundWav} name="waveform" size={28} color={colors.white}  />
+        <MaterialCommunityIcons style={styles.soundWav} name="waveform" size={28} color={colors.green}  />
 
           <TextTicker style={styles.songName} duration={8000} loop={true}>
             {tickerText}
@@ -123,6 +123,7 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
             
           </View>
         </View>
+        </View> 
       </View>
     </View>
   );
@@ -142,6 +143,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-end",
     marginRight: 45,
+  },
+  songView: {
+    right: 5,
+    flex: 1,
+    backgroundColor: 'rgba(125, 125, 125, 0.2)',
+    width: 240,
+    borderRadius: 50,  
+
   },
   username: {
     color: colors.white,
@@ -169,6 +178,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   songRow: {
+    marginLeft: 7,
     flexDirection: "row",
     alignItems: "center",
     width: 150,
@@ -212,6 +222,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   animatedlogo: {
+    top: 5, 
     marginLeft: 5,
   },
   displayLines: {

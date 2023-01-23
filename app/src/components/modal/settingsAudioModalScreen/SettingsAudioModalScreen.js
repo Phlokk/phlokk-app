@@ -78,7 +78,7 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
         <TouchableOpacity
           style={styles.fieldItemContainer}
           onPress={
-            item.sound_url ? () => Linking.openURL(item.sound_url) : null
+            item.sound_url ? () => Linking.openURL(item.link) : null
           }
         >
           <View style={styles.bubble}>

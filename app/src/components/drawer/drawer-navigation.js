@@ -1,6 +1,8 @@
+
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -13,6 +15,8 @@ import SettingsScreen from "../../screens/settings/SettingsScreen";
 import ManageAccountScreen from "../../screens/manageAccount/ManageAccountScreen";
 import CommunityGuidelinesScreen from "../../screens/policies/CommunityGuidelinesScreen";
 import { useTheme } from "../../theme/context";
+import Market from "../../screens/market/Market";
+
 
 export default function Root() {
   const { theme } = useTheme();
@@ -86,6 +90,15 @@ export default function Root() {
               size={24}
               color={color}
             />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Phlokk Market"
+        component={Market}
+        options={{
+          drawerIcon: ({ color }) => (
+            <Entypo name="shop" size={24} color={color} />
           ),
         }}
       />

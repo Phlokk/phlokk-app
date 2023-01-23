@@ -13,6 +13,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import VideoItem from "./VideoItem";
+import { Octicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { types } from "../../redux/constants";
 import { useUserVideoFeed, useVideoFeed } from "../../services/posts";
 import LinearGradient from "react-native-linear-gradient";
@@ -37,6 +39,8 @@ const VideoFeed = ({ navigation, route }) => {
   const [postFeed, setPostFeed] = useState([]);
   const [marketAlert, setMarketAlert] = useState(false);
   const [areTabsShowing, setAreTabsShowing] = useState();
+
+  const [ckt, setCkt] = useState(false);
 
   const windowSize = useWindowDimensions();
   const isFocused = useIsFocused();
@@ -249,14 +253,30 @@ const VideoFeed = ({ navigation, route }) => {
       <TouchableOpacity
         style={{
           position: "absolute",
-          top: Platform.OS === "android" ? 28 : 48,
+          top: Platform.OS === "android" ? 28 : 46.5,
           right: 18,
         }}
         // onPress={() => { navigation.navigate(routes.MARKET)}
-        onPress={() => setMarketAlert(true)}
+        onPress={() => setCkt(true)}
       >
-        <Entypo name="shop" size={24} color={colors.white} />
+        <Octicons name="globe" size={25} color={colors.white} />
+        {/* <Entypo name="shop" size={24} color={colors.white} /> */}
       </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.globeIcon} onPress={() => setCkt(true)}>
+        <Octicons name="globe" size={30} color={colors.white} />
+      </TouchableOpacity> */}
+      <CustomAlert
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>CKT Feed{"\n"}coming soon!</Text>}
+          positiveBtn="Ok"
+          modalVisible={ckt}
+          dismissAlert={setCkt}
+          animationType="fade"
+        />
     </View>
   );
 };

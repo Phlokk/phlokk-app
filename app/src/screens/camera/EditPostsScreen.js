@@ -77,7 +77,7 @@ export default function EditPostsScreen({ route }) {
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           > 
-            <MaterialIcons name="arrow-left" size={24} color={colors.secondary} />
+            <MaterialIcons name="arrow-left" size={24} color={colors.white} />
             <Text style={styles.backButtonText}>Back </Text>
           </TouchableOpacity>
 
@@ -87,7 +87,7 @@ export default function EditPostsScreen({ route }) {
             }
             style={styles.postButton}
           >
-            <Text style={styles.postButtonText}>Post </Text>
+            <Text style={styles.postButtonText}>Next </Text>
             <MaterialIcons name="arrow-right" size={24} color={colors.green} />
           </TouchableOpacity>
           
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     backgroundColor: colors.black,
-    borderColor: colors.green,
+    borderColor: colors.secondary,
     borderWidth: 0.5,
     flexDirection: "row",
     paddingVertical: 10,

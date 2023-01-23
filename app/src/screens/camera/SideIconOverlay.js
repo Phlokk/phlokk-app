@@ -29,14 +29,14 @@ function SideIconOverlay() {
             onPress={() => navigation.goBack()}
             style={styles.sideBarButton}
           > 
-            <MaterialIcons style={styles.iconOpacity} name="arrow-left" size={28} color={colors.green} />
+            <MaterialIcons style={styles.iconOpacity} name="arrow-left" size={28} color={colors.red} />
             
           </TouchableOpacity>
         <TouchableOpacity
           style={styles.sideBarButton}
           onPress={() => setSpeed(true)}
         >
-          <Octicons style={styles.iconOpacity} name="dashboard" size={18} color={colors.green} />
+          <Octicons style={styles.iconOpacity} name="dashboard" size={18} color={colors.white} />
           <Text style={styles.iconText}>Speed</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -47,7 +47,7 @@ function SideIconOverlay() {
           style={styles.iconOpacity}
             name="chat-bubble-outline"
             size={18}
-            color={colors.green}
+            color={colors.white}
           />
           <Text style={styles.iconText}>Reply</Text>
         </TouchableOpacity>
@@ -56,7 +56,7 @@ function SideIconOverlay() {
           style={styles.sideBarButton}
           onPress={() => navigation.navigate(routes.SOUNDS)}
         >
-          <MaterialCommunityIcons style={styles.iconOpacity} name="waveform" size={18} color={colors.green}  />
+          <MaterialCommunityIcons style={styles.iconOpacity} name="waveform" size={18} color={colors.white}  />
           <Text style={styles.iconText}>Wav</Text>
         </TouchableOpacity>
 
@@ -64,7 +64,7 @@ function SideIconOverlay() {
           style={styles.sideBarButton}
           onPress={() => setIsLive(true)}
         >
-          <Feather style={styles.iconOpacity} name="video" size={18} color={colors.green} />
+          <Feather style={styles.iconOpacity} name="video" size={18} color={colors.white} />
           <Text style={styles.iconText}>LIVE</Text>
         </TouchableOpacity>
         <CustomAlert
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   iconText: {
     textAlign: "center",
     width: 30, 
-    color: colors.green,
+    color: colors.white,
     fontSize: 7,
     
   },
@@ -138,9 +138,7 @@ const styles = StyleSheet.create({
   backBtn: {
     justifyContent: "center",
   },
-  iconOpacity: {
-    opacity: 0.7,
-  },
+  
 });
 
 export default SideIconOverlay;

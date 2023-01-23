@@ -36,7 +36,6 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
   const [isLightItUp, setLightItUp] = useState(false);
   const [isGifting, setIsGifting] = useState(false);
 
-  const [ckt, setCkt] = useState(false);
   const [isSettingsModalScreenOpen, setIsSettingsModalScreenOpen] =
     useState(false);
   const [isCommentModalOpen, setCommentModalOpen] = useState(false);
@@ -127,26 +126,6 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
         </View>
       </Modal>
       <Text style={styles.statsLabel}>0</Text>
-
-      <TouchableOpacity style={styles.iconContainer}>
-        <CustomAlert
-          alertTitle={
-            <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
-            </Text>
-          }
-          customAlertMessage={<Text>CKT Feed{"\n"}coming soon!</Text>}
-          positiveBtn="Ok"
-          modalVisible={ckt}
-          dismissAlert={setCkt}
-          animationType="fade"
-        />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.globeIcon} onPress={() => setCkt(true)}>
-        <Octicons name="globe" size={30} color={colors.white} />
-      </TouchableOpacity>
-      <Text style={styles.statsLabel}>CKT</Text>
 
       <TouchableOpacity style={styles.iconContainer}>
         <Ionicons

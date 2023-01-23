@@ -105,7 +105,7 @@ export default function SavePostScreen({ route }) {
                 multiline
                 onChangeText={(text) => setDescription(text)}
                 placeholderTextColor="#3d3d3d"
-                placeholder="Describe your post, add hash tags, mention those who inspire you"
+                placeholder="Describe your post, add tags and mentions"
               />
               <Image
                 style={styles.mediaPreview}

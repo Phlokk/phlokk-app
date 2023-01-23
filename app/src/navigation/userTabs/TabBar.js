@@ -9,7 +9,7 @@ import ProfileScreen from "../../screens/profile/ProfileScreen";
 import FeedNavigation from "../feed/FeedNavigation";
 import ActivityScreen from "../../screens/activity/ActivityScreen";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
+import { Entypo } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import SearchNavigation from "../feed/SearchDiscover";
 import { useTheme } from "../../theme/context";
@@ -65,12 +65,16 @@ const TabBar = ({ state, navigation }) => {
           }
           onPress={() => onPress(1)}
         />
-        <MaterialCommunityIcons
+        <EvilIcons name="plus" size={40}
+          color={theme == "light" ? colors.black : colors.secondary}
+          onPress={() => navigation.navigate("Cam")} />
+       
+        {/* <MaterialCommunityIcons
           name="fingerprint"
           size={40}
           color={theme == "light" ? colors.black : colors.secondary}
           onPress={() => navigation.navigate("Cam")}
-        />
+        /> */}
         <Feather
           name="message-square"
           size={25}

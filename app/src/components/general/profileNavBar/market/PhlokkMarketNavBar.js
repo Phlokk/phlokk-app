@@ -25,14 +25,8 @@ export default function PhlokkMarketNavBar({
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() =>
-          navigation.navigate(routes.SELLER, {
-            title: "Ad Account",
-            field: "Seller Dashboard",
-          })
-        }
       >
-        <Octicons name="settings" size={24} color="lightgray" />
+        <Octicons name="settings" size={24} color={colors.primary} />
       </TouchableOpacity>
     </View>
   );

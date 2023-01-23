@@ -71,7 +71,7 @@ function IconOverlay() {
           style={styles.iconOpacity}
           name="movie-edit"
           size={18}
-          color={colors.green}
+          color={colors.white}
         />
         <Text style={styles.iconText}>Edit</Text>
       </TouchableOpacity>
@@ -96,7 +96,7 @@ function IconOverlay() {
           style={styles.iconOpacity}
           name="align-left"
           size={18}
-          color={colors.green}
+          color={colors.white}
         />
         <Text style={styles.iconText}>Text</Text>
       </TouchableOpacity>
@@ -120,7 +120,7 @@ function IconOverlay() {
           style={styles.iconOpacity}
           name="scissors"
           size={18}
-          color={colors.green}
+          color={colors.white}
         />
         <Text style={styles.iconText}>Trim</Text>
       </TouchableOpacity>
@@ -133,7 +133,7 @@ function IconOverlay() {
           style={styles.iconOpacity}
           name="magic"
           size={18}
-          color={colors.green}
+          color={colors.white}
         />
         <Text style={styles.iconTextFx}>FX</Text>
       </TouchableOpacity>
@@ -159,7 +159,7 @@ function IconOverlay() {
           style={styles.iconOpacity}
           name="waveform"
           size={18}
-          color={colors.green}
+          color={colors.white}
         />
 
         <Text style={styles.iconText}>Wav</Text>
@@ -182,12 +182,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   iconText: {
-    color: colors.green,
+    color: colors.white,
     fontSize: 7,
     marginTop: 1,
   },
   iconTextFx: {
-    color: colors.green,
+    color: colors.white,
     fontSize: 7,
     marginTop: 1,
     top: 2,
