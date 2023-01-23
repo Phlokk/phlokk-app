@@ -193,6 +193,8 @@ const styles = StyleSheet.create({
     
   },
  sideBarButton: {
+    shadowColor: '#ffffff',
+    shadowOpacity: 0.2,
     padding: 1,
     margin: 15,
     top: -5, 
@@ -208,9 +210,7 @@ const styles = StyleSheet.create({
   backBtn: {
     justifyContent: "center",
   },
-  iconOpacity: {
-    opacity: 0.7,
-  },
+ 
   sideBarButtonView: {
     right: 10,
     backgroundColor: 'rgba(125, 125, 125, 0.2)',

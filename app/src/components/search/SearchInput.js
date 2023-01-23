@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   textInput_dark: {
     color: colors.green,
-    borderColor: colors.green,
+    borderColor: colors.secondary,
     borderWidth: 0.5,
     borderRadius: 50,
     flexDirection: "row",

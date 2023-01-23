@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   songRow: {
-    marginLeft: 7,
+    marginLeft: 9,
     flexDirection: "row",
     alignItems: "center",
     width: 150,
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
   },
   soundWav: {
     paddingRight: 3, 
-    right: 7,
+    right: 4,
   },
   addFriendBtnView: {
     zIndex: 1,

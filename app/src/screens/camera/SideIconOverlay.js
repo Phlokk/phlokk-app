@@ -128,10 +128,8 @@ const styles = StyleSheet.create({
   sideBarButton: {
     padding: 1,
     margin: 15,
-    // borderWidth: 0.7,
-    // borderColor: colors.secondary,
-    // borderRadius: 7,
-    
+    shadowColor: '#ffffff',
+    shadowOpacity: 0.2,
     paddingHorizontal: 10, 
     justifyContent: "space-between",
     alignItems: "center",

@@ -80,7 +80,7 @@ const SearchScreen = () => {
       <View style={styles.hashRow}>
         <TouchableOpacity>
           <Text style={styles.catText}>
-            <Octicons name="globe" size={14} color={colors.green} />
+            <Octicons name="globe" size={14} color={colors.secondary} />
           </Text>
         </TouchableOpacity>
         <TouchableOpacity>
@@ -114,6 +114,7 @@ const SearchScreen = () => {
       />
       <View style={styles.risingStarView}>
         <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+        <Entypo name="star" size={12} color={colors.secondary} />
           Rising stars
         </Text>
 
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
   },
   item_light: {
     padding: 3,
-    borderColor: colors.secondary,
+    backgroundColor: 'rgba(125, 125, 125, 0.2)',
     width: 65,
     height: 30,
     borderRadius: 7,
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
   },
   item_dark: {
     padding: 3,
-    borderColor: colors.green,
+    backgroundColor: 'rgba(125, 125, 125, 0.2)',
     width: 65,
     height: 30,
     borderRadius: 7,
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
   },
   itemText_dark: {
     fontSize: 9,
-    color: colors.green,
+    color: colors.secondary,
     textAlign: "center",
     fontWeight: "bold",
   },
