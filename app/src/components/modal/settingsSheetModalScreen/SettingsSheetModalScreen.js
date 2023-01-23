@@ -44,6 +44,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
     try {
       const ShareResponse = await Share.open(shareOptions);
       JSON.stringify(ShareResponse);
+      setIsShare(true);
     } catch (error) {
       setIsSharedFailed(true);
     }
@@ -232,7 +233,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
             <MaterialIcons name="info" size={24} color={colors.green} />
           </Text>
         }
-        customAlertMessage={<Text>Share{"\n"}coming soon!</Text>}
+        customAlertMessage={<Text>You have shared this video successfully</Text>}
         positiveBtn="Ok"
         modalVisible={isShare}
         dismissAlert={setIsShare}
@@ -259,7 +260,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
           </Text>
         }
         customAlertMessage={
-          <Text>Video has failed to share!</Text>
+          <Text>Share was cancelled!{"\n"} Please select recipient to share video</Text>
         }
         positiveBtn="Ok"
         modalVisible={isSharedFailed}

@@ -145,6 +145,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
     <View
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
+      <View style={styles.countRow}>
       <Text
         style={
           theme == "light"
@@ -152,8 +153,18 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             : styles.postCountText_dark
         }
       >
-        {commentCount} comments
+        Comments {commentCount}
       </Text>
+      <Text
+        style={
+          theme == "light"
+            ? styles.postCountText_light
+            : styles.postCountText_dark
+        }
+      >
+        Stars {post.like_count}
+      </Text>
+      </View>
 
       <View style={styles.containerInput}>
         {!user?.photo_thumb_url  ? (
@@ -280,12 +291,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.black,
     textAlign: "center",
+    marginHorizontal: 15,
   },
   postCountText_dark: {
     fontSize: 10,
     fontWeight: "bold",
     color: colors.secondary,
     textAlign: "center",
+    marginHorizontal: 15,
   },
   closeButton: {
     top: Platform.OS === "android" ? 7 : 2,
@@ -297,6 +310,13 @@ const styles = StyleSheet.create({
     right: 3.2,
     position: "absolute",
     color: colors.white,
+  },
+  countRow: {
+    marginTop: 5, 
+    marginBottom: 5,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   }
 });
 
