@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Pressable, StyleSheet} from 'react-native';
+import {View, Text, Pressable, StyleSheet} from 'react-native';
 import {Video, Audio} from 'expo-av';
 import {useIsFocused} from '@react-navigation/native';
 import {FontAwesome5} from '@expo/vector-icons';
@@ -61,6 +61,8 @@ const VideoItem = ({
 		});
 	}
 
+
+
 	return (
 		<View style={{height: itemHeight, backgroundColor: 'black'}}>
 			<Pressable style={{flex: 1}} onPress={playPauseVideo}>
@@ -96,6 +98,17 @@ const VideoItem = ({
 						color={colors.white}
 						style={styles.pauseIcon}
 					/>
+				)}
+				{!shouldPlay && (
+				<View style={styles.playView}>
+					<FontAwesome5
+						name="play"
+						size={14}
+						color={colors.white}
+						style={styles.playCountBtn}
+					/>
+					<Text style={styles.viewCount}>{item?.play_count ?? 0}</Text>
+				</View>
 				)}
 			</Pressable>
 
@@ -152,8 +165,21 @@ const styles = StyleSheet.create({
 	pauseIcon: {
 		position: 'absolute',
 		opacity: 0.25,
-		top: '45%',
+		top: '50%',
 		left: '45%',
+	},
+	playView: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		position: 'absolute',
+		borderRadius: 50, 
+		padding: 5,
+		flex: 1,
+		width: 150,
+		backgroundColor: 'rgba(125, 125, 125, 0.2)',
+		top: '6%',
+		left: '32%',
 	},
 	bottomGradientWrapper: {
 		position: 'absolute',
@@ -168,8 +194,13 @@ const styles = StyleSheet.create({
 		right: 0,
 		bottom: 20,
 		marginHorizontal: -4,
-		
-		
+	},
+	viewCount: {
+		color: colors.white,
+	},
+	playCountBtn: {
+		marginRight: 6, 
+
 	},
 
 });

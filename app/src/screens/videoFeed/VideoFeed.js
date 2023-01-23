@@ -4,14 +4,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  Animated,
   FlatList,
   useWindowDimensions,
   Platform,
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
 import VideoItem from "./VideoItem";
 import { Octicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -37,7 +35,6 @@ const VideoFeed = ({ navigation, route }) => {
 
   const [pageSize, setPageSize] = useState(); // Used for making a the flatlist full screen
   const [postFeed, setPostFeed] = useState([]);
-  const [marketAlert, setMarketAlert] = useState(false);
   const [areTabsShowing, setAreTabsShowing] = useState();
 
   const [ckt, setCkt] = useState(false);
@@ -220,7 +217,7 @@ const VideoFeed = ({ navigation, route }) => {
         }}
         style={{
           position: "absolute",
-          top: Platform.OS === "android" ? 28 : 45,
+          top: Platform.OS === "android" ? 28 : 52,
           left: 18,
         }}
       >
@@ -240,31 +237,17 @@ const VideoFeed = ({ navigation, route }) => {
           />
         )}
       </TouchableOpacity>
-
-      <CustomAlert
-        customAlertMessage={
-          <Text>Phlokk Market{"\n"}coming in official release</Text>
-        }
-        positiveBtn="Ok"
-        modalVisible={marketAlert}
-        dismissAlert={setMarketAlert}
-        animationType="fade"
-      />
       <TouchableOpacity
         style={{
           position: "absolute",
-          top: Platform.OS === "android" ? 28 : 46.5,
+          top: Platform.OS === "android" ? 28 : 52,
           right: 18,
         }}
-        // onPress={() => { navigation.navigate(routes.MARKET)}
         onPress={() => setCkt(true)}
       >
         <Octicons name="globe" size={25} color={colors.white} />
-        {/* <Entypo name="shop" size={24} color={colors.white} /> */}
       </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.globeIcon} onPress={() => setCkt(true)}>
-        <Octicons name="globe" size={30} color={colors.white} />
-      </TouchableOpacity> */}
+
       <CustomAlert
           alertTitle={
             <Text>
