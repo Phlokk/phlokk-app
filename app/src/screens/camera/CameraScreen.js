@@ -461,7 +461,42 @@ export default function CameraScreen({ route }) {
             <Feather name="zap" size={24} color={colors.white} />
             <Text style={styles.iconText}>Flash</Text>
           </TouchableOpacity>
+          {!isRecording && (
+            <View
+              style={{
+                position: "absolute",
+                right: 0,
+                left: 0,
+                top: 140,
+                bottom: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              pointerEvents="box-none"
+            >
+              <TouchableOpacity
+                onPress={() => pickFromGallery()}
+                style={styles.galleryButton}
+              >
+                {galleryItems[0] == undefined ? (
+                  <></>
+                ) : (
+                  <Image
+                    style={styles.galleryButtonImage}
+                    source={{ uri: galleryItems[0].uri }}
+                  />
+                )}
+                <Text style={styles.uploadText}>Upload</Text>
+              </TouchableOpacity>
+            </View>
+            
+          )}
+          <View style={styles.uploadView}>
+              <Text style={styles.iconText}>Upload</Text>
+              </View>
+
         </View>
+        
       )}
 
       
@@ -520,20 +555,18 @@ export default function CameraScreen({ route }) {
               />
             </View>
           </View>
-          {/* <TouchableOpacity
-            onPress={() => {
-              PlayAudio();
-            }}
-          >
-            <Text style={styles.cameraExtraBtn}>Play Audio</Text>
-          </TouchableOpacity> */}
+          
           {!isRecording && (
             <View
               style={{
+                backgroundColor: 'rgba(125, 125, 125, 0.4)',
+                width: 40,
+                height: 40, 
+                borderRadius: 50,
                 position: "absolute",
                 right: 0,
-                left: 0,
-                top: 0,
+                left: 280,
+                top: 45,
                 bottom: 0,
                 justifyContent: "center",
                 alignItems: "center",
@@ -541,19 +574,10 @@ export default function CameraScreen({ route }) {
               pointerEvents="box-none"
             >
               <TouchableOpacity
-                onPress={() => pickFromGallery()}
-                style={styles.galleryButton}
-              >
-                {galleryItems[0] == undefined ? (
-                  <></>
-                ) : (
-                  <Image
-                    style={styles.galleryButtonImage}
-                    source={{ uri: galleryItems[0].uri }}
-                  />
-                )}
+                onPress={() => {}}
+                >
+                <MaterialIcons name="settings-backup-restore" size={35} color={colors.white} />
               </TouchableOpacity>
-              <Text style={styles.uploadText}>Upload</Text>
             </View>
           )}
         </View>
@@ -643,17 +667,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   galleryButton: {
-    borderWidth: 1,
-    borderColor: colors.white,
-    borderRadius: 10,
+    borderWidth: 0.7,
+    borderColor: colors.secondary,
+    borderRadius: 7,
     overflow: "hidden",
-    width: 50,
-    height: 50,
-    marginLeft: 200,
+    width: 30,
+    height: 30,
+    
   },
   galleryButtonImage: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
   },
   sideBarContainer: {
     top: 50,
@@ -715,15 +739,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: colors.green,
   },
-  uploadText: {
-    fontSize: 8,
-    fontWeight: "bold",
-    color: colors.white,
-    position: "absolute",
-    right: Platform.OS === "ios" ? 90 : 84,
-    bottom: 7,
-  },
   cameraExtraBtn: {
     color: colors.white,
+  },
+  uploadText: {
+    color: colors.white,
+    top: 60, 
+    fontWeight: "bold",
+
+  },
+  uploadView: {
+    top: 40, 
+
   },
 });

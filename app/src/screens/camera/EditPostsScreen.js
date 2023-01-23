@@ -65,10 +65,7 @@ export default function EditPostsScreen({ route }) {
       />
 
       <View style={styles.sideBarContainer}>
-        <IconOverlay 
-        videoUrl={videoUrl} 
-        videoThumb={videoThumb}
-        />
+        <IconOverlay />
       </View>
       
       <View style={styles.buttonsContainer}>
@@ -102,12 +99,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
   },
   sideBarContainer: {
-    top: 5, 
-    flexDirection: "row",
-    alignItems: "center",
-    
-   
-    
+    position: "absolute",
+    top: 40,
+    bottom: 0,
+    right: 0,
+    left: 350,
+    flex: 1, 
   },
   iconText: {
     color: colors.white,
@@ -136,24 +133,25 @@ const styles = StyleSheet.create({
   backButton: {
     alignItems: "center",
     flex: 1,
-    borderColor: colors.secondary,
+    backgroundColor: 'rgba(125, 125, 125, 0.1)',
+    borderRadius: 50, 
     borderWidth: 0.5,
+    borderColor: colors.secondary,
     flexDirection: "row",
     paddingVertical: 10,
     justifyContent: "center",
-    borderRadius: 4,
     marginRight: 10,
   },
   postButton: {
     alignItems: "center",
     flex: 1,
-    backgroundColor: colors.black,
-    borderColor: colors.secondary,
+    backgroundColor: 'rgba(125, 125, 125, 0.1)',
+    borderRadius: 50, 
     borderWidth: 0.5,
+    borderColor: colors.green,
     flexDirection: "row",
     paddingVertical: 10,
     justifyContent: "center",
-    borderRadius: 4,
     marginRight: 10,
   },
   backButtonText: {

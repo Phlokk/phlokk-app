@@ -24,19 +24,20 @@ function SideIconOverlay() {
 
   return (
     <View style={styles.iconRow}>
+      <View style={styles.sideBarButtonView}>
       <TouchableOpacity
-            // onPress={() => navigation.navigate(routes.DRAFTS)}
+
             onPress={() => navigation.goBack()}
-            style={styles.sideBarButton}
+            style={styles.sideBarBackButton}
           > 
-            <MaterialIcons style={styles.iconOpacity} name="arrow-left" size={28} color={colors.red} />
+            <MaterialIcons name="arrow-left" size={28} color={colors.red} />
             
-          </TouchableOpacity>
+      </TouchableOpacity>
         <TouchableOpacity
           style={styles.sideBarButton}
           onPress={() => setSpeed(true)}
         >
-          <Octicons style={styles.iconOpacity} name="dashboard" size={18} color={colors.white} />
+          <Octicons name="dashboard" size={18} color={colors.white} />
           <Text style={styles.iconText}>Speed</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -44,7 +45,7 @@ function SideIconOverlay() {
           onPress={() => setReplies(true)}
         >
           <MaterialIcons
-          style={styles.iconOpacity}
+        
             name="chat-bubble-outline"
             size={18}
             color={colors.white}
@@ -56,7 +57,7 @@ function SideIconOverlay() {
           style={styles.sideBarButton}
           onPress={() => navigation.navigate(routes.SOUNDS)}
         >
-          <MaterialCommunityIcons style={styles.iconOpacity} name="waveform" size={18} color={colors.white}  />
+          <MaterialCommunityIcons name="waveform" size={18} color={colors.white}  />
           <Text style={styles.iconText}>Wav</Text>
         </TouchableOpacity>
 
@@ -64,7 +65,7 @@ function SideIconOverlay() {
           style={styles.sideBarButton}
           onPress={() => setIsLive(true)}
         >
-          <Feather style={styles.iconOpacity} name="video" size={18} color={colors.white} />
+          <Feather name="video" size={18} color={colors.white} />
           <Text style={styles.iconText}>LIVE</Text>
         </TouchableOpacity>
         <CustomAlert
@@ -103,6 +104,7 @@ function SideIconOverlay() {
           dismissAlert={setIsLive}
           animationType="fade"
         />
+        </View>
     </View>
   );
 }
@@ -124,12 +126,24 @@ const styles = StyleSheet.create({
     
   },
   sideBarButton: {
-    padding: 5,
+    padding: 1,
+    margin: 15,
+    // borderWidth: 0.7,
+    // borderColor: colors.secondary,
+    // borderRadius: 7,
+    
+    paddingHorizontal: 10, 
+    justifyContent: "space-between",
+    alignItems: "center",
+    
+  },
+  sideBarBackButton: {
+    
     margin: 15,
     borderWidth: 0.7,
     borderColor: colors.secondary,
-    borderRadius: 7,
-    top: 30,
+    borderRadius: 50,
+    
     paddingHorizontal: 10, 
     justifyContent: "space-between",
     alignItems: "center",
@@ -137,6 +151,13 @@ const styles = StyleSheet.create({
   },
   backBtn: {
     justifyContent: "center",
+  },
+  sideBarButtonView: {
+    top: 30,
+    flexDirection: "row",
+    backgroundColor: 'rgba(125, 125, 125, 0.2)',
+    borderRadius: 50, 
+
   },
   
 });

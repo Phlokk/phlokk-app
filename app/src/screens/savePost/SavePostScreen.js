@@ -150,7 +150,7 @@ export default function SavePostScreen({ route }) {
             <CustomSwitch />
           </ScrollView>
         </View>
-        <Text style={styles.shareText}>Automatically share to:</Text>
+        <Text style={styles.shareText}>Share to:</Text>
         <View style={styles.shareContainer}>
           <TouchableOpacity>
             <Feather style={styles.shareIcon} name="message-circle" size={35} />
@@ -348,25 +348,27 @@ const styles = StyleSheet.create({
   draftsButton: {
     alignItems: "center",
     flex: 1,
-    borderColor: colors.white,
+    backgroundColor: 'rgba(125, 125, 125, 0.1)',
+    borderRadius: 50, 
     borderWidth: 0.5,
+    borderColor: colors.secondary,
     flexDirection: "row",
     paddingVertical: 10,
     paddingHorizontal: 20,
     justifyContent: "center",
-    borderRadius: 4,
     marginRight: 10,
   },
   postButton: {
     alignItems: "center",
     flex: 1,
-    borderColor: colors.green,
+    backgroundColor: 'rgba(125, 125, 125, 0.1)',
+    borderRadius: 50, 
     borderWidth: 0.5,
+    borderColor: colors.green,
     flexDirection: "row",
     paddingVertical: 10,
     paddingHorizontal: 20,
     justifyContent: "center",
-    borderRadius: 4,
     marginRight: 10,
   },
   draftsButtonText: {

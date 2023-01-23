@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, Easing, Platform, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
-import { Entypo } from '@expo/vector-icons'; 
+
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
@@ -11,14 +11,31 @@ import colors from "../../../../../config/colors";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import * as Linking from "expo-linking";
 import TextTicker from "react-native-text-ticker";
-
 import RisingStarFeed from "../../../common/RisingStarFeed";
+import AddFriendBtn from "./AddFriendBtn";
+import axios from "../../../../redux/apis/axiosDeclaration";
 
 
 
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
-function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
+
+
+function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsShowing }) {
+  
+
+    const [following, setFollowing] = useState(user?.follow_count);
+    const [isFollowing, setIsFollowing] = useState(user?.is_following);
+
+    const toggleIsFollowing = async function (userId) {
+    await axios.post(
+      "/api/creator/" + userId + "/" + (isFollowing ? "unfollow" : "follow")
+    ),
+      {};
+    setIsFollowing(!isFollowing);
+    setFollowing(!isFollowing ? following + 1 : following - 1);
+  }
+
   const navigation = useNavigation();
   const username = user.username;
 
@@ -40,10 +57,20 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
       <View pointerEvents="box-none">
         <View style={styles.avatarContainer}>
           <View style={styles.addFriendBtnView}>
-
-            <TouchableOpacity>
-          <Entypo name="circle-with-plus" size={30} color={colors.green} />
+          {!isCurrentUser && currentUser._id !== post.user._id && (
+            <TouchableOpacity
+            onPress={() => toggleIsFollowing(user._id)}
+            >
+             <Text
+                >
+                  {isFollowing ? (
+                    null
+                  ) : (
+                    <AddFriendBtn />
+                  )}
+                </Text> 
           </TouchableOpacity>
+          )}
           </View>
           <TouchableOpacity
             disabled={currentUser._id == post.user._id}

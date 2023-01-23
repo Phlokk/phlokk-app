@@ -19,7 +19,7 @@ import { Entypo } from "@expo/vector-icons";
 // import uuid from 'uuid-random';
 
 import routes from "../../navigation/routes";
-function IconOverlay() {
+const IconOverlay = () => {
   const navigation = useNavigation();
 
   const [textFrames, setTextFrames] = useState(false);
@@ -50,19 +50,9 @@ function IconOverlay() {
   //   }
 
   return (
-    <View style={styles.iconRow}>
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <MaterialIcons name="info" size={24} color={colors.green} />
-          </Text>
-        }
-        customAlertMessage={<Text>Timeline Editing{"\n"}coming soon!</Text>}
-        positiveBtn="Ok"
-        modalVisible={isSeconds}
-        dismissAlert={setIsSeconds}
-        animationType="fade"
-      />
+    <View>
+
+      <View style={styles.sideBarButtonView}>
       <TouchableOpacity
         style={styles.sideBarButton}
         onPress={() => setIsSeconds(true)}
@@ -76,18 +66,7 @@ function IconOverlay() {
         <Text style={styles.iconText}>Edit</Text>
       </TouchableOpacity>
 
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <MaterialIcons name="info" size={24} color={colors.green} />
-          </Text>
-        }
-        customAlertMessage={<Text>Text w/ keyframes{"\n"}coming soon!</Text>}
-        positiveBtn="Ok"
-        modalVisible={textFrames}
-        dismissAlert={setTextFrames}
-        animationType="fade"
-      />
+      
       <TouchableOpacity
         style={styles.sideBarButton}
         onPress={() => setTextFrames(true)}
@@ -100,18 +79,7 @@ function IconOverlay() {
         />
         <Text style={styles.iconText}>Text</Text>
       </TouchableOpacity>
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <MaterialIcons name="info" size={24} color={colors.green} />
-          </Text>
-        }
-        customAlertMessage={<Text>Trim video{"\n"}coming soon!</Text>}
-        positiveBtn="Ok"
-        modalVisible={trimming}
-        dismissAlert={setTrimming}
-        animationType="fade"
-      />
+      
       <TouchableOpacity
         style={styles.sideBarButton}
         onPress={() => setTrimming(true)}
@@ -137,18 +105,7 @@ function IconOverlay() {
         />
         <Text style={styles.iconTextFx}>FX</Text>
       </TouchableOpacity>
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <MaterialIcons name="info" size={24} color={colors.green} />
-          </Text>
-        }
-        customAlertMessage={<Text>FX{"\n"}coming soon!</Text>}
-        positiveBtn="Ok"
-        modalVisible={fX}
-        dismissAlert={setFx}
-        animationType="fade"
-      />
+      
       <TouchableOpacity
         style={styles.sideBarButton}
         // onPress={() => setSoundBar(true)}
@@ -164,6 +121,55 @@ function IconOverlay() {
 
         <Text style={styles.iconText}>Wav</Text>
       </TouchableOpacity>
+      </View>
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Text w/ keyframes{"\n"}coming soon!</Text>}
+        positiveBtn="Ok"
+        modalVisible={textFrames}
+        dismissAlert={setTextFrames}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Timeline Editing{"\n"}coming soon!</Text>}
+        positiveBtn="Ok"
+        modalVisible={isSeconds}
+        dismissAlert={setIsSeconds}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Trim video{"\n"}coming soon!</Text>}
+        positiveBtn="Ok"
+        modalVisible={trimming}
+        dismissAlert={setTrimming}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>FX{"\n"}coming soon!</Text>}
+        positiveBtn="Ok"
+        modalVisible={fX}
+        dismissAlert={setFx}
+        animationType="fade"
+      />
     </View>
   );
 }
@@ -173,40 +179,43 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  iconRow: {
-    top: -10,
-    paddingHorizontal: 20,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flex: 1,
-    flexDirection: "row",
-  },
   iconText: {
     color: colors.white,
     fontSize: 7,
     marginTop: 1,
+    width: 20,
   },
   iconTextFx: {
     color: colors.white,
     fontSize: 7,
     marginTop: 1,
     top: 2,
+    
   },
-  sideBarButton: {
-    padding: 5,
-    borderWidth: 0.7,
-    borderColor: colors.secondary,
-    borderRadius: 7,
-    paddingHorizontal: 15,
+ sideBarButton: {
+    padding: 1,
+    margin: 15,
+    top: -5, 
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 20,
+  },
+  sideBarNextButton: {
+    padding: 1,
+    top: 10, 
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   backBtn: {
     justifyContent: "center",
   },
   iconOpacity: {
     opacity: 0.7,
+  },
+  sideBarButtonView: {
+    right: 10,
+    backgroundColor: 'rgba(125, 125, 125, 0.2)',
+    borderRadius: 50, 
+
   },
 });
 

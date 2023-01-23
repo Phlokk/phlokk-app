@@ -19,7 +19,7 @@ import VerifiedIcon from "../../common/VerifiedIcon";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "../../../redux/apis/axiosDeclaration";
 
-function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
+function BioSheetModalScreen({ user, isCurrentUser }) {
   const [following, setFollowing] = useState(user?.follow_count);
   const [isFollowing, setIsFollowing] = useState(user?.is_following);
   // const [isFriends, setIsFriends] = useState(false);
@@ -31,13 +31,6 @@ function BioSheetModalScreen({ user, isCurrentUser, setUser }) {
       {};
     setIsFollowing(!isFollowing);
     setFollowing(!isFollowing ? following + 1 : following - 1);
-
-    setUser((prev) => {
-      let updatedUser = { ...prev };
-      updatedUser.is_following = !isFollowing;
-      updatedUser.follow_count = !isFollowing ? following + 1 : following - 1;
-      return updatedUser;
-    });
   };
 
   return (
