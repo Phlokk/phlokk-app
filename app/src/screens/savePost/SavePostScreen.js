@@ -308,6 +308,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   inputText: {
+    top: Platform.OS === "android" ? -45 : 0,
     paddingVertical: 10,
     marginRight: 20,
     flex: 1,

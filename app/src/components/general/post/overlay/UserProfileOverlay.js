@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, Easing, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity, Easing, Platform, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons'; 
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
@@ -38,6 +39,12 @@ function UserProfileOverlay({ post, user, currentUser, areTabsShowing }) {
     >
       <View pointerEvents="box-none">
         <View style={styles.avatarContainer}>
+          <View style={styles.addFriendBtnView}>
+
+            <TouchableOpacity>
+          <Entypo name="circle-with-plus" size={30} color={colors.green} />
+          </TouchableOpacity>
+          </View>
           <TouchableOpacity
             disabled={currentUser._id == post.user._id}
             onPress={() => {
@@ -154,7 +161,7 @@ const styles = StyleSheet.create({
     right: 5,
     flex: 1,
     backgroundColor: 'rgba(125, 125, 125, 0.2)',
-    width: 240,
+    width: Platform.OS === "android" ? 210 : 240,
     borderRadius: 50,  
 
   },
@@ -262,5 +269,10 @@ const styles = StyleSheet.create({
   soundWav: {
     paddingRight: 3, 
     right: 7,
-  }
+  },
+  addFriendBtnView: {
+    zIndex: 1,
+    top: 20,
+    left: 30,
+  },
 });

@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: 150,
 		backgroundColor: 'rgba(125, 125, 125, 0.2)',
-		top: '6%',
+		top: Platform.OS === "android" ? "4%" : "6%",
 		left: '32%',
 	},
 	bottomGradientWrapper: {

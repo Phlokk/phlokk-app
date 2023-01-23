@@ -11,6 +11,7 @@ import InfoScreenNav from "../../components/general/navBar/InfoScreenNav";
 import { userAtom } from "../../services/appStateAtoms";
 import { useAtom } from "jotai";
 import { useTheme } from "../../theme/context";
+import CustomAlert from "../../components/Alerts/CustomAlert";
 
 export default function EditInstagramScreen({ route }) {
   const { theme } = useTheme();
