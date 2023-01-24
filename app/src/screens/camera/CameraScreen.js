@@ -122,25 +122,28 @@ export default function CameraScreen({ route }) {
       if (Platform.OS === "ios") {
         options.codec = Camera.Constants.VideoCodec.H264;
       }
-      if (route.params !== undefined) {
-        PlayAudio();
-      }
+      
       const videoRecordPromise = cameraRef.recordAsync(options);
 
       setIsRecording(true);
       if (videoRecordPromise) {
+        if (route.params !== undefined) {
+          PlayAudio();
+        }
         await videoRecordPromise
           .then((data) => {
+           
             return data.uri;
           })
           .then(async (source) => {
-            const sourceThumb = await generateThumbnail(source);
+           
 
             setIsRecording(false);
             clearInterval(recordingTimerRef.current);
             setRecordingTime(0);
             stopVideo();
             pauseAudio();
+            const sourceThumb = await generateThumbnail(source);
             if (route.params === undefined) {
               navigation.navigate("editPosts", { source, sourceThumb });
             } else {
@@ -219,45 +222,62 @@ export default function CameraScreen({ route }) {
     const outputFilePath =
       FileSystem.cacheDirectory + "Camera/" + uuid() + "." + ext;
 
-    await FFprobeKit.getMediaInformation(source).then(async (session) => {
+    //await FFmpegKit.getMediaInformation(source).then(async (session) => {
       // console.log(FFmpegKitConfig.sessionStateToString(await session.getState()), "session");
 
-   
-      await session.getDuration().then((duration) => {
-        setDuration(secondsToHms(duration));
-        console.log("duration====>>>>", parseFloat(duration), "<====");
+      const ffprobeCommand = "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "+source;
+      await FFprobeKit.execute(ffprobeCommand).then(async (session) => {
+        const state = FFmpegKitConfig.sessionStateToString(await session.getState());
+        console.log(state + "<<<<====state");
+        const returnCode = await session.getReturnCode();
+        console.log('return Code'+returnCode);
+        const output = await session.getOutput();
+        console.log(output, "<<<output");
+        setDuration(output.trim());
+        console.log("duration====>>>>", duration, "<====");
+        if (
+          route.params.item.sound_url.endsWith(".mp3") ||
+          route.params.item.sound_url.endsWith(".aac")
+        ) {
+          // ffmpegCommand =
+          //   "-i " +
+          //   source +
+          //   " -i " +
+          //   route.params.item.sound_url +
+          //   " -map 0:v -map 1:a -c:v copy -c:a copy " +
+          //   outputFilePath +
+          //   " -y";
+          ffmpegCommand =
+            "-i " +
+            source +
+            " -ss 00:00:00.50 -t "+secondsToHms(output.trim())+" -i " +
+            route.params.item.sound_url +
+            " -map 0:v -map 1:a -c:v copy -c:a copy " +
+            outputFilePath +
+            " -y";
+        }
+        if (
+          route.params.item.sound_url.endsWith(".m4a") ||
+          route.params.item.sound_url.endsWith(".ogg") ||
+          route.params.item.sound_url.endsWith(".wav")
+        ) {
+          ffmpegCommand =
+            "-i " +
+            source +
+            " -i " +
+            route.params.item.sound_url +
+            " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
+            outputFilePath +
+            " -y";
+        }
+        
+          console.log("ffmpegCommand==>>>>" + ffmpegCommand);
       });
 
-      if (
-        route.params.item.sound_url.endsWith(".mp3") ||
-        route.params.item.sound_url.endsWith(".aac")
-      ) {
-        ffmpegCommand =
-          "-i " +
-          source +
-          " -i " +
-          route.params.item.sound_url +
-          " -map 0:v -map 1:a -c:v copy -c:a copy " +
-          outputFilePath +
-          " -y";
-      }
-      if (
-        route.params.item.sound_url.endsWith(".m4a") ||
-        route.params.item.sound_url.endsWith(".ogg") ||
-        route.params.item.sound_url.endsWith(".wav")
-      ) {
-        ffmpegCommand =
-          "-i " +
-          source +
-          " -i " +
-          route.params.item.sound_url +
-          " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
-          outputFilePath +
-          " -y";
-      }
+     
 
      // -ss 00:00:00 -t "+duration+"
-    });
+    // });
     await FFmpegKit.execute(ffmpegCommand);
     return outputFilePath;
   };
