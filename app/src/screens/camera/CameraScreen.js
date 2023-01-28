@@ -30,7 +30,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
-import routes from "../../navigation/routes";
+// import routes from "../../navigation/routes";
 import SideIconOverlay from "./SideIconOverlay";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 
@@ -114,62 +114,59 @@ export default function CameraScreen({ route }) {
         setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
       }, RECORDING_TIME_TICK);
 
-      //try {
-      const options = {
-        maxDuration: MAX_DURATION,
-        quality: Camera.Constants.VideoQuality["720p"],
-      };
-      if (Platform.OS === "ios") {
-        options.codec = Camera.Constants.VideoCodec.H264;
-      }
-      
-      const videoRecordPromise = cameraRef.recordAsync(options);
-
-      setIsRecording(true);
-      if (videoRecordPromise) {
-        if (route.params !== undefined) {
-          PlayAudio();
+      try {
+        const options = {
+          maxDuration: MAX_DURATION,
+          quality: Camera.Constants.VideoQuality["720p"],
+        };
+        if (Platform.OS === "ios") {
+          options.codec = Camera.Constants.VideoCodec.H264;
         }
-        await videoRecordPromise
-          .then((data) => {
-           
-            return data.uri;
-          })
-          .then(async (source) => {
-           
 
-            setIsRecording(false);
-            clearInterval(recordingTimerRef.current);
-            setRecordingTime(0);
-            stopVideo();
-            pauseAudio();
-            const sourceThumb = await generateThumbnail(source);
-            if (route.params === undefined) {
-              navigation.navigate("editPosts", { source, sourceThumb });
-            } else {
-              await generateVideo(source).then((outputFilePath) => {
-                console.log(outputFilePath, "<<<<====outputFilePath");
-                navigation.navigate("editPosts", {
-                  source: outputFilePath,
-                  sourceThumb,
+        const videoRecordPromise = cameraRef.recordAsync(options);
+
+        setIsRecording(true);
+        if (videoRecordPromise) {
+          if (route.params !== undefined) {
+            PlayAudio();
+          }
+          await videoRecordPromise
+            .then((data) => {
+              return data.uri;
+            })
+            .then(async (source) => {
+              setIsRecording(false);
+              clearInterval(recordingTimerRef.current);
+              setRecordingTime(0);
+              stopVideo();
+              pauseAudio();
+              const sourceThumb = await generateThumbnail(source);
+              if (route.params === undefined) {
+                navigation.navigate("editPosts", { source, sourceThumb });
+              } else {
+                await generateVideo(source).then((outputFilePath) => {
+                  console.log(outputFilePath, "<<<<====outputFilePath");
+                  navigation.navigate("editPosts", {
+                    source: outputFilePath,
+                    sourceThumb,
+                  });
                 });
-              });
-            }
-          });
+              }
+            });
+        }
+      } catch (error) {
+        clearInterval(recordingTimerRef.current);
+        setRecordingTime(0);
+        Alert.alert("Video cannot record");
+        setIsRecording(false);
       }
-      // } catch (error) {
-      //   clearInterval(recordingTimerRef.current);
-      //   setRecordingTime(0);
-      //   Alert.alert("Video cannot record");
-      //   setIsRecording(false);
-      // }
     }
     setIsRecording(false);
   };
 
   const stopVideo = async () => {
     if (cameraRef) {
-      cameraRef.stopRecording();
+      await cameraRef.stopRecording();
     }
     clearInterval(recordingTimerRef.current);
     setRecordingTime(0);
@@ -210,10 +207,16 @@ export default function CameraScreen({ route }) {
     d = Number(d);
 
     var h = Math.floor(d / 3600);
-    var m = Math.floor(d % 3600 / 60);
-    var s = Math.floor(d % 3600 % 60);
+    var m = Math.floor((d % 3600) / 60);
+    var s = Math.floor((d % 3600) % 60);
 
-    return ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
+    return (
+      ("0" + h).slice(-2) +
+      ":" +
+      ("0" + m).slice(-2) +
+      ":" +
+      ("0" + s).slice(-2)
+    );
   };
 
   const generateVideo = async (source) => {
@@ -222,62 +225,48 @@ export default function CameraScreen({ route }) {
     const outputFilePath =
       FileSystem.cacheDirectory + "Camera/" + uuid() + "." + ext;
 
-    //await FFmpegKit.getMediaInformation(source).then(async (session) => {
-      // console.log(FFmpegKitConfig.sessionStateToString(await session.getState()), "session");
+    const ffprobeCommand =
+      "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " +
+      source;
+    await FFprobeKit.execute(ffprobeCommand).then(async (session) => {
+      const state = FFmpegKitConfig.sessionStateToString(
+        await session.getState()
+      );
+      const returnCode = await session.getReturnCode();
+      const output = await session.getOutput();
+      setDuration(output.trim());
 
-      const ffprobeCommand = "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "+source;
-      await FFprobeKit.execute(ffprobeCommand).then(async (session) => {
-        const state = FFmpegKitConfig.sessionStateToString(await session.getState());
-        console.log(state + "<<<<====state");
-        const returnCode = await session.getReturnCode();
-        console.log('return Code'+returnCode);
-        const output = await session.getOutput();
-        console.log(output, "<<<output");
-        setDuration(output.trim());
-        console.log("duration====>>>>", duration, "<====");
-        if (
-          route.params.item.sound_url.endsWith(".mp3") ||
-          route.params.item.sound_url.endsWith(".aac")
-        ) {
-          // ffmpegCommand =
-          //   "-i " +
-          //   source +
-          //   " -i " +
-          //   route.params.item.sound_url +
-          //   " -map 0:v -map 1:a -c:v copy -c:a copy " +
-          //   outputFilePath +
-          //   " -y";
-          ffmpegCommand =
-            "-i " +
-            source +
-            " -ss 00:00:00.50 -t "+secondsToHms(output.trim())+" -i " +
-            route.params.item.sound_url +
-            " -map 0:v -map 1:a -c:v copy -c:a copy " +
-            outputFilePath +
-            " -y";
-        }
-        if (
-          route.params.item.sound_url.endsWith(".m4a") ||
-          route.params.item.sound_url.endsWith(".ogg") ||
-          route.params.item.sound_url.endsWith(".wav")
-        ) {
-          ffmpegCommand =
-            "-i " +
-            source +
-            " -i " +
-            route.params.item.sound_url +
-            " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
-            outputFilePath +
-            " -y";
-        }
-        
-          console.log("ffmpegCommand==>>>>" + ffmpegCommand);
-      });
+      if (
+        route.params.item.sound_url.endsWith(".mp3") ||
+        route.params.item.sound_url.endsWith(".aac")
+      ) {
+        ffmpegCommand =
+          "-i " +
+          source +
+          " -ss 00:00:00.50 -t " +
+          secondsToHms(output.trim()) +
+          " -i " +
+          route.params.item.sound_url +
+          " -map 0:v -map 1:a -c:v copy -c:a copy " +
+          outputFilePath +
+          " -y";
+      }
+      if (
+        route.params.item.sound_url.endsWith(".m4a") ||
+        route.params.item.sound_url.endsWith(".ogg") ||
+        route.params.item.sound_url.endsWith(".wav")
+      ) {
+        ffmpegCommand =
+          "-i " +
+          source +
+          " -i " +
+          route.params.item.sound_url +
+          " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
+          outputFilePath +
+          " -y";
+      }
+    });
 
-     
-
-     // -ss 00:00:00 -t "+duration+"
-    // });
     await FFmpegKit.execute(ffmpegCommand);
     return outputFilePath;
   };
@@ -297,7 +286,7 @@ export default function CameraScreen({ route }) {
         if (result.isPlaying === false) {
           sound.current.replayAsync();
           isLooping(true);
-          generateVideo();
+
         }
       }
     } catch (error) {}
@@ -315,18 +304,15 @@ export default function CameraScreen({ route }) {
 
           false
         );
-        console.log(result);
         if (result.isLoaded === false) {
           SetLoading(false);
-          setIsAudioError(true);
         } else {
           SetLoading(false);
-          SetLoaded(true);
         }
       } catch (error) {
         setIsAudioPlaying(false);
-        setIsAudioError(true);
-        setErrorMessage("No longer available");
+
+        console.log(error, "load audio");
         SetLoading(false);
       }
     } else {
@@ -398,27 +384,7 @@ export default function CameraScreen({ route }) {
           useNativeDriver: true,
         }),
       ]),
-
-      Animated.sequence([
-        Animated.timing(whitePulseAnim, {
-          toValue: 1.05,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-        Animated.parallel([
-          Animated.timing(whitePulseAnim, {
-            toValue: 1,
-            duration: 200,
-            useNativeDriver: true,
-          }),
-          Animated.timing(whitePulseOpacity, {
-            toValue: 0,
-            duration: 25,
-            useNativeDriver: true,
-          }),
-        ]),
-      ]),
-    ]).start(() => whitePulseOpacity.setValue(0.9));
+    ]).start(() => {});
   };
 
   if (
@@ -481,7 +447,7 @@ export default function CameraScreen({ route }) {
             <Feather name="zap" size={24} color={colors.white} />
             <Text style={styles.iconText}>Flash</Text>
           </TouchableOpacity>
-          {!isRecording && (
+          {!isRecording &&  (
             <View
               style={{
                 position: "absolute",
@@ -509,32 +475,20 @@ export default function CameraScreen({ route }) {
                 <Text style={styles.uploadText}>Upload</Text>
               </TouchableOpacity>
             </View>
-            
           )}
           <View style={styles.uploadView}>
-              <Text style={styles.iconText}>Upload</Text>
-              </View>
-
+            <Text style={styles.iconText}>Upload</Text>
+          </View>
         </View>
-        
       )}
 
-      
-
-      <View
-        style={[
-          styles.bottomBarContainer,
-          
-        ]}
-      >
+      <View style={[styles.bottomBarContainer]}>
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          {!isRecording && (
-          <SideIconOverlay />
-          )}
+          {!isRecording && <SideIconOverlay />}
 
-          <Text style={{ color: "white", paddingBottom: 5,  }}>
+          <Text style={{ color: "white", paddingBottom: 5 }}>
             {secondsToHms(convertMillisToSeconds(recordingTime))}
           </Text>
           <View style={{ flex: 1 }}>
@@ -575,13 +529,13 @@ export default function CameraScreen({ route }) {
               />
             </View>
           </View>
-          
+
           {!isRecording && (
             <View
               style={{
-                backgroundColor: 'rgba(125, 125, 125, 0.4)',
+                backgroundColor: "rgba(125, 125, 125, 0.4)",
                 width: 40,
-                height: 40, 
+                height: 40,
                 borderRadius: 50,
                 position: "absolute",
                 right: 0,
@@ -593,10 +547,12 @@ export default function CameraScreen({ route }) {
               }}
               pointerEvents="box-none"
             >
-              <TouchableOpacity
-                onPress={() => {}}
-                >
-                <MaterialIcons name="settings-backup-restore" size={35} color={colors.white} />
+              <TouchableOpacity onPress={() => {}}>
+                <MaterialIcons
+                  name="settings-backup-restore"
+                  size={35}
+                  color={colors.white}
+                />
               </TouchableOpacity>
             </View>
           )}
@@ -693,7 +649,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: 30,
     height: 30,
-    
   },
   galleryButtonImage: {
     width: 30,
@@ -727,16 +682,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   countdownBackground: {
-    backgroundColor: colors.green,
-    height: 200,
-    width: 200,
+    height: 300,
+    width: 300,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
   },
   countdownText: {
     color: colors.white,
-    fontSize: 120,
+    fontSize: 175,
   },
   countdownWhitePulse: {
     position: "absolute",
@@ -744,7 +698,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: colors.white,
     borderRadius: 100,
   },
   errorView: {
@@ -764,12 +717,10 @@ const styles = StyleSheet.create({
   },
   uploadText: {
     color: colors.white,
-    top: 60, 
+    top: 60,
     fontWeight: "bold",
-
   },
   uploadView: {
-    top: 40, 
-
+    top: 40,
   },
 });

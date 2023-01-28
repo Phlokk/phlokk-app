@@ -17,6 +17,7 @@ import colors from "../../../config/colors";
 import SearchInput from "../../components/search/SearchInput";
 import { useTheme } from "../../theme/context";
 
+
 const SearchScreen = () => {
   const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
@@ -74,8 +75,6 @@ const SearchScreen = () => {
       <View style={styles.searchBarView}>
       <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
       </View>
-      
-      
 
       <View style={styles.hashRow}>
         <TouchableOpacity>

@@ -9,6 +9,7 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
 import { getAllSounds } from "../../services/sounds";
 import { useIsFocused } from "@react-navigation/native";
+import ImageCarousel from "../../components/common/ImageCarousel";
 
 export default function SoundScreen({ placeholder }) {
   const isFocused = useIsFocused();
@@ -43,6 +44,12 @@ export default function SoundScreen({ placeholder }) {
     );
   };
 
+  const listHeader = ({ item, index }) => {
+    return (
+      <ImageCarousel autoScrollInterval={4000} />
+    );
+  };
+
   const [currentUser] = useAtom(userAtom);
 
   const keyExtractor = useCallback((item) => item._id);
@@ -50,10 +57,13 @@ export default function SoundScreen({ placeholder }) {
     <SafeAreaView style={styles.container}>
       <RecordingNavBar title="Sound Bar" />
       <SearchAudio placeholder={placeholder} />
+      
       <FlatList
+
         style={styles.paddingFlat}
         data={soundsList}
         renderItem={renderItem}
+        ListHeaderComponent={listHeader}
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
       />
