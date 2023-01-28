@@ -1,24 +1,19 @@
-import React, { useState } from 'react'
-import { View, Text } from 'react-native'
+import React, { useState } from "react";
+import { View, Text } from "react-native";
 import axios from "../redux/apis/axiosDeclaration";
 import { MaterialIcons } from "@expo/vector-icons";
 
-
-
 export const getAllSounds = async () => {
-
   try {
     const result = await axios.get(`/api/sounds`);
     return result.data;
-    
-  } catch(e){
+  } catch (e) {
     setSoundError(true);
   }
 };
 
-
 const sounds = () => {
-  const [soundError, setSoundError] = useState(false)
+  const [soundError, setSoundError] = useState(false);
   return (
     <View>
       <Text>sounds</Text>
@@ -35,7 +30,7 @@ const sounds = () => {
         animationType="fade"
       />
     </View>
-  )
-}
+  );
+};
 
-export default sounds
+export default sounds;

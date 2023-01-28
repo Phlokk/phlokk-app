@@ -120,7 +120,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
         </View>
         {item.comment_replies &&
           item.comment_replies.map((reply) => (
-            <View style={{ marginLeft: 40, marginTop: -10 }}>
+            <View key={reply._id} style={{ marginLeft: 40, marginTop: -10 }}>
               <CommentItem
                 setCommentList={setCommentList}
                 setComment={setComment}
@@ -135,7 +135,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
                 }}
               />
             </View>
-            
           ))}
       </View>
     );

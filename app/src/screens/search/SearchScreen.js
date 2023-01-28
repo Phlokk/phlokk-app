@@ -75,6 +75,8 @@ const SearchScreen = () => {
       <View style={styles.searchBarView}>
       <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
       </View>
+      
+      
 
       <View style={styles.hashRow}>
         <TouchableOpacity>

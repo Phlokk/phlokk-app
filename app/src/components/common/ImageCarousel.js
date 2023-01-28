@@ -1,34 +1,21 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  Pressable,
-} from "react-native";
+import { View, StyleSheet, FlatList, Image, Pressable } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import React, { useRef, useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import LinearGradient from "react-native-linear-gradient";
 
-const images = [
-  {
-    url: "https://images.unsplash.com/uploads/1411160110892ab555b6f/80b0d25e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2000&q=80",
-    link: "user profile",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3270&q=80",
-  },
-
-  {
-    url: "https://images.unsplash.com/photo-1484755560615-a4c64e778a6c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2889&q=80",
-  },
-];
-
-const ImageCarousel = ({ containerStyle, autoScrollInterval = 5000 }) => {
+const ImageCarousel = ({
+  carouselList,
+  onCarouselItemPress,
+  containerStyle,
+  autoScrollInterval = 5000,
+}) => {
   const [imageWidth, setImageWidth] = useState(1);
+  const [imageHeight, setImageHeight] = useState(150);
+
   const [selectedIndex, setSelectedIndex] = useState(0);
+
   const isFocused = useIsFocused();
   const autoScrollTimerRef = useRef();
   const flatListRef = useRef();
@@ -37,7 +24,7 @@ const ImageCarousel = ({ containerStyle, autoScrollInterval = 5000 }) => {
   const scrollToNextImage = () => {
     setSelectedIndex((previous) => {
       const nextIndex = previous + 1;
-      if (nextIndex > images.length - 1) {
+      if (nextIndex > carouselList.length - 1) {
         return 0;
       }
       return previous + 1;
@@ -69,12 +56,37 @@ const ImageCarousel = ({ containerStyle, autoScrollInterval = 5000 }) => {
     };
   }, [isFocused]);
 
+  useEffect(() => {
+    if (!carouselList) {
+      return;
+    }
+    if (carouselList.length === 0) {
+      return;
+    }
+    if (imageWidth === 1) {
+      return;
+    }
+    try {
+      const firstItem = carouselList[0];
+      const originalHeight = firstItem.height;
+      const originalWidth = firstItem.width;
+      const ratio = originalHeight / originalWidth;
+      const newHeight = imageWidth * ratio;
+      setImageHeight(newHeight);
+    } catch {
+      setImageHeight(150);
+    }
+  }, [carouselList, imageWidth]);
+
   const renderItem = ({ item, index }) => {
     return (
-      <Pressable onPress={() => console.log("pressed", item.link)}>
+      <Pressable
+        disabled={!onCarouselItemPress}
+        onPress={() => onCarouselItemPress(item)}
+      >
         <Image
           style={[styles.images, { width: imageWidth }]}
-          source={{ uri: item.url }}
+          source={{ uri: item.carousel_url }}
           resizeMode="cover"
         />
       </Pressable>
@@ -84,7 +96,7 @@ const ImageCarousel = ({ containerStyle, autoScrollInterval = 5000 }) => {
   const renderDot = ({ index }) => {
     return (
       <Entypo
-        style={{ opacity: selectedIndex === index ? 1 : 0.3 }}
+        style={{ opacity: selectedIndex === index ? 1 : 0.3, margin: -3 }}
         name="dot-single"
         size={24}
         color={colors.white}
@@ -95,10 +107,10 @@ const ImageCarousel = ({ containerStyle, autoScrollInterval = 5000 }) => {
   return (
     <View
       onLayout={({ nativeEvent }) => setImageWidth(nativeEvent.layout.width)}
-      style={[styles.container, containerStyle]}
+      style={[styles.container, containerStyle, { height: imageHeight }]}
     >
       <FlatList
-        data={images}
+        data={carouselList}
         ref={flatListRef}
         renderItem={renderItem}
         pagingEnabled
@@ -123,7 +135,7 @@ const ImageCarousel = ({ containerStyle, autoScrollInterval = 5000 }) => {
       </View>
       <View style={styles.dotsWrapper}>
         <FlatList
-          data={images}
+          data={carouselList}
           renderItem={renderDot}
           keyExtractor={(item, index) => index}
           horizontal
@@ -136,7 +148,6 @@ const ImageCarousel = ({ containerStyle, autoScrollInterval = 5000 }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 200,
     width: "100%",
   },
   dotsWrapper: {
@@ -153,7 +164,6 @@ const styles = StyleSheet.create({
   },
   images: {
     flex: 1,
-    borderRadius: 15, 
   },
   bottomGradientWrapper: {
     position: "absolute",
