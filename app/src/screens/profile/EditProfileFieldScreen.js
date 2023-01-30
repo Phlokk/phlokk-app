@@ -58,14 +58,9 @@ export default function EditProfileFieldScreen({ route }) {
           textContentType="username"
           maxLength={24}
           value={textInputValue}
-          onChangeText={(text) => {
-            if (text.includes(' ')) {
-              setTextInputValue(text.trim()); 
-             } else {
-              setTextInputValue(text);
-             }
-            }
-           }
+          onChangeText={(val) => {
+            setTextInputValue(val.toString().toLowerCase().replaceAll(" ", ""));
+          }}
         />
       </View>
       <View style={styles.infoView}>
