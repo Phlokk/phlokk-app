@@ -11,7 +11,6 @@ const SearchAudio = () => {
       <SearchMusicInput placeholder="Search sounds" setSearchUsers={setSearchAudio} />
       <FlatList
         data={searchAudio}
-        // renderItem={({ item }) => <SoundItem item={item} />}
         keyExtractor={(item) => item.id}
       />
     </View>

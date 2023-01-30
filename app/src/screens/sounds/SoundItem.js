@@ -169,7 +169,7 @@ const SoundItem = ({ currentUser, item, currentSound, setCurrentSound }) => {
               </View>
               {item.song_name}
             </Text>
-            <Text style={styles.genreText}>Genre: {item.genre}</Text>
+            
             {errorMessage && (
               <View style={styles.audioErrorView}>
                 <Text style={styles.warningText}>{errorMessage}</Text>
@@ -235,20 +235,20 @@ const styles = StyleSheet.create({
   },
   artistText: {
     top: 3,
-    color: colors.gray,
+    color: colors.secondary,
     paddingLeft: 4,
     fontSize: 10,
   },
   genreText: {
     top: -2,
-    left: -7,
+    left: -6,
     color: colors.gray,
     paddingLeft: 10,
     fontSize: 10,
   },
   mins: {
     top: 12,
-    color: colors.gray,
+    color: colors.secondary,
     paddingLeft: 4,
     fontSize: 10,
   },
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     right: 5,
-    bottom: -2,
+    bottom: -1,
     height: 12,
     width: 12,
   },

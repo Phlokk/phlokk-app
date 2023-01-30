@@ -21,7 +21,7 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
 import EditProfileNav from "../../components/general/navBar/EditProfileNav";
 import CustomAlert from "../../components/Alerts/CustomAlert";
-import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
+import { fetchGetUsers } from "../../redux/sagas/requests/fetchUser";
 import { useTheme } from "../../theme/context";
 import { apiUrls } from "../../globals";
 
@@ -83,7 +83,7 @@ export default function EditProfileScreen({ route }) {
       });
 
     // Once image is updated, load user profile from api
-    const response = await fetchGetUser();
+    const response = await fetchGetUsers();
     setCurrentUser(response.user);
   };
 

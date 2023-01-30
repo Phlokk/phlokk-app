@@ -130,8 +130,7 @@ const styles = StyleSheet.create({
   textInput_light: {
     color: colors.secondary,
     borderColor: colors.secondary,
-    borderWidth: 0.5,
-    borderRadius: 50,
+    borderWidth: 0.3,
     flexDirection: "row",
     width: "95%",
     padding: 10,
@@ -139,9 +138,8 @@ const styles = StyleSheet.create({
   },
   textInput_dark: {
     color: colors.green,
-    borderColor: colors.green,
-    borderWidth: 0.5,
-    borderRadius: 50,
+    borderColor: colors.secondary,
+    borderWidth: 0.3,
     flexDirection: "row",
     width: "95%",
     padding: 10,
