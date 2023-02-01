@@ -4,7 +4,7 @@ import {apiUrls} from "../../../globals";
 
 const url = apiUrls.BASE_URL + "/api/me";
 
-const fetchGetUser = async (userId) => {
+const fetchGetUserData = async (userId) => {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
 
   return fetch(apiUrls.BASE_URL + "/api/creator/" + userId, {
@@ -19,7 +19,7 @@ const fetchGetUser = async (userId) => {
     });
 };
 
-const fetchGetUsers = async () => {
+const fetchGetUser = async () => {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
 
   return fetch(url, {
@@ -28,10 +28,12 @@ const fetchGetUsers = async () => {
       Authorization: `Bearer ${user.token}`,
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+console.log(JSON.stringify(response))
+      return response.json()})
     .catch((error) => {
       throw error;
     });
 };
 
-export { fetchGetUsers, fetchGetUser };
+export { fetchGetUser, fetchGetUserData };

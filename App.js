@@ -8,7 +8,7 @@ import Route from "./app/src/navigation/main/Route";
 import { Alert, LogBox, StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useAtom } from "jotai";
-import { fetchGetUsers} from "./app/src/redux/sagas/requests/fetchUser";
+import { fetchGetUser } from "./app/src/redux/sagas/requests/fetchUser";
 import * as SplashScreen from "expo-splash-screen";
 // imports for notifications.js
 import * as Notifications from "expo-notifications";
@@ -20,9 +20,7 @@ import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
 import colors from "./app/config/colors";
-import {userAtom} from "./app/src/services/appStateAtoms"
-
-
+import { userAtom } from "./app/src/services/appStateAtoms";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -55,15 +53,11 @@ Notifications.setNotificationHandler({
   }),
 });
 
-
-
 export default function App() {
   const [user, setUser] = useAtom(userAtom);
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-
-
 
   const [appIsAvailable, setAppIsAvailable] = useState(false);
 
@@ -92,17 +86,15 @@ export default function App() {
       return response.status === "available";
     };
 
-
     // check if server is available
     const appIsAvailable = await checkStatus();
     if (!appIsAvailable) {
       Alert.alert("System is down for maintenance. Please try again later");
     } else {
-
       const loadUser = async () => {
-        const response = await fetchGetUsers();
+        const response = await fetchGetUser();
         setUser(response.user);
-      }; 
+      };
 
       loadUser();
       // This listener is fired whenever a notification is received while the app is foregrounded
@@ -226,6 +218,24 @@ export default function App() {
 
 
 
+
+  if (user && user.deleted_at) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: colors.primary,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text style={{ color: colors.red, padding: 40 }}>
+          This account has been deleted due to multiple guideline violations.
+        </Text>
+      </View>
+    );
+  }
+
   if (appIsAvailable) {
     return (
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -233,9 +243,7 @@ export default function App() {
 
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <NavigationContainer
-              ref={navigationRef}
-            >
+            <NavigationContainer ref={navigationRef}>
               <ThemeProvider>
                 <Route />
               </ThemeProvider>
@@ -246,10 +254,17 @@ export default function App() {
     );
   } else {
     return (
-      <View style={{ flex: 1, backgroundColor: colors.primary, alignItems: "center", justifyContent: "center", }}>
-      <Text style={{ color: colors.white, padding: 40 }}>
-        App currently down for maintenance. Please try again later.
-      </Text>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: colors.primary,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text style={{ color: colors.white, padding: 40 }}>
+          App currently down for maintenance. Please try again later.
+        </Text>
       </View>
     );
   }

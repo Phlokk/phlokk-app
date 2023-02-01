@@ -16,7 +16,7 @@ import { useQueryClient } from "react-query";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../services/appStateAtoms";
 import { FontAwesome5 } from '@expo/vector-icons'; 
-import { MaterialIcons } from "@expo/vector-icons";
+// import { MaterialIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../../components/Alerts/CustomAlert";
 import CustomActivityIndicator from "../../../common/ActivityIndicator";
 
@@ -25,7 +25,7 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
   const [isVideoDeleted, setIsVideoDeleted] = useState(false);
-  const [isConfirmedDeletion, setIsConfirmedDeletion] = useState(false);
+  // const [isConfirmedDeletion, setIsConfirmedDeletion] = useState(false);
 
   const [currentUser] = useAtom(userAtom);
 

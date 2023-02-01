@@ -16,7 +16,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from "@expo/vector-icons";
 import { createPost } from "../../redux/actions";
 import PostNavBar from "../../components/general/postNav/PostNavBar";
 import routes from "../../navigation/routes";
@@ -39,6 +39,7 @@ export default function SavePostScreen({ route }) {
   const [text, setText] = useState("Click");
   const [drafts, setDrafts] = useState(false);
   const [isSelectedImage, setIsSelectedImage] = useState(false);
+  const [isCompletedOpen, setIsCompletedOpen] = useState(false);
 
   const [isDescription, setIsDescription] = useState(false);
 
@@ -48,16 +49,14 @@ export default function SavePostScreen({ route }) {
 
   const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
 
-   
   const handleSavePost = () => {
-    console.log("handlesavePost", route.params);
+    
     setRequestRunning(true);
     dispatch(
       createPost(
         description,
         route.params.videoUrl,
         route.params.videoThumb,
-        route.params.videoUrl
       )
     )
       .then(async (res) => {
@@ -139,9 +138,10 @@ export default function SavePostScreen({ route }) {
                 <Text style={styles.hashText}>@ Mention</Text>
               </TouchableOpacity>
               <View style={styles.boxBtn}>
-              <Text style={[styles.hashText, styles.countText]}>{`${description.length}/150`}</Text>
+                <Text
+                  style={[styles.hashText, styles.countText]}
+                >{`${description.length}/150`}</Text>
               </View>
-              
             </View>
             <Text style={styles.switchStatement}>
               Notice: Switches do not work in beta
@@ -164,10 +164,14 @@ export default function SavePostScreen({ route }) {
             />
           </TouchableOpacity>
           <TouchableOpacity>
-          <FontAwesome name="snapchat-ghost" size={35} style={styles.shareIcon} />
+            <FontAwesome
+              name="snapchat-ghost"
+              size={35}
+              style={styles.shareIcon}
+            />
           </TouchableOpacity>
           <TouchableOpacity>
-          <FontAwesome name="whatsapp" size={35} style={styles.shareIcon} />
+            <FontAwesome name="whatsapp" size={35} style={styles.shareIcon} />
           </TouchableOpacity>
         </View>
 
@@ -236,7 +240,22 @@ export default function SavePostScreen({ route }) {
           dismissAlert={setIsDescription}
           animationType="fade"
         />
+        {/* <CustomAlert
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={
+          <Text>Your video has successfully been posted</Text>
+        }
+        positiveBtn="Ok"
+        modalVisible={isCompletedOpen}
+        dismissAlert={setIsCompletedOpen}
+        animationType="fade"
+      /> */}
       </View>
+      
     </TouchableWithoutFeedback>
   );
 }
@@ -348,8 +367,8 @@ const styles = StyleSheet.create({
   draftsButton: {
     alignItems: "center",
     flex: 1,
-    backgroundColor: 'rgba(125, 125, 125, 0.1)',
-    borderRadius: 50, 
+    backgroundColor: "rgba(125, 125, 125, 0.1)",
+    borderRadius: 50,
     borderWidth: 0.5,
     borderColor: colors.secondary,
     flexDirection: "row",
@@ -361,8 +380,8 @@ const styles = StyleSheet.create({
   postButton: {
     alignItems: "center",
     flex: 1,
-    backgroundColor: 'rgba(125, 125, 125, 0.1)',
-    borderRadius: 50, 
+    backgroundColor: "rgba(125, 125, 125, 0.1)",
+    borderRadius: 50,
     borderWidth: 0.5,
     borderColor: colors.green,
     flexDirection: "row",
@@ -434,8 +453,5 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     opacity: 0.6,
     fontSize: 8,
-    
-    
-
-  }
+  },
 });

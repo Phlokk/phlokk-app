@@ -25,6 +25,7 @@ function UserProfile({ user, isCurrentUser }) {
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
 
   return (
+
     <View style={styles.container}>
       
       <TouchableOpacity
@@ -40,6 +41,9 @@ function UserProfile({ user, isCurrentUser }) {
           }
         />
       </TouchableOpacity>
+      
+        
+       
 
       <View style={styles.usernameView}>
         {user.username !== null ? (
@@ -54,7 +58,9 @@ function UserProfile({ user, isCurrentUser }) {
             </View>
           </Text>
         ) : (
-          <Text style={styles.username}>@user</Text>
+          <Text style={
+            theme == "light" ? styles.username_light : styles.username_dark
+          }>@user</Text>
         )}
         <View style={styles.risingStarView}>
       {user.is_rising === 1 && <RisingStar />}
@@ -99,6 +105,7 @@ function UserProfile({ user, isCurrentUser }) {
           />
         </TouchableOpacity>
       </>
+   
 
       <Modal
         animationType="slide"

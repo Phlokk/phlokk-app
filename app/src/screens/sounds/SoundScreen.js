@@ -52,17 +52,13 @@ export default function SoundScreen({ placeholder }) {
     );
   };
 
-  const listHeader = ({ item, index }) => {
-    return (
-      <ImageCarousel
-        onCarouselItemPress={(carouselItem) =>
-          Linking.openURL(carouselItem.link)
-        }
-        carouselList={carouselList}
-        autoScrollInterval={3000}
-      />
-    );
-  };
+  const listHeader = (
+    <ImageCarousel
+      onCarouselItemPress={(carouselItem) => Linking.openURL(carouselItem.link)}
+      carouselList={carouselList}
+      autoScrollInterval={3000}
+    />
+  );
 
   const [currentUser] = useAtom(userAtom);
 
