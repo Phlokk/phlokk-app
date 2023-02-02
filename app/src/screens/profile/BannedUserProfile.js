@@ -1,29 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import BannedStatsContainer from "../../components/profile/profileStats/BannedStatsContainer";
 import BannedProfileNavBar from "../../components/general/profileNavBar/BannedProfileNavBar";
 import BannedDisplayMenuScreen from "./BannedDisplayMenuScreen";
+import { useAtom } from "jotai";
+import { userAtom } from "../../services/appStateAtoms";
 
-function BannedUserProfile({ user }) {
+function BannedUserProfile() {
+  const [user] = useAtom(userAtom);
   return (
     <View style={styles.container}>
       <View style={styles.divider}></View>
       <BannedProfileNavBar />
       <BannedStatsContainer />
-      <TouchableOpacity>
+      <View>
         <Image
           style={styles.avatar}
           source={require("../../../assets/userImage.png")}
         />
-      </TouchableOpacity>
+      </View>
 
       <View style={styles.usernameView}>
         <Text style={styles.username}>@{user.username}</Text>
       </View>
       <View style={styles.messageView}>
-        <Text style={styles.message}>This account was permanently banned{"\n"} due to multiple Community Guidelines violations.</Text>
+        <Text style={styles.message}>
+          This account was permanently banned{"\n"} due to multiple Community
+          Guidelines violations.
+        </Text>
       </View>
       <BannedDisplayMenuScreen user={user} />
     </View>
@@ -78,13 +83,11 @@ const styles = StyleSheet.create({
     color: colors.secondary,
   },
   messageView: {
-    
     backgroundColor: colors.lightBlack,
     borderRadius: 5,
     padding: 20,
     flexDirection: "row",
-    
-  }
+  },
 });
 
 export default BannedUserProfile;

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import store from "./app/src/redux/reducers/configureStore";
 import { Provider } from "react-redux";
 import Route from "./app/src/navigation/main/Route";
+import BannedRoute from "./app/src/navigation/main/BannedRoute";
 import { Alert, LogBox, StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useAtom } from "jotai";
@@ -226,7 +227,7 @@ export default function App() {
           <QueryClientProvider client={queryClient}>
             <NavigationContainer ref={navigationRef}>
               <ThemeProvider>
-                <BannedUserProfile user={user} />
+                <BannedRoute />
               </ThemeProvider>
             </NavigationContainer>
           </QueryClientProvider>
