@@ -60,7 +60,6 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
       })
         .then((resp) => {
           alert("Your video has been posted.");
-          onCompleted && onCompleted()
           resolve(resp);
         })
         .catch((err) => {

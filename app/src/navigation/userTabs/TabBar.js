@@ -1,15 +1,14 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, StyleSheet } from "react-native";
-import React, { useContext } from "react";
+import React from "react";
 import { Feather } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import ProfileScreen from "../../screens/profile/ProfileScreen";
 import FeedNavigation from "../feed/FeedNavigation";
 import ActivityScreen from "../../screens/activity/ActivityScreen";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { Entypo } from "@expo/vector-icons";
+
 import colors from "../../../config/colors";
 import SearchNavigation from "../feed/SearchDiscover";
 import { useTheme } from "../../theme/context";
@@ -108,6 +107,7 @@ const UserTabs = () => {
   // Load the current user
 
   return (
+    
     <Tab.Navigator
       initialRoute="feed"
       screenOptions={{ headerShown: false }}

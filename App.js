@@ -21,6 +21,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
 import colors from "./app/config/colors";
 import { userAtom } from "./app/src/services/appStateAtoms";
+import BannedUserProfile from "./app/src/screens/profile/BannedUserProfile";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -216,23 +217,21 @@ export default function App() {
     }
   }, [setAppIsAvailable]);
 
-
-
-
-  if (user && user.deleted_at) {
+  if (user?.banned_at) {
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.primary,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Text style={{ color: colors.red, padding: 40 }}>
-          This account has been deleted due to multiple guideline violations.
-        </Text>
-      </View>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <StatusBar barStyle="light-content" />
+
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <NavigationContainer ref={navigationRef}>
+              <ThemeProvider>
+                <BannedUserProfile user={user} />
+              </ThemeProvider>
+            </NavigationContainer>
+          </QueryClientProvider>
+        </Provider>
+      </GestureHandlerRootView>
     );
   }
 

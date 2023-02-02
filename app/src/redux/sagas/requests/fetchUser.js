@@ -11,6 +11,8 @@ const fetchGetUserData = async (userId) => {
     method: "GET",
     headers: {
       Authorization: `Bearer ${user.token}`,
+      Accept: 'application/json'
+
     },
   })
     .then((response) => response.json())
@@ -20,17 +22,21 @@ const fetchGetUserData = async (userId) => {
 };
 
 const fetchGetUser = async () => {
+  
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
+ 
 
   return fetch(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${user.token}`,
+      Accept: 'application/json' 
     },
   })
     .then((response) => {
-console.log(JSON.stringify(response))
+
       return response.json()})
+      
     .catch((error) => {
       throw error;
     });

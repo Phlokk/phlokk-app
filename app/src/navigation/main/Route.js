@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { StyleSheet, View  } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { userAuthStateListener } from "../../redux/actions";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthScreen from "../../screens/auth/AuthScreen";
@@ -69,8 +69,7 @@ import EditSkillsFieldScreen from "../../screens/profile/EditSkillsFieldScreen";
 import EditEducationFieldScreen from "../../screens/profile/EditEducationFieldScreen";
 import ReportProblemScreen from "../../screens/reports/ReportProblemScreen";
 import TrimmerScreen from "../../screens/camera/TrimmerScreen";
-
-
+import BannedUserProfile from "../../screens/profile/BannedUserProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -79,9 +78,7 @@ export default function Route() {
 
   const auth = useSelector((state) => state.auth);
 
-
   useEffect(() => {
-   
     dispatch(userAuthStateListener());
   }, []);
 
@@ -94,21 +91,20 @@ export default function Route() {
   // Drawer Navigation
   <Root />;
 
-
   return (
     <Stack.Navigator>
       {auth.currentUser === null ? (
         <>
-        <Stack.Screen
-          name="auth"
-          component={AuthScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="resetPassword"
-          component={ResetPassword}
-          options={{ headerShown: false }}
-        />
+          <Stack.Screen
+            name="auth"
+            component={AuthScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="resetPassword"
+            component={ResetPassword}
+            options={{ headerShown: false }}
+          />
         </>
       ) : (
         <>
@@ -325,9 +321,9 @@ export default function Route() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="report"
-          component={ReportProblemScreen}
-          options={{ headerShown: false }}
+            name="report"
+            component={ReportProblemScreen}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="userReports"
@@ -431,6 +427,7 @@ export default function Route() {
           />
         </>
       )}
+      
     </Stack.Navigator>
   );
 }
