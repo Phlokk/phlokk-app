@@ -47,7 +47,7 @@ export default function SearchUserItem({ item }) {
         <Image
           style={styles.image}
           source={
-            item?.photo_thumb_url
+            item.banned_at === null && item?.photo_thumb_url
               ? { uri: item?.photo_thumb_url }
               : require("../../../../assets/userImage.png")
           }
