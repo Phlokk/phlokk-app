@@ -23,6 +23,15 @@ export const blockUserById = async (userId) => {
     });
 };
 
+export const blockedListListener = async () => {
+  try {
+    const result = await axios.get(`/api/me/block-list/`);
+    return result.data;
+  } catch (e) {
+
+  }
+};
+
 export const updateCreator = async (data) => {
   await axios.patch("/api/me/update", data);
 };

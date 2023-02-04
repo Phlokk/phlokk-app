@@ -7,8 +7,9 @@ import {
   FlatList,
   useWindowDimensions,
   Platform,
+  Easing,
 } from "react-native";
-
+import TextTicker from "react-native-text-ticker";
 import { Ionicons } from "@expo/vector-icons";
 import VideoItem from "./VideoItem";
 import { Octicons } from "@expo/vector-icons";
@@ -23,19 +24,22 @@ import colors from "../../../config/colors";
 import { useDispatch } from "react-redux";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { useIsFocused } from "@react-navigation/native";
+import { getAllNewsTickerData } from "../../services/newsTicker";
 
 export const newFeedItemAtom = atom("");
 export const forceRefreshAtom = atom(false);
 
 const VideoFeed = ({ navigation, route }) => {
   const { profile, selectedIndex, creator, preloadedPosts } = route.params;
-
-  const [ currentUser ] = useAtom(userAtom);
+  const [currentUser] = useAtom(userAtom);
   const [forceRefresh, setForceRefresh] = useAtom(forceRefreshAtom);
 
   const [pageSize, setPageSize] = useState(); // Used for making a the flatlist full screen
   const [postFeed, setPostFeed] = useState([]);
   const [areTabsShowing, setAreTabsShowing] = useState();
+
+  // New Ticker State
+  const [newsTickerList, setNewsTickerList] = useState([]);
 
   const [ckt, setCkt] = useState(false);
 
@@ -45,13 +49,32 @@ const VideoFeed = ({ navigation, route }) => {
   const flatListRef = useRef();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const newsTickerFeed = async () => {
+      const newsTickerList = await getAllNewsTickerData();
+      setNewsTickerList(newsTickerList.news_ticker[0]);
+    };
+    if (!newsTickerList) {
+      return;
+    }
+
+    if (isFocused) {
+      newsTickerFeed();
+    }
+  }, [isFocused]);
+
+  const tickerText =
+    "official Phlokk news:" +
+    " " +
+    newsTickerList.ticker_description +
+    " " +
+    newsTickerList.ticker_message;
+
   const user = creator || currentUser;
 
   const [currentVideoIndex, setCurrentVideoIndex] = useState(
     selectedIndex || 0
   );
-
-
 
   const {
     posts,
@@ -144,6 +167,8 @@ const VideoFeed = ({ navigation, route }) => {
     }
   };
 
+  
+
   const renderItem = useCallback(
     ({ item, index }) => {
       return (
@@ -154,11 +179,15 @@ const VideoFeed = ({ navigation, route }) => {
           currentUser={currentUser}
           itemHeight={pageSize?.height || 0}
           areTabsShowing={areTabsShowing}
+          
+          
         />
       );
     },
     [currentVideoIndex, pageSize, areTabsShowing]
   );
+
+
 
   return (
     <View
@@ -237,6 +266,27 @@ const VideoFeed = ({ navigation, route }) => {
           />
         )}
       </TouchableOpacity>
+      
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          top: Platform.OS === "android" ? 28 : 52,
+          right: 50,
+        }}
+      >
+        <TextTicker
+          style={styles.ticker}
+          duration={70000}
+          loop={true}
+          repeatSpacer={3000}
+          easing={Easing.in(Easing.linear)}
+        >
+          {tickerText}
+        </TextTicker>
+      </TouchableOpacity>
+      
+      
+
       <TouchableOpacity
         style={{
           position: "absolute",
@@ -249,17 +299,17 @@ const VideoFeed = ({ navigation, route }) => {
       </TouchableOpacity>
 
       <CustomAlert
-          alertTitle={
-            <Text>
-              <MaterialIcons name="info" size={24} color={colors.green} />
-            </Text>
-          }
-          customAlertMessage={<Text>CKT Feed{"\n"}coming soon!</Text>}
-          positiveBtn="Ok"
-          modalVisible={ckt}
-          dismissAlert={setCkt}
-          animationType="fade"
-        />
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>CKT Feed{"\n"}coming soon!</Text>}
+        positiveBtn="Ok"
+        modalVisible={ckt}
+        dismissAlert={setCkt}
+        animationType="fade"
+      />
     </View>
   );
 };
@@ -278,6 +328,11 @@ const styles = StyleSheet.create({
   },
   textFeed: {
     backgroundColor: colors.red,
+  },
+  ticker: {
+    width: 310,
+    color: colors.secondary,
+    fontWeight: "bold",
   },
 });
 

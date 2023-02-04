@@ -11,7 +11,6 @@ import {
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../services/appStateAtoms";
-import { timeSince } from "../../../services/posts";
 
 const BlockedItem = ({ navigation, item }) => {
   const [user, setUser] = useAtom(userAtom);
@@ -33,17 +32,10 @@ const BlockedItem = ({ navigation, item }) => {
           </TouchableOpacity>
         )}
         <View style={styles.notificationView}>
-          {/* <Text style={styles.usernameView}>{item.title}</Text> */}
-          <View style={styles.mentionsView}>
-            {/* <Text style={styles.mentionsText}>{item.body}</Text> */}
-          </View>
-          <View>
-            <Text style={styles.date}>
-              {item.created_at ? timeSince(new Date(item.created_at)) : "Now"}
-            </Text>
+          <Text style={styles.blockedUserText}>{item.against_id}</Text>
+          <Text style={styles.blockedUserText}>test</Text>
           </View>
         </View>
-      </View>
     </TouchableOpacity>
   );
 };
@@ -69,7 +61,7 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
   },
-  usernameView: {
+  blockedUserText: {
     color: colors.white,
   },
   mentionsText: {

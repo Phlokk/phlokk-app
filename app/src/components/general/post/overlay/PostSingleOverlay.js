@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../Alerts/CustomAlert";
@@ -21,7 +20,7 @@ import GiftingModalScreen from "../../../modal/giftingModalScreen/GiftingModalSc
 import CommentModal from "../../../modal/comment/CommentModal";
 import colors from "../../../../../config/colors";
 import { likeVideo } from "../../../../redux/actions/likes";
-import routes from "../../../../navigation/routes"
+// import routes from "../../../../navigation/routes"
 
 export default function PostSingleOverlay({ post, user, isCurrentUser }) {
   const isFocused = useIsFocused();

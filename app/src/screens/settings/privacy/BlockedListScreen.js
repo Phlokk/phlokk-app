@@ -1,35 +1,35 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-} from "react-native";
+import { View, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
-import { Feather } from "@expo/vector-icons";
+// import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialIcons } from "@expo/vector-icons";
-import routes from "../../../navigation/routes";
+// import { MaterialIcons } from "@expo/vector-icons";
+// import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
+import { useIsFocused } from "@react-navigation/native";
 import SettingsNavBar from "../../../components/general/settings/SettingsNavBar";
-import BlockedItem from "./blockedItem";
+import BlockedItem from "./BlockedItem";
+import { blockedListListener } from "../../../services/user";
 
 export default function BlockedListScreen() {
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
   const [user, setUser] = useState("");
+  const [blockedList, setBlockedList] = useState("");
 
-    const renderItem = ({ item, index }) => {
+  const renderItem = ({ item, index }) => {
     return <BlockedItem index={index} item={item} />;
   };
 
-  const [blockedList, setBlockedList] = useState("");
-
-
-  useEffect(async () => {
-    await blockedListListener(setBlockedList);
-    return () => clearBlockedListListener();
-  }, []);
+  useEffect(() => {
+    const blockedListItems = async () => {
+      const blockedList = await blockedListListener();
+      setBlockedList(blockedList.blocks);
+      console.log(blockedList);
+    };
+    if (isFocused) {
+      blockedListItems();
+    }
+  }, [isFocused]);
 
   const Separator = () => {
     return (
@@ -48,9 +48,9 @@ export default function BlockedListScreen() {
       <SettingsNavBar title="Blocked Accounts" />
       <View style={styles.rowContainer}></View>
       <FlatList
-        // data={blockedList}
+        data={blockedList}
         ItemSeparatorComponent={Separator}
-        // renderItem={renderItem}
+        renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id}
       />

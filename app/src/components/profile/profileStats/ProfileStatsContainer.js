@@ -1,13 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomAlert from "../../Alerts/CustomAlert";
 import { MaterialIcons } from "@expo/vector-icons";
-// import routes from "../../../navigation/routes"
 import colors from "../../../../config/colors";
 // import { useAtom } from "jotai";
 // import { userAtom } from "../../../../../App";
-import routes from "../../../navigation/routes";
+// import routes from "../../../navigation/routes";
 import { useTheme } from "../../../theme/context";
 
 function ProfileStatsContainer({ user, isCurrentUser }) {

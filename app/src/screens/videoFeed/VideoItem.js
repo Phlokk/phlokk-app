@@ -8,8 +8,6 @@ import UserProfileOverlay from '../../components/general/post/overlay/UserProfil
 import colors from '../../../config/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import Slider from '@react-native-community/slider';
-
-
 import axios from '../../redux/apis/axiosDeclaration';
 import {apiUrls} from '../../globals';
 
@@ -99,7 +97,7 @@ const VideoItem = ({
 						style={styles.pauseIcon}
 					/>
 				)}
-				{!shouldPlay && (
+				{/* {!shouldPlay && (
 				<View style={styles.playView}>
 					<FontAwesome5
 						name="play"
@@ -109,7 +107,7 @@ const VideoItem = ({
 					/>
 					<Text style={styles.viewCount}>{item?.play_count ?? 0}</Text>
 				</View>
-				)}
+				)} */}
 			</Pressable>
 
 			<View pointerEvents="none" style={styles.bottomGradientWrapper}>
