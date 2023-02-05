@@ -14,6 +14,8 @@ import TextTicker from "react-native-text-ticker";
 import RisingStarFeed from "../../../common/RisingStarFeed";
 import AddFriendBtn from "./AddFriendBtn";
 import axios from "../../../../redux/apis/axiosDeclaration";
+import SpecialNeedsIcon from "../../../common/specialNeedsIcon";
+
 
 
 
@@ -72,6 +74,7 @@ function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsSho
           </TouchableOpacity>
           )}
           </View>
+          <View style={styles.imageRow}>
           <TouchableOpacity
             disabled={currentUser._id == post.user._id}
             onPress={() => {
@@ -92,8 +95,11 @@ function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsSho
                 source={{ uri: user.photo_thumb_url }}
               />
             )}
+            
           </TouchableOpacity>
-
+          {user.is_special_needs === 1 && <SpecialNeedsIcon />}
+          </View>
+          
         </View>
        
 
@@ -302,4 +308,7 @@ const styles = StyleSheet.create({
     top: 20,
     left: 30,
   },
+  imageRow: {
+    flexDirection: "row",
+  }
 });

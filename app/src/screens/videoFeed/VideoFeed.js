@@ -39,8 +39,7 @@ const VideoFeed = ({ navigation, route }) => {
   const [areTabsShowing, setAreTabsShowing] = useState();
 
   // New Ticker State
-  const [newsTickerList, setNewsTickerList] = useState([]);
-
+  const [tickerText, setTickerText] = useState("")
   const [ckt, setCkt] = useState(false);
 
   const windowSize = useWindowDimensions();
@@ -51,24 +50,23 @@ const VideoFeed = ({ navigation, route }) => {
 
   useEffect(() => {
     const newsTickerFeed = async () => {
-      const newsTickerList = await getAllNewsTickerData();
-      setNewsTickerList(newsTickerList.news_ticker[0]);
+      const ticker = await getAllNewsTickerData();
+
+      let newTickerText = "official Phlokk news: ";
+      ticker.news_ticker.forEach((item) => {
+        newTickerText += `${item.ticker_description} ${item.ticker_message} - `
+
+      })
+      newTickerText = newTickerText.substring(0, newTickerText.length -3)
+      setTickerText(newTickerText)
     };
-    if (!newsTickerList) {
-      return;
-    }
+    
 
     if (isFocused) {
       newsTickerFeed();
     }
   }, [isFocused]);
 
-  const tickerText =
-    "official Phlokk news:" +
-    " " +
-    newsTickerList.ticker_description +
-    " " +
-    newsTickerList.ticker_message;
 
   const user = creator || currentUser;
 
@@ -276,7 +274,7 @@ const VideoFeed = ({ navigation, route }) => {
       >
         <TextTicker
           style={styles.ticker}
-          duration={70000}
+          scrollSpeed={20}
           loop={true}
           repeatSpacer={3000}
           easing={Easing.in(Easing.linear)}

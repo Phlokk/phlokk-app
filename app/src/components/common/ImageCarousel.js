@@ -24,6 +24,7 @@ const ImageCarousel = ({
   const scrollToNextImage = () => {
     setSelectedIndex((previous) => {
       const nextIndex = previous + 1;
+
       if (nextIndex > carouselList.length - 1) {
         return 0;
       }
@@ -39,6 +40,13 @@ const ImageCarousel = ({
   }, [selectedIndex]);
 
   useEffect(() => {
+    
+    if(!carouselList){
+      return;
+    }
+    if(carouselList.length === 0){
+      return;
+    }
     if (isFocused) {
       const interval = setInterval(() => {
         if (userScrollRef.current === true) {
@@ -54,7 +62,7 @@ const ImageCarousel = ({
     return () => {
       clearInterval(autoScrollTimerRef.current);
     };
-  }, [isFocused]);
+  }, [isFocused, carouselList]);
 
   useEffect(() => {
     if (!carouselList) {

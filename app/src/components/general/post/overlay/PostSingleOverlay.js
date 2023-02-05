@@ -20,6 +20,7 @@ import GiftingModalScreen from "../../../modal/giftingModalScreen/GiftingModalSc
 import CommentModal from "../../../modal/comment/CommentModal";
 import colors from "../../../../../config/colors";
 import { likeVideo } from "../../../../redux/actions/likes";
+import SpecialNeedsIcon from "../../../common/specialNeedsIcon";
 // import routes from "../../../../navigation/routes"
 
 export default function PostSingleOverlay({ post, user, isCurrentUser }) {
@@ -135,7 +136,8 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
           onPress={() => setIsSettingsModalScreenOpen(true)}
         />
       </TouchableOpacity>
-
+     
+      
       <Modal
         animationType="slide"
         transparent={true}
@@ -302,5 +304,9 @@ const styles = StyleSheet.create({
   pressedModal: {
     flex: 1,
     justifyContent: "flex-end",
+  },
+  specialNeedsIconView: {
+    top: 40, 
+
   },
 });
