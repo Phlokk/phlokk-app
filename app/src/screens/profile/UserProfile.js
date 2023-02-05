@@ -17,17 +17,13 @@ import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioS
 import { useTheme } from "../../theme/context";
 import RisingStar from "../../components/common/RisingStar";
 
-
-
 function UserProfile({ user, isCurrentUser }) {
   const { theme } = useTheme();
   const [topFavFive, setTopFavFive] = useState(false);
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
 
   return (
-
     <View style={styles.container}>
-      
       <TouchableOpacity
         onPress={() => setIsBioModalScreenOpen(true)}
         disabled={!user?.photo_url}
@@ -41,9 +37,6 @@ function UserProfile({ user, isCurrentUser }) {
           }
         />
       </TouchableOpacity>
-      
-        
-       
 
       <View style={styles.usernameView}>
         {user.username !== null ? (
@@ -54,20 +47,21 @@ function UserProfile({ user, isCurrentUser }) {
             }
           >
             @{user.username}
-            <View>{user && user.is_verified === 1 && <VerifiedIcon />}
-            </View>
+            <View>{user && user.is_verified === 1 && <VerifiedIcon />}</View>
           </Text>
         ) : (
-          <Text style={
-            theme == "light" ? styles.username_light : styles.username_dark
-          }>@user</Text>
+          <Text
+            style={
+              theme == "light" ? styles.username_light : styles.username_dark
+            }
+          >
+            @user
+          </Text>
         )}
         <View style={styles.risingStarView}>
-      {user.is_rising === 1 && <RisingStar />}
+          {user.is_rising === 1 && <RisingStar />}
+        </View>
       </View>
-      </View>
-      
-      
 
       <View style={styles.quotesView}>
         {user.quote !== null ? (
@@ -105,7 +99,6 @@ function UserProfile({ user, isCurrentUser }) {
           />
         </TouchableOpacity>
       </>
-   
 
       <Modal
         animationType="slide"
@@ -202,7 +195,6 @@ const styles = StyleSheet.create({
     right: 16,
     top: 6,
     // alignItems: "center",
-
   },
 });
 

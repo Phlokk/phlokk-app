@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { View, Switch, StyleSheet } from "react-native";
 import colors from "../../../config/colors";
-import { updateCreator } from "../../services/user";
+
 import { useIsFocused } from "@react-navigation/native";
 import { userAtom } from "../../services/appStateAtoms";
 import { useAtom } from "jotai";
-import {
-  getFromSecureStore,
-  saveToSecureStore,
-} from "../../components/common/SecureStoreFunction";
+import { getFromSecureStore, saveToSecureStore } from "../../components/common/SecureStoreFunction";
+import { updateCreator } from "../../services/user";
 
-function SpecialNeedsRibbonSwitch() {
+
+function ShowNewsTickerSwitch() {
   const isFocused = useIsFocused();
   const [isEnabled, setIsEnabled] = useState(false);
   const [isDataNotSaved, setIsDataNotSaved] = useState(false);
   const [user, setUser] = useAtom(userAtom);
 
   useEffect(() => {
-    getFromSecureStore("ribbonSwitch").then((data) => {
+    getFromSecureStore("tickerSwitch").then((data) => {
       setIsEnabled(data ? true : false)
     });
   }, []);
 
-  const toggleRibbon = async () => {
+  const toggleTicker = async () => {
     // !isEnabled is the state of the switch when its set to true.
     let temp = null;
     if (!isEnabled) {
@@ -31,9 +30,9 @@ function SpecialNeedsRibbonSwitch() {
       temp = 0;
     }
     setIsEnabled(!isEnabled);
-    await saveToSecureStore(temp, "ribbonSwitch");
-
-    const updateObject = { is_special_showing: temp };
+    await saveToSecureStore(temp, "tickerSwitch");
+    const updateObject = { show_ticker: temp };
+    
 
     try {
       await updateCreator(updateObject);
@@ -53,7 +52,7 @@ function SpecialNeedsRibbonSwitch() {
               style={styles.switch}
               trackColor={{ false: "grey", true: colors.green }}
               thumbColor={{ false: "f4f3f4", true: "f4f3f4" }}
-              onValueChange={toggleRibbon}
+              onValueChange={toggleTicker}
               value={isEnabled}
             />
           </View>
@@ -102,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SpecialNeedsRibbonSwitch;
+export default ShowNewsTickerSwitch;

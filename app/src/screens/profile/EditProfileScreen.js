@@ -25,6 +25,7 @@ import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
 import { useTheme } from "../../theme/context";
 import { apiUrls } from "../../globals";
 import SpecialNeedsRibbonSwitch from "./SpecialNeedsRibbonSwitch";
+import ShowNewsTickerSwitch from "./ShowNewsTickerSwitch";
 
 export default function EditProfileScreen({ route }) {
   const { theme } = useTheme();
@@ -337,7 +338,7 @@ export default function EditProfileScreen({ route }) {
             </View>
           </TouchableOpacity>
           
-          {currentUser.is_special_needs !== true && (
+          {currentUser.is_special_needs !== 0 && (
           <TouchableOpacity style={styles.fieldItemContainer}>
             <Text
               style={theme == "light" ? styles.text_light : styles.text_dark}
@@ -350,6 +351,20 @@ export default function EditProfileScreen({ route }) {
             </View>
           </TouchableOpacity>
           )}
+
+          
+          <TouchableOpacity style={styles.fieldItemContainer}>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Show News Ticker
+            </Text>
+            <View style={styles.fieldValueContainer}>
+            <ShowNewsTickerSwitch />
+              
+            </View>
+          </TouchableOpacity>
+         
 
 
 

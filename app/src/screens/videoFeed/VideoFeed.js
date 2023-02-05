@@ -264,7 +264,7 @@ const VideoFeed = ({ navigation, route }) => {
           />
         )}
       </TouchableOpacity>
-      
+      {currentUser.show_ticker !== 0 && (
       <TouchableOpacity
         style={{
           position: "absolute",
@@ -282,6 +282,7 @@ const VideoFeed = ({ navigation, route }) => {
           {tickerText}
         </TextTicker>
       </TouchableOpacity>
+      )}
       
       
 
