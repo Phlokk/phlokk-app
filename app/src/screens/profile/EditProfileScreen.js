@@ -24,6 +24,7 @@ import CustomAlert from "../../components/Alerts/CustomAlert";
 import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
 import { useTheme } from "../../theme/context";
 import { apiUrls } from "../../globals";
+import SpecialNeedsRibbonSwitch from "./SpecialNeedsRibbonSwitch";
 
 export default function EditProfileScreen({ route }) {
   const { theme } = useTheme();
@@ -335,6 +336,22 @@ export default function EditProfileScreen({ route }) {
               />
             </View>
           </TouchableOpacity>
+          
+          {currentUser.is_special_needs !== true && (
+          <TouchableOpacity style={styles.fieldItemContainer}>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Show Disability Ribbon
+            </Text>
+            <View style={styles.fieldValueContainer}>
+            <SpecialNeedsRibbonSwitch />
+              
+            </View>
+          </TouchableOpacity>
+          )}
+
+
 
           {/* PROFILE BIO SECTION */}
 

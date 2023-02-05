@@ -22,7 +22,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
 import colors from "./app/config/colors";
 import { userAtom } from "./app/src/services/appStateAtoms";
-import BannedUserProfile from "./app/src/screens/profile/BannedUserProfile";
+
 
 SplashScreen.preventAutoHideAsync();
 

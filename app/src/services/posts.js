@@ -8,7 +8,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import CustomAlert from "../components/Alerts/CustomAlert";
 
 
-export const POSTS_PER_PAGE = 40;
+export const POSTS_PER_PAGE = 20;
 export const POSTS_PER_USER_PAGE = 20; // Changed to 20 since profiles display thumbnails, and may need more on initial load
 
 

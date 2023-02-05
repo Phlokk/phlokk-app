@@ -36,6 +36,16 @@ export const updateCreator = async (data) => {
   await axios.patch("/api/me/update", data);
 };
 
+export const getStateOfSwitch = async () => {
+  try {
+    const result = await axios.get(`/api/creators`);
+    
+    return result.data;
+  } catch (e) {
+    console.log(e)
+  }
+};
+
 export const sendReportData = async (data) => {
   await axios.patch("/api/me/update", data);
 };

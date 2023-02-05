@@ -97,7 +97,7 @@ function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsSho
             )}
             
           </TouchableOpacity>
-          {user.is_special_needs === 1 && <SpecialNeedsIcon />}
+          {user.is_special_needs === 1 && user.is_special_showing === 1 && <SpecialNeedsIcon />}
           </View>
           
         </View>
