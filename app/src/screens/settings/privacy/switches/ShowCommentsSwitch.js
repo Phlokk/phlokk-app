@@ -1,39 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { View, Switch, StyleSheet } from "react-native";
-import colors from "../../../config/colors";
-
-import { useIsFocused } from "@react-navigation/native";
-import { userAtom } from "../../services/appStateAtoms";
+import colors from "../../../../../config/colors";
+import { userAtom } from "../../../../services/appStateAtoms";
 import { useAtom } from "jotai";
-import { getFromSecureStore, saveToSecureStore } from "../../components/common/SecureStoreFunction";
-import { updateCreator } from "../../services/user";
+import { getFromSecureStore, saveToSecureStore } from "../../../../components/common/SecureStoreFunction";
+import { updateCreator } from "../../../../services/user";
 
 
-function ShowNewsTickerSwitch() {
-  const isFocused = useIsFocused();
+function ShowCommentsTickerSwitch() {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isDataNotSaved, setIsDataNotSaved] = useState(false);
   const [user, setUser] = useAtom(userAtom);
 
   useEffect(() => {
-    getFromSecureStore("tickerSwitch").then((data) => {
+    getFromSecureStore("commentsSwitch").then((data) => {
       setIsEnabled(data ? true : false)
     });
   }, []);
 
-  const toggleTicker = async () => {
-    // !isEnabled is the state of the switch when its set to true.
-    let temp = null;
-    if (!isEnabled) {
-      temp = 1;
-    } else {
-      temp = 0;
-    }
-    setIsEnabled(!isEnabled);
-    await saveToSecureStore(temp, "tickerSwitch");
-    const updateObject = { show_ticker: temp };
-    
+  
 
+  const toggleComments = async () => {
+    
+    setIsEnabled(!isEnabled);
+    await saveToSecureStore(!isEnabled, "commentsSwitch");
+    const updateObject = { disable_comments: !isEnabled ? 1 : 0 };
+    
+console.log(updateObject, "update object is here")
     try {
       await updateCreator(updateObject);
       const updatedUser = { ...user, ...updateObject };
@@ -52,7 +45,7 @@ function ShowNewsTickerSwitch() {
               style={styles.switch}
               trackColor={{ false: "grey", true: colors.green }}
               thumbColor={{ false: "f4f3f4", true: "f4f3f4" }}
-              onValueChange={toggleTicker}
+              onValueChange={toggleComments}
               value={isEnabled}
             />
           </View>
@@ -101,4 +94,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShowNewsTickerSwitch;
+export default ShowCommentsTickerSwitch;

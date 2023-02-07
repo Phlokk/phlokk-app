@@ -22,6 +22,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
 import colors from "./app/config/colors";
 import { userAtom } from "./app/src/services/appStateAtoms";
+import AuthScreen from "./app/src/screens/auth/AuthScreen";
 
 
 SplashScreen.preventAutoHideAsync();
@@ -246,6 +247,7 @@ export default function App() {
             <NavigationContainer ref={navigationRef}>
               <ThemeProvider>
                 <Route />
+                
               </ThemeProvider>
             </NavigationContainer>
           </QueryClientProvider>

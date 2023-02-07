@@ -13,8 +13,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import SettingsNavBar from "../../../components/general/settings/SettingsNavBar";
+import { useTheme } from "../../../theme/context";
+import DownloadVideosSwitch from "./switches/DownloadVideosSwitch";
+import ShowCommentsSwitch from "./switches/ShowCommentsSwitch";
+import ShowNewsTickerSwitch from "./switches/ShowNewsTickerSwitch";
 
 export default function PrivacyScreen() {
+  const { theme, setTheme } = useTheme();
   const auth = useSelector((state) => state.auth);
   const navigation = useNavigation();
   const [user, setUser] = useState("");
@@ -44,6 +49,44 @@ export default function PrivacyScreen() {
             />
           </View>
         </TouchableOpacity>
+        <Text
+          style={
+            theme == "light" ? styles.socialText_light : styles.socialText_dark
+          }
+        >
+          Privacy Options
+        </Text>
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+        >
+          <Text style={styles.text}>Turn Off Comments</Text>
+          <View style={styles.fieldValueContainer}>
+            <ShowCommentsSwitch />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+        >
+          <Text style={styles.text}>Turn Off Downloads</Text>
+          <View style={styles.fieldValueContainer}>
+            <DownloadVideosSwitch />
+            
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+        >
+          <Text style={styles.text}>Turn Off News Ticker</Text>
+          <View style={styles.fieldValueContainer}>
+            
+            <ShowNewsTickerSwitch />
+          </View>
+        </TouchableOpacity>
+        
+
       </View>
     </SafeAreaView>
   );
@@ -71,6 +114,20 @@ const styles = StyleSheet.create({
   fieldValueContainer: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  socialText_light: {
+    color: colors.black,
+    fontWeight: "bold",
+    fontSize: 10,
+    marginTop: 20,
+    opacity: 0.5,
+  },
+  socialText_dark: {
+    color: colors.white,
+    fontWeight: "bold",
+    fontSize: 10,
+    marginTop: 20,
+    opacity: 0.5,
   },
   text: {
     // textAlign: "center",

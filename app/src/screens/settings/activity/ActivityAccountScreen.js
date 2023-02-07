@@ -86,6 +86,7 @@ export default function ActivityAccountScreen() {
             />
           </View>
         </View>
+       
         {isNotificationsEnabled && (
           <>
             <View
@@ -96,13 +97,11 @@ export default function ActivityAccountScreen() {
             <View
               style={styles.fieldItemContainer}
               autoCapitalize="none"
-              onPress={testPushNotification}
+              
               // This setting is used for turning on and off notifications in the actual Phlokk app
               // onPress={() => Linking.openSettings()}
             >
-              <TouchableOpacity>
-                <Text style={theme == "light" ? styles.text_light : styles.text_dark}>Send Test Notification</Text>
-              </TouchableOpacity>
+              
             </View>
             <TouchableOpacity
               onPress={() => Linking.openSettings()}

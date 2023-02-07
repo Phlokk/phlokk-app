@@ -48,7 +48,7 @@ export default function SupportScreen() {
           />{" "}
           Report a problem
         </Text>
-        <View style={styles.fieldValueContainer}>
+        <View>
           <Feather
             style={
               theme == "light" ? styles.chevron_light : styles.chevron_dark
@@ -82,7 +82,7 @@ export default function SupportScreen() {
           />{" "}
           Help Center
         </Text>
-        <View style={styles.fieldValueContainer}>
+        <View>
           <Feather
             style={
               theme == "light" ? styles.chevron_light : styles.chevron_dark

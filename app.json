@@ -1,7 +1,6 @@
 {
   "expo": {
     "name": "Phlokk",
-
     "slug": "PhlokkApp",
     "scheme": "phlokkapp",
     "privacy": "public",
@@ -14,14 +13,16 @@
       "resizeMode": "cover",
       "backgroundColor": "#131313"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
-      "buildNumber": "23180801",
+      "buildNumber": "23020501",
       "supportsTablet": true
-    },      
+    },
     "android": {
-      "versionCode": 23180801,
+      "versionCode": 23020501,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
         "backgroundColor": "#04cccc"
@@ -29,10 +30,8 @@
       "package": "com.phlokk.phlokkapp",
       "googleServicesFile": "./google-services-android.json",
       "useNextNotificationsApi": true,
-      "softwareKeyboardLayoutMode" : "pan"
-      
+      "softwareKeyboardLayoutMode": "pan"
     },
-    
     "web": {
       "favicon": "./app/assets/launcher/android/ic_launcher-web.png"
     },
@@ -41,6 +40,11 @@
       "icon": "./app/assets/launcher/android/mipmap-xhdpi/ic_launcher.png",
       "color": "#ffffff",
       "iosDisplayInForeground": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0ce22039-8e13-4b97-84ce-82e13de2bced"
+      }
     }
   }
 }

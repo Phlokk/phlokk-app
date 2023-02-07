@@ -84,21 +84,12 @@ export default function AccountScreen() {
           />
         </View>
       </TouchableOpacity>
-
-      <CustomAlert
-        customAlertMessage={<Text>Privacy{"\n"}coming soon!</Text>}
-        positiveBtn="Ok"
-        modalVisible={blocking}
-        dismissAlert={setBlocking}
-        animationType="fade"
-      />
       <TouchableOpacity
-        onPress={() => setBlocking(true)}
-        // onPress={() =>
-        //   navigation.navigate(routes.PRIVACY_SCREEN, {
-        //     title: "Privacy",
-        //   })
-        // }
+        onPress={() =>
+          navigation.navigate(routes.PRIVACY_SCREEN, {
+            title: "Privacy",
+          })
+        }
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >

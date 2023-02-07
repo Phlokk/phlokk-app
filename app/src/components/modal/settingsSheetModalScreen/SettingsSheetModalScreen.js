@@ -150,10 +150,10 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
           <Text style={styles.text}>Link</Text>
         </TouchableOpacity>
 
+        {isCurrentUser || !post.user.disable_downloads && (
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
-          // onPress={() => setIsDownload(true)}
           onPress={downloadVideo}
         >
           <View style={styles.bubble}>
@@ -161,6 +161,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
           </View>
           <Text style={styles.text}>DL</Text>
         </TouchableOpacity>
+        )}
 
         <TouchableOpacity
           style={styles.fieldItemContainer}
@@ -213,18 +214,6 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
         positiveBtn="Ok"
         modalVisible={isLink}
         dismissAlert={setIsLink}
-        animationType="fade"
-      />
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <MaterialIcons name="info" size={24} color={colors.green} />
-          </Text>
-        }
-        customAlertMessage={<Text>Downloads{"\n"}coming soon!</Text>}
-        positiveBtn="Ok"
-        modalVisible={isDownload}
-        dismissAlert={setIsDownload}
         animationType="fade"
       />
       <CustomAlert

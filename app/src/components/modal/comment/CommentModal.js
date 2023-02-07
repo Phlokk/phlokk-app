@@ -11,7 +11,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from "@expo/vector-icons";
 import CommentItem from "./item/CommentItem";
 import {
   commentListener,
@@ -36,8 +36,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
   const [repliedToComment, setRepliedToComment] = useState();
 
   const [user] = useAtom(userAtom);
-
-
 
   useEffect(async () => {
     await commentListener(post._id, setCommentList, setCommentCount);
@@ -64,7 +62,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
       indexToInsertNewComment = indexOfRepliedToComment + 1;
     }
-// TODO: reply to replies
+    // TODO: reply to replies
     // The comments payload needs to signify that a comment is a reply to another comment
     // It may even need to signify which comment is replying to
     // We can then replicate that same thing above, so when we had a new reply to the UI, we can add a property saying
@@ -101,7 +99,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
   const renderItem = ({ item, index }) => {
     return (
-      
       <View>
         <View style={item.is_reply && { marginLeft: 40, marginTop: -10 }}>
           <CommentItem
@@ -140,35 +137,69 @@ function CommentModal({ post, onNewCommentSubmitted }) {
     );
   };
 
+
+  if (post.user.disable_comments) {
+    return (
+      <View
+        style={
+          theme == "light"
+            ? styles.disabledCommentWrapper_light
+            : styles.disabledCommentWrapper_dark
+        }
+      >
+        <Text
+          style={
+            theme == "light"
+              ? styles.warningText_light
+              : styles.warningText_dark
+          }
+        >
+          This user has disabled comments
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <View
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
+      {/* {user.disable_comments === 0 ? ( */}
       <View style={styles.countRow}>
-      <Text
-        style={
-          theme == "light"
-            ? styles.postCountText_light
-            : styles.postCountText_dark
-        }
-      >
-        Comments {commentCount}
-      </Text>
-      {user._id === post.user._id && (
-      <Text
-        style={
-          theme == "light"
-            ? styles.postCountText_light
-            : styles.postCountText_dark
-        }
-      >
-        Stars {post.like_count}
-      </Text>
-)}
+        <Text
+          style={
+            theme == "light"
+              ? styles.postCountText_light
+              : styles.postCountText_dark
+          }
+        >
+          Comments {commentCount}
+        </Text>
+        {user._id === post.user._id && (
+          <Text
+            style={
+              theme == "light"
+                ? styles.postCountText_light
+                : styles.postCountText_dark
+            }
+          >
+            Stars {post.like_count}
+          </Text>
+        )}
       </View>
+      {/* ) : (
+        <View>
+          <Text style={
+          theme == "light"
+            ? styles.warningText_light
+            : styles.warningText_dark
+        }>This user has disabled comments</Text>
+        </View>
+      )} */}
 
+      {/* {user.disable_comments === 0 && ( */}
       <View style={styles.containerInput}>
-        {!user?.photo_thumb_url  ? (
+        {!user?.photo_thumb_url ? (
           <Image
             style={styles.avatar}
             source={require("../../../../assets/userImage.png")}
@@ -183,64 +214,66 @@ function CommentModal({ post, onNewCommentSubmitted }) {
           </TouchableOpacity>
         )}
         <ScrollView>
-        <TextInput
-          ref={commentTextInputRef}
-          selectionColor={colors.green}
-          style={styles.input}
-          placeholder="Add comment..."
-          placeholderTextColor="gray"
-          multiline
-          value={comment}
-          onChangeText={(newCommentText) => {
-            if (!repliedToComment) {
-              setComment(newCommentText);
-              return;
-            }
-
-            const authorNameLength =
-              repliedToComment?.user.username.length || 0;
-
-            // If the username has a character deleted, we are no longer responding, just delete the user name too
-            if (newCommentText.length - 1 <= authorNameLength) {
-              setComment("");
-              setRepliedToComment();
-              return;
-            }
-
-            // If the user tries to insert text before the username, do not insert the text
-            if (repliedToComment) {
-              if (
-                !newCommentText.startsWith(
-                  `@${repliedToComment.user.username} `
-                )
-              ) {
+          <TextInput
+            ref={commentTextInputRef}
+            selectionColor={colors.green}
+            style={styles.input}
+            placeholder="Add comment..."
+            placeholderTextColor="gray"
+            multiline
+            value={comment}
+            onChangeText={(newCommentText) => {
+              if (!repliedToComment) {
+                setComment(newCommentText);
                 return;
               }
-            }
 
-            setComment(newCommentText);
-          }}
-          maxLength={150}
-        />
+              const authorNameLength =
+                repliedToComment?.user.username.length || 0;
 
-        {comment !== "" && (
-          <View style={styles.closeButton}>
-          <TouchableOpacity
-            onPress={() => submitReply()}
-          >
-             <FontAwesome style={styles.circle} name="circle" size={23} />
-             <Ionicons name="arrow-up-circle" size={27} color={colors.green} />
-          </TouchableOpacity>
-          </View>
-        )}
+              // If the username has a character deleted, we are no longer responding, just delete the user name too
+              if (newCommentText.length - 1 <= authorNameLength) {
+                setComment("");
+                setRepliedToComment();
+                return;
+              }
+
+              // If the user tries to insert text before the username, do not insert the text
+              if (repliedToComment) {
+                if (
+                  !newCommentText.startsWith(
+                    `@${repliedToComment.user.username} `
+                  )
+                ) {
+                  return;
+                }
+              }
+
+              setComment(newCommentText);
+            }}
+            maxLength={150}
+          />
+
+          {comment !== "" && (
+            <View style={styles.closeButton}>
+              <TouchableOpacity onPress={() => submitReply()}>
+                <FontAwesome style={styles.circle} name="circle" size={23} />
+                <Ionicons
+                  name="arrow-up-circle"
+                  size={27}
+                  color={colors.green}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
         </ScrollView>
       </View>
+      {/* )} */}
       <FlatList
         data={commentList}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
-        // keyExtractor={() => uuid().toString()}
       />
     </View>
   );
@@ -253,11 +286,24 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     height: "60%",
   },
+
   container_dark: {
     padding: 10,
     justifyContent: "flex-end",
     backgroundColor: colors.black,
     height: "60%",
+  },
+  disabledCommentWrapper_light: {
+    backgroundColor: colors.white,
+    height: "60%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  disabledCommentWrapper_dark: {
+    backgroundColor: colors.black,
+    height: "60%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   containerInput: {
     padding: 20,
@@ -301,6 +347,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginHorizontal: 15,
   },
+  warningText_light: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: colors.black,
+    textAlign: "center",
+    marginHorizontal: 15,
+  },
+  warningText_dark: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: colors.secondary,
+    textAlign: "center",
+    marginHorizontal: 15,
+  },
   closeButton: {
     top: Platform.OS === "android" ? 7 : 2,
     right: 10,
@@ -313,12 +373,12 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   countRow: {
-    marginTop: 5, 
+    marginTop: 5,
     marginBottom: 5,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
 
 export default CommentModal;

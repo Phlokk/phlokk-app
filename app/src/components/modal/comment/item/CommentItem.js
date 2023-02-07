@@ -23,6 +23,7 @@ import { likeComment, likeCommentReply } from "../../../../redux/actions/likes";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import { useTheme } from "../../../../theme/context";
 
+
 const CommentItem = ({
   comment,
   post,
@@ -34,6 +35,7 @@ const CommentItem = ({
 
   const navigation = useNavigation();
   const [ user ] = useAtom(userAtom);
+
 
   const [isLiked, setIsLiked] = useState(comment.is_liked);
   const [likeCount, setLikeCount] = useState(comment.like_count);
@@ -93,9 +95,11 @@ const CommentItem = ({
   const isCommentCurrentUser = user._id === comment.user_id;
   const isPostFromCurrentUser = user._id === post.user._id;
 
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      
+    <TouchableOpacity
         disabled={isActiveAccount ? user._id == comment.user._id : null}
         onPress={() => {
           isActiveAccount
@@ -114,6 +118,8 @@ const CommentItem = ({
           }
         />
       </TouchableOpacity>
+      
+      
 
       <Pressable
         style={styles.containerText}
@@ -144,7 +150,7 @@ const CommentItem = ({
                 theme == "light" ? styles.username_light : styles.username_dark
               }
             >
-              @{isActiveAccount ? comment.user.username : "deleted user"}
+              @{isActiveAccount ? comment.user.username : "phlokker"}
             </Text>
           </TouchableOpacity>
           {comment.user && comment.user.is_verified === 1 && <VerifiedIcon />}
@@ -183,6 +189,8 @@ const CommentItem = ({
             </TouchableOpacity>
           )}
         </View>
+      
+        
       </Pressable>
       {comment._id.indexOf("-temp") === -1 && isActiveAccount && (
         <View style={styles.starRow}>
@@ -200,8 +208,11 @@ const CommentItem = ({
           >
             {likeCount}
           </Text>
+       
         </View>
+        
       )}
+      
 
       <CustomAlert
         customAlertMessage="Delete this comment?"
@@ -211,7 +222,10 @@ const CommentItem = ({
         dismissAlert={setIsDeleteCommentModalOpen}
         onPositivePressed={onDeleteCommentConfirmed}
       />
+      
+  
     </View>
+  
   );
 };
 
