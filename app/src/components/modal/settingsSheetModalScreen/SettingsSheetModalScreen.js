@@ -121,7 +121,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
               </View>
               <Text style={styles.text}>FAV</Text>
             </TouchableOpacity>
-
+            {isCurrentUser || !post.user.disable_duos && (
             <TouchableOpacity
               style={styles.fieldItemContainer}
               autoCapitalize="none"
@@ -136,8 +136,10 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
               </View>
               <Text style={styles.text}>Duo</Text>
             </TouchableOpacity>
+            )}
           </>
         ) : null}
+        
 
         <TouchableOpacity
           style={styles.fieldItemContainer}

@@ -20,15 +20,10 @@ function DownloadVideosSwitch() {
 
   const toggleDownloads = async () => {
     // !isEnabled is the state of the switch when its set to true.
-    let temp = null;
-    if (!isEnabled) {
-      temp = 1;
-    } else {
-      temp = 0;
-    }
+    
     setIsEnabled(!isEnabled);
-    await saveToSecureStore(temp, "downloadSwitch");
-    const updateObject = { disable_downloads: temp };
+    await saveToSecureStore(!isEnabled, "downloadSwitch");
+    const updateObject = { disable_downloads: !isEnabled ? 1 : 0 };
     
 
     try {

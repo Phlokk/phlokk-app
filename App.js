@@ -25,6 +25,7 @@ import { userAtom } from "./app/src/services/appStateAtoms";
 import AuthScreen from "./app/src/screens/auth/AuthScreen";
 
 
+
 SplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreLogs(["Setting a timer"]);
@@ -33,9 +34,6 @@ LogBox.ignoreLogs([
 ]);
 LogBox.ignoreLogs([
   "Warning: Encountered two children with the same key, `::`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.",
-]);
-LogBox.ignoreLogs([
-  "Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.",
 ]);
 LogBox.ignoreLogs([
   "Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.",
@@ -247,6 +245,7 @@ export default function App() {
             <NavigationContainer ref={navigationRef}>
               <ThemeProvider>
                 <Route />
+                
                 
               </ThemeProvider>
             </NavigationContainer>

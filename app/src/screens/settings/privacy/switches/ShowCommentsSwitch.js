@@ -3,9 +3,11 @@ import { View, Switch, StyleSheet } from "react-native";
 import colors from "../../../../../config/colors";
 import { userAtom } from "../../../../services/appStateAtoms";
 import { useAtom } from "jotai";
-import { getFromSecureStore, saveToSecureStore } from "../../../../components/common/SecureStoreFunction";
+import {
+  getFromSecureStore,
+  saveToSecureStore,
+} from "../../../../components/common/SecureStoreFunction";
 import { updateCreator } from "../../../../services/user";
-
 
 function ShowCommentsTickerSwitch() {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -14,19 +16,15 @@ function ShowCommentsTickerSwitch() {
 
   useEffect(() => {
     getFromSecureStore("commentsSwitch").then((data) => {
-      setIsEnabled(data ? true : false)
+      setIsEnabled(data ? true : false);
     });
   }, []);
 
-  
-
   const toggleComments = async () => {
-    
     setIsEnabled(!isEnabled);
     await saveToSecureStore(!isEnabled, "commentsSwitch");
     const updateObject = { disable_comments: !isEnabled ? 1 : 0 };
-    
-console.log(updateObject, "update object is here")
+
     try {
       await updateCreator(updateObject);
       const updatedUser = { ...user, ...updateObject };

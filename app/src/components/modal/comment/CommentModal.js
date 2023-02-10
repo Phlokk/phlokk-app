@@ -137,7 +137,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
     );
   };
 
-
   if (post.user.disable_comments) {
     return (
       <View
@@ -187,15 +186,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
           </Text>
         )}
       </View>
-      {/* ) : (
-        <View>
-          <Text style={
-          theme == "light"
-            ? styles.warningText_light
-            : styles.warningText_dark
-        }>This user has disabled comments</Text>
-        </View>
-      )} */}
 
       {/* {user.disable_comments === 0 && ( */}
       <View style={styles.containerInput}>
@@ -357,7 +347,7 @@ const styles = StyleSheet.create({
   warningText_dark: {
     fontSize: 12,
     fontWeight: "bold",
-    color: colors.secondary,
+    color: "rgba(125, 125, 125, 0.7)",
     textAlign: "center",
     marginHorizontal: 15,
   },

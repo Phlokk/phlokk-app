@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
+  Alert
 } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
@@ -15,30 +16,38 @@ import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
 import axios from "../../../redux/apis/axiosDeclaration";
 import CustomAlert from "../../Alerts/CustomAlert";
-import routes from "../../../navigation/routes";
 
-export default function ResetPassword() {
+export default function ResetScreen() {
   const [email, setEmail] = useState("");
+  const [token, setToken] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [isCodeSent, setIsCodeSent] = useState(false);
   const [codeErrorMessage, setCodeErrorMessage] = useState(false);
+
 
   const navigation = useNavigation();
 
   function resetTextInput() {
     setEmail("");
+    setToken("");
+    setPassword("");
   }
 
   const handleReset = async () => {
     try {
-      const result = await axios.post(`/api/forgot`, {
+      const result = await axios.post(`/api/reset`, {
         email: email,
+        token: token,
+        password: password,
       });
       console.log(result.data);
       resetTextInput();
-      navigation.navigate(routes.RESET);
+      Alert.alert('Password has been reset successfully');
+      navigation.popToTop();
+
       return result.data;
     } catch (e) {
+console.log(e)
       setCodeErrorMessage(true);
     }
   };
@@ -63,7 +72,7 @@ export default function ResetPassword() {
           </View>
 
           <Text style={styles.emailText}>
-            Please enter your email to get reset code
+            Reset your password
           </Text>
           <TextInput
             style={styles.textInput}
@@ -77,25 +86,31 @@ export default function ResetPassword() {
             placeholder="Email"
             value={email}
           />
+          <TextInput
+            style={styles.textInput}
+            placeholderTextColor={colors.green}
+            autoCapitalize="none"
+            autoCorrect={false}
+            maxLength={10}
+            onChangeText={(text) => setToken(text)}
+            placeholder="Input Code"
+            value={token}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholderTextColor={colors.green}
+            autoCapitalize="none"
+            autoCorrect={false}
+            maxLength={50}
+            onChangeText={(text) => setPassword(text)}
+            placeholder="New Password"
+            value={password}
+          />
           <TouchableOpacity style={styles.button} onPress={() => handleReset()}>
-            <Text style={styles.buttonText}>Get Reset Code</Text>
+            <Text style={styles.buttonText}>Reset Password</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <MaterialIcons name="info" size={24} color={colors.green} />
-          </Text>
-        }
-        customAlertMessage={
-          <Text>A code has been sent to your{"\n"} Email Address</Text>
-        }
-        positiveBtn="Ok"
-        modalVisible={isCodeSent}
-        dismissAlert={setIsCodeSent}
-        animationType="fade"
-      />
       <CustomAlert
         alertTitle={
           <Text>
@@ -164,7 +179,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textContainer: {
-
     padding: 10,
     borderRadius: 50,
   },

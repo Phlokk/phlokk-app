@@ -1,4 +1,6 @@
 export default Object.freeze({
+  AUTH: "auth",
+  RESET: "reset",
   EDIT_PROFILE_FIELD: "editProfileField",
   EDIT: "edit",
   CREATOR: "creator",

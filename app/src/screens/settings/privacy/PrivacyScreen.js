@@ -17,6 +17,7 @@ import { useTheme } from "../../../theme/context";
 import DownloadVideosSwitch from "./switches/DownloadVideosSwitch";
 import ShowCommentsSwitch from "./switches/ShowCommentsSwitch";
 import ShowNewsTickerSwitch from "./switches/ShowNewsTickerSwitch";
+import ShowDuosSwitch from "./switches/ShowDuosSwitch";
 
 export default function PrivacyScreen() {
   const { theme, setTheme } = useTheme();
@@ -61,10 +62,13 @@ export default function PrivacyScreen() {
           autoCapitalize="none"
         >
           <Text style={styles.text}>Turn Off Comments</Text>
+          
           <View style={styles.fieldValueContainer}>
             <ShowCommentsSwitch />
           </View>
+          
         </TouchableOpacity>
+        <Text style={styles.commentSwitchDescription}>Disable comments on your account</Text>
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
@@ -75,6 +79,18 @@ export default function PrivacyScreen() {
             
           </View>
         </TouchableOpacity>
+        <Text style={styles.commentSwitchDescription}>Disable downloads on your account</Text>
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+        >
+          <Text style={styles.text}>Turn Off Duos</Text>
+          <View style={styles.fieldValueContainer}>
+            <ShowDuosSwitch />
+            
+          </View>
+        </TouchableOpacity>
+        <Text style={styles.commentSwitchDescription}>Disable duos on your account</Text>
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
@@ -85,6 +101,7 @@ export default function PrivacyScreen() {
             <ShowNewsTickerSwitch />
           </View>
         </TouchableOpacity>
+        <Text style={styles.commentSwitchDescription}>Disable new ticker on Home screen</Text>
         
 
       </View>
@@ -136,5 +153,10 @@ const styles = StyleSheet.create({
   },
   chevron: {
     opacity: 0.6,
+  },
+  commentSwitchDescription: {
+    color: "rgba(125, 125, 125, 0.8)",
+    fontSize: 10,
+
   },
 });

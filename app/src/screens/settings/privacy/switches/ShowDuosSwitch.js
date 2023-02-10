@@ -7,23 +7,23 @@ import { getFromSecureStore, saveToSecureStore } from "../../../../components/co
 import { updateCreator } from "../../../../services/user";
 
 
-function ShowNewsTickerSwitch() {
+function ShowDuosSwitch() {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isDataNotSaved, setIsDataNotSaved] = useState(false);
   const [user, setUser] = useAtom(userAtom);
 
   useEffect(() => {
-    getFromSecureStore("tickerSwitch").then((data) => {
+    getFromSecureStore("duosSwitch").then((data) => {
       setIsEnabled(data ? true : false)
     });
   }, []);
 
-  const toggleTicker = async () => {
+  const toggleDuos = async () => {
     // !isEnabled is the state of the switch when its set to true.
-  
+    
     setIsEnabled(!isEnabled);
-    await saveToSecureStore(!isEnabled, "tickerSwitch");
-    const updateObject = { disable_ticker: !isEnabled ? 1 : 0 };
+    await saveToSecureStore(!isEnabled, "duosSwitch");
+    const updateObject = { disable_duos: !isEnabled ? 1 : 0 };
     
 
     try {
@@ -44,7 +44,7 @@ function ShowNewsTickerSwitch() {
               style={styles.switch}
               trackColor={{ false: "grey", true: colors.green }}
               thumbColor={{ false: "f4f3f4", true: "f4f3f4" }}
-              onValueChange={toggleTicker}
+              onValueChange={toggleDuos}
               value={isEnabled}
             />
           </View>
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ShowNewsTickerSwitch;
+export default ShowDuosSwitch;

@@ -69,7 +69,10 @@ import EditSkillsFieldScreen from "../../screens/profile/EditSkillsFieldScreen";
 import EditEducationFieldScreen from "../../screens/profile/EditEducationFieldScreen";
 import ReportProblemScreen from "../../screens/reports/ReportProblemScreen";
 import TrimmerScreen from "../../screens/camera/TrimmerScreen";
-import BannedUserProfile from "../../screens/profile/BannedUserProfile";
+import ResetScreen from "../../components/auth/details/ResetScreen";
+
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -105,7 +108,13 @@ export default function Route() {
             component={ResetPassword}
             options={{ headerShown: false }}
           />
-        </>
+           <Stack.Screen
+            name="reset"
+            component={ResetScreen}
+            options={{ headerShown: false }}
+          />
+          </>
+        
       ) : (
         <>
           <Stack.Screen

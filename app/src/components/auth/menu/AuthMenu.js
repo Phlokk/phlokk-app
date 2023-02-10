@@ -87,12 +87,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   containerBottomButton: {
-    // backgroundColor: colors.secondary,
     padding: 20,
     alignItems: "center",
-    // borderStyle: 'solid',
-    // borderWidth: 1,
-    // borderColor: colors.secondary,
   },
   authText: {
     color: colors.secondary,

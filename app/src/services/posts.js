@@ -12,18 +12,19 @@ export const POSTS_PER_PAGE = 20;
 export const POSTS_PER_USER_PAGE = 20; // Changed to 20 since profiles display thumbnails, and may need more on initial load
 
 
-export const getFeed = () =>
-  axios
-    .get("/api/posts", {
-      testing: "testing",
-    })
-    .then(function (response) {
-      return response.data.data;
-      // 2 seconds later...
-    })
-    .catch(function (error) {
-      setIsFeedVisible(true);
-    });
+// export const getFeed = () =>
+//   axios
+//     .get("/api/posts", {
+//       testing: "testing",
+//     })
+//     .then(function (response) {
+      
+//       return response.data.data;
+//       // 2 seconds later...
+//     })
+//     .catch(function (error) {
+//       setIsFeedVisible(true);
+//     });
 
 export const getPost = async (postId) => {
   try {
@@ -33,26 +34,30 @@ export const getPost = async (postId) => {
   }
 };
 
+// feed for all Users 
 export const getFeedAsync = async (page) => {
   const paramsObject = { page, perPage: POSTS_PER_PAGE };
   const params = querystring.stringify(paramsObject);
 
   try {
     const result = await axios.get(`/api/posts?${params}`);
+    
     return result.data;
   } catch {
     setIsFeedVisible(true);
   }
 };
 
+// get currentUser feed API
 export const getUserFeedAsync = async (userId, page) => {
   const paramsObject = { page, perPage: POSTS_PER_USER_PAGE, userId };
   const params = querystring.stringify(paramsObject);
 
   try {
-    const result = await axios.get(`/api/posts?${params}`, {
+    const result = await axios.get(`/api/posts/userPosts?${params}`, {
       testing: "testing",
     });
+    console.log(result.data)
     return result.data;
   } catch {
     setIsFeedConnected(true);
