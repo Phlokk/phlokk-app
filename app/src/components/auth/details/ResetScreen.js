@@ -40,14 +40,12 @@ export default function ResetScreen() {
         token: token,
         password: password,
       });
-      console.log(result.data);
       resetTextInput();
       Alert.alert('Password has been reset successfully');
       navigation.popToTop();
 
       return result.data;
     } catch (e) {
-console.log(e)
       setCodeErrorMessage(true);
     }
   };

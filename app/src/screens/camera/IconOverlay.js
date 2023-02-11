@@ -28,26 +28,7 @@ const IconOverlay = () => {
   const [isSeconds, setIsSeconds] = useState(false);
   const [isLive, setIsLive] = useState(false);
 
-  // const randNum = uuid().toString();
 
-  //   const SpeedUpVideo = () => {
-  //     // Assume that the file 'original.mp4' is in the project directory
-  //     const inputPath = 'original.mp4';
-  //     const outputPath = randNum.mp4
-  //     const speed = 2;  // This will speed up the video by a factor of 2
-
-  //     // Use the ffmpeg-static package to create the command for speeding up the video
-  //     const cmd = `-i ${inputPath} -filter_complex "[0:v]setpts=${1/speed}*PTS[v];[0:a]atempo=${speed}[a]" -map "[v]" -map "[a]" ${outputPath}`;
-
-  //     // Execute the command using the ffmpeg-static package
-  //     ffmpeg.ffmpeg(cmd, (err, data) => {
-  //       if (err) {
-  //         console.error(err);
-  //       } else {
-  //         console.log(data);
-  //       }
-  //     });
-  //   }
 
   return (
     <View>

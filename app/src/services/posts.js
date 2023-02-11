@@ -57,7 +57,6 @@ export const getUserFeedAsync = async (userId, page) => {
     const result = await axios.get(`/api/posts/userPosts?${params}`, {
       testing: "testing",
     });
-    console.log(result.data)
     return result.data;
   } catch {
     setIsFeedConnected(true);

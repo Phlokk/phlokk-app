@@ -145,7 +145,7 @@ export default function CameraScreen({ route }) {
                 navigation.navigate("editPosts", { source, sourceThumb });
               } else {
                 await generateVideo(source).then((outputFilePath) => {
-                  console.log(outputFilePath, "<<<<====outputFilePath");
+                  
                   navigation.navigate("editPosts", {
                     source: outputFilePath,
                     sourceThumb,
@@ -311,8 +311,6 @@ export default function CameraScreen({ route }) {
         }
       } catch (error) {
         setIsAudioPlaying(false);
-
-        console.log(error, "load audio");
         SetLoading(false);
       }
     } else {

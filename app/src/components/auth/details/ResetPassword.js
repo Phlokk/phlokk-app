@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
 import axios from "../../../redux/apis/axiosDeclaration";
 import CustomAlert from "../../Alerts/CustomAlert";
-import routes from "../../../navigation/routes";
+import ResetCodeAlert from "../../Alerts/ResetCodeAlert";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -34,9 +34,8 @@ export default function ResetPassword() {
       const result = await axios.post(`/api/forgot`, {
         email: email,
       });
-      console.log(result.data);
       resetTextInput();
-      navigation.navigate(routes.RESET);
+      setIsCodeSent(true);
       return result.data;
     } catch (e) {
       setCodeErrorMessage(true);
@@ -82,7 +81,7 @@ export default function ResetPassword() {
           </TouchableOpacity>
         </View>
       </View>
-      <CustomAlert
+      <ResetCodeAlert
         alertTitle={
           <Text>
             <MaterialIcons name="info" size={24} color={colors.green} />

@@ -32,7 +32,7 @@ export default function EditPostsScreen({ route }) {
   const videoThumb = route.params.sourceThumb;
 
   useEffect(() => {
-    console.log("editposts screen console log ",route.params)
+    
     // const outputFilePath =  (Platform.OS === "android" ? route.params.outputFilePath : route.params.outputFilePath.replace('file:///', ''))
     setVideoUrl(route.params.source );
     const setupAudio = async () => {

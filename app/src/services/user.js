@@ -42,7 +42,6 @@ export const getStateOfSwitch = async () => {
     
     return result.data;
   } catch (e) {
-    console.log(e)
   }
 };
 
