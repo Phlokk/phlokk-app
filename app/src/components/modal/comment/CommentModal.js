@@ -19,11 +19,13 @@ import {
   addComment,
   addCommentReply,
 } from "../../../services/posts";
+import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../services/appStateAtoms";
 import uuid from "uuid-random";
 import { useTheme } from "../../../theme/context";
+import CustomAlert from "../../Alerts/CustomAlert";
 
 function CommentModal({ post, onNewCommentSubmitted }) {
   const { theme } = useTheme();
@@ -34,6 +36,8 @@ function CommentModal({ post, onNewCommentSubmitted }) {
   const [commentList, setCommentList] = useState([]);
   const [commentCount, setCommentCount] = useState("");
   const [repliedToComment, setRepliedToComment] = useState();
+
+  const [isLinked, setIsLinked] = useState(false);
 
   const [user] = useAtom(userAtom);
 
@@ -95,6 +99,37 @@ function CommentModal({ post, onNewCommentSubmitted }) {
     setCommentCount((prev) => prev + 1);
 
     onNewCommentSubmitted();
+  };
+
+  const HASHTAG_FORMATTER = (string) => {
+    if (string === null) {
+      return;
+    }
+
+    return string
+      .split(/((?:^|\s)(?:#[a-z\d-] || @[a-z\d-]+))/gi)
+      .filter(Boolean)
+      .map((tag, i) => {
+        if (tag.includes("#") || tag.includes("@")) {
+          return (
+            <Text
+
+              key={i}
+              onPress={() => {
+                
+                  setIsLinked(true);
+                }
+                
+              }
+              style={styles.tags}
+            >
+              {JSON.stringify(tag).slice(1, -1)}
+            </Text>
+          );
+        } else {
+          return <Text key={i}>{tag}</Text>;
+        }
+      });
   };
 
   const renderItem = ({ item, index }) => {
@@ -215,6 +250,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             onChangeText={(newCommentText) => {
               if (!repliedToComment) {
                 setComment(newCommentText);
+                
                 return;
               }
 
@@ -265,6 +301,18 @@ function CommentModal({ post, onNewCommentSubmitted }) {
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
       />
+      <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Tags & Mentions coming soon!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isLinked}
+            dismissAlert={setIsLinked}
+            animationType="fade"
+          />
     </View>
   );
 }

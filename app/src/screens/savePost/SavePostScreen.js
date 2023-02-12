@@ -69,6 +69,10 @@ export default function SavePostScreen({ route }) {
       });
   };
 
+
+
+
+
   if (requestRunning) {
     return (
       <View style={styles.uploadingContainer}>

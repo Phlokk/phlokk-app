@@ -1,8 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, Easing, Platform, StyleSheet } from "react-native";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons'; 
-
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Easing,
+  Platform,
+  StyleSheet,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
@@ -15,28 +23,30 @@ import RisingStarFeed from "../../../common/RisingStarFeed";
 import AddFriendBtn from "./AddFriendBtn";
 import axios from "../../../../redux/apis/axiosDeclaration";
 import SpecialNeedsIcon from "../../../common/specialNeedsIcon";
-
-
-
+import CustomAlert from "../../../Alerts/CustomAlert";
 
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
+function UserProfileOverlay({
+  post,
+  user,
+  currentUser,
+  isCurrentUser,
+  areTabsShowing,
+}) {
+  const [following, setFollowing] = useState(user?.follow_count);
+  const [isFollowing, setIsFollowing] = useState(user?.is_following);
+  const [isLinked, setIsLinked] = useState(false);
 
 
-function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsShowing }) {
-  
-
-    const [following, setFollowing] = useState(user?.follow_count);
-    const [isFollowing, setIsFollowing] = useState(user?.is_following);
-
-    const toggleIsFollowing = async function (userId) {
+  const toggleIsFollowing = async function (userId) {
     await axios.post(
       "/api/creator/" + userId + "/" + (isFollowing ? "unfollow" : "follow")
     ),
       {};
     setIsFollowing(!isFollowing);
     setFollowing(!isFollowing ? following + 1 : following - 1);
-  }
+  };
 
   const navigation = useNavigation();
   const username = user.username;
@@ -49,6 +59,38 @@ function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsSho
   const animatedStyle = { transform: [{ rotate }] };
   const isFocused = useIsFocused();
 
+
+  const HASHTAG_FORMATTER = (string) => {
+    if (string === null) {
+      return;
+    }
+
+    return string
+      .split(/((?:^|\s)(?:#[a-z\d-] || @[a-z\d-]+))/gi)
+      .filter(Boolean)
+      .map((tag, i) => {
+        if (tag.includes("#") || tag.includes("@")) {
+          return (
+            <Text
+
+              key={i}
+              onPress={() => {
+                
+                  setIsLinked(true);
+                }
+                
+              }
+              style={styles.tags}
+            >
+              {JSON.stringify(tag).slice(1, -1)}
+            </Text>
+          );
+        } else {
+          return <Text key={i}>{tag}</Text>;
+        }
+      });
+  };
+
   const tickerText = "official phlokk audio @" + username;
 
   return (
@@ -59,49 +101,39 @@ function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsSho
       <View pointerEvents="box-none">
         <View style={styles.avatarContainer}>
           <View style={styles.addFriendBtnView}>
-          {!isCurrentUser && currentUser._id !== post.user._id && (
-            <TouchableOpacity
-            onPress={() => toggleIsFollowing(user._id)}
-            >
-             <Text
-                >
-                  {isFollowing ? (
-                    null
-                  ) : (
-                    <AddFriendBtn />
-                  )}
-                </Text> 
-          </TouchableOpacity>
-          )}
+            {!isCurrentUser && currentUser._id !== post.user._id && (
+              <TouchableOpacity onPress={() => toggleIsFollowing(user._id)}>
+                <Text>{isFollowing ? null : <AddFriendBtn />}</Text>
+              </TouchableOpacity>
+            )}
           </View>
           <View style={styles.imageRow}>
-          <TouchableOpacity
-            disabled={currentUser._id == post.user._id}
-            onPress={() => {
-              navigation.navigate("feedProfile", {
-                initialUser: user,
-              });
-            }}
-          >
-            {!user?.photo_thumb_url && !user?.photo_thumb_url ? (
-              <Image
-                style={styles.avatar}
-                source={require("../../../../../assets/userImage.png")}
-                cache="only-if-cached"
-              />
-            ) : (
-              <Image
-                style={styles.avatar}
-                source={{ uri: user.photo_thumb_url }}
-              />
+            <TouchableOpacity
+              disabled={currentUser._id == post.user._id}
+              onPress={() => {
+                navigation.navigate("feedProfile", {
+                  initialUser: user,
+                });
+              }}
+            >
+              {!user?.photo_thumb_url && !user?.photo_thumb_url ? (
+                <Image
+                  style={styles.avatar}
+                  source={require("../../../../../assets/userImage.png")}
+                  cache="only-if-cached"
+                />
+              ) : (
+                <Image
+                  style={styles.avatar}
+                  source={{ uri: user.photo_thumb_url }}
+                />
+              )}
+            </TouchableOpacity>
+            {user.is_special_needs === 1 && user.is_special_showing === 1 && (
+              <SpecialNeedsIcon />
             )}
-            
-          </TouchableOpacity>
-          {user.is_special_needs === 1 && user.is_special_showing === 1 && <SpecialNeedsIcon />}
           </View>
-          
         </View>
-       
 
         <View style={styles.linkView}>
           {user.link !== null ? (
@@ -111,11 +143,7 @@ function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsSho
                 user && user.link ? () => Linking.openURL(user.link) : null
               }
             >
-              <FontAwesome5
-                name="globe"
-                size={16}
-                color={colors.green}
-              />
+              <FontAwesome5 name="globe" size={16} color={colors.green} />
               <Text style={styles.linkText}> Visit site</Text>
             </TouchableOpacity>
           ) : (
@@ -130,12 +158,15 @@ function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsSho
             {user.is_verified === 1 && <VerifiedIcon />}
             {user.is_rising === 1 && <RisingStarFeed />}
           </View>
-          
         </View>
 
         <Text
           numberOfLines={descriptionDisplayLines}
-          style={post.description !== null ? styles.description : styles.descriptionEmpty}
+          style={
+            post.description !== null
+              ? styles.description
+              : styles.descriptionEmpty
+          }
           key={user}
           onPress={() => {
             if (descriptionDisplayLines > DEFAULT_DESC_DISPLAY_LINES) {
@@ -145,32 +176,48 @@ function UserProfileOverlay({ post, user, currentUser, isCurrentUser, areTabsSho
             }
           }}
         >
-          {post.description}
+          {HASHTAG_FORMATTER(post.description)}
         </Text>
         <View style={styles.songView}>
-        <View style={styles.songRow}>
-        <MaterialCommunityIcons style={styles.soundWav} name="waveform" size={28} color={colors.green}  />
-
-          <TextTicker 
-          style={styles.ticker} 
-          duration={8000} 
-          loop={true}
-          repeatSpacer={20}
-          easing={Easing.in(Easing.linear)}
-          >
-            {tickerText}
-          </TextTicker>
-
-          <View style={styles.animatedlogo}>
-            <Animated.Image
-              style={[styles.songImage, isFocused && animatedStyle]}
-              source={pmdLogo}
+          <View style={styles.songRow}>
+            <MaterialCommunityIcons
+              style={styles.soundWav}
+              name="waveform"
+              size={28}
+              color={colors.green}
             />
-            
+
+            <TextTicker
+              style={styles.ticker}
+              duration={8000}
+              loop={true}
+              repeatSpacer={20}
+              easing={Easing.in(Easing.linear)}
+            >
+              {tickerText}
+            </TextTicker>
+
+            <View style={styles.animatedlogo}>
+              <Animated.Image
+                style={[styles.songImage, isFocused && animatedStyle]}
+                source={pmdLogo}
+              />
+            </View>
           </View>
         </View>
-        </View> 
       </View>
+      <CustomAlert
+            alertTitle={
+              <Text>
+                <MaterialIcons name="info" size={24} color={colors.green} />
+              </Text>
+            }
+            customAlertMessage={<Text>Tags & Mentions coming soon!</Text>}
+            positiveBtn="Ok"
+            modalVisible={isLinked}
+            dismissAlert={setIsLinked}
+            animationType="fade"
+          />
     </View>
   );
 }
@@ -193,10 +240,9 @@ const styles = StyleSheet.create({
   songView: {
     right: 5,
     flex: 1,
-    backgroundColor: 'rgba(125, 125, 125, 0.2)',
+    backgroundColor: "rgba(125, 125, 125, 0.2)",
     width: Platform.OS === "android" ? 210 : 240,
-    borderRadius: 50,  
-
+    borderRadius: 50,
   },
   username: {
     color: colors.white,
@@ -268,7 +314,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   animatedlogo: {
-    top: 5, 
+    top: 5,
     marginLeft: 5,
   },
   displayLines: {
@@ -293,14 +339,12 @@ const styles = StyleSheet.create({
     padding: 3,
     paddingRight: 4,
     borderRadius: 5,
-    backgroundColor: 'rgba(125, 125, 125, 0.5)',
+    backgroundColor: "rgba(125, 125, 125, 0.5)",
     marginBottom: 5,
     right: 7,
-    
-   
   },
   soundWav: {
-    paddingRight: 3, 
+    paddingRight: 3,
     right: 4,
   },
   addFriendBtnView: {
@@ -310,5 +354,9 @@ const styles = StyleSheet.create({
   },
   imageRow: {
     flexDirection: "row",
-  }
+  },
+  tags: {
+    color: colors.secondary,
+    fontWeight: "600",
+  },
 });
