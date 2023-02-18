@@ -6,6 +6,7 @@ import colors from "../../../config/colors";
 import axios from "../../redux/apis/axiosDeclaration";
 
 const FollowingListItem = ({ item }) => {
+
   const navigation = useNavigation();
   const [isFollowing, setIsFollowing] = useState(item.is_following);
   const toggleIsFollowing = async function () {
@@ -56,14 +57,14 @@ const FollowingListItem = ({ item }) => {
             onPress={toggleIsFollowing}
             style={styles.followingView}
           >
-            <Text style={styles.followBtn}>Follow</Text>
+            <Text style={styles.followBtn}>Following</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={toggleIsFollowing}
             style={styles.followingView}
           >
-            <Text style={styles.followingBtn}>Following</Text>
+            <Text style={styles.followingBtn}>Follow</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -128,8 +129,8 @@ const styles = StyleSheet.create({
     bottom: 12,
     paddingLeft: 5,
   },
-  followBtn: {
-    fontSize: 12,
+  followingBtn: {
+    fontSize: 10,
     color: colors.white,
     textAlign: "center",
     padding: 4,
@@ -138,8 +139,8 @@ const styles = StyleSheet.create({
     borderColor: colors.green,
     backgroundColor: colors.grey,
   },
-  followingBtn: {
-    fontSize: 12,
+  followBtn: {
+    fontSize: 10,
     color: colors.green,
     textAlign: "center",
     padding: 4,

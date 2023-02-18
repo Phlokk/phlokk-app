@@ -52,6 +52,8 @@ export const sendReportData = async (data) => {
 export const getIsFollowing = (user, otherUserId) =>
   new Promise((resolve, reject) => {});
 
+  
+
 export const getFollowers = async (me, id = null) => {
   try {
     if (me) {
@@ -71,4 +73,13 @@ export const queryUsers = async (searchQuery) => {
   return await axios.post("/api/creators/search", {
     query: searchQuery,
   });
+};
+
+export const getAllUserPostLikes = async (_id) => {
+  try {
+    const result = await axios.get(`/api/posts/postsLikes/${_id}`);
+    return result.data;
+  } catch (e) {
+    console.log(e)
+  }
 };

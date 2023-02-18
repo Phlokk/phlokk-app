@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   playCountText: {
     color: colors.white,
-    fontWeight: "bold",
+    fontWeight: "600",
     marginLeft: 5,
     fontSize: 11,
     position: "absolute",

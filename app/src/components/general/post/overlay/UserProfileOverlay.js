@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
@@ -23,7 +22,7 @@ import RisingStarFeed from "../../../common/RisingStarFeed";
 import AddFriendBtn from "./AddFriendBtn";
 import axios from "../../../../redux/apis/axiosDeclaration";
 import SpecialNeedsIcon from "../../../common/specialNeedsIcon";
-import CustomAlert from "../../../Alerts/CustomAlert";
+
 
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
@@ -59,6 +58,7 @@ function UserProfileOverlay({
   const animatedStyle = { transform: [{ rotate }] };
   const isFocused = useIsFocused();
 
+  
 
   const HASHTAG_FORMATTER = (string) => {
     if (string === null) {
@@ -74,12 +74,13 @@ function UserProfileOverlay({
             <Text
 
               key={i}
-              onPress={() => {
+              // onPress={() => {
+              //   navigation.navigate("feedProfile", {
+              //     initialUser: user,
+              //   });
+              // }
                 
-                  setIsLinked(true);
-                }
-                
-              }
+              // }
               style={styles.tags}
             >
               {JSON.stringify(tag).slice(1, -1)}
@@ -90,6 +91,8 @@ function UserProfileOverlay({
         }
       });
   };
+
+ 
 
   const tickerText = "official phlokk audio @" + username;
 
@@ -206,18 +209,6 @@ function UserProfileOverlay({
           </View>
         </View>
       </View>
-      <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={<Text>Tags & Mentions coming soon!</Text>}
-            positiveBtn="Ok"
-            modalVisible={isLinked}
-            dismissAlert={setIsLinked}
-            animationType="fade"
-          />
     </View>
   );
 }

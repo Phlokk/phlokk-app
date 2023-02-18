@@ -94,6 +94,7 @@ export default function App() {
     } else {
       const loadUser = async () => {
         const response = await fetchGetUser();
+        
         setUser(response.user);
       };
 

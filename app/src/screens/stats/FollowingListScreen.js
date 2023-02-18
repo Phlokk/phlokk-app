@@ -18,7 +18,7 @@ export default function FollowingListScreen({route}) {
 	const {user,isCurrentUser} = route.params;
 
 	const [followersList, setFollowersList] = useState('');
-	const [isLoading, setIsLoading] = useState();
+	const [isLoading, setIsLoading] = useState(false);
 	const isFocused = useIsFocused();
 
 	useEffect(() => {

@@ -26,6 +26,11 @@ export const POSTS_PER_USER_PAGE = 20; // Changed to 20 since profiles display t
 //       setIsFeedVisible(true);
 //     });
 
+
+
+
+
+
 export const getPost = async (postId) => {
   try {
     return axios.get(`/api/post/view/${postId}`);
@@ -99,7 +104,7 @@ export const useVideoFeed = (options) => {
   const refresh = async () => {
     await getFeed();
   };
-
+  
   return { posts, getMoreVideos, loading, refresh };
 };
 
