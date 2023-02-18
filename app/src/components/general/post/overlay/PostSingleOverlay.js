@@ -20,6 +20,7 @@ import GiftingModalScreen from "../../../modal/giftingModalScreen/GiftingModalSc
 import CommentModal from "../../../modal/comment/CommentModal";
 import colors from "../../../../../config/colors";
 import { likeVideo } from "../../../../redux/actions/likes";
+import { numberFormatter } from "../../../common/NumberFormatter";
 // import routes from "../../../../navigation/routes"
 
 export default function PostSingleOverlay({ post, user, isCurrentUser }) {
@@ -65,7 +66,7 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
           name={isLiked ? "star" : "star-outline"}
         />
       </TouchableOpacity>
-      <Text style={styles.statsLabel}>{likeCount}</Text>
+      <Text style={styles.statsLabel}>{numberFormatter(likeCount)}</Text>
 
       <View style={styles.iconContainer}>
         <TouchableOpacity
@@ -94,7 +95,7 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
             />
           </View>
         </Modal>
-        <Text style={styles.statsLabel}>{commentCount}</Text>
+        <Text style={styles.statsLabel}>{numberFormatter(commentCount)}</Text>
       </View>
       <CustomAlert
         alertTitle={

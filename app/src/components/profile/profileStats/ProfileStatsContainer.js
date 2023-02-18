@@ -8,6 +8,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
 import { useTheme } from "../../../theme/context";
 import { getAllUserPostLikes } from "../../../services/user";
+import { numberFormatter } from "../../common/NumberFormatter";
 
 function ProfileStatsContainer({ user, isCurrentUser }) {
 
@@ -25,12 +26,13 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
 
   const [isFriends, setIsFriends] = useState(false);
 
+
   useEffect(() => {
     const totalPostsLikes = async () => {
       const likesCount = await getAllUserPostLikes(user._id);
       setLikesCount(likesCount);
 
-      starCount = likesCount;
+      starCount = numberFormatter(likesCount);
     };
 
     if (isFocused) {
@@ -38,7 +40,9 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
     }
   }, [isFocused]);
 
-  starCount = likesCount;
+  starCount = numberFormatter(likesCount);
+
+
   
 
 
@@ -60,7 +64,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
                   : styles.counterNumberText_dark
               }
             >
-              {following}
+              {numberFormatter(following)}
             </Text>
           </TouchableOpacity>
 
@@ -88,7 +92,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
                   : styles.counterNumberText_dark
               }
             >
-              {friends}
+              {numberFormatter(friends)}
             </Text>
           </TouchableOpacity>
           <Text

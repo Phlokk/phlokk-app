@@ -22,6 +22,7 @@ import {
 import { likeComment, likeCommentReply } from "../../../../redux/actions/likes";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import { useTheme } from "../../../../theme/context";
+import { likeCountFormatter, numberFormatter } from "../../../common/NumberFormatter";
 
 
 const CommentItem = ({
@@ -206,7 +207,7 @@ const CommentItem = ({
               theme == "light" ? styles.starCount_light : styles.starCount_dark
             }
           >
-            {likeCount}
+            {likeCountFormatter(likeCount)}
           </Text>
        
         </View>

@@ -26,6 +26,7 @@ import { userAtom } from "../../../services/appStateAtoms";
 import uuid from "uuid-random";
 import { useTheme } from "../../../theme/context";
 import CustomAlert from "../../Alerts/CustomAlert";
+import { numberFormatter } from "../../common/NumberFormatter";
 
 function CommentModal({ post, onNewCommentSubmitted }) {
   const { theme } = useTheme();
@@ -207,7 +208,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
               : styles.postCountText_dark
           }
         >
-          Comments {commentCount}
+          Comments {numberFormatter(commentCount)}
         </Text>
         {user._id === post.user._id && (
           <Text
@@ -217,7 +218,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
                 : styles.postCountText_dark
             }
           >
-            Stars {post.like_count}
+            Stars {numberFormatter(post.like_count)}
           </Text>
         )}
       </View>

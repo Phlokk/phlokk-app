@@ -54,7 +54,7 @@ const VideoFeed = ({ navigation, route }) => {
 
       let newTickerText = "official Phlokk news: ";
       ticker.news_ticker.forEach((item) => {
-        newTickerText += `${item.ticker_description} ${item.ticker_message} - `
+        newTickerText += ` ${item.ticker_description} ${item.ticker_message} - `
 
       })
       newTickerText = newTickerText.substring(0, newTickerText.length -3)

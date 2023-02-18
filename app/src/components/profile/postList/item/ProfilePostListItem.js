@@ -19,6 +19,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 // import { MaterialIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../../components/Alerts/CustomAlert";
 import CustomActivityIndicator from "../../../common/ActivityIndicator";
+import { likeCountFormatter } from "../../../common/NumberFormatter";
 
 export default function ProfilePostListItem({ item, index, posts, setPosts }) {
   const navigation = useNavigation();
@@ -119,7 +120,7 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
           size={14}
           color={colors.white}
         />{" "}
-        {item?.play_count ?? 0}
+        {likeCountFormatter(item?.play_count) ?? 0}
       </Text>
       <CustomAlert
         alertTitle={

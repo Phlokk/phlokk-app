@@ -154,9 +154,16 @@ function UserProfileOverlay({
           )}
         </View>
         <View style={styles.usernameRow} pointerEvents="box-none">
-          <Text style={styles.username} key={user._id}>
-            @{user.username}
-          </Text>
+          <TouchableOpacity 
+          onPress={() => {
+            navigation.navigate("feedProfile", {
+              initialUser: user,
+            });
+          }}
+          style={styles.username} 
+          key={user._id}>
+            <Text style={styles.username}>@{user.username}</Text>
+          </TouchableOpacity>
           <View style={{ paddingTop: 2, top: 2 }}>
             {user.is_verified === 1 && <VerifiedIcon />}
             {user.is_rising === 1 && <RisingStarFeed />}

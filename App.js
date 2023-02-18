@@ -22,7 +22,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
 import colors from "./app/config/colors";
 import { userAtom } from "./app/src/services/appStateAtoms";
-import AuthScreen from "./app/src/screens/auth/AuthScreen";
+
 
 
 
@@ -94,7 +94,6 @@ export default function App() {
     } else {
       const loadUser = async () => {
         const response = await fetchGetUser();
-        
         setUser(response.user);
       };
 
