@@ -55,6 +55,9 @@ export default Object.freeze({
   FRIENDS_LIST: "friendsList",
   FIRE_RULES: "fireRules",
   RESET_PASS: "resetPassword",
+  UPDATE_PASSWORD: "passwordUpdate",
+  UPDATE_EMAIL: "emailUpdate",
+  UPDATE_PIN: "pinUpdate",
   // Flatlist Screens
   COMEDY_SCREEN: "comedyScreen",
   MUSICIAN_SCREEN: "musicianScreen",

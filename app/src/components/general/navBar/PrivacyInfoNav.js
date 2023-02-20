@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -7,11 +7,11 @@ import { useTheme } from "../../../theme/context";
 
 import colors from "../../../../config/colors";
 
-export default function InfoScreenNav({
+export default function PrivacyInfoNav({
   title = "Edit profile",
   leftButton = { display: false },
 }) {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const navigation = useNavigation();
   return (
@@ -35,7 +35,7 @@ export default function InfoScreenNav({
         style={styles.button}
         onPress={() => (leftButton.display ? leftButton.action() : null)}
       >
-        <Text style={theme == "light" ? styles.save_light : styles.save_dark}>Save</Text>
+        <Text style={styles.save}>Save</Text>
       </TouchableOpacity>
     </View>
   );
@@ -63,16 +63,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.secondary,
   },
-  save_light: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: colors.black,
-  },
-  save_dark: {
+  save: {
     fontSize: 12,
     fontWeight: "bold",
     color: colors.green,
   },
+  
   text: {
     color: colors.black,
   },

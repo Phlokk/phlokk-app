@@ -1,16 +1,15 @@
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import React, { useState, useContext } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { useTheme } from "../../theme/context";
+import routes from "../../navigation/routes";
 
 const AccountInformation = () => {
   const { theme, setTheme } = useTheme();
-
+  const navigation = useNavigation();
   const [phoneNumber, setPhoneNumber] = useState(false);
   const [email, setEmail] = useState(false);
   const [password, setPassword] = useState(false);
@@ -58,7 +57,11 @@ const AccountInformation = () => {
         animationType="fade"
       />
       <TouchableOpacity
-        onPress={() => setEmail(true)}
+         onPress={() =>
+          navigation.navigate(routes.UPDATE_EMAIL, {
+            title: "Update email",
+          })
+        }
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >
@@ -76,15 +79,12 @@ const AccountInformation = () => {
           />
         </View>
       </TouchableOpacity>
-      <CustomAlert
-        customAlertMessage={<Text>Edit password{"\n"}coming soon!</Text>}
-        positiveBtn="Ok"
-        modalVisible={password}
-        dismissAlert={setPassword}
-        animationType="fade"
-      />
       <TouchableOpacity
-        onPress={() => setPassword(true)}
+         onPress={() =>
+          navigation.navigate(routes.UPDATE_PASSWORD, {
+            title: "Update password",
+          })
+        }
         style={styles.fieldItemContainer}
         autoCapitalize="none"
       >

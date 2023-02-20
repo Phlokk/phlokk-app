@@ -25,7 +25,6 @@ import SubscriptionScreen from "../../screens/market/subscription/SubscriptionSc
 import ActivityScreen from "../../screens/activity/ActivityScreen";
 import EditPhoneScreen from "../../screens/manageAccount/EditPhoneScreen";
 import EditEmailScreen from "../../screens/manageAccount/EditEmailScreen";
-import EditPasswordScreen from "../../screens/manageAccount/EditPasswordScreen";
 import EditYoutubeScreen from "../../screens/profile/EditYoutubeScreen";
 import EditInstagramScreen from "../../screens/profile/EditInstagramScreen";
 import UserTabs from "../userTabs/TabBar";
@@ -70,6 +69,10 @@ import EditEducationFieldScreen from "../../screens/profile/EditEducationFieldSc
 import ReportProblemScreen from "../../screens/reports/ReportProblemScreen";
 import TrimmerScreen from "../../screens/camera/TrimmerScreen";
 import ResetScreen from "../../components/auth/details/ResetScreen";
+import ResetPasswordScreen from "../../screens/manageAccount/UpdatePasswordScreen";
+import UpdatePasswordScreen from "../../screens/manageAccount/UpdatePasswordScreen";
+import UpdatePinScreen from "../../screens/manageAccount/UpdatePinScreen";
+import UpdateEmailScreen from "../../screens/manageAccount/UpdateEmailScreen";
 
 
 
@@ -225,6 +228,21 @@ export default function Route() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
+            name="passwordUpdate"
+            component={UpdatePasswordScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="emailUpdate"
+            component={UpdateEmailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="pinUpdate"
+            component={UpdatePinScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
             name="admission"
             component={EditAdmissionScreen}
             options={{ headerShown: false }}
@@ -270,8 +288,8 @@ export default function Route() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="profilePassword"
-            component={EditPasswordScreen}
+            name="password"
+            component={ResetPasswordScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen
