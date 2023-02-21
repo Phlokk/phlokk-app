@@ -22,7 +22,6 @@ import axios from "../../../redux/apis/axiosDeclaration";
 function BioSheetModalScreen({ user, isCurrentUser }) {
   const [following, setFollowing] = useState(user?.follow_count);
   const [isFollowing, setIsFollowing] = useState(user?.is_following);
-  // const [isFriends, setIsFriends] = useState(false);
 
   const toggleIsFollowing = async function (userId) {
     await axios.post(
@@ -59,6 +58,14 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
               <Text style={styles.username}>@user</Text>
             )}
           </View>
+
+          {user.pronouns !== "n/a" && user.pronouns !== null && (
+            <>
+              <Text style={[styles.pronounsText, styles.pronounsIcon]}>
+                {user.pronouns}
+              </Text>
+            </>
+          )}
 
           {user.relationship_type !== "n/a" && user.relationship_type !== null && (
             <>
@@ -272,6 +279,14 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     textAlign: "center",
     fontSize: 12,
+  },
+  pronounsText: {
+    marginTop: 10,
+    marginBottom: 5,
+    color: colors.white,
+    opacity: 0.6,
+    textAlign: "center",
+    fontSize: 11,
   },
   alertMessageButtonText: {
     textAlign: "center",

@@ -337,6 +337,39 @@ export default function EditProfileScreen({ route }) {
               />
             </View>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.PRONOUNS, {
+                title: "Pronouns",
+                field: "pronouns",
+                value: currentUser.pronouns,
+              })
+            }
+          >
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Pronouns
+            </Text>
+            <View style={styles.fieldValueContainer}>
+              <Text
+                numberOfLines={1}
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
+                {currentUser.pronouns}
+              </Text>
+              <Feather
+                name="chevron-right"
+                size={20}
+                style={
+                  theme == "light" ? styles.chevron_light : styles.chevron_dark
+                }
+              />
+            </View>
+          </TouchableOpacity>
           
           {currentUser.is_special_needs !== 0 && (
           <TouchableOpacity style={styles.fieldItemContainer}>

@@ -8,7 +8,7 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
@@ -16,8 +16,11 @@ import axios from "../../redux/apis/axiosDeclaration";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import PrivacyInfoNav from "../../components/general/navBar/PrivacyInfoNav";
 import { useTheme } from "../../theme/context";
+import { useTogglePasswordVisibility } from "../../services/passwordVisibility";
 
 export default function UpdatePasswordScreen() {
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+  useTogglePasswordVisibility();
   const { theme, setTheme } = useTheme();
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
@@ -99,6 +102,7 @@ export default function UpdatePasswordScreen() {
             textContentType="password"
             maxLength={50}
             onChangeText={(text) => setPassword(text)}
+            secureTextEntry={passwordVisibility}
             placeholder="New password"
             value={password}
           />
@@ -110,9 +114,20 @@ export default function UpdatePasswordScreen() {
             textContentType="password"
             maxLength={50}
             onChangeText={(text) => setPasswordConfirmation(text)}
+            secureTextEntry={passwordVisibility}
             placeholder="New password, again"
             value={passwordConfirmation}
           />
+          <TouchableOpacity
+                  onPress={handlePasswordVisibility}
+                  style={styles.eye}
+                >
+                  <MaterialCommunityIcons
+                    name={rightIcon}
+                    size={22}
+                    color={colors.green}
+                  />
+                </TouchableOpacity>
         </View>
       </View>
       <CustomAlert
@@ -236,8 +251,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
   },
-  image: {
-    height: 200,
-    width: 200,
+  eye: {
+    position: "absolute",
+    right: 30,
+    bottom: 10,
   },
 });

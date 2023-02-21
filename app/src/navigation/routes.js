@@ -34,6 +34,7 @@ export default Object.freeze({
   HOME: "home",
   MESSAGES: "messages",
   RELATIONSHIP: "relationship",
+  PRONOUNS: "pronouns",
   REPORTS: "reports",
   REPORT_PROBLEM: "report",
   USER_REPORTS: "userReports",

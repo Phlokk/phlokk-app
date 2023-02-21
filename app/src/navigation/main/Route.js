@@ -73,6 +73,7 @@ import ResetPasswordScreen from "../../screens/manageAccount/UpdatePasswordScree
 import UpdatePasswordScreen from "../../screens/manageAccount/UpdatePasswordScreen";
 import UpdatePinScreen from "../../screens/manageAccount/UpdatePinScreen";
 import UpdateEmailScreen from "../../screens/manageAccount/UpdateEmailScreen";
+import EditPronounsFieldScreen from "../../screens/profile/EditPronounsFiledScreen";
 
 
 
@@ -154,6 +155,11 @@ export default function Route() {
           <Stack.Screen
             name="edit"
             component={EditProfileScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="pronouns"
+            component={EditPronounsFieldScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen

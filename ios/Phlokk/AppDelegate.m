@@ -1048,6 +1048,11 @@ static void InitializeFlipper(UIApplication *application) {
     return true;
   }
   #endif
+  #if defined(EX_DEV_LAUNCHER_ENABLED)
+  if ([EXDevLauncherController.sharedInstance onDeepLink:url options:options]) {
+    return true;
+  }
+  #endif
   return [super application:application openURL:url options:options] || [RCTLinkingManager application:application openURL:url options:options];
 }
 
@@ -1077,6 +1082,3 @@ static void InitializeFlipper(UIApplication *application) {
 
 @end
 #endif
-
-
-

@@ -8,7 +8,7 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
@@ -16,11 +16,15 @@ import axios from "../../redux/apis/axiosDeclaration";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import PrivacyInfoNav from "../../components/general/navBar/PrivacyInfoNav";
 import { useTheme } from "../../theme/context";
+import { useTogglePasswordVisibility } from "../../services/passwordVisibility";
 
 export default function UpdateEmailScreen() {
   const { theme, setTheme } = useTheme();
   const [oldEmail, setOldEmail] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [email, setEmail] = useState("");
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+  useTogglePasswordVisibility();
 
   const [codeErrorMessage, setCodeErrorMessage] = useState(false);
   const [updateMessage, setUpdateMessage] = useState(false);
@@ -28,12 +32,14 @@ export default function UpdateEmailScreen() {
 
   function resetTextInput() {
     setEmail("");
+    setOldPassword("");
     setOldEmail("");
   }
 
   const onSave = async () => {
     try {
       const result = await axios.put(`/api/updateEmail`, {
+        oldPassword: oldPassword,
         oldEmail: oldEmail,
         email: email,
       });
@@ -72,6 +78,7 @@ export default function UpdateEmailScreen() {
           <Text style={theme == "light" ? styles.passwordText_light : styles.passwordText_dark}>
             Please enter your information{"\n"} to update your email.
           </Text>
+          
           <TextInput
             style={theme == "light" ? styles.textInput_light : styles.textInput_dark}
             placeholderTextColor={colors.green}
@@ -94,6 +101,28 @@ export default function UpdateEmailScreen() {
             placeholder="New email"
             value={email}
           />
+          <TextInput
+            style={theme == "light" ? styles.textInput_light : styles.textInput_dark}
+            placeholderTextColor={colors.green}
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="password"
+            maxLength={50}
+            onChangeText={(text) => setOldPassword(text)}
+            secureTextEntry={passwordVisibility}
+            placeholder="Current password"
+            value={oldPassword}
+          />
+          <TouchableOpacity
+                  onPress={handlePasswordVisibility}
+                  style={styles.eye}
+                >
+                  <MaterialCommunityIcons
+                    name={rightIcon}
+                    size={22}
+                    color={colors.green}
+                  />
+                </TouchableOpacity>
         </View>
       </View>
       <CustomAlert
@@ -210,8 +239,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
   },
-  image: {
-    height: 200,
-    width: 200,
+  eye: {
+    position: "absolute",
+    right: 30,
+    bottom: 10,
   },
 });

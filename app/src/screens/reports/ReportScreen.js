@@ -211,14 +211,14 @@ const styles = StyleSheet.create({
   selectText_light: {
     color: colors.black,
     marginBottom: 10,
-    fontSize: 10,
-    marginHorizontal: 5,
+    fontSize: 12,
+    marginHorizontal: 15,
   },
   selectText_dark: {
     color: colors.secondary,
     marginBottom: 10,
-    fontSize: 10,
-    marginHorizontal: 5,
+    fontSize: 12,
+    marginHorizontal: 15,
   },
   submitBtnView: {
     padding: 20,
