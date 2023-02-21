@@ -19,7 +19,7 @@ import { useTheme } from "../../theme/context";
 import { useTogglePasswordVisibility } from "../../services/passwordVisibility";
 
 export default function UpdateEmailScreen() {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [oldEmail, setOldEmail] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [email, setEmail] = useState("");

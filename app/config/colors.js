@@ -3,6 +3,7 @@ export default {
   modals: "#030303",
   bioModal: "#131313",
   secondary: "lightgrey",
+  secondaryLight: "#f1f2f6",
   black: "#000",
   orange: "#e17055",
   white: "#fff",
@@ -23,4 +24,5 @@ export default {
   diamondBlue: "#c5eff7",
   commentInput: "#2f3640",
   starLight: "#a5b1c2",
+  settingsBlack: "#1e272e",
 };

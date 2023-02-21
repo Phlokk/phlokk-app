@@ -30,7 +30,8 @@ export default function PrivacyScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <SettingsNavBar title="Privacy" />
-      <View style={styles.rowContainer}>
+      <View>
+        <View style={ theme == "light" ? styles.blockColorContainer_light : styles.blockColorContainer_dark}>
         <TouchableOpacity
           onPress={() =>
             navigation.navigate(routes.BLOCKED_LIST_SCREEN, {
@@ -50,6 +51,7 @@ export default function PrivacyScreen() {
             />
           </View>
         </TouchableOpacity>
+        </View>
         <Text
           style={
             theme == "light" ? styles.socialText_light : styles.socialText_dark
@@ -57,6 +59,7 @@ export default function PrivacyScreen() {
         >
           Privacy Options
         </Text>
+        <View style={ theme == "light" ? styles.blockColorContainer_light : styles.blockColorContainer_dark}>
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
@@ -103,7 +106,7 @@ export default function PrivacyScreen() {
         </TouchableOpacity>
         <Text style={styles.commentSwitchDescription}>Disable new ticker on Home screen</Text>
         
-
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -114,14 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primary,
   },
-  fieldsContainer: {
-    marginTop: 20,
-    padding: 10,
-    flex: 1,
-  },
-  rowContainer: {
-    padding: 20,
-  },
+ 
   fieldItemContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -134,6 +130,7 @@ const styles = StyleSheet.create({
   },
   socialText_light: {
     color: colors.black,
+    paddingHorizontal:10,
     fontWeight: "bold",
     fontSize: 10,
     marginTop: 20,
@@ -158,5 +155,21 @@ const styles = StyleSheet.create({
     color: "rgba(125, 125, 125, 0.8)",
     fontSize: 10,
 
+  },
+  blockColorContainer_light: {
+    backgroundColor: colors.secondaryLight,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
+    
+
+  },
+  blockColorContainer_dark: {
+    backgroundColor: colors.settingsBlack,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
   },
 });

@@ -21,7 +21,7 @@ import { useTogglePasswordVisibility } from "../../services/passwordVisibility";
 export default function UpdatePasswordScreen() {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
   useTogglePasswordVisibility();
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");

@@ -66,6 +66,9 @@ export default function ActivityAccountScreen() {
     >
       <SettingsNavBar title="Notifications" />
       <ScrollView style={styles.fieldsContainer}>
+        <View style={ theme == "light" ? styles.blockColorContainer_light : styles.blockColorContainer_dark}> 
+
+        
         <View
           style={styles.fieldItemContainer}
           autoCapitalize="none"
@@ -117,6 +120,7 @@ export default function ActivityAccountScreen() {
             </TouchableOpacity>
           </>
         )}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -133,7 +137,6 @@ const styles = StyleSheet.create({
   },
   fieldsContainer: {
     marginTop: 20,
-    padding: 20,
     flex: 1,
   },
   fieldItemContainer: {
@@ -161,19 +164,23 @@ const styles = StyleSheet.create({
     marginTop: 20,
     opacity: 0.3,
   },
-  divider_light: {
-    borderBottomWidth: 0.3,
-    borderColor: colors.black,
-    marginTop: 10,
-    opacity: 0.2,
-  },
-  divider_dark: {
-    borderBottomWidth: 0.3,
-    borderColor: colors.secondary,
-    marginTop: 10,
-    opacity: 0.2,
-  },
   chevron: {
     opacity: 0.6,
+  },
+  blockColorContainer_light: {
+    backgroundColor: colors.secondaryLight,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
+    
+
+  },
+  blockColorContainer_dark: {
+    backgroundColor: colors.settingsBlack,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
   },
 });

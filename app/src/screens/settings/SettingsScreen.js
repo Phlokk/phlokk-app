@@ -8,8 +8,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import SettingsNavBar from "../../components/general/settings/SettingsNavBar";
 
@@ -21,9 +19,10 @@ import SupportScreen from "./support/SupportScreen";
 import { enableNotificationsForDevice } from "../../services/notifications";
 import Constants from "expo-constants";
 import { useTheme } from "../../theme/context";
+import AboutScreen from "./about/AboutScreen";
 
 export default function SettingsScreen() {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const navigation = useNavigation();
   const [user, setUser] = useState("");
 
@@ -46,10 +45,6 @@ export default function SettingsScreen() {
         </Text>
         <AccountScreen />
 
-        <View
-          style={theme == "light" ? styles.divider_light : styles.divider_dark}
-        ></View>
-
         <Text
           style={
             theme == "light" ? styles.socialText_light : styles.socialText_dark
@@ -57,7 +52,7 @@ export default function SettingsScreen() {
         >
           CONTENT & ACTIVITY
         </Text>
-
+        <View style={ theme == "light" ? styles.blockColorContainer_light : styles.blockColorContainer_dark}>
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
@@ -82,6 +77,7 @@ export default function SettingsScreen() {
             />
           </View>
         </TouchableOpacity>
+        </View>
 
         <Text
           style={
@@ -93,131 +89,7 @@ export default function SettingsScreen() {
 
         <SupportScreen />
 
-        <View
-          style={theme == "light" ? styles.divider_light : styles.divider_dark}
-        ></View>
-
-        <Text
-          style={
-            theme == "light" ? styles.socialText_light : styles.socialText_dark
-          }
-        >
-          ABOUT
-        </Text>
-        <TouchableOpacity
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
-          onPress={() =>
-            navigation.navigate(routes.GUIDELINES, {
-              title: "Community Guidelines",
-            })
-          }
-        >
-          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-            <AntDesign
-              name="exclamationcircleo"
-              size={14}
-              style={theme == "light" ? styles.icon_light : styles.icon_dark}
-            />{" "}
-            Community Guidelines
-          </Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather
-              style={
-                theme == "light" ? styles.chevron_light : styles.chevron_dark
-              }
-              name="chevron-right"
-              size={20}
-              color={colors.secondary}
-            />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
-          onPress={() =>
-            navigation.navigate(routes.TERMS, { title: "Terms oF Service" })
-          }
-        >
-          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-            <Feather
-              name="file-text"
-              size={14}
-              style={theme == "light" ? styles.icon_light : styles.icon_dark}
-            />{" "}
-            Terms of Service
-          </Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather
-              style={
-                theme == "light" ? styles.chevron_light : styles.chevron_dark
-              }
-              name="chevron-right"
-              size={20}
-              color={colors.secondary}
-            />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
-          onPress={() =>
-            navigation.navigate(routes.PRIVACY, { title: "Privacy Policy" })
-          }
-        >
-          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-            <Feather
-              name="file"
-              size={14}
-              style={theme == "light" ? styles.icon_light : styles.icon_dark}
-            />{" "}
-            Privacy Policy
-          </Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather
-              style={
-                theme == "light" ? styles.chevron_light : styles.chevron_dark
-              }
-              name="chevron-right"
-              size={20}
-              color={colors.secondary}
-            />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
-          onPress={() =>
-            navigation.navigate(routes.COPYRIGHT, {
-              title: "Copyright Policy",
-              field: "link",
-            })
-          }
-        >
-          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-            <FontAwesome5
-              name="copyright"
-              size={14}
-              style={theme == "light" ? styles.icon_light : styles.icon_dark}
-            />{" "}
-            Copyright Policy
-          </Text>
-          <View style={styles.fieldValueContainer}>
-            <Feather
-              style={
-                theme == "light" ? styles.chevron_light : styles.chevron_dark
-              }
-              name="chevron-right"
-              size={20}
-              color={colors.secondary}
-            />
-          </View>
-        </TouchableOpacity>
-
-        <View style={styles.divider}></View>
+         <AboutScreen />
 
         <Text
           style={
@@ -244,8 +116,6 @@ const styles = StyleSheet.create({
   },
   fieldsContainer: {
     marginTop: 20,
-    padding: 20,
-    flex: 1,
   },
   fieldItemContainer: {
     flexDirection: "row",
@@ -282,6 +152,7 @@ const styles = StyleSheet.create({
   },
   socialText_light: {
     color: colors.black,
+    paddingHorizontal:10,
     fontWeight: "bold",
     fontSize: 8,
     marginTop: 20,
@@ -294,18 +165,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     opacity: 0.5,
   },
-  divider_light: {
-    borderBottomWidth: 0.3,
-    borderColor: colors.black,
-    marginTop: 10,
-    opacity: 0.2,
-  },
-  divider_dark: {
-    borderBottomWidth: 0.3,
-    borderColor: colors.white,
-    marginTop: 10,
-    opacity: 0.2,
-  },
   chevron_light: {
     color: colors.black,
   },
@@ -317,5 +176,19 @@ const styles = StyleSheet.create({
   },
   icon_dark: {
     color: colors.white,
+  },
+  blockColorContainer_light: {
+    backgroundColor: colors.secondaryLight,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
+  },
+  blockColorContainer_dark: {
+    backgroundColor: colors.settingsBlack,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
   },
 });

@@ -10,9 +10,8 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../../services/appStateAtoms";
 // import routes from "../../../navigation/routes";
 
-
 export default function SupportScreen() {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const navigation = useNavigation();
   const [user, setUser] = useState("");
@@ -21,6 +20,64 @@ export default function SupportScreen() {
 
   return (
     <View>
+      <View style={ theme == "light" ? styles.blockColorContainer_light : styles.blockColorContainer_dark}>
+        <TouchableOpacity
+          onPress={() => setReport(true)}
+          // onPress={() =>
+          //   navigation.navigate(routes.REPORT_PROBLEM, {
+          //     title: "Report",
+          //     field: "report",
+          //     value: currentUser.username,
+          //   })
+          // }
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+        >
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+            <MaterialCommunityIcons
+              name="lead-pencil"
+              size={14}
+              style={theme == "light" ? styles.icon_light : styles.icon_dark}
+            />{" "}
+            Report a problem
+          </Text>
+          <View>
+            <Feather
+              style={
+                theme == "light" ? styles.chevron_light : styles.chevron_dark
+              }
+              name="chevron-right"
+              size={20}
+              color={colors.secondary}
+            />
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setKnowledgeBase(true)}
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+        >
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+            <MaterialCommunityIcons
+              name="shield-plus"
+              size={14}
+              style={theme == "light" ? styles.icon_light : styles.icon_dark}
+            />{" "}
+            Help Center
+          </Text>
+          <View>
+            <Feather
+              style={
+                theme == "light" ? styles.chevron_light : styles.chevron_dark
+              }
+              name="chevron-right"
+              size={20}
+              color={colors.secondary}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
       <CustomAlert
         customAlertMessage={<Text>Reports{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
@@ -28,38 +85,6 @@ export default function SupportScreen() {
         dismissAlert={setReport}
         animationType="fade"
       />
-      <TouchableOpacity
-        onPress={() => setReport(true)}
-        // onPress={() =>
-        //   navigation.navigate(routes.REPORT_PROBLEM, {
-        //     title: "Report",
-        //     field: "report",
-        //     value: currentUser.username,
-        //   })
-        // }
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-      >
-        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-          <MaterialCommunityIcons
-            name="lead-pencil"
-            size={14}
-            style={theme == "light" ? styles.icon_light : styles.icon_dark}
-          />{" "}
-          Report a problem
-        </Text>
-        <View>
-          <Feather
-            style={
-              theme == "light" ? styles.chevron_light : styles.chevron_dark
-            }
-            name="chevron-right"
-            size={20}
-            color={colors.secondary}
-          />
-        </View>
-      </TouchableOpacity>
-
       <CustomAlert
         customAlertMessage={
           <Text>Knowledge Base{"\n"}coming in official release</Text>
@@ -69,30 +94,6 @@ export default function SupportScreen() {
         dismissAlert={setKnowledgeBase}
         animationType="fade"
       />
-      <TouchableOpacity
-        onPress={() => setKnowledgeBase(true)}
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-      >
-        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-          <MaterialCommunityIcons
-            name="shield-plus"
-            size={14}
-            style={theme == "light" ? styles.icon_light : styles.icon_dark}
-          />{" "}
-          Help Center
-        </Text>
-        <View>
-          <Feather
-            style={
-              theme == "light" ? styles.chevron_light : styles.chevron_dark
-            }
-            name="chevron-right"
-            size={20}
-            color={colors.secondary}
-          />
-        </View>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -115,12 +116,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 12,
   },
-  divider: {
-    borderBottomWidth: 0.3,
-    borderColor: colors.secondary,
-    marginTop: 10,
-    opacity: 0.1,
-  },
   chevron_light: {
     color: colors.black,
   },
@@ -132,5 +127,19 @@ const styles = StyleSheet.create({
   },
   icon_dark: {
     color: colors.white,
+  },
+  blockColorContainer_light: {
+    backgroundColor: colors.secondaryLight,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
+  },
+  blockColorContainer_dark: {
+    backgroundColor: colors.settingsBlack,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
   },
 });

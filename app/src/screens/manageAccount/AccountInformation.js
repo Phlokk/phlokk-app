@@ -23,6 +23,74 @@ const AccountInformation = () => {
       >
         ACCOUNT INFORMATION
       </Text>
+      <View style={ theme == "light" ? styles.blockColorContainer_light : styles.blockColorContainer_dark}>
+        <TouchableOpacity
+          onPress={() => setPhoneNumber(true)}
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+        >
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+            Phone number
+          </Text>
+          <View style={styles.fieldValueContainer}>
+            <Feather
+              style={
+                theme == "light" ? styles.chevron_light : styles.chevron_dark
+              }
+              name="chevron-right"
+              size={20}
+              color={colors.secondary}
+            />
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate(routes.UPDATE_EMAIL, {
+              title: "Update email",
+            })
+          }
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+        >
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+            Email
+          </Text>
+          <View style={styles.fieldValueContainer}>
+            <Feather
+              style={
+                theme == "light" ? styles.chevron_light : styles.chevron_dark
+              }
+              name="chevron-right"
+              size={20}
+              color={colors.secondary}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate(routes.UPDATE_PASSWORD, {
+              title: "Update password",
+            })
+          }
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+        >
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+            Password
+          </Text>
+          <View style={styles.fieldValueContainer}>
+            <Feather
+              style={
+                theme == "light" ? styles.chevron_light : styles.chevron_dark
+              }
+              name="chevron-right"
+              size={20}
+              color={colors.secondary}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
       <CustomAlert
         customAlertMessage={<Text>Add phone number{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
@@ -30,25 +98,6 @@ const AccountInformation = () => {
         dismissAlert={setPhoneNumber}
         animationType="fade"
       />
-      <TouchableOpacity
-        onPress={() => setPhoneNumber(true)}
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-      >
-        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-          Phone number
-        </Text>
-        <View style={styles.fieldValueContainer}>
-          <Feather
-            style={
-              theme == "light" ? styles.chevron_light : styles.chevron_dark
-            }
-            name="chevron-right"
-            size={20}
-            color={colors.secondary}
-          />
-        </View>
-      </TouchableOpacity>
       <CustomAlert
         customAlertMessage={<Text>Edit email{"\n"}coming soon!</Text>}
         positiveBtn="Ok"
@@ -56,52 +105,6 @@ const AccountInformation = () => {
         dismissAlert={setEmail}
         animationType="fade"
       />
-      <TouchableOpacity
-         onPress={() =>
-          navigation.navigate(routes.UPDATE_EMAIL, {
-            title: "Update email",
-          })
-        }
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-      >
-        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-          Email
-        </Text>
-        <View style={styles.fieldValueContainer}>
-          <Feather
-            style={
-              theme == "light" ? styles.chevron_light : styles.chevron_dark
-            }
-            name="chevron-right"
-            size={20}
-            color={colors.secondary}
-          />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-         onPress={() =>
-          navigation.navigate(routes.UPDATE_PASSWORD, {
-            title: "Update password",
-          })
-        }
-        style={styles.fieldItemContainer}
-        autoCapitalize="none"
-      >
-        <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-          Password
-        </Text>
-        <View style={styles.fieldValueContainer}>
-          <Feather
-            style={
-              theme == "light" ? styles.chevron_light : styles.chevron_dark
-            }
-            name="chevron-right"
-            size={20}
-            color={colors.secondary}
-          />
-        </View>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -127,6 +130,7 @@ const styles = StyleSheet.create({
   },
   socialText_light: {
     color: colors.black,
+    paddingHorizontal:10,
     fontWeight: "bold",
     fontSize: 8,
     marginTop: 20,
@@ -144,6 +148,20 @@ const styles = StyleSheet.create({
   },
   chevron_dark: {
     opacity: 0.6,
+  },
+  blockColorContainer_light: {
+    backgroundColor: colors.secondaryLight,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
+  },
+  blockColorContainer_dark: {
+    backgroundColor: colors.settingsBlack,
+    borderRadius: 2,
+    marginTop: 10,
+    paddingBottom: 15,
+    paddingHorizontal: 5,
   },
 });
 
