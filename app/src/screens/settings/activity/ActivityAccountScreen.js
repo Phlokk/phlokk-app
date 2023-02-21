@@ -150,10 +150,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text_light: {
+    paddingHorizontal:5,
     color: colors.black,
     fontSize: 12,
   },
   text_dark: {
+    paddingHorizontal:5,
     color: colors.white,
     fontSize: 12,
   },

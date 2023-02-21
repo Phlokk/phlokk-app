@@ -63,17 +63,7 @@ export default function UpdatePasswordScreen() {
         </View>
         <View style={styles.fields} behavior="padding">
           <View style={styles.lockView}>
-            <View style={styles.textContainer}>
-              <LottieView
-                autoPlay
-                style={{
-                  alignItems: "center",
-                  width: 200,
-                  height: 200,
-                }}
-                source={require("../../../assets/animations/lock.json")}
-              />
-            </View>
+          <MaterialIcons name="admin-panel-settings" size={50} color={colors.green} />
           </View>
 
           <Text style={theme == "light" ? styles.passwordText_light : styles.passwordText_dark}>
@@ -236,7 +226,6 @@ const styles = StyleSheet.create({
   },
   fields: {
     flex: 1,
-    top: 50,
     paddingTop: Platform.OS === "android" ? 20 : 90,
     paddingHorizontal: 30,
   },

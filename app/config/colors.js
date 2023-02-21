@@ -24,5 +24,6 @@ export default {
   diamondBlue: "#c5eff7",
   commentInput: "#2f3640",
   starLight: "#a5b1c2",
-  settingsBlack: "#1e272e",
+  settingsBlack: "#1C1F22",
+  greyShade: "#C0C0C0",
 };

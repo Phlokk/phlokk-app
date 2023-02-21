@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   text: {
-    // textAlign: "center",
+    paddingHorizontal:5,
     color: colors.white,
     fontSize: 12,
   },
@@ -152,8 +152,10 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   commentSwitchDescription: {
-    color: "rgba(125, 125, 125, 0.8)",
+    paddingHorizontal:5,
+    color: colors.secondary,
     fontSize: 10,
+    opacity: 0.8,
 
   },
   blockColorContainer_light: {

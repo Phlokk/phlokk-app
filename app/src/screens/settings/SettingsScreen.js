@@ -128,10 +128,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text_light: {
+    paddingHorizontal:5,
     color: colors.black,
     fontSize: 12,
   },
   text_dark: {
+    paddingHorizontal:5,
     color: colors.white,
     fontSize: 12,
   },
@@ -160,6 +162,7 @@ const styles = StyleSheet.create({
   },
   socialText_dark: {
     color: colors.white,
+    paddingHorizontal:10,
     fontWeight: "bold",
     fontSize: 8,
     marginTop: 20,
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   icon_dark: {
-    color: colors.white,
+    color: colors.greyShade,
   },
   blockColorContainer_light: {
     backgroundColor: colors.secondaryLight,

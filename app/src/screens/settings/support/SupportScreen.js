@@ -109,10 +109,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   text_light: {
+    paddingHorizontal:5,
     color: colors.black,
     fontSize: 12,
   },
   text_dark: {
+    paddingHorizontal:5,
     color: colors.white,
     fontSize: 12,
   },
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   icon_dark: {
-    color: colors.white,
+    color: colors.greyShade,
   },
   blockColorContainer_light: {
     backgroundColor: colors.secondaryLight,
