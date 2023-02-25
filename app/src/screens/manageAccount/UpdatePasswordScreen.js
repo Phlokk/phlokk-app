@@ -75,7 +75,7 @@ export default function UpdatePasswordScreen() {
           </Text>
           <TextInput
             style={theme == "light" ? styles.textInput_light : styles.textInput_dark}
-            placeholderTextColor={colors.green}
+            placeholderTextColor={theme == "light" ? colors.black : colors.green}
             autoCapitalize="none"
             autoCorrect={false}
             textContentType="password"
@@ -86,7 +86,7 @@ export default function UpdatePasswordScreen() {
           />
           <TextInput
             style={theme == "light" ? styles.textInput_light : styles.textInput_dark}
-            placeholderTextColor={colors.green}
+            placeholderTextColor={theme == "light" ? colors.black : colors.green}
             autoCapitalize="none"
             autoCorrect={false}
             textContentType="password"
@@ -98,7 +98,7 @@ export default function UpdatePasswordScreen() {
           />
           <TextInput
             style={theme == "light" ? styles.textInput_light : styles.textInput_dark}
-            placeholderTextColor={colors.green}
+            placeholderTextColor={theme == "light" ? colors.black : colors.green}
             autoCapitalize="none"
             autoCorrect={false}
             textContentType="password"
@@ -115,7 +115,7 @@ export default function UpdatePasswordScreen() {
                   <MaterialCommunityIcons
                     name={rightIcon}
                     size={22}
-                    color={colors.green}
+                    color={theme == "light" ? colors.black : colors.green}
                   />
                 </TouchableOpacity>
         </View>

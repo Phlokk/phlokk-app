@@ -8,7 +8,7 @@ import CustomAlert from "../../../components/Alerts/CustomAlert";
 import { useTheme } from "../../../theme/context";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../services/appStateAtoms";
-// import routes from "../../../navigation/routes";
+import routes from "../../../navigation/routes";
 
 export default function SupportScreen() {
   const { theme } = useTheme();
@@ -54,7 +54,10 @@ export default function SupportScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => setKnowledgeBase(true)}
+          // onPress={() => setKnowledgeBase(true)}
+          onPress={() =>
+            navigation.navigate(routes.SUPPORT_CENTER)
+          }
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >

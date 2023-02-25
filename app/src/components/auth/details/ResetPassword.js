@@ -10,7 +10,7 @@ import {
   Image,
 } from "react-native";
 
-import LottieView from "lottie-react-native";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
@@ -56,17 +56,9 @@ export default function ResetPassword() {
         </TouchableOpacity>
 
         <View style={styles.fields} behavior="padding">
-          <View style={styles.lockView}>
+        <View style={styles.lockView}>
             <View style={styles.textContainer}>
-            <LottieView
-            autoPlay
-            style={{
-              alignItems: "center",
-              width: 200,
-              height: 200,
-            }}
-            source={require("../../../../assets/animations/lock.json")}
-          />
+            <MaterialIcons name="admin-panel-settings" size={50} color={colors.green} />
             </View>
           </View>
 

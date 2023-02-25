@@ -21,6 +21,8 @@ import { userAtom } from "../../services/appStateAtoms";
 import { generalStyles } from "../../styles";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 
+// TODO Need to figure out how to get admin to reply to user who is reporting. Right now email is not sent and throws 500 error. Leaving this here for now as I do not have time to look into this issue. 
+
 const ReportProblemScreen = ({ navigation }) => {
   const [currentUser] = useAtom(userAtom);
   const { theme } = useTheme();
@@ -39,7 +41,7 @@ const ReportProblemScreen = ({ navigation }) => {
       .post(
         "/api/support/create-ticket",
         {
-          category_id: categoryId,
+          message: message,
           creator: currentUser.username,
           email: currentUser.email,
         },
@@ -189,6 +191,5 @@ const styles = StyleSheet.create({
     borderColor: colors.secondary,
     marginTop: 10,
     opacity: 0.2,
-    // width: '80%',
   },
 });

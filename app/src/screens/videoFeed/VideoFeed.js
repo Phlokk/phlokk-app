@@ -52,7 +52,11 @@ const VideoFeed = ({ navigation, route }) => {
     const newsTickerFeed = async () => {
       const ticker = await getAllNewsTickerData();
 
-      let newTickerText = "official Phlokk news: ";
+      if (ticker.news_ticker.length === 0) {
+        setTickerText(null);
+              return;
+      }
+      let newTickerText = "Breaking news:  ";
       ticker.news_ticker.forEach((item) => {
         newTickerText += ` ${item.ticker_description} ${item.ticker_message} - `
 
@@ -89,6 +93,7 @@ const VideoFeed = ({ navigation, route }) => {
   } = useUserVideoFeed(user._id, {
     skip: preloadedPosts || !profile,
   });
+
 
   useEffect(() => {
     if (!posts && !userPosts) {

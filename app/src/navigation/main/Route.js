@@ -74,6 +74,7 @@ import UpdatePasswordScreen from "../../screens/manageAccount/UpdatePasswordScre
 import UpdatePinScreen from "../../screens/manageAccount/UpdatePinScreen";
 import UpdateEmailScreen from "../../screens/manageAccount/UpdateEmailScreen";
 import EditPronounsFieldScreen from "../../screens/profile/EditPronounsFiledScreen";
+import SupportCenter from "../../screens/settings/support/SupportCenter";
 
 
 
@@ -247,6 +248,11 @@ export default function Route() {
             name="pinUpdate"
             component={UpdatePinScreen}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+          name="support"
+          component={SupportCenter}
+          options={{ headerShown: false }}
           />
           <Stack.Screen
             name="admission"

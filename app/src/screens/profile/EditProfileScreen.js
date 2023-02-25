@@ -26,7 +26,6 @@ import { useTheme } from "../../theme/context";
 import { apiUrls } from "../../globals";
 import SpecialNeedsRibbonSwitch from "./SpecialNeedsRibbonSwitch";
 
-
 export default function EditProfileScreen({ route }) {
   const { theme } = useTheme();
   const navigation = useNavigation();
@@ -39,9 +38,6 @@ export default function EditProfileScreen({ route }) {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
 
   const user = passedUser?._id === currentUser._id ? currentUser : passedUser;
-
-
-
 
   const chooseImage = async () => {
     let user = await SecureStore.getItemAsync("user");
@@ -56,7 +52,7 @@ export default function EditProfileScreen({ route }) {
 
     if (!result.cancelled) {
       setImage(result.uri);
-    } 
+    }
 
     let split = result.uri.split("/");
     let fileName = split[split.length - 1];
@@ -96,71 +92,83 @@ export default function EditProfileScreen({ route }) {
       <EditProfileNav />
       <ScrollView>
         <View style={styles.imageRow}>
-        <View style={styles.imageContainer}>
-          {currentUser.photo_thumb_url !== null ? (
-            <TouchableOpacity
-              style={styles.imageViewContainer}
-              onPress={() => chooseImage()}
-            >
-              <Image
-                style={styles.image}
-                source={{ uri: image ? image : currentUser.photo_thumb_url }}
-                cache="only-if-cached"
-              />
+          <View style={styles.imageContainer}>
+            {currentUser.photo_thumb_url !== null ? (
+              <TouchableOpacity
+                style={styles.imageViewContainer}
+                onPress={() => chooseImage()}
+              >
+                <Image
+                  style={styles.image}
+                  source={{ uri: image ? image : currentUser.photo_thumb_url }}
+                  cache="only-if-cached"
+                />
 
-              <View style={styles.imageOverlay} />
+                <View style={styles.imageOverlay} />
 
-              <Feather name="camera" size={26} style={styles.icon} />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={styles.imageViewContainer}
-              onPress={() => chooseImage()}
-            >
-              <Image
-                style={styles.image}
-                source={require("../../../assets/userImage.png")}
-              />
-              <View style={styles.imageOverlay} />
-              <Feather name="camera" size={26} color={colors.secondary} />
-            </TouchableOpacity>
-          )}
-          <View style={styles.mediaRow}>
-          <Text style={[theme == "light" ? styles.text_light : styles.text_dark, styles.imageRowText]}>Change photo</Text>
+                <Feather name="camera" size={26} style={styles.icon} />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.imageViewContainer}
+                onPress={() => chooseImage()}
+              >
+                <Image
+                  style={styles.image}
+                  source={require("../../../assets/userImage.png")}
+                />
+                <View style={styles.imageOverlay} />
+                <Feather name="camera" size={26} color={colors.secondary} />
+              </TouchableOpacity>
+            )}
+            <View style={styles.mediaRow}>
+              <Text
+                style={[
+                  theme == "light" ? styles.text_light : styles.text_dark,
+                  styles.imageRowText,
+                ]}
+              >
+                Change photo
+              </Text>
+            </View>
           </View>
-          
-        </View>
 
+          <View style={styles.imageContainer}>
+            {currentUser.photo_thumb_url !== null ? (
+              <TouchableOpacity
+                style={styles.imageViewContainer}
+                onPress={() => setIsBrandingVideo(true)}
+              >
+                <Image
+                  style={styles.image}
+                  source={{ uri: image ? image : currentUser.photo_thumb_url }}
+                  cache="only-if-cached"
+                />
 
-        <View style={styles.imageContainer}>
-          {currentUser.photo_thumb_url !== null ? (
-            <TouchableOpacity
-              style={styles.imageViewContainer}
-              onPress={() => setIsBrandingVideo(true)}
-            >
-              <Image
-                style={styles.image}
-                source={{ uri: image ? image : currentUser.photo_thumb_url }}
-                cache="only-if-cached"
-              />
+                <View style={styles.imageOverlay} />
 
-              <View style={styles.imageOverlay} />
-
-              <Feather name="video" size={26} style={styles.icon} />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={styles.imageViewContainer}
-              onPress={() => setIsBrandingVideo(true)}
-            >
-              <View style={styles.imageOverlay} />
-              <Feather name="video" size={26} color={colors.secondary} />
-            </TouchableOpacity>
-          )}
-          <View style={styles.mediaRow}>
-          <Text style={[theme == "light" ? styles.text_light : styles.text_dark, styles.imageRowText]}>Change video</Text>
+                <Feather name="video" size={26} style={styles.icon} />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.imageViewContainer}
+                onPress={() => setIsBrandingVideo(true)}
+              >
+                <View style={styles.imageOverlay} />
+                <Feather name="video" size={26} color={colors.secondary} />
+              </TouchableOpacity>
+            )}
+            <View style={styles.mediaRow}>
+              <Text
+                style={[
+                  theme == "light" ? styles.text_light : styles.text_dark,
+                  styles.imageRowText,
+                ]}
+              >
+                Change video
+              </Text>
+            </View>
           </View>
-        </View>
         </View>
 
         <View style={styles.fieldsContainer}>
@@ -243,39 +251,6 @@ export default function EditProfileScreen({ route }) {
             style={styles.fieldItemContainer}
             autoCapitalize="none"
             onPress={() =>
-              navigation.navigate(routes.LINK, {
-                title: "Link",
-                field: "link",
-                value: currentUser.link,
-              })
-            }
-          >
-            <Text
-              style={theme == "light" ? styles.text_light : styles.text_dark}
-            >
-              Website
-            </Text>
-            <View style={styles.fieldValueContainer}>
-              <Text
-                numberOfLines={1}
-                style={theme == "light" ? styles.text_light : styles.text_dark}
-              >
-                {currentUser.link}
-              </Text>
-              <Feather
-                name="chevron-right"
-                size={20}
-                style={
-                  theme == "light" ? styles.chevron_light : styles.chevron_dark
-                }
-              />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.fieldItemContainer}
-            autoCapitalize="none"
-            onPress={() =>
               navigation.navigate(routes.QUOTES, {
                 title: "Quotes",
                 field: "quotes",
@@ -305,88 +280,18 @@ export default function EditProfileScreen({ route }) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.fieldItemContainer}
-            autoCapitalize="none"
-            onPress={() =>
-              navigation.navigate(routes.RELATIONSHIP, {
-                title: "Relationship",
-                field: "relationship",
-                value: currentUser.relationship_type,
-              })
-            }
-          >
-            <Text
-              style={theme == "light" ? styles.text_light : styles.text_dark}
-            >
-              Status
-            </Text>
-            <View style={styles.fieldValueContainer}>
-              <Text
-                numberOfLines={1}
-                style={theme == "light" ? styles.text_light : styles.text_dark}
-              >
-                {currentUser.relationship_type}
-              </Text>
-              <Feather
-                name="chevron-right"
-                size={20}
-                style={
-                  theme == "light" ? styles.chevron_light : styles.chevron_dark
-                }
-              />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.fieldItemContainer}
-            autoCapitalize="none"
-            onPress={() =>
-              navigation.navigate(routes.PRONOUNS, {
-                title: "Pronouns",
-                field: "pronouns",
-                value: currentUser.pronouns,
-              })
-            }
-          >
-            <Text
-              style={theme == "light" ? styles.text_light : styles.text_dark}
-            >
-              Pronouns
-            </Text>
-            <View style={styles.fieldValueContainer}>
-              <Text
-                numberOfLines={1}
-                style={theme == "light" ? styles.text_light : styles.text_dark}
-              >
-                {currentUser.pronouns}
-              </Text>
-              <Feather
-                name="chevron-right"
-                size={20}
-                style={
-                  theme == "light" ? styles.chevron_light : styles.chevron_dark
-                }
-              />
-            </View>
-          </TouchableOpacity>
-          
           {currentUser.is_special_needs !== 0 && (
-          <TouchableOpacity style={styles.fieldItemContainer}>
-            <Text
-              style={theme == "light" ? styles.text_light : styles.text_dark}
-            >
-              Show Disability Ribbon
-            </Text>
-            <View style={styles.fieldValueContainer}>
-            <SpecialNeedsRibbonSwitch />
-              
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.fieldItemContainer}>
+              <Text
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
+                Show Disability Ribbon
+              </Text>
+              <View style={styles.fieldValueContainer}>
+                <SpecialNeedsRibbonSwitch />
+              </View>
+            </TouchableOpacity>
           )}
-         
-
-
 
           {/* PROFILE BIO SECTION */}
 
@@ -455,7 +360,7 @@ export default function EditProfileScreen({ route }) {
               </View>
             )}
           </TouchableOpacity>
-           <TouchableOpacity
+          <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
             onPress={() =>
@@ -466,36 +371,52 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={theme == "light"
-                ? styles.text_light
-                : styles.text_dark}>Skills</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Skills
+            </Text>
             {currentUser.skills === null || undefined ? (
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={theme == "light"
-                ? styles.text_light
-                : styles.text_dark}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
                   Add Skills
                 </Text>
                 <Feather
                   name="chevron-right"
                   size={20}
-                  style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
                 />
               </View>
             ) : (
               <View>
-                <Text numberOfLines={1} style={theme == "light"
-                ? styles.text_light
-                : styles.text_dark}></Text>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                ></Text>
                 <FontAwesome
                   name="pencil-square-o"
                   size={16}
-                  style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
                 />
               </View>
             )}
-          </TouchableOpacity> 
-           <TouchableOpacity
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
             onPress={() =>
@@ -506,35 +427,148 @@ export default function EditProfileScreen({ route }) {
               })
             }
           >
-            <Text style={theme == "light"
-                ? styles.text_light
-                : styles.text_dark}>Education</Text>
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Education
+            </Text>
             {currentUser.education === null || undefined ? (
               <View style={styles.fieldValueContainer}>
-                <Text numberOfLines={1} style={theme == "light"
-                ? styles.text_light
-                : styles.text_dark}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
                   Add Education
                 </Text>
                 <Feather
                   name="chevron-right"
                   size={20}
-                  style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
                 />
               </View>
             ) : (
               <View>
-                <Text numberOfLines={1} style={theme == "light"
-                ? styles.text_light
-                : styles.text_dark}></Text>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                ></Text>
                 <FontAwesome
                   name="pencil-square-o"
                   size={16}
-                  style={theme == "light" ? styles.chevron_light : styles.chevron_dark}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
                 />
               </View>
             )}
-          </TouchableOpacity> 
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.RELATIONSHIP, {
+                title: "Relationship",
+                field: "relationship",
+                value: currentUser.relationship_type,
+              })
+            }
+          >
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Status
+            </Text>
+            <View style={styles.fieldValueContainer}>
+              <Text
+                numberOfLines={1}
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
+                {currentUser.relationship_type}
+              </Text>
+              <Feather
+                name="chevron-right"
+                size={20}
+                style={
+                  theme == "light" ? styles.chevron_light : styles.chevron_dark
+                }
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.PRONOUNS, {
+                title: "Pronouns",
+                field: "pronouns",
+                value: currentUser.pronouns,
+              })
+            }
+          >
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Pronouns
+            </Text>
+            <View style={styles.fieldValueContainer}>
+              <Text
+                numberOfLines={1}
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
+                {currentUser.pronouns}
+              </Text>
+              <Feather
+                name="chevron-right"
+                size={20}
+                style={
+                  theme == "light" ? styles.chevron_light : styles.chevron_dark
+                }
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() =>
+              navigation.navigate(routes.LINK, {
+                title: "Link",
+                field: "link",
+                value: currentUser.link,
+              })
+            }
+          >
+            <Text
+              style={theme == "light" ? styles.text_light : styles.text_dark}
+            >
+              Website
+            </Text>
+            <View style={styles.fieldValueContainer}>
+              <Text
+                numberOfLines={1}
+                style={theme == "light" ? styles.text_light : styles.text_dark}
+              >
+                {currentUser.link}
+              </Text>
+              <Feather
+                name="chevron-right"
+                size={20}
+                style={
+                  theme == "light" ? styles.chevron_light : styles.chevron_dark
+                }
+              />
+            </View>
+          </TouchableOpacity>
 
           <Text
             style={
@@ -638,17 +672,17 @@ export default function EditProfileScreen({ route }) {
           </TouchableOpacity>
         </View>
         <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={<Text>Intro Video{"\n"}coming soon!</Text>}
-            positiveBtn="Ok"
-            modalVisible={isBrandingVideo}
-            dismissAlert={setIsBrandingVideo}
-            animationType="fade"
-          />
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>Intro Video{"\n"}coming soon!</Text>}
+          positiveBtn="Ok"
+          modalVisible={isBrandingVideo}
+          dismissAlert={setIsBrandingVideo}
+          animationType="fade"
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -739,13 +773,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-
   },
   imageRowText: {
-    fontSize: 10, 
+    fontSize: 10,
   },
   mediaRow: {
-  marginTop: 20, 
+    marginTop: 20,
   },
   icon: {
     color: colors.secondary,

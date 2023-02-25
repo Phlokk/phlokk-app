@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
 import axios from "../../../redux/apis/axiosDeclaration";
 import CustomAlert from "../../Alerts/CustomAlert";
-import AnimatedLottieView from "lottie-react-native";
+
 
 export default function ResetScreen() {
   const [email, setEmail] = useState("");
@@ -62,16 +62,10 @@ export default function ResetScreen() {
           />
         </TouchableOpacity>
         <View style={styles.lottieContainer}>
-          <View style={styles.lockView}>
-            <LottieView
-              autoPlay
-              style={{
-                alignItems: "center",
-                width: 200,
-                height: 200,
-              }}
-              source={require("../../../../assets/animations/lock.json")}
-            />
+        <View style={styles.lockView}>
+            <View style={styles.textContainer}>
+            <MaterialIcons name="admin-panel-settings" size={50} color={colors.green} />
+            </View>
           </View>
 
           <View style={styles.fields} behavior="padding">
@@ -177,7 +171,7 @@ const styles = StyleSheet.create({
   },
   fields: {
     flex: 1,
-    top: 10,
+    top: 50,
     paddingHorizontal: 30,
   },
   keyLeft: {

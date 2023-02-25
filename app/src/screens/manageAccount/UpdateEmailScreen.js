@@ -9,7 +9,6 @@ import {
   Platform,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import LottieView from "lottie-react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import axios from "../../redux/apis/axiosDeclaration";
@@ -73,7 +72,7 @@ export default function UpdateEmailScreen() {
           
           <TextInput
             style={theme == "light" ? styles.textInput_light : styles.textInput_dark}
-            placeholderTextColor={colors.green}
+            placeholderTextColor={theme == "light" ? colors.black : colors.green}
             autoCapitalize="none"
             autoCorrect={false}
             textContentType="password"
@@ -84,7 +83,7 @@ export default function UpdateEmailScreen() {
           />
           <TextInput
             style={theme == "light" ? styles.textInput_light : styles.textInput_dark}
-            placeholderTextColor={colors.green}
+            placeholderTextColor={theme == "light" ? colors.black : colors.green}
             autoCapitalize="none"
             autoCorrect={false}
             textContentType="password"
@@ -95,7 +94,7 @@ export default function UpdateEmailScreen() {
           />
           <TextInput
             style={theme == "light" ? styles.textInput_light : styles.textInput_dark}
-            placeholderTextColor={colors.green}
+            placeholderTextColor={theme == "light" ? colors.black : colors.green}
             autoCapitalize="none"
             autoCorrect={false}
             textContentType="password"
@@ -112,7 +111,7 @@ export default function UpdateEmailScreen() {
                   <MaterialCommunityIcons
                     name={rightIcon}
                     size={22}
-                    color={colors.green}
+                    color={theme == "light" ? colors.black : colors.green}
                   />
                 </TouchableOpacity>
         </View>
