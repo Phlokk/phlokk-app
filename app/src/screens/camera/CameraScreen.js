@@ -40,6 +40,7 @@ const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking ev
 
 const convertMillisToPercentage = (ms) => ms / 1000 / 120;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 export default function CameraScreen({ route }) {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -125,6 +126,7 @@ export default function CameraScreen({ route }) {
 
         const videoRecordPromise = cameraRef.recordAsync(options);
 
+        console.log("route?.params", route?.params);
         setIsRecording(true);
         if (videoRecordPromise) {
           if (route.params !== undefined) {
@@ -145,7 +147,6 @@ export default function CameraScreen({ route }) {
                 navigation.navigate("editPosts", { source, sourceThumb });
               } else {
                 await generateVideo(source).then((outputFilePath) => {
-                  
                   navigation.navigate("editPosts", {
                     source: outputFilePath,
                     sourceThumb,
@@ -243,7 +244,7 @@ export default function CameraScreen({ route }) {
         ffmpegCommand =
           "-i " +
           source +
-          " -ss 00:00:00.50 -t " +
+          " -ss 00:00:00.00 -t " +
           secondsToHms(output.trim()) +
           " -i " +
           route.params.item.sound_url +
@@ -259,6 +260,8 @@ export default function CameraScreen({ route }) {
         ffmpegCommand =
           "-i " +
           source +
+          " -ss 00:00:00.50 -t " +
+          secondsToHms(output.trim()) +
           " -i " +
           route.params.item.sound_url +
           " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
@@ -282,11 +285,20 @@ export default function CameraScreen({ route }) {
     try {
       await LoadAudio();
       const result = await sound.current.getStatusAsync();
+      // console.log(
+      //   "🚀 ~ file: CameraScreen.js:287 ~ PlayAudio ~ result:",
+      //   result
+      // );
       if (result.isLoaded) {
         if (result.isPlaying === false) {
-          sound.current.replayAsync();
-          isLooping(true);
+          await delay(500);
 
+          const playbackStatus = await sound.current.replayAsync();
+          // console.log(
+          //   "🚀 ~ file: CameraScreen.js:290 ~ PlayAudio ~ playbackStatus:",
+          //   playbackStatus
+          // );
+          isLooping(true);
         }
       }
     } catch (error) {}
@@ -295,15 +307,24 @@ export default function CameraScreen({ route }) {
   const LoadAudio = async () => {
     SetLoading(true);
 
+    // await delay(2000);
     const checkLoading = await sound.current.getStatusAsync();
+    // console.log(
+    //   "🚀 ~ file: CameraScreen.js:304 ~ LoadAudio ~ checkLoading:",
+    //   checkLoading
+    // );
     if (checkLoading.isLoaded === false) {
       try {
         const result = await sound.current.loadAsync(
           { uri: route.params.item.sound_url },
           { shouldPlay: false, isLooping: false },
-
           false
         );
+        // console.log(
+        //   "🚀 ~ file: CameraScreen.js:315 ~ LoadAudio ~ result:",
+        //   result
+        // );
+
         if (result.isLoaded === false) {
           SetLoading(false);
         } else {
@@ -445,7 +466,7 @@ export default function CameraScreen({ route }) {
             <Feather name="zap" size={24} color={colors.white} />
             <Text style={styles.iconText}>Flash</Text>
           </TouchableOpacity>
-          {!isRecording &&  (
+          {!isRecording && (
             <View
               style={{
                 position: "absolute",
