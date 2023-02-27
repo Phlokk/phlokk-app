@@ -125,8 +125,6 @@ export default function CameraScreen({ route }) {
         }
 
         const videoRecordPromise = cameraRef.recordAsync(options);
-
-        console.log("route?.params", route?.params);
         setIsRecording(true);
         if (videoRecordPromise) {
           if (route.params !== undefined) {
@@ -260,7 +258,7 @@ export default function CameraScreen({ route }) {
         ffmpegCommand =
           "-i " +
           source +
-          " -ss 00:00:00.50 -t " +
+          " -ss 00:00:00.00 -t " +
           secondsToHms(output.trim()) +
           " -i " +
           route.params.item.sound_url +
@@ -285,19 +283,11 @@ export default function CameraScreen({ route }) {
     try {
       await LoadAudio();
       const result = await sound.current.getStatusAsync();
-      // console.log(
-      //   "🚀 ~ file: CameraScreen.js:287 ~ PlayAudio ~ result:",
-      //   result
-      // );
       if (result.isLoaded) {
         if (result.isPlaying === false) {
           await delay(500);
 
           const playbackStatus = await sound.current.replayAsync();
-          // console.log(
-          //   "🚀 ~ file: CameraScreen.js:290 ~ PlayAudio ~ playbackStatus:",
-          //   playbackStatus
-          // );
           isLooping(true);
         }
       }
@@ -306,13 +296,7 @@ export default function CameraScreen({ route }) {
 
   const LoadAudio = async () => {
     SetLoading(true);
-
-    // await delay(2000);
     const checkLoading = await sound.current.getStatusAsync();
-    // console.log(
-    //   "🚀 ~ file: CameraScreen.js:304 ~ LoadAudio ~ checkLoading:",
-    //   checkLoading
-    // );
     if (checkLoading.isLoaded === false) {
       try {
         const result = await sound.current.loadAsync(
@@ -320,10 +304,6 @@ export default function CameraScreen({ route }) {
           { shouldPlay: false, isLooping: false },
           false
         );
-        // console.log(
-        //   "🚀 ~ file: CameraScreen.js:315 ~ LoadAudio ~ result:",
-        //   result
-        // );
 
         if (result.isLoaded === false) {
           SetLoading(false);
