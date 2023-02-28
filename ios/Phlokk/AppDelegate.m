@@ -1110,4 +1110,6 @@ static void InitializeFlipper(UIApplication *application) {
   return [RCTLinkingManager application:application openURL:url options:options];
 }
 
+@end
+#endif
 

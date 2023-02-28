@@ -13,20 +13,25 @@ import routes from "../../navigation/routes";
 const TrimmerScreen = ({ route }) => {
   const navigation = useNavigation();
   const item = route?.params?.item;
+  const maxTrimDuration = 60000;
 
   const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
   const [isAudioError, setIsAudioError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
-
   const [openSettingsAudioModal, setOpenSettingsAudioModal] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   const [trimmerLeftHandlePosition, setTrimmerLeftHandlePosition] = useState(0);
   const [trimmerRightHandlePosition, setTrimmerRightHandlePosition] =
     useState(5000);
 
-  const [playing, setPlaying] = useState(false);
+  const onHandleChange = ({ leftPosition, rightPosition }) => {
+    setTrimmerRightHandlePosition(rightPosition);
+    setTrimmerLeftHandlePosition(leftPosition);
+  };
+
   const [scrubInterval, setScrubInterval] = useState(50);
 
   const [clearInterval, setClearInterval] = useState(false);
@@ -34,16 +39,8 @@ const TrimmerScreen = ({ route }) => {
 
   const [scrubberPosition, setScrubberPosition] = useState(1);
 
-  const minimumTrimDuration = 5000;
-  const [totalDuration, setTotalDuration] = useState(1);
-
-  const onLeftHandleChange = (newLeftHandleValue) => {
-    setTrimmerLeftHandlePosition(newLeftHandleValue);
-  };
-
-  const onRightHandleChange = (newRightHandleValue) => {
-    setTrimmerRightHandlePosition(newRightHandleValue);
-  };
+  const minimumTrimDuration = 1000;
+  const [totalDuration, setTotalDuration] = useState(180000);
 
   const playScrubber = async () => {
     setPlaying(true);
@@ -84,7 +81,6 @@ const TrimmerScreen = ({ route }) => {
   }, []);
 
   const PlayAudio = async () => {
-
     try {
       await LoadAudio();
       const result = await sound.current.getStatusAsync();
@@ -152,22 +148,21 @@ const TrimmerScreen = ({ route }) => {
         </View>
         <Trimmer
           style={styles.trimmer}
-          onLeftHandleChange={onLeftHandleChange}
-          onRightHandleChange={onRightHandleChange}
+          onHandleChange={onHandleChange}
           totalDuration={totalDuration}
           trimmerLeftHandlePosition={trimmerLeftHandlePosition}
           trimmerRightHandlePosition={trimmerRightHandlePosition}
           minimumTrimDuration={minimumTrimDuration}
-          maxTrimDuration={totalDuration}
-          maximumZoomLevel={100}
-          zoomMultiplier={2}
-          initialZoomValue={1}
+          maxTrimDuration={maxTrimDuration}
+          maximumZoomLevel={200}
+          zoomMultiplier={20}
+          initialZoomValue={2}
           scaleInOnInit={false}
           tintColor={colors.green}
-          markerColor={colors.secondary}
+          markerColor={colors.white}
           trackBackgroundColor={colors.black}
           trackBorderColor={colors.green}
-          scrubberColor={colors.secondary}
+          scrubberColor={colors.white}
           scrubberPosition={scrubberPosition}
           onScrubbingComplete={onScrubbingComplete}
         />
