@@ -60,8 +60,7 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
             style={styles.fieldItemContainer}
             autoCapitalize="none"
             onPress={() => {
-              /* 1. Navigate to the Details route with params */
-              navigation.navigate(routes.CAMERA, {item: item })
+              navigation.navigate(routes.TRIMMER, {item: item })
             }}
           >
             <View style={styles.bubble}>

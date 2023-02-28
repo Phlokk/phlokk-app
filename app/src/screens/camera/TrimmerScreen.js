@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
@@ -17,6 +12,7 @@ import routes from "../../navigation/routes";
 
 const TrimmerScreen = ({ route }) => {
   const navigation = useNavigation();
+  const item = route?.params?.item;
 
   const [Loaded, SetLoaded] = useState(false);
   const [Loading, SetLoading] = useState(false);
@@ -88,12 +84,7 @@ const TrimmerScreen = ({ route }) => {
   }, []);
 
   const PlayAudio = async () => {
-    console.log(sound.current.playableDurationMillis, "playableDurationMillis");
-    console.log(
-      sound.current.progressUpdateIntervalMillis,
-      "progressUpdateIntervalMillis"
-    );
-    console.log(sound.current.durationMillis, "durationMillis");
+
     try {
       await LoadAudio();
       const result = await sound.current.getStatusAsync();
@@ -121,7 +112,6 @@ const TrimmerScreen = ({ route }) => {
         setTotalDuration(result.playableDurationMillis);
         setScrubInterval(result.progressUpdateIntervalMillis);
 
-        console.log(result, "result");
         if (result.isLoaded === false) {
           SetLoading(false);
           setIsAudioError(true);
@@ -180,9 +170,6 @@ const TrimmerScreen = ({ route }) => {
           scrubberColor={colors.secondary}
           scrubberPosition={scrubberPosition}
           onScrubbingComplete={onScrubbingComplete}
-          onLeftHandlePressIn={() => console.log("onLeftHandlePressIn")}
-          onRightHandlePressIn={() => console.log("onRightHandlePressIn")}
-          onScrubberPressIn={() => console.log("onScrubberPressIn")}
         />
       </View>
 
@@ -305,7 +292,6 @@ const styles = StyleSheet.create({
   },
   playBtnView: {
     top: 300,
-    
   },
 });
 

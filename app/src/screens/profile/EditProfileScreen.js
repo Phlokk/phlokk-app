@@ -230,21 +230,43 @@ export default function EditProfileScreen({ route }) {
             >
               Creator
             </Text>
-            <View style={styles.fieldValueContainer}>
-              <Text
-                numberOfLines={1}
-                style={theme == "light" ? styles.text_light : styles.text_dark}
-              >
-                {currentUser.creator_type}
-              </Text>
-              <Feather
-                name="chevron-right"
-                size={20}
-                style={
-                  theme == "light" ? styles.chevron_light : styles.chevron_dark
-                }
-              />
-            </View>
+            {currentUser.creator_type === null ? (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
+                  Add creator type
+                </Text>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
+                />
+              </View>
+            ) : (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                ></Text>
+                <Feather
+                  name="check-circle"
+                  size={16}
+                  style={
+                    theme == "light" ? styles.icon_light : styles.icon_dark
+                  }
+                />
+              </View>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -263,21 +285,43 @@ export default function EditProfileScreen({ route }) {
             >
               Quote
             </Text>
-            <View style={styles.fieldValueContainer}>
-              <Text
-                numberOfLines={1}
-                style={theme == "light" ? styles.text_light : styles.text_dark}
-              >
-                {currentUser.quote}
-              </Text>
-              <Feather
-                name="chevron-right"
-                size={20}
-                style={
-                  theme == "light" ? styles.chevron_light : styles.chevron_dark
-                }
-              />
-            </View>
+            {currentUser.quote === null ? (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
+                  Add Quote
+                </Text>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
+                />
+              </View>
+            ) : (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                ></Text>
+                <Feather
+                  name="check-circle"
+                  size={16}
+                  style={
+                    theme == "light" ? styles.icon_light : styles.icon_dark
+                  }
+                />
+              </View>
+            )}
           </TouchableOpacity>
 
           {currentUser.is_special_needs !== 0 && (
@@ -341,7 +385,7 @@ export default function EditProfileScreen({ route }) {
                 />
               </View>
             ) : (
-              <View>
+              <View style={styles.fieldValueContainer}>
                 <Text
                   numberOfLines={1}
                   style={
@@ -397,7 +441,7 @@ export default function EditProfileScreen({ route }) {
                 />
               </View>
             ) : (
-              <View>
+              <View style={styles.fieldValueContainer}>
                 <Text
                   numberOfLines={1}
                   style={
@@ -453,7 +497,7 @@ export default function EditProfileScreen({ route }) {
                 />
               </View>
             ) : (
-              <View>
+              <View style={styles.fieldValueContainer}>
                 <Text
                   numberOfLines={1}
                   style={
@@ -488,21 +532,43 @@ export default function EditProfileScreen({ route }) {
             >
               Status
             </Text>
-            <View style={styles.fieldValueContainer}>
-              <Text
-                numberOfLines={1}
-                style={theme == "light" ? styles.text_light : styles.text_dark}
-              >
-                {currentUser.relationship_type}
-              </Text>
-              <Feather
-                name="chevron-right"
-                size={20}
-                style={
-                  theme == "light" ? styles.chevron_light : styles.chevron_dark
-                }
-              />
-            </View>
+            {currentUser.relationship_type === null ? (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
+                  Add Status
+                </Text>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
+                />
+              </View>
+            ) : (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                ></Text>
+                <Feather
+                  name="check-circle"
+                  size={16}
+                  style={
+                    theme == "light" ? styles.icon_light : styles.icon_dark
+                  }
+                />
+              </View>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -521,22 +587,45 @@ export default function EditProfileScreen({ route }) {
             >
               Pronouns
             </Text>
-            <View style={styles.fieldValueContainer}>
-              <Text
-                numberOfLines={1}
-                style={theme == "light" ? styles.text_light : styles.text_dark}
-              >
-                {currentUser.pronouns}
-              </Text>
-              <Feather
-                name="chevron-right"
-                size={20}
-                style={
-                  theme == "light" ? styles.chevron_light : styles.chevron_dark
-                }
-              />
-            </View>
+            {currentUser.pronouns === null ? (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
+                  Add Pronouns
+                </Text>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
+                />
+              </View>
+            ) : (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                ></Text>
+                <Feather
+                  name="check-circle"
+                  size={16}
+                  style={
+                    theme == "light" ? styles.icon_light : styles.icon_dark
+                  }
+                />
+              </View>
+            )}
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
@@ -553,22 +642,46 @@ export default function EditProfileScreen({ route }) {
             >
               Website
             </Text>
-            <View style={styles.fieldValueContainer}>
-              <Text
-                numberOfLines={1}
-                style={theme == "light" ? styles.text_light : styles.text_dark}
-              >
-                {currentUser.link}
-              </Text>
-              <Feather
-                name="chevron-right"
-                size={20}
-                style={
-                  theme == "light" ? styles.chevron_light : styles.chevron_dark
-                }
-              />
-            </View>
+            {currentUser.link === null ? (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                >
+                  Add website
+                </Text>
+                <Feather
+                  name="chevron-right"
+                  size={20}
+                  style={
+                    theme == "light"
+                      ? styles.chevron_light
+                      : styles.chevron_dark
+                  }
+                />
+              </View>
+            ) : (
+              <View style={styles.fieldValueContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    theme == "light" ? styles.text_light : styles.text_dark
+                  }
+                ></Text>
+                <Feather
+                  name="check-circle"
+                  size={16}
+                  style={
+                    theme == "light" ? styles.icon_light : styles.icon_dark
+                  }
+                />
+              </View>
+            )}
           </TouchableOpacity>
+
+          <View style={styles.divider_light}></View>
 
           <Text
             style={
@@ -616,14 +729,20 @@ export default function EditProfileScreen({ route }) {
                 />
               </View>
             ) : (
-              <View>
+              <View style={styles.fieldValueContainer}>
                 <Text
                   numberOfLines={1}
                   style={
                     theme == "light" ? styles.text_light : styles.text_dark
                   }
                 ></Text>
-                <Feather name="check-circle" size={16} color={colors.green} />
+                <Feather
+                  name="check-circle"
+                  size={16}
+                  style={
+                    theme == "light" ? styles.icon_light : styles.icon_dark
+                  }
+                />
               </View>
             )}
           </TouchableOpacity>
@@ -664,9 +783,15 @@ export default function EditProfileScreen({ route }) {
                 />
               </View>
             ) : (
-              <View>
+              <View style={styles.fieldValueContainer}>
                 <Text numberOfLines={1} style={styles.authText}></Text>
-                <Feather name="check-circle" size={16} color={colors.green} />
+                <Feather
+                  name="check-circle"
+                  size={16}
+                  style={
+                    theme == "light" ? styles.icon_light : styles.icon_dark
+                  }
+                />
               </View>
             )}
           </TouchableOpacity>
@@ -783,5 +908,19 @@ const styles = StyleSheet.create({
   icon: {
     color: colors.secondary,
     opacity: 0.8,
+  },
+  divider_light: {
+    top: 20,
+    borderBottomWidth: 0.3,
+    borderColor: colors.secondary,
+    marginTop: 10,
+    opacity: 0.2,
+    // width: '80%',
+  },
+  icon_dark: {
+    color: colors.green,
+  },
+  icon_light: {
+    color: colors.black,
   },
 });

@@ -64,7 +64,6 @@ export async function sendTestPushNotification() {
 			console.log(JSON.stringify(resp));
 		})
 		.catch(e => {
-			console.log(e);
 		});
 }
 

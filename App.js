@@ -23,9 +23,6 @@ import { ThemeProvider } from "./app/src/theme/context";
 import colors from "./app/config/colors";
 import { userAtom } from "./app/src/services/appStateAtoms";
 
-
-
-
 SplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreLogs(["Setting a timer"]);
@@ -82,7 +79,8 @@ export default function App() {
     const checkStatus = async () => {
       const response = await fetch(apiUrls.BASE_URL + "/api/system-status", {
         method: "GET",
-      }).then((response) => response.json());
+      })
+        .then((response) => response.json())
       setAppIsAvailable(response.status === "available");
       return response.status === "available";
     };
@@ -245,8 +243,6 @@ export default function App() {
             <NavigationContainer ref={navigationRef}>
               <ThemeProvider>
                 <Route />
-                
-                
               </ThemeProvider>
             </NavigationContainer>
           </QueryClientProvider>

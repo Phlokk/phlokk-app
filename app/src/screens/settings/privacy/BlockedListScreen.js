@@ -24,7 +24,6 @@ export default function BlockedListScreen() {
     const blockedListItems = async () => {
       const blockedList = await blockedListListener();
       setBlockedList(blockedList.blocks);
-      console.log(blockedList);
     };
     if (isFocused) {
       blockedListItems();

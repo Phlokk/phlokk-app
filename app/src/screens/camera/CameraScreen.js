@@ -285,8 +285,13 @@ export default function CameraScreen({ route }) {
       const result = await sound.current.getStatusAsync();
       if (result.isLoaded) {
         if (result.isPlaying === false) {
-          await delay(500);
+          
+          if (!showCountdown) {
+            await delay(450);
+          } else if (showCountdown) {
+            await delay(450);
 
+          }
           const playbackStatus = await sound.current.replayAsync();
           isLooping(true);
         }

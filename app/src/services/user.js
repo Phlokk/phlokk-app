@@ -80,6 +80,5 @@ export const getAllUserPostLikes = async (_id) => {
     const result = await axios.get(`/api/posts/postsLikes/${_id}`);
     return result.data;
   } catch (e) {
-    console.log(e)
   }
 };

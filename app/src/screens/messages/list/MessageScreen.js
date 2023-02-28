@@ -10,35 +10,6 @@ import colors from "../../../../config/colors";
 
 const MessageScreen = () => {
   const chats = useSelector((state) => state.chat.list);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const queryClient = useQueryClient();
-  // const deleteUserMessage = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     await deleteMessageById(item.id);
-  //     queryClient.invalidateQueries(["messages", item.creator]);
-
-  //     setIsLoading(false);
-  //     alert("Message Deleted Successfully");
-  //   } catch (err) {
-  //     alert(err?.message);
-  //     setIsLoading(false);
-  //   }
-  // };
-  // const deletePost = () => {
-  //   const uid = firebase.auth().currentUser.uid;
-  //   console.log("uid, item.creator", uid, item.creator);
-  //   if (item.creator === uid) {
-  //     Alert.alert("Delete Message", "Are you sure you want to delete this message?", [
-  //       {
-  //         text: "Cancel",
-  //         onPress: () => console.log("Cancel Pressed"),
-  //         style: "cancel",
-  //       },
-  //       { text: "OK", onPress: deleteUserMessage },
-  //     ]);
-  //   }
-  // };
 
   const renderItem = ({ item }) => {
     return <MessageListItem chat={item} />;

@@ -48,7 +48,6 @@ export default function UpdatePasswordScreen() {
       return result.data;
     } catch (e) {
       setCodeErrorMessage(true);
-      console.log(e);
     }
   };
 

@@ -9,7 +9,6 @@ import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialIcons } from "@expo/vector-icons";
 import routes from "../../../navigation/routes";
 import colors from "../../../../config/colors";
 import SettingsNavBar from "../../../components/general/settings/SettingsNavBar";
