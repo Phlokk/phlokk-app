@@ -96,8 +96,8 @@ export default function Route() {
 
   {
   }
-  // Drawer Navigation
-  <Root />;
+
+
 
   return (
     <Stack.Navigator>

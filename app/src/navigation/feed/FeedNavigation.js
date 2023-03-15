@@ -21,7 +21,7 @@ const FeedNavigation = () => {
     headerTintColor: colors.secondary,
     headerTitle: () => undefined,
   };
-
+// change profile to isMainFeed: false
   return (
     <CurrentUserProfileItemInViewContext.Provider
       value={currentUserProfileItemInView}

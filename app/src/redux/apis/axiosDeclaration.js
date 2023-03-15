@@ -1,10 +1,10 @@
 import defaultAxios from "axios";
 import * as SecureStore from "expo-secure-store";
 
-import {apiUrls} from "../../globals";
+import {apiUrlsNode} from "../../globals";
 
 const axios = defaultAxios.create({
-  baseURL: apiUrls.BASE_URL,
+  baseURL: apiUrlsNode.BASE_URL2,
   timeout: 30000,
   responseType: "json",
   headers: { "content-type": "application/json", Accept: "application/json" },
@@ -16,7 +16,7 @@ axios.interceptors.request.use(
     const user = await SecureStore.getItemAsync("user");
     if (user) {
       const parsedUser = JSON.parse(user);
-      config.headers["Authorization"] = `Bearer ${parsedUser.token}`;
+      config.headers["auth-token"] = `${parsedUser.token}`;
     }
     return config;
   },
@@ -24,8 +24,6 @@ axios.interceptors.request.use(
     Promise.reject(error);
   }
 );
-
-
 
 
 export default axios;

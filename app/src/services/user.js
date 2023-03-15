@@ -1,15 +1,7 @@
 import axios from "../redux/apis/axiosDeclaration";
 import { Alert } from "react-native";
 
-export const getUserById = async (data) => {
-  let url = "/api/creator/" + data;
-  axios
-    .get(url)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {});
-};
+
 
 export const blockUserById = async (userId) => {
   let url = "/api/creator/" + userId + "/block";
@@ -32,8 +24,9 @@ export const blockedListListener = async () => {
   }
 };
 
-export const updateCreator = async (data) => {
-  await axios.patch("/api/me/update", data);
+export const updateCreator = async (user, data) => {
+  console.log("test test", data, user._id);
+  await axios.patch(`/api/users/update/${user._id}`, data);
 };
 
 export const getStateOfSwitch = async () => {

@@ -12,28 +12,9 @@ export const POSTS_PER_PAGE = 20;
 export const POSTS_PER_USER_PAGE = 20; // Changed to 20 since profiles display thumbnails, and may need more on initial load
 
 
-// export const getFeed = () =>
-//   axios
-//     .get("/api/posts", {
-//       testing: "testing",
-//     })
-//     .then(function (response) {
-      
-//       return response.data.data;
-//       // 2 seconds later...
-//     })
-//     .catch(function (error) {
-//       setIsFeedVisible(true);
-//     });
-
-
-
-
-
-
 export const getPost = async (postId) => {
   try {
-    return axios.get(`/api/post/view/${postId}`);
+    return axios.get(`/api/posts/${postId}`);
   } catch (e) {
     setIsPosts(true);
   }
@@ -41,21 +22,22 @@ export const getPost = async (postId) => {
 
 // feed for all Users 
 export const getFeedAsync = async (page) => {
-  const paramsObject = { page, perPage: POSTS_PER_PAGE };
+  const paramsObject = { page, limit: POSTS_PER_PAGE };
   const params = querystring.stringify(paramsObject);
 
   try {
-    const result = await axios.get(`/api/posts?${params}`);
+    const result = await axios.get(`/api/posts/?${params}`);
     
+    console.log(result.data)
     return result.data;
   } catch {
-    setIsFeedVisible(true);
+    // setIsFeedVisible(true);
   }
 };
 
 // get currentUser feed API
 export const getUserFeedAsync = async (userId, page) => {
-  const paramsObject = { page, perPage: POSTS_PER_USER_PAGE, userId };
+  const paramsObject = { page, limit: POSTS_PER_USER_PAGE, userId };
   const params = querystring.stringify(paramsObject);
 
   try {
@@ -169,7 +151,7 @@ export const useUserPosts = (userId, { enabled }) =>
 
 export const deletePostById = async (postId) => {
   await axios
-    .delete("/api/post/delete/" + postId)
+    .delete(`/api/posts/delete/${postId}`)
     .then((result) => {
       return result.data;
     })
@@ -181,7 +163,8 @@ export const deletePostById = async (postId) => {
 export const addComment = async (postId, comment) => {
 
   await axios
-    .post(`/api/post/${postId}/add-comment`, { comment: comment })
+    .post(`/api/post/${postId}/add-comment`, 
+    { comment: comment })
     .then((result) => {
       return result.data;
     })

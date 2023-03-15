@@ -83,6 +83,7 @@ export default function EditProfileScreen({ route }) {
     // Once image is updated, load user profile from api
     const response = await fetchGetUser();
     setCurrentUser(response.user);
+
   };
 
   return (

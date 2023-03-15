@@ -52,6 +52,7 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
+  console.log(useAtom(userAtom), "atom");
   const [user, setUser] = useAtom(userAtom);
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
@@ -91,8 +92,9 @@ export default function App() {
       Alert.alert("System is down for maintenance. Please try again later");
     } else {
       const loadUser = async () => {
-        const response = await fetchGetUser();
-        setUser(response.user);
+        const response = await fetchGetUser(user._id);
+        setUser(response);
+        
       };
 
       loadUser();

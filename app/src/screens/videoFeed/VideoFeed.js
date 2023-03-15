@@ -24,7 +24,7 @@ import colors from "../../../config/colors";
 import { useDispatch } from "react-redux";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { useIsFocused } from "@react-navigation/native";
-import { getAllNewsTickerData } from "../../services/newsTicker";
+// import { getAllNewsTickerData } from "../../services/newsTicker";
 
 export const newFeedItemAtom = atom("");
 export const forceRefreshAtom = atom(false);
@@ -48,28 +48,28 @@ const VideoFeed = ({ navigation, route }) => {
   const flatListRef = useRef();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const newsTickerFeed = async () => {
-      const ticker = await getAllNewsTickerData();
+  // useEffect(() => {
+  //   const newsTickerFeed = async () => {
+  //     const ticker = await getAllNewsTickerData();
 
-      if (ticker.news_ticker.length === 0) {
-        setTickerText(null);
-              return;
-      }
-      let newTickerText = "Breaking news:  ";
-      ticker.news_ticker.forEach((item) => {
-        newTickerText += ` ${item.ticker_description} ${item.ticker_message} - `
+  //     if (ticker.news_ticker.length === 0) {
+  //       setTickerText(null);
+  //             return;
+  //     }
+  //     let newTickerText = "Breaking news:  ";
+  //     ticker.news_ticker.forEach((item) => {
+  //       newTickerText += ` ${item.ticker_description} ${item.ticker_message} - `
 
-      })
-      newTickerText = newTickerText.substring(0, newTickerText.length -3)
-      setTickerText(newTickerText)
-    };
+  //     })
+  //     newTickerText = newTickerText.substring(0, newTickerText.length -3)
+  //     setTickerText(newTickerText)
+  //   };
     
 
-    if (isFocused) {
-      newsTickerFeed();
-    }
-  }, [isFocused]);
+  //   if (isFocused) {
+  //     newsTickerFeed();
+  //   }
+  // }, [isFocused]);
 
 
   const user = creator || currentUser;
@@ -99,21 +99,24 @@ const VideoFeed = ({ navigation, route }) => {
     if (!posts && !userPosts) {
       return;
     }
+    console.log(posts)
     const postsToUse = profile ? userPosts : posts;
 
     // set likes// make sure to refetch video data when the hooks fire
-    const AllLikes = postsToUse.map((post) => {
-      return {
-        postId: post._id,
-        likes: handleLikeCount(post.like_count),
-        liked: post.is_liked,
-      };
-    });
-    dispatch({
-      type: types.SET_POSTS_LIKES,
-      postsLikes: AllLikes,
-    });
+    // const AllLikes = postsToUse.map((post) => {
+    //   return {
+    //     postId: post._id,
+    //     likes: handleLikeCount(post.like_count),
+    //     liked: post.is_liked,
+    //   };
+    // });
+    // dispatch({
+    //   type: types.SET_POSTS_LIKES,
+    //   postsLikes: AllLikes,
+    // });
     // end set likes
+    console.log(postsToUse)
+    console.log(profile)
     setPostFeed(postsToUse);
   }, [posts, userPosts]);
 

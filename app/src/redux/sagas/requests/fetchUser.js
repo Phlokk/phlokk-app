@@ -1,45 +1,25 @@
 import * as SecureStore from "expo-secure-store";
+import axios from "../../apis/axiosDeclaration";
 
-import {apiUrls} from "../../../globals";
 
-const url = apiUrls.BASE_URL + "/api/me";
-
-const fetchGetUserData = async (userId) => {
+const fetchGetUserData = async () => {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
-
-  return fetch(apiUrls.BASE_URL + "/api/creator/" + userId, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${user.token}`,
-      Accept: 'application/json'
-
-    },
-  })
-    .then((response) => response.json())
-    .catch((error) => {
-      throw error;
-    });
+  const response = await axios.get(`/api/creators/${user._id}`)
+  const body = response.data;
+  console.log(body, "body of data")
+  
+  return body;
 };
 
 const fetchGetUser = async () => {
-  
-  let user = JSON.parse(await SecureStore.getItemAsync("user"));
- 
+let user = JSON.parse(await SecureStore.getItemAsync("user"));
 
-  return fetch(url, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${user.token}`,
-      Accept: 'application/json' 
-    },
-  })
-    .then((response) => {
 
-      return response.json()})
-      
-    .catch((error) => {
-      throw error;
-    });
+ const response = await axios.get(`/api/creators/${user._id}`)
+ const userData = response.data;
+ return userData;
+
 };
+
 
 export { fetchGetUser, fetchGetUserData };

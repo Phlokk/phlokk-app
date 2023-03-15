@@ -11,6 +11,10 @@ import colors from "../../../config/colors";
 import routes from "../../navigation/routes";
 
 const TrimmerScreen = ({ route }) => {
+
+
+  // https://stackoverflow.com/questions/32254818/generating-a-waveform-using-ffmpeg
+
   const navigation = useNavigation();
   const item = route?.params?.item;
   const maxTrimDuration = 60000;
@@ -147,7 +151,6 @@ const TrimmerScreen = ({ route }) => {
           )}
         </View>
         <Trimmer
-          style={styles.trimmer}
           onHandleChange={onHandleChange}
           totalDuration={totalDuration}
           trimmerLeftHandlePosition={trimmerLeftHandlePosition}
@@ -167,6 +170,7 @@ const TrimmerScreen = ({ route }) => {
           onScrubbingComplete={onScrubbingComplete}
         />
       </View>
+      
 
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
@@ -219,11 +223,6 @@ const styles = StyleSheet.create({
   backBtn: {
     justifyContent: "center",
   },
-  // Trimmer
-  trimmer: {
-    width: "70%",
-  },
-
   trimmerView: {
     justifyContent: "center",
     alignItems: "center",

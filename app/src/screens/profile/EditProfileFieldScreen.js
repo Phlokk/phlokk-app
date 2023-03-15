@@ -25,7 +25,7 @@ export default function EditProfileFieldScreen({ route }) {
   const onSave = async () => {
     const updateObject = { username: textInputValue };
     try {
-      await updateCreator(updateObject);
+      await updateCreator(user, updateObject);
       const updatedUser = { ...user, ...updateObject };
       setUser(updatedUser);
       navigation.goBack();

@@ -5,7 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 export const getAllSounds = async () => {
   try {
-    const result = await axios.get(`/api/sounds`);
+    const result = await axios.get(`/api/features/sounds`);
     return result.data;
   } catch (e) {
     setSoundError(true);

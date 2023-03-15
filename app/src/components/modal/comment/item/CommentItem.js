@@ -22,7 +22,7 @@ import {
 import { likeComment, likeCommentReply } from "../../../../redux/actions/likes";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import { useTheme } from "../../../../theme/context";
-import { likeCountFormatter, numberFormatter } from "../../../common/NumberFormatter";
+import { likeCountFormatter } from "../../../common/NumberFormatter";
 
 
 const CommentItem = ({

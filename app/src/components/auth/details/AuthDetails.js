@@ -59,24 +59,24 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   const handleLogin = () => {
     
     axios
-      .post("/api/login", {
+      .post("/api/auth/login", {
         email: email,
         password: password,
-        device_name: "mobile",
+        // device_name: "mobile",
       })
       .then(async (response) => {
-        if (Platform.OS === 'ios') {
-          const expoPushToken = await registerForPushNotificationsAsync();
-        setExpoPushToken(expoPushToken);
+        // if (Platform.OS === 'ios') {
+        //   const expoPushToken = await registerForPushNotificationsAsync();
+        // setExpoPushToken(expoPushToken);
 
-        }
-        setLoggedInUser(response.data.user);
+        // }
+        setLoggedInUser(response.data.user[0]);
 
-        const user = response.data.user;
+        const user = response.data.user[0];
         user.token = response.data.token;
-        if (Platform.OS === 'ios') {
-          user.expoPushToken = expoPushToken;
-        }
+        // if (Platform.OS === 'ios') {
+        //   user.expoPushToken = expoPushToken;
+        // }
         SecureStore.setItemAsync("user", JSON.stringify(user));
         dispatch({
           type: types.USER_STATE_CHANGE,
@@ -88,10 +88,10 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         setIsLogin(true)
       });
   };
-
+  
   const handleRegister = () => {
     axios
-      .post("/api/register", {
+      .post("/api/auth/register", {
         name: name,
         username: username,
         email: email,
@@ -99,7 +99,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         acceptTerms: isChecked,
       })
       .then(function (response) {
-        const user = response.data.user;
+        const user = response.data.user[0];
         user.token = response.data.token;
         resetTextInput();
         setUser(user);
@@ -114,6 +114,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         setIsRegistered(true)
       });
   };
+  
 
   return (
     <>
