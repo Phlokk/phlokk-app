@@ -26,12 +26,11 @@ export const getFeedAsync = async (page) => {
   const params = querystring.stringify(paramsObject);
 
   try {
-    const result = await axios.get(`/api/posts/?${params}`);
+    const result = await axios.get(`/api/posts?${params}`);
     
-    console.log(result.data)
     return result.data;
   } catch {
-    // setIsFeedVisible(true);
+    setIsFeedVisible(true);
   }
 };
 

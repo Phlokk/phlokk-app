@@ -33,6 +33,7 @@ function UserProfileOverlay({
   isCurrentUser,
   areTabsShowing,
 }) {
+  console.log(post, 'post')
   const [following, setFollowing] = useState(user?.follow_count);
   const [isFollowing, setIsFollowing] = useState(user?.is_following);
   const [isLinked, setIsLinked] = useState(false);
@@ -157,7 +158,7 @@ function UserProfileOverlay({
           <TouchableOpacity 
           onPress={() => {
             navigation.navigate("feedProfile", {
-              initialUser: user,
+              initialUser: post.user,
             });
           }}
           style={styles.username} 

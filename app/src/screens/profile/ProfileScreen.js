@@ -41,11 +41,14 @@ export default function ProfileScreen({ route }) {
     }
 
     const userProfile = route?.params?.initialUser;
+    console.log("userProfile ", userProfile);
     if (!userProfile) {
-      setProfile(loggedInUser);
+      setProfile(Array.isArray(loggedInUser)? loggedInUser[0]:loggedInUser);
+      
     } else {
+      console.log('else')
       setProfile(userProfile);
-      fetchUser(userProfile._id);
+      fetchUser(userProfile.id);
     }
   }, [route, loggedInUser]);
 
@@ -158,7 +161,7 @@ export default function ProfileScreen({ route }) {
       >
         <ProfileNavBar
           userProfile={profile}
-          isCurrentUser={loggedInUser?._id === profile?._id}
+          isCurrentUser={!route?.params?.initialUser}
         />
 
         <FlatList

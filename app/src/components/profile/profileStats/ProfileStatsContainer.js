@@ -7,16 +7,16 @@ import colors from "../../../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
 import { useTheme } from "../../../theme/context";
-import { getAllUserPostLikes } from "../../../services/user";
+import { getAllUserPostLikes, getFollowersCount } from "../../../services/user";
 import { numberFormatter } from "../../common/NumberFormatter";
+import routes from "../../../navigation/routes";
 
 function ProfileStatsContainer({ user, isCurrentUser }) {
-
   const isFocused = useIsFocused();
 
   const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
-  const [following, setFollowing] = useState(user?.follow_count);
+  const [following, setFollowing] = useState("");
 
   const [likesCount, setLikesCount] = useState("");
 
@@ -25,7 +25,6 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
   const [friends, setFriends] = useState("0");
 
   const [isFriends, setIsFriends] = useState(false);
-
 
   useEffect(() => {
     const totalPostsLikes = async () => {
@@ -42,20 +41,33 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
 
   starCount = numberFormatter(likesCount);
 
+  useEffect(() => {
+    const followersCount = async () => {
+      const following = await getFollowersCount(user._id);
+      setFollowing(following);
 
-  
+      followingCount = numberFormatter(following);
+    };
 
+    if (isFocused) {
+      followersCount();
+    }
+  }, [isFocused]);
+
+  followingCount = numberFormatter(following);
 
   return (
     <View style={styles.outerContainer}>
       <View style={styles.counterContainer}>
         <View style={[styles.counterItemContainer, styles.followingPad]}>
           <TouchableOpacity
-            onPress={() => setIsFollowing(true)}
-            // onPress={() => navigation.navigate(routes.FOLLOWING_LIST, {
-            // 	user: user,
-            // 	isCurrentUser: isCurrentUser
-            // })}
+            // onPress={() => setIsFollowing(true)}
+            onPress={() =>
+              navigation.navigate(routes.FOLLOWING_LIST, {
+                user: user,
+                isCurrentUser: isCurrentUser,
+              })
+            }
           >
             <Text
               style={
@@ -64,7 +76,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
                   : styles.counterNumberText_dark
               }
             >
-              {numberFormatter(following)}
+              {numberFormatter(followingCount)}
             </Text>
           </TouchableOpacity>
 

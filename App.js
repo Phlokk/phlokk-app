@@ -92,6 +92,7 @@ export default function App() {
       Alert.alert("System is down for maintenance. Please try again later");
     } else {
       const loadUser = async () => {
+        console.log(user[0], 'fetch user');
         const response = await fetchGetUser(user._id);
         setUser(response);
         

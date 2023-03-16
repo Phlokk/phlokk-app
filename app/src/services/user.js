@@ -24,8 +24,8 @@ export const blockedListListener = async () => {
   }
 };
 
+// working 
 export const updateCreator = async (user, data) => {
-  console.log("test test", data, user._id);
   await axios.patch(`/api/users/update/${user._id}`, data);
 };
 
@@ -42,15 +42,13 @@ export const sendReportData = async (data) => {
   await axios.patch("/api/me/update", data);
 };
 
-export const getIsFollowing = (user, otherUserId) =>
-  new Promise((resolve, reject) => {});
-
   
 
 export const getFollowers = async (me, id = null) => {
   try {
     if (me) {
-      const result = await axios.get("/api/me/follower-list");
+      const result = await axios.get(`/api/users/${user_id}`);
+      console.log(result.data.followers)
       return result.data.followers;
     } else {
       const result = await axios.get("/api/creator/" + id + "/followers");
@@ -68,9 +66,18 @@ export const queryUsers = async (searchQuery) => {
   });
 };
 
+// working 
 export const getAllUserPostLikes = async (_id) => {
   try {
-    const result = await axios.get(`/api/posts/postsLikes/${_id}`);
+    const result = await axios.get(`/api/likes/userLikes/${_id}`);
+    return result.data;
+  } catch (e) {
+  }
+};
+
+export const getFollowersCount = async (user_id) => {
+  try {
+    const result = await axios.get(`/api/users/followerCount/${user_id}`);
     return result.data;
   } catch (e) {
   }

@@ -62,22 +62,37 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       .post("/api/auth/login", {
         email: email,
         password: password,
-        // device_name: "mobile",
       })
       .then(async (response) => {
+        console.log(response, "response from login")
         // if (Platform.OS === 'ios') {
         //   const expoPushToken = await registerForPushNotificationsAsync();
         // setExpoPushToken(expoPushToken);
 
         // }
-        setLoggedInUser(response.data.user[0]);
+        setLoggedInUser(response.data.user);
 
         const user = response.data.user[0];
         user.token = response.data.token;
+        
         // if (Platform.OS === 'ios') {
         //   user.expoPushToken = expoPushToken;
         // }
         SecureStore.setItemAsync("user", JSON.stringify(user));
+        // setTimeout(() => {
+        //   axios
+        //     .get("/api/auth/refresh-token")
+        //     .then(async (response) => {
+        //       console.log(response.data, "response from refresh")
+        //       const newUser = response.data.user[0];
+        //       newUser.token = response.data.token;
+              
+        //       // if (Platform.OS === 'ios') {
+        //       //   user.expoPushToken = expoPushToken;
+        //       // }
+        //       SecureStore.setItemAsync("user", JSON.stringify(newUser));
+        //     })
+        // }, 60*60*4);
         dispatch({
           type: types.USER_STATE_CHANGE,
           currentUser: user,
