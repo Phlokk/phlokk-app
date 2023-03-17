@@ -6,6 +6,7 @@ import axios from "../redux/apis/axiosDeclaration";
 import querystring from "query-string";
 import { MaterialIcons } from "@expo/vector-icons";
 import CustomAlert from "../components/Alerts/CustomAlert";
+import * as SecureStore from "expo-secure-store";
 
 
 export const POSTS_PER_PAGE = 20;
@@ -28,6 +29,7 @@ export const getFeedAsync = async (page) => {
   try {
     const result = await axios.get(`/api/posts?${params}`);
     
+    
     return result.data;
   } catch {
     setIsFeedVisible(true);
@@ -35,15 +37,19 @@ export const getFeedAsync = async (page) => {
 };
 
 // get currentUser feed API
-export const getUserFeedAsync = async (userId, page) => {
-  const paramsObject = { page, limit: POSTS_PER_USER_PAGE, userId };
+export const getUserFeedAsync = async (page =1) => {
+
+  let user = JSON.parse(await SecureStore.getItemAsync("user"));
+  console.log(user._id, page, "asfd");
+
+  const paramsObject = { page, limit: POSTS_PER_USER_PAGE };
   const params = querystring.stringify(paramsObject);
 
   try {
-    const result = await axios.get(`/api/posts/userPosts?${params}`, {
-      testing: "testing",
-    });
+    const result = await axios.get(`/api/posts/usersPosts/${user._id}?page=${1}`)
+    console.log("current user videos feed list !!!=========>", result.data)
     return result.data;
+
   } catch {
     setIsFeedConnected(true);
   }
@@ -65,8 +71,9 @@ export const useVideoFeed = (options) => {
   const getFeed = async () => {
     setLoading(true);
     const feed = await getFeedAsync();
+    console.log(feed.next_page_number, "all posts");
     setPosts(feed.data);
-    setNextPageNumber(feed.next_page_number);
+    setNextPageNumber(feed?.next_page_number);
     setLoading(false);
   };
 
@@ -77,6 +84,7 @@ export const useVideoFeed = (options) => {
 
     setLoading(true);
     const feed = await getFeedAsync(nextPageNumber);
+    console.log("feed => ", feed)
     setPosts((prev) => [...prev, ...feed.data]);
     setNextPageNumber(feed.next_page_number);
     setLoading(false);
@@ -148,53 +156,53 @@ export const useUserPosts = (userId, { enabled }) =>
     refetchInterval: 5000,
   });
 
-export const deletePostById = async (postId) => {
-  await axios
-    .delete(`/api/posts/delete/${postId}`)
-    .then((result) => {
-      return result.data;
-    })
-    .catch((error) => {
-      setIsDeletedVideo(true);
-    });
-};
+  export const deletePostById = async (postId) => {
+    await axios
+      .delete(`/api/posts/delete/${postId}`)
+      .then((result) => {
+        return result.data;
+      })
+      .catch((error) => {
+        setIsDeletedVideo(true);
+      });
+  };
 
-export const addComment = async (postId, comment) => {
+  export const addComment = async (postId, comment) => {
 
-  await axios
-    .post(`/api/post/${postId}/add-comment`, 
-    { comment: comment })
-    .then((result) => {
-      return result.data;
-    })
-    .catch((error) => {
-      setIsComment(true);
-    });
-};
+    await axios
+      .post(`/api/post/${postId}/add-comment`, 
+      { comment: comment })
+      .then((result) => {
+        return result.data;
+      })
+      .catch((error) => {
+        setIsComment(true);
+      });
+  };
 
-export const addCommentReply = async (postId, commentId, comment) => {
+  export const addCommentReply = async (postId, commentId, comment) => {
   
-  await axios
-    .post(`/api/post/${postId}/${commentId}/add-comment-reply`, {
-      comment: comment,
-    })
-    .then((result) => {
-      return result.data;
-    })
-    .catch((error) => {
-      setIsCommentReply(true);
-    });
-};
-
-export const deleteComment = async (postId, commentId) => {
-  await axios.delete(`/api/post/${postId}/${commentId}/delete-comment`);
-};
-
-export const deleteCommentReply = async (postId, commentId, replyId) => {
-  await axios.delete(
-    `/api/post/${postId}/${commentId}/${replyId}/delete-comment`
-  );
-};
+    await axios
+      .post(`/api/post/${postId}/${commentId}/add-comment-reply`, {
+        comment: comment,
+      })
+      .then((result) => {
+        return result.data;
+      })
+      .catch((error) => {
+        setIsCommentReply(true);
+      });
+  };
+  
+  export const deleteComment = async (postId, commentId) => {
+    await axios.delete(`/api/post/${postId}/${commentId}/delete-comment`);
+  };
+  
+  export const deleteCommentReply = async (postId, commentId, replyId) => {
+    await axios.delete(
+      `/api/post/${postId}/${commentId}/${replyId}/delete-comment`
+    );
+  };
 
 export const commentListener = async (
   postId,

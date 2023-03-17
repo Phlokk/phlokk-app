@@ -130,11 +130,11 @@ const VideoFeed = ({ navigation, route }) => {
   }, [newFeedItem]);
 
   useEffect(() => {
-    if (currentVideoIndex >= posts?.length - 2) {
+    if (currentVideoIndex >= posts?.length - 5) {
       if (loadingMainFeed || loadingUserFeed) {
         return;
       }
-
+      console.log(currentVideoIndex, posts.length, "pagination");
       if (profile) {
         getMoreUserPosts();
       } else {

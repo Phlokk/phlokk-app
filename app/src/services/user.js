@@ -75,6 +75,7 @@ export const getAllUserPostLikes = async (_id) => {
   }
 };
 
+// working 
 export const getFollowersCount = async (user_id) => {
   try {
     const result = await axios.get(`/api/users/followerCount/${user_id}`);

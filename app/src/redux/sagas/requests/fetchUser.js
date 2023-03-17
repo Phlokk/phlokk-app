@@ -3,7 +3,7 @@ import axios from "../../apis/axiosDeclaration";
 
 
 const fetchGetUserData = async (userId) => {
-  let user = JSON.parse(await SecureStore.getItemAsync("user"));
+
   const response = await axios.get(`/api/creators/${userId}`)
   const body = response.data;
   console.log(body, "body of data")
