@@ -32,6 +32,7 @@ const CommentItem = ({
   onReplyPressed,
   isReply,
 }) => {
+  console.log('commentItem => ', comment)
   const { theme } = useTheme();
 
   const navigation = useNavigation();
@@ -50,14 +51,17 @@ const CommentItem = ({
     const type = isLiked ? "unlike" : "like";
     try {
       if (!isReply) {
-        await likeComment(post._id, comment._id, type);
+        let response = await likeComment(post._id, comment._id, type, user._id);
+        response.then(resp=>console.log(resp, "resp"))
+        .catch(err=>console.log(err))
       } else {
         await likeCommentReply(post._id, comment.comment_id, comment._id, type);
       }
 
       setIsLiked(!isLiked);
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
-    } catch {
+    } catch(err) {
+      console.log(err.message, "error from like");
       Alert.alert("Could not like this comment!");
     }
   };
@@ -101,7 +105,7 @@ const CommentItem = ({
     <View style={styles.container}>
       
     <TouchableOpacity
-        disabled={isActiveAccount ? user._id == comment.user._id : null}
+        disabled={isActiveAccount ? user._id == comment.user_id : null}
         onPress={() => {
           isActiveAccount
             ? navigation.navigate("feedProfile", {
@@ -168,7 +172,7 @@ const CommentItem = ({
         <View style={styles.replyRow}>
           <Text style={theme == "light" ? styles.date_light : styles.date_dark}>
             {comment.created_at
-              ? timeSince(new Date(comment.created_at))
+              ? timeSince(comment.created_at)
               : "Now"}
           </Text>
 

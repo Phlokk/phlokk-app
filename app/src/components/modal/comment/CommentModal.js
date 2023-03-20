@@ -44,6 +44,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
   useEffect(async () => {
     await commentListener(post._id, setCommentList, setCommentCount);
+    console.log(commentList, commentCount, "form commentModal");
     return () => clearCommentListener();
   }, []);
 
@@ -132,8 +133,11 @@ function CommentModal({ post, onNewCommentSubmitted }) {
         }
       });
   };
+console.log(user, "user ")
+
 
   const renderItem = ({ item, index }) => {
+    console.log(item, item.comment_replies, "item from comment modal");
     return (
       <View>
         <View style={item.is_reply && { marginLeft: 40, marginTop: -10 }}>
@@ -225,7 +229,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
       {/* {user.disable_comments === 0 && ( */}
       <View style={styles.containerInput}>
-        {!user?.photo_thumb_url ? (
+        {!user?.photo_url ? (
           <Image
             style={styles.avatar}
             source={require("../../../../assets/userImage.png")}
@@ -235,7 +239,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
           <TouchableOpacity>
             <Image
               style={styles.avatar}
-              source={{ uri: user.photo_thumb_url }}
+              source={{ uri: user.photo_url }}
             />
           </TouchableOpacity>
         )}

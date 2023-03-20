@@ -1,15 +1,16 @@
-import Axios from "../apis/axiosDeclaration";
+import axios from "../apis/axiosDeclaration";
 
 export const likeVideo = (postId, type) => {
-  return Axios.post(`/api/post/${postId}/${type}`, {});
+  return axios.post(`/api/post/${postId}/${type}`, {});
 };
 
-export const likeComment = (postId, commentId, type) => {
-  return Axios.post(`/api/post/${postId}/${commentId}/${type}`, {});
+export const likeComment = async (postId, commentId, type, userId) => {
+  console.log('like comment = >', postId, commentId, type, userId);
+  return axios.post(`/api/commentsReactions/likeComment/${postId}/${commentId}/${type}/${userId}`, {});
 };
 
 export const likeCommentReply = (postId, commentId, commentReplyId, type) => {
-  return Axios.post(
+  return axios.post(
     `/api/post/${postId}/${commentId}/${commentReplyId}/${type}`,
     {}
   );

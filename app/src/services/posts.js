@@ -209,11 +209,14 @@ export const commentListener = async (
   setCommentList,
   setCommentCount
 ) => {
+  console.log(postId, "postId");
+  let user = JSON.parse(await SecureStore.getItemAsync("user"));
   await axios
-    .get("/api/post/view/" + postId + "/comments")
+    .get(`/api/comments/show/${postId}/${user._id}`)
     .then((result) => {
-      setCommentList(result.data.comments);
-      setCommentCount(result.data.comment_count);
+      console.log(result.data, 'comments');
+      setCommentList(result.data);
+      setCommentCount(result.data.length);
       return result.data;
     })
     .catch((error) => {
@@ -229,7 +232,8 @@ export const clearCommentListener = () => {
 };
 
 export const timeSince = function (date) {
-  var seconds = Math.floor((new Date() - date) / 1000);
+  console.log(new Date(), date, new Date(date).getTime() - new Date(date).getTime(), '======> date');
+  var seconds = Math.floor((new Date(date).getTime() - new Date().getTime()) / 1000);
   var interval = seconds / 31536000;
 
   if (interval > 1) {
@@ -251,7 +255,8 @@ export const timeSince = function (date) {
   if (interval > 1) {
     return Math.floor(interval) + " minutes";
   }
-  return Math.floor(seconds) + " seconds";
+  console.log(seconds, typeof seconds);
+  return Math.floor(parseInt(seconds)) + " seconds";
 };
 
 
