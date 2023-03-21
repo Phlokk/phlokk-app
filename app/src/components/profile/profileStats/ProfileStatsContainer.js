@@ -7,7 +7,7 @@ import colors from "../../../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
 import { useTheme } from "../../../theme/context";
-import { getAllUserPostLikes, getFollowersCount } from "../../../services/user";
+import { getAllUserPostLikes, getCount} from "../../../services/user";
 import { numberFormatter } from "../../common/NumberFormatter";
 import routes from "../../../navigation/routes";
 
@@ -18,39 +18,27 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
   const navigation = useNavigation();
   const [following, setFollowing] = useState("");
 
-  const [likesCount, setLikesCount] = useState("");
+  const [likesCount, setLikesCount] = useState(0);
+  const [starsCount, setStarsCount] = useState(0);
 
   const [isFollowing, setIsFollowing] = useState(false);
   const [isStar, setIsStar] = useState(false);
-  const [friends, setFriends] = useState("0");
+  const [friendsCount, setFriendsCount] = useState(0);
 
   const [isFriends, setIsFriends] = useState(false);
 
-  useEffect(() => {
-    const totalPostsLikes = async () => {
-      const likesCount = await getAllUserPostLikes(user._id);
-      setLikesCount(likesCount);
+  
 
-      starCount = numberFormatter(likesCount);
+  useEffect(() => {
+    const getAllCounts = async () => {
+      const countResults = await getCount(user._id);
+      setFollowing(numberFormatter(countResults.followersCount));
+      setStarsCount(numberFormatter(countResults.starsCount));
+      setFriendsCount(numberFormatter(countResults.friendsCount));
     };
 
     if (isFocused) {
-      totalPostsLikes();
-    }
-  }, [isFocused]);
-
-  starCount = numberFormatter(likesCount);
-
-  useEffect(() => {
-    const followersCount = async () => {
-      const following = await getFollowersCount(user._id);
-      setFollowing(following);
-
-      followingCount = numberFormatter(following);
-    };
-
-    if (isFocused) {
-      followersCount();
+      getAllCounts();
     }
   }, [isFocused]);
 
@@ -76,7 +64,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
                   : styles.counterNumberText_dark
               }
             >
-              {numberFormatter(followingCount)}
+              {numberFormatter(following)}
             </Text>
           </TouchableOpacity>
 
@@ -93,9 +81,14 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
 
         <View style={styles.counterItemContainer}>
           <TouchableOpacity
-            onPress={() => setIsFriends(true)}
+            // onPress={() => setIsFriends(true)}
 
-            // onPress={() => navigation.navigate(routes.FRIENDS_LIST)}
+            onPress={() =>
+              navigation.navigate(routes.FRIENDS_LIST, {
+                user: user,
+                isCurrentUser: isCurrentUser,
+              })
+            }
           >
             <Text
               style={
@@ -104,7 +97,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
                   : styles.counterNumberText_dark
               }
             >
-              {numberFormatter(friends)}
+              {numberFormatter(friendsCount)}
             </Text>
           </TouchableOpacity>
           <Text
@@ -126,7 +119,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
                   : styles.counterNumberText_dark
               }
             >
-              {starCount}
+              {starsCount}
             </Text>
           </TouchableOpacity>
           <Text
@@ -176,7 +169,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
         }
         customAlertMessage={
           <Text>
-            {user.username} received a total of {starCount}
+            {user.username} received a total of {starsCount}
             {"\n"} stars across all videos.
           </Text>
         }

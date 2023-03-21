@@ -61,7 +61,6 @@ const CommentItem = ({
       setIsLiked(!isLiked);
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
     } catch(err) {
-      console.log(err.message, "error from like");
       Alert.alert("Could not like this comment!");
     }
   };

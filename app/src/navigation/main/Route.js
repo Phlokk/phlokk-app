@@ -53,7 +53,7 @@ import MusicianScreen from "../../screens/risingStars/musician";
 import BioFieldScreen from "../../screens/profile/BioFieldScreen";
 import GiftingScreen from "../../screens/gifting/Gifting";
 import FollowingListScreen from "../../screens/stats/FollowingListScreen";
-import FriendsListScreen from "../../screens/stats/FriendsListScreen";
+import FriendListScreen from "../../screens/stats/FriendListScreen";
 import CameraScreen from "../../screens/camera/CameraScreen";
 import FireRulesScreen from "../../screens/gifting/FireRulesScreen";
 import PrivacyScreen from "../../screens/settings/privacy/PrivacyScreen";
@@ -451,7 +451,7 @@ export default function Route() {
           />
           <Stack.Screen
             name="friendsList"
-            component={FriendsListScreen}
+            component={FriendListScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen

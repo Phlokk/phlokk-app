@@ -4,17 +4,18 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import axios from "../../redux/apis/axiosDeclaration";
+import RisingStar from "../../components/common/RisingStar";
 
-const FollowingListItem = ({ item }) => {
+const FriendListItem = ({ item }) => {
 
   const navigation = useNavigation();
-  const [isFollowing, setIsFollowing] = useState(item.is_following);
-  const toggleIsFollowing = async function () {
+  const [isFriends, setIsFriends] = useState(item.is_friend);
+  const toggleIsFriend = async function () {
     await axios.post(
-      "/api/creator/" + item._id + "/" + (!isFollowing ? "unfollow" : "follow")
+      "/api/creator/" + item._id + "/" + (!isFriends ? "unfriend" : "friend")
     ),
       {};
-    setIsFollowing(!isFollowing);
+      setIsFriends(!isFriends);
   };
 
   return (
@@ -31,7 +32,7 @@ const FollowingListItem = ({ item }) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.followingInfoRow}>
+      <View style={styles.friendInfoRow}>
         <TouchableOpacity>
           <Text
           // TODO:Needs to navigate to the correct user account
@@ -43,27 +44,28 @@ const FollowingListItem = ({ item }) => {
             style={styles.itemInfo}
           >
             {item.user.username}
-            {item.is_verified && (
+            {item.user.is_verified && (
               <View style={styles.logoRow}>
                 <VerifiedIcon />
+                {/* <RisingStar /> */}
               </View>
             )}
           </Text>
           <Text style={styles.creatorTypeText}> {item.user.creator_type}</Text>
         </TouchableOpacity>
-        {isFollowing ? (
+        {isFriends ? (
           <TouchableOpacity
-            onPress={toggleIsFollowing}
-            style={styles.followingView}
+            onPress={toggleIsFriend}
+            style={styles.friendView}
           >
-            <Text style={styles.followBtn}>Following</Text>
+            <Text style={styles.friendBtn}>Friend</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-            onPress={toggleIsFollowing}
-            style={styles.followingView}
+            onPress={toggleIsFriend}
+            style={styles.friendView}
           >
-            <Text style={styles.followingBtn}>Follow</Text>
+            <Text style={styles.friendBtn}>friend</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -79,17 +81,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 15,
   },
-  followingView: {
+  friendView: {
     position: "absolute",
     right: 0,
     left: 280,
     top: 0,
     bottom: 0,
   },
-  followingInfoRow: {
+  friendInfoRow: {
     flex: 1,
   },
-  followRow: {
+  friendRow: {
     position: "absolute",
     right: 8,
     bottom: 70,
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
     bottom: 12,
     paddingLeft: 5,
   },
-  followingBtn: {
+  unfriendBtn: {
     fontSize: 10,
     color: colors.white,
     textAlign: "center",
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
     borderColor: colors.green,
     backgroundColor: colors.grey,
   },
-  followBtn: {
+  friendBtn: {
     fontSize: 10,
     color: colors.green,
     textAlign: "center",
@@ -150,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FollowingListItem;
+export default FriendListItem;

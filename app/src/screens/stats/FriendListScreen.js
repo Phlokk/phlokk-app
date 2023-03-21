@@ -5,21 +5,21 @@ import {
 	FlatList,
 	View,
 } from 'react-native';
-import uuid from 'uuid-random';
+// import uuid from 'uuid-random';
 import colors from '../../../config/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import StatsNavBar from '../../components/general/profileNavBar/StatsNavBar';
-import FollowingListItem from "./FollowingListItem";
-import {getFollowers} from "../../services/user";
+import FriendListItem from "./FriendListItem";
+import {getFriends} from "../../services/user";
 
 // import SearchFollowing from './SearchFollowing';
 
 
-export default function FollowingListScreen({route}) {
+export default function FriendListScreen({route}) {
 
 	const {user,isCurrentUser} = route.params;
 
-	const [followersList, setFollowersList] = useState([]);
+	const [friendsList, setFriendsList] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [pageSize, setPageSize] = useState({});
 	const [pageNumber, setPageNumber] = useState(1);
@@ -29,17 +29,17 @@ export default function FollowingListScreen({route}) {
 
 	
 
-	const getFollowersList = async () => {
+	const getFriendsList = async () => {
 		console.log(hasNextPage, "has next page", pageNumber);
 		
 		if(hasNextPage) {
-			const followers = await getFollowers(pageNumber);
-			console.log(followers.hasOwnProperty('next_page_number'), pageNumber, "asdf");
-			followers.hasOwnProperty('next_page_number')? setHasNextPage(1):setHasNextPage(0) ;
+			const friends = await getFriends(pageNumber);
+			console.log(friends.hasOwnProperty('next_page_number'), pageNumber, "asdf");
+			friends.hasOwnProperty('next_page_number')? setHasNextPage(1):setHasNextPage(0) ;
 			
-					console.log("list of followers ===> ", followers.data.length)
-					let newList = [...followersList, ...followers.data]
-					setFollowersList(newList);
+					console.log("list of followers ===> ", friends.data.length)
+					let newList = [...friendsList, ...friends.data]
+					setFriendsList(newList);
 					setPageNumber(pageNumber+1);
 		}
 	}
@@ -48,7 +48,7 @@ export default function FollowingListScreen({route}) {
 		//const getFollowerList = async () => {
 			setIsLoading(true);
 console.log(isCurrentUser, "curent user")
-		await getFollowersList();
+		await getFriendsList();
 			// if(isCurrentUser) {
 			// 	const followers = await getFollowers();
 			// 	console.log("list of followers ===> ", followers.length)
@@ -66,25 +66,26 @@ console.log(isCurrentUser, "curent user")
 
 	const renderItem = useCallback(({item, index}) => {
 		return (
-			<FollowingListItem item={item} index={index} />
+			<FriendListItem item={item} index={index} />
 		)
 	})
 
 	return (
 		<SafeAreaView style={styles.container}>
 			
-			<StatsNavBar title="Following" />
+			<StatsNavBar title="Friends" />
 			{/* <SearchFollowing placeholder={placeholder} /> */}
-			{console.log("folloers form return ==> ", followersList.length)}
+			{console.log("friends form return ==> ", friendsList.length)}
 			
 			<FlatList
-				data={followersList}
+				data={friendsList}
 				renderItem={renderItem}
 				keyExtractor={(item) => item.id.toString()}
 				showsVerticalScrollIndicator={false}
 				initialNumToRender={20}
-				onEndReachedThreshold={0.1}
-				onEndReached={getFollowersList}
+				onEndReachedThreshold={0.5}
+				onEndReached={console.log('end')}
+				onRefresh={console.log('refresh')}
 			/>
 
 			
