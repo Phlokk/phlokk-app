@@ -30,14 +30,12 @@ export default function FriendListScreen({route}) {
 	
 
 	const getFriendsList = async () => {
-		console.log(hasNextPage, "has next page", pageNumber);
+
 		
 		if(hasNextPage) {
 			const friends = await getFriends(pageNumber);
-			console.log(friends.hasOwnProperty('next_page_number'), pageNumber, "asdf");
 			friends.hasOwnProperty('next_page_number')? setHasNextPage(1):setHasNextPage(0) ;
 			
-					console.log("list of followers ===> ", friends.data.length)
 					let newList = [...friendsList, ...friends.data]
 					setFriendsList(newList);
 					setPageNumber(pageNumber+1);
@@ -47,7 +45,6 @@ export default function FriendListScreen({route}) {
 	useEffect(async () => {
 		//const getFollowerList = async () => {
 			setIsLoading(true);
-console.log(isCurrentUser, "curent user")
 		await getFriendsList();
 			// if(isCurrentUser) {
 			// 	const followers = await getFollowers();
@@ -75,7 +72,7 @@ console.log(isCurrentUser, "curent user")
 			
 			<StatsNavBar title="Friends" />
 			{/* <SearchFollowing placeholder={placeholder} /> */}
-			{console.log("friends form return ==> ", friendsList.length)}
+
 			
 			<FlatList
 				data={friendsList}

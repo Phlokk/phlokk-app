@@ -40,14 +40,12 @@ export const getFeedAsync = async (page) => {
 export const getUserFeedAsync = async (page =1) => {
 
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
-  console.log(user._id, page, "asfd");
 
   const paramsObject = { page, limit: POSTS_PER_USER_PAGE };
   const params = querystring.stringify(paramsObject);
 
   try {
     const result = await axios.get(`/api/posts/usersPosts/${user._id}?page=${1}`)
-    console.log("current user videos feed list !!!=========>", result.data)
     return result.data;
 
   } catch {
@@ -71,7 +69,6 @@ export const useVideoFeed = (options) => {
   const getFeed = async () => {
     setLoading(true);
     const feed = await getFeedAsync();
-    console.log(feed.next_page_number, "all posts");
     setPosts(feed.data);
     setNextPageNumber(feed?.next_page_number);
     setLoading(false);
@@ -84,7 +81,6 @@ export const useVideoFeed = (options) => {
 
     setLoading(true);
     const feed = await getFeedAsync(nextPageNumber);
-    console.log("feed => ", feed)
     setPosts((prev) => [...prev, ...feed.data]);
     setNextPageNumber(feed.next_page_number);
     setLoading(false);
@@ -209,12 +205,10 @@ export const commentListener = async (
   setCommentList,
   setCommentCount
 ) => {
-  console.log(postId, "postId");
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
   await axios
     .get(`/api/comments/show/${postId}/${user._id}`)
     .then((result) => {
-      console.log(result.data, 'comments');
       setCommentList(result.data);
       setCommentCount(result.data.length);
       return result.data;
@@ -233,11 +227,15 @@ export const clearCommentListener = () => {
 
 
 export const timeSince = function(date) {
+  let parsedDate;
   if (typeof date !== 'object') {
-    date = new Date(date);
+    parsedDate = new Date(date.replace(' ', 'T'));
+    console.log(parsedDate)
+    
   }
 
-  const seconds = Math.floor((new Date() - date) / 1000);
+
+  const seconds = Math.floor((new Date() - parsedDate) / 1000);
   let intervalType;
 
   let interval = Math.floor(seconds / 31536000);

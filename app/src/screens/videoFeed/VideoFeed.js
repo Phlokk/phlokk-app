@@ -134,7 +134,6 @@ const VideoFeed = ({ navigation, route }) => {
       if (loadingMainFeed || loadingUserFeed) {
         return;
       }
-      console.log(currentVideoIndex, posts.length, "pagination");
       if (profile) {
         getMoreUserPosts();
       } else {

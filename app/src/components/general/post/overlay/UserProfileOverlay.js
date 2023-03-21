@@ -166,7 +166,6 @@ function UserProfileOverlay({
             <Text style={styles.username}>@{user.username}</Text>
           </TouchableOpacity>
           <View style={{ paddingTop: 2, top: 2 }}>
-            {console.log("verified ", user)}
             {user.is_verified === 1 && <VerifiedIcon />}
             {user.is_rising === 1 && <RisingStarFeed />}
           </View>

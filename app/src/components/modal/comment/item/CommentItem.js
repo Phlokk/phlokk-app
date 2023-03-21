@@ -32,7 +32,7 @@ const CommentItem = ({
   onReplyPressed,
   isReply,
 }) => {
-  console.log('commentItem => ', comment)
+  // console.log('commentItem => ', comment)
   const { theme } = useTheme();
 
   const navigation = useNavigation();
@@ -52,7 +52,7 @@ const CommentItem = ({
     try {
       if (!isReply) {
         let response = await likeComment(post._id, comment._id, type, user._id);
-        response.then(resp=>console.log(resp, "resp"))
+        response.then(resp=>console.log("resp"))
         .catch(err=>console.log(err))
       } else {
         await likeCommentReply(post._id, comment.comment_id, comment._id, type);

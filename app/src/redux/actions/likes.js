@@ -5,7 +5,6 @@ export const likeVideo = (postId, type) => {
 };
 
 export const likeComment = async (postId, commentId, type, userId) => {
-  console.log('like comment = >', postId, commentId, type, userId);
   return axios.post(`/api/commentsReactions/likeComment/${postId}/${commentId}/${type}/${userId}`, {});
 };
 

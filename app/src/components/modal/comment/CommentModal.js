@@ -44,7 +44,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
 
   useEffect(async () => {
     await commentListener(post._id, setCommentList, setCommentCount);
-    console.log(commentList, commentCount, "form commentModal");
     return () => clearCommentListener();
   }, []);
 
@@ -133,11 +132,9 @@ function CommentModal({ post, onNewCommentSubmitted }) {
         }
       });
   };
-console.log(user, "user ")
 
 
   const renderItem = ({ item, index }) => {
-    console.log(item, item.comment_replies, "item from comment modal");
     return (
       <View>
         <View style={item.is_reply && { marginLeft: 40, marginTop: -10 }}>

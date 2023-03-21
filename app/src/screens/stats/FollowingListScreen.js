@@ -30,14 +30,12 @@ export default function FollowingListScreen({route}) {
 	
 
 	const getFollowersList = async () => {
-		console.log(hasNextPage, "has next page", pageNumber);
 		
 		if(hasNextPage) {
 			const followers = await getFollowers(pageNumber);
-			console.log(followers.hasOwnProperty('next_page_number'), pageNumber, "asdf");
 			followers.hasOwnProperty('next_page_number')? setHasNextPage(1):setHasNextPage(0) ;
 			
-					console.log("list of followers ===> ", followers.data.length)
+
 					let newList = [...followersList, ...followers.data]
 					setFollowersList(newList);
 					setPageNumber(pageNumber+1);
@@ -47,7 +45,6 @@ export default function FollowingListScreen({route}) {
 	useEffect(async () => {
 		//const getFollowerList = async () => {
 			setIsLoading(true);
-console.log(isCurrentUser, "curent user")
 		await getFollowersList();
 			// if(isCurrentUser) {
 			// 	const followers = await getFollowers();
@@ -75,7 +72,6 @@ console.log(isCurrentUser, "curent user")
 			
 			<StatsNavBar title="Following" />
 			{/* <SearchFollowing placeholder={placeholder} /> */}
-			{console.log("folloers form return ==> ", followersList.length)}
 			
 			<FlatList
 				data={followersList}

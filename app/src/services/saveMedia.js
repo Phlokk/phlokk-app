@@ -15,7 +15,6 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
     let obj = {};
 
     // Video file
-    console.log("video => ", source);
     await FileSystem.readAsStringAsync(source, { encoding: FileSystem.EncodingType.Base64 })
   .then(async (fileData) => {
     FileSystem.getInfoAsync(source, { mimeType: true })
@@ -47,7 +46,6 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
   .then(async (fileData) => {
     FileSystem.getInfoAsync(thumbnail, { mimeType: true })
   .then((fileInfo) => {
-    console.log(mime.lookup(thumbnail), fileInfo)
     obj.thumbnail = {fileData: fileData, mimetype: mime.lookup(thumbnail), ext: mime.extension(mime.lookup(thumbnail)), size: fileInfo.size};
   })
   })

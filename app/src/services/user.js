@@ -52,7 +52,6 @@ export const getFollowers = async (page) => {
       //console.log("followers => ",result.data)
       return result.data;
   } catch (e) {
-    console.log(e.message,"")
     Alert.alert("Followers not found");
     return [];
   }
@@ -66,7 +65,6 @@ export const getFriends = async (page) => {
       //console.log("followers => ",result.data)
       return result.data;
   } catch (e) {
-    console.log(e.message,"")
     Alert.alert("Friends not found");
     return [];
   }

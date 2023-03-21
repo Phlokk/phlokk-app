@@ -64,7 +64,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         password: password,
       })
       .then(async (response) => {
-        console.log(response, "response from login")
         // if (Platform.OS === 'ios') {
         //   const expoPushToken = await registerForPushNotificationsAsync();
         // setExpoPushToken(expoPushToken);

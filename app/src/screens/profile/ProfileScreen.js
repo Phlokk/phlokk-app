@@ -41,12 +41,10 @@ export default function ProfileScreen({ route }) {
     }
 
     const userProfile = route?.params?.initialUser;
-    console.log("userProfile ", userProfile);
     if (!userProfile) {
       setProfile(Array.isArray(loggedInUser)? loggedInUser[0]:loggedInUser);
       
     } else {
-      console.log('else')
       setProfile(userProfile);
       fetchUser(userProfile.id);
     }
