@@ -60,6 +60,7 @@ export default Object.freeze({
   UPDATE_EMAIL: "emailUpdate",
   UPDATE_PIN: "pinUpdate",
   SUPPORT_CENTER: "support",
+  SEARCH: "searchItem",
   // Flatlist Screens
   COMEDY_SCREEN: "comedyScreen",
   MUSICIAN_SCREEN: "musicianScreen",

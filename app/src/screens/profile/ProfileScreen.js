@@ -30,6 +30,8 @@ export default function ProfileScreen({ route }) {
       setProfile(response);
     } catch {}
   };
+  const userProfile = route?.params?.initialUser;
+
 
   useEffect(() => {
     if (!route) {
@@ -39,8 +41,8 @@ export default function ProfileScreen({ route }) {
     if (!loggedInUser) {
       return;
     }
+  console.log('userProfile', userProfile);
 
-    const userProfile = route?.params?.initialUser;
     if (!userProfile) {
       setProfile(Array.isArray(loggedInUser)? loggedInUser[0]:loggedInUser);
       
@@ -51,7 +53,7 @@ export default function ProfileScreen({ route }) {
   }, [route, loggedInUser]);
 
   const { posts, getMoreUserPosts, refresh, loading } = useUserVideoFeed(
-    profile?._id
+    userProfile?.id
   );
 
   useEffect(() => {

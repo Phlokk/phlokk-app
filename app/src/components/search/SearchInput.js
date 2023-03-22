@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import colors from "../../../config/colors";
-import { queryUsers } from "../../services/user";
+import { queryUsers, queryVideos } from "../../services/user";
 import { Feather } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
@@ -40,7 +40,7 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-const SearchInput = ({ placeholder, setSearchUsers }) => {
+const SearchInput = ({ placeholder, setResult, searchFor }) => {
   const { theme } = useTheme();
   const [textInput, setTextInput] = useState("");
   const isFocused = useIsFocused();
@@ -63,23 +63,54 @@ const SearchInput = ({ placeholder, setSearchUsers }) => {
   // Effect for API call
   useEffect(
     () => {
+     (async function(){
       if (debouncedSearchTerm) {
         setIsSearching(true);
-        queryUsers(debouncedSearchTerm).then((resp) => {
-          setIsSearching(false);
-          const data = resp.data;
-          const filtered = data.filter(
-            (user) => user.name !== currentUser.name
-          );
-          setSearchUsers(filtered);
-        });
+        const result = await filter(debouncedSearchTerm);
+        setResult(result)
       } else {
-        setSearchUsers([]);
+        setResult([]);
         setIsSearching(false);
       }
+     }())
     },
     [debouncedSearchTerm] // Only call effect if debounced search term changes
-  );
+);
+
+// if (currentTab === 0) return "Globe";
+// else if (currentTab === 1) return "Users";
+// else if (currentTab === 2) return "Videos";
+// else if (currentTab === 3) return "Music";
+
+  const filter = async(query) => {
+    if(searchFor === 'Users') {
+      const data =  await filterUsers(query);
+      setIsSearching(false);
+      return data.filter( (user) => user?.name !== currentUser?.name  );
+    }else if (searchFor === 'Videos'){
+      const data =  await filterVideos(query);
+      setIsSearching(false);
+      return data
+    }
+
+  }
+  const filterUsers = async (query) => { 
+    try {
+      const response = await queryUsers(query);
+      return response.data
+    } catch (ex) {
+      console.log(ex)
+    };
+
+  }
+  const filterVideos = async (query) =>{
+    try {
+      const response  = await queryVideos(query);
+      return response.data      
+    } catch (ex) {
+      console.log(ex)
+    }
+  }
 
   return (
     <View style={styles.container}>

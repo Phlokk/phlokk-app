@@ -71,9 +71,7 @@ export const getFriends = async (page) => {
 };
 
 export const queryUsers = async (searchQuery) => {
-  return await axios.post("/api/creators/search", {
-    query: searchQuery,
-  });
+  return await axios.get(`/api/search/searchUsers?query=${searchQuery}`);
 };
 
 
@@ -85,3 +83,5 @@ export const getCount = async (user_id) => {
   } catch (e) {
   }
 };
+
+export const queryVideos = async (searchQuery) => await axios.get(`/api/search/searchVideos?query=${searchQuery}`);

@@ -75,6 +75,7 @@ import UpdatePinScreen from "../../screens/manageAccount/UpdatePinScreen";
 import UpdateEmailScreen from "../../screens/manageAccount/UpdateEmailScreen";
 import EditPronounsFieldScreen from "../../screens/profile/EditPronounsFiledScreen";
 import SupportCenter from "../../screens/settings/support/SupportCenter";
+import Search from "../../screens/search/Search";
 
 
 
@@ -387,6 +388,11 @@ export default function Route() {
           <Stack.Screen
             name="education"
             component={EditEducationFieldScreen}
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen
+            name="searchItem"
+            component={Search}
             options={{ headerShown: false }}
           />
           <Stack.Screen

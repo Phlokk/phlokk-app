@@ -30,7 +30,7 @@ import { numberFormatter } from "../../common/NumberFormatter";
 
 function CommentModal({ post, onNewCommentSubmitted }) {
   const { theme } = useTheme();
-
+// console.log(post, "post is here")
   const commentTextInputRef = useRef();
 
   const [comment, setComment] = useState("");
@@ -133,7 +133,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       });
   };
 
-
   const renderItem = ({ item, index }) => {
     return (
       <View>
@@ -220,6 +219,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             }
           >
             Stars {numberFormatter(post.like_count)}
+            
           </Text>
         )}
       </View>

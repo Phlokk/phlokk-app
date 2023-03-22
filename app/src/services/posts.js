@@ -37,7 +37,7 @@ export const getFeedAsync = async (page) => {
 };
 
 // get currentUser feed API
-export const getUserFeedAsync = async (page =1) => {
+export const getUserFeedAsync = async (userId = null, page =1) => {
 
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
 
@@ -45,7 +45,7 @@ export const getUserFeedAsync = async (page =1) => {
   const params = querystring.stringify(paramsObject);
 
   try {
-    const result = await axios.get(`/api/posts/usersPosts/${user._id}?page=${1}`)
+    const result = await axios.get(`/api/posts/usersPosts/${userId ?? user._id}?page=${1}`)
     return result.data;
 
   } catch {
@@ -230,7 +230,6 @@ export const timeSince = function(date) {
   let parsedDate;
   if (typeof date !== 'object') {
     parsedDate = new Date(date.replace(' ', 'T'));
-    console.log(parsedDate)
     
   }
 

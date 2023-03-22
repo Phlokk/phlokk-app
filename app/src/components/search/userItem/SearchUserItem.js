@@ -19,7 +19,7 @@ export default function SearchUserItem({ item }) {
       }
     >
       <View style={styles.verifiedRow}>
-        {item.username !== null || !undefined ? (
+        {item.username ? (
           <Text>
             <Text
               style={theme == "light" ? styles.text_light : styles.text_dark}
@@ -47,8 +47,8 @@ export default function SearchUserItem({ item }) {
         <Image
           style={styles.image}
           source={
-            item.banned_at === null && item?.photo_thumb_url
-              ? { uri: item?.photo_thumb_url }
+             item?.photo_url
+              ? { uri: item?.photo_url }
               : require("../../../../assets/userImage.png")
           }
         />

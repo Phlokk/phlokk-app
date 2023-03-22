@@ -16,31 +16,14 @@ import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import SearchInput from "../../components/search/SearchInput";
 import { useTheme } from "../../theme/context";
-import SearchUsers from "./SearchUsers";
-import SearchVideos from "./SearchVideos";
 
-const SearchScreen = () => {
+const VideoSearch = () => {
   const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
   const [textInput, setTextInput] = useState("");
   const [searchUsers, setSearchUsers] = useState([]);
-  const [searchVideos, setSearchVideos] = useState([]);
-  const [currentTab, setCurrentTab] = useState(0);
 
   const image = require("../../../assets/pattern4.png");
-
-  const Categories = [
-    { id: 1, name: "Comedy", navigateTo: routes.COMEDY_SCREEN },
-    { id: 2, name: "Music", navigateTo: routes.MUSICIAN_SCREEN },
-    { id: 3, name: "Dancers", navigateTo: routes.DANCERS_SCREEN },
-    { id: 4, name: "Lip-sync", navigateTo: routes.LIP_SYNC_SCREEN },
-    { id: 5, name: "Foodies", navigateTo: routes.FOODIES_SCREEN },
-    { id: 6, name: "Cosplay", navigateTo: routes.COSPLAY_SCREEN },
-    { id: 7, name: "Fashion", navigateTo: routes.FASHION_SCREEN },
-    { id: 8, name: "Design", navigateTo: routes.DESIGN_SCREEN },
-    { id: 9, name: "Fitness", navigateTo: routes.FITNESS_SCREEN },
-    { id: 10, name: "Invention", navigateTo: routes.INVENTION_SCREEN },
-  ];
 
   const ItemRender = ({ name, navigateTo }) => (
     <TouchableOpacity
@@ -68,93 +51,60 @@ const SearchScreen = () => {
       />
     );
   };
-  const getSearchFor = () => {
-    if (currentTab === 0) return "Globe";
-    else if (currentTab === 1) return "Users";
-    else if (currentTab === 2) return "Videos";
-    else if (currentTab === 3) return "Music";
-  };
 
-  const tabItems = [
-    <Octicons
-      name="globe"
-      size={14}
-      color={currentTab === 0 ? colors.green : colors.secondary}
-    />,
-    <Feather
-      name="user"
-      size={14}
-      color={currentTab === 1 ? colors.green : colors.secondary}
-    />,
-    <Feather
-      name="video"
-      size={14}
-      color={currentTab === 2 ? colors.green : colors.secondary}
-    />,
-    <Entypo
-      name="beamed-note"
-      size={14}
-      color={currentTab === 3 ? colors.green : colors.secondary}
-    />,
-    "LIVE",
-    <Feather
-      name="hash"
-      size={14}
-      color={currentTab === 5 ? colors.green : colors.secondary}
-    />,
-  ];
-
-  const getStateSetter = () => {
-    if (currentTab === 1) return setSearchUsers;
-    else if (currentTab === 2) return setSearchVideos;
-    else return () => {};
-  };
-
-  return (console.log("searchVideos", searchVideos?.data?.[0]?.user?.photo_thumb_url ),
+  return (
     <ImageBackground
       source={image}
       resizeMode="cover"
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
       <View style={styles.searchBarView}>
-        <SearchInput
-          placeholder="Search"
-          searchFor={getSearchFor()}
-          setResult={getStateSetter()}
-        />
+        <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
       </View>
 
       <View style={styles.hashRow}>
-        {tabItems.map((item, index) => (
-          <TouchableOpacity key={index} onPress={() => setCurrentTab(index)}>
-            <Text style={styles.catText}>{item}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      {currentTab === 1 && <SearchUsers result={searchUsers} />}
-      {currentTab === 2 && <SearchVideos result={searchVideos} />}
-
-      {currentTab === 0 && (
-        <View style={styles.risingStarView}>
-          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
-            <Entypo name="star" size={12} color={colors.secondary} />
-            Rising stars
+        <TouchableOpacity>
+          <Text style={styles.catText}>
+            <Octicons name="globe" size={14} color={colors.secondary} />
           </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.catText}>
+            <Feather name="user" size={14} color={colors.secondary} />
+          </Text>
+        </TouchableOpacity>
 
-          <FlatList
-            data={Categories}
-            renderItem={({ item }) => (
-              <ItemRender name={item.name} navigateTo={item.navigateTo} />
-            )}
-            keyExtractor={(item) => item.id}
-            initialNumToRender={5}
-            ItemSeparatorComponent={Separator}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            horizontal={true}
-          />
-        </View>
-      )}
+        <TouchableOpacity>
+          <TouchableOpacity style={styles.catText}>
+            <Feather
+              
+              name="video"
+              size={14}
+              color={colors.secondary}
+            />
+          </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.catText}>
+            <Entypo name="beamed-note" size={14} color={colors.secondary} />
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.catText}>LIVE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.catText}>
+            <Feather name="hash" size={14} color={colors.secondary} />
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+        data={searchUsers}
+        renderItem={({ item }) => <SearchUserItem item={item} />}
+        keyExtractor={(item) => item._id}
+        showsVerticalScrollIndicator={false}
+      />
     </ImageBackground>
   );
 };
@@ -252,10 +202,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "center",
   },
-  activeTab: {
-    borderBottomColor: colors.green,
-    borderBottomWidth: 1,
-  },
 });
 
-export default SearchScreen;
+export default VideoSearch;
