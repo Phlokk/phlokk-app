@@ -5,12 +5,10 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  ImageBackground,
 } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import SearchUserItem from "../../components/search/userItem/SearchUserItem";
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
@@ -111,11 +109,7 @@ const SearchScreen = () => {
   };
 
   return (console.log("searchVideos", searchVideos?.data?.[0]?.user?.photo_thumb_url ),
-    <ImageBackground
-      source={image}
-      resizeMode="cover"
-      style={theme == "light" ? styles.container_light : styles.container_dark}
-    >
+    <View style={theme == "light" ? styles.container_light : styles.container_dark}>
       <View style={styles.searchBarView}>
         <SearchInput
           placeholder="Search"
@@ -155,7 +149,7 @@ const SearchScreen = () => {
           />
         </View>
       )}
-    </ImageBackground>
+      </View>
   );
 };
 

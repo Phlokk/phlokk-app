@@ -94,14 +94,14 @@ export default function EditProfileScreen({ route }) {
       <ScrollView>
         <View style={styles.imageRow}>
           <View style={styles.imageContainer}>
-            {currentUser.photo_thumb_url !== null ? (
+            {currentUser.photo_url !== null ? (
               <TouchableOpacity
                 style={styles.imageViewContainer}
                 onPress={() => chooseImage()}
               >
                 <Image
                   style={styles.image}
-                  source={{ uri: image ? image : currentUser.photo_thumb_url }}
+                  source={{ uri: image ? image : currentUser.photo_url }}
                   cache="only-if-cached"
                 />
 
@@ -135,14 +135,14 @@ export default function EditProfileScreen({ route }) {
           </View>
 
           <View style={styles.imageContainer}>
-            {currentUser.photo_thumb_url !== null ? (
+            {currentUser.photo_url !== null ? (
               <TouchableOpacity
                 style={styles.imageViewContainer}
                 onPress={() => setIsBrandingVideo(true)}
               >
                 <Image
                   style={styles.image}
-                  source={{ uri: image ? image : currentUser.photo_thumb_url }}
+                  source={{ uri: image ? image : currentUser.photo_url }}
                   cache="only-if-cached"
                 />
 

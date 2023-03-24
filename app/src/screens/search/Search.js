@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  ImageBackground,
 } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -53,11 +52,7 @@ const VideoSearch = () => {
   };
 
   return (
-    <ImageBackground
-      source={image}
-      resizeMode="cover"
-      style={theme == "light" ? styles.container_light : styles.container_dark}
-    >
+    <View>
       <View style={styles.searchBarView}>
         <SearchInput placeholder="Search" setSearchUsers={setSearchUsers} />
       </View>
@@ -105,7 +100,7 @@ const VideoSearch = () => {
         keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
       />
-    </ImageBackground>
+      </View>
   );
 };
 

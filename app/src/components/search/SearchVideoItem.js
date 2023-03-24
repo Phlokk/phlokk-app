@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
   thumbnail: {
     width: "100%",
     height: 300,
+    borderRadius: 1.5,
   },
   description: {
     color: colors.secondary,
