@@ -16,7 +16,6 @@ import { useQueryClient } from "react-query";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../services/appStateAtoms";
 import { FontAwesome5 } from '@expo/vector-icons'; 
-// import { MaterialIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../../components/Alerts/CustomAlert";
 import CustomActivityIndicator from "../../../common/ActivityIndicator";
 import { likeCountFormatter } from "../../../common/NumberFormatter";
@@ -26,7 +25,6 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
   const [isVideoDeleted, setIsVideoDeleted] = useState(false);
-  // const [isConfirmedDeletion, setIsConfirmedDeletion] = useState(false);
 
   const [currentUser] = useAtom(userAtom);
 
@@ -122,20 +120,6 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
         dismissAlert={setIsVideoDeleted}
         animationType="fade"
       />
-      {/* // need to figure out how to get the function for delete video to wrok with this custom alert button.  */}
-      {/* <CustomAlert
-        alertTitle={
-          <Text>
-            <MaterialCommunityIcons name="check-circle-outline" size={24} color={colors.green} />
-          </Text>
-        }
-        customAlertMessage={<Text>Delete Video{"/n"}
-        Are you sure you want to delete this video?</Text>}
-        positiveBtn="Ok"
-        modalVisible={isConfirmedDeletion}
-        dismissAlert={setIsConfirmedDeletion}
-        animationType="fade"
-      /> */}
     </TouchableOpacity>
   );
 }

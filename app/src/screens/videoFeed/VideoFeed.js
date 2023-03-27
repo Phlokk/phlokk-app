@@ -100,6 +100,7 @@ const VideoFeed = ({ navigation, route }) => {
       return;
     }
     const postsToUse = profile ? userPosts : posts;
+    console.log("postsToUse", postsToUse ,profile)
 
     // set likes// make sure to refetch video data when the hooks fire
     // const AllLikes = postsToUse.map((post) => {

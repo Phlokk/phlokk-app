@@ -44,11 +44,11 @@ export const sendReportData = async (data) => {
 };
 
 
-export const getFollowers = async (page) => {
+export const getFollowers = async (page, activeUser = null) => {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
   try {
     //console.log('get Followers', user._id)
-      const result = await axios.get(`/api/users/${user._id}?page=${page}`);
+      const result = await axios.get(`/api/users/${ activeUser?._id ?? user._id}?page=${page}`);
       //console.log("followers => ",result.data)
       return result.data;
   } catch (e) {
@@ -57,11 +57,11 @@ export const getFollowers = async (page) => {
   }
 };
 
-export const getFriends = async (page) => {
+export const getFriends = async (page, activeUser = null) => {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
   try {
     //console.log('get Followers', user._id)
-      const result = await axios.get(`/api/users/friends/${user._id}?page=${page}`);
+      const result = await axios.get(`/api/users/friends/${activeUser._id ?? user._id}?page=${page}`);
       //console.log("followers => ",result.data)
       return result.data;
   } catch (e) {

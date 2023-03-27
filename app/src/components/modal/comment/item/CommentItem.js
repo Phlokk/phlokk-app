@@ -51,13 +51,10 @@ const CommentItem = ({
     const type = isLiked ? "unlike" : "like";
     try {
       if (!isReply) {
-        let response = await likeComment(post._id, comment._id, type, user._id);
-        response.then(resp=>console.log("resp"))
-        .catch(err=>console.log(err))
-      } else {
-        await likeCommentReply(post._id, comment.comment_id, comment._id, type);
+         await likeComment(post._id, comment._id, type, user._id); 
+      } else { 
+        await likeCommentReply(post._id, comment._id,  type, user._id);
       }
-
       setIsLiked(!isLiked);
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
     } catch(err) {
@@ -76,15 +73,16 @@ const CommentItem = ({
           return newCommentList;
         });
       } else {
-        await deleteCommentReply(post._id, comment.comment_id, comment._id);
+        await deleteCommentReply(post._id ,comment._id);
 
         setCommentList((prev) => {
           const newCommentList = prev.map((c) => {
-            const filteredReplies = c.comment_replies.filter((reply) => {
-              return reply._id !== comment._id;
-            });
-
-            c.comment_replies = filteredReplies;
+            if(c.comment_replies){
+              const filteredReplies = c.comment_replies.filter((reply) => {
+                return reply._id !== comment._id;
+              });
+              c.comment_replies = filteredReplies;
+            }
             return c;
           });
 
@@ -92,13 +90,12 @@ const CommentItem = ({
         });
       }
     } catch (e) {
+      console.log("error", e)
       Alert.alert("Could not delete comment.");
     }
-  };
-
-  const isCommentCurrentUser = user._id === comment.user_id;
-  const isPostFromCurrentUser = user._id === post.user._id;
-
+  }; 
+  const isCommentCurrentUser = user._id === ( comment.user?._id ?? comment.user?.id ) ;
+  const isPostFromCurrentUser = post.user ? user._id === (post.user._id ?? post.user.id)  : true;
 
   return (
     <View style={styles.container}>
@@ -128,14 +125,9 @@ const CommentItem = ({
       <Pressable
         style={styles.containerText}
         onLongPress={() => {
-          if (isPostFromCurrentUser) {
-            setIsDeleteCommentModalOpen(true);
-            return;
-          }
-          if (isCommentCurrentUser) {
-            setIsDeleteCommentModalOpen(true);
-            return;
-          }
+          if (isPostFromCurrentUser || isCommentCurrentUser ) {
+            return setIsDeleteCommentModalOpen(true);
+          } 
         }}
       >
         <View style={styles.verifiedRow}>

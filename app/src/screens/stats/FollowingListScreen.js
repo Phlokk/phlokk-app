@@ -32,7 +32,7 @@ export default function FollowingListScreen({route}) {
 	const getFollowersList = async () => {
 		
 		if(hasNextPage) {
-			const followers = await getFollowers(pageNumber);
+			const followers = await getFollowers(pageNumber ,user);
 			followers.hasOwnProperty('next_page_number')? setHasNextPage(1):setHasNextPage(0) ;
 			
 

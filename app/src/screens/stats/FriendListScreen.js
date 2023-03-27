@@ -33,7 +33,7 @@ export default function FriendListScreen({route}) {
 
 		
 		if(hasNextPage) {
-			const friends = await getFriends(pageNumber);
+			const friends = await getFriends(pageNumber, user);
 			friends.hasOwnProperty('next_page_number')? setHasNextPage(1):setHasNextPage(0) ;
 			
 					let newList = [...friendsList, ...friends.data]

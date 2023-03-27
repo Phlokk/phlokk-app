@@ -31,10 +31,11 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
     setIsSettingsModalScreenOpen(false);
     setCommentModalOpen(false);
   }, [isFocused]);
-
-  const [commentCount, setCommentCount] = useState(post.comment_count);
+console.log("single post", post)
+  const [commentCount, setCommentCount] = useState(post.comment_count + post.comment_replies_count );
   const [isLightItUp, setLightItUp] = useState(false);
   const [isGifting, setIsGifting] = useState(false);
+  console.log("post", post);
 
   const [isSettingsModalScreenOpen, setIsSettingsModalScreenOpen] =
     useState(false);
@@ -49,7 +50,8 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
       await likeVideo(post._id, type);
       setIsLiked(!isLiked);
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
-    } catch {
+    } catch(e) {
+      console.log("Error", e)
       Alert.alert("There was an error with your request!");
     }
   };
@@ -60,6 +62,7 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
         style={styles.iconContainer}
         onPress={likeButtonHandler}
       >
+        
         <MaterialCommunityIcons
           color={colors.white}
           size={40}

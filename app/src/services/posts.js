@@ -23,13 +23,13 @@ export const getPost = async (postId) => {
 
 // feed for all Users 
 export const getFeedAsync = async (page) => {
-  const paramsObject = { page, limit: POSTS_PER_PAGE };
+  let user = JSON.parse(await SecureStore.getItemAsync("user"));
+  const paramsObject = { page, limit: POSTS_PER_PAGE, userId: user._id };
   const params = querystring.stringify(paramsObject);
-
   try {
-    const result = await axios.get(`/api/posts?${params}`);
-    
-    
+    const result = await axios.get(`/api/posts/?${params}`);
+    console.log("posts", result.data)
+  
     return result.data;
   } catch {
     setIsFeedVisible(true);
@@ -45,7 +45,7 @@ export const getUserFeedAsync = async (userId = null, page =1) => {
   const params = querystring.stringify(paramsObject);
 
   try {
-    const result = await axios.get(`/api/posts/usersPosts/${userId ?? user._id}?page=${1}`)
+    const result = await axios.get(`/api/posts/usersPosts/${userId ?? user._id}?page=${1}`);
     return result.data;
 
   } catch {
@@ -191,12 +191,12 @@ export const useUserPosts = (userId, { enabled }) =>
   };
   
   export const deleteComment = async (postId, commentId) => {
-    await axios.delete(`/api/post/${postId}/${commentId}/delete-comment`);
+    await axios.delete(`/api/comments/delete/${postId}/${commentId}`);
   };
   
-  export const deleteCommentReply = async (postId, commentId, replyId) => {
+  export const deleteCommentReply = async (postId, commentId ) => {
     await axios.delete(
-      `/api/post/${postId}/${commentId}/${replyId}/delete-comment`
+      `/api/comments/deleteReply/${postId}/${commentId}`
     );
   };
 
@@ -210,7 +210,17 @@ export const commentListener = async (
     .get(`/api/comments/show/${postId}/${user._id}`)
     .then((result) => {
       setCommentList(result.data);
-      setCommentCount(result.data.length);
+      let commentCount = 0;
+      for (const comment of result.data) {
+        console.log("result", comment)
+        commentCount += 1;
+        if( comment.comment_replies ) {
+          commentCount+= comment?.comment_replies?.length;
+        }
+      }
+
+      console.log("comment",commentCount)
+      setCommentCount(commentCount);
       return result.data;
     })
     .catch((error) => {
