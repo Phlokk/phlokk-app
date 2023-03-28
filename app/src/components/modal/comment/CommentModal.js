@@ -18,6 +18,7 @@ import {
   clearCommentListener,
   addComment,
   addCommentReply,
+  addReplyToReply
 } from "../../../services/posts";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
@@ -52,7 +53,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
     if (comment.length == 0) {
       return;
     }
-
     let commentTextToSubmit = comment;
     const newComment = {
       _id: uuid().toString(),
@@ -69,8 +69,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       newComment.message = newComment.message.replace(
         `@${repliedToComment.user.username} `,
         ""
-      );
-      return console.log("newComment",newComment);
+      ); 
       for (const singleComment of commentList) {
         if (singleComment._id === repliedToComment._id) {
          
@@ -87,9 +86,12 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             await postCommentReply(repliedToComment, newComment)
           }
         } else  {
-          return;
-          for (const commentReplies of singleComment?.comment_replies) {
-            // push comment inside a reply of reply
+          if( singleComment?.comment_replies ){
+            for (const commentReply of singleComment?.comment_replies) {
+              if(commentReply._id === repliedToComment._id){
+                await postReplyOfReply( commentReply, newComment, singleComment  )
+              } 
+          }
           }
         }
       }
@@ -97,6 +99,12 @@ function CommentModal({ post, onNewCommentSubmitted }) {
      await postComment(newComment)
     }  
   };
+  const postReplyOfReply = async (repliedToComment, comment,singleComment) => {
+    await addReplyToReply(repliedToComment, comment, singleComment);
+    setComment("");
+    setCommentCount((prev) => prev + 1);
+    onNewCommentSubmitted();
+  }
   const postCommentReply = async (repliedToComment, comment) => {
     await addCommentReply( repliedToComment, comment );
     setComment("");

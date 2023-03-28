@@ -184,6 +184,19 @@ export const addCommentReply = async (repliedToComment, comment) => {
     setIsCommentReply(true);
   }
 };
+export const addReplyToReply = async (repliedToComment, comment, parentComment) => {
+  try {
+    const { post } = comment;
+     return await axios.post(`/api/comments/replyToReply/${post._id}`, {
+      repliedToComment,
+      comment,
+      parentComment
+    });
+  } catch (e) {
+    console.log("Error", e)
+    setIsCommentReply(true);
+  }
+};
 
 export const deleteComment = async (postId, commentId) => {
   await axios.delete(`/api/comments/delete/${postId}/${commentId}`);
@@ -205,15 +218,14 @@ export const commentListener = async (
       setCommentList(result.data);
       let commentCount = 0;
       for (const comment of result.data) {
-        console.log("result", comment);
         commentCount += 1;
         if (comment.comment_replies) {
           commentCount += comment?.comment_replies?.length;
         }
       }
 
-      console.log("comment", commentCount);
       setCommentCount(commentCount);
+      console.log("Result", result.data[0]?.message, result.data[0]?.comment_replies)
       return result.data;
     })
     .catch((error) => {
@@ -233,7 +245,6 @@ export const timeSince = function (date) {
   if (typeof date !== "object") {
     parsedDate = new Date(date.replace(" ", "T"));
   };
-  console.log("parsedDae", parsedDate)
   const seconds = Math.floor((new Date() - parsedDate) / 1000);
 
   let intervalType;
