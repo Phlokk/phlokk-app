@@ -30,7 +30,7 @@ import { numberFormatter } from "../../common/NumberFormatter";
 
 function CommentModal({ post, onNewCommentSubmitted }) {
   const { theme } = useTheme();
-// console.log(post, "post is here")
+  // console.log(post, "post is here")
   const commentTextInputRef = useRef();
 
   const [comment, setComment] = useState("");
@@ -47,58 +47,67 @@ function CommentModal({ post, onNewCommentSubmitted }) {
     return () => clearCommentListener();
   }, []);
 
+
   const submitReply = async () => {
     if (comment.length == 0) {
       return;
     }
 
     let commentTextToSubmit = comment;
-    let indexToInsertNewComment = 0;
-
-    if (repliedToComment) {
-      commentTextToSubmit = commentTextToSubmit.replace(
-        `@${repliedToComment.user.username} `,
-        ""
-      );
-
-      const indexOfRepliedToComment = commentList.findIndex(
-        (comment) => comment._id === repliedToComment._id
-      );
-
-      indexToInsertNewComment = indexOfRepliedToComment + 1;
-    }
-    // TODO: reply to replies
-    // The comments payload needs to signify that a comment is a reply to another comment
-    // It may even need to signify which comment is replying to
-    // We can then replicate that same thing above, so when we had a new reply to the UI, we can add a property saying
-    // that its a reply
-
-    commentList.splice(indexToInsertNewComment, 0, {
-      _id: uuid().toString() + "-temp",
+    const newComment = {
+      _id: uuid().toString(),
       message: commentTextToSubmit,
-      created_at: new Date().toString(),
-      replies: [],
+      comment_replies: [],
       user: user,
       post: post,
       user_id: user._id,
       is_reply: !!repliedToComment,
       like_count: 0,
-    });
+    };
 
-    setComment("");
-
-    if (!repliedToComment) {
-      await addComment(post._id, commentTextToSubmit);
-    } else {
-      await addCommentReply(
-        post._id,
-        repliedToComment._id,
-        commentTextToSubmit
+    if (repliedToComment) {
+      newComment.message = newComment.message.replace(
+        `@${repliedToComment.user.username} `,
+        ""
       );
-    }
-
+      return console.log("newComment",newComment);
+      for (const singleComment of commentList) {
+        if (singleComment._id === repliedToComment._id) {
+         
+          if (
+            singleComment.comment_replies &&
+            Array.isArray(singleComment.comment_replies)
+          ) {
+            singleComment.comment_replies.push(newComment);
+            setCommentList([...commentList]);
+            await postCommentReply(repliedToComment, newComment)
+          } else {
+            singleComment.comment_replies = [ newComment ];
+            setCommentList([ ...commentList ]);
+            await postCommentReply(repliedToComment, newComment)
+          }
+        } else  {
+          return;
+          for (const commentReplies of singleComment?.comment_replies) {
+            // push comment inside a reply of reply
+          }
+        }
+      }
+    } else {
+     await postComment(newComment)
+    }  
+  };
+  const postCommentReply = async (repliedToComment, comment) => {
+    await addCommentReply( repliedToComment, comment );
+    setComment("");
     setCommentCount((prev) => prev + 1);
-
+    onNewCommentSubmitted();
+  }
+  const postComment = async (comment) => {
+    await addComment(comment);
+    setCommentList((e) => [comment, ...e]);
+    setComment("");
+    setCommentCount((prev) => prev + 1);
     onNewCommentSubmitted();
   };
 
@@ -114,14 +123,10 @@ function CommentModal({ post, onNewCommentSubmitted }) {
         if (tag.includes("#") || tag.includes("@")) {
           return (
             <Text
-
               key={i}
               onPress={() => {
-                
-                  setIsLinked(true);
-                }
-                
-              }
+                setIsLinked(true);
+              }}
               style={styles.tags}
             >
               {JSON.stringify(tag).slice(1, -1)}
@@ -219,7 +224,6 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             }
           >
             Stars {numberFormatter(post.like_count)}
-            
           </Text>
         )}
       </View>
@@ -234,10 +238,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
           />
         ) : (
           <TouchableOpacity>
-            <Image
-              style={styles.avatar}
-              source={{ uri: user.photo_url }}
-            />
+            <Image style={styles.avatar} source={{ uri: user.photo_url }} />
           </TouchableOpacity>
         )}
         <ScrollView>
@@ -252,7 +253,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             onChangeText={(newCommentText) => {
               if (!repliedToComment) {
                 setComment(newCommentText);
-                
+
                 return;
               }
 
@@ -304,17 +305,17 @@ function CommentModal({ post, onNewCommentSubmitted }) {
         keyExtractor={(item, index) => index.toString()}
       />
       <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={<Text>Tags & Mentions coming soon!</Text>}
-            positiveBtn="Ok"
-            modalVisible={isLinked}
-            dismissAlert={setIsLinked}
-            animationType="fade"
-          />
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Tags & Mentions coming soon!</Text>}
+        positiveBtn="Ok"
+        modalVisible={isLinked}
+        dismissAlert={setIsLinked}
+        animationType="fade"
+      />
     </View>
   );
 }

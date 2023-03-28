@@ -113,8 +113,8 @@ const CommentItem = ({
         <Image
           style={styles.avatar}
           source={
-            isActiveAccount && comment.user?.photo_thumb_url
-              ? { uri: comment.user?.photo_thumb_url }
+            isActiveAccount && (comment.user?.photo_thumb_url || comment?.user?.photo_url )
+              ? { uri: (comment.user?.photo_thumb_url || comment?.user?.photo_url ) }
               : require("../../../../../assets/userImage.png")
           }
         />
@@ -146,7 +146,7 @@ const CommentItem = ({
                 theme == "light" ? styles.username_light : styles.username_dark
               }
             >
-              @{isActiveAccount ? comment.user.username : "phlokker"}
+              {isActiveAccount ? comment.user.username : "phlokker"}
             </Text>
           </TouchableOpacity>
           {comment.user && comment.user.is_verified === 1 && <VerifiedIcon />}
