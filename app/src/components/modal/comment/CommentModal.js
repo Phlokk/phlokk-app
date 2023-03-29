@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import {
   View,
   Image,
@@ -14,11 +14,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import CommentItem from "./item/CommentItem";
 import {
-  commentListener,
-  clearCommentListener,
   addComment,
   addCommentReply,
-  addReplyToReply
+  addReplyToReply,
 } from "../../../services/posts";
 import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
@@ -29,26 +27,25 @@ import { useTheme } from "../../../theme/context";
 import CustomAlert from "../../Alerts/CustomAlert";
 import { numberFormatter } from "../../common/NumberFormatter";
 
-function CommentModal({ post, onNewCommentSubmitted }) {
+function CommentModal({
+  post,
+  onNewCommentSubmitted,
+  commentList,
+  setCommentList,
+  commentCount,
+  setCommentCount,
+  setRefech,
+}) {
   const { theme } = useTheme();
   // console.log(post, "post is here")
   const commentTextInputRef = useRef();
 
   const [comment, setComment] = useState("");
-  const [commentList, setCommentList] = useState([]);
-  const [commentCount, setCommentCount] = useState("");
   const [repliedToComment, setRepliedToComment] = useState();
 
   const [isLinked, setIsLinked] = useState(false);
 
   const [user] = useAtom(userAtom);
-
-  useEffect(async () => {
-    await commentListener(post._id, setCommentList, setCommentCount);
-    return () => clearCommentListener();
-  }, []);
-
-
   const submitReply = async () => {
     if (comment.length == 0) {
       return;
@@ -69,48 +66,64 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       newComment.message = newComment.message.replace(
         `@${repliedToComment.user.username} `,
         ""
-      ); 
+      );
       for (const singleComment of commentList) {
         if (singleComment._id === repliedToComment._id) {
-         
           if (
             singleComment.comment_replies &&
             Array.isArray(singleComment.comment_replies)
           ) {
             singleComment.comment_replies.push(newComment);
             setCommentList([...commentList]);
-            await postCommentReply(repliedToComment, newComment)
+            await postCommentReply(repliedToComment, newComment);
           } else {
-            singleComment.comment_replies = [ newComment ];
-            setCommentList([ ...commentList ]);
-            await postCommentReply(repliedToComment, newComment)
+            singleComment.comment_replies = [newComment];
+            setCommentList([...commentList]);
+            await postCommentReply(repliedToComment, newComment);
           }
-        } else  {
-          if( singleComment?.comment_replies ){
+        } else {
+          if (singleComment?.comment_replies) {
             for (const commentReply of singleComment?.comment_replies) {
-              if(commentReply._id === repliedToComment._id){
-                await postReplyOfReply( commentReply, newComment, singleComment  )
-              } 
-          }
+              if (commentReply._id === repliedToComment._id) {
+                await postReplyOfReply(commentReply, newComment, singleComment);
+              }
+            }
           }
         }
       }
     } else {
-     await postComment(newComment)
-    }  
+      await postComment(newComment);
+    }
   };
-  const postReplyOfReply = async (repliedToComment, comment,singleComment) => {
+  const postReplyOfReply = async (repliedToComment, comment, singleComment) => {
+    setCommentList((e) => {
+      const commentLists = [...e];
+      for (const singleComment of commentLists) {
+        if (singleComment.comment_replies) {
+          for (const reply of singleComment.comment_replies) {
+            if (reply._id === repliedToComment._id) {
+              if (reply.comment_replies) {
+                reply.comment_replies.push(comment);
+              } else {
+                reply.comment_replies = [comment];
+              }
+            }
+          }
+        }
+      }
+      return commentLists;
+    });
     await addReplyToReply(repliedToComment, comment, singleComment);
     setComment("");
     setCommentCount((prev) => prev + 1);
     onNewCommentSubmitted();
-  }
+  };
   const postCommentReply = async (repliedToComment, comment) => {
-    await addCommentReply( repliedToComment, comment );
+    await addCommentReply(repliedToComment, comment);
     setComment("");
     setCommentCount((prev) => prev + 1);
     onNewCommentSubmitted();
-  }
+  };
   const postComment = async (comment) => {
     await addComment(comment);
     setCommentList((e) => [comment, ...e]);
@@ -157,6 +170,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             comment={item}
             post={post}
             isReply={item.is_reply}
+            setRefech={setRefech}
             onReplyPressed={(comment) => {
               setRepliedToComment(comment);
               setComment(`@${comment.user.username} `);
@@ -169,6 +183,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             <View key={reply._id} style={{ marginLeft: 40, marginTop: -10 }}>
               <CommentItem
                 setCommentList={setCommentList}
+                setRefech={setRefech}
                 setComment={setComment}
                 comment={reply}
                 key={reply._id}
@@ -180,6 +195,29 @@ function CommentModal({ post, onNewCommentSubmitted }) {
                   commentTextInputRef.current.focus();
                 }}
               />
+              {reply.comment_replies &&
+                reply.comment_replies.map((replyOfReply) => (
+                  <View
+                    key={replyOfReply._id}
+                    style={{ marginLeft: 0, marginTop: -10 }}
+                  >
+                    <CommentItem
+                      replyOfReply={reply}
+                      setRefech={setRefech}
+                      setCommentList={setCommentList}
+                      setComment={setComment}
+                      comment={replyOfReply}
+                      key={replyOfReply._id}
+                      post={post}
+                      isReply={true}
+                      onReplyPressed={(comment) => {
+                        setRepliedToComment(replyOfReply);
+                        setComment(`@${comment.user.username} `);
+                        commentTextInputRef.current.focus();
+                      }}
+                    />
+                  </View>
+                ))}
             </View>
           ))}
       </View>
@@ -207,6 +245,32 @@ function CommentModal({ post, onNewCommentSubmitted }) {
       </View>
     );
   }
+  const handleOnChange = useCallback(
+    (newCommentText) => {
+      if (!repliedToComment) {
+        setComment(newCommentText);
+        return;
+      } 
+      const authorNameLength = repliedToComment?.user.username.length || 0;
+
+      // If the username has a character deleted, we are no longer responding, just delete the user name too
+      if (newCommentText.length - 1 <= authorNameLength) {
+        setComment("");
+        setRepliedToComment();
+        return;
+      }
+
+      // If the user tries to insert text before the username, do not insert the text
+      if (repliedToComment) {
+        if (!newCommentText.startsWith(`@${repliedToComment.user.username} `)) {
+          return;
+        }
+      }
+
+      setComment(newCommentText);
+    },
+    [comment]
+  );
 
   return (
     <View
@@ -258,36 +322,7 @@ function CommentModal({ post, onNewCommentSubmitted }) {
             placeholderTextColor="gray"
             multiline
             value={comment}
-            onChangeText={(newCommentText) => {
-              if (!repliedToComment) {
-                setComment(newCommentText);
-
-                return;
-              }
-
-              const authorNameLength =
-                repliedToComment?.user.username.length || 0;
-
-              // If the username has a character deleted, we are no longer responding, just delete the user name too
-              if (newCommentText.length - 1 <= authorNameLength) {
-                setComment("");
-                setRepliedToComment();
-                return;
-              }
-
-              // If the user tries to insert text before the username, do not insert the text
-              if (repliedToComment) {
-                if (
-                  !newCommentText.startsWith(
-                    `@${repliedToComment.user.username} `
-                  )
-                ) {
-                  return;
-                }
-              }
-
-              setComment(newCommentText);
-            }}
+            onChangeText={handleOnChange}
             maxLength={150}
           />
 

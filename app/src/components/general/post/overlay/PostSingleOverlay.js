@@ -21,6 +21,10 @@ import CommentModal from "../../../modal/comment/CommentModal";
 import colors from "../../../../../config/colors";
 import { likeVideo } from "../../../../redux/actions/likes";
 import { numberFormatter } from "../../../common/NumberFormatter";
+import {
+  commentListener,
+  clearCommentListener
+} from "../../../../services/posts";
 // import routes from "../../../../navigation/routes"
 
 export default function PostSingleOverlay({ post, user, isCurrentUser }) {
@@ -31,11 +35,10 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
     setIsSettingsModalScreenOpen(false);
     setCommentModalOpen(false);
   }, [isFocused]);
-console.log("single post", post)
-  const [commentCount, setCommentCount] = useState(post.comment_count + post.comment_replies_count );
+  const [commentCount, setCommentCount] = useState(0);
   const [isLightItUp, setLightItUp] = useState(false);
   const [isGifting, setIsGifting] = useState(false);
-  console.log("post", post);
+  const [commentList, setCommentList] = useState([]);
 
   const [isSettingsModalScreenOpen, setIsSettingsModalScreenOpen] =
     useState(false);
@@ -43,6 +46,11 @@ console.log("single post", post)
 
   const [isLiked, setIsLiked] = useState(post.is_liked);
   const [likeCount, setLikeCount] = useState(post.like_count);
+  const [refech, setRefech] = useState(false);
+  useEffect(async () => {
+    await commentListener(post._id, setCommentList, setCommentCount);
+    return () => clearCommentListener();
+  }, [refech]);
 
   const likeButtonHandler = async () => {
     const type = isLiked ? "unlike" : "like";
@@ -95,6 +103,11 @@ console.log("single post", post)
             <CommentModal
               post={post}
               onNewCommentSubmitted={() => setCommentCount((prev) => prev + 1)}
+              commentList={commentList} 
+              setCommentList={setCommentList}
+              commentCount = {commentCount}
+              setCommentCount ={setCommentCount}
+              setRefech={setRefech}
             />
           </View>
         </Modal>

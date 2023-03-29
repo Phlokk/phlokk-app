@@ -20,3 +20,11 @@ export const likeCommentReply = (postId, commentId, type, userId) => {
     }
   );
 };
+export const likeCommentReplyToReply = (postId, commentId, type, userId) => {
+  return axios.post(
+    `/api/commentsReactions/likeReplyToReply/${postId}/${commentId}/${type}/${userId}`,
+    {
+     
+    }
+  );
+};

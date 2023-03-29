@@ -205,6 +205,9 @@ export const deleteComment = async (postId, commentId) => {
 export const deleteCommentReply = async (postId, commentId) => {
   await axios.delete(`/api/comments/deleteReply/${postId}/${commentId}`);
 };
+export const deleteReplyOfReply = async (postId, commentId) => {
+  await axios.delete(`/api/comments/deleteReplyOfReply/${postId}/${commentId}`);
+};
 
 export const commentListener = async (
   postId,
@@ -220,12 +223,16 @@ export const commentListener = async (
       for (const comment of result.data) {
         commentCount += 1;
         if (comment.comment_replies) {
+          for (const reply of comment.comment_replies){ 
+            if (reply.comment_replies) {
+                commentCount += reply?.comment_replies?.length;
+            }
+          }
           commentCount += comment?.comment_replies?.length;
         }
       }
 
       setCommentCount(commentCount);
-      console.log("Result", result.data[0]?.message, result.data[0]?.comment_replies)
       return result.data;
     })
     .catch((error) => {

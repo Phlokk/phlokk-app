@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -22,11 +22,12 @@ import RisingStarFeed from "../../../common/RisingStarFeed";
 import AddFriendBtn from "./AddFriendBtn";
 import axios from "../../../../redux/apis/axiosDeclaration";
 import SpecialNeedsIcon from "../../../common/specialNeedsIcon";
-
-
+import * as SecureStore from "expo-secure-store";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../services/appStateAtoms";
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
-function UserProfileOverlay({
+function UserProfileOverlay({ 
   post,
   user,
   currentUser,
@@ -35,15 +36,26 @@ function UserProfileOverlay({
 }) {
 
   const [following, setFollowing] = useState(user?.follow_count);
-  const [isFollowing, setIsFollowing] = useState(user?.is_following);
+  const [isFollowing, setIsFollowing] = useState(false);
   const [isLinked, setIsLinked] = useState(false);
-
+  const [loggedInUser, setLoggedInUser] = useState(null)
+  // const [currentUser] = useAtom(userAtom);
+  const getCurrentUser = async()=>{
+    return await SecureStore.getItemAsync("user");
+  }
 
   const toggleIsFollowing = async function (userId) {
-    await axios.post(
-      "/api/creator/" + userId + "/" + (isFollowing ? "unfollow" : "follow")
-    ),
-      {};
+    if(isFollowing){
+      await axios.delete(
+        `/api/creators/unfollow/${currentUser._id}/${user.id}`
+      ),
+        {};
+    }else{
+      await axios.post(
+        `/api/creators/follow/${currentUser._id}/${userId}`
+      ),
+        {};
+    }
     setIsFollowing(!isFollowing);
     setFollowing(!isFollowing ? following + 1 : following - 1);
   };
@@ -58,8 +70,10 @@ function UserProfileOverlay({
   const rotate = useRotation();
   const animatedStyle = { transform: [{ rotate }] };
   const isFocused = useIsFocused();
-
-  
+  useEffect(async() => {
+    setIsFollowing(IsUserFollowing())
+    setLoggedInUser(JSON.parse(await getCurrentUser()))
+  }, [])
 
   const HASHTAG_FORMATTER = (string) => {
     if (string === null) {
@@ -92,12 +106,15 @@ function UserProfileOverlay({
         }
       });
   };
+  const IsUserFollowing = () => {
+    if(loggedInUser?.followingList?.includes(user.id)) return true;
 
- 
+    return false;
+  }; 
 
   const tickerText = "official phlokk audio @" + username;
 
-  return (
+  return (console.log("loggedInUser", loggedInUser?._id,user.id),
     <View
       style={[styles.bottomContainer, areTabsShowing && { paddingBottom: 30 }]}
       pointerEvents="box-none"
@@ -107,7 +124,7 @@ function UserProfileOverlay({
           <View style={styles.addFriendBtnView}>
             {!isCurrentUser && currentUser._id !== post.user._id && (
               <TouchableOpacity onPress={() => toggleIsFollowing(user._id)}>
-                <Text>{isFollowing ? null : <AddFriendBtn />}</Text>
+                <Text>{isFollowing ? "asd" : <AddFriendBtn />}</Text>
               </TouchableOpacity>
             )}
           </View>

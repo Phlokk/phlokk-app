@@ -116,7 +116,6 @@ const VideoItem = ({
 					style={{height: 650, width: '100%'}}
 				/>
 			</View>
-
 			<UserProfileOverlay
 				user={item.user}
 				post={item}

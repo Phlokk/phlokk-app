@@ -18,21 +18,37 @@ import { useState } from "react";
 import VerifiedIcon from "../../common/VerifiedIcon";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "../../../redux/apis/axiosDeclaration";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../services/appStateAtoms";
 
 function BioSheetModalScreen({ user, isCurrentUser }) {
-  const [following, setFollowing] = useState(user?.follow_count);
-  const [isFollowing, setIsFollowing] = useState(user?.is_following);
+  const IsUserFollowing = () => {
+    if(currentUser?.followingList?.includes(userId)) return true;
 
+    return false;
+  };
+  const [following, setFollowing] = useState(user?.follow_count);
+  const [isFollowing, setIsFollowing] = useState(IsUserFollowing());
+  const [currentUser] = useAtom(userAtom);
+  // SecureStore.setItemAsync("user", JSON.stringify(user));
+  
   const toggleIsFollowing = async function (userId) {
-    await axios.post(
-      "/api/creator/" + userId + "/" + (isFollowing ? "unfollow" : "follow")
-    ),
-      {};
+    if(isFollowing){
+      await axios.delete(
+        `/api/creators/unfollow/${currentUser._id}/${userId}`
+      ),
+        {};
+    }else{
+      await axios.post(
+        `/api/creators/follow/${currentUser._id}/${userId}`
+      ),
+        {};
+    }
     setIsFollowing(!isFollowing);
     setFollowing(!isFollowing ? following + 1 : following - 1);
   };
 
-  return (
+  return (console.log("currentUser", currentUser.name),
     <View style={styles.container}>
       <LinearGradient
         colors={["#000000", "#f2f2f2"]}
