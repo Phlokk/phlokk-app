@@ -55,6 +55,10 @@ export default function ProfileScreen({ route }) {
   const { posts, getMoreUserPosts, refresh, loading } = useUserVideoFeed(
     userProfile?.id
   );
+  useEffect(async() => {
+    await refresh();
+  }, [])
+  
 
   useEffect(() => {
     if (!isFocused) {
@@ -163,7 +167,7 @@ export default function ProfileScreen({ route }) {
           userProfile={profile}
           isCurrentUser={!route?.params?.initialUser}
         />
-
+        {console.log("postsToDisplay", postsToDisplay.length)}
         <FlatList
           numColumns={3}
           showsVerticalScrollIndicator={false}

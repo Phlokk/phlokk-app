@@ -23,43 +23,28 @@ import AddFriendBtn from "./AddFriendBtn";
 import axios from "../../../../redux/apis/axiosDeclaration";
 import SpecialNeedsIcon from "../../../common/specialNeedsIcon";
 import * as SecureStore from "expo-secure-store";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../../services/appStateAtoms";
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
-function UserProfileOverlay({ 
+function UserProfileOverlay({
   post,
   user,
   currentUser,
   isCurrentUser,
-  areTabsShowing,
+  areTabsShowing, 
 }) {
-
   const [following, setFollowing] = useState(user?.follow_count);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isLinked, setIsLinked] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState(null)
-  // const [currentUser] = useAtom(userAtom);
-  const getCurrentUser = async()=>{
-    return await SecureStore.getItemAsync("user");
-  }
+  const [loggedInUserFollowingList, setLoggedInUserFollowingList] = useState(
+    []
+  );
 
-  const toggleIsFollowing = async function (userId) {
-    if(isFollowing){
-      await axios.delete(
-        `/api/creators/unfollow/${currentUser._id}/${user.id}`
-      ),
-        {};
-    }else{
-      await axios.post(
-        `/api/creators/follow/${currentUser._id}/${userId}`
-      ),
-        {};
-    }
-    setIsFollowing(!isFollowing);
-    setFollowing(!isFollowing ? following + 1 : following - 1);
+  const addUserToFollowingList = async (userId) => {
+    let newList = [...loggedInUserFollowingList, userId];
+    setLoggedInUserFollowingList(newList);
+    setIsFollowing(IsUserFollowing(newList))
+    await handlesSaveFollowingList(newList);
   };
-
   const navigation = useNavigation();
   const username = user.username;
 
@@ -70,11 +55,11 @@ function UserProfileOverlay({
   const rotate = useRotation();
   const animatedStyle = { transform: [{ rotate }] };
   const isFocused = useIsFocused();
-  useEffect(async() => {
-    setIsFollowing(IsUserFollowing())
-    setLoggedInUser(JSON.parse(await getCurrentUser()))
-  }, [])
 
+  useEffect(async () => {
+    setLoggedInUserFollowingList(await getCurrentUser());
+     
+  }, [isFocused]);
   const HASHTAG_FORMATTER = (string) => {
     if (string === null) {
       return;
@@ -87,14 +72,13 @@ function UserProfileOverlay({
         if (tag.includes("#") || tag.includes("@")) {
           return (
             <Text
-
               key={i}
               // onPress={() => {
               //   navigation.navigate("feedProfile", {
               //     initialUser: user,
               //   });
               // }
-                
+
               // }
               style={styles.tags}
             >
@@ -106,15 +90,55 @@ function UserProfileOverlay({
         }
       });
   };
-  const IsUserFollowing = () => {
-    if(loggedInUser?.followingList?.includes(user.id)) return true;
-
-    return false;
-  }; 
-
   const tickerText = "official phlokk audio @" + username;
 
-  return (console.log("loggedInUser", loggedInUser?._id,user.id),
+  const followUser = async function (userId) {
+    if (isFollowing) {
+      navigation.navigate("feedProfile", {
+        initialUser: user,
+      });
+    } else {
+      await axios.post(`/api/creators/follow/${currentUser._id}/${userId}`), {};
+     await addUserToFollowingList(userId);
+    }
+  };
+  const IsUserFollowing = (list) => {
+    let id = user._id || user.id;
+    if (list?.includes(id)) return true;
+
+    return false;
+  };
+  const getCurrentUser = async () => {
+    const chunkSize = 50;
+    let followingList = [];
+    let i = 0;
+    while (true) {
+      const chunkKey = `followingList-${i}`;
+      const chunkData = await SecureStore.getItemAsync(chunkKey);
+      if (!chunkData) {
+        break;
+      }
+      const chunkArray = JSON.parse(chunkData);
+      followingList = [...followingList, ...chunkArray];
+      i++;
+    }
+    setIsFollowing(IsUserFollowing(followingList));
+    return followingList;
+  };
+
+  const handlesSaveFollowingList = async (list) => {
+    const chunkSize = 50;
+    const numChunks = Math.ceil(list.length / chunkSize);
+    for (let i = 0; i < numChunks; i++) {
+      const startIndex = i * chunkSize;
+      const endIndex = Math.min((i + 1) * chunkSize, list.length);
+      const chunkData = list.slice(startIndex, endIndex);
+      const chunkKey = `followingList-${i}`;
+      await SecureStore.setItemAsync(chunkKey, JSON.stringify(chunkData));
+    }
+  };
+
+  return (
     <View
       style={[styles.bottomContainer, areTabsShowing && { paddingBottom: 30 }]}
       pointerEvents="box-none"
@@ -123,8 +147,8 @@ function UserProfileOverlay({
         <View style={styles.avatarContainer}>
           <View style={styles.addFriendBtnView}>
             {!isCurrentUser && currentUser._id !== post.user._id && (
-              <TouchableOpacity onPress={() => toggleIsFollowing(user._id)}>
-                <Text>{isFollowing ? "asd" : <AddFriendBtn />}</Text>
+              <TouchableOpacity onPress={() => followUser(user.id || user._id)}>
+                <Text>{!isFollowing && <AddFriendBtn />}</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -172,14 +196,15 @@ function UserProfileOverlay({
           )}
         </View>
         <View style={styles.usernameRow} pointerEvents="box-none">
-          <TouchableOpacity 
-          onPress={() => {
-            navigation.navigate("feedProfile", {
-              initialUser: post.user,
-            });
-          }}
-          style={styles.username} 
-          key={user._id}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("feedProfile", {
+                initialUser: post.user,
+              });
+            }}
+            style={styles.username}
+            key={user._id}
+          >
             <Text style={styles.username}>@{user.username}</Text>
           </TouchableOpacity>
           <View style={{ paddingTop: 2, top: 2 }}>

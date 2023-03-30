@@ -63,7 +63,6 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
   };
 
 
-
   return (
     <TouchableOpacity
       style={styles.container}
@@ -80,7 +79,7 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
     >
       <Image
         style={styles.image}
-        source={{ uri: item.media[1].original_url }}
+        source={{ uri:  item?.thumbnailUrl}}
         onLoadStart={() => {
           setIsLoading(true);
         }}

@@ -91,6 +91,7 @@ const CommentItem = ({
       console.log("error", e);
       Alert.alert("Could not delete comment.");
     }
+  
   };
   const filterCommentReplies = (commentList, commentId) => { 
     for (const comment of commentList) {

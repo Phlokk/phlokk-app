@@ -2,16 +2,12 @@
 import * as FileSystem from 'expo-file-system';
 import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
-import { apiUrlsNode } from "../globals";
 import axios from "../redux/apis/axiosDeclaration";
 import * as mime from 'react-native-mime-types';
 
 export const saveMediaToStorage = (description, source, thumbnail) => {
 
   new Promise(async (resolve, reject) => {
-
-
-    //let formData = new FormData();
     let obj = {};
 
     // Video file
@@ -58,7 +54,7 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
     if (user) {
       const parsedUser = JSON.parse(user);
       obj.user_id = parsedUser._id;
-      let url = apiUrlsNode.BASE_URL2 + "/api/posts/create";
+      let url = "/api/posts/create";
     
       axios
       .post(url, obj)
@@ -67,6 +63,7 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
           resolve(resp);
         })
         .catch((err) => {
+          console.log("Error",err)
           reject(err);
         });
     } else {

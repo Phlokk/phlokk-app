@@ -13,7 +13,7 @@ const fetchGetUserData = async (userId) => {
 const fetchGetUser = async () => {
 let user = JSON.parse(await SecureStore.getItemAsync("user"));
 
- const response = await axios.get(`/api/creators/${user._id}`)
+ const response = await axios.get(`/api/creators/${user?._id}`)
  
  const userData = response.data;
  return userData;

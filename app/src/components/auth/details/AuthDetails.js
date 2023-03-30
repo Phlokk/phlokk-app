@@ -57,7 +57,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
   }
 
   const handleLogin = () => {
-    
     axios
       .post("/api/auth/login", {
         email: email,
@@ -72,12 +71,15 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         setLoggedInUser(response.data.user);
 
         const user = response.data.user[0];
+        const followingList = response.data.followingList;
         user.token = response.data.token;
-        
+        await handlesSaveFollowingList(followingList);
+
         // if (Platform.OS === 'ios') {
         //   user.expoPushToken = expoPushToken;
         // }
         SecureStore.setItemAsync("user", JSON.stringify(user));
+
         // setTimeout(() => {
         //   axios
         //     .get("/api/auth/refresh-token")
@@ -85,7 +87,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         //       console.log(response.data, "response from refresh")
         //       const newUser = response.data.user[0];
         //       newUser.token = response.data.token;
-              
+
         //       // if (Platform.OS === 'ios') {
         //       //   user.expoPushToken = expoPushToken;
         //       // }
@@ -99,10 +101,22 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch((error) => {
-        setIsLogin(true)
+        setIsLogin(true);
       });
   };
-  
+
+  const handlesSaveFollowingList = async (list) => {
+    const chunkSize = 50;
+    const numChunks = Math.ceil(list.length / chunkSize);
+    for (let i = 0; i < numChunks; i++) {
+      const startIndex = i * chunkSize;
+      const endIndex = Math.min((i + 1) * chunkSize, list.length);
+      const chunkData = list.slice(startIndex, endIndex);
+      const chunkKey = `followingList-${i}`;
+      await SecureStore.setItemAsync(chunkKey, JSON.stringify(chunkData));
+    }
+  };
+
   const handleRegister = () => {
     axios
       .post("/api/auth/register", {
@@ -125,10 +139,9 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         });
       })
       .catch(function (error) {
-        setIsRegistered(true)
+        setIsRegistered(true);
       });
   };
-  
 
   return (
     <>
@@ -190,7 +203,9 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             </>
           ) : (
             <>
-              <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+              <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+              >
                 <TextInput
                   style={styles.textInput}
                   placeholderTextColor={colors.green}
@@ -208,7 +223,9 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
                   autoCorrect={false}
                   maxLength={24}
                   onChangeText={(val) => {
-                    setUsername(val.toString().toLowerCase().replaceAll(" ", ""));
+                    setUsername(
+                      val.toString().toLowerCase().replaceAll(" ", "")
+                    );
                   }}
                   placeholder="Username"
                   value={username}
@@ -258,21 +275,17 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
             <Text style={styles.buttonText}>
               {authPage === 0 ? "Sign In" : "Sign Up "}
             </Text>
-            
           </TouchableOpacity>
-          
 
           {authPage === 0 ? (
             <TouchableOpacity
-            style={styles.forgotPass}
-            onPress={() => navigation.navigate(routes.RESET_PASS)}
-          >
-            <Text style={styles.forgotButtonText}>Forgot Password?</Text>
-            <View />
-          </TouchableOpacity>
-          ) : (
-          null
-          )}
+              style={styles.forgotPass}
+              onPress={() => navigation.navigate(routes.RESET_PASS)}
+            >
+              <Text style={styles.forgotButtonText}>Forgot Password?</Text>
+              <View />
+            </TouchableOpacity>
+          ) : null}
 
           {authPage === 0 ? (
             <></>
@@ -318,29 +331,29 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
           )}
         </View>
         <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={<Text>Wrong username or password!</Text>}
-            positiveBtn="Ok"
-            modalVisible={isLogin}
-            dismissAlert={setIsLogin}
-            animationType="fade"
-          />
-          <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={<Text>Registration was not successful!</Text>}
-            positiveBtn="Ok"
-            modalVisible={isRegistered}
-            dismissAlert={setIsRegistered}
-            animationType="fade"
-          />
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>Wrong username or password!</Text>}
+          positiveBtn="Ok"
+          modalVisible={isLogin}
+          dismissAlert={setIsLogin}
+          animationType="fade"
+        />
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>Registration was not successful!</Text>}
+          positiveBtn="Ok"
+          modalVisible={isRegistered}
+          dismissAlert={setIsRegistered}
+          animationType="fade"
+        />
       </ScrollView>
     </>
   );
@@ -378,7 +391,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginTop: 20,
     color: colors.white,
-    textTransform: 'lowercase',
+    textTransform: "lowercase",
   },
   button: {
     marginTop: 25,
@@ -404,7 +417,6 @@ const styles = StyleSheet.create({
   forgotButtonText: {
     fontSize: 14,
     color: colors.green,
-    
   },
   buttonForgotPassword: {
     marginTop: 20,

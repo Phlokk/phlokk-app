@@ -4,7 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Platform
+  Platform,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
@@ -14,41 +14,85 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VerifiedIcon from "../../common/VerifiedIcon";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "../../../redux/apis/axiosDeclaration";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../services/appStateAtoms";
+import * as SecureStore from "expo-secure-store";
 
 function BioSheetModalScreen({ user, isCurrentUser }) {
-  const IsUserFollowing = () => {
-    if(currentUser?.followingList?.includes(userId)) return true;
+  const [following, setFollowing] = useState(user?.follow_count);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [loggedInUserFollowingList, setLoggedInUserFollowingList] = useState(
+    []
+  );
+  const [currentUser] = useAtom(userAtom);
+  const getCurrentUser = async () => {
+    const chunkSize = 50;
+    let followingList = [];
+    let i = 0;
+    while (true) {
+      const chunkKey = `followingList-${i}`;
+      const chunkData = await SecureStore.getItemAsync(chunkKey);
+      if (!chunkData) {
+        break;
+      }
+      const chunkArray = JSON.parse(chunkData);
+      followingList = [...followingList, ...chunkArray];
+      i++;
+    }
+    setIsFollowing(IsUserFollowing(followingList));
+    return followingList;
+  };
+  const addUserToFollowingList = async (userId) => {
+    let newList = [...loggedInUserFollowingList, userId];
+    setLoggedInUserFollowingList(newList);
+    setIsFollowing(IsUserFollowing(newList))
+    await handlesSaveFollowingList(newList);
+  };
+  const removeUserToFollowingList = async (userId) => {
+    let newList = loggedInUserFollowingList.filter((e) => e !== userId);
+    setLoggedInUserFollowingList(newList);
+    setIsFollowing(IsUserFollowing(newList));
+    await handlesSaveFollowingList(newList);
+  };
+  const followUser = async function (userId) {
+    if (isFollowing) {
+      console.log("Unfollowing");
+      await axios.delete(`/api/creators/unfollow/${currentUser._id}/${userId}`),
+        {};
+      await removeUserToFollowingList(userId);
+    } else {
+      await axios.post(`/api/creators/follow/${currentUser._id}/${userId}`), {};
+      await addUserToFollowingList(userId);
+    }
+ 
+  };
+
+  useEffect(async () => {
+    setLoggedInUserFollowingList(await getCurrentUser());
+  }, []);
+  const IsUserFollowing = (list) => {
+    let id = user._id || user.id;
+    if (list?.includes(id)) return true;
 
     return false;
   };
-  const [following, setFollowing] = useState(user?.follow_count);
-  const [isFollowing, setIsFollowing] = useState(IsUserFollowing());
-  const [currentUser] = useAtom(userAtom);
-  // SecureStore.setItemAsync("user", JSON.stringify(user));
-  
-  const toggleIsFollowing = async function (userId) {
-    if(isFollowing){
-      await axios.delete(
-        `/api/creators/unfollow/${currentUser._id}/${userId}`
-      ),
-        {};
-    }else{
-      await axios.post(
-        `/api/creators/follow/${currentUser._id}/${userId}`
-      ),
-        {};
+  const handlesSaveFollowingList = async (list) => {
+    const chunkSize = 50;
+    const numChunks = Math.ceil(list.length / chunkSize);
+    for (let i = 0; i < numChunks; i++) {
+      const startIndex = i * chunkSize;
+      const endIndex = Math.min((i + 1) * chunkSize, list.length);
+      const chunkData = list.slice(startIndex, endIndex);
+      const chunkKey = `followingList-${i}`;
+      await SecureStore.setItemAsync(chunkKey, JSON.stringify(chunkData));
     }
-    setIsFollowing(!isFollowing);
-    setFollowing(!isFollowing ? following + 1 : following - 1);
   };
 
-  return (console.log("currentUser", currentUser.name),
+  return (
     <View style={styles.container}>
       <LinearGradient
         colors={["#000000", "#f2f2f2"]}
@@ -83,23 +127,27 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
             </>
           )}
 
-          {user.relationship_type !== "n/a" && user.relationship_type !== null && (
-            <>
-              <Text style={styles.statusText}>Relationship status</Text>
-              <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
-                <Ionicons
-                  name="md-heart-sharp"
-                  size={12}
-                  color={colors.secondary}
-                /> {user.relationship_type}
-              </Text>
-            </>
-          )}
+          {user.relationship_type !== "n/a" &&
+            user.relationship_type !== null && (
+              <>
+                <Text style={styles.statusText}>Relationship status</Text>
+                <Text
+                  style={[styles.statusText, styles.relationshipStatusIcon]}
+                >
+                  <Ionicons
+                    name="md-heart-sharp"
+                    size={12}
+                    color={colors.secondary}
+                  />{" "}
+                  {user.relationship_type}
+                </Text>
+              </>
+            )}
 
           {!isCurrentUser && (
             <TouchableOpacity
               style={styles.imageViewContainer}
-              onPress={() => toggleIsFollowing(user._id)}
+              onPress={() => followUser(user.id || user._id)}
             >
               <View
                 style={isFollowing ? styles.followingBtn : styles.followBtn}
@@ -164,11 +212,14 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
           <View style={styles.userInfoBox}>
             {user.bio !== null && (
               <>
-                <Text style={styles.aboutText}><Feather
-                  style={styles.icons}
-                  name="user"
-                  color={colors.secondary}
-                /> Bio:</Text>
+                <Text style={styles.aboutText}>
+                  <Feather
+                    style={styles.icons}
+                    name="user"
+                    color={colors.secondary}
+                  />{" "}
+                  Bio:
+                </Text>
                 <Text style={styles.bioText}>{user.bio}</Text>
 
                 <View style={styles.divider_light}></View>
@@ -179,15 +230,17 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
           <View style={styles.userInfoBox}>
             {user.skills !== null && (
               <>
-                <Text style={styles.aboutText}><Feather
-                  style={styles.icons}
-                  name="award"
-                  color={colors.secondary}
-                /> Skills:</Text>
+                <Text style={styles.aboutText}>
+                  <Feather
+                    style={styles.icons}
+                    name="award"
+                    color={colors.secondary}
+                  />{" "}
+                  Skills:
+                </Text>
                 <Text style={styles.bioText}>{user.skills}</Text>
-                {Platform.OS === 'ios' && (
+                {Platform.OS === "ios" && (
                   <View style={styles.divider_light}></View>
-
                 )}
                 <View style={styles.divider_light}></View>
               </>
@@ -195,16 +248,19 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
           </View>
 
           <View style={styles.userInfoBox}>
-          {user.education !== null && (
+            {user.education !== null && (
               <>
-            <Text style={styles.aboutText}><FontAwesome5
-              style={styles.icons}
-              name="user-graduate"
-              color={colors.secondary}
-            />  Education:</Text>
-            <Text style={styles.bioText}>{user.education}</Text>
-            <View style={styles.divider_light}></View>
-            </>
+                <Text style={styles.aboutText}>
+                  <FontAwesome5
+                    style={styles.icons}
+                    name="user-graduate"
+                    color={colors.secondary}
+                  />{" "}
+                  Education:
+                </Text>
+                <Text style={styles.bioText}>{user.education}</Text>
+                <View style={styles.divider_light}></View>
+              </>
             )}
           </View>
         </ScrollView>
