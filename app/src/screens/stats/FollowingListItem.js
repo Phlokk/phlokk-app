@@ -1,20 +1,67 @@
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import axios from "../../redux/apis/axiosDeclaration";
-
-const FollowingListItem = ({ item }) => {
+import { useAtom } from "jotai";
+import { userAtom } from "../../services/appStateAtoms";
+import * as SecureStore from "expo-secure-store";
+const FollowingListItem = ({ item, followersList, setLoggedInUserFollowingList }) => {
 
   const navigation = useNavigation();
+  const [currentUser] = useAtom(userAtom);
   const [isFollowing, setIsFollowing] = useState(item.is_following);
-  const toggleIsFollowing = async function () {
-    await axios.post(
-      "/api/creator/" + item._id + "/" + (!isFollowing ? "unfollow" : "follow")
-    ),
-      {};
-    setIsFollowing(!isFollowing);
+  const IsUserFollowing = (list= []) => {
+		let id =  item.user._id;
+		if (list?.includes(id)) return true;
+	
+		return false;
+	};
+  useEffect(() => {
+    setIsFollowing(IsUserFollowing(followersList))
+  }, [])
+  
+
+  const addUserToFollowingList = async (userId) => {
+    let newList = [...followersList, userId];
+    setLoggedInUserFollowingList(newList);
+    setIsFollowing(IsUserFollowing(newList))
+    await handlesSaveFollowingList([...newList]);
+  };
+  const removeUserToFollowingList = async (userId) => {
+    let newList = followersList.filter((e) => e !== userId);
+    console.log(newList.includes(userId))
+    setLoggedInUserFollowingList(newList);
+    setIsFollowing(false);
+    await handlesSaveFollowingList(newList);
+  };
+  const followUser = async function ( userId = item.user._id ) {
+  try{
+    if (isFollowing) {
+      console.log("Unfollowing");
+      await axios.delete(`/api/creators/unfollow/${currentUser._id}/${userId}`),
+        {};
+      await removeUserToFollowingList(userId);
+    } else {
+      await axios.post(`/api/creators/follow/${currentUser._id}/${userId}`), {};
+      await addUserToFollowingList(userId);
+    }
+  }catch(e){
+    console.log("Error", e)
+  }
+ 
+  };
+  const handlesSaveFollowingList = async (list) => {
+    const chunkSize = 50;
+    const numChunks = Math.ceil(list.length / chunkSize);
+    for (let i = 0; i < numChunks; i++) {
+      const startIndex = i * chunkSize;
+      const endIndex = Math.min((i + 1) * chunkSize, list.length);
+      const chunkData = list.slice(startIndex, endIndex);
+      const chunkKey = `followingList-${i}`;
+      await SecureStore.setItemAsync(chunkKey, JSON.stringify(chunkData));
+    }
   };
 
   return (
@@ -53,14 +100,14 @@ const FollowingListItem = ({ item }) => {
         </TouchableOpacity>
         {isFollowing ? (
           <TouchableOpacity
-            onPress={toggleIsFollowing}
+            onPress={()=>followUser()}
             style={styles.followingView}
           >
             <Text style={styles.followBtn}>Following</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-            onPress={toggleIsFollowing}
+            onPress={()=>followUser()}
             style={styles.followingView}
           >
             <Text style={styles.followingBtn}>Follow</Text>

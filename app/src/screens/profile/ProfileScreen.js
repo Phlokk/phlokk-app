@@ -57,7 +57,7 @@ export default function ProfileScreen({ route }) {
   );
   useEffect(async() => {
     await refresh();
-  }, [])
+  }, [isFocused])
   
 
   useEffect(() => {

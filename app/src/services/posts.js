@@ -156,7 +156,7 @@ export const deletePostById = async (postId) => {
       return result.data;
     })
     .catch((error) => {
-      setIsDeletedVideo(true);
+      console.log("Error:",error)
     });
 };
 

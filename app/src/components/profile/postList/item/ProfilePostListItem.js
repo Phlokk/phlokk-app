@@ -40,6 +40,7 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
 
       setPosts((prev) => prev.filter((postItem) => postItem._id !== item._id));
     } catch (err) {
+      console.log("Error", err)
       alert(err?.message);
       setIsLoading(false);
     }
@@ -47,7 +48,7 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
 
   const deletePost = () => {
     const uid = currentUser._id;
-    if (item.user._id === uid) {
+    if ((item.user._id || item.user.id)=== uid) {
       Alert.alert(
         "Delete Video",
         "Are you sure you want to delete this video?",

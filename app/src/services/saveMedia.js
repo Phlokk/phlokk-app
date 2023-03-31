@@ -1,73 +1,70 @@
-//import FormData from "form-data";
-import * as FileSystem from 'expo-file-system';
+import FormData from "form-data";
 import { Alert } from "react-native";
-import * as SecureStore from "expo-secure-store";
-import axios from "../redux/apis/axiosDeclaration";
-import * as mime from 'react-native-mime-types';
-
+import * as SecureStore from "expo-secure-store";  
+import {apiUrlsNode} from "../globals"; 
 export const saveMediaToStorage = (description, source, thumbnail) => {
 
+ 
   new Promise(async (resolve, reject) => {
-    let obj = {};
+    let formData = new FormData();
 
     // Video file
-    await FileSystem.readAsStringAsync(source, { encoding: FileSystem.EncodingType.Base64 })
-  .then(async (fileData) => {
-    FileSystem.getInfoAsync(source, { mimeType: true })
-  .then((fileInfo) => {
-    obj.video = {fileData: fileData, mimetype: mime.lookup(source), ext: mime.extension(mime.lookup(source)), size: fileInfo.size};
-  });
-  })
-  .catch((error) => {
-    console.error('Error reading file: ', error);
-  });
     let split = source.split("/");
     let fileName = split[split.length - 1];
-    
+    formData.append(
+      "video",
+      {
+        name: fileName,
+        type: "video/mp4",
+        uri: source,
+      },
+      fileName
+    );
 
     // Description
-    // if (description) {
-    //   formData.append("description", description, {
-    //     description: description || " ",
-    //   });
-    // }
-    obj.description = description;
-
+    formData.append("description", description, {
+      description: description || " ",
+    });
 
     // Thumbnail
     let thumbSplit = thumbnail.split("/");
     let thumbFileName = thumbSplit[thumbSplit.length - 1];
-    
-    await FileSystem.readAsStringAsync(thumbnail, { encoding: FileSystem.EncodingType.Base64 })
-  .then(async (fileData) => {
-    FileSystem.getInfoAsync(thumbnail, { mimeType: true })
-  .then((fileInfo) => {
-    obj.thumbnail = {fileData: fileData, mimetype: mime.lookup(thumbnail), ext: mime.extension(mime.lookup(thumbnail)), size: fileInfo.size};
-  })
-  })
-  .catch((error) => {
-    console.error('Error reading file: ', error);
-  });
+    formData.append(
+      "thumbnail",
+      {
+        name: thumbFileName,
+        type: "image/*",
+        uri: thumbnail,
+      },
+      thumbFileName
+    );
 
     const user = await SecureStore.getItemAsync("user");
 
     if (user) {
       const parsedUser = JSON.parse(user);
-      obj.user_id = parsedUser._id;
-      let url = "/api/posts/create";
-    
-      axios
-      .post(url, obj)
-        .then((resp) => {
-          alert("Your video has been posted.");
-          resolve(resp);
-        })
-        .catch((err) => {
-          console.log("Error",err)
-          reject(err);
-        });
+      formData.append("user_id", parsedUser._id,{
+        user_id: parsedUser._id
+      } )
+      let url =  apiUrlsNode.BASE_URL2 +  "/api/posts/create";
+      const config = { 
+        "content-type": "multipart/form-data",
+      "auth-token": `${parsedUser.token}`,
+      };
+      fetch(url, {
+        method: 'POST',
+        headers: config,
+        body:  formData 
+      }).then((e)=>{
+        alert("Your video has been posted.");
+        console.log("response",e );
+      }).catch((ex)=>{
+        console.log("Error", ex)
+      }) 
+
     } else {
       Alert.alert("No bearer token");
     }
   });
+
 };
