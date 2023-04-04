@@ -35,7 +35,6 @@ const CommentItem = ({
   replyOfReply,
   setRefech
 }) => {
-  // console.log('commentItem => ', comment)
   const { theme } = useTheme();
 
   const navigation = useNavigation();
@@ -53,6 +52,7 @@ const CommentItem = ({
     const type = isLiked ? "unlike" : "like"; 
     try {
       if (!isReply) {
+        console.log("IDs", post._id, comment._id,)
         await likeComment(post._id, comment._id, type, user._id);
       } else {
         if(replyOfReply){
@@ -61,6 +61,7 @@ const CommentItem = ({
           await likeCommentReply(post._id, comment._id, type, user._id);
         }
       }
+      // e30e2455-8c7c-414b-af10-0e31489faa5c 5c2a7548-0635-4e4a-82af-efe6fb9d2025
       setRefech(e=> !e)
       setIsLiked(!isLiked);
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));

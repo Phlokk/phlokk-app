@@ -146,7 +146,7 @@ function UserProfileOverlay({
       <View pointerEvents="box-none">
         <View style={styles.avatarContainer}>
           <View style={styles.addFriendBtnView}>
-            {!isCurrentUser && currentUser._id !== post.user._id && (
+            {!isCurrentUser && currentUser._id !== (post.user._id ?? post.user.id) && (
               <TouchableOpacity onPress={() => followUser(user.id || user._id)}>
                 <Text>{!isFollowing && <AddFriendBtn />}</Text>
               </TouchableOpacity>

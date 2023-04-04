@@ -108,7 +108,7 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
               commentCount = {commentCount}
               setCommentCount ={setCommentCount}
               setRefech={setRefech}
-            />
+            /> 
           </View>
         </Modal>
         <Text style={styles.statsLabel}>{numberFormatter(commentCount)}</Text>

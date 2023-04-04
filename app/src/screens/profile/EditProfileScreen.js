@@ -21,9 +21,9 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
 import EditProfileNav from "../../components/general/navBar/EditProfileNav";
 import CustomAlert from "../../components/Alerts/CustomAlert";
-import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
+// import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
 import { useTheme } from "../../theme/context";
-import { apiUrls } from "../../globals";
+import { apiUrlsNode } from "../../globals";
 import SpecialNeedsRibbonSwitch from "./SpecialNeedsRibbonSwitch";
 
 export default function EditProfileScreen({ route }) {
@@ -40,50 +40,57 @@ export default function EditProfileScreen({ route }) {
   const user = passedUser?._id === currentUser._id ? currentUser : passedUser;
 
   const chooseImage = async () => {
-    let user = await SecureStore.getItemAsync("user");
-    user = JSON.parse(user);
+    try {
+      let user = await SecureStore.getItemAsync("user");
+      user = JSON.parse(user);
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-
-    let split = result.uri.split("/");
-    let fileName = split[split.length - 1];
-
-    const formData = new FormData();
-    formData.append("photo_url", {
-      name: fileName,
-      uri: result.uri,
-      type: "image/*",
-    });
-
-    let res = await fetch(apiUrls.BASE_URL + "/api/me/profile-picture", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${user.token}`,
-        ContentType: "application/json",
-      },
-    })
-      .then((res) => {
-        alert("Profile picture updated successfully.");
-      })
-      .catch((err) => {
-        alert("Unable to update profile picture. Please try again later.");
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
       });
 
-    // Once image is updated, load user profile from api
-    const response = await fetchGetUser();
-    setCurrentUser(response.user);
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
 
+      let split = result.uri.split("/");
+      let fileName = split[split.length - 1];
+      console.log(fileName, result.uri)
+
+      const formData = new FormData();
+      formData.append("photo_url", {
+        name: fileName,
+        uri: result.uri,
+        type: "image/*",
+      }); 
+
+      let url = apiUrlsNode.BASE_URL2 + `/api/users/uploadImage/${user._id}`;
+      const config = {
+        "content-type": "multipart/form-data",
+        "auth-token": `${user.token}`,
+      };
+      fetch(url, {
+        method: "POST",
+        headers: config,
+        body: formData,
+      })
+        .then((e) => {
+          alert("Profile picture updated successfully.");
+          console.log("response", e);
+        })
+        .catch((ex) => {
+          console.log("Error: ", ex);
+          alert("Unable to update profile picture. Please try again later.");
+        });
+        //TODO: Does this need to be turned back on? We need to update user profile I believe 
+      // Once image is updated, load user profile from api
+      // const response = await fetchGetUser();
+      // setCurrentUser(response.user);
+    } catch (e) {
+      console.log("Error:", e);
+    }
   };
 
   return (

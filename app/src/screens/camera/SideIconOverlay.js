@@ -1,72 +1,81 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import colors from "../../../config/colors";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import routes from "../../navigation/routes";
 
-function SideIconOverlay() {
-
+function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri }) {
   const navigation = useNavigation();
   const [isLive, setIsLive] = useState(false);
   const [speed, setSpeed] = useState(false);
   const [replies, setReplies] = useState(false);
 
-
   return (
-    <View style={styles.iconRow}>
-      <View style={styles.sideBarButtonView}>
-      <TouchableOpacity
-
-            onPress={() => navigation.goBack()}
-            style={styles.sideBarBackButton}
-          > 
-            <MaterialIcons name="arrow-left" size={28} color={colors.red} />
-            
-      </TouchableOpacity>
+    <View style={duo ? styles.duoIconRow : styles.iconRow}>
+      <View
+        style={duo ? styles.duoSideBarButtonView : styles.sideBarButtonView}
+      >
         <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setSpeed(true)}
+          onPress={() => navigation.goBack()}
+          style={duo ? styles.duoSideBarBackButton : styles.sideBarBackButton}
         >
-          <Octicons name="dashboard" size={18} color={colors.white} />
-          <Text style={styles.iconText}>Speed</Text>
+          <MaterialIcons name="arrow-left" size={28} color={colors.red} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setReplies(true)}
-        >
-          <MaterialIcons
-        
-            name="chat-bubble-outline"
-            size={18}
-            color={colors.white}
-          />
-          <Text style={styles.iconText}>Reply</Text>
-        </TouchableOpacity>
+        {!duo && (
+          <>
+            <TouchableOpacity
+              style={styles.sideBarButton}
+              onPress={() => setSpeed(true)}
+            >
+              <Octicons name="dashboard" size={18} color={colors.white} />
+              <Text style={styles.iconText}>Speed</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.sideBarButton}
+              onPress={() => setReplies(true)}
+            >
+              <MaterialIcons
+                name="chat-bubble-outline"
+                size={18}
+                color={colors.white}
+              />
+              <Text style={styles.iconText}>Reply</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.sideBarButton}
+              onPress={() => navigation.navigate(routes.SOUNDS)}
+            >
+              <MaterialCommunityIcons
+                name="waveform"
+                size={18}
+                color={colors.white}
+              />
+              <Text style={styles.iconText}>Wav</Text>
+            </TouchableOpacity>
+          </>
+        )}
 
         <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => navigation.navigate(routes.SOUNDS)}
+          style={duo ? styles.duoSideBarButton : styles.sideBarButton}
+          onPress={duo ? () => pickFromGallery() : () => setIsLive(true)}
         >
-          <MaterialCommunityIcons name="waveform" size={18} color={colors.white}  />
-          <Text style={styles.iconText}>Wav</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.sideBarButton}
-          onPress={() => setIsLive(true)}
-        >
-          <Feather name="video" size={18} color={colors.white} />
-          <Text style={styles.iconText}>LIVE</Text>
+          {duo ? (
+            <Image
+              style={styles.galleryButtonImage}
+              source={{ uri: uploadImgUri }}
+            />
+          ) : (
+            <Feather name="video" size={18} color={colors.white} />
+          )}
+          <Text style={duo ? styles.duoIconText : styles.iconText}>
+            {duo ? "Upload" : "LIVE"}
+          </Text>
         </TouchableOpacity>
         <CustomAlert
           alertTitle={
@@ -104,48 +113,72 @@ function SideIconOverlay() {
           dismissAlert={setIsLive}
           animationType="fade"
         />
-        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  duoIconRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    position: "absolute",
+    top: 95,
+    width: 300,
+  },
   iconRow: {
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
     position: "absolute",
     top: 95,
-   
   },
   iconText: {
     textAlign: "center",
-    width: 30, 
+    width: 30,
     color: colors.white,
     fontSize: 7,
-    
+  },
+  duoIconText: {
+    textAlign: "center",
+    width: 50,
+    color: colors.white,
+    fontSize: 7,
   },
   sideBarButton: {
     padding: 1,
     margin: 15,
-    shadowColor: '#ffffff',
+    shadowColor: "#ffffff",
     shadowOpacity: 0.2,
-    paddingHorizontal: 10, 
+    paddingHorizontal: 10,
     justifyContent: "space-between",
     alignItems: "center",
-    
+  },
+  duoSideBarButton: {
+    margin: 5,
+    shadowColor: "#ffffff",
+    shadowOpacity: 0.2,
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 50,
   },
   sideBarBackButton: {
-    
     margin: 15,
     borderWidth: 0.7,
     borderColor: colors.secondary,
     borderRadius: 50,
-    
-    paddingHorizontal: 10, 
+    paddingHorizontal: 10,
     justifyContent: "space-between",
     alignItems: "center",
-    
+  },
+  duoSideBarBackButton: {
+    borderWidth: 0.7,
+    borderColor: colors.secondary,
+    borderRadius: 50,
+    paddingHorizontal: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   backBtn: {
     justifyContent: "center",
@@ -153,11 +186,24 @@ const styles = StyleSheet.create({
   sideBarButtonView: {
     top: 30,
     flexDirection: "row",
-    backgroundColor: 'rgba(125, 125, 125, 0.2)',
-    borderRadius: 50, 
-
+    backgroundColor: "rgba(125, 125, 125, 0.2)",
+    borderRadius: 50,
   },
-  
+  duoSideBarButtonView: {
+    top: 30,
+    padding: 10,
+    flexDirection: "row",
+    backgroundColor: "rgba(125, 125, 125, 0.2)",
+    borderRadius: 50,
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 20,
+  },
+  galleryButtonImage: {
+    width: 30,
+    height: 30,
+  },
 });
 
 export default SideIconOverlay;

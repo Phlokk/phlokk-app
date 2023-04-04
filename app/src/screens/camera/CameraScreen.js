@@ -1,4 +1,3 @@
-import { Audio } from "expo-av";
 import { Camera } from "expo-camera";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -17,7 +16,7 @@ import uuid from "uuid-random";
 import {
   FFmpegKit,
   FFprobeKit,
-  FFmpegKitConfig,
+  FFmpegKitConfig, 
 } from "ffmpeg-kit-react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
@@ -33,6 +32,89 @@ import { Circle } from "react-native-progress";
 // import routes from "../../navigation/routes";
 import SideIconOverlay from "./SideIconOverlay";
 import CustomAlert from "../../components/Alerts/CustomAlert";
+import { Audio, Video } from "expo-av";
+import RNFS from "react-native-fs"; 
+
+const mergeVideos = async (video1Url, video2Url) => {
+  try { 
+    const outputFilePath = '/var/mobile/Containers/Data/Application/12A14550-BF38-468F-8529-DC3B00C4D4B3/Documents/merged_video.mov';
+        const localVideo1Path = `${RNFS.DocumentDirectoryPath}/video1.mov`;
+    const localVideo2Path = video2Url;
+
+    RNFS.downloadFile({
+      fromUrl: video1Url,
+      toFile: localVideo1Path,
+    }).promise.then(() => {
+      console.log("Video 1 downloaded");
+    }); 
+    RNFS.exists(video2Url)
+    .then((exists) => {
+      if (exists) {
+        console.log('Camera video file exists');
+      } else {
+        console.log('Camera video file does not exist');
+      }
+    })
+    .catch((error) => {
+      console.log('Error checking camera video file:', error);
+    }); 
+    let cameraUrl = localVideo2Path.split("file://")
+
+    console.log("the URLs",localVideo1Path, cameraUrl[1])
+    const ffmpegCommand = `-i ${localVideo1Path} -i ${cameraUrl[1]} -filter_complex "[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1" -strict -2 ${outputFilePath}`;
+
+    const executionId = FFmpegKit.executeAsync(ffmpegCommand, FFmpegKitConfig.RETURN_ON_MAIN_THREAD, (session) => {
+      console.log(`FFmpeg process started with sessionId ${session.getSessionId()}.`);
+    }, (session) => {
+      console.log(`FFmpeg process exited with sessionId ${session.getSessionId()}.`);
+      const returnCode = session.getReturnCode();
+      console.log(`FFmpeg process exited with returnCode ${returnCode}.`);
+      if (returnCode === ReturnCode.SUCCESS) {
+        console.log('Video merge completed successfully.');
+      } else {
+        console.log('Video merge failed.');
+      }
+      console.log('FFmpeg process output:');
+      console.log(session.getAllLogsAsString());
+      console.log('FFmpeg process statistics:');
+      console.log(session.getStatistics().getSummary());
+    });
+   
+    // const executionId = FFmpegKit.executeAsync(ffmpegCommand, FFmpegKitConfig.RETURN_ON_MAIN_THREAD, (session) => {
+    //   console.log(`FFmpeg process started with sessionId ${session.getSessionId()}.`);
+    // }, (session) => {
+    //   console.log(`FFmpeg process exited with sessionId ${session.getSessionId()}.`);
+    //   const returnCode = session.getReturnCode();
+    //   console.log(`FFmpeg process exited with returnCode ${returnCode}.`);
+    //   if (returnCode === 0) {
+    //     console.log('Video merge completed successfully.');
+    //   } else {
+    //     console.log('Video merge failed.');
+    //   }
+    // });
+    
+
+
+    // const ffmpegCommand = `-i ${localVideo1Path} -i ${cameraUrl[1]} -filter_complex "[0:v:0]scale=640x480,setsar=1[l];[1:v:0]scale=640x480,setsar=1[r];[l][r]hstack=inputs=2[v];[0:a:0][1:a:0]amerge[a]" -map "[v]" -map "[a]" -ac 2 ${outputPath}`;
+
+    // FFmpegKit.executeAsync(ffmpegCommand, false).then(executionId => {
+    //   const returnCode = FFmpegKitConfig?.getLastReturnCode();
+    //   console.log("executionId", returnCode, executionId)
+    
+    //   // if (returnCode === 0) {
+    //   //   console.log('Videos combined successfully!', outputPath);
+    //   //   // Play or upload the output video from the outputPath
+    //   // } else {
+    //   //   console.log('Error combining videos:', FFmpegKitConfig.getLastCommandOutput(executionId));
+    //   // }
+    // }).catch(error => {
+    //   console.log('Error combining videos:', error);
+    // });
+    
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 120;
@@ -43,6 +125,8 @@ const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 export default function CameraScreen({ route }) {
+  const duo = route?.params?.duo;
+  const post = route?.params?.post;
   const [isUploaded, setIsUploaded] = useState(false);
   const [isGeneratedThumb, setIsGeneratedThumb] = useState(false);
 
@@ -73,6 +157,7 @@ export default function CameraScreen({ route }) {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
   const [duration, setDuration] = useState(null);
+  const [isVideoEnded, setIsVideoEnded] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -120,6 +205,7 @@ export default function CameraScreen({ route }) {
           maxDuration: MAX_DURATION,
           quality: Camera.Constants.VideoQuality["720p"],
         };
+        if (duo) options.mute = true;
         if (Platform.OS === "ios") {
           options.codec = Camera.Constants.VideoCodec.H264;
         }
@@ -130,8 +216,10 @@ export default function CameraScreen({ route }) {
           if (route.params !== undefined) {
             PlayAudio();
           }
+          let cameraRecordedUri = null;
           await videoRecordPromise
             .then((data) => {
+              cameraRecordedUri = data.uri;
               return data.uri;
             })
             .then(async (source) => {
@@ -144,7 +232,11 @@ export default function CameraScreen({ route }) {
               if (route.params === undefined) {
                 navigation.navigate("editPosts", { source, sourceThumb });
               } else {
-                await generateVideo(source).then((outputFilePath) => {
+                await generateVideo(source).then(async (outputFilePath) => { 
+                  //  await mergeVideos(
+                  //   post?.media[1]?.original_url,
+                  //   cameraRecordedUri
+                  // ); 
                   navigation.navigate("editPosts", {
                     source: outputFilePath,
                     sourceThumb,
@@ -154,6 +246,7 @@ export default function CameraScreen({ route }) {
             });
         }
       } catch (error) {
+        console.log("Error", error);
         clearInterval(recordingTimerRef.current);
         setRecordingTime(0);
         Alert.alert("Video cannot record");
@@ -162,7 +255,11 @@ export default function CameraScreen({ route }) {
     }
     setIsRecording(false);
   };
-
+  useEffect(async () => {
+    if (isVideoEnded) {
+      await stopVideo();
+    }
+  }, [isVideoEnded]);
   const stopVideo = async () => {
     if (cameraRef) {
       await cameraRef.stopRecording();
@@ -224,51 +321,53 @@ export default function CameraScreen({ route }) {
     const outputFilePath =
       FileSystem.cacheDirectory + "Camera/" + uuid() + "." + ext;
 
-    const ffprobeCommand =
-      "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " +
-      source;
-    await FFprobeKit.execute(ffprobeCommand).then(async (session) => {
-      const state = FFmpegKitConfig.sessionStateToString(
-        await session.getState()
-      );
-      const returnCode = await session.getReturnCode();
-      const output = await session.getOutput();
-      setDuration(output.trim());
-
-      if (
-        route.params.item.sound_url.endsWith(".mp3") ||
-        route.params.item.sound_url.endsWith(".aac")
-      ) {
-        ffmpegCommand =
-          "-i " +
-          source +
-          " -ss 00:00:00.00 -t " +
-          secondsToHms(output.trim()) +
-          " -i " +
-          route.params.item.sound_url +
-          " -map 0:v -map 1:a -c:v copy -c:a copy " +
-          outputFilePath +
-          " -y";
-      }
-      if (
-        route.params.item.sound_url.endsWith(".m4a") ||
-        route.params.item.sound_url.endsWith(".ogg") ||
-        route.params.item.sound_url.endsWith(".wav")
-      ) {
-        ffmpegCommand =
-          "-i " +
-          source +
-          " -ss 00:00:00.00 -t " +
-          secondsToHms(output.trim()) +
-          " -i " +
-          route.params.item.sound_url +
-          " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
-          outputFilePath +
-          " -y";
-      }
-    });
-
-    await FFmpegKit.execute(ffmpegCommand);
+    if (!duo) {
+      const ffprobeCommand =
+        "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " +
+        source;
+      await FFprobeKit.execute(ffprobeCommand).then(async (session) => {
+        const state = FFmpegKitConfig.sessionStateToString(
+          await session.getState()
+        );
+        const returnCode = await session.getReturnCode();
+        const output = await session.getOutput();
+        setDuration(output.trim());
+        if (route?.params?.item?.sound_url) {
+          if (
+            route.params.item.sound_url.endsWith(".mp3") ||
+            route.params.item.sound_url.endsWith(".aac")
+          ) {
+            ffmpegCommand =
+              "-i " +
+              source +
+              " -ss 00:00:00.00 -t " +
+              secondsToHms(output.trim()) +
+              " -i " +
+              route.params.item.sound_url +
+              " -map 0:v -map 1:a -c:v copy -c:a copy " +
+              outputFilePath +
+              " -y";
+          }
+          if (
+            route.params.item.sound_url.endsWith(".m4a") ||
+            route.params.item.sound_url.endsWith(".ogg") ||
+            route.params.item.sound_url.endsWith(".wav")
+          ) {
+            ffmpegCommand =
+              "-i " +
+              source +
+              " -ss 00:00:00.00 -t " +
+              secondsToHms(output.trim()) +
+              " -i " +
+              route.params.item.sound_url +
+              " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
+              outputFilePath +
+              " -y";
+          }
+        }
+      });
+      await FFmpegKit.execute(ffmpegCommand);
+    }
     return outputFilePath;
   };
 
@@ -278,6 +377,9 @@ export default function CameraScreen({ route }) {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isAudioError, setIsAudioError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
+  const [videoResizeMode, setVideoResizeMode] = useState(
+    Video.RESIZE_MODE_COVER
+  );
 
   const PlayAudio = async () => {
     try {
@@ -285,12 +387,10 @@ export default function CameraScreen({ route }) {
       const result = await sound.current.getStatusAsync();
       if (result.isLoaded) {
         if (result.isPlaying === false) {
-          
           if (!showCountdown) {
             await delay(450);
           } else if (showCountdown) {
             await delay(450);
-
           }
           const playbackStatus = await sound.current.replayAsync();
           isLooping(true);
@@ -390,6 +490,11 @@ export default function CameraScreen({ route }) {
       ]),
     ]).start(() => {});
   };
+  const handlePlayBackStatus = (status) => {
+    if (status.didJustFinish) {
+      setIsVideoEnded(true);
+    }
+  };
 
   if (
     hasCameraPermissions === false ||
@@ -408,214 +513,248 @@ export default function CameraScreen({ route }) {
     );
   }
 
-  return (
-    <View style={styles.container}>
-      {hasCameraPermissions && isFocused ? (
-        <Camera
-          ref={(ref) => setCameraRef(ref)}
-          style={styles.camera}
-          ratio={"16:9"}
-          type={cameraType}
-          flashMode={cameraFlash}
-          onCameraReady={() => setIsCameraReady(true)}
-          // zoom={0.02}
-        />
-      ) : null}
+  return ( 
+    (
+      <View style={duo ? styles.duoContainer : styles.container}>
+        {hasCameraPermissions && isFocused ? (
+          <Camera
+            ref={(ref) => setCameraRef(ref)}
+            style={duo ? styles.duoCamera : styles.camera}
+            ratio={"16:9"}
+            type={cameraType}
+            flashMode={cameraFlash}
+            onCameraReady={() => setIsCameraReady(true)}
+            // zoom={0.02}
+          />
+        ) : null}
+        {duo && (
+          <Video
+            source={{
+              uri: post?.media[1]?.original_url,
+              type: post?.media[1]?.mime_type,
+            }}
+            style={styles.duoVideoRenderer}
+            shouldPlay={isRecording}
+            resizeMode={videoResizeMode}
+            onPlaybackStatusUpdate={(e) => handlePlayBackStatus(e)}
+            onReadyForDisplay={(e) => {
+              const orientation = e.naturalSize.orientation;
+              if (orientation === "landscape") {
+                setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
+              } else {
+                setVideoResizeMode(Video.RESIZE_MODE_COVER);
+              }
+            }}
+          />
+        )}
 
-      {!isRecording && (
-        <View style={styles.sideBarContainer}>
-          <TouchableOpacity
-            style={styles.sideBarButton}
-            onPress={() =>
-              setCameraType(
-                cameraType === Camera.Constants.Type.front
-                  ? Camera.Constants.Type.back
-                  : Camera.Constants.Type.front
-              )
-            }
-          >
-            <Feather name="refresh-ccw" size={24} color={colors.white} />
-            <Text style={styles.iconText}>Flip</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.sideBarButton}
-            onPress={() =>
-              setCameraFlash(
-                cameraFlash === Camera.Constants.FlashMode.off
-                  ? Camera.Constants.FlashMode.torch
-                  : Camera.Constants.FlashMode.off
-              )
-            }
-          >
-            <Feather name="zap" size={24} color={colors.white} />
-            <Text style={styles.iconText}>Flash</Text>
-          </TouchableOpacity>
-          {!isRecording && (
-            <View
-              style={{
-                position: "absolute",
-                right: 0,
-                left: 0,
-                top: 140,
-                bottom: 0,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              pointerEvents="box-none"
+        {!isRecording && (
+          <View style={styles.sideBarContainer}>
+            <TouchableOpacity
+              style={styles.sideBarButton}
+              onPress={() =>
+                setCameraType(
+                  cameraType === Camera.Constants.Type.front
+                    ? Camera.Constants.Type.back
+                    : Camera.Constants.Type.front
+                )
+              }
             >
-              <TouchableOpacity
-                onPress={() => pickFromGallery()}
-                style={styles.galleryButton}
-              >
-                {galleryItems[0] == undefined ? (
-                  <></>
-                ) : (
-                  <Image
-                    style={styles.galleryButtonImage}
-                    source={{ uri: galleryItems[0].uri }}
-                  />
-                )}
-                <Text style={styles.uploadText}>Upload</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          <View style={styles.uploadView}>
-            <Text style={styles.iconText}>Upload</Text>
+              <Feather name="refresh-ccw" size={24} color={colors.white} />
+              <Text style={styles.iconText}>Flip</Text>
+            </TouchableOpacity>
+            {!duo && (
+              <>
+                <TouchableOpacity
+                  style={styles.sideBarButton}
+                  onPress={() =>
+                    setCameraFlash(
+                      cameraFlash === Camera.Constants.FlashMode.off
+                        ? Camera.Constants.FlashMode.torch
+                        : Camera.Constants.FlashMode.off
+                    )
+                  }
+                >
+                  <Feather name="zap" size={24} color={colors.white} />
+                  <Text style={styles.iconText}>Flash</Text>
+                </TouchableOpacity>
+                <>
+                  {!isRecording && (
+                    <View
+                      style={{
+                        position: "absolute",
+                        right: 0,
+                        left: 0,
+                        top: 140,
+                        bottom: 0,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      pointerEvents="box-none"
+                    >
+                      <TouchableOpacity
+                        onPress={() => pickFromGallery()}
+                        style={styles.galleryButton}
+                      >
+                        {galleryItems[0] == undefined ? (
+                          <></>
+                        ) : (
+                          <Image
+                            style={styles.galleryButtonImage}
+                            source={{ uri: galleryItems[0].uri }}
+                          />
+                        )}
+                        <Text style={styles.uploadText}>Upload</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </>
+                <View style={styles.uploadView}>
+                  <Text style={styles.iconText}>Upload</Text>
+                </View>
+              </>
+            )}
           </View>
-        </View>
-      )}
+        )}
 
-      <View style={[styles.bottomBarContainer]}>
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          {!isRecording && <SideIconOverlay />}
-
-          <Text style={{ color: "white", paddingBottom: 5 }}>
-            {secondsToHms(convertMillisToSeconds(recordingTime))}
-          </Text>
-          <View style={{ flex: 1 }}>
-            <Pressable
-              disabled={!isCameraReady}
-              onPress={onPressRecord}
-              onLongPress={onLongPress}
-              onPressOut={onPressOut}
-              style={({ pressed }) => {
-                return [
-                  styles.recordButton,
-                  { backgroundColor: colors.green },
-                  { borderWidth: isRecording ? 4 : 3 },
-                  { borderColor: isRecording ? colors.danger : colors.white },
-                ];
-              }}
-            />
-            <View
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              pointerEvents="none"
-            >
-              <Circle
-                size={80}
-                thickness={4}
-                fill="transparent"
-                progress={convertMillisToPercentage(recordingTime)}
-                color={colors.red}
-                unfilledColor="white"
-                borderWidth={0}
+        <View style={[styles.bottomBarContainer]}>
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            {!isRecording && (
+              <SideIconOverlay
+                duo={duo}
+                isRecording={isRecording}
+                pickFromGallery={pickFromGallery}
+                uploadImgUri={galleryItems[0]?.uri}
               />
-            </View>
-          </View>
+            )}
 
-          {!isRecording && (
-            <View
-              style={{
-                backgroundColor: "rgba(125, 125, 125, 0.4)",
-                width: 40,
-                height: 40,
-                borderRadius: 50,
-                position: "absolute",
-                right: 0,
-                left: 280,
-                top: 45,
-                bottom: 0,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              pointerEvents="box-none"
-            >
-              <TouchableOpacity onPress={() => {}}>
-                <MaterialIcons
-                  name="settings-backup-restore"
-                  size={35}
-                  color={colors.white}
+            <Text style={{ color: "white", paddingBottom: 5 }}>
+              {secondsToHms(convertMillisToSeconds(recordingTime))}
+            </Text>
+            <View style={{ flex: 1 }}>
+              <Pressable
+                disabled={!isCameraReady}
+                onPress={onPressRecord}
+                onLongPress={onLongPress}
+                onPressOut={onPressOut}
+                style={({ pressed }) => {
+                  return [
+                    styles.recordButton,
+                    { backgroundColor: colors.green },
+                    { borderWidth: isRecording ? 4 : 3 },
+                    { borderColor: isRecording ? colors.danger : colors.white },
+                  ];
+                }}
+              />
+              <View
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                pointerEvents="none"
+              >
+                <Circle
+                  size={80}
+                  thickness={4}
+                  fill="transparent"
+                  progress={convertMillisToPercentage(recordingTime)}
+                  color={colors.red}
+                  unfilledColor="white"
+                  borderWidth={0}
                 />
-              </TouchableOpacity>
+              </View>
             </View>
-          )}
-        </View>
-      </View>
 
-      {showCountdown && (
-        <Animated.View
-          style={[
-            styles.countdownWrapper,
-            { transform: [{ scale: pulseAnim }] },
-          ]}
-          pointerEvents="box-none"
-        >
-          <View>
-            <Animated.View
-              style={[
-                styles.countdownWhitePulse,
-                {
-                  opacity: whitePulseOpacity,
-                  transform: [{ scale: whitePulseAnim }],
-                },
-              ]}
-            />
-            <View style={styles.countdownBackground}>
-              <Text style={styles.countdownText}>
-                {startRecordingCountdown}
-              </Text>
-            </View>
+            {!isRecording && !duo && (
+              <View
+                style={{
+                  backgroundColor: "rgba(125, 125, 125, 0.4)",
+                  width: 40,
+                  height: 40,
+                  borderRadius: 50,
+                  position: "absolute",
+                  right: 0,
+                  left: 280,
+                  top: 45,
+                  bottom: 0,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                pointerEvents="box-none"
+              >
+                <TouchableOpacity onPress={() => {}}>
+                  <MaterialIcons
+                    name="settings-backup-restore"
+                    size={35}
+                    color={colors.white}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
-        </Animated.View>
-      )}
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <AntDesign name="warning" size={24} color={colors.red} />
-          </Text>
-        }
-        customAlertMessage={
-          <Text>Video is too long! {"\n"} Max upload time = 2 mins</Text>
-        }
-        positiveBtn="Ok"
-        modalVisible={isUploaded}
-        dismissAlert={setIsUploaded}
-        animationType="fade"
-      />
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <AntDesign name="warning" size={24} color={colors.red} />
-          </Text>
-        }
-        customAlertMessage={<Text>Could not generate thumbnail!</Text>}
-        positiveBtn="Ok"
-        modalVisible={isGeneratedThumb}
-        dismissAlert={setIsGeneratedThumb}
-        animationType="fade"
-      />
-    </View>
+        </View>
+
+        {showCountdown && (
+          <Animated.View
+            style={[
+              styles.countdownWrapper,
+              { transform: [{ scale: pulseAnim }] },
+            ]}
+            pointerEvents="box-none"
+          >
+            <View>
+              <Animated.View
+                style={[
+                  styles.countdownWhitePulse,
+                  {
+                    opacity: whitePulseOpacity,
+                    transform: [{ scale: whitePulseAnim }],
+                  },
+                ]}
+              />
+              <View style={styles.countdownBackground}>
+                <Text style={styles.countdownText}>
+                  {startRecordingCountdown}
+                </Text>
+              </View>
+            </View>
+          </Animated.View>
+        )}
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <AntDesign name="warning" size={24} color={colors.red} />
+            </Text>
+          }
+          customAlertMessage={
+            <Text>Video is too long! {"\n"} Max upload time = 2 mins</Text>
+          }
+          positiveBtn="Ok"
+          modalVisible={isUploaded}
+          dismissAlert={setIsUploaded}
+          animationType="fade"
+        />
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <AntDesign name="warning" size={24} color={colors.red} />
+            </Text>
+          }
+          customAlertMessage={<Text>Could not generate thumbnail!</Text>}
+          positiveBtn="Ok"
+          modalVisible={isGeneratedThumb}
+          dismissAlert={setIsGeneratedThumb}
+          animationType="fade"
+        />
+      </View>
+    )
   );
 }
 
@@ -726,5 +865,22 @@ const styles = StyleSheet.create({
   },
   uploadView: {
     top: 40,
+  },
+  duoCamera: {
+    backgroundColor: colors.black,
+    height: 370,
+    flex: 1,
+  },
+  duoVideoRenderer: {
+    height: 370,
+    flex: 1,
+  },
+  duoContainer: {
+    flex: 1,
+    height: 370,
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "black",
   },
 });

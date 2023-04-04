@@ -8,7 +8,7 @@ import {
 import React, { useState } from "react";
 import Share from "react-native-share";
 import { Feather } from "@expo/vector-icons";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -18,7 +18,6 @@ import colors from "../../../../config/colors";
 import uuid from "uuid-random";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
-
 
 const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   const navigation = useNavigation();
@@ -74,21 +73,19 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
 
       // Load the watermark image from the app's assets
       // const watermark = watermarkImage;
-      //then 
-      // Add the watermark to the video and save the result to a new file?? 
+      //then
+      // Add the watermark to the video and save the result to a new file??
       // const newWaterMarkVideoFile = `${FileSystem.documentDirectory}${randStr}.mov`;
       //This is the issue I am having trying to add these two files together (Video & WaterMark file)
-      //How is this done?? // Right now video is being downloaded to Camera Roll as the code sits, 
-      // so I just need to figure out how to mash these 2 files together and save final version. 
+      //How is this done?? // Right now video is being downloaded to Camera Roll as the code sits,
+      // so I just need to figure out how to mash these 2 files together and save final version.
 
-      
-      MediaLibrary.saveToLibraryAsync(uri)
-      setIsDownloading(true)
+      MediaLibrary.saveToLibraryAsync(uri);
+      setIsDownloading(true);
     } catch (e) {
       setIsDownloadFailed(true);
     }
   };
-
 
   return (
     <View style={styles.container}>
@@ -121,25 +118,30 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
               </View>
               <Text style={styles.text}>FAV</Text>
             </TouchableOpacity>
-            {isCurrentUser || !post.user.disable_duos && (
-            <TouchableOpacity
-              style={styles.fieldItemContainer}
-              autoCapitalize="none"
-              onPress={() => setIsDuo(true)}
-            >
-              <View style={styles.bubble}>
-                <MaterialCommunityIcons
-                  name="account-box-multiple-outline"
-                  size={24}
-                  color={colors.secondary}
-                />
-              </View>
-              <Text style={styles.text}>Duo</Text>
-            </TouchableOpacity>
-            )}
+            {isCurrentUser ||
+              (!post.user.disable_duos && (
+                <TouchableOpacity
+                  style={styles.fieldItemContainer}
+                  autoCapitalize="none"
+                  onPress={() =>
+                    navigation.navigate("Cam", {
+                      duo: true,
+                      post,
+                    })
+                  }
+                >
+                  <View style={styles.bubble}>
+                    <MaterialCommunityIcons
+                      name="account-box-multiple-outline"
+                      size={24}
+                      color={colors.secondary}
+                    />
+                  </View>
+                  <Text style={styles.text}>Duo</Text>
+                </TouchableOpacity>
+              ))}
           </>
         ) : null}
-        
 
         <TouchableOpacity
           style={styles.fieldItemContainer}
@@ -152,18 +154,23 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
           <Text style={styles.text}>Link</Text>
         </TouchableOpacity>
 
-        {isCurrentUser || !post.user.disable_downloads && (
-        <TouchableOpacity
-          style={styles.fieldItemContainer}
-          autoCapitalize="none"
-          onPress={downloadVideo}
-        >
-          <View style={styles.bubble}>
-            <Feather name="download-cloud" size={24} color={colors.secondary} />
-          </View>
-          <Text style={styles.text}>DL</Text>
-        </TouchableOpacity>
-        )}
+        {isCurrentUser ||
+          (!post.user.disable_downloads && (
+            <TouchableOpacity
+              style={styles.fieldItemContainer}
+              autoCapitalize="none"
+              onPress={downloadVideo}
+            >
+              <View style={styles.bubble}>
+                <Feather
+                  name="download-cloud"
+                  size={24}
+                  color={colors.secondary}
+                />
+              </View>
+              <Text style={styles.text}>DL</Text>
+            </TouchableOpacity>
+          ))}
 
         <TouchableOpacity
           style={styles.fieldItemContainer}
@@ -224,7 +231,9 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
             <MaterialIcons name="info" size={24} color={colors.green} />
           </Text>
         }
-        customAlertMessage={<Text>You have shared this video successfully</Text>}
+        customAlertMessage={
+          <Text>You have shared this video successfully</Text>
+        }
         positiveBtn="Ok"
         modalVisible={isShare}
         dismissAlert={setIsShare}
@@ -251,7 +260,9 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
           </Text>
         }
         customAlertMessage={
-          <Text>Share was cancelled!{"\n"} Please select recipient to share video</Text>
+          <Text>
+            Share was cancelled!{"\n"} Please select recipient to share video
+          </Text>
         }
         positiveBtn="Ok"
         modalVisible={isSharedFailed}
@@ -265,7 +276,10 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
           </Text>
         }
         customAlertMessage={
-          <Text>Video could not be downloaded to your camera roll{"\n"}check permissions.</Text>
+          <Text>
+            Video could not be downloaded to your camera roll{"\n"}check
+            permissions.
+          </Text>
         }
         positiveBtn="Ok"
         modalVisible={isDownloadFailed}

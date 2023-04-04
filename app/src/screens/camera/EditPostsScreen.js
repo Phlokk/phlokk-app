@@ -42,10 +42,7 @@ export default function EditPostsScreen({ route }) {
   }, []);
 
 
-
-
-
-  return (
+  return (console.log("videoUrl in edit post", videoUrl),
     <View style={styles.container}>
       <Video
         isMuted={!isFocused}
