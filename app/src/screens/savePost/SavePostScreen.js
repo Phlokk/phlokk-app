@@ -147,10 +147,7 @@ export default function SavePostScreen({ route }) {
                 >{`${description.length}/150`}</Text>
               </View>
             </View>
-            <Text style={styles.switchStatement}>
-              Notice: Switches do not work in beta
-            </Text>
-
+            
             <CustomSwitch />
           </ScrollView>
         </View>

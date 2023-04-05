@@ -32,12 +32,14 @@ function UserProfileOverlay({
   isCurrentUser,
   areTabsShowing, 
 }) {
+ 
   const [following, setFollowing] = useState(user?.follow_count);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isLinked, setIsLinked] = useState(false);
   const [loggedInUserFollowingList, setLoggedInUserFollowingList] = useState(
     []
   );
+  const [loggedInUser, setLoggedInUser] =  useState({})
 
   const addUserToFollowingList = async (userId) => {
     let newList = [...loggedInUserFollowingList, userId];
@@ -97,8 +99,8 @@ function UserProfileOverlay({
       navigation.navigate("feedProfile", {
         initialUser: user,
       });
-    } else {
-      await axios.post(`/api/creators/follow/${currentUser._id}/${userId}`), {};
+    } else { 
+      await axios.post(`/api/creators/follow/${loggedInUser._id}/${userId}`), {};
      await addUserToFollowingList(userId);
     }
   };
@@ -122,6 +124,8 @@ function UserProfileOverlay({
       followingList = [...followingList, ...chunkArray];
       i++;
     }
+    const loggedInUserFromSecureStore = await SecureStore.getItemAsync("user");
+    setLoggedInUser(JSON.parse(loggedInUserFromSecureStore))
     setIsFollowing(IsUserFollowing(followingList));
     return followingList;
   };

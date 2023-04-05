@@ -21,7 +21,7 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
 import EditProfileNav from "../../components/general/navBar/EditProfileNav";
 import CustomAlert from "../../components/Alerts/CustomAlert";
-// import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
+import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
 import { useTheme } from "../../theme/context";
 import { apiUrlsNode } from "../../globals";
 import SpecialNeedsRibbonSwitch from "./SpecialNeedsRibbonSwitch";
@@ -56,8 +56,7 @@ export default function EditProfileScreen({ route }) {
       }
 
       let split = result.uri.split("/");
-      let fileName = split[split.length - 1];
-      console.log(fileName, result.uri)
+      let fileName = split[split.length - 1]; 
 
       const formData = new FormData();
       formData.append("photo_url", {
@@ -71,23 +70,21 @@ export default function EditProfileScreen({ route }) {
         "content-type": "multipart/form-data",
         "auth-token": `${user.token}`,
       };
+      
       fetch(url, {
         method: "POST",
         headers: config,
         body: formData,
       })
-        .then((e) => {
+        .then(async(e) => {
+          const response = await fetchGetUser();
+          setCurrentUser(response);
           alert("Profile picture updated successfully.");
-          console.log("response", e);
         })
         .catch((ex) => {
           console.log("Error: ", ex);
           alert("Unable to update profile picture. Please try again later.");
-        });
-        //TODO: Does this need to be turned back on? We need to update user profile I believe 
-      // Once image is updated, load user profile from api
-      // const response = await fetchGetUser();
-      // setCurrentUser(response.user);
+        }); 
     } catch (e) {
       console.log("Error:", e);
     }

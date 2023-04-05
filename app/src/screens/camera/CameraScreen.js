@@ -1,4 +1,3 @@
-import { Camera } from "expo-camera";
 import React, { useEffect, useRef, useState } from "react";
 import {
   View,
@@ -16,7 +15,7 @@ import uuid from "uuid-random";
 import {
   FFmpegKit,
   FFprobeKit,
-  FFmpegKitConfig, 
+  FFmpegKitConfig,
 } from "ffmpeg-kit-react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
@@ -33,88 +32,9 @@ import { Circle } from "react-native-progress";
 import SideIconOverlay from "./SideIconOverlay";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { Audio, Video } from "expo-av";
-import RNFS from "react-native-fs"; 
+import { Camera, useCameraDevices } from "react-native-vision-camera";
+import RecordScreen, { RecordingStartResponse } from 'react-native-record-screen';
 
-const mergeVideos = async (video1Url, video2Url) => {
-  try { 
-    const outputFilePath = '/var/mobile/Containers/Data/Application/12A14550-BF38-468F-8529-DC3B00C4D4B3/Documents/merged_video.mov';
-        const localVideo1Path = `${RNFS.DocumentDirectoryPath}/video1.mov`;
-    const localVideo2Path = video2Url;
-
-    RNFS.downloadFile({
-      fromUrl: video1Url,
-      toFile: localVideo1Path,
-    }).promise.then(() => {
-      console.log("Video 1 downloaded");
-    }); 
-    RNFS.exists(video2Url)
-    .then((exists) => {
-      if (exists) {
-        console.log('Camera video file exists');
-      } else {
-        console.log('Camera video file does not exist');
-      }
-    })
-    .catch((error) => {
-      console.log('Error checking camera video file:', error);
-    }); 
-    let cameraUrl = localVideo2Path.split("file://")
-
-    console.log("the URLs",localVideo1Path, cameraUrl[1])
-    const ffmpegCommand = `-i ${localVideo1Path} -i ${cameraUrl[1]} -filter_complex "[0:v][0:a][1:v][1:a]concat=n=2:v=1:a=1" -strict -2 ${outputFilePath}`;
-
-    const executionId = FFmpegKit.executeAsync(ffmpegCommand, FFmpegKitConfig.RETURN_ON_MAIN_THREAD, (session) => {
-      console.log(`FFmpeg process started with sessionId ${session.getSessionId()}.`);
-    }, (session) => {
-      console.log(`FFmpeg process exited with sessionId ${session.getSessionId()}.`);
-      const returnCode = session.getReturnCode();
-      console.log(`FFmpeg process exited with returnCode ${returnCode}.`);
-      if (returnCode === ReturnCode.SUCCESS) {
-        console.log('Video merge completed successfully.');
-      } else {
-        console.log('Video merge failed.');
-      }
-      console.log('FFmpeg process output:');
-      console.log(session.getAllLogsAsString());
-      console.log('FFmpeg process statistics:');
-      console.log(session.getStatistics().getSummary());
-    });
-   
-    // const executionId = FFmpegKit.executeAsync(ffmpegCommand, FFmpegKitConfig.RETURN_ON_MAIN_THREAD, (session) => {
-    //   console.log(`FFmpeg process started with sessionId ${session.getSessionId()}.`);
-    // }, (session) => {
-    //   console.log(`FFmpeg process exited with sessionId ${session.getSessionId()}.`);
-    //   const returnCode = session.getReturnCode();
-    //   console.log(`FFmpeg process exited with returnCode ${returnCode}.`);
-    //   if (returnCode === 0) {
-    //     console.log('Video merge completed successfully.');
-    //   } else {
-    //     console.log('Video merge failed.');
-    //   }
-    // });
-    
-
-
-    // const ffmpegCommand = `-i ${localVideo1Path} -i ${cameraUrl[1]} -filter_complex "[0:v:0]scale=640x480,setsar=1[l];[1:v:0]scale=640x480,setsar=1[r];[l][r]hstack=inputs=2[v];[0:a:0][1:a:0]amerge[a]" -map "[v]" -map "[a]" -ac 2 ${outputPath}`;
-
-    // FFmpegKit.executeAsync(ffmpegCommand, false).then(executionId => {
-    //   const returnCode = FFmpegKitConfig?.getLastReturnCode();
-    //   console.log("executionId", returnCode, executionId)
-    
-    //   // if (returnCode === 0) {
-    //   //   console.log('Videos combined successfully!', outputPath);
-    //   //   // Play or upload the output video from the outputPath
-    //   // } else {
-    //   //   console.log('Error combining videos:', FFmpegKitConfig.getLastCommandOutput(executionId));
-    //   // }
-    // }).catch(error => {
-    //   console.log('Error combining videos:', error);
-    // });
-    
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 120;
@@ -127,6 +47,10 @@ const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 export default function CameraScreen({ route }) {
   const duo = route?.params?.duo;
   const post = route?.params?.post;
+  const devices = useCameraDevices();
+  const cameraRef = useRef();
+  const viewRef = useRef(null);
+
   const [isUploaded, setIsUploaded] = useState(false);
   const [isGeneratedThumb, setIsGeneratedThumb] = useState(false);
 
@@ -135,11 +59,11 @@ export default function CameraScreen({ route }) {
   const [hasGalleryPermissions, setHasGalleryPermissions] = useState();
   const [isRecording, setIsRecording] = useState(false);
   const [galleryItems, setGalleryItems] = useState([]);
-  const [cameraRef, setCameraRef] = useState(null);
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.front);
-  const [cameraFlash, setCameraFlash] = useState(
-    Camera.Constants.FlashMode.off
-  );
+  // const [cameraRef, setCameraRef] = useState(null);
+  const [cameraType, setCameraType] = useState("front");
+  const [cameraFlash, setCameraFlash] =
+    useState();
+    // Camera.FlashMode.off
   const [startRecordingCountdown, setStartRecordingCountdown] = useState(
     START_RECORDING_DELAY / 1000
   );
@@ -158,11 +82,13 @@ export default function CameraScreen({ route }) {
   const navigation = useNavigation();
   const [duration, setDuration] = useState(null);
   const [isVideoEnded, setIsVideoEnded] = useState(false);
+  const [duetVideoUrl, setDuetVideoUrl] = useState(null)
 
   useEffect(() => {
     (async () => {
-      const cameraStatus = await Camera.requestCameraPermissionsAsync();
-      setHasCameraPermissions(cameraStatus.status == "granted");
+      await set16_9Format()
+      const cameraStatus = await Camera.requestCameraPermission();
+      setHasCameraPermissions(cameraStatus == "authorized");
       /*  */
       const audioStatus = await Audio.requestPermissionsAsync();
       setHasAudioPermissions(audioStatus.status == "granted");
@@ -181,6 +107,7 @@ export default function CameraScreen({ route }) {
     })();
     setStartRecordingCountdown(3);
   }, []);
+  
 
   useEffect(() => {
     if (startRecordingCountdown === 0) {
@@ -191,7 +118,41 @@ export default function CameraScreen({ route }) {
     }
   }, [startRecordingCountdown]);
 
-  const recordVideo = async () => {
+  const recordVideo = async () => { 
+    setIsRecording(true); 
+    if (duo) {
+      await startScreenRecording()
+    }
+    recordingTimerRef.current = setInterval(() => {
+      setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
+    }, RECORDING_TIME_TICK);
+    cameraRef.current.startRecording({
+      onRecordingFinished: async (video) => {
+        console.log("video?.path", video?.path)
+        setIsRecording(false);
+        clearInterval(recordingTimerRef.current);
+        setRecordingTime(0);
+        stopVideo();
+        pauseAudio();
+       
+        const sourceThumb = await generateThumbnail(video?.path);
+        if (route.params === undefined) {
+          navigation.navigate("editPosts", { source: video.path, sourceThumb });
+        } else {
+          await generateVideo(video?.path).then(async (outputFilePath) => { 
+            navigation.navigate("editPosts", {
+              source: outputFilePath,
+              sourceThumb,
+            });
+          });
+        }
+      },
+      onRecordingError: (error) => console.error("error", error),
+    });
+   
+    return;
+    // old code 
+    // TODO: remove the code after duo
     if (cameraRef) {
       // Start up the timer to display the circle progress bar
       clearInterval(recordingTimerRef.current);
@@ -210,7 +171,8 @@ export default function CameraScreen({ route }) {
           options.codec = Camera.Constants.VideoCodec.H264;
         }
 
-        const videoRecordPromise = cameraRef.recordAsync(options);
+        const videoRecordPromise = cameraRef.record(options);
+
         setIsRecording(true);
         if (videoRecordPromise) {
           if (route.params !== undefined) {
@@ -232,15 +194,13 @@ export default function CameraScreen({ route }) {
               if (route.params === undefined) {
                 navigation.navigate("editPosts", { source, sourceThumb });
               } else {
-                await generateVideo(source).then(async (outputFilePath) => { 
-                  //  await mergeVideos(
-                  //   post?.media[1]?.original_url,
-                  //   cameraRecordedUri
-                  // ); 
-                  navigation.navigate("editPosts", {
-                    source: outputFilePath,
-                    sourceThumb,
-                  });
+                await generateVideo(source).then(async (outputFilePath) => {
+                  console.log("Recorded File", outputFilePath);
+
+                  // navigation.navigate("editPosts", {
+                  //   source: outputFilePath,
+                  //   sourceThumb,
+                  // });
                 });
               }
             });
@@ -255,18 +215,44 @@ export default function CameraScreen({ route }) {
     }
     setIsRecording(false);
   };
+  const startScreenRecording = async () => {
+    try {
+      await RecordScreen.startRecording()
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  const stopScreenRecording = async () => {
+    try {
+      const res = await RecordScreen.stopRecording(); 
+    if (res) {
+      const url = res.result.outputURL;
+      setDuetVideoUrl(url)
+    }
+    return res
+    } catch (error) {
+      console.log(error);
+    }
+    
+  };
   useEffect(async () => {
     if (isVideoEnded) {
       await stopVideo();
     }
   }, [isVideoEnded]);
   const stopVideo = async () => {
-    if (cameraRef) {
-      await cameraRef.stopRecording();
+    if (cameraRef && isRecording) {
+      cameraRef.current.stopRecording()
+    }
+    const response = null
+    if (duo) {
+      response =  await stopScreenRecording()
     }
     clearInterval(recordingTimerRef.current);
     setRecordingTime(0);
     setIsRecording(false);
+    return response
   };
 
   const pickFromGallery = async () => {
@@ -496,6 +482,19 @@ export default function CameraScreen({ route }) {
     }
   };
 
+  const set16_9Format = async () => {
+    try {
+      // const codecs = await cameraRef.current.getAvailableVideoCodecs("mov")
+
+      // console.log("codecs", codecs);
+      // const formats = await cameraRef?.current?.getAvailableFormats();
+      // console.log("formats", formats)
+      // const format16_9 = formats.find(f => f?.aspectRatio === '16:9');
+      // await cameraRef.current.setActiveFormat(format16_9);
+    } catch (e) {
+      console.error(e);
+    }
+  };
   if (
     hasCameraPermissions === false ||
     hasAudioPermissions === false ||
@@ -513,17 +512,20 @@ export default function CameraScreen({ route }) {
     );
   }
 
-  return ( 
+  return (
     (
       <View style={duo ? styles.duoContainer : styles.container}>
         {hasCameraPermissions && isFocused ? (
           <Camera
-            ref={(ref) => setCameraRef(ref)}
+            ref={cameraRef}
             style={duo ? styles.duoCamera : styles.camera}
-            ratio={"16:9"}
-            type={cameraType}
-            flashMode={cameraFlash}
-            onCameraReady={() => setIsCameraReady(true)}
+            video={true}
+            device={cameraType === "front" ? devices.front : devices.back}
+            isActive={true}
+            // ratio={"16:9"}
+            // type={cameraType}
+            // flashMode={cameraFlash}
+            // onCameraReady={() => setIsCameraReady(true)}
             // zoom={0.02}
           />
         ) : null}
@@ -547,18 +549,27 @@ export default function CameraScreen({ route }) {
             }}
           />
         )}
-
+        {duetVideoUrl && 
+         <Video
+         source={{
+           uri:duetVideoUrl,
+           type: 'mov',
+         }}
+         style={styles.duoVideoRenderer}
+         shouldPlay={true} 
+       />
+        }
         {!isRecording && (
           <View style={styles.sideBarContainer}>
             <TouchableOpacity
               style={styles.sideBarButton}
-              onPress={() =>
-                setCameraType(
-                  cameraType === Camera.Constants.Type.front
-                    ? Camera.Constants.Type.back
-                    : Camera.Constants.Type.front
-                )
-              }
+              onPress={() => {
+                if (cameraType == "front") {
+                  setCameraType("back");
+                } else {
+                  setCameraType("front");
+                }
+              }}
             >
               <Feather name="refresh-ccw" size={24} color={colors.white} />
               <Text style={styles.iconText}>Flip</Text>
@@ -615,8 +626,8 @@ export default function CameraScreen({ route }) {
               </>
             )}
           </View>
-        )}
-
+        )} 
+        {duo && isRecording  ? null : 
         <View style={[styles.bottomBarContainer]}>
           <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -635,7 +646,7 @@ export default function CameraScreen({ route }) {
             </Text>
             <View style={{ flex: 1 }}>
               <Pressable
-                disabled={!isCameraReady}
+                // disabled={!isCameraReady}
                 onPress={onPressRecord}
                 onLongPress={onLongPress}
                 onPressOut={onPressOut}
@@ -700,7 +711,7 @@ export default function CameraScreen({ route }) {
             )}
           </View>
         </View>
-
+}
         {showCountdown && (
           <Animated.View
             style={[

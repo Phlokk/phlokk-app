@@ -55,16 +55,12 @@ const VideoItem = ({
     !isMarkedPlayed
   ) {
     setIsMarkedPlayed(true);
-    axios.post(apiUrls.BASE_URL + "/api/post/view/" + item._id, {
-      play_count: true,
-    });
   }
   const updatePlayCount = async (status) => {
     const duration = status?.durationMillis / 1000;
     const position = status?.positionMillis / 1000;
     if (!isNaN(duration) && !isNaN(position) && !isPlayCountInc) {
       if (shouldUpdateCount(duration, position)) {
-        console.log("Play count!!");
         await updateCount();
         setIsPlayCountInc(true);
       }
@@ -73,10 +69,8 @@ const VideoItem = ({
   const updateCount = async () => {
     try {
       const response = await axios.post(`/api/posts/play-count/${item._id}`);
-			console.log("response" ,response.data)
       return response;
     } catch (e) {
-      console.log("Error:", e);
     }
   };
   const shouldUpdateCount = (duration, position) => {

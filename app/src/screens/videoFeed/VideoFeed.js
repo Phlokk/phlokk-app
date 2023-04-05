@@ -39,7 +39,7 @@ const VideoFeed = ({ navigation, route }) => {
   const [areTabsShowing, setAreTabsShowing] = useState();
 
   // New Ticker State
-  const [tickerText, setTickerText] = useState("")
+  // const [tickerText, setTickerText] = useState("")
   const [ckt, setCkt] = useState(false);
 
   const windowSize = useWindowDimensions();
@@ -77,7 +77,6 @@ const VideoFeed = ({ navigation, route }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(
     selectedIndex || 0
   );
-
   const {
     posts,
     getMoreVideos,
@@ -90,7 +89,7 @@ const VideoFeed = ({ navigation, route }) => {
     posts: userPosts,
     getMoreUserPosts,
     loading: loadingUserFeed,
-  } = useUserVideoFeed(user._id, {
+  } = useUserVideoFeed(user?._id, {
     skip: preloadedPosts || !profile,
   });
 
@@ -100,20 +99,6 @@ const VideoFeed = ({ navigation, route }) => {
       return;
     }
     const postsToUse = profile ? userPosts : posts;
-
-    // set likes// make sure to refetch video data when the hooks fire
-    // const AllLikes = postsToUse.map((post) => {
-    //   return {
-    //     postId: post._id,
-    //     likes: handleLikeCount(post.like_count),
-    //     liked: post.is_liked,
-    //   };
-    // });
-    // dispatch({
-    //   type: types.SET_POSTS_LIKES,
-    //   postsLikes: AllLikes,
-    // });
-    // end set likes
     setPostFeed(postsToUse);
   }, [posts, userPosts]);
 
@@ -161,13 +146,13 @@ const VideoFeed = ({ navigation, route }) => {
     }
   }, [isFocused, forceRefresh]);
 
-  const handleLikeCount = (likes) => {
-    if (typeof likes === "number") {
-      return likes;
-    } else {
-      return likes.length;
-    }
-  };
+  // const handleLikeCount = (likes) => {
+  //   if (typeof likes === "number") {
+  //     return likes;
+  //   } else {
+  //     return likes.length;
+  //   }
+  // };
 
   
 
@@ -268,7 +253,7 @@ const VideoFeed = ({ navigation, route }) => {
           />
         )}
       </TouchableOpacity>
-      {currentUser.disable_ticker === 0 && (
+      {/* {currentUser.disable_ticker === 0 && (
       <TouchableOpacity
         style={{
           position: "absolute",
@@ -286,7 +271,7 @@ const VideoFeed = ({ navigation, route }) => {
           {tickerText}
         </TextTicker>
       </TouchableOpacity>
-      )}
+      )} */}
       
       
 
