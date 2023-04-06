@@ -1,31 +1,38 @@
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import FastImage from "react-native-fast-image";
 import colors from "../../../config/colors";
 import VerifiedIcon from "../common/VerifiedIcon";
 
-export default function SearchVideoItem({ item }) {
+
+
+export default function SearchVideoItem({ item, setPlayVideo }) {
   const navigation = useNavigation();
+  
 
   const getDate = () => {
     const date = new Date(item.created_at);
     return `${date.getDay()}/${date.getMonth()}`;
   };
 
+  
+
+  
   return (
+    <>
     <TouchableOpacity
       style={styles.container}
-      onPress={() =>
-        navigation.navigate("discoverFeedProfile", { initialUser: item })
-      }
+      onPress={() => {
+        setPlayVideo(item);
+      }}
     >
       <View>
         <FastImage
           style={styles.thumbnail}
           source={{
-            uri: item?.media[1]?.original_url,
+            uri: item?.media[0]?.original_url,
             priority: FastImage.priority.low,
           }}
           cache={FastImage.cacheControl.web}
@@ -44,9 +51,12 @@ export default function SearchVideoItem({ item }) {
             <TouchableOpacity>
               <View style={styles.verifiedRow}>
                 <Text style={styles.username}>
-                  {item?.user?.username ?? " "}
+                {(item?.user?.username ?? " ")}
                 </Text>
+                <View style={styles.iconRow}>
                 {item?.user?.is_verified && <VerifiedIcon />}
+                </View>
+                
               </View>
             </TouchableOpacity>
           </View>
@@ -63,10 +73,16 @@ export default function SearchVideoItem({ item }) {
         </View>
       </View>
     </TouchableOpacity>
+    
+    
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  mainVideoContainer: {
+    flex: 1
+  },
   container: {
     flexBasis: "50%",
     justifyContent: "space-around",
@@ -79,11 +95,12 @@ const styles = StyleSheet.create({
   },
   description: {
     color: colors.secondary,
+    fontSize: 11
   },
   image: {
     backgroundColor: "#0C0C0C",
-    height: 30,
-    width: 30,
+    height: 20,
+    width: 20,
     borderRadius: 18,
     borderColor: colors.white,
     borderWidth: 0.7,
@@ -97,15 +114,19 @@ const styles = StyleSheet.create({
   },
   username: {
     color: colors.secondary,
-    fontSize: 12,
+    fontSize: 10,
     marginLeft: 5,
+    top: 3,
   },
   playCount: {
+    fontSize: 10,
+    top:5,
     color: colors.secondary,
     justifyContent: "flex-end",
   },
   pauseIcon: {
     margin: 5,
+    top:5,
   },
   videoDetails: {
     flexDirection: "row",
@@ -126,5 +147,9 @@ const styles = StyleSheet.create({
   },
   verifiedRow: {
     flexDirection: "row",
+  },
+  iconRow: {
+    top: 5.5,
+
   },
 });

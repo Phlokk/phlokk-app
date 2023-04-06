@@ -82,7 +82,6 @@ export default function EditProfileScreen({ route }) {
           alert("Profile picture updated successfully.");
         })
         .catch((ex) => {
-          console.log("Error: ", ex);
           alert("Unable to update profile picture. Please try again later.");
         }); 
     } catch (e) {

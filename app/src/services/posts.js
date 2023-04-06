@@ -25,7 +25,7 @@ export const getFeedAsync = async (page) => {
   const params = querystring.stringify(paramsObject);
   try {
     const result = await axios.get(`/api/posts/?${params}`);
-    console.log("posts", result.data);
+    
 
     return result.data;
   } catch {
@@ -193,7 +193,6 @@ export const addReplyToReply = async (repliedToComment, comment, parentComment) 
       parentComment
     });
   } catch (e) {
-    console.log("Error", e)
     setIsCommentReply(true);
   }
 };

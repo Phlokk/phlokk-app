@@ -41,7 +41,6 @@ export default function ProfileScreen({ route }) {
     if (!loggedInUser) {
       return;
     }
-  console.log('userProfile', userProfile);
 
     if (!userProfile) {
       setProfile(Array.isArray(loggedInUser)? loggedInUser[0]:loggedInUser);
@@ -167,7 +166,6 @@ export default function ProfileScreen({ route }) {
           userProfile={profile}
           isCurrentUser={!route?.params?.initialUser}
         />
-        {console.log("postsToDisplay", postsToDisplay.length)}
         <FlatList
           numColumns={3}
           showsVerticalScrollIndicator={false}

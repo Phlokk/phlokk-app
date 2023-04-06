@@ -52,9 +52,18 @@ const TabBar = ({ state, navigation }) => {
           }
           onPress={() => onPress(0)}
         />
-        <EvilIcons
-          name="search"
-          size={33}
+        <EvilIcons name="search" size={33}
+          color={theme == "light" ? colors.black : colors.secondary}
+          onPress={() => navigation.navigate("Discover")} />
+
+
+        <EvilIcons name="plus" size={40}
+          color={theme == "light" ? colors.black : colors.secondary}
+          onPress={() => navigation.navigate("Cam")} />
+       
+        <Feather
+          name="message-square"
+          size={25}
           color={
             state.index === 1
               ? colors.green
@@ -64,18 +73,8 @@ const TabBar = ({ state, navigation }) => {
           }
           onPress={() => onPress(1)}
         />
-        <EvilIcons name="plus" size={40}
-          color={theme == "light" ? colors.black : colors.secondary}
-          onPress={() => navigation.navigate("Cam")} />
-       
-        {/* <MaterialCommunityIcons
-          name="fingerprint"
-          size={40}
-          color={theme == "light" ? colors.black : colors.secondary}
-          onPress={() => navigation.navigate("Cam")}
-        /> */}
         <Feather
-          name="message-square"
+          name="user"
           size={25}
           color={
             state.index === 2
@@ -85,18 +84,6 @@ const TabBar = ({ state, navigation }) => {
               : colors.secondary
           }
           onPress={() => onPress(2)}
-        />
-        <Feather
-          name="user"
-          size={25}
-          color={
-            state.index === 3
-              ? colors.green
-              : theme == "light"
-              ? colors.black
-              : colors.secondary
-          }
-          onPress={() => onPress(3)}
         />
       </View>
     </View>
@@ -114,7 +101,6 @@ const UserTabs = () => {
       tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen name="feed" component={FeedNavigation} />
-      <Tab.Screen name="Discover" component={SearchNavigation} />
       <Tab.Screen name="Inbox" component={ActivityScreen} />
       <Tab.Screen
         name="profileOther"

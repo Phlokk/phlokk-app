@@ -163,8 +163,9 @@ const styles = StyleSheet.create({
     borderColor: colors.secondary,
     borderWidth: 0.3,
     flexDirection: "row",
-    width: "95%",
+    width: "90%",
     padding: 10,
+    marginHorizontal: 15,
     marginVertical: 10,
   },
   textInput_dark: {
@@ -172,13 +173,14 @@ const styles = StyleSheet.create({
     borderColor: colors.secondary,
     borderWidth: 0.3,
     flexDirection: "row",
-    width: "95%",
+    width: "90%",
     padding: 10,
+    marginHorizontal: 20,
     marginVertical: 10,
   },
   closeButton: {
     top: Platform.OS === "android" ? 33 : 28,
-    right: 20,
+    right: 45,
     position: "absolute",
   },
   loading: {

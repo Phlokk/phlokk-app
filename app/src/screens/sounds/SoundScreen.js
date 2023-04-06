@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, FlatList, View, Linking } from "react-native";
+import { StyleSheet, FlatList, View, Linking, Text } from "react-native";
 import RecordingNavBar from "../../components/general/navBar/RecordingNavBar";
 import colors from "../../../config/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,11 +17,12 @@ export default function SoundScreen({ placeholder }) {
   const [carouselList, setCarouselList] = useState([]);
   const [soundsList, setSoundsList] = useState([]);
   const [currentSound, setCurrentSound] = useState(null);
+  const [searchedAudios, setSearchedAudios] = useState([]);
 
   useEffect(() => {
     const soundBites = async () => {
       const soundsList = await getAllSounds();
-      setSoundsList(soundsList.sounds);
+      setSoundsList(soundsList);
     };
 
     if (isFocused) {
@@ -32,7 +33,7 @@ export default function SoundScreen({ placeholder }) {
   useEffect(() => {
     const carouselImages = async () => {
       const carouselList = await getAllCarouselImages();
-      setCarouselList(carouselList.carousel);
+      setCarouselList(carouselList);
     };
 
     if (isFocused) {
@@ -66,8 +67,14 @@ export default function SoundScreen({ placeholder }) {
   return (
     <SafeAreaView style={styles.container}>
       <RecordingNavBar title="Sound Bar" />
-      <SearchAudio placeholder={placeholder} />
-
+      <SearchAudio placeholder={placeholder} setSearchedAudios={setSearchedAudios} />
+      {(searchedAudios.length > 0)? (
+      <FlatList
+        renderItem={renderItem}
+        data={searchedAudios}
+        keyExtractor={(item) => item._id}
+      />
+      ):(
       <FlatList
         style={styles.paddingFlat}
         data={soundsList}
@@ -75,7 +82,8 @@ export default function SoundScreen({ placeholder }) {
         ListHeaderComponent={listHeader}
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
-      />
+      /> 
+      )}
     </SafeAreaView>
   );
 }

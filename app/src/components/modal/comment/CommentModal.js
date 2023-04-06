@@ -37,7 +37,6 @@ function CommentModal({
   setRefech,
 }) {
   const { theme } = useTheme();
-  // console.log(post, "post is here")
   const commentTextInputRef = useRef();
 
   const [comment, setComment] = useState("");

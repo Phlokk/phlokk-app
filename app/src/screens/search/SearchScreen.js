@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, {useState, useRef, useCallback} from "react";
 import {
   FlatList,
   View,
   StyleSheet,
   Text,
   TouchableOpacity,
+  Platform, Dimensions
 } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons'; 
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
@@ -16,6 +18,11 @@ import SearchInput from "../../components/search/SearchInput";
 import { useTheme } from "../../theme/context";
 import SearchUsers from "./SearchUsers";
 import SearchVideos from "./SearchVideos";
+import { atom, useAtom } from "jotai";
+import { userAtom } from "../../services/appStateAtoms";
+import VideoItem from "../../screens/videoFeed/VideoItem";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useEffect } from "react";
 
 const SearchScreen = () => {
   const { theme, setTheme } = useTheme();
@@ -24,6 +31,11 @@ const SearchScreen = () => {
   const [searchUsers, setSearchUsers] = useState([]);
   const [searchVideos, setSearchVideos] = useState([]);
   const [currentTab, setCurrentTab] = useState(0);
+  const [pageSize, setPageSize] = useState(0);
+  const [playVideo, setPlayVideo] = useState(null);
+  const flatListRef = useRef();
+  const [currentUser] = useAtom(userAtom);
+
 
   const image = require("../../../assets/pattern4.png");
 
@@ -73,6 +85,23 @@ const SearchScreen = () => {
     else if (currentTab === 3) return "Music";
   };
 
+  const renderItem = useCallback(
+    ({ item, index }) => {
+      return (
+        <VideoItem
+          item={item}
+          index={0}
+          currentVideoIndex={0}
+          currentUser={currentUser}
+          itemHeight={Dimensions.get('window').height}
+          areTabsShowing={false}
+          
+        />
+      );
+    },
+    [pageSize]
+  );
+
   const tabItems = [
     <Octicons
       name="globe"
@@ -108,14 +137,21 @@ const SearchScreen = () => {
     else return () => {};
   };
 
-  return (console.log("searchVideos", searchVideos?.data?.[0]?.user?.photo_thumb_url ),
-    <View style={theme == "light" ? styles.container_light : styles.container_dark}>
+  return (
+    <View style={theme == "light" ? styles.container_light : styles.container_dark} onLayout={(e) =>
+      setPageSize({
+        height: e.nativeEvent.layout.height,
+        width: e.nativeEvent.layout.width,
+      })
+    }>
       <View style={styles.searchBarView}>
+        <View style={styles.innerSearchView}>
         <SearchInput
           placeholder="Search"
           searchFor={getSearchFor()}
           setResult={getStateSetter()}
         />
+        </View>
       </View>
 
       <View style={styles.hashRow}>
@@ -126,7 +162,7 @@ const SearchScreen = () => {
         ))}
       </View>
       {currentTab === 1 && <SearchUsers result={searchUsers} />}
-      {currentTab === 2 && <SearchVideos result={searchVideos} />}
+      {currentTab === 2 && <SearchVideos result={searchVideos} setPlayVideo={setPlayVideo} />}
 
       {currentTab === 0 && (
         <View style={styles.risingStarView}>
@@ -149,6 +185,26 @@ const SearchScreen = () => {
           />
         </View>
       )}
+      {playVideo &&
+    <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 999999999}}>
+        <TouchableOpacity
+        style={styles.button}
+        onPress={() => setPlayVideo(null)}
+      >
+        <MaterialIcons name="keyboard-arrow-left" size={45} color="black" />
+      </TouchableOpacity>
+        <VideoItem
+          item={playVideo}
+          index={0}
+          currentVideoIndex={0}
+          currentUser={currentUser}
+          itemHeight={Dimensions.get('window').height}
+          areTabsShowing={false}
+          
+        />
+        
+    </View>
+      }
       </View>
   );
 };
@@ -246,10 +302,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "center",
   },
+  innerSearchView: {
+    top: -8,
+
+  },
   activeTab: {
     borderBottomColor: colors.green,
     borderBottomWidth: 1,
   },
+  button: {
+    position: 'absolute',
+    top: 44,
+    left: -5,
+    zIndex: 99999999999
+  }
 });
 
 export default SearchScreen;

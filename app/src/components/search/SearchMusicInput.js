@@ -13,6 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
 import { useTheme } from "../../theme/context";
+import axios from "../../redux/apis/axiosDeclaration";
 
 // import CustomActivityIndicator from '../common/ActivityIndicator';
 
@@ -40,7 +41,7 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-const SearchMusicInput = ({ placeholder, setSearchUsers }) => {
+const SearchMusicInput = ({ placeholder, setSearchedAudios }) => {
   const { theme } = useTheme();
   const [textInput, setTextInput] = useState("");
   const isFocused = useIsFocused();
@@ -61,25 +62,20 @@ const SearchMusicInput = ({ placeholder, setSearchUsers }) => {
   }, [isFocused]);
 
   // Effect for API call
-  useEffect(
-    () => {
-      if (debouncedSearchTerm) {
-        setIsSearching(true);
-        queryUsers(debouncedSearchTerm).then((resp) => {
-          setIsSearching(false);
-          const data = resp.data;
-          const filtered = data.filter(
-            (user) => user.name !== currentUser.name
-          );
-          setSearchUsers(filtered);
-        });
-      } else {
-        setSearchUsers([]);
-        setIsSearching(false);
-      }
-    },
-    [debouncedSearchTerm] // Only call effect if debounced search term changes
-  );
+  
+
+  const searchAudio = async(query) => {
+    try {
+      setTextInput(query);
+      setIsSearching(true);
+      const result = await axios.get(`/api/search/searchAudio?query=${query}`);
+      setIsSearching(false);
+      setSearchedAudios(result.data);
+      if(query.length === 0) setSearchedAudios([])
+    } catch (e) {
+      console.log(e, "error from search audio")
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -87,7 +83,7 @@ const SearchMusicInput = ({ placeholder, setSearchUsers }) => {
         autoCapitalize="none"
         value={textInput}
         autoCorrect={false}
-        onChangeText={(text) => setTextInput(text)}
+        onChangeText={(text) => searchAudio(text)}
         style={
           theme == "light" ? styles.textInput_light : styles.textInput_dark
         }
@@ -98,7 +94,10 @@ const SearchMusicInput = ({ placeholder, setSearchUsers }) => {
       {textInput !== "" ? (
         <TouchableOpacity
           style={styles.closeButton}
-          onPress={() => setTextInput("")}
+          onPress={() => {
+            setTextInput("")
+            setSearchedAudios([])
+          }}
         >
           <Feather name="x" size={22} color={colors.secondary} />
         </TouchableOpacity>

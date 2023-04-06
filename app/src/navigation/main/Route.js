@@ -76,6 +76,7 @@ import UpdateEmailScreen from "../../screens/manageAccount/UpdateEmailScreen";
 import EditPronounsFieldScreen from "../../screens/profile/EditPronounsFiledScreen";
 import SupportCenter from "../../screens/settings/support/SupportCenter";
 import Search from "../../screens/search/Search";
+import SearchNavigation from "../feed/SearchDiscover";
 
 
 
@@ -137,6 +138,11 @@ export default function Route() {
           <Stack.Screen
             name="Cam"
             component={CameraScreen}
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen
+            name="Discover"
+            component={SearchNavigation}
             options={{ headerShown: false }}
           />
           <Stack.Screen

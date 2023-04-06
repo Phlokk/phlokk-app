@@ -87,8 +87,8 @@ export default function CameraScreen({ route }) {
   useEffect(() => {
     (async () => {
       await set16_9Format()
-      const cameraStatus = await Camera.requestCameraPermission();
-      setHasCameraPermissions(cameraStatus == "authorized");
+      // const cameraStatus = await Camera.requestCameraPermission();
+      // setHasCameraPermissions(cameraStatus == "authorized");
       /*  */
       const audioStatus = await Audio.requestPermissionsAsync();
       setHasAudioPermissions(audioStatus.status == "granted");

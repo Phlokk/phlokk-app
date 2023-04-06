@@ -52,7 +52,6 @@ const CommentItem = ({
     const type = isLiked ? "unlike" : "like"; 
     try {
       if (!isReply) {
-        console.log("IDs", post._id, comment._id,)
         await likeComment(post._id, comment._id, type, user._id);
       } else {
         if(replyOfReply){
@@ -89,7 +88,6 @@ const CommentItem = ({
         }         
       }
     } catch (e) {
-      console.log("error", e);
       Alert.alert("Could not delete comment.");
     }
   

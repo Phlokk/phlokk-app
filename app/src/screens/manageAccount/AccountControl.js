@@ -6,7 +6,7 @@ import colors from "../../../config/colors";
 import AccountInformation from "./AccountInformation";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { useTheme } from "../../theme/context";
-// import routes from "../../navigation/routes";
+import routes from "../../navigation/routes";
 const AccountControl = () => {
   const { theme } = useTheme();
 
@@ -46,12 +46,12 @@ const AccountControl = () => {
 
         <TouchableOpacity
           style={styles.fieldItemContainer}
-          onPress={() => setDeleteAccount(true)}
-          // onPress={() =>
-          //   navigation.navigate(routes.DELETE_PROFILE, {
-          //     title: "Delete account",
-          //   })
-          // }
+          // onPress={() => setDeleteAccount(true)}
+          onPress={() =>
+            navigation.navigate(routes.DELETE_PROFILE, {
+              title: "Delete account",
+            })
+          }
         >
           <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
             Delete account

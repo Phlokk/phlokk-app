@@ -59,7 +59,6 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
       setIsLiked(!isLiked);
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
     } catch(e) {
-      console.log("Error", e)
       Alert.alert("There was an error with your request!");
     }
   };

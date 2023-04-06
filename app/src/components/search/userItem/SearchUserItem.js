@@ -14,9 +14,21 @@ export default function SearchUserItem({ item }) {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() =>
-        navigation.navigate("discoverFeedProfile", { initialUser: item })
-      }
+      onPress={() => {
+        navigation.navigate("feedProfile", { initialUser: {
+          disable_comments: item.disable_comments,
+          disable_downloads: item.disable_downloads,
+          disable_duos: item.disable_duos,
+          disable_ticker: item.disable_ticker,
+          id: item._id,
+          is_rising: item.is_rising,
+          is_special_need: item.is_special_need,
+          is_verified: item.is_verified,
+          link: item.link,
+          photo_thumb_url: item.photo_url,
+          username: item.username,
+        } })
+      }}
     >
       <View style={styles.verifiedRow}>
         {item.username ? (

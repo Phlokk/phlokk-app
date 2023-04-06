@@ -31,7 +31,6 @@ const FollowingListItem = ({ item, followersList, setLoggedInUserFollowingList }
   };
   const removeUserToFollowingList = async (userId) => {
     let newList = followersList.filter((e) => e !== userId);
-    console.log(newList.includes(userId))
     setLoggedInUserFollowingList(newList);
     setIsFollowing(false);
     await handlesSaveFollowingList(newList);
@@ -39,7 +38,6 @@ const FollowingListItem = ({ item, followersList, setLoggedInUserFollowingList }
   const followUser = async function ( userId = item.user._id ) {
   try{
     if (isFollowing) {
-      console.log("Unfollowing");
       await axios.delete(`/api/creators/unfollow/${currentUser._id}/${userId}`),
         {};
       await removeUserToFollowingList(userId);

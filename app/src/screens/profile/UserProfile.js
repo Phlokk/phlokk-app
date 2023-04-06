@@ -22,7 +22,7 @@ function UserProfile({ user, isCurrentUser }) {
   const [topFavFive, setTopFavFive] = useState(false);
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
 
-  return (console.log("user profile comp"),
+  return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => setIsBioModalScreenOpen(true)}

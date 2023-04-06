@@ -108,8 +108,6 @@ PODS:
   - ExpoModulesCore (0.6.5):
     - React-Core
     - ReactCommon/turbomodule/core
-  - EXScreenCapture (4.1.1):
-    - ExpoModulesCore
   - EXSecureStore (11.1.1):
     - ExpoModulesCore
   - EXSharing (10.1.1):
@@ -357,8 +355,8 @@ PODS:
     - React-Core
   - react-native-slider (4.1.12):
     - React-Core
-  - react-native-view-shot (3.6.0):
-    - React-Core
+  - react-native-view-shot (3.1.2):
+    - React
   - react-native-webview (11.15.0):
     - React-Core
   - React-perflogger (0.64.3)
@@ -513,7 +511,6 @@ DEPENDENCIES:
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
   - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
-  - EXScreenCapture (from `../node_modules/expo-screen-capture/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSharing (from `../node_modules/expo-sharing/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
@@ -629,8 +626,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-linear-gradient/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
-  EXScreenCapture:
-    :path: "../node_modules/expo-screen-capture/ios"
   EXSecureStore:
     :path: "../node_modules/expo-secure-store/ios"
   EXSharing:
@@ -766,7 +761,6 @@ SPEC CHECKSUMS:
   expo-dev-menu-interface: 395d046704878e5de471a89102ddf361cbb7e52f
   ExpoLinearGradient: fd591c223c81f6779036ed4cef4deb20ecb87c50
   ExpoModulesCore: 32c0ccb47f477d330ee93db72505380adf0de09a
-  EXScreenCapture: 9bfdadf17f0b1dd082edb704764f1724176b2f27
   EXSecureStore: b80c74c5ee29d0160c2aace3fd9a24a5edc20015
   EXSharing: 328228a9f14503cfdec68892796478a7a15b8d4d
   EXSplashScreen: 21669e598804ee810547dbb6692c8deb5dd8dbf3
@@ -797,7 +791,7 @@ SPEC CHECKSUMS:
   react-native-record-screen: b9f096219a9cfcce04958ff2773296c0c6ac59cd
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-slider: 6e9b86e76cce4b9e35b3403193a6432ed07e0c81
-  react-native-view-shot: 705f999ac2a24e4e6c909c0ca65c732ed33ca2ff
+  react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
   react-native-webview: e89bf2dba26a04cda967814df3ed1be99f291233
   React-perflogger: cc76a4254d19640f1d8ad1c66fdee800414b805c
   React-RCTActionSheet: 7448f049318d8d7e8a9a1ebb742ada721757eea8

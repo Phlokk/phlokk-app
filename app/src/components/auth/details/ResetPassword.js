@@ -32,7 +32,7 @@ export default function ResetPassword() {
 
   const handleReset = async () => {
     try {
-      const result = await axios.post(`/api/forgot`, {
+      const result = await axios.post(`/api/password/forgotPassword`, {
         email: email,
       });
       resetTextInput();

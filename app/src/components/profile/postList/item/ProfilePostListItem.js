@@ -40,7 +40,6 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
 
       setPosts((prev) => prev.filter((postItem) => postItem._id !== item._id));
     } catch (err) {
-      console.log("Error", err)
       alert(err?.message);
       setIsLoading(false);
     }

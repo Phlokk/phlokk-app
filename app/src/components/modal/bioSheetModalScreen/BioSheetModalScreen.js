@@ -60,7 +60,6 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
   };
   const followUser = async function (userId) {
     if (isFollowing) {
-      console.log("Unfollowing");
       await axios.delete(`/api/creators/unfollow/${currentUser._id}/${userId}`),
         {};
       await removeUserToFollowingList(userId);

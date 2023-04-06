@@ -24,7 +24,7 @@ import colors from "../../../config/colors";
 import { useDispatch } from "react-redux";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { useIsFocused } from "@react-navigation/native";
-// import { getAllNewsTickerData } from "../../services/newsTicker";
+import { getAllNewsTickerData } from "../../services/newsTicker";
 
 export const newFeedItemAtom = atom("");
 export const forceRefreshAtom = atom(false);
@@ -39,7 +39,7 @@ const VideoFeed = ({ navigation, route }) => {
   const [areTabsShowing, setAreTabsShowing] = useState();
 
   // New Ticker State
-  // const [tickerText, setTickerText] = useState("")
+  const [tickerText, setTickerText] = useState("")
   const [ckt, setCkt] = useState(false);
 
   const windowSize = useWindowDimensions();
@@ -48,28 +48,30 @@ const VideoFeed = ({ navigation, route }) => {
   const flatListRef = useRef();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const newsTickerFeed = async () => {
-  //     const ticker = await getAllNewsTickerData();
+  useEffect(() => {
+    const newsTickerFeed = async () => {
+      
+      const ticker = await getAllNewsTickerData();
+      console.log(ticker)
 
-  //     if (ticker.news_ticker.length === 0) {
-  //       setTickerText(null);
-  //             return;
-  //     }
-  //     let newTickerText = "Breaking news:  ";
-  //     ticker.news_ticker.forEach((item) => {
-  //       newTickerText += ` ${item.ticker_description} ${item.ticker_message} - `
+      if (ticker?.news_ticker?.length === 0) {
+        setTickerText(null);
+              return;
+      }
+      let newTickerText = "Breaking news:  ";
+      ticker?.news_ticker?.forEach((item) => {
+        newTickerText += ` ${item?.ticker_description} ${item?.ticker_message} - `
 
-  //     })
-  //     newTickerText = newTickerText.substring(0, newTickerText.length -3)
-  //     setTickerText(newTickerText)
-  //   };
+      })
+      newTickerText = newTickerText?.substring(0, newTickerText?.length -3)
+      setTickerText(newTickerText)
+    };
     
 
-  //   if (isFocused) {
-  //     newsTickerFeed();
-  //   }
-  // }, [isFocused]);
+    if (isFocused) {
+      newsTickerFeed();
+    }
+  }, [isFocused]);
 
 
   const user = creator || currentUser;
@@ -146,13 +148,13 @@ const VideoFeed = ({ navigation, route }) => {
     }
   }, [isFocused, forceRefresh]);
 
-  // const handleLikeCount = (likes) => {
-  //   if (typeof likes === "number") {
-  //     return likes;
-  //   } else {
-  //     return likes.length;
-  //   }
-  // };
+  const handleLikeCount = (likes) => {
+    if (typeof likes === "number") {
+      return likes;
+    } else {
+      return likes.length;
+    }
+  };
 
   
 
@@ -253,11 +255,11 @@ const VideoFeed = ({ navigation, route }) => {
           />
         )}
       </TouchableOpacity>
-      {/* {currentUser.disable_ticker === 0 && (
+      {currentUser.disable_ticker === 0 && (
       <TouchableOpacity
         style={{
           position: "absolute",
-          top: Platform.OS === "android" ? 28 : 52,
+          top: Platform.OS === "android" ? 32 : 56,
           right: 50,
         }}
       >
@@ -271,7 +273,7 @@ const VideoFeed = ({ navigation, route }) => {
           {tickerText}
         </TextTicker>
       </TouchableOpacity>
-      )} */}
+      )}
       
       
 
