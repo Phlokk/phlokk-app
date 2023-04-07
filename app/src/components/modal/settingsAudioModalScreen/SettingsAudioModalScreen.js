@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons'; 
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
@@ -24,6 +25,7 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isUseAudio, setUseAudio] = useState(false);
   const [shareAudio, setShareAudio] = useState(false);
+  const [trimAudio, setTrimAudio] = useState(false);
   const [isAudioModalScreenOpen, setIsAudioModalScreenOpen] =
     useState(false);
 
@@ -60,7 +62,7 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
             style={styles.fieldItemContainer}
             autoCapitalize="none"
             onPress={() => {
-              navigation.navigate(routes.TRIMMER, {item: item })
+              navigation.navigate(routes.CAMERA, {item: item })
             }}
           >
             <View style={styles.bubble}>
@@ -73,6 +75,23 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
             <Text style={styles.text}>Use</Text>
           </TouchableOpacity>
         </>
+        <TouchableOpacity
+            style={styles.fieldItemContainer}
+            autoCapitalize="none"
+            onPress={() => setTrimAudio(true)}
+            // onPress={() => {
+            //   navigation.navigate(routes.TRIMMER, {item: item })
+            // }}
+          >
+            <View style={styles.bubble}>
+              <Ionicons
+                name="md-cut-sharp"
+                size={26}
+                color={colors.green}
+              />
+            </View>
+            <Text style={styles.text}>Trim</Text>
+          </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.fieldItemContainer}
@@ -140,6 +159,18 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
         positiveBtn="Ok"
         modalVisible={isUseAudio}
         dismissAlert={setUseAudio}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <MaterialIcons name="info" size={24} color={colors.green} />
+          </Text>
+        }
+        customAlertMessage={<Text>Trim audio {"\n"}coming soon!</Text>}
+        positiveBtn="Ok"
+        modalVisible={trimAudio}
+        dismissAlert={setTrimAudio}
         animationType="fade"
       />
       <CustomAlert

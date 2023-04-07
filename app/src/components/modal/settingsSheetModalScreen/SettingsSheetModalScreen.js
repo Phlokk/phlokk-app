@@ -37,7 +37,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   const onShare = async () => {
     const shareOptions = {
       message: "Check out my latest video on Phlokk!",
-      url: post.media[0].original_url,
+      url: post.media[1].original_url,
       type: "video/mp4/mov/",
     };
     try {
@@ -55,7 +55,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   // Is it possible to add a progress circle that shows percentage of remaining download time?
 
   const downloadVideo = async () => {
-    const url = post.media[0].original_url;
+    const url = post.media[1].original_url;
     const outputDir = `${FileSystem.documentDirectory}${randStr}.mov`;
 
     const downloadResumable = FileSystem.createDownloadResumable(

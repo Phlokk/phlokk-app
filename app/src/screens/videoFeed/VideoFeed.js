@@ -52,14 +52,13 @@ const VideoFeed = ({ navigation, route }) => {
     const newsTickerFeed = async () => {
       
       const ticker = await getAllNewsTickerData();
-      console.log(ticker)
 
       if (ticker?.news_ticker?.length === 0) {
         setTickerText(null);
               return;
       }
       let newTickerText = "Breaking news:  ";
-      ticker?.news_ticker?.forEach((item) => {
+      ticker?.forEach((item) => {
         newTickerText += ` ${item?.ticker_description} ${item?.ticker_message} - `
 
       })

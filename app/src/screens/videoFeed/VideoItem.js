@@ -122,17 +122,6 @@ const VideoItem = ({
             style={styles.pauseIcon}
           />
         )}
-        {/* {!shouldPlay && (
-				<View style={styles.playView}>
-					<FontAwesome5
-						name="play"
-						size={14}
-						color={colors.white}
-						style={styles.playCountBtn}
-					/>
-					<Text style={styles.viewCount}>{item?.play_count ?? 0}</Text>
-				</View>
-				)} */}
       </Pressable>
 
       <View pointerEvents="none" style={styles.bottomGradientWrapper}>

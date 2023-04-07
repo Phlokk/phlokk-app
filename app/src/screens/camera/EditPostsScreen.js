@@ -4,15 +4,13 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Platform,
 } from "react-native";
 import { Video, Audio } from "expo-av";
 import { useIsFocused } from "@react-navigation/core";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import IconOverlay from "./IconOverlay";
-
 
 export default function EditPostsScreen({ route }) {
   const isFocused = useIsFocused();
@@ -23,54 +21,50 @@ export default function EditPostsScreen({ route }) {
   const [error, setError] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
 
-
   const [videoResizeMode, setVideoResizeMode] = useState(
     Video.RESIZE_MODE_COVER
   );
-  
 
   const videoThumb = route.params.sourceThumb;
 
   useEffect(() => {
-    
-    // const outputFilePath =  (Platform.OS === "android" ? route.params.outputFilePath : route.params.outputFilePath.replace('file:///', ''))
-    setVideoUrl(route.params.source );
+    setVideoUrl(route.params.source);
     const setupAudio = async () => {
       await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
     };
     setupAudio();
   }, []);
 
-
   return (
-    <View style={styles.container}>
-      <Video
-        isMuted={!isFocused}
-        resizeMode={videoResizeMode}
-        shouldPlay={true}
-        style={styles.videoPlayer}
-        source={{ uri: videoUrl }}
-        isLooping
-        onReadyForDisplay={(e) => {
-          const orientation = e.naturalSize.orientation;
-          if (orientation === "landscape") {
-            setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
-          } else {
-            setVideoResizeMode(Video.RESIZE_MODE_COVER);
-          }
-        }}
-      />
+    console.log("Video URl", videoUrl),
+    (
+      <View style={styles.container}>
+        <Video
+          isMuted={!isFocused}
+          resizeMode={videoResizeMode}
+          shouldPlay={true}
+          style={styles.videoPlayer}
+          source={{ uri: videoUrl }}
+          isLooping
+          onReadyForDisplay={(e) => {
+            const orientation = e.naturalSize.orientation;
+            if (orientation === "landscape") {
+              setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
+            } else {
+              setVideoResizeMode(Video.RESIZE_MODE_COVER);
+            }
+          }}
+        />
 
-      <View style={styles.sideBarContainer}>
-        <IconOverlay />
-      </View>
-      
-      <View style={styles.buttonsContainer}>
+        <View style={styles.sideBarContainer}>
+          <IconOverlay />
+        </View>
+
+        <View style={styles.buttonsContainer}>
           <TouchableOpacity
-            // onPress={() => navigation.navigate(routes.DRAFTS)}
             onPress={() => navigation.goBack()}
             style={styles.backButton}
-          > 
+          >
             <MaterialIcons name="arrow-left" size={24} color={colors.white} />
             <Text style={styles.backButtonText}>Back </Text>
           </TouchableOpacity>
@@ -84,9 +78,9 @@ export default function EditPostsScreen({ route }) {
             <Text style={styles.postButtonText}>Next </Text>
             <MaterialIcons name="arrow-right" size={24} color={colors.green} />
           </TouchableOpacity>
-          
         </View>
-    </View>
+      </View>
+    )
   );
 }
 
@@ -101,7 +95,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 350,
-    flex: 1, 
+    flex: 1,
   },
   iconText: {
     color: colors.white,
@@ -113,7 +107,7 @@ const styles = StyleSheet.create({
   },
   postButtonText: {
     color: colors.secondary,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 14,
   },
   videoPlayer: {
@@ -130,8 +124,8 @@ const styles = StyleSheet.create({
   backButton: {
     alignItems: "center",
     flex: 1,
-    backgroundColor: 'rgba(125, 125, 125, 0.1)',
-    borderRadius: 50, 
+    backgroundColor: "rgba(125, 125, 125, 0.1)",
+    borderRadius: 50,
     borderWidth: 0.5,
     borderColor: colors.secondary,
     flexDirection: "row",
@@ -142,8 +136,8 @@ const styles = StyleSheet.create({
   postButton: {
     alignItems: "center",
     flex: 1,
-    backgroundColor: 'rgba(125, 125, 125, 0.1)',
-    borderRadius: 50, 
+    backgroundColor: "rgba(125, 125, 125, 0.1)",
+    borderRadius: 50,
     borderWidth: 0.5,
     borderColor: colors.green,
     flexDirection: "row",
@@ -164,9 +158,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  // Trimmer 
+  // Trimmer
   videoTrimmer: {
-    height: 20, 
+    height: 20,
   },
- 
 });

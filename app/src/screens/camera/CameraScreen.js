@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import {
   View,
@@ -17,7 +18,8 @@ import {
   FFprobeKit,
   FFmpegKitConfig,
 } from "ffmpeg-kit-react-native";
-import * as ImagePicker from "expo-image-picker";
+
+import * as ImagePicker from "expo-image-picker";   
 import * as MediaLibrary from "expo-media-library";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import * as FileSystem from "expo-file-system";
@@ -34,7 +36,9 @@ import CustomAlert from "../../components/Alerts/CustomAlert";
 import { Audio, Video } from "expo-av";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
 import RecordScreen, { RecordingStartResponse } from 'react-native-record-screen';
-
+import * as SecureStore from "expo-secure-store"; 
+import FormData from "form-data";
+import {apiUrlsNode} from "../../globals"; 
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 120;
@@ -57,6 +61,7 @@ export default function CameraScreen({ route }) {
   const [hasCameraPermissions, setHasCameraPermissions] = useState();
   const [hasAudioPermissions, setHasAudioPermissions] = useState();
   const [hasGalleryPermissions, setHasGalleryPermissions] = useState();
+  const [hasMicrophonePermission, setHasMicrophonePermission] = useState(false)
   const [isRecording, setIsRecording] = useState(false);
   const [galleryItems, setGalleryItems] = useState([]);
   // const [cameraRef, setCameraRef] = useState(null);
@@ -82,13 +87,13 @@ export default function CameraScreen({ route }) {
   const navigation = useNavigation();
   const [duration, setDuration] = useState(null);
   const [isVideoEnded, setIsVideoEnded] = useState(false);
-  const [duetVideoUrl, setDuetVideoUrl] = useState(null)
-
+  const [duetVideoUrl, setDuetVideoUrl] = useState(null);
   useEffect(() => {
     (async () => {
-      await set16_9Format()
-      // const cameraStatus = await Camera.requestCameraPermission();
-      // setHasCameraPermissions(cameraStatus == "authorized");
+      const cameraStatus = await Camera.requestCameraPermission();
+      const microphonePermission = await Camera.getMicrophonePermissionStatus();
+      setHasMicrophonePermission(microphonePermission  == "authorized")
+      setHasCameraPermissions(cameraStatus == "authorized");
       /*  */
       const audioStatus = await Audio.requestPermissionsAsync();
       setHasAudioPermissions(audioStatus.status == "granted");
@@ -104,7 +109,9 @@ export default function CameraScreen({ route }) {
         });
         setGalleryItems(userGalleryMedia.assets);
       }
+     
     })();
+   
     setStartRecordingCountdown(3);
   }, []);
   
@@ -120,26 +127,28 @@ export default function CameraScreen({ route }) {
 
   const recordVideo = async () => { 
     setIsRecording(true); 
-    if (duo) {
-      await startScreenRecording()
+   
+    if (route.params !== undefined) {
+      PlayAudio();
     }
     recordingTimerRef.current = setInterval(() => {
       setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
     }, RECORDING_TIME_TICK);
     cameraRef.current.startRecording({
-      onRecordingFinished: async (video) => {
-        console.log("video?.path", video?.path)
+      onRecordingFinished: async (video) => { 
         setIsRecording(false);
         clearInterval(recordingTimerRef.current);
         setRecordingTime(0);
         stopVideo();
         pauseAudio();
-       
+       console.log(" video.path",  video.path, route.params?.item?.sound_url)
         const sourceThumb = await generateThumbnail(video?.path);
-        if (route.params === undefined) {
+       return await generateDuoUrl(video?.path) 
+        if ( !route.params?.item?.sound_url ) {
           navigation.navigate("editPosts", { source: video.path, sourceThumb });
         } else {
           await generateVideo(video?.path).then(async (outputFilePath) => { 
+            console.log("Output", outputFilePath )
             navigation.navigate("editPosts", {
               source: outputFilePath,
               sourceThumb,
@@ -214,15 +223,47 @@ export default function CameraScreen({ route }) {
       }
     }
     setIsRecording(false);
-  };
+  }; 
+  const generateDuoUrl = async(videoPath)=> {
+    let formData = new FormData();
+    const user = await SecureStore.getItemAsync("user");
+    const parsedUser = JSON.parse(user);  
+
+    let url =  apiUrlsNode.BASE_URL2 +  `/api/posts/get-duo-url/${post._id}`;
+    const config = { 
+      "content-type": "multipart/form-data",
+      "auth-token": `${parsedUser.token}`,
+    };
+    let split = videoPath.split("/");
+    let fileName = split[split.length - 1];
+    formData.append(
+      "recorded_video_url",
+      {
+        name: fileName,
+        type: "video/mp4",
+        uri: videoPath,
+      },
+      fileName
+    ); 
+    fetch(url, {
+      method: 'POST',
+      headers: config,
+      body:  formData 
+    }).then((e)=>{
+      
+      console.log("response",e );
+    }).catch((ex)=>{
+      console.log("Error", ex)
+    }) 
+
+  }
   const startScreenRecording = async () => {
     try {
       await RecordScreen.startRecording()
     } catch (error) {
       console.log(error);
     }
-  };
-  
+  }; 
   const stopScreenRecording = async () => {
     try {
       const res = await RecordScreen.stopRecording(); 
@@ -307,7 +348,7 @@ export default function CameraScreen({ route }) {
     const outputFilePath =
       FileSystem.cacheDirectory + "Camera/" + uuid() + "." + ext;
 
-    if (!duo) {
+    // if (!duo) {
       const ffprobeCommand =
         "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " +
         source;
@@ -352,8 +393,8 @@ export default function CameraScreen({ route }) {
           }
         }
       });
-      await FFmpegKit.execute(ffmpegCommand);
-    }
+   const response = await FFmpegKit.execute(ffmpegCommand);
+    // }
     return outputFilePath;
   };
 
@@ -373,11 +414,6 @@ export default function CameraScreen({ route }) {
       const result = await sound.current.getStatusAsync();
       if (result.isLoaded) {
         if (result.isPlaying === false) {
-          if (!showCountdown) {
-            await delay(450);
-          } else if (showCountdown) {
-            await delay(450);
-          }
           const playbackStatus = await sound.current.replayAsync();
           isLooping(true);
         }
@@ -480,25 +516,11 @@ export default function CameraScreen({ route }) {
     if (status.didJustFinish) {
       setIsVideoEnded(true);
     }
-  };
-
-  const set16_9Format = async () => {
-    try {
-      // const codecs = await cameraRef.current.getAvailableVideoCodecs("mov")
-
-      // console.log("codecs", codecs);
-      // const formats = await cameraRef?.current?.getAvailableFormats();
-      // console.log("formats", formats)
-      // const format16_9 = formats.find(f => f?.aspectRatio === '16:9');
-      // await cameraRef.current.setActiveFormat(format16_9);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  }; 
   if (
     hasCameraPermissions === false ||
     hasAudioPermissions === false ||
-    hasGalleryPermissions === false
+    hasGalleryPermissions === false || !hasMicrophonePermission
   ) {
     return (
       <SafeAreaView style={styles.errorView}>
@@ -520,6 +542,7 @@ export default function CameraScreen({ route }) {
             ref={cameraRef}
             style={duo ? styles.duoCamera : styles.camera}
             video={true}
+            audio={true}
             device={cameraType === "front" ? devices.front : devices.back}
             isActive={true}
             // ratio={"16:9"}
@@ -549,7 +572,7 @@ export default function CameraScreen({ route }) {
             }}
           />
         )}
-        {duetVideoUrl && 
+        {/* {duetVideoUrl && 
          <Video
          source={{
            uri:duetVideoUrl,
@@ -558,7 +581,7 @@ export default function CameraScreen({ route }) {
          style={styles.duoVideoRenderer}
          shouldPlay={true} 
        />
-        }
+        } */}
         {!isRecording && (
           <View style={styles.sideBarContainer}>
             <TouchableOpacity
@@ -627,7 +650,7 @@ export default function CameraScreen({ route }) {
             )}
           </View>
         )} 
-        {duo && isRecording  ? null : 
+        {/* {duo && isRecording  ? null :  */}
         <View style={[styles.bottomBarContainer]}>
           <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -711,7 +734,7 @@ export default function CameraScreen({ route }) {
             )}
           </View>
         </View>
-}
+{/* }÷ */}
         {showCountdown && (
           <Animated.View
             style={[
