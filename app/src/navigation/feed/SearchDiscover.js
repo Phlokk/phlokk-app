@@ -21,6 +21,7 @@ const SearchNavigation = () => {
     headerBackTitleVisible: false,
     headerTintColor: colors.secondary,
     headerTitle: () => undefined,
+    headerLeft: ()=> null,
   };
 
   return (
@@ -43,5 +44,5 @@ const SearchNavigation = () => {
     </CurrentUserProfileItemInViewContext.Provider>
   );
 };
-
+// headerLeft: ()=> null,
 export default SearchNavigation;

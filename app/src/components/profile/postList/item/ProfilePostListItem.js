@@ -8,14 +8,15 @@ import {
   View,
   Text,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Foundation } from "@expo/vector-icons";
 import routes from "../../../../navigation/routes";
 import colors from "../../../../../config/colors";
 import { deletePostById } from "../../../../services/posts";
 import { useQueryClient } from "react-query";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../../services/appStateAtoms";
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../../components/Alerts/CustomAlert";
 import CustomActivityIndicator from "../../../common/ActivityIndicator";
 import { likeCountFormatter } from "../../../common/NumberFormatter";
@@ -36,7 +37,6 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
 
       setIsVideoDeleted(true);
       setIsLoading(false);
-      
 
       setPosts((prev) => prev.filter((postItem) => postItem._id !== item._id));
     } catch (err) {
@@ -47,7 +47,7 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
 
   const deletePost = () => {
     const uid = currentUser._id;
-    if ((item.user._id || item.user.id)=== uid) {
+    if ((item.user._id || item.user.id) === uid) {
       Alert.alert(
         "Delete Video",
         "Are you sure you want to delete this video?",
@@ -62,64 +62,82 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
     }
   };
 
-
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onLongPress={deletePost}
-      onPress={() => {
-        navigation.navigate(routes.USER_POSTS, {
-          creator: item.user,
-          profile: true,
-          selectedVideo: item.media[0].original_url,
-          selectedIndex: index,
-          preloadedPosts: posts,
-        });
-      }}
-    >
-      <Image
-        style={styles.image}
-        source={{ uri:  item?.thumbnailUrl}}
-        onLoadStart={() => {
-          setIsLoading(true);
+    <>
+      <TouchableOpacity
+        style={styles.container}
+        onLongPress={deletePost}
+        onPress={() => {
+          navigation.navigate(routes.USER_POSTS, {
+            creator: item.user,
+            profile: true,
+            selectedVideo: item.media[0].original_url,
+            selectedIndex: index,
+            preloadedPosts: posts,
+          });
         }}
-        onLoadEnd={() => setIsLoading(false)}
-      />
-      {isLoading && (
-        <View
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            justifyContent: "center",
+      >
+        <Image
+          style={styles.image}
+          source={{ uri: item?.thumbnailUrl }}
+          onLoadStart={() => {
+            setIsLoading(true);
           }}
-        >
-          <CustomActivityIndicator />
-        </View>
-      )}
+          onLoadEnd={() => setIsLoading(false)}
+        />
+        {isLoading && (
+          <View
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+            }}
+          >
+            <CustomActivityIndicator />
+          </View>
+        )}
 
-      <Text style={styles.playCountText}>
-        <Ionicons
-          style={styles.playCountText}
-          name="ios-play-outline"
-          size={14}
-          color={colors.white}
-        />{" "}
-        {likeCountFormatter(item?.play_count) ?? 0}
-      </Text>
-      <CustomAlert
-        alertTitle={
-          <Text>
-            <FontAwesome5 name="user-astronaut" size={24} color={colors.green} />
-          </Text>
-        }
-        customAlertMessage={<Text>Video Deleted Successfully!</Text>}
-        positiveBtn="Ok"
-        modalVisible={isVideoDeleted}
-        dismissAlert={setIsVideoDeleted}
-        animationType="fade"
-      />
-    </TouchableOpacity>
+        <Text style={styles.playCountText}>
+          <Foundation
+            style={styles.graphIcon}
+            name="graph-bar"
+            size={14}
+            color={colors.secondary}
+          />{" "}
+          {likeCountFormatter(item?.play_count) ?? 0}
+        </Text>
+
+        <CustomAlert
+          alertTitle={
+            <Text>
+              <FontAwesome5
+                name="user-astronaut"
+                size={24}
+                color={colors.green}
+              />
+            </Text>
+          }
+          customAlertMessage={<Text>Video Deleted Successfully!</Text>}
+          positiveBtn="Ok"
+          modalVisible={isVideoDeleted}
+          dismissAlert={setIsVideoDeleted}
+          animationType="fade"
+        />
+
+        {item?.popular_posts === 1 && (
+          <View style={styles.fireView}>
+            <Text style={styles.redBox}>
+              <MaterialCommunityIcons
+                name="fire"
+                size={15}
+                color={colors.white}
+              />
+            </Text>
+          </View>
+        )}
+      </TouchableOpacity>
+    </>
   );
 }
 
@@ -134,7 +152,6 @@ const styles = StyleSheet.create({
   },
   text: {
     alignItems: "center",
-
     color: colors.white,
     zIndex: -5,
   },
@@ -144,10 +161,27 @@ const styles = StyleSheet.create({
   playCountText: {
     color: colors.white,
     fontWeight: "600",
-    marginLeft: 5,
+    marginLeft: 7,
     fontSize: 11,
     position: "absolute",
     bottom: 3,
     left: 0,
+  },
+  graphIcon: {
+    fontSize: 11,
+  },
+  fireView: {
+    justifyContent: "flex-end",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 115,
+    right: 0,
+    zIndex: 99999999,
+  },
+  redBox: {
+    backgroundColor: colors.red,
+    borderRadius: 20,
   },
 });

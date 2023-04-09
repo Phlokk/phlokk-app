@@ -3,12 +3,11 @@ import React from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import colors from "../../../../config/colors";
 import VerifiedIcon from "../../common/VerifiedIcon";
-import { useTheme } from "../../../theme/context";
+import RisingStar from "../../common/RisingStar";
 
 
 
 export default function SearchUserItem({ item }) {
-  const { theme } = useTheme();
   const navigation = useNavigation();
 
   return (
@@ -34,26 +33,23 @@ export default function SearchUserItem({ item }) {
         {item.username ? (
           <Text>
             <Text
-              style={theme == "light" ? styles.text_light : styles.text_dark}
+              style={styles.text_dark}
             >
-              @{item.username}
+              {item.username}
             </Text>
-            <View style={styles.check}>{item && item.is_verified === 1 && <VerifiedIcon />}
-            </View>
+            <View>{item && item.is_verified === 1 && <VerifiedIcon />}</View>
+            {item && item.is_rising === 1 && <RisingStar />}
+            
           </Text>
         ) : (
-          <Text style={styles.username}>@user</Text>
+          <Text style={styles.username}>user</Text>
         )}
-        <Text
-          style={
-            theme == "light"
-              ? styles.creatorText_light
-              : styles.creatorText_dark
-          }
-        >
-          {item.creator_type}
-        </Text>
+        <View>
+          <Text style={styles.creatorText_dark}>{item.creator_type}</Text>
+        </View>
       </View>
+      
+      
 
       <View>
         <Image
@@ -64,6 +60,7 @@ export default function SearchUserItem({ item }) {
               : require("../../../../assets/userImage.png")
           }
         />
+
       </View>
     </TouchableOpacity>
   );
@@ -87,10 +84,6 @@ const styles = StyleSheet.create({
     top: 1,
     marginHorizontal: 3,
   },
-  text_light: {
-    fontSize: 12,
-    color: colors.secondary,
-  },
   text_dark: {
     fontSize: 12,
     color: colors.secondary,
@@ -106,14 +99,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
-  creatorText_light: {
-    color: colors.secondary,
-    opacity: 0.7,
-    fontSize: 10,
-  },
   creatorText_dark: {
     color: colors.secondary,
     opacity: 0.7,
     fontSize: 10,
   },
+ 
 });

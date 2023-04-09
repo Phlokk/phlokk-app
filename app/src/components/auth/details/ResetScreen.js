@@ -33,6 +33,7 @@ export default function ResetScreen() {
     setPassword("");
   }
 
+  // OLD API CALL 
   const handleReset = async () => {
     try {
       const result = await axios.post(`/api/reset`, {

@@ -5,12 +5,11 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Platform, Dimensions
+  Dimensions
 } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { AntDesign } from '@expo/vector-icons'; 
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
@@ -54,13 +53,13 @@ const SearchScreen = () => {
 
   const ItemRender = ({ name, navigateTo }) => (
     <TouchableOpacity
-      style={theme == "light" ? styles.item_light : styles.item_dark}
+      style={styles.item_dark}
       onPress={() => {
         navigation.navigate(navigateTo);
       }}
     >
       <Text
-        style={theme == "light" ? styles.itemText_light : styles.itemText_dark}
+        style={styles.itemText_dark}
       >
         {name}
       </Text>
@@ -138,13 +137,20 @@ const SearchScreen = () => {
   };
 
   return (
-    <View style={theme == "light" ? styles.container_light : styles.container_dark} onLayout={(e) =>
+    <View style={styles.container} onLayout={(e) =>
       setPageSize({
         height: e.nativeEvent.layout.height,
         width: e.nativeEvent.layout.width,
       })
     }>
+      
       <View style={styles.searchBarView}>
+      <TouchableOpacity
+        style={styles.goBackBtn}
+        onPress={() => navigation.goBack()}
+      >
+        <MaterialIcons name="keyboard-arrow-left" size={45} color="white" />
+      </TouchableOpacity>
         <View style={styles.innerSearchView}>
         <SearchInput
           placeholder="Search"
@@ -166,7 +172,7 @@ const SearchScreen = () => {
 
       {currentTab === 0 && (
         <View style={styles.risingStarView}>
-          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>
+          <Text style={styles.text}>
             <Entypo name="star" size={12} color={colors.secondary} />
             Rising stars
           </Text>
@@ -191,7 +197,7 @@ const SearchScreen = () => {
         style={styles.button}
         onPress={() => setPlayVideo(null)}
       >
-        <MaterialIcons name="keyboard-arrow-left" size={45} color="black" />
+        <MaterialIcons name="keyboard-arrow-left" size={45} color={colors.white} />
       </TouchableOpacity>
         <VideoItem
           item={playVideo}
@@ -210,13 +216,8 @@ const SearchScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container_light: {
-    flex: 1,
-    paddingTop: 25,
-    backgroundColor: colors.white,
-    padding: 5,
-  },
-  container_dark: {
+ 
+  container: {
     flex: 1,
     paddingTop: 25,
     backgroundColor: colors.black,
@@ -230,13 +231,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
   },
-  text_light: {
-    color: colors.gray,
-    fontSize: 12,
-    marginBottom: 10,
-    marginHorizontal: 3,
-  },
-  text_dark: {
+  text: {
     color: colors.gray,
     fontSize: 12,
     marginBottom: 10,
@@ -253,16 +248,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingBottom: 3,
   },
-  item_light: {
-    padding: 3,
-    backgroundColor: "rgba(125, 125, 125, 0.2)",
-    width: 65,
-    height: 30,
-    borderRadius: 7,
-    borderWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   item_dark: {
     padding: 3,
     backgroundColor: "rgba(125, 125, 125, 0.2)",
@@ -272,12 +257,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  itemText_light: {
-    fontSize: 9,
-    color: colors.secondary,
-    textAlign: "center",
-    fontWeight: "bold",
   },
   itemText_dark: {
     fontSize: 9,
@@ -314,8 +293,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 44,
     left: -5,
-    zIndex: 99999999999
-  }
+    zIndex: 99999999999,
+  },
+  goBackBtn: {
+    position: 'absolute',
+    top: 9,
+    left: -14,
+    zIndex: 99999999999,
+  },
 });
 
 export default SearchScreen;

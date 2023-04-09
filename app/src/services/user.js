@@ -22,7 +22,8 @@ export const blockedListListener = async () => {
 };
 
 // working
-export const updateCreator = async (user, data) => {
+export const updateCreator = async (data) => {
+  let user = JSON.parse(await SecureStore.getItemAsync("user"));
   await axios.patch(`/api/users/update/${user._id}`, data);
 };
 

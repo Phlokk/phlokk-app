@@ -7,7 +7,6 @@ import axios from "../../redux/apis/axiosDeclaration";
 import RisingStar from "../../components/common/RisingStar";
 
 const FriendListItem = ({ item }) => {
-
   const navigation = useNavigation();
   const [isFriends, setIsFriends] = useState(item.is_friend);
   const toggleIsFriend = async function () {
@@ -15,7 +14,7 @@ const FriendListItem = ({ item }) => {
       "/api/creator/" + item._id + "/" + (!isFriends ? "unfriend" : "friend")
     ),
       {};
-      setIsFriends(!isFriends);
+    setIsFriends(!isFriends);
   };
 
   return (
@@ -35,7 +34,7 @@ const FriendListItem = ({ item }) => {
       <View style={styles.friendInfoRow}>
         <TouchableOpacity>
           <Text
-          // TODO:Needs to navigate to the correct user account
+            // TODO:Needs to navigate to the correct user account
             // onPress={() => {
             //   navigation.navigate("feedProfile", {
             //     initialUser: item.user,
@@ -45,26 +44,23 @@ const FriendListItem = ({ item }) => {
           >
             {item.user.username}
             {item.user.is_verified && (
+        
               <View style={styles.logoRow}>
                 <VerifiedIcon />
-                {/* <RisingStar /> */}
               </View>
-            )}
+              )}
+              {item.user.is_rising === 1 && <RisingStar />}
+            
+            
           </Text>
           <Text style={styles.creatorTypeText}> {item.user.creator_type}</Text>
         </TouchableOpacity>
         {isFriends ? (
-          <TouchableOpacity
-            onPress={toggleIsFriend}
-            style={styles.friendView}
-          >
+          <TouchableOpacity onPress={toggleIsFriend} style={styles.friendView}>
             <Text style={styles.friendBtn}>Friend</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity
-            onPress={toggleIsFriend}
-            style={styles.friendView}
-          >
+          <TouchableOpacity onPress={toggleIsFriend} style={styles.friendView}>
             <Text style={styles.friendBtn}>friend</Text>
           </TouchableOpacity>
         )}
@@ -111,7 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     top: 5,
     fontSize: 11,
-    paddingLeft: 5,
+    paddingLeft: 7,
   },
   itemCreator: {
     color: colors.green,
@@ -124,11 +120,11 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     top: 7,
     fontSize: 8,
-    paddingLeft: 3,
+    paddingLeft: 5,
   },
   logoRow: {
     bottom: 12,
-    paddingLeft: 5,
+    paddingLeft: 8,
   },
   unfriendBtn: {
     fontSize: 10,
@@ -149,6 +145,12 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: colors.green,
     backgroundColor: colors.grey,
+  },
+  risingStarRow: {
+
+    bottom: -12,
+    paddingLeft: 5,
+
   },
 });
 

@@ -43,6 +43,8 @@ export default function ResetPassword() {
     }
   };
 
+ 
+
   return (
     <ScrollView style={styles.container}>
       <View>

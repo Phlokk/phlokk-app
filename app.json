@@ -18,12 +18,12 @@
     ],
     "ios": {
       "bundleIdentifier": "com.phlokk.phlokkapp",
-      "buildNumber": "23040503",
-      "supportsTablet": true,
+      "buildNumber": "23040800",
+      "supportsTablet": true
       
     },
     "android": {
-      "versionCode": 23040503,
+      "versionCode": 23040800,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/launcher/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
         "backgroundColor": "#04cccc"
@@ -31,7 +31,7 @@
       "package": "com.phlokk.phlokkapp",
       "googleServicesFile": "./google-services-android.json",
       "useNextNotificationsApi": true,
-      "softwareKeyboardLayoutMode": "pan",
+      "softwareKeyboardLayoutMode": "pan"
       
     },
     "web": {

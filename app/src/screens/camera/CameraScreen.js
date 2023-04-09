@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -18,6 +18,11 @@ import {
   FFprobeKit,
   FFmpegKitConfig,
 } from "ffmpeg-kit-react-native";
+import Reanimated, {
+  useAnimatedProps,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated"
 
 import * as ImagePicker from "expo-image-picker";   
 import * as MediaLibrary from "expo-media-library";
@@ -35,7 +40,6 @@ import SideIconOverlay from "./SideIconOverlay";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { Audio, Video } from "expo-av";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
-import RecordScreen, { RecordingStartResponse } from 'react-native-record-screen';
 import * as SecureStore from "expo-secure-store"; 
 import FormData from "form-data";
 import {apiUrlsNode} from "../../globals"; 
@@ -48,12 +52,32 @@ const convertMillisToPercentage = (ms) => ms / 1000 / 120;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
+// TODO: needs to be finished, is half way set up for zoom with animation 
+const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera)
+Reanimated.addWhitelistedNativeProps({
+  zoom: true,
+})
+
 export default function CameraScreen({ route }) {
   const duo = route?.params?.duo;
   const post = route?.params?.post;
   const devices = useCameraDevices();
   const cameraRef = useRef();
   const viewRef = useRef(null);
+
+
+  const zoom = useSharedValue(0)
+//TODO:
+  // zoom with animation still needs to be set up
+
+  // const onRandomZoomPress = useCallback(() => {
+  //   zoom.value = withSpring(Math.random())
+  // }, [])
+
+  // const animatedProps = useAnimatedProps<Partial<CameraProps>>(
+  //   () => ({ zoom: zoom.value }),
+  //   [zoom]
+  // )
 
   const [isUploaded, setIsUploaded] = useState(false);
   const [isGeneratedThumb, setIsGeneratedThumb] = useState(false);
@@ -64,11 +88,10 @@ export default function CameraScreen({ route }) {
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState(false)
   const [isRecording, setIsRecording] = useState(false);
   const [galleryItems, setGalleryItems] = useState([]);
-  // const [cameraRef, setCameraRef] = useState(null);
   const [cameraType, setCameraType] = useState("front");
   const [cameraFlash, setCameraFlash] =
     useState();
-    // Camera.FlashMode.off
+
   const [startRecordingCountdown, setStartRecordingCountdown] = useState(
     START_RECORDING_DELAY / 1000
   );
@@ -88,6 +111,7 @@ export default function CameraScreen({ route }) {
   const [duration, setDuration] = useState(null);
   const [isVideoEnded, setIsVideoEnded] = useState(false);
   const [duetVideoUrl, setDuetVideoUrl] = useState(null);
+
   useEffect(() => {
     (async () => {
       const cameraStatus = await Camera.requestCameraPermission();
@@ -143,7 +167,7 @@ export default function CameraScreen({ route }) {
         pauseAudio();
        console.log(" video.path",  video.path, route.params?.item?.sound_url)
         const sourceThumb = await generateThumbnail(video?.path);
-       return await generateDuoUrl(video?.path) 
+      //  return await generateDuoUrl(video?.path) 
         if ( !route.params?.item?.sound_url ) {
           navigation.navigate("editPosts", { source: video.path, sourceThumb });
         } else {
@@ -224,6 +248,8 @@ export default function CameraScreen({ route }) {
     }
     setIsRecording(false);
   }; 
+
+  //TODO: do we need this component anymore? 
   const generateDuoUrl = async(videoPath)=> {
     let formData = new FormData();
     const user = await SecureStore.getItemAsync("user");
@@ -257,26 +283,8 @@ export default function CameraScreen({ route }) {
     }) 
 
   }
-  const startScreenRecording = async () => {
-    try {
-      await RecordScreen.startRecording()
-    } catch (error) {
-      console.log(error);
-    }
-  }; 
-  const stopScreenRecording = async () => {
-    try {
-      const res = await RecordScreen.stopRecording(); 
-    if (res) {
-      const url = res.result.outputURL;
-      setDuetVideoUrl(url)
-    }
-    return res
-    } catch (error) {
-      console.log(error);
-    }
-    
-  };
+
+
   useEffect(async () => {
     if (isVideoEnded) {
       await stopVideo();
@@ -524,7 +532,7 @@ export default function CameraScreen({ route }) {
   ) {
     return (
       <SafeAreaView style={styles.errorView}>
-        <MaterialIcons name="error-outline" size={40} color={colors.yellow} />
+        <MaterialIcons name="error-outline" size={40} color={colors.red} />
         <Text style={styles.cameraErrorText}>
           PERMISSIONS ERROR {"\n"}
           You did not give permissions.
@@ -538,18 +546,17 @@ export default function CameraScreen({ route }) {
     (
       <View style={duo ? styles.duoContainer : styles.container}>
         {hasCameraPermissions && isFocused ? (
-          <Camera
+          <ReanimatedCamera
             ref={cameraRef}
             style={duo ? styles.duoCamera : styles.camera}
             video={true}
             audio={true}
+            zoom={0}
             device={cameraType === "front" ? devices.front : devices.back}
             isActive={true}
-            // ratio={"16:9"}
-            // type={cameraType}
-            // flashMode={cameraFlash}
-            // onCameraReady={() => setIsCameraReady(true)}
-            // zoom={0.02}
+            enableZoomGesture={true}
+ 
+            // animatedProps={animatedProps}
           />
         ) : null}
         {duo && (
@@ -669,7 +676,6 @@ export default function CameraScreen({ route }) {
             </Text>
             <View style={{ flex: 1 }}>
               <Pressable
-                // disabled={!isCameraReady}
                 onPress={onPressRecord}
                 onLongPress={onLongPress}
                 onPressOut={onPressOut}
@@ -734,7 +740,7 @@ export default function CameraScreen({ route }) {
             )}
           </View>
         </View>
-{/* }÷ */}
+
         {showCountdown && (
           <Animated.View
             style={[
@@ -887,7 +893,7 @@ const styles = StyleSheet.create({
   cameraErrorText: {
     margin: 20,
     textAlign: "center",
-    color: colors.green,
+    color: colors.white,
   },
   cameraExtraBtn: {
     color: colors.white,

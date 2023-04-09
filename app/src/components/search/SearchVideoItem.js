@@ -1,47 +1,38 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect } from "react";
+import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Foundation } from "@expo/vector-icons";
 import FastImage from "react-native-fast-image";
 import colors from "../../../config/colors";
 import VerifiedIcon from "../common/VerifiedIcon";
-
-
+import RisingStar from "../common/RisingStar";
 
 export default function SearchVideoItem({ item, setPlayVideo }) {
   const navigation = useNavigation();
-  
 
   const getDate = () => {
     const date = new Date(item.created_at);
     return `${date.getDay()}/${date.getMonth()}`;
   };
 
-  
-
-  
   return (
     <>
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => {
-        setPlayVideo(item);
-      }}
-    >
-      <View>
-        <FastImage
-          style={styles.thumbnail}
-          source={{
-            uri: item?.media[0]?.original_url,
-            priority: FastImage.priority.low,
-          }}
-          cache={FastImage.cacheControl.web}
-        />
-        <Text style={styles.description} numberOfLines={2}>
-          {item.description}
-        </Text>
-        <Text style={styles.date}>{getDate()}</Text>
-        <View style={styles.userDetailsContainer}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => {
+          setPlayVideo(item);
+        }}
+      >
+        <View>
+          <FastImage
+            style={styles.thumbnail}
+            source={{
+              uri: item?.media[0]?.original_url,
+              priority: FastImage.priority.low,
+            }}
+            cache={FastImage.cacheControl.web}
+          />
+
           <View style={styles.userDetails}>
             <Image
               style={styles.image}
@@ -51,37 +42,46 @@ export default function SearchVideoItem({ item, setPlayVideo }) {
             <TouchableOpacity>
               <View style={styles.verifiedRow}>
                 <Text style={styles.username}>
-                {(item?.user?.username ?? " ")}
+                  {item?.user?.username ?? " "}
                 </Text>
                 <View style={styles.iconRow}>
-                {item?.user?.is_verified && <VerifiedIcon />}
+                  {item?.user?.is_verified && <VerifiedIcon />}
                 </View>
-                
+                {item.user.is_rising === 1 && (
+                  <View style={styles.starRow}>
+                    <RisingStar />
+                  </View>
+                )}
               </View>
             </TouchableOpacity>
           </View>
 
-          <View style={styles.videoDetails}>
-            <FontAwesome5
-              name="play"
-              size={12}
-              color={colors.secondary}
-              style={styles.pauseIcon}
-            />
-            <Text style={styles.playCount}>{item?.play_count}</Text>
+          <Text style={styles.description} numberOfLines={2}>
+            {item.description}
+          </Text>
+          <Text style={styles.date}>{getDate()}</Text>
+          <View style={styles.userDetailsContainer}>
+            <View style={styles.videoDetails}>
+              <Text style={styles.playCountText}>
+                <Foundation
+                  style={styles.graphIcon}
+                  name="graph-bar"
+                  size={14}
+                  color={colors.secondary}
+                />{" "}
+                <Text style={styles.playCount}>{item?.play_count}</Text>
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
-    
-    
+      </TouchableOpacity>
     </>
   );
 }
 
 const styles = StyleSheet.create({
   mainVideoContainer: {
-    flex: 1
+    flex: 1,
   },
   container: {
     flexBasis: "50%",
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: colors.secondary,
-    fontSize: 11
+    fontSize: 11,
   },
   image: {
     backgroundColor: "#0C0C0C",
@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
   },
   playCount: {
     fontSize: 10,
-    top:5,
+    top: 4,
     color: colors.secondary,
     justifyContent: "flex-end",
   },
   pauseIcon: {
     margin: 5,
-    top:5,
+    top: 5,
   },
   videoDetails: {
     flexDirection: "row",
@@ -134,14 +134,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   date: {
-    top: -60,
+    top: -90,
     fontSize: 12,
     paddingLeft: 5,
     color: colors.white,
     fontWeight: "bold",
   },
+
   userDetails: {
     flex: 1,
+    marginBottom: 5,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -150,6 +152,21 @@ const styles = StyleSheet.create({
   },
   iconRow: {
     top: 5.5,
-
+  },
+  starRow: {
+    top: 17,
+    right: 15,
+  },
+  playCountText: {
+    color: colors.white,
+    fontWeight: "600",
+    marginLeft: 0,
+    fontSize: 11,
+    position: "absolute",
+    bottom: -3.5,
+    left: 0,
+  },
+  graphIcon: {
+    fontSize: 11,
   },
 });

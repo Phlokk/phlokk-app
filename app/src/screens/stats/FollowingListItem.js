@@ -7,6 +7,7 @@ import axios from "../../redux/apis/axiosDeclaration";
 import { useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
 import * as SecureStore from "expo-secure-store";
+import RisingStar from "../../components/common/RisingStar";
 const FollowingListItem = ({ item, followersList, setLoggedInUserFollowingList }) => {
 
   const navigation = useNavigation();
@@ -87,12 +88,13 @@ const FollowingListItem = ({ item, followersList, setLoggedInUserFollowingList }
             // }}
             style={styles.itemInfo}
           >
-            {item.user.username}
-            {item.is_verified && (
+            {item?.user.username}
+            {item?.user.is_verified && (
               <View style={styles.logoRow}>
                 <VerifiedIcon />
               </View>
             )}
+            {item.user.is_rising === 1 && <RisingStar />}
           </Text>
           <Text style={styles.creatorTypeText}> {item.user.creator_type}</Text>
         </TouchableOpacity>
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     top: 5,
     fontSize: 11,
-    paddingLeft: 5,
+    paddingLeft: 7,
   },
   itemCreator: {
     color: colors.green,
@@ -167,11 +169,11 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     top: 7,
     fontSize: 8,
-    paddingLeft: 3,
+    paddingLeft: 5,
   },
   logoRow: {
-    bottom: 12,
-    paddingLeft: 5,
+    top: 6,
+    paddingLeft: 8,
   },
   followingBtn: {
     fontSize: 10,

@@ -10,6 +10,7 @@ import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import SearchUserItem from "../../components/search/userItem/SearchUserItem";
+import { MaterialIcons } from "@expo/vector-icons";
 import routes from "../../navigation/routes";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
@@ -196,6 +197,10 @@ const styles = StyleSheet.create({
   searchBarView: {
     marginTop: 10,
     alignItems: "center",
+  },
+  goBackBtn: {
+    color: colors.white,
+
   },
 });
 

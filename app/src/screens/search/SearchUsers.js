@@ -4,6 +4,7 @@ import SearchUserItem from '../../components/search/userItem/SearchUserItem';
 
 const SearchUsers = ({result = []}) => {
   return (
+    
     <FlatList
         data={result}
         renderItem={({ item }) => <SearchUserItem item={item} />}

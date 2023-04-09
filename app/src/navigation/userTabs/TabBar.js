@@ -4,13 +4,10 @@ import React from "react";
 import { Feather } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-
 import ProfileScreen from "../../screens/profile/ProfileScreen";
 import FeedNavigation from "../feed/FeedNavigation";
 import ActivityScreen from "../../screens/activity/ActivityScreen";
-
 import colors from "../../../config/colors";
-import SearchNavigation from "../feed/SearchDiscover";
 import { useTheme } from "../../theme/context";
 
 const Tab = createBottomTabNavigator();

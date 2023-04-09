@@ -32,7 +32,7 @@ export default function ProfileNavBar({ userProfile, isCurrentUser }) {
   return (
     <View style={styles.container}>
       <Text style={theme == "light" ? styles.middle_light : styles.middle_dark}>
-        {userProfile?.creator_type || user.creator_type}
+        # {userProfile?.creator_type || user.creator_type}
       </Text>
       
 

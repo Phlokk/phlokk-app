@@ -286,7 +286,8 @@ function CommentModal({
         >
           Comments {numberFormatter(commentCount)}
         </Text>
-        {user._id === post.user._id && (
+        //TODO: show like count on comment modal to user who owns the post
+        {user?._id === post.user?._id && (
           <Text
             style={
               theme == "light"
