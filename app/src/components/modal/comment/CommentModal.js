@@ -271,7 +271,7 @@ function CommentModal({
     [comment]
   );
 
-  return (
+  return ( 
     <View
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >

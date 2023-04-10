@@ -27,8 +27,7 @@ import { registerForPushNotificationsAsync } from "../../../services/notificatio
 import CustomAlert from "../../../components/Alerts/CustomAlert";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../services/appStateAtoms";
-import routes from "../../../navigation/routes";
-
+import routes from "../../../navigation/routes"; 
 export default function AuthDetails({ authPage, setDetailsPage }) {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
@@ -68,8 +67,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         // setExpoPushToken(expoPushToken);
 
         // }
-        setLoggedInUser(response.data.user);
-
+       
         const user = response.data.user[0];
         const followingList = response.data.followingList;
         user.token = response.data.token;
@@ -78,13 +76,14 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         // if (Platform.OS === 'ios') {
         //   user.expoPushToken = expoPushToken;
         // }
+        setLoggedInUser(user);
         SecureStore.setItemAsync("user", JSON.stringify(user));
 
         // setTimeout(() => {
         //   axios
         //     .get("/api/auth/refresh-token")
         //     .then(async (response) => {
-        //       console.log(response.data, "response from refresh")
+        //       console.log(  "response from refresh")
         //       const newUser = response.data.user[0];
         //       newUser.token = response.data.token;
 
@@ -93,12 +92,14 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         //       // }
         //       SecureStore.setItemAsync("user", JSON.stringify(newUser));
         //     })
-        // }, 60*60*4);
+        // }, 60000);
+        // 60*60*4
         dispatch({
           type: types.USER_STATE_CHANGE,
           currentUser: user,
           loaded: true,
         });
+        
       })
       .catch((error) => {
         setIsLogin(true);
@@ -227,6 +228,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
                       val.toString().toLowerCase().replaceAll(" ", "")
                     );
                   }}
+                  // keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'}
                   placeholder="Username"
                   value={username}
                 />

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
   View,
@@ -23,9 +22,9 @@ import Reanimated, {
   useAnimatedProps,
   useSharedValue,
   withSpring,
-} from "react-native-reanimated"
+} from "react-native-reanimated";
 
-import * as ImagePicker from "expo-image-picker";   
+import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import * as FileSystem from "expo-file-system";
@@ -41,9 +40,9 @@ import SideIconOverlay from "./SideIconOverlay";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { Audio, Video } from "expo-av";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
-import * as SecureStore from "expo-secure-store"; 
+import * as SecureStore from "expo-secure-store";
 import FormData from "form-data";
-import {apiUrlsNode} from "../../globals"; 
+import { apiUrlsNode } from "../../globals";
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 120;
@@ -53,11 +52,11 @@ const convertMillisToPercentage = (ms) => ms / 1000 / 120;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-// needs to be finished, is half way set up for zoom with animation 
-const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera)
+// needs to be finished, is half way set up for zoom with animation
+const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
 Reanimated.addWhitelistedNativeProps({
   zoom: true,
-})
+});
 
 export default function CameraScreen({ route }) {
   const duo = route?.params?.duo;
@@ -66,7 +65,7 @@ export default function CameraScreen({ route }) {
   const cameraRef = useRef();
   const viewRef = useRef(null);
 
-// TODO:
+  // TODO:
   // const zoom = useSharedValue(0)
 
   // zoom with animation still needs to be set up
@@ -86,12 +85,13 @@ export default function CameraScreen({ route }) {
   const [hasCameraPermissions, setHasCameraPermissions] = useState();
   const [hasAudioPermissions, setHasAudioPermissions] = useState();
   const [hasGalleryPermissions, setHasGalleryPermissions] = useState();
-  const [hasMicrophonePermission, setHasMicrophonePermission] = useState(useState())
+  const [hasMicrophonePermission, setHasMicrophonePermission] = useState(
+    useState()
+  );
   const [isRecording, setIsRecording] = useState(false);
   const [galleryItems, setGalleryItems] = useState([]);
   const [cameraType, setCameraType] = useState("front");
-  const [cameraFlash, setCameraFlash] =
-    useState();
+  const [cameraFlash, setCameraFlash] = useState();
 
   const [startRecordingCountdown, setStartRecordingCountdown] = useState(
     START_RECORDING_DELAY / 1000
@@ -117,10 +117,10 @@ export default function CameraScreen({ route }) {
     (async () => {
       const cameraStatus = await Camera.requestCameraPermission();
       const microphonePermission = await Camera.getMicrophonePermissionStatus();
-      
-      setHasMicrophonePermission(microphonePermission  == "authorized")
+
+      setHasMicrophonePermission(microphonePermission == "authorized");
       setHasCameraPermissions(cameraStatus == "authorized");
-     
+
       const audioStatus = await Audio.requestPermissionsAsync();
       setHasAudioPermissions(audioStatus.status == "granted");
 
@@ -135,12 +135,10 @@ export default function CameraScreen({ route }) {
         });
         setGalleryItems(userGalleryMedia.assets);
       }
-     
     })();
-   
+
     setStartRecordingCountdown(3);
   }, []);
-  
 
   useEffect(() => {
     if (startRecordingCountdown === 0) {
@@ -151,9 +149,9 @@ export default function CameraScreen({ route }) {
     }
   }, [startRecordingCountdown]);
 
-  const recordVideo = async () => { 
-    setIsRecording(true); 
-   
+  const recordVideo = async () => {
+    setIsRecording(true);
+
     if (route.params !== undefined) {
       PlayAudio();
     }
@@ -161,20 +159,20 @@ export default function CameraScreen({ route }) {
       setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
     }, RECORDING_TIME_TICK);
     cameraRef.current.startRecording({
-      onRecordingFinished: async (video) => { 
+      onRecordingFinished: async (video) => {
         setIsRecording(false);
         clearInterval(recordingTimerRef.current);
         setRecordingTime(0);
         stopVideo();
         pauseAudio();
-       console.log(" video.path",  video.path, route.params?.item?.sound_url)
+        console.log(" video.path", video.path, route.params?.item?.sound_url);
         const sourceThumb = await generateThumbnail(video?.path);
-      //  return await generateDuoUrl(video?.path) 
-        if ( !route.params?.item?.sound_url ) {
+        //  return await generateDuoUrl(video?.path)
+        if (!route.params?.item?.sound_url) {
           navigation.navigate("editPosts", { source: video.path, sourceThumb });
         } else {
-          await generateVideo(video?.path).then(async (outputFilePath) => { 
-            console.log("Output", outputFilePath )
+          await generateVideo(video?.path).then(async (outputFilePath) => {
+            console.log("Output", outputFilePath);
             navigation.navigate("editPosts", {
               source: outputFilePath,
               sourceThumb,
@@ -184,9 +182,9 @@ export default function CameraScreen({ route }) {
       },
       onRecordingError: (error) => console.error("error", error),
     });
-   
+
     return;
-    // old code 
+    // old code
     // TODO: remove the code after duo
     if (cameraRef) {
       // Start up the timer to display the circle progress bar
@@ -249,16 +247,16 @@ export default function CameraScreen({ route }) {
       }
     }
     setIsRecording(false);
-  }; 
+  };
 
-  //TODO: do we need this component anymore? 
-  const generateDuoUrl = async(videoPath)=> {
+  //TODO: do we need this component anymore?
+  const generateDuoUrl = async (videoPath) => {
     let formData = new FormData();
     const user = await SecureStore.getItemAsync("user");
-    const parsedUser = JSON.parse(user);  
+    const parsedUser = JSON.parse(user);
 
-    let url =  apiUrlsNode.BASE_URL2 +  `/api/posts/get-duo-url/${post._id}`;
-    const config = { 
+    let url = apiUrlsNode.BASE_URL2 + `/api/posts/get-duo-url/${post._id}`;
+    const config = {
       "content-type": "multipart/form-data",
       "auth-token": `${parsedUser.token}`,
     };
@@ -272,20 +270,19 @@ export default function CameraScreen({ route }) {
         uri: videoPath,
       },
       fileName
-    ); 
+    );
     fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: config,
-      body:  formData 
-    }).then((e)=>{
-      
-      console.log("response",e );
-    }).catch((ex)=>{
-      console.log("Error", ex)
-    }) 
-
-  }
-
+      body: formData,
+    })
+      .then((e) => {
+        console.log("response", e);
+      })
+      .catch((ex) => {
+        console.log("Error", ex);
+      });
+  };
 
   useEffect(async () => {
     if (isVideoEnded) {
@@ -294,16 +291,16 @@ export default function CameraScreen({ route }) {
   }, [isVideoEnded]);
   const stopVideo = async () => {
     if (cameraRef && isRecording) {
-      cameraRef.current.stopRecording()
+      cameraRef.current.stopRecording();
     }
-    const response = null
+    const response = null;
     if (duo) {
-      response =  await stopScreenRecording()
+      response = await stopScreenRecording();
     }
     clearInterval(recordingTimerRef.current);
     setRecordingTime(0);
     setIsRecording(false);
-    return response
+    return response;
   };
 
   const pickFromGallery = async () => {
@@ -359,51 +356,51 @@ export default function CameraScreen({ route }) {
       FileSystem.cacheDirectory + "Camera/" + uuid() + "." + ext;
 
     // if (!duo) {
-      const ffprobeCommand =
-        "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " +
-        source;
-      await FFprobeKit.execute(ffprobeCommand).then(async (session) => {
-        const state = FFmpegKitConfig.sessionStateToString(
-          await session.getState()
-        );
-        const returnCode = await session.getReturnCode();
-        const output = await session.getOutput();
-        setDuration(output.trim());
-        if (route?.params?.item?.sound_url) {
-          if (
-            route.params.item.sound_url.endsWith(".mp3") ||
-            route.params.item.sound_url.endsWith(".aac")
-          ) {
-            ffmpegCommand =
-              "-i " +
-              source +
-              " -ss 00:00:00.00 -t " +
-              secondsToHms(output.trim()) +
-              " -i " +
-              route.params.item.sound_url +
-              " -map 0:v -map 1:a -c:v copy -c:a copy " +
-              outputFilePath +
-              " -y";
-          }
-          if (
-            route.params.item.sound_url.endsWith(".m4a") ||
-            route.params.item.sound_url.endsWith(".ogg") ||
-            route.params.item.sound_url.endsWith(".wav")
-          ) {
-            ffmpegCommand =
-              "-i " +
-              source +
-              " -ss 00:00:00.00 -t " +
-              secondsToHms(output.trim()) +
-              " -i " +
-              route.params.item.sound_url +
-              " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
-              outputFilePath +
-              " -y";
-          }
+    const ffprobeCommand =
+      "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " +
+      source;
+    await FFprobeKit.execute(ffprobeCommand).then(async (session) => {
+      const state = FFmpegKitConfig.sessionStateToString(
+        await session.getState()
+      );
+      const returnCode = await session.getReturnCode();
+      const output = await session.getOutput();
+      setDuration(output.trim());
+      if (route?.params?.item?.sound_url) {
+        if (
+          route.params.item.sound_url.endsWith(".mp3") ||
+          route.params.item.sound_url.endsWith(".aac")
+        ) {
+          ffmpegCommand =
+            "-i " +
+            source +
+            " -ss 00:00:00.00 -t " +
+            secondsToHms(output.trim()) +
+            " -i " +
+            route.params.item.sound_url +
+            " -map 0:v -map 1:a -c:v copy -c:a copy " +
+            outputFilePath +
+            " -y";
         }
-      });
-   const response = await FFmpegKit.execute(ffmpegCommand);
+        if (
+          route.params.item.sound_url.endsWith(".m4a") ||
+          route.params.item.sound_url.endsWith(".ogg") ||
+          route.params.item.sound_url.endsWith(".wav")
+        ) {
+          ffmpegCommand =
+            "-i " +
+            source +
+            " -ss 00:00:00.00 -t " +
+            secondsToHms(output.trim()) +
+            " -i " +
+            route.params.item.sound_url +
+            " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
+            outputFilePath +
+            " -y";
+        }
+      }
+    });
+    const response = await FFmpegKit.execute(ffmpegCommand);
     // }
     return outputFilePath;
   };
@@ -526,21 +523,19 @@ export default function CameraScreen({ route }) {
     if (status.didJustFinish) {
       setIsVideoEnded(true);
     }
-  }; 
+  };
   if (
     hasCameraPermissions === undefined ||
     hasAudioPermissions === undefined ||
-    hasGalleryPermissions === undefined || hasMicrophonePermission === undefined
+    hasGalleryPermissions === undefined ||
+    hasMicrophonePermission === undefined
   ) {
-    return (
-      <View style={styles.camView}>
-      </View>
-    );
-}
+    return <View style={styles.camView}></View>;
+  }
   if (
     hasCameraPermissions === false ||
     hasAudioPermissions === false ||
-    hasGalleryPermissions === false || 
+    hasGalleryPermissions === false ||
     hasMicrophonePermission === false
   ) {
     return (
@@ -556,43 +551,42 @@ export default function CameraScreen({ route }) {
   }
 
   return (
-    (
-      <View style={duo ? styles.duoContainer : styles.container}>
-        {hasCameraPermissions && isFocused ? (
-          <ReanimatedCamera
-            ref={cameraRef}
-            style={duo ? styles.duoCamera : styles.camera}
-            video={true}
-            audio={true}
-            zoom={0}
-            device={cameraType === "front" ? devices.front : devices.back}
-            isActive={true}
-            enableZoomGesture={true}
- 
-            // animatedProps={animatedProps}
-          />
-        ) : null}
-        {duo && (
-          <Video
-            source={{
-              uri: post?.media[1]?.original_url,
-              type: post?.media[1]?.mime_type,
-            }}
-            style={styles.duoVideoRenderer}
-            shouldPlay={isRecording}
-            resizeMode={videoResizeMode}
-            onPlaybackStatusUpdate={(e) => handlePlayBackStatus(e)}
-            onReadyForDisplay={(e) => {
-              const orientation = e.naturalSize.orientation;
-              if (orientation === "landscape") {
-                setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
-              } else {
-                setVideoResizeMode(Video.RESIZE_MODE_COVER);
-              }
-            }}
-          />
-        )}
-        {/* {duetVideoUrl && 
+    <View style={duo ? styles.duoContainer : styles.container}>
+      {hasCameraPermissions && isFocused ? (
+        <ReanimatedCamera
+          ref={cameraRef}
+          style={duo ? styles.duoCamera : styles.camera}
+          video={true}
+          audio={true}
+          zoom={0}
+          device={cameraType === "front" ? devices.front : devices.back}
+          isActive={true}
+          enableZoomGesture={true}
+
+          // animatedProps={animatedProps}
+        />
+      ) : null}
+      {duo && (
+        <Video
+          source={{
+            uri: post?.media[1]?.original_url,
+            type: post?.media[1]?.mime_type,
+          }}
+          style={styles.duoVideoRenderer}
+          shouldPlay={isRecording}
+          resizeMode={videoResizeMode}
+          onPlaybackStatusUpdate={(e) => handlePlayBackStatus(e)}
+          onReadyForDisplay={(e) => {
+            const orientation = e.naturalSize.orientation;
+            if (orientation === "landscape") {
+              setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
+            } else {
+              setVideoResizeMode(Video.RESIZE_MODE_COVER);
+            }
+          }}
+        />
+      )}
+      {/* {duetVideoUrl && 
          <Video
          source={{
            uri:duetVideoUrl,
@@ -602,212 +596,211 @@ export default function CameraScreen({ route }) {
          shouldPlay={true} 
        />
         } */}
-        {!isRecording && (
-          <View style={styles.sideBarContainer}>
-            <TouchableOpacity
-              style={styles.sideBarButton}
-              onPress={() => {
-                if (cameraType == "front") {
-                  setCameraType("back");
-                } else {
-                  setCameraType("front");
+      {!isRecording && (
+        <View style={styles.sideBarContainer}>
+          <TouchableOpacity
+            style={styles.sideBarButton}
+            onPress={() => {
+              if (cameraType == "front") {
+                setCameraType("back");
+              } else {
+                setCameraType("front");
+              }
+            }}
+          >
+            <Feather name="refresh-ccw" size={24} color={colors.white} />
+            <Text style={styles.iconText}>Flip</Text>
+          </TouchableOpacity>
+          {!duo && (
+            <>
+              <TouchableOpacity
+                style={styles.sideBarButton}
+                onPress={() =>
+                  setCameraFlash(
+                    cameraFlash === Camera.Constants.FlashMode.off
+                      ? Camera.Constants.FlashMode.torch
+                      : Camera.Constants.FlashMode.off
+                  )
                 }
-              }}
-            >
-              <Feather name="refresh-ccw" size={24} color={colors.white} />
-              <Text style={styles.iconText}>Flip</Text>
-            </TouchableOpacity>
-            {!duo && (
+              >
+                <Feather name="zap" size={24} color={colors.white} />
+                <Text style={styles.iconText}>Flash</Text>
+              </TouchableOpacity>
               <>
-                <TouchableOpacity
-                  style={styles.sideBarButton}
-                  onPress={() =>
-                    setCameraFlash(
-                      cameraFlash === Camera.Constants.FlashMode.off
-                        ? Camera.Constants.FlashMode.torch
-                        : Camera.Constants.FlashMode.off
-                    )
-                  }
-                >
-                  <Feather name="zap" size={24} color={colors.white} />
-                  <Text style={styles.iconText}>Flash</Text>
-                </TouchableOpacity>
-                <>
-                  {!isRecording && (
-                    <View
-                      style={{
-                        position: "absolute",
-                        right: 0,
-                        left: 0,
-                        top: 140,
-                        bottom: 0,
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                      pointerEvents="box-none"
+                {!isRecording && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      right: 0,
+                      left: 0,
+                      top: 140,
+                      bottom: 0,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    pointerEvents="box-none"
+                  >
+                    <TouchableOpacity
+                      onPress={() => pickFromGallery()}
+                      style={styles.galleryButton}
                     >
-                      <TouchableOpacity
-                        onPress={() => pickFromGallery()}
-                        style={styles.galleryButton}
-                      >
-                        {galleryItems[0] == undefined ? (
-                          <></>
-                        ) : (
-                          <Image
-                            style={styles.galleryButtonImage}
-                            source={{ uri: galleryItems[0].uri }}
-                          />
-                        )}
-                        <Text style={styles.uploadText}>Upload</Text>
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                </>
-                <View style={styles.uploadView}>
-                  <Text style={styles.iconText}>Upload</Text>
-                </View>
+                      {galleryItems[0] == undefined ? (
+                        <></>
+                      ) : (
+                        <Image
+                          style={styles.galleryButtonImage}
+                          source={{ uri: galleryItems[0].uri }}
+                        />
+                      )}
+                      <Text style={styles.uploadText}>Upload</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </>
-            )}
-          </View>
-        )} 
-        {/* {duo && isRecording  ? null :  */}
-        <View style={[styles.bottomBarContainer]}>
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-          >
-            {!isRecording && (
-              <SideIconOverlay
-                duo={duo}
-                isRecording={isRecording}
-                pickFromGallery={pickFromGallery}
-                uploadImgUri={galleryItems[0]?.uri}
-              />
-            )}
-
-            <Text style={{ color: "white", paddingBottom: 5 }}>
-              {secondsToHms(convertMillisToSeconds(recordingTime))}
-            </Text>
-            <View style={{ flex: 1 }}>
-              <Pressable
-                onPress={onPressRecord}
-                onLongPress={onLongPress}
-                onPressOut={onPressOut}
-                style={({ pressed }) => {
-                  return [
-                    styles.recordButton,
-                    { backgroundColor: colors.green },
-                    { borderWidth: isRecording ? 4 : 3 },
-                    { borderColor: isRecording ? colors.danger : colors.white },
-                  ];
-                }}
-              />
-              <View
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: 0,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                pointerEvents="none"
-              >
-                <Circle
-                  size={80}
-                  thickness={4}
-                  fill="transparent"
-                  progress={convertMillisToPercentage(recordingTime)}
-                  color={colors.red}
-                  unfilledColor="white"
-                  borderWidth={0}
-                />
+              <View style={styles.uploadView}>
+                <Text style={styles.iconText}>Upload</Text>
               </View>
-            </View>
-
-            {!isRecording && !duo && (
-              <View
-                style={{
-                  backgroundColor: "rgba(125, 125, 125, 0.4)",
-                  width: 40,
-                  height: 40,
-                  borderRadius: 50,
-                  position: "absolute",
-                  right: 0,
-                  left: 280,
-                  top: 45,
-                  bottom: 0,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                pointerEvents="box-none"
-              >
-                <TouchableOpacity onPress={() => {}}>
-                  <MaterialIcons
-                    name="settings-backup-restore"
-                    size={35}
-                    color={colors.white}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
+            </>
+          )}
         </View>
+      )}
+      {/* {duo && isRecording  ? null :  */}
+      <View style={[styles.bottomBarContainer]}>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          {!isRecording && (
+            <SideIconOverlay
+              duo={duo}
+              isRecording={isRecording}
+              pickFromGallery={pickFromGallery}
+              uploadImgUri={galleryItems[0]?.uri}
+            />
+          )}
 
-        {showCountdown && (
-          <Animated.View
-            style={[
-              styles.countdownWrapper,
-              { transform: [{ scale: pulseAnim }] },
-            ]}
-            pointerEvents="box-none"
-          >
-            <View>
-              <Animated.View
-                style={[
-                  styles.countdownWhitePulse,
-                  {
-                    opacity: whitePulseOpacity,
-                    transform: [{ scale: whitePulseAnim }],
-                  },
-                ]}
+          <Text style={{ color: "white", paddingBottom: 5 }}>
+            {secondsToHms(convertMillisToSeconds(recordingTime))}
+          </Text>
+          <View style={{ flex: 1 }}>
+            <Pressable
+              onPress={onPressRecord}
+              onLongPress={onLongPress}
+              onPressOut={onPressOut}
+              style={({ pressed }) => {
+                return [
+                  styles.recordButton,
+                  { backgroundColor: colors.green },
+                  { borderWidth: isRecording ? 4 : 3 },
+                  { borderColor: isRecording ? colors.danger : colors.white },
+                ];
+              }}
+            />
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              pointerEvents="none"
+            >
+              <Circle
+                size={80}
+                thickness={4}
+                fill="transparent"
+                progress={convertMillisToPercentage(recordingTime)}
+                color={colors.red}
+                unfilledColor="white"
+                borderWidth={0}
               />
-              <View style={styles.countdownBackground}>
-                <Text style={styles.countdownText}>
-                  {startRecordingCountdown}
-                </Text>
-              </View>
             </View>
-          </Animated.View>
-        )}
-        <CustomAlert
-          alertTitle={
-            <Text>
-              <AntDesign name="warning" size={24} color={colors.red} />
-            </Text>
-          }
-          customAlertMessage={
-            <Text>Video is too long! {"\n"} Max upload time = 2 mins</Text>
-          }
-          positiveBtn="Ok"
-          modalVisible={isUploaded}
-          dismissAlert={setIsUploaded}
-          animationType="fade"
-        />
-        <CustomAlert
-          alertTitle={
-            <Text>
-              <AntDesign name="warning" size={24} color={colors.red} />
-            </Text>
-          }
-          customAlertMessage={<Text>Could not generate thumbnail!</Text>}
-          positiveBtn="Ok"
-          modalVisible={isGeneratedThumb}
-          dismissAlert={setIsGeneratedThumb}
-          animationType="fade"
-        />
+          </View>
+
+          {!isRecording && !duo && (
+            <View
+              style={{
+                backgroundColor: "rgba(125, 125, 125, 0.4)",
+                width: 40,
+                height: 40,
+                borderRadius: 50,
+                position: "absolute",
+                right: 0,
+                left: 280,
+                top: 45,
+                bottom: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              pointerEvents="box-none"
+            >
+              <TouchableOpacity onPress={() => {}}>
+                <MaterialIcons
+                  name="settings-backup-restore"
+                  size={35}
+                  color={colors.white}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </View>
-    )
+
+      {showCountdown && (
+        <Animated.View
+          style={[
+            styles.countdownWrapper,
+            { transform: [{ scale: pulseAnim }] },
+          ]}
+          pointerEvents="box-none"
+        >
+          <View>
+            <Animated.View
+              style={[
+                styles.countdownWhitePulse,
+                {
+                  opacity: whitePulseOpacity,
+                  transform: [{ scale: whitePulseAnim }],
+                },
+              ]}
+            />
+            <View style={styles.countdownBackground}>
+              <Text style={styles.countdownText}>
+                {startRecordingCountdown}
+              </Text>
+            </View>
+          </View>
+        </Animated.View>
+      )}
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <AntDesign name="warning" size={24} color={colors.red} />
+          </Text>
+        }
+        customAlertMessage={
+          <Text>Video is too long! {"\n"} Max upload time = 2 mins</Text>
+        }
+        positiveBtn="Ok"
+        modalVisible={isUploaded}
+        dismissAlert={setIsUploaded}
+        animationType="fade"
+      />
+      <CustomAlert
+        alertTitle={
+          <Text>
+            <AntDesign name="warning" size={24} color={colors.red} />
+          </Text>
+        }
+        customAlertMessage={<Text>Could not generate thumbnail!</Text>}
+        positiveBtn="Ok"
+        modalVisible={isGeneratedThumb}
+        dismissAlert={setIsGeneratedThumb}
+        animationType="fade"
+      />
+    </View>
   );
 }
 

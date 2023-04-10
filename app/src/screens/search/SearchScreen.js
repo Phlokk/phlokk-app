@@ -86,7 +86,7 @@ const SearchScreen = () => {
 
   const renderItem = useCallback(
     ({ item, index }) => {
-      return (
+      return (console.log("item", item),
         <VideoItem
           item={item}
           index={0}

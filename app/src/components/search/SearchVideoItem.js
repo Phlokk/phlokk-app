@@ -16,7 +16,7 @@ export default function SearchVideoItem({ item, setPlayVideo }) {
   };
 
   return (
-    <>
+   <>
       <TouchableOpacity
         style={styles.container}
         onPress={() => {

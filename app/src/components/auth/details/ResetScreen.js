@@ -33,13 +33,12 @@ export default function ResetScreen() {
     setPassword("");
   }
 
-  // OLD API CALL 
   const handleReset = async () => {
     try {
-      const result = await axios.post(`/api/reset`, {
-        email: email,
-        token: token,
-        password: password,
+      const result = await axios.post(`/api/password/resetPassword`, {
+        email,
+        token,
+        password,
       });
       resetTextInput();
       Alert.alert("Password has been reset successfully");
@@ -47,6 +46,7 @@ export default function ResetScreen() {
 
       return result.data;
     } catch (e) {
+      console.log("error",e)
       setCodeErrorMessage(true);
     }
   };

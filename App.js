@@ -22,6 +22,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "./app/src/theme/context";
 import colors from "./app/config/colors";
 import { userAtom } from "./app/src/services/appStateAtoms";
+import Constants from "expo-constants";
+import * as SecureStore from "expo-secure-store";
+import jwtDecode from 'jwt-decode';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -37,8 +40,6 @@ LogBox.ignoreLogs([
 ]);
 
 LogBox.ignoreLogs([/Invalid view returned from registry, expecting EXVideo/]);
-
-
 
 // export const userAtom = atom({});
 
@@ -61,7 +62,7 @@ export default function App() {
   const notificationListener = useRef();
   const responseListener = useRef();
 
-  const [appIsAvailable, setAppIsAvailable] = useState(false);
+  const [appIsAvailable, setAppIsAvailable] = useState(true);
 
   useFonts({
     "Waterfall-Regular": require("./app/assets/fonts/Waterfall-Regular.ttf"),
@@ -78,26 +79,26 @@ export default function App() {
     hideSplash();
     // }
   }, [appIsAvailable]);
-
+  const version = Constants.manifest.version;
+  const buildVersion =
+    Constants.manifest.ios.buildNumber ||
+    Constants.manifest.android.versionCode;
+  const checkStatus = async () => {
+    const response = await axios.get(
+      `/api/auth/system-status/${version}/${buildVersion}`
+    );
+    setAppIsAvailable(response?.data === "available");
+    return response.data === "available";
+  };
   useEffect(async () => {
-    const checkStatus = async () => {
-      const response = await fetch(apiUrls.BASE_URL + "/api/system-status", {
-        method: "GET",
-      })
-        .then((response) => response.json())
-      setAppIsAvailable(response.status === "available");
-      return response.status === "available";
-    };
-
-    // check if server is available
-    const appIsAvailable = await checkStatus();
-    if (!appIsAvailable) {
+    // check if server is available-- needs to be implemented in NODE JS
+    const appAvailable = await checkStatus();
+    if (!appAvailable) {
       Alert.alert("System is down for maintenance. Please try again later");
     } else {
       const loadUser = async () => {
         const response = await fetchGetUser(user._id);
         setUser(response);
-        
       };
 
       loadUser();
@@ -218,7 +219,40 @@ export default function App() {
         Notifications.removeNotificationSubscription(responseListener.current);
       };
     }
-  }, [setAppIsAvailable]);
+  }, [appIsAvailable]);
+  useEffect(() => {
+    const interval = setInterval(async() => {
+     await checkTokenExpiry()
+    },  10 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+  const checkTokenExpiry =async () => {
+    const user = JSON.parse(await SecureStore.getItemAsync("user")) 
+    if(user){
+      const decodedToken = jwtDecode(user.token); 
+      if(hasTimestampExpired(decodedToken.exp)){
+       await updateRefreshToken()
+      }
+    }
+  }
+  const hasTimestampExpired = (timestamp) => { 
+  const currentTime = Math.floor(Date.now() / 1000); // current Unix timestamp
+  const timeDifference = timestamp - currentTime;
+  return timeDifference <= 0;
+  }
+
+  const updateRefreshToken = async ()=>{
+   try{
+    const response = await axios.get("/api/auth/refresh-token");
+    const newUser = response.data.user[0];
+    newUser.token = response.data.token; 
+    setUser(newUser)
+    SecureStore.setItemAsync("user", JSON.stringify(newUser));
+   }catch(e){
+    console.log("Error", e)
+   }
+  }
 
   if (user?.banned_at) {
     return (

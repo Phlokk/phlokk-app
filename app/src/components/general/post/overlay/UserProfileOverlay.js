@@ -59,8 +59,8 @@ function UserProfileOverlay({
   const isFocused = useIsFocused();
 
   useEffect(async () => {
-    setLoggedInUserFollowingList(await getCurrentUser());
-     
+    const currentUser = await getCurrentUser()
+    setLoggedInUserFollowingList(currentUser);
   }, [isFocused]);
   const HASHTAG_FORMATTER = (string) => {
     if (string === null) {
