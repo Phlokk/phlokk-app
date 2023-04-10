@@ -18,6 +18,7 @@ import {
   FFprobeKit,
   FFmpegKitConfig,
 } from "ffmpeg-kit-react-native";
+
 import Reanimated, {
   useAnimatedProps,
   useSharedValue,
@@ -52,7 +53,7 @@ const convertMillisToPercentage = (ms) => ms / 1000 / 120;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-// TODO: needs to be finished, is half way set up for zoom with animation 
+// needs to be finished, is half way set up for zoom with animation 
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera)
 Reanimated.addWhitelistedNativeProps({
   zoom: true,
@@ -65,9 +66,9 @@ export default function CameraScreen({ route }) {
   const cameraRef = useRef();
   const viewRef = useRef(null);
 
+// TODO:
+  // const zoom = useSharedValue(0)
 
-  const zoom = useSharedValue(0)
-//TODO:
   // zoom with animation still needs to be set up
 
   // const onRandomZoomPress = useCallback(() => {
@@ -85,7 +86,7 @@ export default function CameraScreen({ route }) {
   const [hasCameraPermissions, setHasCameraPermissions] = useState();
   const [hasAudioPermissions, setHasAudioPermissions] = useState();
   const [hasGalleryPermissions, setHasGalleryPermissions] = useState();
-  const [hasMicrophonePermission, setHasMicrophonePermission] = useState(false)
+  const [hasMicrophonePermission, setHasMicrophonePermission] = useState(useState())
   const [isRecording, setIsRecording] = useState(false);
   const [galleryItems, setGalleryItems] = useState([]);
   const [cameraType, setCameraType] = useState("front");
@@ -116,9 +117,10 @@ export default function CameraScreen({ route }) {
     (async () => {
       const cameraStatus = await Camera.requestCameraPermission();
       const microphonePermission = await Camera.getMicrophonePermissionStatus();
+      
       setHasMicrophonePermission(microphonePermission  == "authorized")
       setHasCameraPermissions(cameraStatus == "authorized");
-      /*  */
+     
       const audioStatus = await Audio.requestPermissionsAsync();
       setHasAudioPermissions(audioStatus.status == "granted");
 
@@ -526,19 +528,30 @@ export default function CameraScreen({ route }) {
     }
   }; 
   if (
-    hasCameraPermissions === false ||
-    hasAudioPermissions === false ||
-    hasGalleryPermissions === false || !hasMicrophonePermission
+    hasCameraPermissions === undefined ||
+    hasAudioPermissions === undefined ||
+    hasGalleryPermissions === undefined || hasMicrophonePermission === undefined
   ) {
     return (
-      <SafeAreaView style={styles.errorView}>
+      <View style={styles.camView}>
+      </View>
+    );
+}
+  if (
+    hasCameraPermissions === false ||
+    hasAudioPermissions === false ||
+    hasGalleryPermissions === false || 
+    hasMicrophonePermission === false
+  ) {
+    return (
+      <View style={styles.errorView}>
         <MaterialIcons name="error-outline" size={40} color={colors.red} />
         <Text style={styles.cameraErrorText}>
           PERMISSIONS ERROR {"\n"}
           You did not give permissions.
           {"\n"}Please check camera settings in device.
         </Text>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -887,7 +900,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-
+    backgroundColor: colors.primary,
+  },
+  camView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: colors.primary,
   },
   cameraErrorText: {
