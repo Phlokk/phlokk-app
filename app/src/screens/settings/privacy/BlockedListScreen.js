@@ -17,14 +17,14 @@ export default function BlockedListScreen() {
   const [blockedList, setBlockedList] = useState("");
 
   const renderItem = ({ item, index }) => {
-    return <BlockedItem index={index} item={item} />;
+    return <BlockedItem index={index} item={item} setBlockedList={setBlockedList}/>;
+  };
+  const blockedListItems = async () => {
+    const blockedList = await blockedListListener();
+    setBlockedList(blockedList);
   };
 
-  useEffect(() => {
-    const blockedListItems = async () => {
-      const blockedList = await blockedListListener();
-      setBlockedList(blockedList.blocks);
-    };
+  useEffect(() => { 
     if (isFocused) {
       blockedListItems();
     }
@@ -51,7 +51,7 @@ export default function BlockedListScreen() {
         ItemSeparatorComponent={Separator}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
   );

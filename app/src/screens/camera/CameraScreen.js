@@ -165,9 +165,8 @@ export default function CameraScreen({ route }) {
         setRecordingTime(0);
         stopVideo();
         pauseAudio();
-        console.log(" video.path", video.path, route.params?.item?.sound_url);
         const sourceThumb = await generateThumbnail(video?.path);
-        //  return await generateDuoUrl(video?.path)
+         return await generateDuoUrl(video?.path)
         if (!route.params?.item?.sound_url) {
           navigation.navigate("editPosts", { source: video.path, sourceThumb });
         } else {
@@ -255,7 +254,7 @@ export default function CameraScreen({ route }) {
     const user = await SecureStore.getItemAsync("user");
     const parsedUser = JSON.parse(user);
 
-    let url = apiUrlsNode.BASE_URL2 + `/api/posts/get-duo-url/${post._id}`;
+    let url = apiUrlsNode.BASE_URL2 + `/api/posts/get-duo-url`;
     const config = {
       "content-type": "multipart/form-data",
       "auth-token": `${parsedUser.token}`,
@@ -271,6 +270,10 @@ export default function CameraScreen({ route }) {
       },
       fileName
     );
+    formData.append("post_video_url", post?.media[1]?.original_url, {
+      post_video_url: post?.media[1]?.original_url
+    }); 
+    console.log("Video Merging")
     fetch(url, {
       method: "POST",
       headers: config,
@@ -293,10 +296,7 @@ export default function CameraScreen({ route }) {
     if (cameraRef && isRecording) {
       cameraRef.current.stopRecording();
     }
-    const response = null;
-    if (duo) {
-      response = await stopScreenRecording();
-    }
+    const response = null; 
     clearInterval(recordingTimerRef.current);
     setRecordingTime(0);
     setIsRecording(false);

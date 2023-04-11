@@ -13,7 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
 import { useTheme } from "../../theme/context";
-
+import * as SecureStore from 'expo-secure-store';
 // import CustomActivityIndicator from '../common/ActivityIndicator';
 
 function useDebounce(value, delay) {
@@ -105,7 +105,8 @@ const SearchInput = ({ placeholder, setResult, searchFor }) => {
   }
   const filterVideos = async (query) =>{
     try {
-      const response  = await queryVideos(query);
+      let user = JSON.parse(await SecureStore.getItemAsync('user'));
+      const response  = await queryVideos(query, (user._id ?? user.id));
       return response.data      
     } catch (ex) {
       console.log(ex)

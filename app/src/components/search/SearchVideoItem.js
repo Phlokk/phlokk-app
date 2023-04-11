@@ -7,7 +7,7 @@ import colors from "../../../config/colors";
 import VerifiedIcon from "../common/VerifiedIcon";
 import RisingStar from "../common/RisingStar";
 
-export default function SearchVideoItem({ item, setPlayVideo }) {
+export default function SearchVideoItem({ item, setPlayVideo, index, setResult }) {
   const navigation = useNavigation();
 
   const getDate = () => {

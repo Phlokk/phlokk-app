@@ -86,7 +86,7 @@ const SearchScreen = () => {
 
   const renderItem = useCallback(
     ({ item, index }) => {
-      return (console.log("item", item),
+      return (
         <VideoItem
           item={item}
           index={0}
@@ -168,7 +168,7 @@ const SearchScreen = () => {
         ))}
       </View>
       {currentTab === 1 && <SearchUsers result={searchUsers} />}
-      {currentTab === 2 && <SearchVideos result={searchVideos} setPlayVideo={setPlayVideo} />}
+      {currentTab === 2 && <SearchVideos result={searchVideos} setResult={setSearchVideos} setPlayVideo={setPlayVideo} />}
 
       {currentTab === 0 && (
         <View style={styles.risingStarView}>

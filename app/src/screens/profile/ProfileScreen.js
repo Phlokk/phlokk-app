@@ -23,6 +23,7 @@ export default function ProfileScreen({ route }) {
 
   const [loggedInUser] = useAtom(userAtom);
   const [profile, setProfile] = useState();
+  const [isUserBlocked, setIsUserBlocked] = useState(route?.params?.initialUser.blocked);
 
   const fetchUser = async (userId) => {
     try {
@@ -56,6 +57,7 @@ export default function ProfileScreen({ route }) {
   );
   useEffect(async() => {
     await refresh();
+    setIsUserBlocked(route?.params?.initialUser.blocked);
   }, [isFocused])
   
 
@@ -98,6 +100,8 @@ export default function ProfileScreen({ route }) {
           setPopUpImage={setPopUpImage}
           onTabSelected={(tab) => setSelectedTab(tab)}
           isCurrentUser={loggedInUser?._id === profile?._id}
+          isUserBlocked = {isUserBlocked}
+          setIsUserBlocked={setIsUserBlocked}
         />
       </View>
     );
@@ -162,6 +166,7 @@ export default function ProfileScreen({ route }) {
         }
         edges={["top"]}
       >
+      
         <ProfileNavBar
           userProfile={profile}
           isCurrentUser={!route?.params?.initialUser}
@@ -175,14 +180,15 @@ export default function ProfileScreen({ route }) {
           keyExtractor={(item) => item.id}
           ListHeaderComponent={ListHeader}
           renderItem={({ item, index }) => (
+            !isUserBlocked &&  
             <ProfilePostListItem
-              item={item}
-              index={index}
-              posts={postsToDisplay}
-              setPosts={setPostsToDisplay}
-            />
+            item={item}
+            index={index}
+            posts={postsToDisplay}
+            setPosts={setPostsToDisplay}
+          /> 
           )}
-          refreshControl={
+          refreshControl={ !isUserBlocked &&
             <RefreshControl
               refreshing={isRefreshing}
               tintColor={colors.secondary}
@@ -204,7 +210,6 @@ export default function ProfileScreen({ route }) {
             }
           }}
         />
-
         {selectedTab !== "cloud" ? (
           <View
             style={{

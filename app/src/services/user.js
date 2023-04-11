@@ -2,23 +2,24 @@ import axios from "../redux/apis/axiosDeclaration";
 import { Alert } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
-export const blockUserById = async (userId) => {
-  let url = "/api/creator/" + userId + "/block";
-  axios
-    .post(url)
-    .then((res) => {
-      return res;
-    })
-    .catch((e) => {
-      alert("EXCEPTION");
-    });
+export const blockUserById = async (userId, againstId) => {
+  let url = "/api/block/" + userId + "/" + againstId;
+  return await axios.post(url)
+};
+export const unblockUserById = async (userId, againstId) => {
+  let url = "/api/block/unblock/" + userId + "/" + againstId;
+  return await axios.post(url)
 };
 
 export const blockedListListener = async () => {
   try {
-    const result = await axios.get(`/api/me/block-list/`);
+    const user = JSON.parse(await SecureStore.getItemAsync("user"))
+
+    const result = await axios.get(`/api/block/list/${user._id}`);
     return result.data;
-  } catch (e) {}
+  } catch (e) {
+    console.log("Error", e)
+  }
 };
 
 // working
@@ -78,5 +79,5 @@ export const getCount = async (user_id) => {
   } catch (e) {}
 };
 
-export const queryVideos = async (searchQuery) =>
-  await axios.get(`/api/search/searchVideos?query=${searchQuery}`);
+export const queryVideos = async (searchQuery, userId) =>
+  await axios.get(`/api/search/searchVideos/${userId}?query=${searchQuery}`);

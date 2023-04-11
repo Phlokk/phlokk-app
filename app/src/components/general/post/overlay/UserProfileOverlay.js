@@ -34,7 +34,7 @@ function UserProfileOverlay({
 }) {
  
   const [following, setFollowing] = useState(user?.follow_count);
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(true);
   const [isLinked, setIsLinked] = useState(false);
   const [loggedInUserFollowingList, setLoggedInUserFollowingList] = useState(
     []

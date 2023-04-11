@@ -16,16 +16,23 @@ import VerifiedIcon from "../../components/common/VerifiedIcon";
 import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioSheetModalScreen";
 import { useTheme } from "../../theme/context";
 import RisingStar from "../../components/common/RisingStar";
-
-function UserProfile({ user, isCurrentUser }) {
+import { unblockUserById } from "../../services/user";
+function UserProfile({ user, isCurrentUser, isUserBlocked, setIsUserBlocked }) {
   const { theme } = useTheme();
   const [topFavFive, setTopFavFive] = useState(false);
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
+  const unblockUser = async () => {
+    setIsUserBlocked(null);
+    const loggedInUser = JSON.parse(await SecureStore.getItemAsync("user"));
+    const response = await unblockUserById(loggedInUser._id, user._id);
+  };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => setIsBioModalScreenOpen(true)}
+        onPress={
+          !isUserBlocked ? () => setIsBioModalScreenOpen(true) : () => {}
+        }
         disabled={!user?.photo_url}
       >
         <Image
@@ -75,7 +82,19 @@ function UserProfile({ user, isCurrentUser }) {
         )}
       </View>
 
-      <>
+     {isUserBlocked &&
+      <View style={styles.warningView}>
+        <Text style={styles.redWarning}>
+          This user has been blocked by you.{"\n"} To see their content you must
+          unblock them.
+        </Text>
+      </View>}
+      {isUserBlocked && (
+        <TouchableOpacity onPress={unblockUser} style={styles.followingView}>
+          <Text style={styles.followBtn}>Unblock</Text>
+        </TouchableOpacity>
+      )}
+      {!isUserBlocked && (
         <TouchableOpacity style={{ marginBottom: 10 }}>
           <CustomAlert
             alertTitle={
@@ -98,7 +117,7 @@ function UserProfile({ user, isCurrentUser }) {
             onPress={() => setTopFavFive(true)}
           />
         </TouchableOpacity>
-      </>
+      )}
 
       <Modal
         animationType="slide"
@@ -121,6 +140,22 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 5,
     alignItems: "center",
+  },
+  followingView: {
+    right: 0,
+    left: 0,
+    top: 50,
+    bottom: 0,
+  },
+  followBtn: {
+    fontSize: 10,
+    color: colors.red,
+    textAlign: "center",
+    padding: 12,
+    borderRadius: 5,
+    borderWidth: 0.5,
+    borderColor: colors.red,
+    backgroundColor: colors.grey,
   },
   avatar: {
     height: 100,
@@ -195,6 +230,11 @@ const styles = StyleSheet.create({
     right: 16,
     top: 6,
     // alignItems: "center",
+  },
+  redWarning: {
+    fontSize: 12,
+    textAlign: "center",
+    color: colors.secondary,
   },
 });
 

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { blockUserById } from "../../services/user";
 import colors from "../../../config/colors";
-
+import * as SecureStore from "expo-secure-store";
 export default function BlockAlert({
   customAlertMessage,
   positiveBtn,
@@ -20,9 +20,11 @@ export default function BlockAlert({
 }) {
   const blockUser = async () => {
     try {
-      await blockUserById(userIdToBlock);
+      const user = JSON.parse(await SecureStore.getItemAsync("user"))
+      await blockUserById(user?._id, userIdToBlock);
       onCompleted && onCompleted();
     } catch {
+      console.log("Error:", e)
       Alert.alert("Error blocking user.");
     }
   };

@@ -6,7 +6,7 @@ import ProfileStatsContainer from "../profile/profileStats/ProfileStatsContainer
 import colors from "../../../config/colors";
 import { useTheme } from "../../theme/context";
 
-function ProfileHeader({ user, setPopUpImage, onTabSelected, isCurrentUser }) {
+function ProfileHeader({ user, setPopUpImage, onTabSelected, isCurrentUser, isUserBlocked, setIsUserBlocked }) {
   const { theme, setTheme } = useTheme();
   return (
     <View
@@ -19,6 +19,8 @@ function ProfileHeader({ user, setPopUpImage, onTabSelected, isCurrentUser }) {
           user={user}
           setPopUpImage={setPopUpImage}
           isCurrentUser={isCurrentUser}
+          isUserBlocked = {isUserBlocked}
+          setIsUserBlocked=  {setIsUserBlocked}
         />
       </View>
       <View>

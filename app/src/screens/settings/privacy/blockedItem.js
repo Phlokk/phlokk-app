@@ -1,26 +1,35 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
   Text,
   TouchableOpacity,
-  Image,
-  FlatList,
-  ScrollView,
+  Image
 } from "react-native";
 import colors from "../../../../config/colors";
-import { useAtom } from "jotai";
-import { userAtom } from "../../../services/appStateAtoms";
-
-const BlockedItem = ({ navigation, item }) => {
-  const [user, setUser] = useAtom(userAtom);
+import * as SecureStore from "expo-secure-store";
+import { useNavigation } from "@react-navigation/core";
+import { unblockUserById } from "../../../services/user";
+const BlockedItem = ({ item, setBlockedList }) => {
+  const navigation = useNavigation();
+  const unblockUser = async() => {
+    const user = JSON.parse(await SecureStore.getItemAsync("user"))
+    const response = await unblockUserById(user._id, (item?.user?.id ?? item?.user?._id));
+    setBlockedList(e=> e.filter((k)=> k.user.id !== item.user.id));
+  }
 
   return (
-    <TouchableOpacity
-    // onPress={() => item.associated._id}
+    <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("feedProfile", { initialUser: {
+            blocked: true,
+            ...item.user
+          } })
+        }}
     >
       <View style={styles.containerInput}>
-        {!user?.photo_url && !user?.photo_url ? (
+        {!item?.user?.photo_thumb_url ? (
           <Image
             style={styles.avatar}
             source={require("../../../../assets/userImage.png")}
@@ -28,26 +37,49 @@ const BlockedItem = ({ navigation, item }) => {
           />
         ) : (
           <TouchableOpacity>
-            <Image style={styles.avatar} source={{ uri: user.photo_url }} />
+            <Image style={styles.avatar} source={{ uri: item?.user?.photo_thumb_url }} />
           </TouchableOpacity>
         )}
         <View style={styles.notificationView}>
-          <Text style={styles.blockedUserText}>{item.against_id}</Text>
-          <Text style={styles.blockedUserText}>test</Text>
+          <Text style={styles.blockedUserText}>{item.user?.username}</Text>
           </View>
         </View>
     </TouchableOpacity>
+    <TouchableOpacity
+            onPress={unblockUser}
+            style={styles.followingView}
+          >
+            <Text style={styles.followBtn}>Unblock</Text>
+          </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
+    justifyContent:"space-between"
+  },
+  followingView: {
+    position: "absolute",
+    right: 0,
+    left: 280,
+    top: 10,
+    bottom: 0, 
+  }, 
+  followBtn: {
+    fontSize: 10,
+    color: colors.red,
+    textAlign: "center",
+    padding: 4,
+    borderRadius: 5,
+    borderWidth: 0.5,
+    borderColor: colors.red,
   },
   containerInput: {
     paddingLeft: 20,
     flexDirection: "row",
+    alignItems:"center"
   },
   mentionsView: {
     flexDirection: "row",

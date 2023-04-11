@@ -56,9 +56,12 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
     const type = isLiked ? "unlike" : "like";
     try {
       await likeVideo(post._id, type);
+      post.is_liked = isLiked ? 0 : 1;
       setIsLiked(!isLiked);
+      post.like_count =  (isLiked ? post.like_count - 1 : post.like_count+ 1)
       setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
     } catch(e) {
+      console.log("Error", e)
       Alert.alert("There was an error with your request!");
     }
   };

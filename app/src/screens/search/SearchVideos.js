@@ -2,12 +2,12 @@ import { View ,StyleSheet, FlatList } from 'react-native';
 import React from 'react'
 import SearchVideoItem from '../../components/search/SearchVideoItem';
 
-const SearchVideos = ({result = [], setPlayVideo}) => {
+const SearchVideos = ({result = [], setPlayVideo, setResult}) => {
   return ( 
     <View style={styles.container}>
        <FlatList
         data={result.data}
-        renderItem={({ item }) => <SearchVideoItem item={item} setPlayVideo={setPlayVideo} />}
+        renderItem={({ item, index }) => <SearchVideoItem item={item} index={index} setPlayVideo={setPlayVideo} setResult={setResult}/>}
         keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
         numColumns = {2}

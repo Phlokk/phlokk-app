@@ -83,7 +83,7 @@ const VideoItem = ({
     }
   };
 
-  return (console.log("Item", item.like_count, item.description),
+  return (
     <View style={{ height: itemHeight, backgroundColor: "black" }}>
       <Pressable style={{ flex: 1 }} onPress={playPauseVideo}>
         <Video
