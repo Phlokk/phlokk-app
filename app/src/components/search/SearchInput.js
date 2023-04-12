@@ -13,7 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
 import { useTheme } from "../../theme/context";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 // import CustomActivityIndicator from '../common/ActivityIndicator';
 
 function useDebounce(value, delay) {
@@ -40,12 +40,19 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-const SearchInput = ({ placeholder, setResult, searchFor }) => {
+const SearchInput = ({
+  placeholder,
+  setResult,
+  searchFor,
+  nextPageNumber,
+  previousResult,
+  previousquery,
+  setPreviousQuery,isSearching, setIsSearching,setNextPage
+}) => {
   const { theme } = useTheme();
   const [textInput, setTextInput] = useState("");
   const isFocused = useIsFocused();
-  const [isSearching, setIsSearching] = useState(false);
-
+  
   const [currentUser] = useAtom(userAtom);
 
   // Debounce search term so that it only gives us latest value ...
@@ -63,55 +70,61 @@ const SearchInput = ({ placeholder, setResult, searchFor }) => {
   // Effect for API call
   useEffect(
     () => {
-     (async function(){
-      if (debouncedSearchTerm) {
-        setIsSearching(true);
-        const result = await filter(debouncedSearchTerm);
-        setResult(result)
-      } else {
-        setResult([]);
+      (async function () {
+        if (debouncedSearchTerm) {
+          setIsSearching(true);
+          const result = await filter(debouncedSearchTerm);
+          if(previousquery!==textInput||!previousResult?.data){
+            setResult(result);
+            setPreviousQuery(textInput)
+          }else{
+            setResult({ ...result, data:[...previousResult.data,...result.data] });
+          }
+          
+        } else {
+          setResult([]);
+          setNextPage(1)
+        }
         setIsSearching(false);
-      }
-     }())
+      })();
     },
-    [debouncedSearchTerm] // Only call effect if debounced search term changes
-);
+    [debouncedSearchTerm, nextPageNumber] // Only call effect if debounced search term changes
+  );
 
-// if (currentTab === 0) return "Globe";
-// else if (currentTab === 1) return "Users";
-// else if (currentTab === 2) return "Videos";
-// else if (currentTab === 3) return "Music";
+  // if (currentTab === 0) return "Globe";
+  // else if (currentTab === 1) return "Users";
+  // else if (currentTab === 2) return "Videos";
+  // else if (currentTab === 3) return "Music";
 
-  const filter = async(query) => {
-    if(searchFor === 'Users') {
-      const data =  await filterUsers(query);
+  const filter = async (query) => {
+    if (searchFor === "Users") {
+      const data = await filterUsers(query);
       setIsSearching(false);
-      return data.filter( (user) => user?.name !== currentUser?.name  );
-    }else if (searchFor === 'Videos'){
-      const data =  await filterVideos(query);
+      return data.filter((user) => user?.name !== currentUser?.name);
+    } else if (searchFor === "Videos") {
+      console.log("the api is hit", nextPageNumber);
+      const data = await filterVideos(query, nextPageNumber);
       setIsSearching(false);
-      return data
+      return data;
     }
-
-  }
-  const filterUsers = async (query) => { 
+  };
+  const filterUsers = async (query) => {
     try {
       const response = await queryUsers(query);
-      return response.data
+      return response.data;
     } catch (ex) {
-      console.log(ex)
-    };
-
-  }
-  const filterVideos = async (query) =>{
-    try {
-      let user = JSON.parse(await SecureStore.getItemAsync('user'));
-      const response  = await queryVideos(query, (user._id ?? user.id));
-      return response.data      
-    } catch (ex) {
-      console.log(ex)
+      console.log(ex);
     }
-  }
+  };
+  const filterVideos = async (query, page) => {
+    try {
+      let user = JSON.parse(await SecureStore.getItemAsync("user"));
+      const response = await queryVideos(query, user._id ?? user.id, page);
+      return response.data;
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
 
   return (
     <View style={styles.container}>

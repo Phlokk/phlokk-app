@@ -106,8 +106,9 @@ export async function registerForPushNotificationsAsync(setExpoPushToken) {
 
 export const getNotifications = async () => {
 	try {
-		const result = await axios.get('/api/me/notifications');
-		return result.data.notifications;
+		let user = JSON.parse(await SecureStore.getItemAsync("user"));
+		const result = await axios.get('/api/notifications/'+user._id);
+		return result.data;
 	} catch {
 		Alert.alert('Notifications not found');
 		return [];

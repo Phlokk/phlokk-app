@@ -25,7 +25,8 @@ export default function ActivityScreen({ navigation }) {
     const getNotifs = async () => {
       setIsLoading(true);
       const notifications = await getNotifications();
-      setNotificationList(notifications);
+      console.log('from act => ', notifications);
+      setNotificationList(notifications.data);
       setIsLoading(false);
     };
 

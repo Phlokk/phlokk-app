@@ -92,7 +92,7 @@ export const useVideoFeed = (options) => {
 
 export const useUserVideoFeed = (userId, options) => {
   const [posts, setPosts] = useState([]);
-  const [nextPageNumber, setNextPageNumber] = useState();
+  const [nextPageNumber, setNextPageNumber] = useState(2);
   const [loading, setLoading] = useState();
 
   const skip = options?.skip;
@@ -111,19 +111,23 @@ export const useUserVideoFeed = (userId, options) => {
     setLoading(true);
     const feed = await getUserFeedAsync(userId);
     setPosts(feed.data);
-    setNextPageNumber(feed.next_page_number);
+    if(feed.pagination.nexPage!==undefined){
+      setNextPageNumber(feed.pagination.nextPage);
+    }
     setLoading(false);
   };
 
   const getMoreUserPosts = async () => {
+   
     if (!nextPageNumber) {
       return;
     }
-
     setLoading(true);
     const feed = await getUserFeedAsync(userId, nextPageNumber);
     setPosts((prev) => [...prev, ...feed.data]);
-    setNextPageNumber(feed.next_page_number);
+     if(feed.pagination.nexPage!==undefined){
+      setNextPageNumber(feed.pagination.nextPage);
+    }
     setLoading(false);
   };
   //Copy what we did for useVideoFeed

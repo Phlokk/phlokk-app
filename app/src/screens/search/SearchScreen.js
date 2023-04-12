@@ -32,6 +32,9 @@ const SearchScreen = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [pageSize, setPageSize] = useState(0);
   const [playVideo, setPlayVideo] = useState(null);
+  const [nextPage,setNextPage]=useState(1);
+  const [previousQuery,setPreviousQuery]=useState();
+  const [isSearching, setIsSearching] = useState(false);
   const flatListRef = useRef();
   const [currentUser] = useAtom(userAtom);
 
@@ -129,7 +132,11 @@ const SearchScreen = () => {
       color={currentTab === 5 ? colors.green : colors.secondary}
     />,
   ];
-
+  const getState = () => {
+    if (currentTab === 1) return searchUsers;
+    else if (currentTab === 2) return searchVideos;
+    else return () => {};
+  };
   const getStateSetter = () => {
     if (currentTab === 1) return setSearchUsers;
     else if (currentTab === 2) return setSearchVideos;
@@ -156,6 +163,13 @@ const SearchScreen = () => {
           placeholder="Search"
           searchFor={getSearchFor()}
           setResult={getStateSetter()}
+          nextPageNumber={nextPage}
+          previousResult={searchVideos}
+          previousquery={previousQuery}
+          setPreviousQuery={setPreviousQuery}
+          isSearching={isSearching} 
+          setIsSearching={setIsSearching}
+          setNextPage={setNextPage}
         />
         </View>
       </View>
@@ -168,7 +182,7 @@ const SearchScreen = () => {
         ))}
       </View>
       {currentTab === 1 && <SearchUsers result={searchUsers} />}
-      {currentTab === 2 && <SearchVideos result={searchVideos} setResult={setSearchVideos} setPlayVideo={setPlayVideo} />}
+      {currentTab === 2 && <SearchVideos result={searchVideos} setResult={setSearchVideos} setPlayVideo={setPlayVideo} setNextPage={setNextPage} isSearching={isSearching} setIsSearching={setIsSearching}/>}
 
       {currentTab === 0 && (
         <View style={styles.risingStarView}>

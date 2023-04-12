@@ -62,38 +62,33 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         password: password,
       })
       .then(async (response) => {
-        // if (Platform.OS === 'ios') {
-        //   const expoPushToken = await registerForPushNotificationsAsync();
-        // setExpoPushToken(expoPushToken);
-
-        // }
+        if (Platform.OS === 'ios') {
+          const expoPushToken = await registerForPushNotificationsAsync();
+          console.log("token => ",response.data.user[0], expoPushToken);
+          axios
+            .post("/api/notifications/enroll-device", {
+              user_id: response.data.user[0]._id,
+              expoPushToken: expoPushToken,
+            }, {headers: {
+              "auth-token": response.data.token
+            }})
+            .then(async (response) => {
+              console.log('response => ', response);
+              setExpoPushToken(expoPushToken);
+            })
+        // ExponentPushToken[_0E_y-OjwcbuitlYSmKurd]
+        }
        
         const user = response.data.user[0];
         const followingList = response.data.followingList;
         user.token = response.data.token;
         await handlesSaveFollowingList(followingList);
 
-        // if (Platform.OS === 'ios') {
-        //   user.expoPushToken = expoPushToken;
-        // }
+        if (Platform.OS === 'ios') {
+          user.expoPushToken = expoPushToken;
+        }
         setLoggedInUser(user);
         SecureStore.setItemAsync("user", JSON.stringify(user));
-
-        // setTimeout(() => {
-        //   axios
-        //     .get("/api/auth/refresh-token")
-        //     .then(async (response) => {
-        //       console.log(  "response from refresh")
-        //       const newUser = response.data.user[0];
-        //       newUser.token = response.data.token;
-
-        //       // if (Platform.OS === 'ios') {
-        //       //   user.expoPushToken = expoPushToken;
-        //       // }
-        //       SecureStore.setItemAsync("user", JSON.stringify(newUser));
-        //     })
-        // }, 60000);
-        // 60*60*4
         dispatch({
           type: types.USER_STATE_CHANGE,
           currentUser: user,

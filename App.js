@@ -69,6 +69,17 @@ export default function App() {
     "DarkerGrotesque-Medium": require("./app/assets/fonts/DarkerGrotesque-Medium.ttf"),
   });
 
+  async function registerForPushNotificationsAsync() {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    if (status !== 'granted') {
+      alert('You need to grant permission to receive push notifications');
+      return;
+    }
+  
+    const token = await Notifications.getExpoPushTokenAsync();
+    console.log(token);
+  }
+
   useEffect(() => {
     const hideSplash = async () => {
       await wait(2000);
@@ -226,6 +237,11 @@ export default function App() {
     },  10 * 60 * 1000);
 
     return () => clearInterval(interval);
+  }, []);
+  useEffect(()=> {
+    Notifications.addNotificationReceivedListener((notification) => {
+      console.log("notification => ", notification);
+    });
   }, []);
   const checkTokenExpiry =async () => {
     const user = JSON.parse(await SecureStore.getItemAsync("user")) 

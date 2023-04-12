@@ -79,5 +79,5 @@ export const getCount = async (user_id) => {
   } catch (e) {}
 };
 
-export const queryVideos = async (searchQuery, userId) =>
-  await axios.get(`/api/search/searchVideos/${userId}?query=${searchQuery}`);
+export const queryVideos = async (searchQuery, userId,page=1) =>
+  await axios.get(`/api/search/searchVideos/${userId}?query=${searchQuery}&page=${page}`);

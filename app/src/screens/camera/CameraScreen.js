@@ -562,7 +562,6 @@ export default function CameraScreen({ route }) {
           device={cameraType === "front" ? devices.front : devices.back}
           isActive={true}
           enableZoomGesture={true}
-
           // animatedProps={animatedProps}
         />
       ) : null}

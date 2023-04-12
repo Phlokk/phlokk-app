@@ -171,6 +171,7 @@ export default function ProfileScreen({ route }) {
           userProfile={profile}
           isCurrentUser={!route?.params?.initialUser}
         />
+        
         <FlatList
           numColumns={3}
           showsVerticalScrollIndicator={false}
@@ -204,7 +205,7 @@ export default function ProfileScreen({ route }) {
             if (postsToDisplay?.length <= 10) {
               return;
             }
-
+            
             if (!loading) {
               getMoreUserPosts();
             }

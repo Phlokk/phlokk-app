@@ -53,48 +53,62 @@ const NotificationItem = ({ navigation, item }) => {
   return (
     <TouchableOpacity onPress={() => goToAssociated()}>
       <View style={styles.containerInput}>
-        <TouchableOpacity>
-          <FastImage
-            style={styles.avatar}
-            source={
-              item.user?.photo_url
-                ? {
-                    uri: item.user?.photo_url,
-                    priority: FastImage.priority.high,
+        <View style={{flexDirection: 'row', paddingTop: 8}}>
+          <TouchableOpacity>
+            <FastImage
+              style={styles.avatar}
+              source={
+                item.user?.photo_thumb_url
+                  ? {
+                      uri: item.user?.photo_thumb_url,
+                      priority: FastImage.priority.high,
+                    }
+                  : require("../../../assets/userImage.png")
+              }
+              cache={FastImage.cacheControl.web}
+            />
+          </TouchableOpacity>
+          <View style={styles.notificationView}>
+            <View style={styles.mentionsView}>
+              <TouchableOpacity>
+                <Text
+                  style={
+                    theme == "light"
+                      ? styles.mentionText_light
+                      : styles.mentionText_dark
                   }
-                : require("../../../assets/userImage.png")
-            }
-            cache={FastImage.cacheControl.web}
-          />
-        </TouchableOpacity>
-        <View style={styles.notificationView}>
-          <View style={styles.mentionsView}>
-            <TouchableOpacity>
-              <Text
-                style={
-                  theme == "light"
-                    ? styles.mentionText_light
-                    : styles.mentionText_dark
-                }
-              >
-                {item.body} 
+                >
+                  {item.body} 
 
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text
+                style={theme == "light" ? styles.date_light : styles.date_dark}
+              >
+                {item.created_at ? timeSince(item.created_at) : "Now"}
               </Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Text
-              style={theme == "light" ? styles.date_light : styles.date_dark}
-            >
-              {item.created_at ? timeSince(new Date(item.created_at)) : "Now"}
-            </Text>
-          </View>
-          <View style={styles.iconRow}>
-            {Object.keys(item.pictures)
-              .slice(0, 7)
-              .map((key, keyIndex) => renderAvatarRow(key, keyIndex))}
+            </View>
+            {/* <View style={styles.iconRow}>
+              {Object.keys(item.pictures)
+                .slice(0, 7)
+                .map((key, keyIndex) => renderAvatarRow(key, keyIndex))}
+            </View> */}
           </View>
         </View>
+        {(item?.post)? (
+          <View>
+            <FastImage
+              style={styles.thumb}
+              source={{
+                uri: item?.post?.media?.find((e)=> !e?.original_url?.endsWith("mov"))?.original_url,
+                priority: FastImage.priority.high,
+              }}
+              cache={FastImage.cacheControl.web}
+            />
+          </View>
+        ):null}
       </View>
     </TouchableOpacity>
   );
@@ -107,6 +121,7 @@ const styles = StyleSheet.create({
   containerInput: {
     paddingLeft: 10,
     flexDirection: "row",
+    justifyContent: 'space-between'
   },
   mentionsView: {
     flexDirection: "row",
@@ -151,6 +166,10 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: 50,
+  },
+  thumb: {
+    height: 60,
+    width: 50,
   },
   avatarList: {
     height: 30,
