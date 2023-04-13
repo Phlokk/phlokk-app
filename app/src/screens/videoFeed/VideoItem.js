@@ -29,6 +29,7 @@ const VideoItem = ({
 
   const [isMarkedPlayed, setIsMarkedPlayed] = useState(false);
   const [isPlayCountInc, setIsPlayCountInc] = useState(false);
+  const [videoReady, setVideoReady]= useState(false)
   useEffect(() => {
     const setupAudio = async () => {
       await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
@@ -37,7 +38,11 @@ const VideoItem = ({
   }, []);
   useEffect(async () => {
     setIsPlayCountInc(false);
-    await videoPlayerRef.current.setStatusAsync({ positionMillis: 0 });
+   try{
+     if(videoPlayerRef && videoReady) await videoPlayerRef?.current?.setStatusAsync({ positionMillis: 0 });
+   }catch(e){
+    console.log("Error while resetting video", e)
+   }
   }, [currentVideoIndex, index]);
   // watches for index change upon scroll to reset the video status
   useEffect(() => {
@@ -105,6 +110,7 @@ const VideoItem = ({
             setPlaybackStatus(status);
           }}
           onReadyForDisplay={(e) => {
+            setVideoReady(true)
             const orientation = e.naturalSize.orientation;
             if (orientation === "landscape") {
               setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);

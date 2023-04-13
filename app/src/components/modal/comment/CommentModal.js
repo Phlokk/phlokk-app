@@ -59,6 +59,7 @@ function CommentModal({
       user_id: user._id,
       is_reply: !!repliedToComment,
       like_count: 0,
+      is_liked: false
     };
 
     if (repliedToComment) {
@@ -114,20 +115,17 @@ function CommentModal({
     });
     await addReplyToReply(repliedToComment, comment, singleComment);
     setComment("");
-    setCommentCount((prev) => prev + 1);
     onNewCommentSubmitted();
   };
   const postCommentReply = async (repliedToComment, comment) => {
     await addCommentReply(repliedToComment, comment);
     setComment("");
-    setCommentCount((prev) => prev + 1);
     onNewCommentSubmitted();
   };
   const postComment = async (comment) => {
     await addComment(comment);
     setCommentList((e) => [comment, ...e]);
     setComment("");
-    setCommentCount((prev) => prev + 1);
     onNewCommentSubmitted();
   };
 

@@ -13,7 +13,6 @@ import routes from "../../navigation/routes";
 const TrimmerScreen = ({ route }) => {
 
 
-  // https://stackoverflow.com/questions/32254818/generating-a-waveform-using-ffmpeg
 
   const navigation = useNavigation();
   const item = route?.params?.item;
@@ -34,6 +33,7 @@ const TrimmerScreen = ({ route }) => {
   const onHandleChange = ({ leftPosition, rightPosition }) => {
     setTrimmerRightHandlePosition(rightPosition);
     setTrimmerLeftHandlePosition(leftPosition);
+    
   };
 
   const [scrubInterval, setScrubInterval] = useState(50);
@@ -51,7 +51,7 @@ const TrimmerScreen = ({ route }) => {
   };
 
   const scrubberInterval = () => {
-    setInterval(scrubberPosition + scrubInterval);
+    setInterval(scrubberPosition + scrubInterval, 50);
   };
 
   const pauseScrubber = async () => {
@@ -151,6 +151,7 @@ const TrimmerScreen = ({ route }) => {
           )}
         </View>
         <Trimmer
+        onLeftHandleChange = {e=> console.log("left change" ,e)}
           onHandleChange={onHandleChange}
           totalDuration={totalDuration}
           trimmerLeftHandlePosition={trimmerLeftHandlePosition}
@@ -160,7 +161,7 @@ const TrimmerScreen = ({ route }) => {
           maximumZoomLevel={200}
           zoomMultiplier={20}
           initialZoomValue={2}
-          scaleInOnInit={false}
+          scaleInOnInit={true}
           tintColor={colors.green}
           markerColor={colors.white}
           trackBackgroundColor={colors.black}

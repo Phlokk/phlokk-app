@@ -79,7 +79,6 @@ const NotificationItem = ({ navigation, item }) => {
                   }
                 >
                   {item.body} 
-
                 </Text>
               </TouchableOpacity>
             </View>
@@ -90,11 +89,6 @@ const NotificationItem = ({ navigation, item }) => {
                 {item.created_at ? timeSince(item.created_at) : "Now"}
               </Text>
             </View>
-            {/* <View style={styles.iconRow}>
-              {Object.keys(item.pictures)
-                .slice(0, 7)
-                .map((key, keyIndex) => renderAvatarRow(key, keyIndex))}
-            </View> */}
           </View>
         </View>
         {(item?.post)? (
@@ -102,7 +96,7 @@ const NotificationItem = ({ navigation, item }) => {
             <FastImage
               style={styles.thumb}
               source={{
-                uri: item?.post?.media?.find((e)=> !e?.original_url?.endsWith("mov"))?.original_url,
+                uri: item?.post?.thumbnailUrl,
                 priority: FastImage.priority.high,
               }}
               cache={FastImage.cacheControl.web}
@@ -125,6 +119,7 @@ const styles = StyleSheet.create({
   },
   mentionsView: {
     flexDirection: "row",
+    width:250,
   },
   notificationView: {
     paddingLeft: 10,
@@ -170,6 +165,7 @@ const styles = StyleSheet.create({
   thumb: {
     height: 60,
     width: 50,
+    right: 10, 
   },
   avatarList: {
     height: 30,

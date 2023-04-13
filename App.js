@@ -234,14 +234,15 @@ export default function App() {
   useEffect(() => {
     const interval = setInterval(async() => {
      await checkTokenExpiry()
-    },  10 * 60 * 1000);
+    },  3*1000);
 
     return () => clearInterval(interval);
   }, []);
-  useEffect(()=> {
+  useEffect(async()=> {
     Notifications.addNotificationReceivedListener((notification) => {
       console.log("notification => ", notification);
     });
+   await checkTokenExpiry()
   }, []);
   const checkTokenExpiry =async () => {
     const user = JSON.parse(await SecureStore.getItemAsync("user")) 

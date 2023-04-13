@@ -40,7 +40,7 @@ const CommentItem = ({
   const navigation = useNavigation();
   const [user] = useAtom(userAtom);
 
-  const [isLiked, setIsLiked] = useState(comment.is_liked);
+  const [isLiked, setIsLiked] = useState(comment.is_liked );
   const [likeCount, setLikeCount] = useState(comment.like_count);
 
   const isActiveAccount = comment.user !== null;
@@ -52,12 +52,12 @@ const CommentItem = ({
     const type = isLiked ? "unlike" : "like"; 
     try {
       if (!isReply) {
-        await likeComment(post._id, comment._id, type, user._id);
+        await likeComment(post._id, comment._id, type, user._id, (post.user.id ?? post.user._id));
       } else {
         if(replyOfReply){
-          await likeCommentReplyToReply(post._id, comment._id, type, user._id);
+          await likeCommentReplyToReply(post._id, comment._id, type, user._id,  (comment.user._id ?? comment.user.id));
         }else{
-          await likeCommentReply(post._id, comment._id, type, user._id);
+          await likeCommentReply(post._id, comment._id, type, user._id, (comment.user._id ?? comment.user.id));
         }
       }
       // e30e2455-8c7c-414b-af10-0e31489faa5c 5c2a7548-0635-4e4a-82af-efe6fb9d2025
@@ -242,7 +242,7 @@ const CommentItem = ({
             <MaterialCommunityIcons
               color={colors.green}
               size={20}
-              name={isLiked ? "star" : "star-outline"}
+              name={comment.is_liked ? "star" : "star-outline"}
             />
           </TouchableOpacity>
           <Text
@@ -250,7 +250,7 @@ const CommentItem = ({
               theme == "light" ? styles.starCount_light : styles.starCount_dark
             }
           >
-            {likeCountFormatter(likeCount)}
+            {likeCountFormatter(comment.like_count)}
           </Text>
         </View>
       )}

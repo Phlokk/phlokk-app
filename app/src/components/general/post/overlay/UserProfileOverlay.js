@@ -233,6 +233,7 @@ function UserProfileOverlay({
             }
           }}
         >
+
           {HASHTAG_FORMATTER(post.description)}
         </Text>
         <View style={styles.songView}>

@@ -8,21 +8,21 @@ export const likeVideo =async (postId, type) => {
   });
 };
 
-export const likeComment = async (postId, commentId, type, userId) => {
-  return axios.post(`/api/commentsReactions/likeComment/${postId}/${commentId}/${type}/${userId}`, {});
+export const likeComment = async (postId, commentId, type, userId, postUserId) => {
+  return axios.post(`/api/commentsReactions/likeComment/${postId}/${commentId}/${type}/${userId}/${postUserId}`, {});
 };
 
-export const likeCommentReply = (postId, commentId, type, userId) => {
+export const likeCommentReply = (postId, commentId, type, userId, commentUserId) => {
   return axios.post(
-    `/api/commentsReactions/likeReply/${postId}/${commentId}/${type}/${userId}`,
+    `/api/commentsReactions/likeReply/${postId}/${commentId}/${type}/${userId}/${commentUserId}`,
     {
      
     }
   );
 };
-export const likeCommentReplyToReply = (postId, commentId, type, userId) => {
+export const likeCommentReplyToReply = (postId, commentId, type, userId, commentUserId) => {
   return axios.post(
-    `/api/commentsReactions/likeReplyToReply/${postId}/${commentId}/${type}/${userId}`,
+    `/api/commentsReactions/likeReplyToReply/${postId}/${commentId}/${type}/${userId}/${commentUserId}`,
     {
      
     }
