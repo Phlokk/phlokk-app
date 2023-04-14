@@ -6,7 +6,10 @@ import querystring from "query-string";
 import { MaterialIcons } from "@expo/vector-icons";
 import CustomAlert from "../components/Alerts/CustomAlert";
 import * as SecureStore from "expo-secure-store";
-
+import { useNavigation } from "@react-navigation/native";
+import routes from "../navigation/routes";
+import { useDispatch } from "react-redux";
+import { types } from "../redux/constants";
 export const POSTS_PER_PAGE = 20;
 export const POSTS_PER_USER_PAGE = 20; // Changed to 20 since profiles display thumbnails, and may need more on initial load
 
@@ -18,20 +21,7 @@ export const getPost = async (postId) => {
   }
 };
 
-// feed for all Users
-export const getFeedAsync = async (page) => {
-  let user = JSON.parse(await SecureStore.getItemAsync("user"));
-  const paramsObject = { page, limit: POSTS_PER_PAGE, userId: user._id };
-  const params = querystring.stringify(paramsObject);
-  try {
-    const result = await axios.get(`/api/posts/?${params}`);
-    
 
-    return result.data;
-  } catch {
-    setIsFeedVisible(true);
-  }
-};
 
 // get currentUser feed API
 export const getUserFeedAsync = async (userId = null, page = 1) => {
@@ -39,23 +29,51 @@ export const getUserFeedAsync = async (userId = null, page = 1) => {
 
   const paramsObject = { page, limit: POSTS_PER_USER_PAGE };
   const params = querystring.stringify(paramsObject);
-
+let result = null
   try {
-    const result = await axios.get(
+    const response = await axios.get(
       `/api/posts/usersPosts/${userId ?? user._id}?page=${1}`
     );
-    return result.data;
-  } catch {
-    setIsFeedConnected(true);
+    result = response.data;
+     
+  } catch (e) {
+    result = e.message
+    setIsFeedConnected && setIsFeedConnected(true);
   }
+  return result;
 };
 
+  // feed for all Users
+ export const getFeedAsync = async (page, navigation) => { 
+    let user = JSON.parse(await SecureStore.getItemAsync("user"));
+    const paramsObject = { page, limit: POSTS_PER_PAGE, userId: user._id };
+    const params = querystring.stringify(paramsObject);
+    let result = null
+    try {
+        const response  = await axios.get(`/api/posts/?${params}`);
+        result = response.data;
+    } catch (e){
+      result = e.message;
+      // setIsFeedVisible && setIsFeedVisible(true);
+    }
+    return result;
+  };
 export const useVideoFeed = (options) => {
   const [posts, setPosts] = useState([]);
   const [nextPageNumber, setNextPageNumber] = useState();
   const [loading, setLoading] = useState();
-
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+   const handleNoTokenError  = () => {
+    SecureStore.deleteItemAsync("user");
+    dispatch({
+      type: types.USER_STATE_CHANGE,
+      currentUser: null,
+      loaded: true,
+    });
+  }
   const skip = options?.skip;
+ 
 
   useEffect(() => {
     if (!skip) {
@@ -66,9 +84,15 @@ export const useVideoFeed = (options) => {
   const getFeed = async () => {
     setLoading(true);
     const feed = await getFeedAsync();
-    setPosts(feed.data);
-    setNextPageNumber(feed?.next_page_number);
-    setLoading(false);
+    console.log("here is fee", feed)
+    if(feed === "Request failed with status code 501"){
+      handleNoTokenError();
+      setLoading(false)
+    }else{
+      setPosts(feed.data);
+      setNextPageNumber(feed?.next_page_number);
+      setLoading(false);
+    }
   };
 
   const getMoreVideos = async () => {
@@ -78,9 +102,16 @@ export const useVideoFeed = (options) => {
 
     setLoading(true);
     const feed = await getFeedAsync(nextPageNumber);
-    setPosts((prev) => [...prev, ...feed.data]);
-    setNextPageNumber(feed.next_page_number);
-    setLoading(false);
+    console.log("here is fee", feed)
+    if(feed === "Request failed with status code 501"){
+      handleNoTokenError();
+      setLoading(false)
+    }else{
+      setPosts((prev) => [...prev, ...feed.data]);
+      setNextPageNumber(feed.next_page_number);
+      setLoading(false);
+    }
+   
   };
 
   const refresh = async () => {
@@ -89,6 +120,7 @@ export const useVideoFeed = (options) => {
 
   return { posts, getMoreVideos, loading, refresh };
 };
+
 
 export const useUserVideoFeed = (userId, options) => {
   const [posts, setPosts] = useState([]);
@@ -217,9 +249,11 @@ export const commentListener = async (
   setCommentList,
   setCommentCount
 ) => {
+  let data = null
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
+  if(!user) return "Request failed with status code 501";
   await axios
-    .get(`/api/comments/show/${postId}/${user._id}`)
+    .get(`/api/comments/show/${postId}/${user?._id}`)
     .then((result) => {
       setCommentList(result.data);
       let commentCount = 0;
@@ -236,11 +270,13 @@ export const commentListener = async (
       }
 
       setCommentCount(commentCount);
-      return result.data;
+      data =  result.data;
     })
     .catch((error) => {
-      setIsCommentsVisible(true);
+      data = error.message
+      // setIsCommentsVisible && setIsCommentsVisible(true);
     });
+    return data;
 };
 
 export const clearCommentListener = () => {

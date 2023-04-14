@@ -55,7 +55,9 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
     setUsername("");
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    await SecureStore.deleteItemAsync("user");
+
     axios
       .post("/api/auth/login", {
         email: email,
@@ -64,7 +66,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
       .then(async (response) => {
         if (Platform.OS === 'ios') {
           const expoPushToken = await registerForPushNotificationsAsync();
-          console.log("token => ",response.data.user[0], expoPushToken);
           axios
             .post("/api/notifications/enroll-device", {
               user_id: response.data.user[0]._id,
@@ -73,22 +74,21 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               "auth-token": response.data.token
             }})
             .then(async (response) => {
-              console.log('response => ', response);
               setExpoPushToken(expoPushToken);
             })
         // ExponentPushToken[_0E_y-OjwcbuitlYSmKurd]
         }
        
         const user = response.data.user[0];
-        const followingList = response.data.followingList;
         user.token = response.data.token;
+        await SecureStore.setItemAsync("user", JSON.stringify(user));
+        const followingList = response.data.followingList;
         await handlesSaveFollowingList(followingList);
 
         if (Platform.OS === 'ios') {
           user.expoPushToken = expoPushToken;
         }
         setLoggedInUser(user);
-        SecureStore.setItemAsync("user", JSON.stringify(user));
         dispatch({
           type: types.USER_STATE_CHANGE,
           currentUser: user,
@@ -122,15 +122,15 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
         password: password,
         acceptTerms: isChecked,
       })
-      .then(function (response) {
-        const user = response.data.user[0];
-        user.token = response.data.token;
+      .then(async function (response) {
+        const registerUser = response.data.user[0];
+        registerUser.token = response.data.token;
         resetTextInput();
-        setUser(user);
-        SecureStore.setItemAsync("user", JSON.stringify(user));
+        setUser(registerUser);
+        await SecureStore.setItemAsync("user", JSON.stringify(registerUser));
         dispatch({
           type: types.USER_STATE_CHANGE,
-          currentUser: user,
+          currentUser: registerUser,
           loaded: true,
         });
       })

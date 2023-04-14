@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import axios from "../../redux/apis/axiosDeclaration";
+import axios from "../../redux/apis/laravelAxios";
 import colors from "../../../config/colors";
 import PostNavBar from "../../components/general/postNav/PostNavBar";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -102,8 +102,8 @@ const ReportScreen = ({ route, navigation }) => {
   const submitForm = () => {
     const post = route.params.post;
     const postId = post._id;
-
     const movie = post.media[0].original_url;
+    
     axios
       .post(
         "/api/support/create-ticket",
@@ -123,6 +123,7 @@ const ReportScreen = ({ route, navigation }) => {
         navigation.goBack();
       })
       .catch(function (error) {
+        console.log("Error",error)
         alert("There was an error in sending your report");
       });
   };

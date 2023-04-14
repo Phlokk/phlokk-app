@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, View } from "react-native";
 import { userAuthStateListener } from "../../redux/actions";
+import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthScreen from "../../screens/auth/AuthScreen";
 import SavePostScreen from "../../screens/savePost/SavePostScreen";
@@ -85,20 +86,18 @@ const Stack = createNativeStackNavigator();
 
 export default function Route() {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(userAuthStateListener());
   }, []);
-
   if (!auth.loaded) {
+    // navigation.navigate('auth');
+    // return null;
     return <View style={styles.lightBlack} />;
   }
-
-  {
-  }
-
 
 
   return (

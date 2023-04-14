@@ -56,6 +56,7 @@ export default function EditLinkFieldScreen({ route }) {
           dataDetectorTypes={"link"}
           autoCorrect={false}
           maxLength={50}
+          autoCapitalize='none'
           value={textInputValue}
           onChangeText={(text) => {
             if (text.includes(' ')) {

@@ -78,10 +78,10 @@ const SettingsAudioModalScreen = ({ currentUser, item }) => {
         <TouchableOpacity
             style={styles.fieldItemContainer}
             autoCapitalize="none"
-            // onPress={() => setTrimAudio(true)}
-            onPress={() => {
-              navigation.navigate(routes.TRIMMER, {item: item })
-            }}
+            onPress={() => setTrimAudio(true)}
+            // onPress={() => {
+            //   navigation.navigate(routes.TRIMMER, {item: item })
+            // }}
           >
             <View style={styles.bubble}>
               <Ionicons

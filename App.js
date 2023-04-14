@@ -26,6 +26,7 @@ import Constants from "expo-constants";
 import * as SecureStore from "expo-secure-store";
 import jwtDecode from 'jwt-decode';
 
+
 SplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreLogs(["Setting a timer"]);
@@ -90,6 +91,7 @@ export default function App() {
     hideSplash();
     // }
   }, [appIsAvailable]);
+
   const version = Constants.manifest.version;
   const buildVersion =
     Constants.manifest.ios.buildNumber ||
@@ -240,7 +242,6 @@ export default function App() {
   }, []);
   useEffect(async()=> {
     Notifications.addNotificationReceivedListener((notification) => {
-      console.log("notification => ", notification);
     });
    await checkTokenExpiry()
   }, []);
@@ -251,7 +252,7 @@ export default function App() {
       if(hasTimestampExpired(decodedToken.exp)){
        await updateRefreshToken()
       }
-    }
+    } 
   }
   const hasTimestampExpired = (timestamp) => { 
   const currentTime = Math.floor(Date.now() / 1000); // current Unix timestamp
@@ -261,6 +262,7 @@ export default function App() {
 
   const updateRefreshToken = async ()=>{
    try{
+    // await SecureStore.deleteItemAsync('user');
     const response = await axios.get("/api/auth/refresh-token");
     const newUser = response.data.user[0];
     newUser.token = response.data.token; 

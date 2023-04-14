@@ -47,7 +47,7 @@ const SearchInput = ({
   nextPageNumber,
   previousResult,
   previousquery,
-  setPreviousQuery,isSearching, setIsSearching,setNextPage
+  setPreviousQuery,isSearching, setIsSearching,setNextPage,disabled
 }) => {
   const { theme } = useTheme();
   const [textInput, setTextInput] = useState("");
@@ -129,6 +129,7 @@ const SearchInput = ({
   return (
     <View style={styles.container}>
       <TextInput
+        editable={!disabled}
         autoCapitalize="none"
         value={textInput}
         autoCorrect={false}

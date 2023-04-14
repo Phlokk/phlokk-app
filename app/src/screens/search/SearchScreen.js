@@ -22,6 +22,7 @@ import { userAtom } from "../../services/appStateAtoms";
 import VideoItem from "../../screens/videoFeed/VideoItem";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect } from "react";
+import { current } from "@reduxjs/toolkit";
 
 const SearchScreen = () => {
   const { theme, setTheme } = useTheme();
@@ -170,6 +171,7 @@ const SearchScreen = () => {
           isSearching={isSearching} 
           setIsSearching={setIsSearching}
           setNextPage={setNextPage}
+          disabled={currentTab === 0}
         />
         </View>
       </View>
@@ -253,6 +255,8 @@ const styles = StyleSheet.create({
   },
   risingStarView: {
     padding: 10,
+    position: "absolute",
+    bottom:10 
   },
   risingStarRow: {
     flexDirection: "row",

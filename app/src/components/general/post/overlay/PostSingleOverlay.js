@@ -25,12 +25,15 @@ import {
   commentListener,
   clearCommentListener
 } from "../../../../services/posts";
+import * as SecureStore from "expo-secure-store";
+import { useDispatch } from "react-redux";
+import { types } from "../../../../redux/constants";
 // import routes from "../../../../navigation/routes"
 
 export default function PostSingleOverlay({ post, user, isCurrentUser }) {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-
+  const dispatch  =useDispatch()
   useEffect(() => {
     setIsSettingsModalScreenOpen(false);
     setCommentModalOpen(false);
@@ -48,9 +51,20 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
   const [likeCount, setLikeCount] = useState(post.like_count);
   const [refech, setRefech] = useState(false);
   useEffect(async () => {
-    await commentListener(post._id, setCommentList, setCommentCount);
+   let response =  await commentListener(post._id, setCommentList, setCommentCount); 
+   if(response === "Request failed with status code 501"){
+    handleNoTokenError()
+   }
     return () => clearCommentListener();
   }, [refech]);
+  const handleNoTokenError  = () => {
+    SecureStore.deleteItemAsync("user");
+    dispatch({
+      type: types.USER_STATE_CHANGE,
+      currentUser: null,
+      loaded: true,
+    });
+  }
 
   const likeButtonHandler = async () => {
     const type = isLiked ? "unlike" : "like";
