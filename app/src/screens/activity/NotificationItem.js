@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../../../config/colors";
 import { timeSince } from "../../services/posts";
 import routes from "../../navigation/routes";
-import { getPost } from "../../services/posts";
+import { getPost, getSinglePost } from "../../services/posts";
 import FastImage from "react-native-fast-image";
 import { useNavigation } from "@react-navigation/core";
 import NotificationItemSecondaryAvatar from "./NotificationItemSecondaryAvatar";
@@ -24,21 +24,26 @@ const NotificationItem = ({ navigation, item }) => {
   const inAppNavigation = useNavigation();
 
   const goToAssociated = async function () {
-    if (item.type == 5) {
+    if (!item.post) {
+      console.log("No post")
       inAppNavigation.navigate("profileOther", {
-        initialUser: item.associated,
+        initialUser: item.user,
+        profile:true
       });
     } else {
-      const post = await getPost(item.associated._id).then((resp) => {
-        return resp.data.post;
-      });
+      const post = await getSinglePost(item.post.id ?? item.post._id, item.post.user_id)
+      // return console.log("Post", item.body)
+      //TODO: save the comment id in notification table so that filtering that comment id easier
+      item.post.user = post.data[0].user;
+      post.data[0].videoUrl  = item.post.videoUrl
 
       navigation.navigate(routes.USER_POSTS, {
-        creator: post.user,
+        creator: post.data[0].user,
         profile: true,
-        selectedVideo: post.media[0].original_url,
+        selectedVideo: item.post.media.find((e)=> !e.original_url?.endsWith("jpg")),
         selectedIndex: 0,
-        preloadedPosts: [post],
+        preloadedPosts: [post.data[0]],
+        notificationView: true,
       });
     }
   };
@@ -70,7 +75,7 @@ const NotificationItem = ({ navigation, item }) => {
           </TouchableOpacity>
           <View style={styles.notificationView}>
             <View style={styles.mentionsView}>
-              <TouchableOpacity>
+              <TouchableOpacity  onPress={() => goToAssociated()}>
                 <Text
                   style={
                     theme == "light"

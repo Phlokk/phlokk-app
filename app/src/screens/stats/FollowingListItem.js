@@ -66,7 +66,13 @@ const FollowingListItem = ({ item, followersList, setLoggedInUserFollowingList }
   return (
     <View style={styles.item}>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity
+         onPress={() => {
+          navigation.navigate("feedProfile", {
+            initialUser: item.user,
+          });
+         }}
+        >
           <Image
             style={styles.image}
             source={
@@ -78,14 +84,14 @@ const FollowingListItem = ({ item, followersList, setLoggedInUserFollowingList }
         </TouchableOpacity>
       </View>
       <View style={styles.followingInfoRow}>
-        <TouchableOpacity>
+        <TouchableOpacity
+         onPress={() => {
+          navigation.navigate("feedProfile", {
+            initialUser: item.user,
+          });
+         }}
+         >
           <Text
-          // TODO:Needs to navigate to the correct user account
-            // onPress={() => {
-            //   navigation.navigate("feedProfile", {
-            //     initialUser: item.user,
-            //   });
-            // }}
             style={styles.itemInfo}
           >
             {item?.user.username}

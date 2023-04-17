@@ -35,8 +35,7 @@ export default function EditPostsScreen({ route }) {
     setupAudio();
   }, []);
 
-  return (
-    console.log("Video URl", videoUrl),
+  return (console.log("videoUrl", route.params),
     (
       <View style={styles.container}>
         <Video

@@ -209,7 +209,7 @@ function UserProfileOverlay({
             style={styles.username}
             key={user._id}
           >
-            <Text style={styles.username}>@{user.username}</Text>
+            <Text style={styles.username}>{user.username}</Text>
           </TouchableOpacity>
           <View style={{ paddingTop: 2, top: 2 }}>
             {user.is_verified === 1 && <VerifiedIcon />}
@@ -234,7 +234,7 @@ function UserProfileOverlay({
           }}
         >
 
-          {HASHTAG_FORMATTER(post.description)}
+          {HASHTAG_FORMATTER(post?.description)}
         </Text>
         <View style={styles.songView}>
           <View style={styles.songRow}>

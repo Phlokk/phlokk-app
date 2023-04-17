@@ -31,8 +31,7 @@ export default function ProfileScreen({ route }) {
       setProfile(response);
     } catch {}
   };
-  const userProfile = route?.params?.initialUser;
-
+  const userProfile = route?.params?.initialUser; 
 
   useEffect(() => {
     if (!route) {
@@ -48,12 +47,11 @@ export default function ProfileScreen({ route }) {
       
     } else {
       setProfile(userProfile);
-      fetchUser(userProfile.id);
+      fetchUser(userProfile.id ?? userProfile._id);
     }
   }, [route, loggedInUser]);
-
   const { posts, getMoreUserPosts, refresh, loading } = useUserVideoFeed(
-    userProfile?.id
+    userProfile?.id ?? userProfile?._id
   );
   useEffect(async() => {
     await refresh();
@@ -144,7 +142,6 @@ export default function ProfileScreen({ route }) {
       );
     }
   };
-
   if (!profile) {
     return (
       <SafeAreaView
@@ -156,7 +153,7 @@ export default function ProfileScreen({ route }) {
     );
   }
 
-  if (loading && postsToDisplay.length === 0) {
+  if (loading && postsToDisplay?.length === 0) {
     return <ProfileLoading />;
   } else {
     return (

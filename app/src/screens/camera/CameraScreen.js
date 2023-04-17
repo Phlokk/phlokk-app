@@ -114,10 +114,10 @@ export default function CameraScreen({ route }) {
   const [duetVideoUrl, setDuetVideoUrl] = useState(null);
 
   useEffect(() => {
-    (async () => {
+    const getPermissions = async () => {
       const cameraStatus = await Camera.requestCameraPermission();
-      const microphonePermission = await Camera.getMicrophonePermissionStatus();
-
+      const microphonePermission = await Camera.requestMicrophonePermission();
+      console.log("microphonePermission", microphonePermission)
       setHasMicrophonePermission(microphonePermission == "authorized");
       setHasCameraPermissions(cameraStatus == "authorized");
 
@@ -135,7 +135,8 @@ export default function CameraScreen({ route }) {
         });
         setGalleryItems(userGalleryMedia.assets);
       }
-    })();
+    };
+    getPermissions();
 
     setStartRecordingCountdown(3);
   }, []);
@@ -166,14 +167,14 @@ export default function CameraScreen({ route }) {
         stopVideo();
         pauseAudio();
         const sourceThumb = await generateThumbnail(video?.path);
-         return await generateDuoUrl(video?.path)
+        //  return await generateDuoUrl(video?.path, video.duration )
         if (!route.params?.item?.sound_url) {
           navigation.navigate("editPosts", { source: video.path, sourceThumb });
         } else {
-          await generateVideo(video?.path).then(async (outputFilePath) => {
-            console.log("Output", outputFilePath);
+          await generateVideo(video?.path).then(async () => {
+             console.log("outputFilePath",video?.path)
             navigation.navigate("editPosts", {
-              source: outputFilePath,
+              source: video?.path,
               sourceThumb,
             });
           });
@@ -249,12 +250,12 @@ export default function CameraScreen({ route }) {
   };
 
   //TODO: do we need this component anymore?
-  const generateDuoUrl = async (videoPath) => {
+  const generateDuoUrl = async (videoPath, videoDuration) => {
     let formData = new FormData();
     const user = await SecureStore.getItemAsync("user");
     const parsedUser = JSON.parse(user);
 
-    let url = apiUrlsNode.BASE_URL2 + `/api/posts/get-duo-url`;
+    let url = apiUrlsNode.BASE_URL2 + `/api/posts/get-duo-url/${videoDuration}`;
     const config = {
       "content-type": "multipart/form-data",
       "auth-token": `${parsedUser.token}`,
@@ -270,7 +271,7 @@ export default function CameraScreen({ route }) {
       },
       fileName
     );
-    formData.append("post_video_url", post?.media[1]?.original_url, {
+    formData.append(`post_video_url`, post?.media[1]?.original_url, {
       post_video_url: post?.media[1]?.original_url
     }); 
     console.log("Video Merging")
@@ -524,6 +525,7 @@ export default function CameraScreen({ route }) {
       setIsVideoEnded(true);
     }
   };
+  
   if (
     hasCameraPermissions === undefined ||
     hasAudioPermissions === undefined ||
@@ -550,6 +552,11 @@ export default function CameraScreen({ route }) {
     );
   }
 
+  
+
+if (!devices) {
+  return <View style={styles.camView}></View>;
+}
   return (
     <View style={duo ? styles.duoContainer : styles.container}>
       {hasCameraPermissions && isFocused ? (

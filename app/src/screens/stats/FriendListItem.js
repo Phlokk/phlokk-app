@@ -1,26 +1,72 @@
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../config/colors";
 import axios from "../../redux/apis/axiosDeclaration";
 import RisingStar from "../../components/common/RisingStar";
-
-const FriendListItem = ({ item }) => {
+import { useAtom } from "jotai";
+import { userAtom } from "../../services/appStateAtoms";
+import * as SecureStore from "expo-secure-store";
+const FriendListItem = ({ item, setFriendsList}) => {
   const navigation = useNavigation();
   const [isFriends, setIsFriends] = useState(item.is_friend);
+  const [loggedInUserFollowingList, setLoggedInUserFollowingList] = useState(
+    []
+  );
+  const [currentUser] = useAtom(userAtom);
+  const getCurrentUser = async () => {
+    const chunkSize = 50;
+    let followingList = [];
+    let i = 0;
+    while (true) {
+      const chunkKey = `followingList-${i}`;
+      const chunkData = await SecureStore.getItemAsync(chunkKey);
+      if (!chunkData) {
+        break;
+      }
+      const chunkArray = JSON.parse(chunkData);
+      followingList = [...followingList, ...chunkArray];
+      i++;
+    }
+    return followingList;
+  };
   const toggleIsFriend = async function () {
-    await axios.post(
-      "/api/creator/" + item._id + "/" + (!isFriends ? "unfriend" : "friend")
-    ),
-      {};
-    setIsFriends(!isFriends);
+    await axios.delete(`/api/creators/unfollow/${currentUser._id}/${ item.user._id}`),
+    {};
+    await removeUserToFollowingList(item.user._id);
+    setFriendsList(e=> [...e.filter(j=> j.user?._id !==  item.user?._id )])
+  };
+  useEffect(async () => {
+    setLoggedInUserFollowingList(await getCurrentUser());
+  }, []);
+  const handlesSaveFollowingList = async (list) => {
+    const chunkSize = 50;
+    const numChunks = Math.ceil(list.length / chunkSize);
+    for (let i = 0; i < numChunks; i++) {
+      const startIndex = i * chunkSize;
+      const endIndex = Math.min((i + 1) * chunkSize, list.length);
+      const chunkData = list.slice(startIndex, endIndex);
+      const chunkKey = `followingList-${i}`;
+      await SecureStore.setItemAsync(chunkKey, JSON.stringify(chunkData));
+    }
+  };
+  const removeUserToFollowingList = async (userId) => {
+    let newList = loggedInUserFollowingList.filter((e) => e !== userId);
+    setLoggedInUserFollowingList(newList);
+    await handlesSaveFollowingList(newList);
   };
 
   return (
     <View style={styles.item}>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("feedProfile", {
+              initialUser: item.user,
+            });
+          }}
+        >
           <Image
             style={styles.image}
             source={
@@ -32,26 +78,21 @@ const FriendListItem = ({ item }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.friendInfoRow}>
-        <TouchableOpacity>
-          <Text
-            // TODO:Needs to navigate to the correct user account
-            // onPress={() => {
-            //   navigation.navigate("feedProfile", {
-            //     initialUser: item.user,
-            //   });
-            // }}
-            style={styles.itemInfo}
-          >
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("feedProfile", {
+              initialUser: item.user,
+            });
+          }}
+        >
+          <Text style={styles.itemInfo}>
             {item.user.username}
             {item.user.is_verified && (
-        
               <View style={styles.logoRow}>
                 <VerifiedIcon />
               </View>
-              )}
-              {item.user.is_rising === 1 && <RisingStar />}
-            
-            
+            )}
+            {item.user.is_rising === 1 && <RisingStar />}
           </Text>
           <Text style={styles.creatorTypeText}> {item.user.creator_type}</Text>
         </TouchableOpacity>
@@ -147,10 +188,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.grey,
   },
   risingStarRow: {
-
     bottom: -12,
     paddingLeft: 5,
-
   },
 });
 

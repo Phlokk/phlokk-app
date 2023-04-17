@@ -40,7 +40,7 @@ export default function FriendListScreen({ route }) {
   }, []);
 
   const renderItem = useCallback(({ item, index }) => {
-    return <FriendListItem item={item} index={index} />;
+    return <FriendListItem item={item} index={index} setFriendsList={setFriendsList} />;
   });
 
   return (

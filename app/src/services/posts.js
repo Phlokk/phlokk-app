@@ -13,19 +13,25 @@ import { types } from "../redux/constants";
 export const POSTS_PER_PAGE = 20;
 export const POSTS_PER_USER_PAGE = 20; // Changed to 20 since profiles display thumbnails, and may need more on initial load
 
-export const getPost = async (postId) => {
+export const getPost = async (postId, userId) => {
   try {
-    return axios.get(`/api/posts/${postId}`);
+    return axios.get(`/api/posts/${postId}/${userId}`);
+  } catch (e) {
+    setIsPosts(true);
+  }
+};
+export const getSinglePost = async (postId, userId) => {
+  try {
+    return axios.get(`/api/posts/single-post/${postId}/${userId}`);
   } catch (e) {
     setIsPosts(true);
   }
 };
 
-
-
 // get currentUser feed API
 export const getUserFeedAsync = async (userId = null, page = 1) => {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
+  console.log("User posts",userId ?? user._id )
 
   const paramsObject = { page, limit: POSTS_PER_USER_PAGE };
   const params = querystring.stringify(paramsObject);
@@ -33,9 +39,9 @@ let result = null
   try {
     const response = await axios.get(
       `/api/posts/usersPosts/${userId ?? user._id}?page=${1}`
-    );
+    ); 
     result = response.data;
-     
+    
   } catch (e) {
     result = e.message
     setIsFeedConnected && setIsFeedConnected(true);
@@ -44,7 +50,7 @@ let result = null
 };
 
   // feed for all Users
- export const getFeedAsync = async (page, navigation) => { 
+ export const getFeedAsync = async (page, userId) => { 
     let user = JSON.parse(await SecureStore.getItemAsync("user"));
     const paramsObject = { page, limit: POSTS_PER_PAGE, userId: user._id };
     const params = querystring.stringify(paramsObject);
@@ -84,7 +90,6 @@ export const useVideoFeed = (options) => {
   const getFeed = async () => {
     setLoading(true);
     const feed = await getFeedAsync();
-    console.log("here is fee", feed)
     if(feed === "Request failed with status code 501"){
       handleNoTokenError();
       setLoading(false)
@@ -141,10 +146,10 @@ export const useUserVideoFeed = (userId, options) => {
 
   const getFeed = async () => {
     setLoading(true);
-    const feed = await getUserFeedAsync(userId);
+    const feed = await getUserFeedAsync(userId); 
     setPosts(feed.data);
-    if(feed.pagination.nexPage!==undefined){
-      setNextPageNumber(feed.pagination.nextPage);
+    if(feed?.pagination?.nexPage!==undefined){
+      setNextPageNumber(feed?.pagination?.nextPage);
     }
     setLoading(false);
   };
@@ -167,7 +172,7 @@ export const useUserVideoFeed = (userId, options) => {
   const refresh = async () => {
     await getFeed();
   };
-
+console.log("posts",posts)
   return { posts, getMoreUserPosts, loading, refresh };
 };
 

@@ -29,8 +29,8 @@ import { getAllNewsTickerData } from "../../services/newsTicker";
 export const newFeedItemAtom = atom("");
 export const forceRefreshAtom = atom(false);
 
-const VideoFeed = ({ navigation, route }) => {
-  const { profile, selectedIndex, creator, preloadedPosts } = route.params;
+const VideoFeed = ({ navigation, route }) => { 
+  const { profile, selectedIndex, creator, preloadedPosts, notificationView } = route.params;
   const [currentUser] = useAtom(userAtom);
   const [forceRefresh, setForceRefresh] = useAtom(forceRefreshAtom);
 
@@ -120,10 +120,13 @@ const VideoFeed = ({ navigation, route }) => {
       if (loadingMainFeed || loadingUserFeed) {
         return;
       }
-      if (profile) {
-        getMoreUserPosts();
-      } else {
-        getMoreVideos();
+      
+      if(!notificationView){
+        if (profile) {
+          getMoreUserPosts();
+        } else {
+          getMoreVideos();
+        }
       }
     }
   }, [currentVideoIndex]);
@@ -154,8 +157,6 @@ const VideoFeed = ({ navigation, route }) => {
       return likes.length;
     }
   };
-
-  
 
   const renderItem = useCallback(
     ({ item, index }) => {

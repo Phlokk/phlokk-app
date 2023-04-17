@@ -94,9 +94,10 @@ const VideoItem = ({
         <Video
           ref={videoPlayerRef}
           source={{
-            uri: item.media[1].original_url,
-            type: item.media[1].mime_type,
+            uri: item.videoUrl ??  item.media[1]?.original_url,
+            type: item.media[1]?.mime_type ?? 'video/quicktime' ,
           }}
+        
           isMuted={currentVideoIndex !== index || !isFocused}
           resizeMode={videoResizeMode}
           style={styles.videoRenderer}
