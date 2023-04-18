@@ -161,8 +161,9 @@ function CommentModal({
       <View>
         <View style={item.is_reply && { marginLeft: 40, marginTop: -10 }}>
           <CommentItem
-            setCommentList={setCommentList}
             setComment={setComment}
+            setCommentList={setCommentList}
+            commentList={commentList}
             index={index}
             comment={item}
             post={post}
@@ -180,6 +181,7 @@ function CommentModal({
             <View key={reply._id} style={{ marginLeft: 40, marginTop: -10 }}>
               <CommentItem
                 setCommentList={setCommentList}
+                commentList={commentList}
                 setRefech={setRefech}
                 setComment={setComment}
                 comment={reply}
@@ -202,6 +204,7 @@ function CommentModal({
                       replyOfReply={reply}
                       setRefech={setRefech}
                       setCommentList={setCommentList}
+                      commentList={commentList} 
                       setComment={setComment}
                       comment={replyOfReply}
                       key={replyOfReply._id}

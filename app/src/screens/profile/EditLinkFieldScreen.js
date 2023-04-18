@@ -24,7 +24,7 @@ export default function EditLinkFieldScreen({ route }) {
   const [user, setUser] = useAtom(userAtom);
 
   const onSave = async () => {
-    const updateObject = { link: textInputValue };
+    const updateObject = { link: textInputValue }; 
     try {
       await updateCreator(updateObject);
       const updatedUser = { ...user, ...updateObject };

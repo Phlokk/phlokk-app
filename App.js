@@ -242,6 +242,7 @@ export default function App() {
   }, []);
   useEffect(async()=> {
     Notifications.addNotificationReceivedListener((notification) => {
+      console.log("New notification", notification )
     });
    await checkTokenExpiry()
   }, []);

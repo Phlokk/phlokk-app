@@ -25,15 +25,15 @@ export default function EditProfileFieldScreen({ route }) {
   const onSave = async () => {
     const updateObject = { username: textInputValue };
     try {
-      await updateCreator(user, updateObject);
+      await updateCreator( updateObject);
       const updatedUser = { ...user, ...updateObject };
       setUser(updatedUser);
       navigation.goBack();
     } catch (error) {
+      console.log(error)
       setIsDataNotSaved(true);
     }
-  };
-
+  }
   
 
   return (

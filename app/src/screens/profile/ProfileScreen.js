@@ -191,18 +191,18 @@ export default function ProfileScreen({ route }) {
               refreshing={isRefreshing}
               tintColor={colors.secondary}
               size={"default"}
-              onRefresh={async () => {
+              onRefresh={async () => { 
                 setIsRefreshing(true);
                 await refresh();
                 setIsRefreshing(false);
               }}
             />
           }
+          onEndReachedThreshold={0.5}
           onEndReached={() => {
             if (postsToDisplay?.length <= 10) {
               return;
-            }
-            
+            } 
             if (!loading) {
               getMoreUserPosts();
             }

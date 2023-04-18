@@ -26,6 +26,7 @@ export default function EditPostsScreen({ route }) {
   );
 
   const videoThumb = route.params.sourceThumb;
+  const duration =  route.params.duration
 
   useEffect(() => {
     setVideoUrl(route.params.source);
@@ -35,7 +36,7 @@ export default function EditPostsScreen({ route }) {
     setupAudio();
   }, []);
 
-  return (console.log("videoUrl", route.params),
+  return (
     (
       <View style={styles.container}>
         <Video
@@ -70,7 +71,7 @@ export default function EditPostsScreen({ route }) {
 
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("savePost", { videoUrl, videoThumb })
+              navigation.navigate("savePost", { videoUrl, videoThumb,duration })
             }
             style={styles.postButton}
           >

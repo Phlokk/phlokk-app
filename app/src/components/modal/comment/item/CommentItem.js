@@ -27,13 +27,15 @@ import { useTheme } from "../../../../theme/context";
 import { likeCountFormatter } from "../../../common/NumberFormatter";
 
 const CommentItem = ({
-  comment,
+  comment, 
   post,
   setCommentList,
   onReplyPressed,
   isReply,
   replyOfReply,
-  setRefech
+  setRefech,
+  commentList,
+  index
 }) => {
   const { theme } = useTheme();
 
@@ -60,11 +62,14 @@ const CommentItem = ({
           await likeCommentReply(post._id, comment._id, type, user._id, (comment.user._id ?? comment.user.id));
         }
       }
-      // e30e2455-8c7c-414b-af10-0e31489faa5c 5c2a7548-0635-4e4a-82af-efe6fb9d2025
-      setRefech(e=> !e)
+      // setRefech(e=> !e)
+      setLikeCount((prev) => (comment.is_liked ? prev - 1 : prev + 1));
+      comment.like_count = comment.is_liked ? comment.like_count - 1 :  comment.like_count + 1;
+      comment.is_liked = comment.is_liked ? 0 : 1;
+      setCommentList([...commentList])
       setIsLiked(!isLiked);
-      setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
     } catch (err) {
+      console.log("Error", err)
       Alert.alert("Could not like this comment!");
     }
   };

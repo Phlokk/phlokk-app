@@ -61,6 +61,7 @@ export default Object.freeze({
   UPDATE_PIN: "pinUpdate",
   SUPPORT_CENTER: "support",
   SEARCH: "searchItem",
+  THUMBNAIL_SELECT: "thumbSelect",
   // Flatlist Screens
   COMEDY_SCREEN: "comedyScreen",
   MUSICIAN_SCREEN: "musicianScreen",

@@ -90,7 +90,7 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
         <MaterialCommunityIcons
           color={colors.white}
           size={40}
-          name={isLiked ? "star" : "star-outline"}
+          name={post.is_liked ? "star" : "star-outline"}
         />
       </TouchableOpacity>
       <Text style={styles.statsLabel}>{numberFormatter(likeCount)}</Text>

@@ -38,7 +38,7 @@ export const getUserFeedAsync = async (userId = null, page = 1) => {
 let result = null
   try {
     const response = await axios.get(
-      `/api/posts/usersPosts/${userId ?? user._id}?page=${1}`
+      `/api/posts/usersPosts/${userId ?? user._id}?page=${page}`
     ); 
     result = response.data;
     
@@ -107,7 +107,6 @@ export const useVideoFeed = (options) => {
 
     setLoading(true);
     const feed = await getFeedAsync(nextPageNumber);
-    console.log("here is fee", feed)
     if(feed === "Request failed with status code 501"){
       handleNoTokenError();
       setLoading(false)
@@ -155,16 +154,15 @@ export const useUserVideoFeed = (userId, options) => {
   };
 
   const getMoreUserPosts = async () => {
-   
     if (!nextPageNumber) {
       return;
     }
     setLoading(true);
-    const feed = await getUserFeedAsync(userId, nextPageNumber);
-    setPosts((prev) => [...prev, ...feed.data]);
-     if(feed.pagination.nexPage!==undefined){
+    const feed = await getUserFeedAsync(userId, nextPageNumber); 
+    setPosts((prev) =>   [...prev, ...feed.data]  ); 
+     if(feed.pagination.nextPage!==undefined){
       setNextPageNumber(feed.pagination.nextPage);
-    }
+    } 
     setLoading(false);
   };
   //Copy what we did for useVideoFeed
@@ -172,7 +170,6 @@ export const useUserVideoFeed = (userId, options) => {
   const refresh = async () => {
     await getFeed();
   };
-console.log("posts",posts)
   return { posts, getMoreUserPosts, loading, refresh };
 };
 

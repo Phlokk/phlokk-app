@@ -48,6 +48,7 @@ export default function SavePostScreen({ route }) {
   const [isMentions, setIsMentions] = useState(false);
 
   const [newFeedItem, setNewFeedItem] = useAtom(newFeedItemAtom);
+  const [thumbUrl, setThumbUrl] = useState(null)
 
   const handleSavePost = () => {
     
@@ -68,9 +69,7 @@ export default function SavePostScreen({ route }) {
         setRequestRunning(false);
       });
   };
-
-
-
+ 
 
 
   if (requestRunning) {
@@ -122,7 +121,13 @@ export default function SavePostScreen({ route }) {
                 animationType="fade"
               />
               <Pressable
-                onPress={() => setIsSelectedImage(true)}
+                onPress={() => {
+                  navigation.navigate("thumbSelect",{
+                    videoUrl: route.params.videoUrl,
+                    setThumbUrl,
+                    duration: route.params.duration
+                  }) 
+                }}
                 style={styles.coverSelectView}
               >
                 <Text style={styles.coverSelect}>Select cover</Text>

@@ -117,7 +117,6 @@ export default function CameraScreen({ route }) {
     const getPermissions = async () => {
       const cameraStatus = await Camera.requestCameraPermission();
       const microphonePermission = await Camera.requestMicrophonePermission();
-      console.log("microphonePermission", microphonePermission)
       setHasMicrophonePermission(microphonePermission == "authorized");
       setHasCameraPermissions(cameraStatus == "authorized");
 
@@ -152,36 +151,38 @@ export default function CameraScreen({ route }) {
 
   const recordVideo = async () => {
     setIsRecording(true);
-
-    if (route.params !== undefined) {
-      PlayAudio();
-    }
+ 
     recordingTimerRef.current = setInterval(() => {
       setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
     }, RECORDING_TIME_TICK);
-    cameraRef.current.startRecording({
+      if (route.params !== undefined) {
+        await PlayAudio();
+      }
+    cameraRef.current.startRecording(
+      {
       onRecordingFinished: async (video) => {
         setIsRecording(false);
         clearInterval(recordingTimerRef.current);
         setRecordingTime(0);
         stopVideo();
-        pauseAudio();
+        pauseAudio(); 
         const sourceThumb = await generateThumbnail(video?.path);
         //  return await generateDuoUrl(video?.path, video.duration )
         if (!route.params?.item?.sound_url) {
-          navigation.navigate("editPosts", { source: video.path, sourceThumb });
+          navigation.navigate("editPosts", { source: video.path, sourceThumb,  duration: video.duration });
         } else {
-          await generateVideo(video?.path).then(async () => {
-             console.log("outputFilePath",video?.path)
+          await generateVideo(video?.path).then(async (output) => {
             navigation.navigate("editPosts", {
-              source: video?.path,
+              source: output,
               sourceThumb,
+              duration: video.duration
             });
           });
         }
       },
       onRecordingError: (error) => console.error("error", error),
     });
+   
 
     return;
     // old code
@@ -331,7 +332,9 @@ export default function CameraScreen({ route }) {
         time: 5000,
       });
       return uri;
-    } catch (e) {}
+    } catch (e) {
+      console.log("Error while gen thumnb" , e)
+    }
   };
 
   const secondsToHms = (d) => {
@@ -353,9 +356,12 @@ export default function CameraScreen({ route }) {
   const generateVideo = async (source) => {
     const ext = Platform.OS === "ios" ? "mov" : "mp4";
     let ffmpegCommand = null;
-    const outputFilePath =
-      FileSystem.cacheDirectory + "Camera/" + uuid() + "." + ext;
-
+    // const outputFilePath =
+    //   FileSystem.cacheDirectory + "Camera/" + uuid() + "." + ext;
+    const outputDirectory = FileSystem.cacheDirectory + "Camera/";
+    const outputFileName = uuid() + "." + ext;
+    const outputFilePath = outputDirectory + outputFileName; 
+    await FileSystem.makeDirectoryAsync(outputDirectory, { intermediates: true }); 
     // if (!duo) {
     const ffprobeCommand =
       "-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " +
@@ -371,8 +377,8 @@ export default function CameraScreen({ route }) {
         if (
           route.params.item.sound_url.endsWith(".mp3") ||
           route.params.item.sound_url.endsWith(".aac")
-        ) {
-          ffmpegCommand =
+        ) { 
+          ffmpegCommand = " -async 25 " + 
             "-i " +
             source +
             " -ss 00:00:00.00 -t " +
@@ -381,14 +387,16 @@ export default function CameraScreen({ route }) {
             route.params.item.sound_url +
             " -map 0:v -map 1:a -c:v copy -c:a copy " +
             outputFilePath +
-            " -y";
+            " -y"
+            + " -r 25 "
+            ;
         }
         if (
           route.params.item.sound_url.endsWith(".m4a") ||
           route.params.item.sound_url.endsWith(".ogg") ||
           route.params.item.sound_url.endsWith(".wav")
         ) {
-          ffmpegCommand =
+          ffmpegCommand = " -async 25 " +
             "-i " +
             source +
             " -ss 00:00:00.00 -t " +
@@ -397,7 +405,7 @@ export default function CameraScreen({ route }) {
             route.params.item.sound_url +
             " -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 " +
             outputFilePath +
-            " -y";
+            " -y" + " -r 25 ";
         }
       }
     });
@@ -564,7 +572,7 @@ if (!devices) {
           ref={cameraRef}
           style={duo ? styles.duoCamera : styles.camera}
           video={true}
-          audio={true}
+          audio={ route.params?.item?.sound_url ? false : true}
           zoom={0}
           device={cameraType === "front" ? devices.front : devices.back}
           isActive={true}

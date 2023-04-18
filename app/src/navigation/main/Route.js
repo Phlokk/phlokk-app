@@ -78,6 +78,7 @@ import EditPronounsFieldScreen from "../../screens/profile/EditPronounsFiledScre
 import SupportCenter from "../../screens/settings/support/SupportCenter";
 import Search from "../../screens/search/Search";
 import SearchNavigation from "../feed/SearchDiscover";
+import SelectThumbnail from "../../screens/camera/SelectThumbnail";
 
 
 
@@ -473,6 +474,11 @@ export default function Route() {
           <Stack.Screen
             name="trimmer"
             component={TrimmerScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="thumbSelect"
+            component={SelectThumbnail}
             options={{ headerShown: false }}
           />
         </>
