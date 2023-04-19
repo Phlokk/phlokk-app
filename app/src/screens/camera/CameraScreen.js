@@ -16,6 +16,7 @@ import {
   FFmpegKit,
   FFprobeKit,
   FFmpegKitConfig,
+  ReturnCode
 } from "ffmpeg-kit-react-native";
 
 import Reanimated, {
@@ -167,17 +168,39 @@ export default function CameraScreen({ route }) {
         stopVideo();
         pauseAudio(); 
         const sourceThumb = await generateThumbnail(video?.path);
-        //  return await generateDuoUrl(video?.path, video.duration )
-        if (!route.params?.item?.sound_url) {
-          navigation.navigate("editPosts", { source: video.path, sourceThumb,  duration: video.duration });
-        } else {
-          await generateVideo(video?.path).then(async (output) => {
-            navigation.navigate("editPosts", {
-              source: output,
-              sourceThumb,
-              duration: video.duration
+        if(duo) {
+          const ext = Platform.OS === "ios" ? "mov" : "mp4";
+          let ffmpegCommand = null;
+          // const outputFilePath =
+          //   FileSystem.cacheDirectory + "Camera/" + uuid() + "." + ext;
+          const outputDirectory = FileSystem.cacheDirectory + "Camera/";
+          const outputFileName = uuid() + "." + ext;
+          const outputFilePath = outputDirectory + outputFileName; 
+          const outputFileNameTrim = uuid() + "." + ext;
+          const outputFilePathTrim = outputDirectory + outputFileNameTrim; 
+          await FileSystem.makeDirectoryAsync(outputDirectory, { intermediates: true }); 
+          
+          console.log("videos => ", post?.media[1]?.original_url, video?.path, video?.duration);
+          let trimFfmpegCommand = `-ss ${0} -i ${post?.media[1]?.original_url} -t ${video?.duration} ${outputFilePathTrim}`;
+          FFmpegKit.execute(trimFfmpegCommand).then(async (session) => {
+            
+            ffmpegCommand = `-i ${outputFilePathTrim} -i ${video?.path} -filter_complex "[0:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v0];[1:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v1];[v0][v1]hstack=inputs=2" ${outputFilePath}`;
+            FFmpegKit.execute(ffmpegCommand).then(async (session) => {
+              navigation.navigate("editPosts", { source: outputFilePath, sourceThumb,  duration: video.duration });
             });
           });
+        } else {
+          if (!route.params?.item?.sound_url) {
+            navigation.navigate("editPosts", { source: video?.path, sourceThumb,  duration: video.duration });
+          } else {
+            await generateVideo(video?.path).then(async (output) => {
+              navigation.navigate("editPosts", {
+                source: output,
+                sourceThumb,
+                duration: video.duration
+              });
+            });
+          }
         }
       },
       onRecordingError: (error) => console.error("error", error),
