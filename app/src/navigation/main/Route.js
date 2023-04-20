@@ -79,6 +79,7 @@ import SupportCenter from "../../screens/settings/support/SupportCenter";
 import Search from "../../screens/search/Search";
 import SearchNavigation from "../feed/SearchDiscover";
 import SelectThumbnail from "../../screens/camera/SelectThumbnail";
+import ChatRoomScreen from "../../screens/livechat/ChatRoomScreen";
 
 
 
@@ -479,6 +480,11 @@ export default function Route() {
           <Stack.Screen
             name="thumbSelect"
             component={SelectThumbnail}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="chatRoom"
+            component={ChatRoomScreen}
             options={{ headerShown: false }}
           />
         </>

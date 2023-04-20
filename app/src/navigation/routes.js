@@ -62,6 +62,8 @@ export default Object.freeze({
   SUPPORT_CENTER: "support",
   SEARCH: "searchItem",
   THUMBNAIL_SELECT: "thumbSelect",
+  CHAT_LIVE: "chatLive",
+  ROOM: "chatRoom",
   // Flatlist Screens
   COMEDY_SCREEN: "comedyScreen",
   MUSICIAN_SCREEN: "musicianScreen",

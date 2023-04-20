@@ -16,6 +16,7 @@ import ManageAccountScreen from "../../screens/manageAccount/ManageAccountScreen
 import CommunityGuidelinesScreen from "../../screens/policies/CommunityGuidelinesScreen";
 import { useTheme } from "../../theme/context";
 import Market from "../../screens/market/Market";
+import ChatScreen from "../../screens/livechat/ChatScreen";
 
 
 export default function Root() {
@@ -62,6 +63,15 @@ export default function Root() {
           ),
         }}
       />
+      <Drawer.Screen
+          name=" Mad Chatter"
+          component={ChatScreen}
+          options={{
+            drawerIcon: ({ color }) => (
+              <MaterialCommunityIcons name="account-voice" size={20} color={color} />
+            ),
+          }}
+        />
       {/* <Drawer.Screen
           name="Gifts"
           component={GiftingScreen}
