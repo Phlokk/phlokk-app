@@ -416,6 +416,7 @@ const styles = StyleSheet.create({
   avatar: {
     height: 30,
     width: 30,
+    right: 5,
     borderRadius: 50,
   },
   postCountText_light: {

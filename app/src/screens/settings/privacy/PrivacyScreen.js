@@ -27,7 +27,9 @@ export default function PrivacyScreen() {
   const [security, setSecurity] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={
+      theme == "light" ? styles.container_light : styles.container_dark
+    }>
       <SettingsNavBar title="Privacy" />
       <View>
         <View style={ theme == "light" ? styles.blockColorContainer_light : styles.blockColorContainer_dark}>
@@ -40,10 +42,12 @@ export default function PrivacyScreen() {
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >
-          <Text style={styles.text}>Blocked Accounts</Text>
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>Blocked Accounts</Text>
           <View style={styles.fieldValueContainer}>
             <Feather
-              style={styles.chevron}
+              style={
+                theme == "light" ? styles.chevron_light : styles.chevron_dark
+              }
               name="chevron-right"
               size={20}
               color={colors.secondary}
@@ -63,47 +67,47 @@ export default function PrivacyScreen() {
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >
-          <Text style={styles.text}>Turn Off Comments</Text>
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>Turn Off Comments</Text>
           
           <View style={styles.fieldValueContainer}>
             <ShowCommentsSwitch />
           </View>
           
         </TouchableOpacity>
-        <Text style={styles.commentSwitchDescription}>Disable comments on your account</Text>
+        <Text style={theme == "light" ? styles.commentSwitchDescription_light : styles.commentSwitchDescription_dark}>Disable comments on your account</Text>
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >
-          <Text style={styles.text}>Turn Off Downloads</Text>
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>Turn Off Downloads</Text>
           <View style={styles.fieldValueContainer}>
             <DownloadVideosSwitch />
             
           </View>
         </TouchableOpacity>
-        <Text style={styles.commentSwitchDescription}>Disable downloads on your account</Text>
+        <Text style={theme == "light" ? styles.commentSwitchDescription_light : styles.commentSwitchDescription_dark}>Disable downloads on your account</Text>
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >
-          <Text style={styles.text}>Turn Off Duos</Text>
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>Turn Off Duos</Text>
           <View style={styles.fieldValueContainer}>
             <ShowDuosSwitch />
             
           </View>
         </TouchableOpacity>
-        <Text style={styles.commentSwitchDescription}>Disable duos on your account</Text>
+        <Text style={theme == "light" ? styles.commentSwitchDescription_light : styles.commentSwitchDescription_dark}>Disable duos on your account</Text>
         <TouchableOpacity
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >
-          <Text style={styles.text}>Turn Off News Ticker</Text>
+          <Text style={theme == "light" ? styles.text_light : styles.text_dark}>Turn Off News Ticker</Text>
           <View style={styles.fieldValueContainer}>
             
             <ShowNewsTickerSwitch />
           </View>
         </TouchableOpacity>
-        <Text style={styles.commentSwitchDescription}>Disable new ticker on Home screen</Text>
+        <Text style={theme == "light" ? styles.commentSwitchDescription_light : styles.commentSwitchDescription_dark}>Disable new ticker on Home screen</Text>
         
         </View>
       </View>
@@ -112,10 +116,15 @@ export default function PrivacyScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_light: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+  container_dark: {
     flex: 1,
     backgroundColor: colors.primary,
   },
+ 
  
   fieldItemContainer: {
     flexDirection: "row",
@@ -142,12 +151,32 @@ const styles = StyleSheet.create({
     marginTop: 20,
     opacity: 0.5,
   },
-  text: {
+  text_light: {
+    paddingHorizontal:5,
+    color: colors.black,
+    fontSize: 12,
+  },
+  text_dark: {
     paddingHorizontal:5,
     color: colors.white,
     fontSize: 12,
   },
-  chevron: {
+  commentSwitchDescription_light: {
+    paddingHorizontal:5,
+    color: colors.black,
+    fontSize: 10,
+    opacity: 0.8,
+  },
+  commentSwitchDescription_dark: {
+    paddingHorizontal:5,
+    color: colors.secondary,
+    fontSize: 10,
+    opacity: 0.8,
+  },
+  chevron_light: {
+    color: colors.black,
+  },
+  chevron_dark: {
     opacity: 0.6,
   },
   commentSwitchDescription: {

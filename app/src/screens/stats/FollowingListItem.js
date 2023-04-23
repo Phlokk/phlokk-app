@@ -109,14 +109,14 @@ const FollowingListItem = ({ item, followersList, setLoggedInUserFollowingList }
             onPress={()=>followUser()}
             style={styles.followingView}
           >
-            <Text style={styles.followBtn}>Following</Text>
+            <Text style={styles.followingBtn}>Following</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={()=>followUser()}
             style={styles.followingView}
           >
-            <Text style={styles.followingBtn}>Follow</Text>
+            <Text style={styles.followBtn}>Follow</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   followingView: {
     position: "absolute",
     right: 0,
-    left: 280,
+    left: 240,
     top: 0,
     bottom: 0,
   },
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   },
   followingBtn: {
     fontSize: 10,
-    color: colors.white,
+    color: colors.green,
     textAlign: "center",
     padding: 4,
     borderRadius: 5,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   followBtn: {
     fontSize: 10,
-    color: colors.green,
+    color: colors.white,
     textAlign: "center",
     padding: 4,
     borderRadius: 5,

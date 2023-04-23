@@ -415,16 +415,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.green,
   },
-  buttonForgotPassword: {
-    marginTop: 20,
-    borderColor: colors.secondary,
-    borderWidth: 1,
-    borderStyle: "solid",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: "center",
-  },
-
   forgotPassword: {
     flexDirection: "row",
   },
@@ -450,6 +440,11 @@ const styles = StyleSheet.create({
   logoContainer: {
     top: 60,
     alignItems: "center",
+  },
+  logo: {
+    width: 120,
+    height: 120,
+
   },
   eye: {
     position: "absolute",

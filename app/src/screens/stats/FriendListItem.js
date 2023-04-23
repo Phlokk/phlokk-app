@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   friendView: {
     position: "absolute",
     right: 0,
-    left: 280,
+    left: 240,
     top: 0,
     bottom: 0,
   },

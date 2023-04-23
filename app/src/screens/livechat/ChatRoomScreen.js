@@ -22,7 +22,7 @@ const ChatRoomScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.navView}>
-        <LiveChatRoomNav title="Rabbit Hole" />
+        <LiveChatRoomNav title="Mad Chatter" />
       </View>
       {/* row 1 */}
       <View>
