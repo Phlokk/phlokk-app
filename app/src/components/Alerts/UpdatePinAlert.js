@@ -16,6 +16,7 @@ export default function UpdatePinAlert({
   positiveBtn,
   negativeBtn,
   modalVisible,
+  setModalVisible,
   dismissAlert,
   onPositivePressed,
 }) 

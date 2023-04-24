@@ -8,9 +8,7 @@ import {
   ScrollView,
   Platform,
   Alert,
-  Image,
 } from "react-native";
-import LottieView from "lottie-react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../../../config/colors";
@@ -53,7 +51,7 @@ export default function ResetScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.top}>
+      <View>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialIcons
             style={styles.keyLeft}
@@ -62,7 +60,6 @@ export default function ResetScreen() {
             color="lightgray"
           />
         </TouchableOpacity>
-        <View style={styles.lottieContainer}>
         <View style={styles.lockView}>
             <View style={styles.textContainer}>
             <MaterialIcons name="admin-panel-settings" size={50} color={colors.green} />
@@ -110,7 +107,6 @@ export default function ResetScreen() {
               <Text style={styles.buttonText}>Reset Password</Text>
             </TouchableOpacity>
           </View>
-        </View>
       </View>
       <CustomAlert
         alertTitle={
@@ -133,10 +129,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primary,
     paddingHorizontal: 10,
-    paddingTop: 0,
-  },
-  lottieContainer: {
-    top: 90,
   },
 
   textInput: {
@@ -149,7 +141,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   button: {
-    marginTop: 25,
+    marginTop: 40,
     borderColor: colors.green,
     borderWidth: 1,
     borderRadius: 10,
@@ -172,14 +164,14 @@ const styles = StyleSheet.create({
   },
   fields: {
     flex: 1,
-    top: 50,
+    paddingTop: 150,
     paddingHorizontal: 30,
   },
   keyLeft: {
     top: Platform.OS === "android" ? 10 : 60,
   },
   lockView: {
-    top: -10,
+    top: Platform.OS === "android" ? 100 : 80,
     alignItems: "center",
   },
   textContainer: {

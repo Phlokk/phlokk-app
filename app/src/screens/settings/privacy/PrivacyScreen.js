@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   socialText_light: {
     color: colors.black,
-    paddingHorizontal:10,
+    paddingHorizontal: 10,
     fontWeight: "bold",
     fontSize: 10,
     marginTop: 20,
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
   },
   socialText_dark: {
     color: colors.white,
+    paddingHorizontal: 10,
     fontWeight: "bold",
     fontSize: 10,
     marginTop: 20,

@@ -220,7 +220,7 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
                   maxLength={24}
                   onChangeText={(val) => {
                     setUsername(
-                      val.toString().toLowerCase().replaceAll(" ", "")
+                      val.toString().toLowerCase().replace(" ", "")
                     );
                   }}
                   // keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'}
@@ -280,7 +280,6 @@ export default function AuthDetails({ authPage, setDetailsPage }) {
               onPress={() => navigation.navigate(routes.RESET_PASS)}
             >
               <Text style={styles.forgotButtonText}>Forgot Password?</Text>
-              <View />
             </TouchableOpacity>
           ) : null}
 
@@ -391,7 +390,7 @@ const styles = StyleSheet.create({
     textTransform: "lowercase",
   },
   button: {
-    marginTop: 25,
+    marginTop: 40,
     borderColor: colors.green,
     borderWidth: 1,
     borderRadius: 10,
@@ -423,8 +422,7 @@ const styles = StyleSheet.create({
   },
   fields: {
     flex: 1,
-    top: 50,
-    paddingTop: Platform.OS === "android" ? 80 : 150,
+    paddingTop: 150,
     paddingHorizontal: 30,
   },
   eulaText: {

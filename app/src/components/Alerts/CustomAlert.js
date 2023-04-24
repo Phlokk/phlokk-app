@@ -14,6 +14,7 @@ export default function CustomAlert({
   positiveBtn,
   negativeBtn,
   modalVisible,
+  setModalVisible,
   dismissAlert,
   onPositivePressed,
 }) {

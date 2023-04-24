@@ -56,14 +56,13 @@ export default function ResetPassword() {
             color="lightgray"
           />
         </TouchableOpacity>
-
-        <View style={styles.fields} behavior="padding">
         <View style={styles.lockView}>
             <View style={styles.textContainer}>
             <MaterialIcons name="admin-panel-settings" size={50} color={colors.green} />
             </View>
           </View>
 
+        <View style={styles.fields} behavior="padding">
           <Text style={styles.emailText}>
             Please enter your email to get reset code
           </Text>
@@ -119,7 +118,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.primary,
     paddingHorizontal: 10,
-    paddingTop: 0,
   },
   textInput: {
     borderColor: colors.secondary,
@@ -131,7 +129,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   button: {
-    marginTop: 25,
+    marginTop: 40,
     borderColor: colors.green,
     borderWidth: 1,
     borderRadius: 10,
@@ -154,15 +152,14 @@ const styles = StyleSheet.create({
   },
   fields: {
     flex: 1,
-    top: 50,
-    paddingTop: Platform.OS === "android" ? 80 : 150,
+    paddingTop: 150,
     paddingHorizontal: 30,
   },
   keyLeft: {
     top: Platform.OS === "android" ? 10 : 60,
   },
   lockView: {
-    top: -50,
+    top: Platform.OS === "android" ? -50 : 80,
     alignItems: "center",
   },
   textContainer: {

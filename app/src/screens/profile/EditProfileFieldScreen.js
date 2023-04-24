@@ -59,7 +59,7 @@ export default function EditProfileFieldScreen({ route }) {
           maxLength={24}
           value={textInputValue}
           onChangeText={(val) => {
-            setTextInputValue(val.toString().toLowerCase().replaceAll(" ", ""));
+            setTextInputValue(val.toString().toLowerCase().replace(" ", ""));
           }}
         />
       </View>
