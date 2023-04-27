@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -9,14 +9,13 @@ import {
   StyleSheet,
   Animated,
   Alert,
-  SafeAreaView,
+  EventEmitter
 } from "react-native";
 import uuid from "uuid-random";
 import {
   FFmpegKit,
   FFprobeKit,
   FFmpegKitConfig,
-  ReturnCode
 } from "ffmpeg-kit-react-native";
 
 import Reanimated, {
@@ -24,7 +23,7 @@ import Reanimated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-
+import LottieView from "lottie-react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import * as VideoThumbnails from "expo-video-thumbnails";
@@ -44,6 +43,8 @@ import { Camera, useCameraDevices } from "react-native-vision-camera";
 import * as SecureStore from "expo-secure-store";
 import FormData from "form-data";
 import { apiUrlsNode } from "../../globals";
+import { useTheme } from "../../theme/context";
+import Slider from "@react-native-community/slider";
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 120;
@@ -65,6 +66,7 @@ export default function CameraScreen({ route }) {
   const devices = useCameraDevices();
   const cameraRef = useRef();
   const viewRef = useRef(null);
+  const { theme } = useTheme();
 
   // TODO:
   // const zoom = useSharedValue(0)
@@ -113,6 +115,7 @@ export default function CameraScreen({ route }) {
   const [duration, setDuration] = useState(null);
   const [isVideoEnded, setIsVideoEnded] = useState(false);
   const [duetVideoUrl, setDuetVideoUrl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -150,6 +153,18 @@ export default function CameraScreen({ route }) {
     }
   }, [startRecordingCountdown]);
 
+  const onLogCallback = (session, log) => {
+    const output = log.getMessage();
+    console.log("output => ", output, log)
+    const match = output.match(/frame=.*\bprogress=(\S+)/);
+    console.log("match => ",match)
+  if (match) {
+    const progress = parseFloat(match[1]);
+    console.log(`Progress: ${progress}%`);
+    // Update the progress bar UI with the progress value
+  }
+  };
+
   const recordVideo = async () => {
     setIsRecording(true);
  
@@ -169,6 +184,7 @@ export default function CameraScreen({ route }) {
         pauseAudio(); 
         const sourceThumb = await generateThumbnail(video?.path);
         if(duo) {
+          setIsLoading(true)
           const ext = Platform.OS === "ios" ? "mov" : "mp4";
           let ffmpegCommand = null;
           // const outputFilePath =
@@ -178,16 +194,27 @@ export default function CameraScreen({ route }) {
           const outputFilePath = outputDirectory + outputFileName; 
           const outputFileNameTrim = uuid() + "." + ext;
           const outputFilePathTrim = outputDirectory + outputFileNameTrim; 
+          const outputFileNameReduce = uuid() + "." + ext;
+          const outputFilePathReduce = outputDirectory + outputFileNameReduce; 
           await FileSystem.makeDirectoryAsync(outputDirectory, { intermediates: true }); 
           
-          console.log("videos => ", post?.media[1]?.original_url, video?.path, video?.duration);
           let trimFfmpegCommand = `-ss ${0} -i ${post?.media[1]?.original_url} -t ${video?.duration} ${outputFilePathTrim}`;
+          
           FFmpegKit.execute(trimFfmpegCommand).then(async (session) => {
-            
-            ffmpegCommand = `-i ${outputFilePathTrim} -i ${video?.path} -filter_complex "[0:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v0];[1:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v1];[v0][v1]hstack=inputs=2" ${outputFilePath}`;
-            FFmpegKit.execute(ffmpegCommand).then(async (session) => {
-              navigation.navigate("editPosts", { source: outputFilePath, sourceThumb,  duration: video.duration });
+            console.log('triming ends ---- reduction starts');
+            let reduceFfmpegCommand = `-i ${outputFilePathTrim} -r 30 ${outputFilePathReduce}`;
+            FFmpegKit.execute(reduceFfmpegCommand).then(async (session) => {
+              console.log('reduction ends ---- merging starts')
+              ffmpegCommand = `-i ${outputFilePathReduce} -i ${video?.path} -filter_complex "[0:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v0];[1:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v1];[v0][v1]hstack=inputs=2" ${outputFilePath}`;
+              
+              FFmpegKit.execute(ffmpegCommand).then(async (session) => {
+                console.log('merging ends')
+                setIsLoading(false)
+                setProgress(100)
+                navigation.navigate("editPosts", { source: outputFilePath, sourceThumb,  duration: video.duration });
+              });
             });
+
           });
         } else {
           if (!route.params?.item?.sound_url) {
@@ -440,6 +467,8 @@ export default function CameraScreen({ route }) {
   const sound = useRef(new Audio.Sound());
 
   const [Loading, SetLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isAudioError, setIsAudioError] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
@@ -556,6 +585,18 @@ export default function CameraScreen({ route }) {
       setIsVideoEnded(true);
     }
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      const interval = setInterval(() => {
+        console.log('progress => ', progress)
+        if (progress < 90) {
+          setProgress(progress + 10);
+        }
+      }, 900);
+      return () => clearInterval(interval);
+    }
+  }, [isLoading, progress]);
   
   if (
     hasCameraPermissions === undefined ||
@@ -583,12 +624,46 @@ export default function CameraScreen({ route }) {
     );
   }
 
-  
-
 if (!devices) {
   return <View style={styles.camView}></View>;
 }
   return (
+    <>
+    {(duo && isLoading)? (
+      <View style={styles.overlay}>
+        <View
+          style={theme == "light" ? styles.container_light : styles.container_dark}
+        >
+          <View style={styles.lottieView}>
+            <LottieView
+              autoPlay
+              style={{
+                alignItems: "center",
+                width: 200,
+                height: 200,
+              }}
+              // Find more Lottie files at https://lottiefiles.com/featured
+              source={require("../../../assets/animations/splashAnimation.json")}
+            />
+            <Slider
+              style={[styles.timelineSlider]}
+              minimumValue={0}
+              maximumValue={100}
+              value={progress}
+              //onSlidingStart={() => setProgress(progress)}
+              onSlidingComplete={() => setProgress(0)}
+              minimumTrackTintColor={colors.green}
+              thumbTintColor="transparent"
+            />
+            <Text
+              style={theme == "light" ? styles.splash_light : styles.splash_dark}
+            >
+              Creating DUO...
+            </Text>
+          </View>
+        </View>
+      </View>
+    ):null}
     <View style={duo ? styles.duoContainer : styles.container}>
       {hasCameraPermissions && isFocused ? (
         <ReanimatedCamera
@@ -623,16 +698,7 @@ if (!devices) {
           }}
         />
       )}
-      {/* {duetVideoUrl && 
-         <Video
-         source={{
-           uri:duetVideoUrl,
-           type: 'mov',
-         }}
-         style={styles.duoVideoRenderer}
-         shouldPlay={true} 
-       />
-        } */}
+
       {!isRecording && (
         <View style={styles.sideBarContainer}>
           <TouchableOpacity
@@ -838,6 +904,7 @@ if (!devices) {
         animationType="fade"
       />
     </View>
+    </>
   );
 }
 
@@ -848,6 +915,31 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
     backgroundColor: colors.black,
+  },
+  container_dark: {
+    flex: 1,
+    //backgroundColor: colors.black,
+  },
+  container_light: {
+    flex: 1,
+    //backgroundColor: colors.white,
+  },
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.9)', 
+    height: '100%', 
+    width: '100%', 
+    position: 'absolute', 
+    top: 0, 
+    bottom: 0, 
+    left: 0, 
+    right: 0, 
+    zIndex: 999999
+  },
+  splash_light: {
+    color: colors.lightBlack,
+  },
+  splash_dark: {
+    color: colors.green,
   },
   bottomBarContainer: {
     position: "absolute",
@@ -970,5 +1062,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "black",
+  },
+   lottieView: {
+    flex: 1, 
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  timelineSlider: {
+    width: '90%'
   },
 });

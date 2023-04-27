@@ -195,7 +195,18 @@ const VideoFeed = ({ navigation, route }) => {
           initialScrollIndex={selectedIndex}
           showsVerticalScrollIndicator={false}
           data={preloadedPosts || postFeed}
-          renderItem={renderItem}
+          //renderItem={renderItem}
+          renderItem={({item, index}) => (<VideoItem
+            item={item}
+            index={index}
+            key={item._id}
+            currentVideoIndex={currentVideoIndex}
+            currentUser={currentUser}
+            itemHeight={pageSize?.height || 0}
+            areTabsShowing={areTabsShowing}
+            
+            
+          />)}
           horizontal={false}
           windowSize={Platform.OS === "android" ? 1 : 3}
           initialNumToRender={5}

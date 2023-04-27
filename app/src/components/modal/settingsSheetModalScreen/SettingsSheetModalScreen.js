@@ -71,15 +71,6 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
 
       const { uri } = await downloadResumable.downloadAsync();
 
-      // Load the watermark image from the app's assets
-      // const watermark = watermarkImage;
-      //then
-      // Add the watermark to the video and save the result to a new file??
-      // const newWaterMarkVideoFile = `${FileSystem.documentDirectory}${randStr}.mov`;
-      //This is the issue I am having trying to add these two files together (Video & WaterMark file)
-      //How is this done?? // Right now video is being downloaded to Camera Roll as the code sits,
-      // so I just need to figure out how to mash these 2 files together and save final version.
-
       MediaLibrary.saveToLibraryAsync(uri);
       setIsDownloading(true);
     } catch (e) {

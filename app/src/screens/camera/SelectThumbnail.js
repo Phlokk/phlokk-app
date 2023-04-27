@@ -64,10 +64,14 @@ const SelectThumbnail = ({ route }) => {
           <Text style={styles.postButtonText}>Save </Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.imageContainer}>
       <Image source={{ uri: selectedThumb }} style={styles.selectedThumb} />
+      </View>
+     
 
       <View style={styles.listContainerScreen}>
         <View style={styles.listContainer}>
+        <Text style={styles.text}>Select a cover photo</Text>
           <FlatList
             data={thumbs}
             renderItem={({ item }) => <ImageItem item={item} />}
@@ -83,6 +87,7 @@ const SelectThumbnail = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.primary,
   },
   buttonContainer: {
     top: 50,
@@ -90,6 +95,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     position: "absolute",
     zIndex: 999,
+  },
+  imageContainer: {
+    top: 125,
+    left: 50,
   },
   postButtonText: {
     color: colors.white,
@@ -103,13 +112,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   selectedThumb: {
-    width: "100%",
-    height: "100%",
+    width: "75%",
+    height: "75%",
+    borderRadius: 3,
   },
   listContainerScreen: {
-    backgroundColor: colors.black,
     height: 100,
-    bottom: 150,
   },
   listContainer: {
     position: "absolute",
@@ -117,7 +125,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     width: "100%",
-    top: 15,
+    top: 20,
+  },
+  text: {
+    color: colors.secondary,
+    marginBottom: 20,
+
   },
   mediaItem: {
     padding: 8,
@@ -131,6 +144,7 @@ const styles = StyleSheet.create({
     borderColor: colors.green,
     borderWidth: 3,
   },
+
 });
 
 export default SelectThumbnail;

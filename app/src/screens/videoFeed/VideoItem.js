@@ -91,35 +91,36 @@ const VideoItem = ({
   return (
     <View style={{ height: itemHeight, backgroundColor: "black" }}>
       <Pressable style={{ flex: 1 }} onPress={playPauseVideo}>
-        <Video
-          ref={videoPlayerRef}
-          source={{
-            uri: item.videoUrl ??  item.media[1]?.original_url,
-            type: item.media[1]?.mime_type ?? 'video/quicktime' ,
-          }}
+
+      <Video
+        ref={videoPlayerRef}
+        source={{
+         uri: item.videoUrl ??  item.media[1]?.original_url,
+         type: item.media[1]?.mime_type ?? 'video/quicktime' ,
+        }}
         
-          isMuted={currentVideoIndex !== index || !isFocused}
-          resizeMode={videoResizeMode}
-          style={styles.videoRenderer}
-          shouldPlay={currentVideoIndex === index && shouldPlay && isFocused}
-          isLooping
-          usePoster
-          posterSource={{ uri: item.poster }}
-          posterStyle={{ resizeMode: "cover", height: "100%" }}
-          onPlaybackStatusUpdate={(status) => {
-            updatePlayCount(status);
-            setPlaybackStatus(status);
+        isMuted={currentVideoIndex !== index || !isFocused}
+        resizeMode={videoResizeMode}
+        style={styles.videoRenderer}
+        shouldPlay={currentVideoIndex === index && shouldPlay && isFocused}
+        isLooping
+        usePoster
+        posterSource={{ uri: item.poster }}
+        posterStyle={{ resizeMode: "cover", height: "100%" }}
+        onPlaybackStatusUpdate={(status) => {
+        updatePlayCount(status);
+        setPlaybackStatus(status);
           }}
           onReadyForDisplay={(e) => {
-            setVideoReady(true)
-            const orientation = e.naturalSize.orientation;
+           setVideoReady(true)
+           const orientation = e.naturalSize.orientation;
             if (orientation === "landscape") {
               setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
             } else {
               setVideoResizeMode(Video.RESIZE_MODE_COVER);
-            }
+           }
           }}
-        />
+      />
 
         {!shouldPlay && (
           <FontAwesome5
