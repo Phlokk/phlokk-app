@@ -17,7 +17,7 @@ import {
   FFprobeKit,
   FFmpegKitConfig,
 } from "ffmpeg-kit-react-native";
-
+import { Entypo } from '@expo/vector-icons';
 import Reanimated, {
   useAnimatedProps,
   useSharedValue,
@@ -53,6 +53,36 @@ const RECORDING_TIME_TICK = 100; // This is used for the progress bar ticking ev
 const convertMillisToPercentage = (ms) => ms / 1000 / 120;
 const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+// values for cuts
+const CircleList = ({ children }) => {
+  return <View style={styles.cutContainer}>{children}</View>;
+};
+
+const CircleItem = ({ position, borderWidth = 4, backgroundColor = '#fff' }) => {
+  const angle = position * Math.PI * 2;
+  const x = Math.sin(angle) * 38.5 + 38.5; // 40 is half the width of the circle
+  const y = Math.cos(angle) * -38.5 + 38.5; // 40 is half the width of the circle
+  const rotation = angle + Math.PI / 2;
+
+  return (
+    <View
+      style={[
+        styles.cutItem,
+        {
+          
+          borderWidth: borderWidth,
+          backgroundColor: backgroundColor,
+          transform: [
+            { translateX: x },
+            { translateY: y },
+            { rotate: `${rotation}rad` },
+          ],
+        },
+      ]}
+    />
+  );
+};
 
 // needs to be finished, is half way set up for zoom with animation
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
@@ -100,7 +130,7 @@ export default function CameraScreen({ route }) {
     START_RECORDING_DELAY / 1000
   );
   const [showCountdown, setShowCountdown] = useState();
-  const [isLongPressRecording, setIsLongPressRecording] = useState();
+  const [isLongPressRecording, setIsLongPressRecording] = useState(false);
   const countdownTimerRef = useRef();
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const whitePulseAnim = useRef(new Animated.Value(1)).current;
@@ -116,6 +146,7 @@ export default function CameraScreen({ route }) {
   const [isVideoEnded, setIsVideoEnded] = useState(false);
   const [duetVideoUrl, setDuetVideoUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [multipleVideos, setMultipleVideos] = useState([]);
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -153,21 +184,9 @@ export default function CameraScreen({ route }) {
     }
   }, [startRecordingCountdown]);
 
-  const onLogCallback = (session, log) => {
-    const output = log.getMessage();
-    console.log("output => ", output, log)
-    const match = output.match(/frame=.*\bprogress=(\S+)/);
-    console.log("match => ",match)
-  if (match) {
-    const progress = parseFloat(match[1]);
-    console.log(`Progress: ${progress}%`);
-    // Update the progress bar UI with the progress value
-  }
-  };
-
-  const recordVideo = async () => {
+  const recordVideo = async (longPress = false) => {
     setIsRecording(true);
- 
+    setProgress(0)
     recordingTimerRef.current = setInterval(() => {
       setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
     }, RECORDING_TIME_TICK);
@@ -177,12 +196,26 @@ export default function CameraScreen({ route }) {
     cameraRef.current.startRecording(
       {
       onRecordingFinished: async (video) => {
-        setIsRecording(false);
-        clearInterval(recordingTimerRef.current);
-        setRecordingTime(0);
-        stopVideo();
-        pauseAudio(); 
-        const sourceThumb = await generateThumbnail(video?.path);
+        let sourceThumb = null;
+        console.log("check long press => ", longPress, video?.path);
+        if(!longPress) {
+          setIsRecording(false);
+          clearInterval(recordingTimerRef.current);
+          setRecordingTime(0);
+          stopVideo();
+          pauseAudio(); 
+          sourceThumb = await generateThumbnail(video?.path);
+        } else {
+          setIsRecording(false);
+          //clearInterval(recordingTimerRef.current);
+          //setRecordingTime(0);
+          pauseChunkVideo();
+          pauseChunkAudio();
+          console.log("multiple videos => ", multipleVideos)
+          multipleVideos.push({path: video?.path, duration: video?.duration});
+          return;
+          //sourceThumb = await generateThumbnail(video?.path);
+        }
         if(duo) {
           setIsLoading(true)
           const ext = Platform.OS === "ios" ? "mov" : "mp4";
@@ -300,59 +333,43 @@ export default function CameraScreen({ route }) {
     setIsRecording(false);
   };
 
-  //TODO: do we need this component anymore?
-  const generateDuoUrl = async (videoPath, videoDuration) => {
-    let formData = new FormData();
-    const user = await SecureStore.getItemAsync("user");
-    const parsedUser = JSON.parse(user);
-
-    let url = apiUrlsNode.BASE_URL2 + `/api/posts/get-duo-url/${videoDuration}`;
-    const config = {
-      "content-type": "multipart/form-data",
-      "auth-token": `${parsedUser.token}`,
-    };
-    let split = videoPath.split("/");
-    let fileName = split[split.length - 1];
-    formData.append(
-      "recorded_video_url",
-      {
-        name: fileName,
-        type: "video/mp4",
-        uri: videoPath,
-      },
-      fileName
-    );
-    formData.append(`post_video_url`, post?.media[1]?.original_url, {
-      post_video_url: post?.media[1]?.original_url
-    }); 
-    console.log("Video Merging")
-    fetch(url, {
-      method: "POST",
-      headers: config,
-      body: formData,
-    })
-      .then((e) => {
-        console.log("response", e);
-      })
-      .catch((ex) => {
-        console.log("Error", ex);
-      });
-  };
-
   useEffect(async () => {
     if (isVideoEnded) {
       await stopVideo();
     }
   }, [isVideoEnded]);
-  const stopVideo = async () => {
+  const stopVideo = async (longPress = false) => {
+    console.log('===== stoped video called =========')
+    if (cameraRef && isRecording) {
+      cameraRef.current.stopRecording();
+    }
+    const response = null; 
+    if(!longPress) {
+      clearInterval(recordingTimerRef.current);
+      setRecordingTime(0);
+    }
+    setIsRecording(false);
+    return response;
+  };
+
+  const pauseChunkVideo = async () => {
     if (cameraRef && isRecording) {
       cameraRef.current.stopRecording();
     }
     const response = null; 
     clearInterval(recordingTimerRef.current);
-    setRecordingTime(0);
+    //setRecordingTime(0);
     setIsRecording(false);
     return response;
+  }
+
+  const pauseChunkAudio = async () => {
+    const result = await sound.current.getStatusAsync();
+    if (result.isLoaded) {
+      if (result.isPlaying === true) {
+        sound.current.unloadAsync();
+      }
+    }
   };
 
   const pickFromGallery = async () => {
@@ -521,26 +538,60 @@ export default function CameraScreen({ route }) {
   }, [sound.current]);
 
   const onPressRecord = async () => {
-    if (!isRecording) {
-      if (countdownTimerRef.current) {
-        clearInterval(countdownTimerRef.current);
-      }
-      setShowCountdown(true);
-      runPulse();
-
-      countdownTimerRef.current = setInterval(() => {
-        runPulse();
-        setStartRecordingCountdown((prev) => {
-          return prev - 1;
-        });
-      }, 1000);
-
-      LoadAudio();
-      PlayAudio();
+    console.log("on press called", isLongPressRecording, isRecording);
+    if(isLongPressRecording && isRecording) {
+      pauseChunkVideo();
+      pauseChunkAudio();
+    } else if(isLongPressRecording && !isRecording) {
+      recordVideo(true)
     } else {
-      stopVideo();
+      if (!isRecording && !isLongPressRecording) {
+        if (countdownTimerRef.current) {
+          clearInterval(countdownTimerRef.current);
+        }
+        setShowCountdown(true);
+        runPulse();
+
+        countdownTimerRef.current = setInterval(() => {
+          runPulse();
+          setStartRecordingCountdown((prev) => {
+            return prev - 1;
+          });
+        }, 1000);
+
+        LoadAudio();
+        PlayAudio();
+      } else {
+        stopVideo();
+      }
     }
   };
+
+  const mergeChunkedVideoAndNavigate = async () => {
+    setIsLoading(true)
+    const ext = Platform.OS === "ios" ? "mov" : "mp4";
+    const outputDirectory = FileSystem.cacheDirectory + "Camera/";
+    const outputFileName = uuid() + "." + ext;
+    const outputFilePath = outputDirectory + outputFileName; 
+    await FileSystem.makeDirectoryAsync(outputDirectory, { intermediates: true }); 
+    let paths = new Array();
+    for(const m of multipleVideos) {
+      paths.push(m.path)
+    }
+    console.log("paths => ", paths)
+    const inputFilePathsString = paths.join(' -i ');
+    console.log("strings => ", inputFilePathsString)
+    let mergeChunksFfmpegCommand = `-i ${inputFilePathsString} -filter_complex "concat=n=${multipleVideos.length}:v=1:a=1" ${outputFilePath}`;
+    
+    FFmpegKit.execute(mergeChunksFfmpegCommand).then(async (session) => {
+      setIsLoading(false)
+      setProgress(100)
+      let duration = recordingTime;
+      //setRecordingTime(0);
+      const sourceThumb = await generateThumbnail(outputFilePath);
+      navigation.navigate("editPosts", { source: outputFilePath, sourceThumb,  duration: duration });
+    })
+  }
 
   const pauseAudio = async () => {
     const result = await sound.current.getStatusAsync();
@@ -551,16 +602,36 @@ export default function CameraScreen({ route }) {
     }
   };
 
+  const removeLastChunk = () => {
+    if(multipleVideos.length > 0) {
+      let popped = multipleVideos.pop();
+      console.log("popped => ", popped, recordingTime, popped.duration)
+      setRecordingTime(parseInt(recordingTime)-(popped.duration*1000));
+    } else {
+      setRecordingTime(0)
+    }
+  }
+
   const onLongPress = () => {
-    setIsLongPressRecording(true);
-    recordVideo();
+    console.log("------------------------- long press called ---------------")
+    if (!isRecording) {
+      
+
+      LoadAudio();
+      PlayAudio();
+      //if(startRecordingCountdown)
+      setIsLongPressRecording(true);
+      recordVideo(true);
+    }
+    
   };
 
   const onPressOut = () => {
-    if (isLongPressRecording) {
-      setIsLongPressRecording(false);
-      stopVideo();
-      pauseAudio();
+    console.log("-=-=-= on press out called -=-=- ", isLongPressRecording);
+    if (isLongPressRecording && isRecording) {
+      //setIsLongPressRecording(false);
+      pauseChunkVideo();
+      pauseChunkAudio();
     }
   };
 
@@ -627,9 +698,10 @@ export default function CameraScreen({ route }) {
 if (!devices) {
   return <View style={styles.camView}></View>;
 }
+let totalDuration = 0;
   return (
     <>
-    {(duo && isLoading)? (
+    {((duo && isLoading) || (isLoading && isLongPressRecording))? (
       <View style={styles.overlay}>
         <View
           style={theme == "light" ? styles.container_light : styles.container_dark}
@@ -658,7 +730,7 @@ if (!devices) {
             <Text
               style={theme == "light" ? styles.splash_light : styles.splash_dark}
             >
-              Creating DUO...
+              {(duo)? "Creating DUO...":"Mashin Up Your Phlokks..."}
             </Text>
           </View>
         </View>
@@ -784,9 +856,18 @@ if (!devices) {
           <Text style={{ color: "white", paddingBottom: 5 }}>
             {secondsToHms(convertMillisToSeconds(recordingTime))}
           </Text>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, position: 'relative' }}>
+            {(isLongPressRecording)? (
+              multipleVideos.map((multiple, index)=> (
+                  totalDuration += multiple.duration,
+                  <CircleItem key={index} position={totalDuration/120} borderWidth={2} backgroundColor="#fff">
+                  </CircleItem>
+                
+              ))
+            ):null}
             <Pressable
               onPress={onPressRecord}
+              delayLongPress={800}
               onLongPress={onLongPress}
               onPressOut={onPressOut}
               style={({ pressed }) => {
@@ -795,6 +876,7 @@ if (!devices) {
                   { backgroundColor: colors.green },
                   { borderWidth: isRecording ? 4 : 3 },
                   { borderColor: isRecording ? colors.danger : colors.white },
+                  
                 ];
               }}
             />
@@ -839,12 +921,35 @@ if (!devices) {
               }}
               pointerEvents="box-none"
             >
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => removeLastChunk()}>
                 <MaterialIcons
                   name="settings-backup-restore"
                   size={35}
                   color={colors.white}
                 />
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {!isRecording && !duo && isLongPressRecording && (recordingTime > 1) && (
+            <View
+              style={{
+                backgroundColor: "rgba(125, 125, 125, 0.4)",
+                width: 40,
+                height: 40,
+                borderRadius: 50,
+                position: "absolute",
+                right: 0,
+                left: 340,
+                top: 45,
+                bottom: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              pointerEvents="box-none"
+            >
+              <TouchableOpacity onPress={() => mergeChunkedVideoAndNavigate()}>
+              <Entypo name="arrow-with-circle-right" size={24} color={colors.white} />
               </TouchableOpacity>
             </View>
           )}
@@ -1070,5 +1175,21 @@ const styles = StyleSheet.create({
   },
   timelineSlider: {
     width: '90%'
+  },
+  cutContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80,
+    height: 80
+  },
+  cutItem: {
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    //borderRadius: 3,
+    borderWidth: 1,
+    borderColor: '#fff',
+    backgroundColor: 'red',
+    zIndex: 99999999999
   },
 });

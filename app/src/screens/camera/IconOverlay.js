@@ -193,8 +193,8 @@ const styles = StyleSheet.create({
   },
  
   sideBarButtonView: {
-    right: 10,
-    backgroundColor: 'rgba(125, 125, 125, 0.2)',
+    position: "absolute",
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     borderRadius: 50, 
 
   },
