@@ -55,8 +55,6 @@ export default function FriendListScreen({ route }) {
         showsVerticalScrollIndicator={false}
         initialNumToRender={20}
         onEndReachedThreshold={0.5}
-        onEndReached={console.log("end")}
-        onRefresh={console.log("refresh")}
       />
     </SafeAreaView>
   );

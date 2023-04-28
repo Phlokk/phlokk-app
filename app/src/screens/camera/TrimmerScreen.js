@@ -151,7 +151,7 @@ const TrimmerScreen = ({ route }) => {
           )}
         </View>
         <Trimmer
-        onLeftHandleChange = {e=> console.log("left change" ,e)}
+        // onLeftHandleChange = {e=> console.log("left change" ,e)}
           onHandleChange={onHandleChange}
           totalDuration={totalDuration}
           trimmerLeftHandlePosition={trimmerLeftHandlePosition}

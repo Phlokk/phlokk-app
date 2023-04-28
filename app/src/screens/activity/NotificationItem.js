@@ -25,7 +25,6 @@ const NotificationItem = ({ navigation, item }) => {
 
   const goToAssociated = async function () {
     if (!item.post) {
-      console.log("No post")
       inAppNavigation.navigate("profileOther", {
         initialUser: item.user,
         profile:true

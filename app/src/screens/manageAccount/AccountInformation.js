@@ -45,11 +45,12 @@ const AccountInformation = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(routes.UPDATE_EMAIL, {
-              title: "Update email",
-            })
-          }
+        onPress={() => setEmail(true)}
+          // onPress={() =>
+          //   navigation.navigate(routes.UPDATE_EMAIL, {
+          //     title: "Update email",
+          //   })
+          // }
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >
@@ -68,11 +69,12 @@ const AccountInformation = () => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(routes.UPDATE_PASSWORD, {
-              title: "Update password",
-            })
-          }
+        onPress={() => setPassword(true)}
+          // onPress={() =>
+          //   navigation.navigate(routes.UPDATE_PASSWORD, {
+          //     title: "Update password",
+          //   })
+          // }
           style={styles.fieldItemContainer}
           autoCapitalize="none"
         >
@@ -103,6 +105,13 @@ const AccountInformation = () => {
         positiveBtn="Ok"
         modalVisible={email}
         dismissAlert={setEmail}
+        animationType="fade"
+      />
+      <CustomAlert
+        customAlertMessage={<Text>Update password{"\n"}coming soon!</Text>}
+        positiveBtn="Ok"
+        modalVisible={password}
+        dismissAlert={setPassword}
         animationType="fade"
       />
     </View>

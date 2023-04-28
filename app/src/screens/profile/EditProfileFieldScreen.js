@@ -25,16 +25,14 @@ export default function EditProfileFieldScreen({ route }) {
   const onSave = async () => {
     const updateObject = { username: textInputValue };
     try {
-      await updateCreator( updateObject);
+      await updateCreator(updateObject);
       const updatedUser = { ...user, ...updateObject };
       setUser(updatedUser);
       navigation.goBack();
-    } catch (error) {
-      console.log(error)
+    } catch {
       setIsDataNotSaved(true);
     }
-  }
-  
+  };
 
   return (
     <SafeAreaView
@@ -50,7 +48,8 @@ export default function EditProfileFieldScreen({ route }) {
           style={[
             theme == "light"
               ? generalStyles.textInputUser_light
-              : generalStyles.textInputUser_dark, styles.textInputField
+              : generalStyles.textInputUser_dark,
+            styles.textInputField,
           ]}
           placeholder="username"
           placeholderTextColor={"gray"}
@@ -67,20 +66,29 @@ export default function EditProfileFieldScreen({ route }) {
         <Text style={theme == "light" ? styles.info_light : styles.info_dark}>
           <Text style={styles.infoText}>Info:</Text> Can only contain lowercase
           letters, numbers, underscores and periods. When you change your
-          username it will update the link to your profile. { textInputValue !== null  &&<Text style={theme == "light" ? styles.textCount_light : styles.textCount_dark}>{`${textInputValue.length}/24`}</Text>}
+          username it will update the link to your profile.{" "}
+          {textInputValue !== null && (
+            <Text
+              style={
+                theme == "light"
+                  ? styles.textCount_light
+                  : styles.textCount_dark
+              }
+            >{`${textInputValue.length}/24`}</Text>
+          )}
         </Text>
         <CustomAlert
-            alertTitle={
-              <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
-              </Text>
-            }
-            customAlertMessage={<Text>Username is already in use!</Text>}
-            positiveBtn="Ok"
-            modalVisible={isDataNotSaved}
-            dismissAlert={setIsDataNotSaved}
-            animationType="fade"
-          />
+          alertTitle={
+            <Text>
+              <MaterialIcons name="info" size={24} color={colors.green} />
+            </Text>
+          }
+          customAlertMessage={<Text>Username is already in use!</Text>}
+          positiveBtn="Ok"
+          modalVisible={isDataNotSaved}
+          dismissAlert={setIsDataNotSaved}
+          animationType="fade"
+        />
       </View>
     </SafeAreaView>
   );
@@ -97,7 +105,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     alignItems: "center",
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 20,
   },
   divider: {
@@ -143,5 +151,5 @@ const styles = StyleSheet.create({
   },
   textInputField: {
     width: "100%",
-  }
+  },
 });

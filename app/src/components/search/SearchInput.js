@@ -102,7 +102,6 @@ const SearchInput = ({
       setIsSearching(false);
       return data.filter((user) => user?.name !== currentUser?.name);
     } else if (searchFor === "Videos") {
-      console.log("the api is hit", nextPageNumber);
       const data = await filterVideos(query, nextPageNumber);
       setIsSearching(false);
       return data;
@@ -112,18 +111,14 @@ const SearchInput = ({
     try {
       const response = await queryUsers(query);
       return response.data;
-    } catch (ex) {
-      console.log(ex);
-    }
+    } catch  {}
   };
   const filterVideos = async (query, page) => {
     try {
       let user = JSON.parse(await SecureStore.getItemAsync("user"));
       const response = await queryVideos(query, user._id ?? user.id, page);
       return response.data;
-    } catch (ex) {
-      console.log(ex);
-    }
+    } catch  {}
   };
 
   return (

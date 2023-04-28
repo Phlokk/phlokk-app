@@ -46,9 +46,7 @@ const FollowingListItem = ({ item, followersList, setLoggedInUserFollowingList }
       await axios.post(`/api/creators/follow/${currentUser._id}/${userId}`), {};
       await addUserToFollowingList(userId);
     }
-  }catch(e){
-    console.log("Error", e)
-  }
+  } catch {}
  
   };
   const handlesSaveFollowingList = async (list) => {

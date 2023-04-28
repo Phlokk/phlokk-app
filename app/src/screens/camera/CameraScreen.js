@@ -197,7 +197,6 @@ export default function CameraScreen({ route }) {
       {
       onRecordingFinished: async (video) => {
         let sourceThumb = null;
-        console.log("check long press => ", longPress, video?.path);
         if(!longPress) {
           setIsRecording(false);
           clearInterval(recordingTimerRef.current);
@@ -211,7 +210,6 @@ export default function CameraScreen({ route }) {
           //setRecordingTime(0);
           pauseChunkVideo();
           pauseChunkAudio();
-          console.log("multiple videos => ", multipleVideos)
           multipleVideos.push({path: video?.path, duration: video?.duration});
           return;
           //sourceThumb = await generateThumbnail(video?.path);
@@ -234,14 +232,11 @@ export default function CameraScreen({ route }) {
           let trimFfmpegCommand = `-ss ${0} -i ${post?.media[1]?.original_url} -t ${video?.duration} ${outputFilePathTrim}`;
           
           FFmpegKit.execute(trimFfmpegCommand).then(async (session) => {
-            console.log('triming ends ---- reduction starts');
             let reduceFfmpegCommand = `-i ${outputFilePathTrim} -r 30 ${outputFilePathReduce}`;
             FFmpegKit.execute(reduceFfmpegCommand).then(async (session) => {
-              console.log('reduction ends ---- merging starts')
               ffmpegCommand = `-i ${outputFilePathReduce} -i ${video?.path} -filter_complex "[0:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v0];[1:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v1];[v0][v1]hstack=inputs=2" ${outputFilePath}`;
               
               FFmpegKit.execute(ffmpegCommand).then(async (session) => {
-                console.log('merging ends')
                 setIsLoading(false)
                 setProgress(100)
                 navigation.navigate("editPosts", { source: outputFilePath, sourceThumb,  duration: video.duration });
@@ -268,69 +263,6 @@ export default function CameraScreen({ route }) {
    
 
     return;
-    // old code
-    // TODO: remove the code after duo
-    if (cameraRef) {
-      // Start up the timer to display the circle progress bar
-      clearInterval(recordingTimerRef.current);
-      setRecordingTime(0);
-      recordingTimerRef.current = setInterval(() => {
-        setRecordingTime((prev) => prev + RECORDING_TIME_TICK);
-      }, RECORDING_TIME_TICK);
-
-      try {
-        const options = {
-          maxDuration: MAX_DURATION,
-          quality: Camera.Constants.VideoQuality["720p"],
-        };
-        if (duo) options.mute = true;
-        if (Platform.OS === "ios") {
-          options.codec = Camera.Constants.VideoCodec.H264;
-        }
-
-        const videoRecordPromise = cameraRef.record(options);
-
-        setIsRecording(true);
-        if (videoRecordPromise) {
-          if (route.params !== undefined) {
-            PlayAudio();
-          }
-          let cameraRecordedUri = null;
-          await videoRecordPromise
-            .then((data) => {
-              cameraRecordedUri = data.uri;
-              return data.uri;
-            })
-            .then(async (source) => {
-              setIsRecording(false);
-              clearInterval(recordingTimerRef.current);
-              setRecordingTime(0);
-              stopVideo();
-              pauseAudio();
-              const sourceThumb = await generateThumbnail(source);
-              if (route.params === undefined) {
-                navigation.navigate("editPosts", { source, sourceThumb });
-              } else {
-                await generateVideo(source).then(async (outputFilePath) => {
-                  console.log("Recorded File", outputFilePath);
-
-                  // navigation.navigate("editPosts", {
-                  //   source: outputFilePath,
-                  //   sourceThumb,
-                  // });
-                });
-              }
-            });
-        }
-      } catch (error) {
-        console.log("Error", error);
-        clearInterval(recordingTimerRef.current);
-        setRecordingTime(0);
-        Alert.alert("Video cannot record");
-        setIsRecording(false);
-      }
-    }
-    setIsRecording(false);
   };
 
   useEffect(async () => {
@@ -339,7 +271,6 @@ export default function CameraScreen({ route }) {
     }
   }, [isVideoEnded]);
   const stopVideo = async (longPress = false) => {
-    console.log('===== stoped video called =========')
     if (cameraRef && isRecording) {
       cameraRef.current.stopRecording();
     }
@@ -399,9 +330,7 @@ export default function CameraScreen({ route }) {
         time: 5000,
       });
       return uri;
-    } catch (e) {
-      console.log("Error while gen thumnb" , e)
-    }
+    } catch {}
   };
 
   const secondsToHms = (d) => {
@@ -538,7 +467,6 @@ export default function CameraScreen({ route }) {
   }, [sound.current]);
 
   const onPressRecord = async () => {
-    console.log("on press called", isLongPressRecording, isRecording);
     if(isLongPressRecording && isRecording) {
       pauseChunkVideo();
       pauseChunkAudio();
@@ -578,9 +506,7 @@ export default function CameraScreen({ route }) {
     for(const m of multipleVideos) {
       paths.push(m.path)
     }
-    console.log("paths => ", paths)
     const inputFilePathsString = paths.join(' -i ');
-    console.log("strings => ", inputFilePathsString)
     let mergeChunksFfmpegCommand = `-i ${inputFilePathsString} -filter_complex "concat=n=${multipleVideos.length}:v=1:a=1" ${outputFilePath}`;
     
     FFmpegKit.execute(mergeChunksFfmpegCommand).then(async (session) => {
@@ -605,7 +531,6 @@ export default function CameraScreen({ route }) {
   const removeLastChunk = () => {
     if(multipleVideos.length > 0) {
       let popped = multipleVideos.pop();
-      console.log("popped => ", popped, recordingTime, popped.duration)
       setRecordingTime(parseInt(recordingTime)-(popped.duration*1000));
     } else {
       setRecordingTime(0)
@@ -613,7 +538,6 @@ export default function CameraScreen({ route }) {
   }
 
   const onLongPress = () => {
-    console.log("------------------------- long press called ---------------")
     if (!isRecording) {
       
 
@@ -627,9 +551,7 @@ export default function CameraScreen({ route }) {
   };
 
   const onPressOut = () => {
-    console.log("-=-=-= on press out called -=-=- ", isLongPressRecording);
     if (isLongPressRecording && isRecording) {
-      //setIsLongPressRecording(false);
       pauseChunkVideo();
       pauseChunkAudio();
     }
@@ -660,7 +582,6 @@ export default function CameraScreen({ route }) {
   useEffect(() => {
     if (isLoading) {
       const interval = setInterval(() => {
-        console.log('progress => ', progress)
         if (progress < 90) {
           setProgress(progress + 10);
         }
@@ -949,7 +870,7 @@ let totalDuration = 0;
               pointerEvents="box-none"
             >
               <TouchableOpacity onPress={() => mergeChunkedVideoAndNavigate()}>
-              <Entypo name="arrow-with-circle-right" size={24} color={colors.white} />
+              <Entypo name="arrow-with-circle-right" size={28} color={colors.red} />
               </TouchableOpacity>
             </View>
           )}

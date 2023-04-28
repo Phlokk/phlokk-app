@@ -24,7 +24,6 @@ export default function BlockAlert({
       await blockUserById(user?._id, userIdToBlock);
       onCompleted && onCompleted();
     } catch {
-      console.log("Error:", e)
       Alert.alert("Error blocking user.");
     }
   };

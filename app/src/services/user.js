@@ -17,9 +17,7 @@ export const blockedListListener = async () => {
 
     const result = await axios.get(`/api/block/list/${user._id}`);
     return result.data;
-  } catch (e) {
-    console.log("Error", e)
-  }
+  } catch {}
 };
 
 // working

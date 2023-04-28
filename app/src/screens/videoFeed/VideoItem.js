@@ -29,7 +29,7 @@ const VideoItem = ({
 
   const [isMarkedPlayed, setIsMarkedPlayed] = useState(false);
   const [isPlayCountInc, setIsPlayCountInc] = useState(false);
-  const [videoReady, setVideoReady]= useState(false)
+  const [videoReady, setVideoReady] = useState(false);
   useEffect(() => {
     const setupAudio = async () => {
       await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
@@ -38,11 +38,10 @@ const VideoItem = ({
   }, []);
   useEffect(async () => {
     setIsPlayCountInc(false);
-   try{
-     if(videoPlayerRef && videoReady) await videoPlayerRef?.current?.setStatusAsync({ positionMillis: 0 });
-   }catch(e){
-    console.log("Error while resetting video", e)
-   }
+    try {
+      if (videoPlayerRef && videoReady)
+        await videoPlayerRef?.current?.setStatusAsync({ positionMillis: 0 });
+    } catch {}
   }, [currentVideoIndex, index]);
   // watches for index change upon scroll to reset the video status
   useEffect(() => {
@@ -75,8 +74,7 @@ const VideoItem = ({
     try {
       const response = await axios.post(`/api/posts/play-count/${item._id}`);
       return response;
-    } catch (e) {
-    }
+    } catch (e) {}
   };
   const shouldUpdateCount = (duration, position) => {
     if (duration > 0 && duration < 119) {
@@ -91,36 +89,34 @@ const VideoItem = ({
   return (
     <View style={{ height: itemHeight, backgroundColor: "black" }}>
       <Pressable style={{ flex: 1 }} onPress={playPauseVideo}>
-
-      <Video
-        ref={videoPlayerRef}
-        source={{
-         uri: item.videoUrl ??  item.media[1]?.original_url,
-         type: item.media[1]?.mime_type ?? 'video/quicktime' ,
-        }}
-        
-        isMuted={currentVideoIndex !== index || !isFocused}
-        resizeMode={videoResizeMode}
-        style={styles.videoRenderer}
-        shouldPlay={currentVideoIndex === index && shouldPlay && isFocused}
-        isLooping
-        usePoster
-        posterSource={{ uri: item.poster }}
-        posterStyle={{ resizeMode: "cover", height: "100%" }}
-        onPlaybackStatusUpdate={(status) => {
-        updatePlayCount(status);
-        setPlaybackStatus(status);
+        <Video
+          ref={videoPlayerRef}
+          source={{
+            uri: item.videoUrl ?? item.media[1]?.original_url,
+            type: item.media[1]?.mime_type ?? "video/quicktime",
+          }}
+          isMuted={currentVideoIndex !== index || !isFocused}
+          resizeMode={videoResizeMode}
+          style={styles.videoRenderer}
+          shouldPlay={currentVideoIndex === index && shouldPlay && isFocused}
+          isLooping
+          usePoster
+          posterSource={{ uri: item.poster }}
+          posterStyle={{ resizeMode: "cover", height: "100%" }}
+          onPlaybackStatusUpdate={(status) => {
+            updatePlayCount(status);
+            setPlaybackStatus(status);
           }}
           onReadyForDisplay={(e) => {
-           setVideoReady(true)
-           const orientation = e.naturalSize.orientation;
+            setVideoReady(true);
+            const orientation = e.naturalSize.orientation;
             if (orientation === "landscape") {
               setVideoResizeMode(Video.RESIZE_MODE_CONTAIN);
             } else {
               setVideoResizeMode(Video.RESIZE_MODE_COVER);
-           }
+            }
           }}
-      />
+        />
 
         {!shouldPlay && (
           <FontAwesome5

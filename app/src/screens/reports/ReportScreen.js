@@ -123,7 +123,6 @@ const ReportScreen = ({ route, navigation }) => {
         navigation.goBack();
       })
       .catch(function (error) {
-        console.log("Error",error)
         alert("There was an error in sending your report");
       });
   };

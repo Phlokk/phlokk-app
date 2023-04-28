@@ -21,13 +21,17 @@ import {
   deleteReplyOfReply,
   timeSince,
 } from "../../../../services/posts";
-import { likeComment, likeCommentReply, likeCommentReplyToReply } from "../../../../redux/actions/likes";
+import {
+  likeComment,
+  likeCommentReply,
+  likeCommentReplyToReply,
+} from "../../../../redux/actions/likes";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import { useTheme } from "../../../../theme/context";
 import { likeCountFormatter } from "../../../common/NumberFormatter";
 
 const CommentItem = ({
-  comment, 
+  comment,
   post,
   setCommentList,
   onReplyPressed,
@@ -35,14 +39,14 @@ const CommentItem = ({
   replyOfReply,
   setRefech,
   commentList,
-  index
+  index,
 }) => {
   const { theme } = useTheme();
 
   const navigation = useNavigation();
   const [user] = useAtom(userAtom);
 
-  const [isLiked, setIsLiked] = useState(comment.is_liked );
+  const [isLiked, setIsLiked] = useState(comment.is_liked);
   const [likeCount, setLikeCount] = useState(comment.like_count);
 
   const isActiveAccount = comment.user !== null;
@@ -51,25 +55,44 @@ const CommentItem = ({
     useState(false);
 
   const likeButtonHandler = async () => {
-    const type = isLiked ? "unlike" : "like"; 
+    const type = isLiked ? "unlike" : "like";
     try {
       if (!isReply) {
-        await likeComment(post._id, comment._id, type, user._id, (post.user.id ?? post.user._id));
+        await likeComment(
+          post._id,
+          comment._id,
+          type,
+          user._id,
+          post.user.id ?? post.user._id
+        );
       } else {
-        if(replyOfReply){
-          await likeCommentReplyToReply(post._id, comment._id, type, user._id,  (comment.user._id ?? comment.user.id));
-        }else{
-          await likeCommentReply(post._id, comment._id, type, user._id, (comment.user._id ?? comment.user.id));
+        if (replyOfReply) {
+          await likeCommentReplyToReply(
+            post._id,
+            comment._id,
+            type,
+            user._id,
+            comment.user._id ?? comment.user.id
+          );
+        } else {
+          await likeCommentReply(
+            post._id,
+            comment._id,
+            type,
+            user._id,
+            comment.user._id ?? comment.user.id
+          );
         }
       }
       // setRefech(e=> !e)
       setLikeCount((prev) => (comment.is_liked ? prev - 1 : prev + 1));
-      comment.like_count = comment.is_liked ? comment.like_count - 1 :  comment.like_count + 1;
+      comment.like_count = comment.is_liked
+        ? comment.like_count - 1
+        : comment.like_count + 1;
       comment.is_liked = comment.is_liked ? 0 : 1;
-      setCommentList([...commentList])
+      setCommentList([...commentList]);
       setIsLiked(!isLiked);
     } catch (err) {
-      console.log("Error", err)
       Alert.alert("Could not like this comment!");
     }
   };
@@ -85,32 +108,36 @@ const CommentItem = ({
           return newCommentList;
         });
       } else {
-        setCommentList(prev => filterCommentReplies(prev, comment._id) );
-        if(replyOfReply){
+        setCommentList((prev) => filterCommentReplies(prev, comment._id));
+        if (replyOfReply) {
           await deleteReplyOfReply(post._id, comment._id);
-        }else{
+        } else {
           await deleteCommentReply(post._id, comment._id);
-        }         
+        }
       }
     } catch (e) {
       Alert.alert("Could not delete comment.");
     }
-  
   };
-  const filterCommentReplies = (commentList, commentId) => { 
+  const filterCommentReplies = (commentList, commentId) => {
     for (const comment of commentList) {
-      if(comment.comment_replies) {
-        for (const [replyIndex, reply] of comment.comment_replies.entries()){
-          if(reply._id === commentId) comment.comment_replies.splice(replyIndex, 1); 
-          if(reply.comment_replies){
-            for (const [replyOfReplyIndex, replyOfReply] of reply.comment_replies.entries()){
-              if(replyOfReply._id === commentId) reply.comment_replies.splice(replyOfReplyIndex, 1); 
-            } 
-          } 
-        } 
-      } 
-    } 
-    return [...commentList]
+      if (comment.comment_replies) {
+        for (const [replyIndex, reply] of comment.comment_replies.entries()) {
+          if (reply._id === commentId)
+            comment.comment_replies.splice(replyIndex, 1);
+          if (reply.comment_replies) {
+            for (const [
+              replyOfReplyIndex,
+              replyOfReply,
+            ] of reply.comment_replies.entries()) {
+              if (replyOfReply._id === commentId)
+                reply.comment_replies.splice(replyOfReplyIndex, 1);
+            }
+          }
+        }
+      }
+    }
+    return [...commentList];
   };
 
   const isCommentCurrentUser =
@@ -153,30 +180,32 @@ const CommentItem = ({
         }}
       >
         <View style={styles.userDetailsContainer}>
-        <View style={styles.verifiedRow}>
-          <TouchableOpacity
-            disabled={isActiveAccount ? user._id == comment.user._id : null}
-            onPress={() => {
-              isActiveAccount
-                ? navigation.navigate("feedProfile", {
-                    initialUser: comment.user,
-                  })
-                : null;
-            }}
-          >
-            <Text
-              style={
-                theme == "light" ? styles.username_light : styles.username_dark
-              }
+          <View style={styles.verifiedRow}>
+            <TouchableOpacity
+              disabled={isActiveAccount ? user._id == comment.user._id : null}
+              onPress={() => {
+                isActiveAccount
+                  ? navigation.navigate("feedProfile", {
+                      initialUser: comment.user,
+                    })
+                  : null;
+              }}
             >
-              {isActiveAccount ? comment.user.username : "phlokker"}
-            </Text>
-          </TouchableOpacity>
-          {comment.user && comment.user.is_verified === 1 && <VerifiedIcon />} 
-        </View>
-        {/* TODO => fix verified icon for reply of reply  */}
-        {replyOfReply && (
-            <View style={{...styles.verifiedRow, marginLeft :4}}> 
+              <Text
+                style={
+                  theme == "light"
+                    ? styles.username_light
+                    : styles.username_dark
+                }
+              >
+                {isActiveAccount ? comment.user.username : "phlokker"}
+              </Text>
+            </TouchableOpacity>
+            {comment.user && comment.user.is_verified === 1 && <VerifiedIcon />}
+          </View>
+          {/* TODO => fix verified icon for reply of reply  */}
+          {replyOfReply && (
+            <View style={{ ...styles.verifiedRow, marginLeft: 4 }}>
               <TouchableOpacity
                 disabled={
                   isActiveAccount ? user._id == replyOfReply?.user._id : null
@@ -189,25 +218,27 @@ const CommentItem = ({
                     : null;
                 }}
                 style={styles.verifiedRow}
-              > 
-               <FontAwesome name="caret-right" size={15} color={colors.green} />
+              >
+                <FontAwesome
+                  name="caret-right"
+                  size={15}
+                  color={colors.green}
+                />
                 <Text
                   style={
                     theme == "light"
-                      ? {...styles.username_light, marginLeft:4}
-                      : {...styles.username_dark, marginLeft:4}
+                      ? { ...styles.username_light, marginLeft: 4 }
+                      : { ...styles.username_dark, marginLeft: 4 }
                   }
                 >
                   {isActiveAccount ? replyOfReply?.user.username : "phlokker"}
-                </Text> 
+                </Text>
               </TouchableOpacity>
-              {comment?.user && comment?.user.is_verified && ( 
-                <VerifiedIcon />
-              )}
+              {comment?.user && comment?.user.is_verified && <VerifiedIcon />}
             </View>
           )}
         </View>
-       
+
         <Text
           style={
             theme == "light"
@@ -285,8 +316,8 @@ const styles = StyleSheet.create({
   },
   userDetailsContainer: {
     flex: 1,
-    flexDirection:"row",
-    alignItems: "center"
+    flexDirection: "row",
+    alignItems: "center",
   },
   verifiedRow: {
     flexDirection: "row",
@@ -366,9 +397,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     paddingTop: 5,
   },
-  repliesUserName:{
-
-  },
+  repliesUserName: {},
 });
 
 export default CommentItem;

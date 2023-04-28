@@ -72,9 +72,7 @@ const SearchMusicInput = ({ placeholder, setSearchedAudios }) => {
       setIsSearching(false);
       setSearchedAudios(result.data);
       if(query.length === 0) setSearchedAudios([])
-    } catch (e) {
-      console.log(e, "error from search audio")
-    }
+    } catch {}
   }
 
   return (

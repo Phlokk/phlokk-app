@@ -13,7 +13,6 @@ const SearchVideos = ({result = [], setPlayVideo, setResult,setNextPage,isSearch
         showsVerticalScrollIndicator={false}
         numColumns = {2}
         onEndReached={() => {
-          console.log("the api is hiasasdasdt")
           if(!isSearching){
             setNextPage(result.next_page_number)
           }

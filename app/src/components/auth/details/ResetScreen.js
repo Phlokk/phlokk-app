@@ -43,8 +43,7 @@ export default function ResetScreen() {
       navigation.popToTop();
 
       return result.data;
-    } catch (e) {
-      console.log("error",e)
+    } catch {
       setCodeErrorMessage(true);
     }
   };

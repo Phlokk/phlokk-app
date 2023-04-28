@@ -57,7 +57,6 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
         body:  formData 
       }).then((e)=>{
         alert("Your video has been posted.");
-        console.log("response",e );
       }).catch((ex)=>{
         console.log("Error", ex)
       }) 

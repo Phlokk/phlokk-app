@@ -269,9 +269,7 @@ export default function App() {
     newUser.token = response.data.token; 
     setUser(newUser)
     SecureStore.setItemAsync("user", JSON.stringify(newUser));
-   }catch(e){
-    console.log("Error", e)
-   }
+   }catch  {}
   }
 
   if (user?.banned_at) {

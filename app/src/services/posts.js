@@ -31,7 +31,6 @@ export const getSinglePost = async (postId, userId) => {
 // get currentUser feed API
 export const getUserFeedAsync = async (userId = null, page = 1) => {
   let user = JSON.parse(await SecureStore.getItemAsync("user"));
-  console.log("User posts",userId ?? user._id )
 
   const paramsObject = { page, limit: POSTS_PER_USER_PAGE };
   const params = querystring.stringify(paramsObject);
