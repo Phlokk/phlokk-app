@@ -28,8 +28,8 @@ import {
 } from "../../../../redux/actions/likes";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import { useTheme } from "../../../../theme/context";
-import { likeCountFormatter } from "../../../common/NumberFormatter";
-
+import { likeCountFormatter } from "../../../common/NumberFormatter"; 
+import { HASHTAG_FORMATTER } from "../../../../utils/hashtagFormatter";
 const CommentItem = ({
   comment,
   post,
@@ -145,6 +145,7 @@ const CommentItem = ({
   const isPostFromCurrentUser = post.user
     ? user._id === (post.user._id ?? post.user.id)
     : true;
+ 
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -246,7 +247,8 @@ const CommentItem = ({
               : styles.textComment_dark
           }
         >
-          {comment.message}
+          {/* {comment.message} */}
+          {HASHTAG_FORMATTER(comment.message, navigation)}
         </Text>
         <View style={styles.replyRow}>
           <Text style={theme == "light" ? styles.date_light : styles.date_dark}>

@@ -25,8 +25,11 @@ import { userAtom } from "./app/src/services/appStateAtoms";
 import Constants from "expo-constants";
 import * as SecureStore from "expo-secure-store";
 import jwtDecode from 'jwt-decode';
-
-
+// import { useDispatch, useSelector } from "react-redux";
+// import { types } from "./app/src/redux/constants";
+import NotificationContext from "./app/src/utils/NotificationContext";
+import {useContext }from "react"
+// import NotificationContext from "./app/src/utils/NotificationContext";
 SplashScreen.preventAutoHideAsync();
 
 LogBox.ignoreLogs(["Setting a timer"]);
@@ -58,6 +61,8 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
+  // const dispatch = useDispatch();
+  const { notificationCount, setNotficationCount } = useContext(NotificationContext); 
   const [user, setUser] = useAtom(userAtom);
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
@@ -241,9 +246,12 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
   useEffect(async()=> {
+    
     Notifications.addNotificationReceivedListener((notification) => {
       console.log("New notification", notification )
+      setNotficationCount(e=> e+1)
     });
+   
    await checkTokenExpiry()
   }, []);
   const checkTokenExpiry =async () => {
@@ -272,12 +280,13 @@ export default function App() {
    }catch  {}
   }
 
+
   if (user?.banned_at) {
     return (
       <GestureHandlerRootView style={{ flex: 1 }}>
         <StatusBar barStyle="light-content" />
 
-        <Provider store={store}>
+        {/* <Provider store={store}> */}
           <QueryClientProvider client={queryClient}>
             <NavigationContainer ref={navigationRef}>
               <ThemeProvider>
@@ -285,7 +294,7 @@ export default function App() {
               </ThemeProvider>
             </NavigationContainer>
           </QueryClientProvider>
-        </Provider>
+        {/* </Provider> */}
       </GestureHandlerRootView>
     );
   }
@@ -295,7 +304,7 @@ export default function App() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <StatusBar barStyle="light-content" />
 
-        <Provider store={store}>
+        {/* <Provider store={store}> */}
           <QueryClientProvider client={queryClient}>
             <NavigationContainer ref={navigationRef}>
               <ThemeProvider>
@@ -303,7 +312,7 @@ export default function App() {
               </ThemeProvider>
             </NavigationContainer>
           </QueryClientProvider>
-        </Provider>
+        {/* </Provider> */}
       </GestureHandlerRootView>
     );
   } else {

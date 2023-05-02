@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, StyleSheet } from "react-native";
-import React from "react";
+import { View, StyleSheet, Text } from "react-native";
+import React, {useContext} from "react";
 import { Feather } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -9,12 +9,13 @@ import FeedNavigation from "../feed/FeedNavigation";
 import ActivityScreen from "../../screens/activity/ActivityScreen";
 import colors from "../../../config/colors";
 import { useTheme } from "../../theme/context";
-
+import NotificationContext from "../../utils/NotificationContext";
 const Tab = createBottomTabNavigator();
 
 const TabBar = ({ state, navigation }) => {
   const { theme, setTheme } = useTheme();
   const selectedTabIndex = navigation?.getState()?.index;
+  const { notificationCount, setNotficationCount } = useContext(NotificationContext); 
 
   const onPress = (index) => {
     const route = state.routes[index];
@@ -29,8 +30,12 @@ const TabBar = ({ state, navigation }) => {
       navigation.navigate(route.name);
     }
   };
+  const getCount = ()=> {
+    if(notificationCount > 99) return '+99'
+    else   return notificationCount
+  }
 
-  // useChats();
+  // useChats(); 
 
   return (
     <View
@@ -56,8 +61,7 @@ const TabBar = ({ state, navigation }) => {
 
         <EvilIcons name="plus" size={40}
           color={theme == "light" ? colors.black : colors.secondary}
-          onPress={() => navigation.navigate("Cam")} />
-       
+          onPress={() => navigation.navigate("Cam")} /> 
         <Feather
           name="message-square"
           size={25}
@@ -70,6 +74,11 @@ const TabBar = ({ state, navigation }) => {
           }
           onPress={() => onPress(1)}
         />
+        <View style={styles.notificationContainer}>
+        <Text style={styles.notificationCount}>
+          {getCount()}
+        </Text>
+       </View> 
         <Feather
           name="user"
           size={25}
@@ -107,6 +116,7 @@ const UserTabs = () => {
     </Tab.Navigator>
   );
 };
+export default UserTabs;
 
 const styles = StyleSheet.create({
   containerBlack: {
@@ -124,6 +134,22 @@ const styles = StyleSheet.create({
     bottom: 10,
     justifyContent: "space-between",
   },
-});
+  notificationContainer:{
+    backgroundColor: colors.green, 
+    width: 21,
+    height: 21,
+    borderRadius:12.5,
+    textAlign: "center",
+    position: 'absolute',
+    right: 90,
+    top:12,
+    flex: 1,
+    justifyContent:'center'
 
-export default UserTabs;
+  },
+  notificationCount:{
+    color:colors.white,
+    fontSize: 9.5,
+    fontWeight: 'bold'
+  }
+});

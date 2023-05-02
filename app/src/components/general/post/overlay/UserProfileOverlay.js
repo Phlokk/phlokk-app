@@ -23,6 +23,7 @@ import AddFriendBtn from "./AddFriendBtn";
 import axios from "../../../../redux/apis/axiosDeclaration";
 import SpecialNeedsIcon from "../../../common/specialNeedsIcon";
 import * as SecureStore from "expo-secure-store";
+import { HASHTAG_FORMATTER } from "../../../../utils/hashtagFormatter";
 const DEFAULT_DESC_DISPLAY_LINES = 2;
 
 function UserProfileOverlay({
@@ -61,39 +62,9 @@ function UserProfileOverlay({
   useEffect(async () => {
     const currentUser = await getCurrentUser()
     setLoggedInUserFollowingList(currentUser);
-  }, [isFocused]);
-  const HASHTAG_FORMATTER = (string) => {
-    if (string === null) {
-      return;
-    }
-
-    return string
-      .split(/((?:^|\s)(?:#[a-z\d-] || @[a-z\d-]+))/gi)
-      .filter(Boolean)
-      .map((tag, i) => {
-        if (tag.includes("#") || tag.includes("@")) {
-          return (
-            <Text
-              key={i}
-              // onPress={() => {
-              //   navigation.navigate("feedProfile", {
-              //     initialUser: user,
-              //   });
-              // }
-
-              // }
-              style={styles.tags}
-            >
-              {JSON.stringify(tag).slice(1, -1)}
-            </Text>
-          );
-        } else {
-          return <Text key={i}>{tag}</Text>;
-        }
-      });
-  };
+  }, [isFocused]); 
   const tickerText = "official phlokk audio @" + username;
-
+  
   const followUser = async function (userId) {
     if (isFollowing) {
       navigation.navigate("feedProfile", {
@@ -234,7 +205,7 @@ function UserProfileOverlay({
           }}
         >
 
-          {HASHTAG_FORMATTER(post?.description)}
+          {HASHTAG_FORMATTER(post?.description, navigation)}
         </Text>
         <View style={styles.songView}>
           <View style={styles.songRow}>

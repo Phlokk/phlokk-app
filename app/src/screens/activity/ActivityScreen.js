@@ -17,20 +17,22 @@ import { useTheme } from "../../theme/context";
 export default function ActivityScreen({ navigation }) {
   const { theme } = useTheme();
 
-  const [notificationList, setNotificationList] = useState("");
+  const [notificationList, setNotificationList] = useState([]);
   const [isLoading, setIsLoading] = useState();
   const isFocused = useIsFocused();
+  const [pageNumber, setPageNumber] = useState(1)
 
+  const getNotifs = async (page) => {
+    setIsLoading(true);
+    console.log("Getting list")
+    const notifications = await getNotifications(page);
+    setPageNumber(notifications.pagination.currentPage)
+    setNotificationList((e)=> [...e, ...notifications.data]);
+    setIsLoading(false);
+  };
   useEffect(() => {
-    const getNotifs = async () => {
-      setIsLoading(true);
-      const notifications = await getNotifications();
-      setNotificationList(notifications.data);
-      setIsLoading(false);
-    };
-
     if (isFocused) {
-      getNotifs();
+      getNotifs(1);
     }
   }, [isFocused]);
 
@@ -101,7 +103,12 @@ export default function ActivityScreen({ navigation }) {
         ItemSeparatorComponent={Separator}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        keyExtractor={() => uuid().toString()}
+        keyExtractor={(item) => item._id} 
+        onEndReached={(e)=>{ 
+          console.log(e)
+         console.log("ENd")
+          getNotifs(parseInt( pageNumber ) + 1 ); 
+        }}
       />
     </View>
   );
@@ -111,10 +118,12 @@ const styles = StyleSheet.create({
   container_dark: {
     flex: 1,
     backgroundColor: colors.black,
+    height: 400,
   },
   container_light: {
     flex: 1,
     backgroundColor: colors.white,
+    height: 400,
   },
   userContainer: {
     flex: 1,

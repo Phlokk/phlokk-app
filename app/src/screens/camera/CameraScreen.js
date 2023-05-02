@@ -206,8 +206,6 @@ export default function CameraScreen({ route }) {
           sourceThumb = await generateThumbnail(video?.path);
         } else {
           setIsRecording(false);
-          //clearInterval(recordingTimerRef.current);
-          //setRecordingTime(0);
           pauseChunkVideo();
           pauseChunkAudio();
           multipleVideos.push({path: video?.path, duration: video?.duration});
@@ -218,8 +216,6 @@ export default function CameraScreen({ route }) {
           setIsLoading(true)
           const ext = Platform.OS === "ios" ? "mov" : "mp4";
           let ffmpegCommand = null;
-          // const outputFilePath =
-          //   FileSystem.cacheDirectory + "Camera/" + uuid() + "." + ext;
           const outputDirectory = FileSystem.cacheDirectory + "Camera/";
           const outputFileName = uuid() + "." + ext;
           const outputFilePath = outputDirectory + outputFileName; 
@@ -234,7 +230,7 @@ export default function CameraScreen({ route }) {
           FFmpegKit.execute(trimFfmpegCommand).then(async (session) => {
             let reduceFfmpegCommand = `-i ${outputFilePathTrim} -r 30 ${outputFilePathReduce}`;
             FFmpegKit.execute(reduceFfmpegCommand).then(async (session) => {
-              ffmpegCommand = `-i ${outputFilePathReduce} -i ${video?.path} -filter_complex "[0:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v0];[1:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v1];[v0][v1]hstack=inputs=2" ${outputFilePath}`;
+              ffmpegCommand = `-i ${video?.path } -i ${outputFilePathReduce} -filter_complex "[0:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v0];[1:v]scale=w=720:h=1280:force_original_aspect_ratio=decrease, pad=720:1280:(ow-iw)/2:(oh-ih)/2,setsar=1[v1];[v0][v1]hstack=inputs=2" ${outputFilePath}`;
               
               FFmpegKit.execute(ffmpegCommand).then(async (session) => {
                 setIsLoading(false)

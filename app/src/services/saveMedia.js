@@ -54,15 +54,15 @@ export const saveMediaToStorage = (description, source, thumbnail) => {
       fetch(url, {
         method: 'POST',
         headers: config,
-        body:  formData 
-      }).then((e)=>{
-        alert("Your video has been posted.");
+        body:  formData ,
+      }).then((response)=>{
+         alert("Your video has been posted."); 
+      
       }).catch((ex)=>{
         console.log("Error", ex)
-      }) 
-
+      })  
     } else {
-      Alert.alert("No bearer token");
+      Alert.alert("Your video cannot be uploaded!");
     }
   });
 

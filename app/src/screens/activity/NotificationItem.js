@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext, useEffect, useRef} from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../../../config/colors";
 import { timeSince } from "../../services/posts";
@@ -8,10 +8,14 @@ import FastImage from "react-native-fast-image";
 import { useNavigation } from "@react-navigation/core";
 import NotificationItemSecondaryAvatar from "./NotificationItemSecondaryAvatar";
 import { useTheme } from "../../theme/context";
+import axios from "../../redux/apis/axiosDeclaration";
+import NotificationContext from "../../utils/NotificationContext";
+import Constants from 'expo-constants';
 
 const NotificationItem = ({ navigation, item }) => {
   const { theme } = useTheme();
-
+  const { notificationCount, setNotficationCount } = useContext(NotificationContext);
+  const ref = useRef() 
   /**
    * Notification "types"
    * 1 = DEVICE REGISTRATION; // no navigation / navigate to "session list"
@@ -30,7 +34,8 @@ const NotificationItem = ({ navigation, item }) => {
         profile:true
       });
     } else {
-      const post = await getSinglePost(item.post.id ?? item.post._id, item.post.user_id)
+      const post = await getSinglePost(item.post.id ?? item.post._id, item.post.user_id);
+
       // return console.log("Post", item.body)
       //TODO: save the comment id in notification table so that filtering that comment id easier
       item.post.user = post.data[0].user;
@@ -53,9 +58,20 @@ const NotificationItem = ({ navigation, item }) => {
     );
   };
   
+  useEffect(()=>{
+    if(!item.read){
+      console.log("mark as read")
+      markAsRead()
+    }
+  },[])
+  
+  const markAsRead = async () => { 
+    const response = await axios.post(`/api/notifications/read/${item._id}`);
+    setNotficationCount(e=> e -1 ) 
+  }
 
   return (
-    <TouchableOpacity onPress={() => goToAssociated()}>
+    <TouchableOpacity onPress={() => goToAssociated()} ref={ref}>
       <View style={styles.containerInput}>
         <View style={{flexDirection: 'row', paddingTop: 8}}>
           <TouchableOpacity>
