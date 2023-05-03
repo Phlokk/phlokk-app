@@ -8,12 +8,25 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import routes from "../../navigation/routes";
-
-function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri }) {
+import axios from "../../redux/apis/axiosDeclaration";
+import * as SecureStore from "expo-secure-store";
+import RecentComments from "./RecentComments";
+function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri, setSelectedComment }) {
   const navigation = useNavigation();
   const [isLive, setIsLive] = useState(false);
   const [speed, setSpeed] = useState(false);
   const [replies, setReplies] = useState(false);
+  const [recentComments, setRecentComments] = useState([]);
+  const getMostRecentComments = async () => {
+    try {
+      const user = JSON.parse(await SecureStore.getItemAsync("user"));
+      const response = await axios.get(`/api/comments/most-recent/${user._id}`);
+      setRecentComments(response.data);
+      setReplies(true);
+    } catch (e) {
+      console.log("Error", e);
+    }
+  };
 
   return (
     <View style={duo ? styles.duoIconRow : styles.iconRow}>
@@ -37,7 +50,7 @@ function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.sideBarButton}
-              onPress={() => setReplies(true)}
+              onPress={getMostRecentComments}
             >
               <MaterialIcons
                 name="chat-bubble-outline"
@@ -89,7 +102,7 @@ function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri }) {
           dismissAlert={setSpeed}
           animationType="fade"
         />
-        <CustomAlert
+        {/* <CustomAlert
           alertTitle={
             <Text>
               <MaterialIcons name="info" size={24} color={colors.green} />
@@ -100,7 +113,7 @@ function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri }) {
           modalVisible={replies}
           dismissAlert={setReplies}
           animationType="fade"
-        />
+        /> */}
         <CustomAlert
           alertTitle={
             <Text>
@@ -114,6 +127,12 @@ function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri }) {
           animationType="fade"
         />
       </View>
+      <RecentComments
+        visible={replies}
+        setIsVisible={() => setReplies(false)}
+        comments={recentComments}
+        setSelectedComment={setSelectedComment}
+      />
     </View>
   );
 }
@@ -186,14 +205,14 @@ const styles = StyleSheet.create({
   sideBarButtonView: {
     top: 30,
     flexDirection: "row",
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
     borderRadius: 50,
   },
   duoSideBarButtonView: {
     top: 30,
     padding: 10,
     flexDirection: "row",
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
     borderRadius: 50,
     justifyContent: "space-between",
     alignItems: "center",

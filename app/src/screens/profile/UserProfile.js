@@ -17,10 +17,13 @@ import BioSheetModalScreen from "../../components/modal/bioSheetModalScreen/BioS
 import { useTheme } from "../../theme/context";
 import RisingStar from "../../components/common/RisingStar";
 import { unblockUserById } from "../../services/user";
+import UserProfileImage from "./UserProfileImage";
 function UserProfile({ user, isCurrentUser, isUserBlocked, setIsUserBlocked }) {
   const { theme } = useTheme();
   const [topFavFive, setTopFavFive] = useState(false);
   const [isBioModalScreenOpen, setIsBioModalScreenOpen] = useState(false);
+  const [viewProfileImage, setViewProfileImage] = useState(false);
+
   const unblockUser = async () => {
     setIsUserBlocked(null);
     const loggedInUser = JSON.parse(await SecureStore.getItemAsync("user"));
@@ -33,6 +36,7 @@ function UserProfile({ user, isCurrentUser, isUserBlocked, setIsUserBlocked }) {
         onPress={
           !isUserBlocked ? () => setIsBioModalScreenOpen(true) : () => {}
         }
+        onLongPress={()=> setViewProfileImage(true) }
         disabled={!user?.photo_url}
       >
         <Image
@@ -132,6 +136,11 @@ function UserProfile({ user, isCurrentUser, isUserBlocked, setIsUserBlocked }) {
           <BioSheetModalScreen user={user} isCurrentUser={isCurrentUser} />
         </View>
       </Modal>
+      <UserProfileImage 
+        visible={viewProfileImage}
+        setIsVisible={()=>setViewProfileImage(false)}
+        imageUrl ={user?.photo_url}
+      />
     </View>
   );
 }

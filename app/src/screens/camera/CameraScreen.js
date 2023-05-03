@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, createRef } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,8 @@ import {
   StyleSheet,
   Animated,
   Alert,
-  EventEmitter
+  EventEmitter,
+  PanResponder
 } from "react-native";
 import uuid from "uuid-random";
 import {
@@ -39,12 +40,15 @@ import { Circle } from "react-native-progress";
 import SideIconOverlay from "./SideIconOverlay";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { Audio, Video } from "expo-av";
-import { Camera, useCameraDevices } from "react-native-vision-camera";
+import { Camera, useCameraDevices,Constants } from "react-native-vision-camera";
 import * as SecureStore from "expo-secure-store";
 import FormData from "form-data";
 import { apiUrlsNode } from "../../globals";
 import { useTheme } from "../../theme/context";
 import Slider from "@react-native-community/slider";
+import { PanGestureHandler, PinchGestureHandler, State } from 'react-native-gesture-handler';
+import { captureRef } from 'react-native-view-shot';
+
 
 const START_RECORDING_DELAY = 3000;
 const MAX_DURATION = 120;
@@ -124,8 +128,7 @@ export default function CameraScreen({ route }) {
   const [isRecording, setIsRecording] = useState(false);
   const [galleryItems, setGalleryItems] = useState([]);
   const [cameraType, setCameraType] = useState("front");
-  const [cameraFlash, setCameraFlash] = useState();
-
+  const [cameraFlash, setCameraFlash] = useState(); 
   const [startRecordingCountdown, setStartRecordingCountdown] = useState(
     START_RECORDING_DELAY / 1000
   );
@@ -147,7 +150,56 @@ export default function CameraScreen({ route }) {
   const [duetVideoUrl, setDuetVideoUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [multipleVideos, setMultipleVideos] = useState([]);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [panEnabled, setPanEnabled] = useState(false);
+  const scale = useRef(new Animated.Value(1)).current;
+  const translateX = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
+  const pinchRef = createRef();
+  const panRef = createRef(); 
+  const pan = useRef(new Animated.ValueXY()).current;
+  const viewShotRef = useRef()
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}]),
+      onPanResponderRelease: (a,b) => {
+        pan.extractOffset(); 
+      },
+    }),
+  ).current; 
 
+  const onPinchEvent = Animated.event([{
+    nativeEvent: { scale }
+  }],
+    { useNativeDriver: true }); 
+  const handlePinchStateChange = ({ nativeEvent }) => {
+    // enabled pan only after pinch-zoom
+    if (nativeEvent.state === State.ACTIVE) {
+      setPanEnabled(true);
+    }
+
+    // when scale < 1, reset scale back to original (1)
+    const nScale = nativeEvent.scale; 
+    if (nativeEvent.state === State.END) {
+      if (nScale < 1) {
+        Animated.spring(scale, {
+          toValue: 1,
+          useNativeDriver: true
+        }).start();
+        Animated.spring(translateX, {
+          toValue: 0,
+          useNativeDriver: true
+        }).start();
+        Animated.spring(translateY, {
+          toValue: 0,
+          useNativeDriver: true
+        }).start();
+
+        setPanEnabled(false);
+      }
+    }
+  };
   useEffect(() => {
     const getPermissions = async () => {
       const cameraStatus = await Camera.requestCameraPermission();
@@ -240,7 +292,16 @@ export default function CameraScreen({ route }) {
             });
 
           });
-        } else {
+        } else if(selectedComment){
+          // return console.log("Pan", pan)
+          const imageUrl  = await getUrlOfCommentContainer()
+          viewShotRef.current.measure(async (x, y, width, height, pageX, pageY) => {  
+             console.log(x, y) 
+            const rc = await addImageOverlayToVideo(video?.path,imageUrl, x,y )
+            navigation.navigate("editPosts", { source: rc, sourceThumb,  duration: video.duration });
+          });
+        } 
+        else {   
           if (!route.params?.item?.sound_url) {
             navigation.navigate("editPosts", { source: video?.path, sourceThumb,  duration: video.duration });
           } else {
@@ -254,11 +315,23 @@ export default function CameraScreen({ route }) {
           }
         }
       },
+     
       onRecordingError: (error) => console.error("error", error),
     });
    
 
     return;
+  };
+  const addImageOverlayToVideo = async (videoUrl, imageUrl,x,y ) => {
+     
+    const ext = Platform.OS === "ios" ? "mov" : "mp4";
+    const outputDirectory = FileSystem.cacheDirectory + "Camera/";
+    const outputFileName = uuid() + "." + ext;
+    const outputFilePath = outputDirectory + outputFileName; 
+    await FileSystem.makeDirectoryAsync(outputDirectory, { intermediates: true }); 
+    const command = `-i ${videoUrl} -i ${imageUrl} -filter_complex "overlay=${x + 3}:${y - 115}" ${outputFilePath}`;
+     await FFmpegKit.execute(command);
+    return outputFilePath
   };
 
   useEffect(async () => {
@@ -573,8 +646,19 @@ export default function CameraScreen({ route }) {
     if (status.didJustFinish) {
       setIsVideoEnded(true);
     }
-  };
+  }; 
+  const getUrlOfCommentContainer = async()=>{
+    try {
+      const snapshot = await captureRef(viewShotRef, {
+        format: 'jpg',
+        quality: 0.8,
+      });
+      return (`file://${snapshot}`);
+    } catch (error) {
+      console.error(error);
+    }
 
+  }
   useEffect(() => {
     if (isLoading) {
       const interval = setInterval(() => {
@@ -615,8 +699,9 @@ export default function CameraScreen({ route }) {
 if (!devices) {
   return <View style={styles.camView}></View>;
 }
-let totalDuration = 0;
-  return (
+let totalDuration = 0; 
+ 
+  return (console.log("return",pan ),
     <>
     {((duo && isLoading) || (isLoading && isLongPressRecording))? (
       <View style={styles.overlay}>
@@ -686,7 +771,47 @@ let totalDuration = 0;
             }
           }}
         />
-      )}
+      )} 
+      {selectedComment &&   
+      <PinchGestureHandler
+      ref={pinchRef}
+      onGestureEvent={onPinchEvent}
+      simultaneousHandlers={[panRef]}
+      onHandlerStateChange={handlePinchStateChange}
+      >
+      <Animated.View  
+      ref={viewShotRef} 
+      style={[
+        styles.commentContainer,
+        {
+          transform: [{ scale }, 
+            { translateX: pan.x },
+            { translateY: pan.y },
+          ] 
+        },
+      ]}
+      {...panResponder.panHandlers}
+     
+      > 
+        <View style={styles.commentUser}>
+          <Image
+            source={
+              selectedComment.user?.photo_thumb_url
+                ? { uri: selectedComment.user?.photo_thumb_url }
+                : require("../../../assets/userImage.png")
+            }
+            style={styles.avatar}
+          />
+          <View style={styles.comment}>
+            <Text style={styles.commentUsername}>Reply to</Text>
+            <Text style={styles.username} numberOfLines={1}
+            > {selectedComment.user?.username}</Text>
+          </View>
+        </View>
+          <Text style={styles.commentMessage}>{selectedComment.message}</Text>  
+      </Animated.View>
+      </PinchGestureHandler>  
+      }
 
       {!isRecording && (
         <View style={styles.sideBarContainer}>
@@ -767,6 +892,7 @@ let totalDuration = 0;
               isRecording={isRecording}
               pickFromGallery={pickFromGallery}
               uploadImgUri={galleryItems[0]?.uri}
+              setSelectedComment={setSelectedComment}
             />
           )}
 
@@ -931,6 +1057,7 @@ let totalDuration = 0;
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
   },
@@ -1108,5 +1235,43 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     backgroundColor: 'red',
     zIndex: 99999999999
+  },
+  commentContainer: {
+    backgroundColor: colors.white,
+    height: "auto",
+    flex: 1,
+    margin: 5,
+    borderBottomRightRadius: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    padding: 10,
+    width:"50%",
+    zIndex:999999,
+    position:"absolute",
+    top: 60,
+    left:10
+  },
+  commentUser: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  avatar: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+  },
+  commentMessage: {
+    color: colors.black,
+    fontSize: 12,
+  },
+  username: {
+    fontWeight: "600",
+    fontSize: 12,
+    marginLeft: 7,
+  },
+  commentUsername: {
+    fontSize: 12,
+    marginLeft: 10,
   },
 });
