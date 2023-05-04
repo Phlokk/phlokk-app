@@ -17,25 +17,30 @@ import colors from "../../../../config/colors";
 import axios from "../../../redux/apis/axiosDeclaration";
 import CustomAlert from "../../Alerts/CustomAlert";
 import ResetCodeAlert from "../../Alerts/ResetCodeAlert";
-
+import { useTheme } from "../../../theme/context";
+import LottieView from "lottie-react-native";
+const animation = require("../../../../assets/animations/dots.json");
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
 
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [codeErrorMessage, setCodeErrorMessage] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const navigation = useNavigation();
-
+  const { theme } = useTheme();
   function resetTextInput() {
     setEmail("");
   }
 
   const handleReset = async () => {
     try {
+      setLoading(true);
       const result = await axios.post(`/api/password/forgotPassword`, {
         email: email,
       });
       resetTextInput();
+      setLoading(false);
       setIsCodeSent(true);
       return result.data;
     } catch (e) {
@@ -43,7 +48,31 @@ export default function ResetPassword() {
     }
   };
 
- 
+  const LoadingScreen = () =>{
+    return(
+      <View
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
+      <View style={styles.lottieView}>
+        <LottieView
+          autoPlay
+          style={{
+            width: 200,
+            height: 200,
+          }}
+          source={animation}
+        />
+        <Text
+          style={theme == "light" ? styles.splash_light : styles.splash_dark}
+        >
+         Sending Reset Code...
+        </Text>
+      </View>
+    </View>
+    )
+  }
+  
+  if(loading) return <LoadingScreen />
 
   return (
     <ScrollView style={styles.container}>
@@ -169,5 +198,23 @@ const styles = StyleSheet.create({
   image: {
     height: 200,
     width: 200,
+  },
+  lottieView: {
+    marginTop: 100,
+    alignItems: "center",
+  },
+  splash_light: {
+    color: colors.lightBlack,
+  },
+  splash_dark: {
+    color: colors.green,
+  },
+  container_light: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+  container_dark: {
+    flex: 1,
+    backgroundColor: colors.black,
   },
 });

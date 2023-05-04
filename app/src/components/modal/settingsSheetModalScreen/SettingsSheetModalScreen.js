@@ -8,6 +8,7 @@ import {
 import React, { useState } from "react";
 import Share from "react-native-share";
 import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -18,7 +19,12 @@ import colors from "../../../../config/colors";
 import uuid from "uuid-random";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
-
+import {
+  FFmpegKit,
+  FFprobeKit,
+  FFmpegKitConfig,
+} from "ffmpeg-kit-react-native";
+import { Audio } from "expo-av";
 const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   const navigation = useNavigation();
 
@@ -77,6 +83,30 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
       setIsDownloadFailed(true);
     }
   };
+  const handleUsePostAudio = async () => {
+    const url = post.media[1].original_url;
+    const audioUrl = await extractAudio(url);
+    console.log("Sound URL", audioUrl);
+    // const soundObject = new Audio.Sound();
+    // await soundObject.loadAsync({ uri: audioUrl });
+    // await soundObject.playAsync();
+
+    navigation.navigate(routes.CAMERA, { item: { sound_url: audioUrl } });
+  };
+  const extractAudio = async (videoUrl) => {
+    try {  
+      const ext = 
+      // Platform.OS === "ios" ? "mp3" : 
+      "aac";
+          const outputDirectory = FileSystem.cacheDirectory + "Camera/";
+          const outputFileName = uuid() + "." + ext;
+          const outputFilePath = outputDirectory + outputFileName;  
+      const session = await FFmpegKit.execute(`-i ${videoUrl}  -vn -acodec aac ${outputFilePath}`);  
+      return outputFilePath
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -133,6 +163,21 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
               ))}
           </>
         ) : null}
+
+        <TouchableOpacity
+          style={styles.fieldItemContainer}
+          autoCapitalize="none"
+          onPress={handleUsePostAudio}
+        >
+          <View style={styles.bubble}>
+            <Ionicons
+              name="musical-notes-sharp"
+              size={25}
+              color={colors.secondary}
+            />
+          </View>
+          <Text style={styles.text}>Use</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.fieldItemContainer}

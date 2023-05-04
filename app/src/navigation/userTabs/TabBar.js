@@ -31,7 +31,7 @@ const TabBar = ({ state, navigation }) => {
     }
   };
   const getCount = ()=> {
-    if(notificationCount > 99) return '+99'
+    if(notificationCount > 99) return '99+'
     else   return notificationCount
   }
 
@@ -62,6 +62,7 @@ const TabBar = ({ state, navigation }) => {
         <EvilIcons name="plus" size={40}
           color={theme == "light" ? colors.black : colors.secondary}
           onPress={() => navigation.navigate("Cam")} /> 
+          
         <Feather
           name="message-square"
           size={25}
@@ -74,11 +75,13 @@ const TabBar = ({ state, navigation }) => {
           }
           onPress={() => onPress(1)}
         />
+        { notificationCount > 0 && 
         <View style={styles.notificationContainer}>
         <Text style={styles.notificationCount}>
           {getCount()}
         </Text>
        </View> 
+      }
         <Feather
           name="user"
           size={25}
@@ -136,20 +139,21 @@ const styles = StyleSheet.create({
   },
   notificationContainer:{
     backgroundColor: colors.green, 
-    width: 21,
-    height: 21,
-    borderRadius:12.5,
-    textAlign: "center",
+    width: 32,
+    height: 19,
+    borderRadius: 12,
+    alignItems: "center",
     position: 'absolute',
-    right: 90,
-    top:12,
+    right: 83,
+    top:14,
     flex: 1,
     justifyContent:'center'
 
   },
   notificationCount:{
-    color:colors.white,
-    fontSize: 9.5,
-    fontWeight: 'bold'
+    padding: 2,
+    color:colors.black,
+    fontSize: 9,
+    fontWeight: '900'
   }
 });

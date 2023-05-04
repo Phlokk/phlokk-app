@@ -69,7 +69,7 @@ function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri, setS
                 size={18}
                 color={colors.white}
               />
-              <Text style={styles.iconText}>Wav</Text>
+              <Text style={styles.iconText}>MP3</Text>
             </TouchableOpacity>
           </>
         )}

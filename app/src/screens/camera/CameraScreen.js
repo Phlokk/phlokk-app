@@ -8,9 +8,7 @@ import {
   Platform,
   StyleSheet,
   Animated,
-  Alert,
-  EventEmitter,
-  PanResponder
+  PanResponder,
 } from "react-native";
 import uuid from "uuid-random";
 import {
@@ -36,7 +34,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../../config/colors";
 import { Circle } from "react-native-progress";
-// import routes from "../../navigation/routes";
+
 import SideIconOverlay from "./SideIconOverlay";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { Audio, Video } from "expo-av";
@@ -152,23 +150,28 @@ export default function CameraScreen({ route }) {
   const [multipleVideos, setMultipleVideos] = useState([]);
   const [selectedComment, setSelectedComment] = useState(null);
   const [panEnabled, setPanEnabled] = useState(false);
+  const [mergeImageIntoVideo, setMergingImageIntoVideo] = useState(false);
+  const [mergeProgress, setMergeProgress] = useState(0)
   const scale = useRef(new Animated.Value(1)).current;
   const translateX = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(0)).current;
   const pinchRef = createRef();
   const panRef = createRef(); 
   const pan = useRef(new Animated.ValueXY()).current;
-  const viewShotRef = useRef()
+  const viewShotRef = useRef();
+  const [commentContainerPositions, setCommentContainerPositions] = useState({})
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}]),
+      onPanResponderMove: (evt, gestureState) => {
+        Animated.event([null, {dx: pan.x, dy: pan.y}])(evt, gestureState);
+        setCommentContainerPositions(gestureState)
+      },
       onPanResponderRelease: (a,b) => {
         pan.extractOffset(); 
       },
     }),
-  ).current; 
-
+  ).current;
   const onPinchEvent = Animated.event([{
     nativeEvent: { scale }
   }],
@@ -235,6 +238,16 @@ export default function CameraScreen({ route }) {
       recordVideo();
     }
   }, [startRecordingCountdown]);
+  useEffect(() => {
+    if (mergeImageIntoVideo) {
+      const interval = setInterval(() => {
+        if (mergeProgress < 90) {
+          setMergeProgress(mergeProgress + 10);
+        }
+      }, 900);
+      return () => clearInterval(interval);
+    }
+  }, [mergeImageIntoVideo, mergeProgress]);
 
   const recordVideo = async (longPress = false) => {
     setIsRecording(true);
@@ -249,6 +262,7 @@ export default function CameraScreen({ route }) {
       {
       onRecordingFinished: async (video) => {
         let sourceThumb = null;
+        console.log("Video Recorded" ,video,longPress)
         if(!longPress) {
           setIsRecording(false);
           clearInterval(recordingTimerRef.current);
@@ -293,19 +307,21 @@ export default function CameraScreen({ route }) {
 
           });
         } else if(selectedComment){
-          // return console.log("Pan", pan)
-          const imageUrl  = await getUrlOfCommentContainer()
+          setMergingImageIntoVideo(true)
+          const imageUrl  = await getUrlOfCommentContainer();
           viewShotRef.current.measure(async (x, y, width, height, pageX, pageY) => {  
-             console.log(x, y) 
-            const rc = await addImageOverlayToVideo(video?.path,imageUrl, x,y )
+            const rc = await addImageOverlayToVideo(video?.path,imageUrl, x,y );
+            setMergingImageIntoVideo(false);
+            setMergeProgress(100);
             navigation.navigate("editPosts", { source: rc, sourceThumb,  duration: video.duration });
           });
-        } 
-        else {   
+        }  else {   
           if (!route.params?.item?.sound_url) {
             navigation.navigate("editPosts", { source: video?.path, sourceThumb,  duration: video.duration });
           } else {
+            console.log("ELSE Music")
             await generateVideo(video?.path).then(async (output) => {
+              console.log("Output file path???", output)
               navigation.navigate("editPosts", {
                 source: output,
                 sourceThumb,
@@ -323,13 +339,12 @@ export default function CameraScreen({ route }) {
     return;
   };
   const addImageOverlayToVideo = async (videoUrl, imageUrl,x,y ) => {
-     
     const ext = Platform.OS === "ios" ? "mov" : "mp4";
     const outputDirectory = FileSystem.cacheDirectory + "Camera/";
     const outputFileName = uuid() + "." + ext;
     const outputFilePath = outputDirectory + outputFileName; 
     await FileSystem.makeDirectoryAsync(outputDirectory, { intermediates: true }); 
-    const command = `-i ${videoUrl} -i ${imageUrl} -filter_complex "overlay=${x + 3}:${y - 115}" ${outputFilePath}`;
+    const command = `-i ${videoUrl} -i ${imageUrl} -filter_complex "overlay=${x}:${y}" ${outputFilePath}`;
      await FFmpegKit.execute(command);
     return outputFilePath
   };
@@ -419,6 +434,9 @@ export default function CameraScreen({ route }) {
   };
 
   const generateVideo = async (source) => {
+    try{
+
+   
     const ext = Platform.OS === "ios" ? "mov" : "mp4";
     let ffmpegCommand = null;
     // const outputFilePath =
@@ -477,6 +495,9 @@ export default function CameraScreen({ route }) {
     const response = await FFmpegKit.execute(ffmpegCommand);
     // }
     return outputFilePath;
+  }catch(e){
+    console.log("Error while generating video" ,e)
+  }
   };
 
   const sound = useRef(new Audio.Sound());
@@ -514,13 +535,14 @@ export default function CameraScreen({ route }) {
           { shouldPlay: false, isLooping: false },
           false
         );
-
         if (result.isLoaded === false) {
           SetLoading(false);
         } else {
+          // await sound.current.playAsync();
           SetLoading(false);
         }
       } catch (error) {
+        console.log("Error while loading audio" ,error)
         setIsAudioPlaying(false);
         SetLoading(false);
       }
@@ -652,13 +674,13 @@ export default function CameraScreen({ route }) {
       const snapshot = await captureRef(viewShotRef, {
         format: 'jpg',
         quality: 0.8,
-      });
+      }); 
       return (`file://${snapshot}`);
     } catch (error) {
       console.error(error);
     }
 
-  }
+  } 
   useEffect(() => {
     if (isLoading) {
       const interval = setInterval(() => {
@@ -701,9 +723,9 @@ if (!devices) {
 }
 let totalDuration = 0; 
  
-  return (console.log("return",pan ),
+  return (
     <>
-    {((duo && isLoading) || (isLoading && isLongPressRecording))? (
+    {((duo && isLoading) || (isLoading && isLongPressRecording) || mergeImageIntoVideo)? (
       <View style={styles.overlay}>
         <View
           style={theme == "light" ? styles.container_light : styles.container_dark}
@@ -723,16 +745,19 @@ let totalDuration = 0;
               style={[styles.timelineSlider]}
               minimumValue={0}
               maximumValue={100}
-              value={progress}
+              // mergeProgress
+              value={ mergeImageIntoVideo? mergeProgress : progress}
               //onSlidingStart={() => setProgress(progress)}
-              onSlidingComplete={() => setProgress(0)}
+              onSlidingComplete={mergeImageIntoVideo ? ()=> setMergeProgress(0) :() => setProgress(0)}
+              
               minimumTrackTintColor={colors.green}
               thumbTintColor="transparent"
             />
             <Text
               style={theme == "light" ? styles.splash_light : styles.splash_dark}
             >
-              {(duo)? "Creating DUO...":"Mashin Up Your Phlokks..."}
+              {selectedComment ? "Creating Your Reply Video" : (duo)? "Creating DUO...":"Mashin Up Your Phlokks..."}
+              {/* {(duo)? "Creating DUO...":"Mashin Up Your Phlokks..."} */}
             </Text>
           </View>
         </View>
@@ -772,7 +797,7 @@ let totalDuration = 0;
           }}
         />
       )} 
-      {selectedComment &&   
+      {selectedComment && 
       <PinchGestureHandler
       ref={pinchRef}
       onGestureEvent={onPinchEvent}
@@ -780,7 +805,13 @@ let totalDuration = 0;
       onHandlerStateChange={handlePinchStateChange}
       >
       <Animated.View  
-      ref={viewShotRef} 
+      ref={viewShotRef}
+      onLayout={e=>{
+        viewShotRef.current.measure(async (x, y, width, height, pageX, pageY) => {  
+          console.log("x, y, width, height, pageX, pageY", x, y,  pageX, pageY)         
+       });
+
+      }}
       style={[
         styles.commentContainer,
         {
@@ -790,6 +821,7 @@ let totalDuration = 0;
           ] 
         },
       ]}
+      
       {...panResponder.panHandlers}
      
       > 
@@ -1067,11 +1099,9 @@ const styles = StyleSheet.create({
   },
   container_dark: {
     flex: 1,
-    //backgroundColor: colors.black,
   },
   container_light: {
     flex: 1,
-    //backgroundColor: colors.white,
   },
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.9)', 

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   profileImage:{
     width: 250,
     height: 250,
-    borderRadius:7,
+    borderRadius: 3,
     alignItems:"center",
   },
   pressedStyle: {

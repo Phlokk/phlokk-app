@@ -85,15 +85,17 @@ const VideoItem = ({
       return true;
     }
   };
-
-  return (
+// video/mp4
+  return ( 
+    // console.log("videoUrl",item.description, item.videoMimeType, item.videoUrl),
     <View style={{ height: itemHeight, backgroundColor: "black" }}>
       <Pressable style={{ flex: 1 }} onPress={playPauseVideo}>
         <Video
           ref={videoPlayerRef}
           source={{
             uri: item.videoUrl ?? item.media[1]?.original_url,
-            type: item.media[1]?.mime_type ?? "video/quicktime",
+            // type: "video/mp4",
+            type: item?.videoMimeType ?? "video/quicktime",
           }}
           isMuted={currentVideoIndex !== index || !isFocused}
           resizeMode={videoResizeMode}

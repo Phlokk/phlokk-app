@@ -100,7 +100,7 @@ const IconOverlay = () => {
           color={colors.white}
         />
 
-        <Text style={styles.iconText}>Wav</Text>
+        <Text style={styles.iconText}>MP3</Text>
       </TouchableOpacity>
       </View>
       <CustomAlert

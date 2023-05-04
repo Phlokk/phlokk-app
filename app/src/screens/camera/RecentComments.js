@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   container_dark: {
     padding: 10,
     justifyContent: "flex-end",
-    backgroundColor: colors.black,
+    backgroundColor: colors.primary,
     height: "70%",
   },
   commentContainer: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   commentMessage: {
-    color: colors.black,
+    color: colors.primary,
     fontSize: 12,
   },
   username: {
