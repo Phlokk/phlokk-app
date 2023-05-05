@@ -12,7 +12,7 @@ import CustomAlert from "../../components/Alerts/CustomAlert";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
@@ -28,80 +28,75 @@ const IconOverlay = () => {
   const [isSeconds, setIsSeconds] = useState(false);
   const [isLive, setIsLive] = useState(false);
 
-
-
   return (
     <View>
-
       <View style={styles.sideBarButtonView}>
-      <TouchableOpacity
-        style={styles.sideBarButton}
-        onPress={() => setIsSeconds(true)}
-      >
-        <MaterialCommunityIcons
-          style={styles.iconOpacity}
-          name="movie-edit"
-          size={18}
-          color={colors.white}
-        />
-        <Text style={styles.iconText}>Edit</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => setIsSeconds(true)}
+        >
+          <MaterialCommunityIcons
+            style={styles.iconOpacity}
+            name="movie-edit"
+            size={18}
+            color={colors.white}
+          />
+          <Text style={styles.iconText}>Edit</Text>
+        </TouchableOpacity>
 
-      
-      <TouchableOpacity
-        style={styles.sideBarButton}
-        onPress={() => setTextFrames(true)}
-      >
-        <Feather
-          style={styles.iconOpacity}
-          name="align-left"
-          size={18}
-          color={colors.white}
-        />
-        <Text style={styles.iconText}>Text</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        style={styles.sideBarButton}
-        onPress={() => setTrimming(true)}
-      >
-        <Entypo
-          style={styles.iconOpacity}
-          name="scissors"
-          size={18}
-          color={colors.white}
-        />
-        <Text style={styles.iconText}>Trim</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => setTextFrames(true)}
+        >
+          <Feather
+            style={styles.iconOpacity}
+            name="align-left"
+            size={18}
+            color={colors.white}
+          />
+          <Text style={styles.iconText}>Text</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.sideBarButton}
-        onPress={() => setFx(true)}
-      >
-        <FontAwesome
-          style={styles.iconOpacity}
-          name="magic"
-          size={18}
-          color={colors.white}
-        />
-        <Text style={styles.iconTextFx}>FX</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        style={styles.sideBarButton}
-        // onPress={() => setSoundBar(true)}
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => setTrimming(true)}
+        >
+          <Entypo
+            style={styles.iconOpacity}
+            name="scissors"
+            size={18}
+            color={colors.white}
+          />
+          <Text style={styles.iconText}>Trim</Text>
+        </TouchableOpacity>
 
-        onPress={() => navigation.navigate(routes.SOUNDS)}
-      >
-        <MaterialCommunityIcons
-          style={styles.iconOpacity}
-          name="waveform"
-          size={18}
-          color={colors.white}
-        />
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          onPress={() => setFx(true)}
+        >
+          <FontAwesome
+            style={styles.iconOpacity}
+            name="magic"
+            size={18}
+            color={colors.white}
+          />
+          <Text style={styles.iconTextFx}>FX</Text>
+        </TouchableOpacity>
 
-        <Text style={styles.iconText}>MP3</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.sideBarButton}
+          // onPress={() => setSoundBar(true)}
+
+          onPress={() => navigation.navigate(routes.SOUNDS)}
+        >
+          <Ionicons
+            name="musical-notes-sharp"
+            size={19}
+            color={colors.secondary}
+          />
+
+          <Text style={styles.iconText}>MP3</Text>
+        </TouchableOpacity>
       </View>
       <CustomAlert
         alertTitle={
@@ -153,7 +148,7 @@ const IconOverlay = () => {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -171,32 +166,30 @@ const styles = StyleSheet.create({
     fontSize: 7,
     marginTop: 1,
     top: 2,
-    
   },
- sideBarButton: {
-    shadowColor: '#ffffff',
+  sideBarButton: {
+    shadowColor: "#ffffff",
     shadowOpacity: 0.2,
     padding: 1,
     margin: 15,
-    top: -5, 
+    top: -5,
     justifyContent: "space-between",
     alignItems: "center",
   },
   sideBarNextButton: {
     padding: 1,
-    top: 10, 
+    top: 10,
     justifyContent: "space-between",
     alignItems: "center",
   },
   backBtn: {
     justifyContent: "center",
   },
- 
+
   sideBarButtonView: {
     position: "absolute",
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    borderRadius: 50, 
-
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    borderRadius: 50,
   },
 });
 

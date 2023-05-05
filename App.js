@@ -256,7 +256,6 @@ export default function App() {
   useEffect(async()=> {
     
     Notifications.addNotificationReceivedListener((notification) => {
-      console.log("New notification", notification )
       setNotficationCount(e=> e+1)
     });
    

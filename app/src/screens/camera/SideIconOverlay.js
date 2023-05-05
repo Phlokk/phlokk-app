@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import routes from "../../navigation/routes";
 import axios from "../../redux/apis/axiosDeclaration";
@@ -23,9 +24,7 @@ function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri, setS
       const response = await axios.get(`/api/comments/most-recent/${user._id}`);
       setRecentComments(response.data);
       setReplies(true);
-    } catch (e) {
-      console.log("Error", e);
-    }
+    } catch {}
   };
 
   return (
@@ -64,11 +63,11 @@ function SideIconOverlay({ duo, isRecording, pickFromGallery, uploadImgUri, setS
               style={styles.sideBarButton}
               onPress={() => navigation.navigate(routes.SOUNDS)}
             >
-              <MaterialCommunityIcons
-                name="waveform"
-                size={18}
-                color={colors.white}
-              />
+              <Ionicons
+              name="musical-notes-sharp"
+              size={19}
+              color={colors.white}
+            />
               <Text style={styles.iconText}>MP3</Text>
             </TouchableOpacity>
           </>

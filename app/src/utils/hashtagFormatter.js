@@ -34,9 +34,7 @@ const handleSearchUser = async (tagName, navigation) => {
     navigation.navigate("feedProfile", {
       initialUser: response.data[0],
     });
-  } else {
-    alert("Username not found!");
-  }
+  } else {}
 };
 
 const styles = StyleSheet.create({

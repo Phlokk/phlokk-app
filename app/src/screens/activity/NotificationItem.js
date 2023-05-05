@@ -36,7 +36,6 @@ const NotificationItem = ({ navigation, item }) => {
     } else {
       const post = await getSinglePost(item.post.id ?? item.post._id, item.post.user_id);
 
-      // return console.log("Post", item.body)
       //TODO: save the comment id in notification table so that filtering that comment id easier
       item.post.user = post.data[0].user;
       post.data[0].videoUrl  = item.post.videoUrl
@@ -60,7 +59,6 @@ const NotificationItem = ({ navigation, item }) => {
   
   useEffect(()=>{
     if(!item.read){
-      console.log("mark as read")
       markAsRead()
     }
   },[])

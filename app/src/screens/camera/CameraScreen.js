@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Animated,
   PanResponder,
+  Dimensions,
 } from "react-native";
 import uuid from "uuid-random";
 import {
@@ -116,7 +117,7 @@ export default function CameraScreen({ route }) {
 
   const [isUploaded, setIsUploaded] = useState(false);
   const [isGeneratedThumb, setIsGeneratedThumb] = useState(false);
-
+  const [videoPathDimensions, setVideoPathDimensions] = useState("")
   const [hasCameraPermissions, setHasCameraPermissions] = useState();
   const [hasAudioPermissions, setHasAudioPermissions] = useState();
   const [hasGalleryPermissions, setHasGalleryPermissions] = useState();
@@ -262,7 +263,6 @@ export default function CameraScreen({ route }) {
       {
       onRecordingFinished: async (video) => {
         let sourceThumb = null;
-        console.log("Video Recorded" ,video,longPress)
         if(!longPress) {
           setIsRecording(false);
           clearInterval(recordingTimerRef.current);
@@ -279,6 +279,21 @@ export default function CameraScreen({ route }) {
           //sourceThumb = await generateThumbnail(video?.path);
         }
         if(duo) {
+          if(!longPress) {
+            setIsRecording(false);
+            clearInterval(recordingTimerRef.current);
+            setRecordingTime(0);
+            stopVideo();
+            pauseAudio(); 
+            sourceThumb = await generateThumbnail(video?.path);
+          } else {
+            setIsRecording(false);
+            pauseChunkVideo();
+            pauseChunkAudio();
+            multipleVideos.push({path: video?.path, duration: video?.duration});
+            return;
+            //sourceThumb = await generateThumbnail(video?.path);
+          }
           setIsLoading(true)
           const ext = Platform.OS === "ios" ? "mov" : "mp4";
           let ffmpegCommand = null;
@@ -309,8 +324,12 @@ export default function CameraScreen({ route }) {
         } else if(selectedComment){
           setMergingImageIntoVideo(true)
           const imageUrl  = await getUrlOfCommentContainer();
+          
+          let {x , y} = pan;
+          
+      
           viewShotRef.current.measure(async (x, y, width, height, pageX, pageY) => {  
-            const rc = await addImageOverlayToVideo(video?.path,imageUrl, x,y );
+            const rc = await addImageOverlayToVideo(video?.path,imageUrl, width, height, pan.x.__getValue(), pan.y.__getValue() );
             setMergingImageIntoVideo(false);
             setMergeProgress(100);
             navigation.navigate("editPosts", { source: rc, sourceThumb,  duration: video.duration });
@@ -319,9 +338,7 @@ export default function CameraScreen({ route }) {
           if (!route.params?.item?.sound_url) {
             navigation.navigate("editPosts", { source: video?.path, sourceThumb,  duration: video.duration });
           } else {
-            console.log("ELSE Music")
             await generateVideo(video?.path).then(async (output) => {
-              console.log("Output file path???", output)
               navigation.navigate("editPosts", {
                 source: output,
                 sourceThumb,
@@ -338,13 +355,17 @@ export default function CameraScreen({ route }) {
 
     return;
   };
-  const addImageOverlayToVideo = async (videoUrl, imageUrl,x,y ) => {
+  const addImageOverlayToVideo = async (videoUrl, imageUrl,width, height, x,y ) => {
     const ext = Platform.OS === "ios" ? "mov" : "mp4";
     const outputDirectory = FileSystem.cacheDirectory + "Camera/";
     const outputFileName = uuid() + "." + ext;
     const outputFilePath = outputDirectory + outputFileName; 
     await FileSystem.makeDirectoryAsync(outputDirectory, { intermediates: true }); 
-    const command = `-i ${videoUrl} -i ${imageUrl} -filter_complex "overlay=${x}:${y}" ${outputFilePath}`;
+    
+    const xPosition = x * 720;
+    const yPosition = y * 1280;
+    
+    const command = `-i ${videoUrl} -i ${imageUrl} -filter_complex "[1:v]scale=${width*2}:${height*2}[logo];[0:v][logo]overlay=x=${(x/Dimensions.get("window").width*1080)+x}:y=${(y/Dimensions.get("window").height*1920)+y}"  -pix_fmt yuv420p -c:a copy ${outputFilePath}`;
      await FFmpegKit.execute(command);
     return outputFilePath
   };
@@ -495,9 +516,7 @@ export default function CameraScreen({ route }) {
     const response = await FFmpegKit.execute(ffmpegCommand);
     // }
     return outputFilePath;
-  }catch(e){
-    console.log("Error while generating video" ,e)
-  }
+  }catch {}
   };
 
   const sound = useRef(new Audio.Sound());
@@ -538,11 +557,9 @@ export default function CameraScreen({ route }) {
         if (result.isLoaded === false) {
           SetLoading(false);
         } else {
-          // await sound.current.playAsync();
           SetLoading(false);
         }
       } catch (error) {
-        console.log("Error while loading audio" ,error)
         setIsAudioPlaying(false);
         SetLoading(false);
       }
@@ -676,9 +693,7 @@ export default function CameraScreen({ route }) {
         quality: 0.8,
       }); 
       return (`file://${snapshot}`);
-    } catch (error) {
-      console.error(error);
-    }
+    } catch {}
 
   } 
   useEffect(() => {
@@ -716,7 +731,7 @@ export default function CameraScreen({ route }) {
         </Text>
       </View>
     );
-  }
+    }
 
 if (!devices) {
   return <View style={styles.camView}></View>;
@@ -806,12 +821,6 @@ let totalDuration = 0;
       >
       <Animated.View  
       ref={viewShotRef}
-      onLayout={e=>{
-        viewShotRef.current.measure(async (x, y, width, height, pageX, pageY) => {  
-          console.log("x, y, width, height, pageX, pageY", x, y,  pageX, pageY)         
-       });
-
-      }}
       style={[
         styles.commentContainer,
         {
@@ -914,7 +923,7 @@ let totalDuration = 0;
         </View>
       )}
       {/* {duo && isRecording  ? null :  */}
-      <View style={[styles.bottomBarContainer]}>
+      <View style={styles.bottomBarContainer}>
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
@@ -943,7 +952,7 @@ let totalDuration = 0;
             <Pressable
               onPress={onPressRecord}
               delayLongPress={800}
-              onLongPress={onLongPress}
+              onLongPress={!duo? onLongPress:null}
               onPressOut={onPressOut}
               style={({ pressed }) => {
                 return [
@@ -979,7 +988,7 @@ let totalDuration = 0;
             </View>
           </View>
 
-          {!isRecording && !duo && (
+          {!isRecording && (
             <View
               style={{
                 backgroundColor: "rgba(125, 125, 125, 0.4)",
@@ -993,6 +1002,7 @@ let totalDuration = 0;
                 bottom: 0,
                 justifyContent: "center",
                 alignItems: "center",
+                zIndex:99999999999999
               }}
               pointerEvents="box-none"
             >
@@ -1005,8 +1015,7 @@ let totalDuration = 0;
               </TouchableOpacity>
             </View>
           )}
-
-          {!isRecording && !duo && isLongPressRecording && (recordingTime > 1) && (
+          {!isRecording && (duo || !duo) && isLongPressRecording && (recordingTime > 1) && (
             <View
               style={{
                 backgroundColor: "rgba(125, 125, 125, 0.4)",

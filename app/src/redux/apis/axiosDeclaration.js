@@ -21,10 +21,7 @@ const axios = defaultAxios.create({
       }
       return config;
     },
-    (error) => {
-      console.log("Error in axios ", error)
-      // Promise.reject(error);
-    }
+    () => {}
   );
 
 

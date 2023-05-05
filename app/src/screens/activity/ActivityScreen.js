@@ -24,7 +24,6 @@ export default function ActivityScreen({ navigation }) {
 
   const getNotifs = async (page) => {
     setIsLoading(true);
-    console.log("Getting list")
     const notifications = await getNotifications(page);
     setPageNumber(notifications.pagination.currentPage)
     setNotificationList((e)=> [...e, ...notifications.data]);
@@ -105,8 +104,6 @@ export default function ActivityScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id} 
         onEndReached={(e)=>{ 
-          console.log(e)
-         console.log("ENd")
           getNotifs(parseInt( pageNumber ) + 1 ); 
         }}
       />

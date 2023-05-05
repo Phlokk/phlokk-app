@@ -23,6 +23,20 @@ const UserProfileImage = ({visible, setIsVisible, imageUrl = null}) => {
   )
 }
 const styles = StyleSheet.create({
+  container_light: {
+    padding: 10,
+    backgroundColor: colors.white,
+    height: "70%",
+    alignItems:"center",
+    justifyContent:"center"
+  },
+  container_dark: {
+    padding: 10,
+    backgroundColor: colors.primary,
+    height: "70%",
+    alignItems:"center",
+    justifyContent:"center"
+  },
   profileImage:{
     width: 250,
     height: 250,
@@ -40,19 +54,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
   }, 
-  container_light: {
-    padding: 10,
-    backgroundColor: colors.white,
-    height: "70%",
-    alignItems:"center",
-    justifyContent:"center"
-  },
-  container_dark: {
-    padding: 10,
-    backgroundColor: colors.black,
-    height: "70%",
-    alignItems:"center",
-    justifyContent:"center"
-  },
+  
 });
 export default UserProfileImage

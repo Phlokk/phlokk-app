@@ -26,4 +26,5 @@ export default {
   starLight: "#a5b1c2",
   settingsBlack: "#1C1F22",
   greyShade: "#C0C0C0",
+  
 };

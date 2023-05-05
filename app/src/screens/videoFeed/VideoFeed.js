@@ -14,7 +14,6 @@ import { Ionicons } from "@expo/vector-icons";
 import VideoItem from "./VideoItem";
 import { Octicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { types } from "../../redux/constants";
 import { useUserVideoFeed, useVideoFeed } from "../../services/posts";
 import LinearGradient from "react-native-linear-gradient";
 import { atom, useAtom } from "jotai";

@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Platform
 } from "react-native";
 import { Video, Audio } from "expo-av";
 import { useIsFocused } from "@react-navigation/core";
@@ -91,10 +92,10 @@ const styles = StyleSheet.create({
   },
   sideBarContainer: {
     position: "absolute",
-    top: 40,
+    top: 45,
     bottom: 0,
     right: 0,
-    left: 350,
+    left: Platform.OS === "ios" ? 350 : 325,
     flex: 1,
   },
   iconText: {

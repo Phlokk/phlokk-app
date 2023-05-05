@@ -86,10 +86,6 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
   const handleUsePostAudio = async () => {
     const url = post.media[1].original_url;
     const audioUrl = await extractAudio(url);
-    console.log("Sound URL", audioUrl);
-    // const soundObject = new Audio.Sound();
-    // await soundObject.loadAsync({ uri: audioUrl });
-    // await soundObject.playAsync();
 
     navigation.navigate(routes.CAMERA, { item: { sound_url: audioUrl } });
   };
@@ -103,9 +99,7 @@ const SettingsSheetModalScreen = ({ post, isCurrentUser }) => {
           const outputFilePath = outputDirectory + outputFileName;  
       const session = await FFmpegKit.execute(`-i ${videoUrl}  -vn -acodec aac ${outputFilePath}`);  
       return outputFilePath
-    } catch (error) {
-      console.log(`Error: ${error}`);
-    }
+    } catch {}
   };
 
   return (
