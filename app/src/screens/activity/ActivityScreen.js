@@ -37,7 +37,7 @@ export default function ActivityScreen({ navigation }) {
 
   const renderItem = ({ item }) => {
     return (
-      <NotificationItem item={item} navigation={navigation} />
+      <NotificationItem item={item} navigation={navigation} notificationList={notificationList} setNotificationList={setNotificationList} />
     );
   };
 
@@ -81,7 +81,7 @@ export default function ActivityScreen({ navigation }) {
     );
   }
 
-  return (
+  return (console.log("notificationList",notificationList.length),
     <View
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
@@ -104,6 +104,7 @@ export default function ActivityScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id} 
         onEndReached={(e)=>{ 
+          console.log("End reached")
           getNotifs(parseInt( pageNumber ) + 1 ); 
         }}
       />

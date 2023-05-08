@@ -12,7 +12,7 @@ import axios from "../../redux/apis/axiosDeclaration";
 import NotificationContext from "../../utils/NotificationContext";
 import Constants from 'expo-constants';
 
-const NotificationItem = ({ navigation, item }) => {
+const NotificationItem = ({ navigation, item ,setNotificationList, notificationList}) => {
   const { theme } = useTheme();
   const { notificationCount, setNotficationCount } = useContext(NotificationContext);
   const ref = useRef() 
@@ -58,13 +58,15 @@ const NotificationItem = ({ navigation, item }) => {
   };
   
   useEffect(()=>{
-    if(!item.read){
+    if(!item.read){ 
       markAsRead()
     }
   },[])
   
   const markAsRead = async () => { 
     const response = await axios.post(`/api/notifications/read/${item._id}`);
+    item.read = 1;
+    setNotificationList(e=> [...e])
     setNotficationCount(e=> e -1 ) 
   }
 

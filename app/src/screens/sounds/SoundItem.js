@@ -36,8 +36,9 @@ const SoundItem = ({ currentUser, item, currentSound, setCurrentSound }) => {
   }, [isFocused]);
 
 
-  useEffect(() => {
-    LoadAudio();
+  const PlayAudio = async () => {
+    try {
+      await LoadAudio();
     _onPlaybackStatusUpdate = playbackStatus => {
       if (!playbackStatus.isLoaded) {
         if (playbackStatus.error) {
@@ -60,16 +61,8 @@ const SoundItem = ({ currentUser, item, currentSound, setCurrentSound }) => {
       }
     };
     sound.current.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
-  }, []);
-
-
-  
-  
-  
-
-  const PlayAudio = async () => {
-    try {
       const result = await sound.current.getStatusAsync();
+      console.log("result1 => ", result)
       if (result.isLoaded) {
         if (currentSound !== null) {
           currentSound.pauseAsync();
@@ -79,10 +72,12 @@ const SoundItem = ({ currentUser, item, currentSound, setCurrentSound }) => {
           sound.current.replayAsync();
           setCurrentSound(sound.current)
           setIsAudioPlaying(true);
-          isLooping(true);
+          //isLooping(true);
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("Error while playing audio", error)
+    }
   };
 
   const PauseAudio = async () => {
@@ -134,7 +129,7 @@ const SoundItem = ({ currentUser, item, currentSound, setCurrentSound }) => {
     };
   }, [sound.current]);
 
-  return (
+  return ( 
     <>
       <View style={styles.item}>
         <View style={styles.albumRow}>

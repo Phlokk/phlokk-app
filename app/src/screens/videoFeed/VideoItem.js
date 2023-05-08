@@ -86,7 +86,7 @@ const VideoItem = ({
     }
   };
 // video/mp4
-  return ( 
+  return (
     <View style={{ height: itemHeight, backgroundColor: "black" }}>
       <Pressable style={{ flex: 1 }} onPress={playPauseVideo}>
         <Video

@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import { View, Text, StyleSheet, Image, FlatList, CameraRoll} from "react-native";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import React, { useState, useEffect } from "react";
 import colors from "../../../config/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native"; 
 const SelectThumbnail = ({ route }) => {
   const navigation = useNavigation();
   const { videoUrl, setThumbUrl, duration } = route.params;
@@ -26,14 +26,19 @@ const SelectThumbnail = ({ route }) => {
         return thumbnail;
       })
     );
-    setSelectedThumb(thumbnails[0]);
+    setSelectedThumb(thumbnails[0]); 
     return thumbnails;
   }
   const getThumbnailAsync = async (videoUri, time) => {
-    const { uri } = await VideoThumbnails.getThumbnailAsync(videoUri, {
-      time,
-    });
-    return uri;
+     try{
+        const { uri } = await VideoThumbnails.getThumbnailAsync(videoUri, {
+         time,
+       });
+       return uri;
+
+     }catch(e){
+      console.log("Error while getting thumbnail",e)
+     }
   };
   const ImageItem = ({ item }) => {
     return (

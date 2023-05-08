@@ -47,11 +47,11 @@ export default function ProfileScreen({ route }) {
       
     } else {
       setProfile(userProfile);
-      fetchUser(userProfile.id ?? userProfile._id);
+      fetchUser(userProfile.id || userProfile._id);
     }
-  }, [route, loggedInUser]);
+  }, [route?.params?.initialUser, loggedInUser]);
   const { posts, getMoreUserPosts, refresh, loading } = useUserVideoFeed(
-    userProfile?.id ?? userProfile?._id
+    userProfile?.id || userProfile?._id
   );
   useEffect(async() => {
     await refresh();

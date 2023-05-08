@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React, {useContext} from "react";
 import { Feather } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
@@ -76,11 +76,11 @@ const TabBar = ({ state, navigation }) => {
           onPress={() => onPress(1)}
         />
         { notificationCount > 0 && 
-        <View style={styles.notificationContainer}>
+        <TouchableOpacity style={styles.notificationContainer} onPress={()=>onPress(1)}>
         <Text style={styles.notificationCount}>
           {getCount()}
         </Text>
-       </View> 
+       </TouchableOpacity> 
       }
         <Feather
           name="user"

@@ -8,6 +8,7 @@ export const getAllSounds = async () => {
     const result = await axios.get(`/api/features/sounds`);
     return result.data;
   } catch (e) {
+    console.log("Error", e)
     setSoundError(true);
   }
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, createRef } from "react";
+import React, { useEffect, useRef, useState, createRef, useCallback, useMemo } from "react";
 import {
   View,
   Text,
@@ -21,7 +21,7 @@ import { Entypo } from '@expo/vector-icons';
 import Reanimated, {
   useAnimatedProps,
   useSharedValue,
-  withSpring,
+  withSpring, Partial, useAnimatedGestureHandler
 } from "react-native-reanimated";
 import LottieView from "lottie-react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -39,13 +39,13 @@ import { Circle } from "react-native-progress";
 import SideIconOverlay from "./SideIconOverlay";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { Audio, Video } from "expo-av";
-import { Camera, useCameraDevices,Constants } from "react-native-vision-camera";
-import * as SecureStore from "expo-secure-store";
-import FormData from "form-data";
-import { apiUrlsNode } from "../../globals";
+import { Camera, useCameraDevices,Constants, CameraProps } from "react-native-vision-camera";
+// import * as SecureStore from "expo-secure-store";
+// import FormData from "form-data";
+// import { apiUrlsNode } from "../../globals";
 import { useTheme } from "../../theme/context";
 import Slider from "@react-native-community/slider";
-import { PanGestureHandler, PinchGestureHandler, State } from 'react-native-gesture-handler';
+import { PinchGestureHandler, State } from 'react-native-gesture-handler';
 import { captureRef } from 'react-native-view-shot';
 
 
@@ -58,9 +58,6 @@ const convertMillisToSeconds = (ms) => Math.floor(ms / 1000);
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 // values for cuts
-const CircleList = ({ children }) => {
-  return <View style={styles.cutContainer}>{children}</View>;
-};
 
 const CircleItem = ({ position, borderWidth = 4, backgroundColor = '#fff' }) => {
   const angle = position * Math.PI * 2;
@@ -101,19 +98,12 @@ export default function CameraScreen({ route }) {
   const viewRef = useRef(null);
   const { theme } = useTheme();
 
+
+
   // TODO:
-  // const zoom = useSharedValue(0)
+   //const zoom = useSharedValue(0)
 
   // zoom with animation still needs to be set up
-
-  // const onRandomZoomPress = useCallback(() => {
-  //   zoom.value = withSpring(Math.random())
-  // }, [])
-
-  // const animatedProps = useAnimatedProps<Partial<CameraProps>>(
-  //   () => ({ zoom: zoom.value }),
-  //   [zoom]
-  // )
 
   const [isUploaded, setIsUploaded] = useState(false);
   const [isGeneratedThumb, setIsGeneratedThumb] = useState(false);
@@ -125,6 +115,7 @@ export default function CameraScreen({ route }) {
     useState()
   );
   const [isRecording, setIsRecording] = useState(false);
+  const [zoomValue, setZoomValue] = useState(1);
   const [galleryItems, setGalleryItems] = useState([]);
   const [cameraType, setCameraType] = useState("front");
   const [cameraFlash, setCameraFlash] = useState(); 
@@ -691,7 +682,7 @@ export default function CameraScreen({ route }) {
       const snapshot = await captureRef(viewShotRef, {
         format: 'jpg',
         quality: 0.8,
-      }); 
+      });
       return (`file://${snapshot}`);
     } catch {}
 
@@ -733,11 +724,14 @@ export default function CameraScreen({ route }) {
     );
     }
 
+    
+
 if (!devices) {
   return <View style={styles.camView}></View>;
 }
-let totalDuration = 0; 
- 
+let totalDuration = 0;
+
+
   return (
     <>
     {((duo && isLoading) || (isLoading && isLongPressRecording) || mergeImageIntoVideo)? (
@@ -785,11 +779,10 @@ let totalDuration = 0;
           style={duo ? styles.duoCamera : styles.camera}
           video={true}
           audio={ route.params?.item?.sound_url ? false : true}
-          zoom={0}
+          //zoom={zoom}
           device={cameraType === "front" ? devices.front : devices.back}
           isActive={true}
           enableZoomGesture={true}
-          // animatedProps={animatedProps}
         />
       ) : null}
       {duo && (
@@ -988,7 +981,7 @@ let totalDuration = 0;
             </View>
           </View>
 
-          {!isRecording && (
+          {!isRecording && (recordingTime > 1) && (
             <View
               style={{
                 backgroundColor: "rgba(125, 125, 125, 0.4)",

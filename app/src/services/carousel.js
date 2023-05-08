@@ -7,7 +7,7 @@ export const getAllCarouselImages = async () => {
     const result = await axios.get(`/api/features/carousel`);
     return result.data;
   } catch (e) {
-
+    console.log("Carousel error", e)
   }
 };
 

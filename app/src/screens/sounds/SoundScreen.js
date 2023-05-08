@@ -64,7 +64,7 @@ export default function SoundScreen({ placeholder }) {
   const [currentUser] = useAtom(userAtom);
 
   const keyExtractor = useCallback((item) => item._id);
-  return (
+  return (console.log(soundsList.length),
     <SafeAreaView style={styles.container}>
       <RecordingNavBar title="Sound Bar" />
       <SearchAudio placeholder={placeholder} setSearchedAudios={setSearchedAudios} />
@@ -76,7 +76,6 @@ export default function SoundScreen({ placeholder }) {
       />
       ):(
       <FlatList
-        style={styles.paddingFlat}
         data={soundsList}
         renderItem={renderItem}
         ListHeaderComponent={listHeader}
