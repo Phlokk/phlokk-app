@@ -4,8 +4,9 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Image
 } from "react-native";
-import React from "react";
+import React,{useState} from "react";
 import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,16 +16,79 @@ import { useNavigation } from "@react-navigation/native";
 import LiveChatRoomNav from "../../components/general/liveChatNav/LiveChatRoomNav";
 import ChatListItem from "./ChatListItem";
 import { MaterialIcons } from "@expo/vector-icons";
-
-const ChatRoomScreen = () => {
+import axios from "../../redux/apis/axiosDeclaration";
+import { Octicons } from "@expo/vector-icons";
+import * as Linking from "expo-linking";
+import { useAtom } from "jotai";
+import { userAtom } from "../../services/appStateAtoms";
+import * as ImagePicker from "expo-image-picker";
+import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
+import * as SecureStore from "expo-secure-store";
+import { apiUrlsNode } from "../../globals";
+const ChatRoomScreen = ({route}) => {
   const navigation = useNavigation();
+  const party = route.params?.party;
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const [profileImage, setProfileImage] = useState(null)
+  const handleUpdateProfileImage = async () => {
+    let user = await SecureStore.getItemAsync("user");
+    user = JSON.parse(user);
+    let partyUserId = party.user?._id || party.user.id
+    if(partyUserId !==   user._id) return;
+    
+    await chooseImage(user)
+  }
+  const chooseImage = async (user) => {
+    try { 
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        setProfileImage(result.uri);
+      }
+      let split = result.uri.split("/");
+      let fileName = split[split.length - 1]; 
+
+      const formData = new FormData();
+      formData.append("photo_url", {
+        name: fileName,
+        uri: result.uri,
+        type: "image/*",
+      }); 
+
+      let url = apiUrlsNode.BASE_URL2 + `/api/users/uploadImage/${user._id}`;
+      const config = {
+        "content-type": "multipart/form-data",
+        "auth-token": `${user.token}`,
+      };
+      
+      fetch(url, {
+        method: "POST",
+        headers: config,
+        body: formData,
+      })
+        .then(async(e) => {
+          const response = await fetchGetUser(); 
+          setCurrentUser(response);
+          alert("Profile picture updated successfully.");
+        })
+        .catch((ex) => {
+          alert("Unable to update profile picture. Please try again later.");
+        }); 
+    } catch(e)  {
+      console.log("Error: ", e)
+    }
+  };
+  const deleteParty = async() => await axios.post(`/api/rooms/delete/${party?._id}`)
 
   return (
     <View style={styles.container}>
       <View style={styles.navView}>
-        <LiveChatRoomNav title="Mad Chatter" />
+        <LiveChatRoomNav title="Mad Chatter" deleteParty = {deleteParty} />
       </View>
-      {/* row 1 */}
       <View>
         <View style={styles.topicView}>
           <View style={styles.statsView}>
@@ -33,31 +97,30 @@ const ChatRoomScreen = () => {
             </Text>
             <Text style={styles.topicText}> LIVE: 4</Text>
           </View>
-          {/* <View style={styles.infoBoxView}>
-            <Text style={styles.topicText}>
-              The FEDs are losing the battle! Anarchy continues. The world is
-              falling fast. Who can stop it's demise?
-            </Text>
-          </View> */}
         </View>
         <View style={styles.chatIconRow}>
           <View style={styles.text}>
             <View style={styles.micRow}>
-              <TouchableOpacity style={styles.avatarRow}>
-                <View style={styles.wavView}>
-                  <MaterialCommunityIcons
-                    name="waveform"
-                    size={24}
-                    color={colors.purple}
-                  />
-                </View>
+              <TouchableOpacity onLongPress={handleUpdateProfileImage}>
+                  <Image 
+                  source={ 
+                    currentUser?.photo_url  
+                      ? { uri:  profileImage  ? profileImage : currentUser?.photo_url  }
+                      : require("../../../assets/userImage.png")
+                  }
+                  style={styles.avatarRow} /> 
               </TouchableOpacity>
               <View style={styles.usernameView}>
                 <Text style={styles.usernameText} numberOfLines={1}>
-                  username
+                 {party?.user?.username}
                 </Text>
               </View>
-
+              <View style={styles.partyTitleView}>
+              <Text style={styles.partyTitle} numberOfLines={2}>
+                  {party?.title}
+                </Text>
+              </View>
+              
               <View style={styles.optionView}>
                 <TouchableOpacity style={styles.iconView}>
                   <Ionicons
@@ -91,11 +154,21 @@ const ChatRoomScreen = () => {
                     color={colors.secondary}
                   />
                 </TouchableOpacity>
-
-
                 <TouchableOpacity style={styles.iconView}>
-                  <Feather name="flag" size={20} color={colors.secondary} />
+                <Octicons 
+                name="link-external"
+                size={21}
+                color={colors.white}
+                onPress={
+                  party?.user && party?.user?.link ? () => Linking.openURL(party?.user?.link) : null
+                }
+              />
                 </TouchableOpacity>
+               
+
+                {/* <TouchableOpacity style={styles.iconView}>
+                  <Feather name="flag" size={20} color={colors.secondary} />
+                </TouchableOpacity> */}
               </View>
             </View>
           </View>
@@ -204,6 +277,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 2,
   },
+  partyTitle: {
+    fontSize: 12,
+    color: colors.secondary,
+    textAlign: "center",
+  },
+  partyTitleView: {
+    marginTop: 20, 
+  },
   usernameText: {
     fontSize: 12,
     color: colors.secondary,
@@ -212,7 +293,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     top: 70,
-  },
+  }, 
 });
 
 export default ChatRoomScreen;

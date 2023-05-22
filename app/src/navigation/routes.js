@@ -64,6 +64,7 @@ export default Object.freeze({
   THUMBNAIL_SELECT: "thumbSelect",
   CHAT_LIVE: "chatLive",
   ROOM: "chatRoom",
+  CHAT_ROOM_SETTINGS: "roomSettings",
   // Flatlist Screens
   COMEDY_SCREEN: "comedyScreen",
   MUSICIAN_SCREEN: "musicianScreen",

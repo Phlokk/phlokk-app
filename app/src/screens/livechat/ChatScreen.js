@@ -3,100 +3,114 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  FlatList,
+  Image,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import LiveChatNav from "../../components/general/liveChatNav/LiveChatNav";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import routes from "../../navigation/routes";
-
+import axios from "../../redux/apis/axiosDeclaration";
+import ViewRoom from "./ViewRoom";
 const ChatScreen = () => {
-
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
+  const [parties, setParties] = useState([]);
+  const [party, setParty] = useState(null);
+  const [viewParty, setViewParty] = useState(false);
+  useEffect(() => {
+    getAllParties();
+  }, [isFocused]);
+
+  const getAllParties = async () => {
+    const response = await axios.get("/api/rooms");
+    setParties(response.data);
+  };
+
+  const PartyItem = ({ item }) => {
+    return (
+      <View style={styles.chatIconRow}>
+        <View style={styles.text}>
+          <View style={styles.micRow}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate(routes.ROOM, { party: item })}
+              onLongPress={() => {
+                setParty(item);
+                setViewParty(true);
+              }}
+            >
+              <Image
+                style={styles.avatarRow}
+                source={
+                  item?.user?.photo_url
+                    ? { uri: item?.user?.photo_url }
+                    : require("../../../assets/userImage.png")
+                }
+              />
+            </TouchableOpacity>
+            <View>
+              <Text style={styles.partyGuestCount}>
+                <Feather name="user" size={15} color={colors.green} /> 200
+              </Text>
+            </View>
+
+            <View style={styles.optionView}>
+              <TouchableOpacity style={styles.iconView}>
+                <Ionicons
+                  name="chatbox-ellipses-outline"
+                  size={20}
+                  color={colors.secondary}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.iconView}
+                onPress={() =>
+                  navigation.navigate(routes.ROOM, { party: item })
+                }
+              >
+                <MaterialCommunityIcons
+                  name="microphone"
+                  size={22}
+                  color={colors.green}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.iconView}>
+                <Feather name="flag" size={20} color={colors.secondary} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.navView}>
-      <LiveChatNav />
+        <LiveChatNav parties={parties} setParties={setParties} />
       </View>
-      {/* row 1 */}
       <View style={{ flexDirection: "row" }}>
-        <View style={styles.chatIconRow}>
-          <View style={styles.text}>
-            <View style={styles.micRow}>
-              <TouchableOpacity>
-                <View style={styles.avatarRow}></View>
-              </TouchableOpacity>
-
-              <View style={styles.optionView}>
-                <TouchableOpacity style={styles.iconView}>
-                  
-                  <Ionicons
-                    name="chatbox-ellipses-outline"
-                    size={20}
-                    color={colors.secondary}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity 
-                style={styles.iconView}
-                onPress={() => navigation.navigate(routes.ROOM)}
-                >
-                <MaterialCommunityIcons
-                    name="microphone"
-                    size={22}
-                    color={colors.green}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.iconView}>
-                  <Feather name="flag" size={20} color={colors.secondary} />
-                </TouchableOpacity>
-              </View>
-
-              <Text style={styles.chatText}>Room #1</Text>
-            </View>
-          </View>
-        </View>
-        {/* row 2 */}
-        <View style={styles.chatIconRow}>
-          <View style={styles.text}>
-            <View style={styles.micRow}>
-              <TouchableOpacity>
-                <View style={styles.avatarRow}></View>
-              </TouchableOpacity>
-
-              <View style={styles.optionView}>
-                <TouchableOpacity style={styles.iconView}>
-                  
-                  <Ionicons
-                    name="chatbox-ellipses-outline"
-                    size={20}
-                    color={colors.secondary}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.iconView}>
-                <MaterialCommunityIcons
-                    name="microphone"
-                    size={22}
-                    color={colors.green}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.iconView}>
-                  <Feather name="flag" size={20} color={colors.secondary} />
-                </TouchableOpacity>
-              </View>
-
-              <Text style={styles.chatText}>Room #2</Text>
-            </View>
-          </View>
-        </View>
+        <FlatList
+          data={parties}
+          renderItem={({ item, index }) => <PartyItem item={item} />}
+          keyExtractor={(item) => item._id}
+          numColumns={2}
+        />
       </View>
+      <ViewRoom
+        party={party}
+        open={viewParty}
+        onClose={() => {
+          setParty(null);
+          setViewParty(false);
+        }}
+      />
     </View>
   );
 };
@@ -120,8 +134,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   navView: {
-    marginTop: 35, 
-
+    marginTop: 35,
   },
   text: {
     color: colors.secondary,
@@ -152,7 +165,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 15,
-    backgroundColor: colors.primary,
     width: 60,
     height: 60,
     borderRadius: 17.2,
@@ -164,6 +176,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  partyGuestCount: {
+    marginBottom: 6,
+    color: colors.green,
+  },
+  room_profile_img: {
+    width: 50,
+    height: 50,
   },
 });
 

@@ -103,7 +103,7 @@ function UserProfile({ user, isCurrentUser, isUserBlocked, setIsUserBlocked }) {
           <CustomAlert
             alertTitle={
               <Text>
-                <MaterialIcons name="info" size={24} color={colors.green} />
+                <Text style={styles.emojii}>&#x1F48E;</Text>
               </Text>
             }
             customAlertMessage={<Text>Top Favorite 5{"\n"}coming soon!</Text>}
@@ -244,6 +244,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "center",
     color: colors.secondary,
+  },
+  emojii: {
+    fontSize: 20,
+
   },
 });
 

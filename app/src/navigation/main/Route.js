@@ -129,7 +129,7 @@ export default function Route() {
             name="root"
             component={Root}
             options={{ headerShown: false }}
-          />
+          /> 
           <Stack.Screen
             name="home"
             component={UserTabs}

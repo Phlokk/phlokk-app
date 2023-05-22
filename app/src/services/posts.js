@@ -157,9 +157,10 @@ export const useUserVideoFeed = (userId, options) => {
       return;
     }
     setLoading(true);
+
     const feed = await getUserFeedAsync(userId, nextPageNumber); 
-    setPosts((prev) =>   [...prev, ...feed.data]  ); 
-     if(feed.pagination.nextPage!==undefined){
+    if(feed.pagination.nextPage!==undefined){
+       setPosts((prev) =>   [...prev, ...feed.data]  ); 
       setNextPageNumber(feed.pagination.nextPage);
     } 
     setLoading(false);
