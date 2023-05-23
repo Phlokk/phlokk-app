@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../../../config/colors";
 import { timeSince } from "../../services/posts";
@@ -11,10 +11,14 @@ import { useTheme } from "../../theme/context";
 import axios from "../../redux/apis/axiosDeclaration";
 import NotificationContext from "../../utils/NotificationContext";
 import Constants from 'expo-constants';
-
+import CustomAlert from "../../components/Alerts/CustomAlert";
+import { useAtom } from "jotai";
+import { userAtom } from "../../services/appStateAtoms";
 const NotificationItem = ({ navigation, item ,setNotificationList, notificationList}) => {
   const { theme } = useTheme();
   const { notificationCount, setNotficationCount } = useContext(NotificationContext);
+  const [error, setError] = useState(false)
+  const [currentUser] = useAtom(userAtom)
   const ref = useRef() 
   /**
    * Notification "types"
@@ -28,6 +32,12 @@ const NotificationItem = ({ navigation, item ,setNotificationList, notificationL
   const inAppNavigation = useNavigation();
 
   const goToAssociated = async function () {
+    if(item.room_id) {
+      const [party] = await await getRoomById(item.room_id)
+      if(party)  return navigation.navigate(routes.ROOM, { party  })
+      else return setError(true)
+    }
+
     if (!item.post) {
       inAppNavigation.navigate("profileOther", {
         initialUser: item.user,
@@ -50,7 +60,11 @@ const NotificationItem = ({ navigation, item ,setNotificationList, notificationL
       });
     }
   };
-
+const getRoomById = async(id) =>{
+   await axios.post(`/api/room/member/join`,{ userId: currentUser?._id, roomId: id })
+  const response = await axios.get(`/api/rooms/${id}`)
+  return response.data
+}
   const renderAvatarRow = ( key ) => {
     return (
       <NotificationItemSecondaryAvatar image={item.pictures[key]} key={key} />
@@ -124,6 +138,7 @@ const NotificationItem = ({ navigation, item ,setNotificationList, notificationL
           </View>
         ):null}
       </View>
+      <CustomAlert modalVisible={error} setModalVisible={()=>setError(false)} customAlertMessage ={"Host has left the party"} positiveBtn={"Ok"} dismissAlert={()=>setError(false)}/>
     </TouchableOpacity>
   );
 };

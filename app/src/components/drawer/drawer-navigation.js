@@ -63,7 +63,7 @@ export default function Root() {
           ),
         }}
       />
-      {/* <Drawer.Screen
+      <Drawer.Screen
           name=" Mad Chatter"
           component={ChatScreen}
           options={{
@@ -71,7 +71,7 @@ export default function Root() {
               <MaterialCommunityIcons name="account-voice" size={20} color={color} />
             ),
           }}
-        /> */}
+        />
       {/* <Drawer.Screen
           name="Gifts"
           component={GiftingScreen}

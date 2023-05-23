@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons'; 
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Animated } from "react-native";
 import useRotation from "./useRotation";
@@ -163,8 +163,13 @@ function UserProfileOverlay({
                 user && user.link ? () => Linking.openURL(user.link) : null
               }
             >
-              <FontAwesome5 name="globe" size={16} color={colors.green} />
-              <Text style={styles.linkText}> Visit site</Text>
+              <Text style={styles.linkText}>Shop Now{" "}</Text>
+              <FontAwesome 
+                name="opencart" 
+                size={18} 
+                color={user && user.link ? colors.green : colors.white} 
+                />
+              
             </TouchableOpacity>
           ) : (
             <></>
@@ -348,15 +353,15 @@ const styles = StyleSheet.create({
     // opacity: 0.4,
   },
   linkText: {
-    color: colors.white,
+    color: colors.green,
   },
   linkIconRow: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 3,
+    padding: 4, 
     paddingRight: 4,
-    borderRadius: 5,
-    backgroundColor: "rgba(125, 125, 125, 0.5)",
+    borderRadius: 10,
+    backgroundColor: "rgba(125, 125, 125, 0.2)",
     marginBottom: 5,
     right: 7,
   },

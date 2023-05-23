@@ -4,18 +4,19 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import LiveChatRoomNav from "../../components/general/liveChatNav/LiveChatRoomNav";
 import ChatListItem from "./ChatListItem";
-import { MaterialIcons } from "@expo/vector-icons";
+// import { MaterialIcons } from "@expo/vector-icons";
 import axios from "../../redux/apis/axiosDeclaration";
 import { Octicons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
@@ -25,21 +26,33 @@ import * as ImagePicker from "expo-image-picker";
 import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
 import * as SecureStore from "expo-secure-store";
 import { apiUrlsNode } from "../../globals";
-const ChatRoomScreen = ({route}) => {
+const ChatRoomScreen = ({ route }) => {
   const navigation = useNavigation();
   const party = route.params?.party;
   const [currentUser, setCurrentUser] = useAtom(userAtom);
-  const [profileImage, setProfileImage] = useState(null)
+  const [profileImage, setProfileImage] = useState(null);
+  const [partyMembers, setPartyMembers] = useState([]);
+  const [invitedMembers, setInvitedMembers] = useState([]);
+  useEffect(() => {
+    getPartyInvitedMembers();
+    getPartyMembers();
+
+    return ()=> {
+      if((currentUser._id||currentUser.id) === (party.user.id || party.user._id)) deleteParty()
+    }
+     
+  }, []);
+
   const handleUpdateProfileImage = async () => {
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
-    let partyUserId = party.user?._id || party.user.id
-    if(partyUserId !==   user._id) return;
-    
-    await chooseImage(user)
-  }
+    let partyUserId = party.user?._id || party.user.id;
+    if (partyUserId !== user._id) return;
+
+    await chooseImage(user);
+  };
   const chooseImage = async (user) => {
-    try { 
+    try {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -50,44 +63,61 @@ const ChatRoomScreen = ({route}) => {
         setProfileImage(result.uri);
       }
       let split = result.uri.split("/");
-      let fileName = split[split.length - 1]; 
+      let fileName = split[split.length - 1];
 
       const formData = new FormData();
       formData.append("photo_url", {
         name: fileName,
         uri: result.uri,
         type: "image/*",
-      }); 
+      });
 
       let url = apiUrlsNode.BASE_URL2 + `/api/users/uploadImage/${user._id}`;
       const config = {
         "content-type": "multipart/form-data",
         "auth-token": `${user.token}`,
       };
-      
+
       fetch(url, {
         method: "POST",
         headers: config,
         body: formData,
       })
-        .then(async(e) => {
-          const response = await fetchGetUser(); 
+        .then(async (e) => {
+          const response = await fetchGetUser();
           setCurrentUser(response);
           alert("Profile picture updated successfully.");
         })
         .catch((ex) => {
           alert("Unable to update profile picture. Please try again later.");
-        }); 
-    } catch(e)  {
-      console.log("Error: ", e)
+        });
+    } catch (e) {
+      console.log("Error: ", e);
     }
   };
-  const deleteParty = async() => await axios.post(`/api/rooms/delete/${party?._id}`)
+  const getPartyInvitedMembers = async () => {
+    const response = await axios.get(
+      `/api/room/member/${party?._id}?joined=0&invited=1`
+    );
+    setInvitedMembers(response.data);
+  };
+  const getPartyMembers = async () => {
+    const response = await axios.get(`/api/room/member/${party?._id}?joined=1`) 
+    setPartyMembers(response.data.filter((e)=> e.user.id !== party.user.id))
+  }; 
+  const deleteParty = async () =>
+    await axios.post(`/api/rooms/delete/${party?._id}`);
 
   return (
     <View style={styles.container}>
       <View style={styles.navView}>
-        <LiveChatRoomNav title="Mad Chatter" deleteParty = {deleteParty} />
+        <LiveChatRoomNav
+          partyMembers={invitedMembers}
+          setPartyMembers={setInvitedMembers}
+          party={party}
+          title="Mad Chatter"
+          deleteParty={deleteParty}
+        />
       </View>
       <View>
         <View style={styles.topicView}>
@@ -102,25 +132,26 @@ const ChatRoomScreen = ({route}) => {
           <View style={styles.text}>
             <View style={styles.micRow}>
               <TouchableOpacity onLongPress={handleUpdateProfileImage}>
-                  <Image 
-                  source={ 
-                    currentUser?.photo_url  
-                      ? { uri:  profileImage  ? profileImage : currentUser?.photo_url  }
-                      : require("../../../assets/userImage.png")
+                <Image
+                  source={
+                    {uri: party.user ? party.user.photo_url
+                    
+                      : require("../../../assets/userImage.png")}
                   }
-                  style={styles.avatarRow} /> 
+                  style={styles.avatarRow}
+                />
               </TouchableOpacity>
               <View style={styles.usernameView}>
                 <Text style={styles.usernameText} numberOfLines={1}>
-                 {party?.user?.username}
+                  {party?.user?.username}
                 </Text>
               </View>
               <View style={styles.partyTitleView}>
-              <Text style={styles.partyTitle} numberOfLines={2}>
+                <Text style={styles.partyTitle} numberOfLines={2}>
                   {party?.title}
                 </Text>
               </View>
-              
+
               <View style={styles.optionView}>
                 <TouchableOpacity style={styles.iconView}>
                   <Ionicons
@@ -129,13 +160,15 @@ const ChatRoomScreen = ({route}) => {
                     color={colors.secondary}
                   />
                 </TouchableOpacity>
+                {currentUser._id !== party.user.id && 
+                <>
 
                 <TouchableOpacity style={styles.iconView}>
-                    <MaterialCommunityIcons
-                      name="bookmark"
-                      size={21}
-                      color={colors.secondary}
-                    />
+                  <MaterialCommunityIcons
+                    name="bookmark"
+                    size={21}
+                    color={colors.secondary}
+                  />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.iconView}>
@@ -148,23 +181,25 @@ const ChatRoomScreen = ({route}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.iconView}>
-                  <MaterialIcons
-                    name="whatshot"
-                    size={21}
+                  <MaterialCommunityIcons
+                    name="fire"
+                    size={23}
                     color={colors.secondary}
                   />
                 </TouchableOpacity>
+                </>}
                 <TouchableOpacity style={styles.iconView}>
-                <Octicons 
-                name="link-external"
-                size={21}
-                color={colors.white}
-                onPress={
-                  party?.user && party?.user?.link ? () => Linking.openURL(party?.user?.link) : null
-                }
-              />
+                  <FontAwesome
+                    name="opencart"
+                    size={20}
+                    color={colors.white}
+                    onPress={
+                      party?.user && party?.user?.link
+                        ? () => Linking.openURL(party?.user?.link)
+                        : null
+                    }
+                  />
                 </TouchableOpacity>
-               
 
                 {/* <TouchableOpacity style={styles.iconView}>
                   <Feather name="flag" size={20} color={colors.secondary} />
@@ -174,7 +209,7 @@ const ChatRoomScreen = ({route}) => {
           </View>
         </View>
         {/* below here will be rows of users in the live */}
-        <ChatListItem />
+        <ChatListItem partyMembers={partyMembers} setPartyMembers = {setPartyMembers}/>
       </View>
     </View>
   );
@@ -283,7 +318,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   partyTitleView: {
-    marginTop: 20, 
+    marginTop: 20,
   },
   usernameText: {
     fontSize: 12,
@@ -293,7 +328,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     top: 70,
-  }, 
+  },
 });
 
 export default ChatRoomScreen;

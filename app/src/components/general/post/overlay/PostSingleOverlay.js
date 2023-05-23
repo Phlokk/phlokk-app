@@ -144,6 +144,7 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
         // onPress={()=> navigation.navigate(routes.BUY_GIFTS)}
       >
         <MaterialCommunityIcons name="fire" size={40} color={colors.white} />
+       
       </TouchableOpacity>
       <Modal animationType="slide" transparent={true} visible={isLightItUp}>
         <View style={styles.pressedModal}>

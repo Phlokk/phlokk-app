@@ -16,12 +16,15 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import routes from "../../navigation/routes";
 import axios from "../../redux/apis/axiosDeclaration";
 import ViewRoom from "./ViewRoom";
+import { userAtom } from "../../services/appStateAtoms";
+import { useAtom } from "jotai";
 const ChatScreen = () => {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
   const [parties, setParties] = useState([]);
   const [party, setParty] = useState(null);
   const [viewParty, setViewParty] = useState(false);
+  const [currentUser] = useAtom(userAtom);
   useEffect(() => {
     getAllParties();
   }, [isFocused]);
@@ -30,6 +33,17 @@ const ChatScreen = () => {
     const response = await axios.get("/api/rooms");
     setParties(response.data);
   };
+  const handleNavigateToParty = async (party) => {
+    const currentUserId = currentUser._id || currentUser.id
+    const partyUser = party.user._id || party.user.id;
+    if(currentUserId !== partyUser){
+     await joinUserToParty(currentUserId, party._id )
+     navigation.navigate(routes.ROOM, { party })
+    }
+  }
+  const joinUserToParty = async(userId, roomId) =>{
+    const response =await axios.post(`/api/room/member/join`,{ userId, roomId })
+  }
 
   const PartyItem = ({ item }) => {
     return (
@@ -37,7 +51,7 @@ const ChatScreen = () => {
         <View style={styles.text}>
           <View style={styles.micRow}>
             <TouchableOpacity
-              onPress={() => navigation.navigate(routes.ROOM, { party: item })}
+              onPress={()=>handleNavigateToParty(item)}
               onLongPress={() => {
                 setParty(item);
                 setViewParty(true);

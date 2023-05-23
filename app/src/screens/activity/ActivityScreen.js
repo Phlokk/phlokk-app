@@ -81,7 +81,7 @@ export default function ActivityScreen({ navigation }) {
     );
   }
 
-  return (console.log("notificationList",notificationList.length),
+  return (
     <View
       style={theme == "light" ? styles.container_light : styles.container_dark}
     >
@@ -105,7 +105,7 @@ export default function ActivityScreen({ navigation }) {
         keyExtractor={(item) => item._id} 
         onEndReached={(e)=>{ 
           console.log("End reached")
-          getNotifs(parseInt( pageNumber ) + 1 ); 
+          if(pageNumber) getNotifs(parseInt( pageNumber ) + 1 ); 
         }}
       />
     </View>

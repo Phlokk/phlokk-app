@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
+  FlatList,
+  Image
 } from "react-native";
 import React, { useState } from "react";
 import colors from "../../../config/colors";
@@ -14,9 +16,32 @@ import { useNavigation } from "@react-navigation/native";
 import ChatSettingsModalScreen from "../../components/modal/LiveChatModalScreen/ChatSettingsModalScreen";
 
 
-const ChatListItem = () => {
+const ChatListItem = ({partyMembers, setPartyMembers}) => {
   const navigation = useNavigation();
   const [openChatSettingsModal, setOpenChatSettingsModal] = useState(false);
+
+  const PartyMember = ({item, index}) => {
+    return(
+      <View style={styles.micRow}>
+      <TouchableOpacity >
+        <Image source={{uri: item?.user?.photo_url}} style={styles.avatarRow} />
+        </TouchableOpacity>
+        <View>
+          <TouchableOpacity style={styles.iconView}>
+            <MaterialCommunityIcons
+              name="microphone-off"
+              size={18}
+              color={colors.secondary}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.usernameView}>
+          <Text style={styles.usernameText} numberOfLines={1}><Feather name="wifi" size={12} color={colors.green} />  {item?.user?.username}</Text>
+        </View>
+      </View>
+
+    )
+  }
 
   return (
     <>
@@ -26,10 +51,16 @@ const ChatListItem = () => {
         
         <View style={styles.chatIconRow}>
           <View style={styles.text}>
-
             <View style={styles.userRow}>
+              <FlatList 
+              data = {partyMembers}
+              keyExtractor={item=> item._id}
+              numColumns={3}
+              renderItem={PartyMember}
               
-            <View style={styles.micRow}>
+              />
+              
+            {/* <View style={styles.micRow}>
               <TouchableOpacity style={styles.avatarRow}>
 
               </TouchableOpacity>
@@ -80,7 +111,7 @@ const ChatListItem = () => {
               <View style={styles.usernameView}>
                 <Text style={styles.usernameText} numberOfLines={1}><Feather name="wifi" size={12} color={colors.green} />  BeyondThe Sidewalk</Text>
               </View>
-            </View>
+            </View> */}
             <Modal
         animationType="slide"
         transparent={true}

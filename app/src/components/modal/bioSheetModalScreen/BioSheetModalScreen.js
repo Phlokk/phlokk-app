@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons'; 
 import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useState, useEffect } from "react";
@@ -176,19 +177,27 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
                     : null
                 }
                 name="social-youtube"
-                size={23}
+                size={20.5}
                 color={user && user.youtube_link ? colors.green : colors.white}
               />
             </View>
             <View style={styles.linkText}>
-              <Octicons
+            <FontAwesome 
+                name="opencart" 
+                size={20} 
+                color={user && user.link ? colors.green : colors.white} 
+                onPress={
+                  user && user.link ? () => Linking.openURL(user.link) : null
+                }
+                />
+              {/* <Octicons
                 onPress={
                   user && user.link ? () => Linking.openURL(user.link) : null
                 }
                 name="link-external"
                 size={21}
                 color={user && user.link ? colors.green : colors.white}
-              />
+              /> */}
             </View>
             <View style={styles.linkText}>
               <Feather
