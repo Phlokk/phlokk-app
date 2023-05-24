@@ -9,6 +9,7 @@ import {
   Pressable,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
 import colors from "../../../../../config/colors";
@@ -84,7 +85,7 @@ const CommentItem = ({
           );
         }
       }
-      // setRefech(e=> !e)
+
       setLikeCount((prev) => (comment.is_liked ? prev - 1 : prev + 1));
       comment.like_count = comment.is_liked
         ? comment.like_count - 1
@@ -277,10 +278,10 @@ const CommentItem = ({
       {comment._id.indexOf("-temp") === -1 && isActiveAccount && (
         <View style={styles.starRow}>
           <TouchableOpacity onPress={likeButtonHandler}>
-            <MaterialCommunityIcons
+            <AntDesign
               color={colors.green}
-              size={20}
-              name={comment.is_liked ? "star" : "star-outline"}
+              size={16}
+              name={comment.is_liked ? "star" : "staro"}
             />
           </TouchableOpacity>
           <Text

@@ -93,12 +93,14 @@ if(loading) return(
               : styles.blockColorContainer_dark
           }
         >
+          <Text style={styles.partyHeaderTitle}>Create your party!</Text>
           <View style={styles.mainContainer}>
+            
             
             <TextInput
               style={[styles.textInputField]}
               placeholder="Party Title "
-              placeholderTextColor={"gray"}
+              placeholderTextColor={colors.green}
               autoCorrect={false}
               maxLength={50}
               value={partyTitle}
@@ -110,7 +112,7 @@ if(loading) return(
             <TextInput
               style={[styles.textInputField]}
               placeholder="Party Description (optional)"
-              placeholderTextColor={"gray"}
+              placeholderTextColor={colors.green}
               autoCorrect={false}
               maxLength={255}
               value={partyDescription}
@@ -239,12 +241,12 @@ const styles = StyleSheet.create({
   
   textInputField: {
     width: "100%",
+    borderWidth: 1,
     borderColor: colors.secondary,
-    borderBottomWidth: 1,
-    borderStyle: "solid",
-    paddingVertical: 10,
-    padding: 2,
-    color: colors.secondary,
+    borderRadius: 30,
+    paddingVertical: 15,
+    padding: 10,
+    color: colors.green,
   },
   fieldItemContainer: {
     flexDirection: "row",
@@ -365,6 +367,13 @@ const styles = StyleSheet.create({
   },
   splash_dark: {
     color: colors.green,
+  },
+  partyHeaderTitle: {
+    fontSize: 16,
+    marginTop: 20,
+    textAlign: "center",
+    color: colors.white,
+
   },
 });
 

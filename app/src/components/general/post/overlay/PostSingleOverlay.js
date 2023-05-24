@@ -14,6 +14,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 import CustomAlert from "../../../Alerts/CustomAlert";
 import SettingsSheetModalScreen from "../../../modal/settingsSheetModalScreen/SettingsSheetModalScreen";
 import GiftingModalScreen from "../../../modal/giftingModalScreen/GiftingModalScreen";
@@ -83,11 +84,10 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
         style={styles.iconContainer}
         onPress={likeButtonHandler}
       >
-        
-        <MaterialCommunityIcons
+        <AntDesign
           color={colors.white}
-          size={40}
-          name={post.is_liked ? "star" : "star-outline"}
+          size={37}
+          name={post.is_liked ? "star" : "staro"}
         />
       </TouchableOpacity>
       <Text style={styles.statsLabel}>{numberFormatter(likeCount)}</Text>
@@ -95,7 +95,7 @@ export default function PostSingleOverlay({ post, user, isCurrentUser }) {
       <View style={styles.iconContainer}>
         <TouchableOpacity
           style={styles.iconContainer}
-          onPress={() => setCommentModalOpen(true)} // (true, post)
+          onPress={() => setCommentModalOpen(true)} 
         >
           <Ionicons
             name="md-chatbubble-ellipses-outline"

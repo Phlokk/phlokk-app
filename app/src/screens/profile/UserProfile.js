@@ -57,7 +57,7 @@ function UserProfile({ user, isCurrentUser, isUserBlocked, setIsUserBlocked }) {
               theme == "light" ? styles.username_light : styles.username_dark
             }
           >
-            @{user.username}
+            {user.username}
             <View>{user && user.is_verified === 1 && <VerifiedIcon />}</View>
           </Text>
         ) : (

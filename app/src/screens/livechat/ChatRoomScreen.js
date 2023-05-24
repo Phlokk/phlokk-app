@@ -12,6 +12,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import LiveChatRoomNav from "../../components/general/liveChatNav/LiveChatRoomNav";
@@ -26,6 +27,7 @@ import * as ImagePicker from "expo-image-picker";
 import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
 import * as SecureStore from "expo-secure-store";
 import { apiUrlsNode } from "../../globals";
+import ChatModal from "./ChatModal";
 const ChatRoomScreen = ({ route }) => {
   const navigation = useNavigation();
   const party = route.params?.party;
@@ -33,15 +35,25 @@ const ChatRoomScreen = ({ route }) => {
   const [profileImage, setProfileImage] = useState(null);
   const [partyMembers, setPartyMembers] = useState([]);
   const [invitedMembers, setInvitedMembers] = useState([]);
+  const [member, setMember] = useState(null);
+  const [viewMember, setViewMember] = useState(false);
+  const [viewChat, setViewChat] = useState(false);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
+  const [reply, setReply] = useState(null);
   useEffect(() => {
     getPartyInvitedMembers();
     getPartyMembers();
+    getChatsInParty();
 
-    return ()=> {
-      if((currentUser._id||currentUser.id) === (party.user.id || party.user._id)) deleteParty()
-    }
-     
-  }, []);
+    return () => {
+      // if (
+      //   (currentUser._id || currentUser.id) ===
+      //   (party.user.id || party.user._id)
+      // )
+      //   deleteParty();
+    };
+  }, [viewChat]);
 
   const handleUpdateProfileImage = async () => {
     let user = await SecureStore.getItemAsync("user");
@@ -102,16 +114,48 @@ const ChatRoomScreen = ({ route }) => {
     setInvitedMembers(response.data);
   };
   const getPartyMembers = async () => {
-    const response = await axios.get(`/api/room/member/${party?._id}?joined=1`) 
-    setPartyMembers(response.data.filter((e)=> e.user.id !== party.user.id))
-  }; 
+    const response = await axios.get(`/api/room/member/${party?._id}?joined=1`);
+    setPartyMembers(response.data.filter((e) => e.user.id !== party.user.id));
+  };
+  const getChatsInParty = async () => {
+    const response = await axios.get(`/api/room/chat/${party._id || party.id}`);
+    setComments(response.data);
+  };
   const deleteParty = async () =>
     await axios.post(`/api/rooms/delete/${party?._id}`);
 
+  const handleAddComment = async () => {
+    if (!reply) {
+      await axios.post(`/api/room/chat/add`, {
+        userId: currentUser._id || currentUser.id,
+        roomId: party._id || party.id,
+        message: comment,
+      });
+    } else if (reply?.replyToCommentId) {
+      await axios.post(`/api/room/chat/add/reply-to-reply`, {
+        userId: currentUser._id || currentUser.id,
+        roomId: party._id || party.id,
+        commentId: reply?.commentId,
+        repliedToCommentId: reply?.replyToCommentId,
+        message: comment,
+      });
+    } else {
+      const response = await axios.post(`/api/room/chat/add/reply`, {
+        userId: currentUser._id || currentUser.id,
+        roomId: party._id || party.id,
+        repliedToCommentId: reply?.commentId,
+        message: comment,
+      });
+    }
+    setComment("");
+    setReply(null);
+  };
+
   return (
-    <View style={styles.container}>
+    <View style={viewMember ? styles.blurred_container : styles.container}>
       <View style={styles.navView}>
         <LiveChatRoomNav
+          joinedMembers={partyMembers}
           partyMembers={invitedMembers}
           setPartyMembers={setInvitedMembers}
           party={party}
@@ -131,13 +175,19 @@ const ChatRoomScreen = ({ route }) => {
         <View style={styles.chatIconRow}>
           <View style={styles.text}>
             <View style={styles.micRow}>
-              <TouchableOpacity onLongPress={handleUpdateProfileImage}>
+              <TouchableOpacity
+                onLongPress={handleUpdateProfileImage}
+                onPress={() => {
+                  setMember(party.user);
+                  setViewMember(true);
+                }}
+              >
                 <Image
-                  source={
-                    {uri: party.user ? party.user.photo_url
-                    
-                      : require("../../../assets/userImage.png")}
-                  }
+                  source={{
+                    uri: party.user
+                      ? party.user.photo_url
+                      : require("../../../assets/userImage.png"),
+                  }}
                   style={styles.avatarRow}
                 />
               </TouchableOpacity>
@@ -153,41 +203,44 @@ const ChatRoomScreen = ({ route }) => {
               </View>
 
               <View style={styles.optionView}>
-                <TouchableOpacity style={styles.iconView}>
+                <TouchableOpacity
+                  style={styles.iconView}
+                  onPress={() => setViewChat(true)}
+                >
                   <Ionicons
                     name="chatbox-ellipses-outline"
                     size={20}
                     color={colors.secondary}
                   />
                 </TouchableOpacity>
-                {currentUser._id !== party.user.id && 
-                <>
+                {currentUser._id !== party.user.id && (
+                  <>
+                    <TouchableOpacity style={styles.iconView}>
+                      <MaterialCommunityIcons
+                        name="bookmark"
+                        size={21}
+                        color={colors.secondary}
+                      />
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.iconView}>
-                  <MaterialCommunityIcons
-                    name="bookmark"
-                    size={21}
-                    color={colors.secondary}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.iconView}>
-                  {/* <Feather
+                    <TouchableOpacity style={styles.iconView}>
+                      {/* <Feather
                     name="user-plus"
                     size={21}
                     color={colors.secondary}
                   /> */}
-                  <AntDesign name="swap" size={22} color={colors.white} />
-                </TouchableOpacity>
+                      <AntDesign name="swap" size={22} color={colors.white} />
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.iconView}>
-                  <MaterialCommunityIcons
-                    name="fire"
-                    size={23}
-                    color={colors.secondary}
-                  />
-                </TouchableOpacity>
-                </>}
+                    <TouchableOpacity style={styles.iconView}>
+                      <MaterialCommunityIcons
+                        name="fire"
+                        size={23}
+                        color={colors.secondary}
+                      />
+                    </TouchableOpacity>
+                  </>
+                )}
                 <TouchableOpacity style={styles.iconView}>
                   <FontAwesome
                     name="opencart"
@@ -209,14 +262,39 @@ const ChatRoomScreen = ({ route }) => {
           </View>
         </View>
         {/* below here will be rows of users in the live */}
-        <ChatListItem partyMembers={partyMembers} setPartyMembers = {setPartyMembers}/>
+        
+        <ChatListItem
+          party={party}
+          partyMembers={partyMembers}
+          setPartyMembers={setPartyMembers}
+          viewMember={viewMember}
+          setViewMember={setViewMember}
+          member={member}
+          setMember={setMember}
+        />
       </View>
+      <ChatModal
+        party={party}
+        open={viewChat}
+        onClose={() => setViewChat(false)}
+        currentUser={currentUser}
+        comments={comments}
+        commentCount={comments.length}
+        comment={comment}
+        setComment={setComment}
+        addComment={handleAddComment}
+        setReply={setReply}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: colors.primary,
+  },
+  blurred_container: {
     flex: 1,
     backgroundColor: colors.primary,
   },
@@ -263,9 +341,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 25,
     backgroundColor: colors.primary,
-    width: 60,
-    height: 60,
-    borderRadius: 17.5,
+    width: 80,
+    height: 80,
+    borderRadius: 50,
     borderWidth: 1.5,
     borderColor: colors.green,
   },
@@ -322,7 +400,10 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     fontSize: 12,
-    color: colors.secondary,
+    color: colors.white,
+    marginTop: 25,
+    marginBottom: 40,
+    color: colors.white,
   },
   usernameView: {
     flex: 1,

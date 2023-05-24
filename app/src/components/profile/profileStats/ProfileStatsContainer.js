@@ -11,7 +11,7 @@ import { getAllUserPostLikes, getCount} from "../../../services/user";
 import { numberFormatter } from "../../common/NumberFormatter";
 import routes from "../../../navigation/routes";
 
-function ProfileStatsContainer({ user, isCurrentUser }) {
+function ProfileStatsContainer({ user,disablePressEvents = false,  isCurrentUser }) {
   const isFocused = useIsFocused();
 
   const { theme, setTheme } = useTheme();
@@ -50,7 +50,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
         <View style={[styles.counterItemContainer, styles.followingPad]}>
           <TouchableOpacity
             // onPress={() => setIsFollowing(true)}
-            onPress={() =>
+            onPress={disablePressEvents ?()=>{} :() =>
               navigation.navigate(routes.FOLLOWING_LIST, {
                 user: user,
                 isCurrentUser: isCurrentUser,
@@ -83,7 +83,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
           <TouchableOpacity
             // onPress={() => setIsFriends(true)}
 
-            onPress={() =>
+            onPress={disablePressEvents ?()=>{} :() =>
               navigation.navigate(routes.FRIENDS_LIST, {
                 user: user,
                 isCurrentUser: isCurrentUser,
@@ -111,7 +111,7 @@ function ProfileStatsContainer({ user, isCurrentUser }) {
           </Text>
         </View>
         <View style={styles.counterItemContainer}>
-          <TouchableOpacity onPress={() => setIsStar(true)}>
+          <TouchableOpacity onPress={disablePressEvents ?()=>{} : () => setIsStar(true)}>
             <Text
               style={
                 theme == "light"

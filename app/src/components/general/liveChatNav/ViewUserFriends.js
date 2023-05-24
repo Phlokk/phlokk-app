@@ -15,12 +15,14 @@ export default function RoomSettings({
   searchValue,
   onInputChange,
   loading,
+  joinedMembers
 }) {
   const { theme, setTheme } = useTheme();
 
   const isUserInvited = (userId)=> {
+    const joinedMember = joinedMembers?.find(e=> e.user?.id === userId)
     const member = partyMembers.find((e)=> e.user?.id === userId);
-    if(member) return true;
+    if(member || joinedMember) return true;
     return false; 
   } 
   const renderItem = useCallback(({ item, index }) => {

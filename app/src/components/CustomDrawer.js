@@ -110,7 +110,7 @@ const CustomDrawer = (props) => {
                 theme == "light" ? styles.usernameLight : styles.usernameDark
               }
             >
-              @{currentUser?.username}
+              {currentUser?.username}
               <View style={styles.verifiedIcon}>
                 {currentUser && currentUser?.is_verified === 1 && (
                   <View style={styles.verifiedIcon}>

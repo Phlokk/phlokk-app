@@ -24,6 +24,7 @@ export default function LiveChatRoomNav({
   party,
   title,
   deleteParty,
+  joinedMembers
 }) {
   const { theme, setTheme } = useTheme();
   const [openChatSettingsModal, setOpenChatSettingsModal] = useState(false);
@@ -46,7 +47,7 @@ export default function LiveChatRoomNav({
       clearTimeout(debounce)
     }
   },[searchValue])
-  const handleGoBack = () => setGoBack(true);
+  const handleGoBack = () => currentUser?._id !== (party?.user?._id || party?.user?.id) ? navigation.goBack() : setGoBack(true);
   const handleDeleteParty = async () => {
     await deleteParty();
     navigation.goBack();
@@ -134,6 +135,7 @@ export default function LiveChatRoomNav({
         onClose={() => setViewFriends(false)}
         handleFetchMoreUsers={handleFetchMoreUsers}
         loading={loading}
+        joinedMembers={joinedMembers}
       />
     </View>
   );
