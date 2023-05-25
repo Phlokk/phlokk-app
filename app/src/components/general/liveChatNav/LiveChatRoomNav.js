@@ -136,6 +136,8 @@ export default function LiveChatRoomNav({
         handleFetchMoreUsers={handleFetchMoreUsers}
         loading={loading}
         joinedMembers={joinedMembers}
+        party={party}
+        currentUser={currentUser}
       />
     </View>
   );
@@ -154,15 +156,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button_light: {
-    color: colors.primary,
+    color: colors.white,
   },
   button_dark: {
     color: colors.secondary,
   },
   title_light: {
-    fontSize: 16,
+    fontSize: 30,
     fontWeight: "bold",
-    color: colors.black,
+    fontFamily: "Waterfall-Regular",
+    color: colors.green,
   },
   title_dark: {
     fontSize: 30,
@@ -174,14 +177,14 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   chevron_light: {
-    color: colors.black,
+    color: colors.secondary,
   },
   chevron_dark: {
     color: colors.white,
     opacity: 0.6,
   },
   toggle_light: {
-    color: colors.black,
+    color: colors.secondary,
   },
   toggle_dark: {
     color: colors.secondary,

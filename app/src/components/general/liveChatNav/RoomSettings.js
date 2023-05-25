@@ -49,10 +49,8 @@ const styles = StyleSheet.create({
   }, 
   modal_content:{
     height:"80%",
-    backgroundColor:colors.red
   },
   loading_screen:{
     height:"100%",
-    backgroundColor:colors.red
   }
 });

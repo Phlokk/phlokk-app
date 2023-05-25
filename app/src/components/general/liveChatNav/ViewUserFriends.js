@@ -1,10 +1,21 @@
-import React,{useCallback} from "react";
-import { View, Text, Pressable, StyleSheet, Modal ,FlatList, Image, TouchableOpacity, TextInput, ActivityIndicator } from "react-native";
+import React, { useCallback } from "react";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Modal,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { useTheme } from "../../../theme/context";
 import colors from "../../../../config/colors";
 import RisingStar from "../../common/RisingStar";
 import VerifiedIcon from "../../common/VerifiedIcon";
-import { Feather } from "@expo/vector-icons"; 
+import { Feather } from "@expo/vector-icons";
 export default function RoomSettings({
   friendsList,
   partyMembers,
@@ -15,23 +26,24 @@ export default function RoomSettings({
   searchValue,
   onInputChange,
   loading,
-  joinedMembers
+  joinedMembers,
+  party,
 }) {
   const { theme, setTheme } = useTheme();
 
-  const isUserInvited = (userId)=> {
-    const joinedMember = joinedMembers?.find(e=> e.user?.id === userId)
-    const member = partyMembers.find((e)=> e.user?.id === userId);
-    if(member || joinedMember) return true;
-    return false; 
-  } 
+  const isUserInvited = (userId) => {
+    const joinedMember = joinedMembers?.find((e) => e.user?.id === userId);
+    const member = partyMembers.find((e) => e.user?.id === userId);
+    const host = (party.user?._id || party?.user?.id) === userId
+    if (member || joinedMember || host)  return true;
+    return false;
+  };
   const renderItem = useCallback(({ item, index }) => {
-    const isMember = isUserInvited(item.user?._id || item?.user?.id) 
+    const isMember = isUserInvited(item.user?._id || item?.user?.id);
     return (
       <View style={styles.item}>
         <View>
-          <TouchableOpacity
-          >
+          <TouchableOpacity>
             <Image
               style={styles.image}
               source={
@@ -43,8 +55,7 @@ export default function RoomSettings({
           </TouchableOpacity>
         </View>
         <View style={styles.friendInfoRow}>
-          <TouchableOpacity 
-          >
+          <TouchableOpacity>
             <Text style={styles.itemInfo}>
               {item?.user?.username}
               {item.user.is_verified && (
@@ -59,17 +70,14 @@ export default function RoomSettings({
               {item.user.creator_type}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity 
-          onPress={ isMember  ?
-            ()=> {}
-            :
-            ()=> handleInviteUser(item?.user)
-          }
-              style={styles.friendView}
-            >
-              <Text style={isMember ? styles.memberBtn : styles.friendBtn}>{isMember ? "Invited" : "Invite" } </Text>
-            </TouchableOpacity>
-          
+          <TouchableOpacity
+            onPress={isMember ? () => {} : () => handleInviteUser(item?.user)}
+            style={styles.friendView}
+          >
+            <Text style={isMember ? styles.memberBtn : styles.friendBtn}>
+              {isMember ? "Invited" : "Invite"}{" "}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -80,49 +88,54 @@ export default function RoomSettings({
       <View style={styles.pressedModal}>
         <Pressable style={styles.pressedStyle} onPress={onClose} />
         <View style={styles.modal_content}>
-        <View style={styles.container}>
-      <TextInput
-        autoCapitalize="none"
-        value={searchValue}
-        autoCorrect={false}
-        onChangeText={onInputChange}
-        style={  theme == "light" ? styles.textInput_light : styles.textInput_dark  }
-        placeholder={"Search Friends"}
-        placeholderTextColor={colors.secondary}
-        underlineColorAndroid="transparent"
-      />
-      {searchValue !== "" ? (
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={() => onInputChange("")}
-        >
-          <Feather name="x" size={22} color={colors.secondary} />
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={() => onInputChange("")}
-        >
-          <Feather name="search" size={22} color={colors.secondary} />
-        </TouchableOpacity>
-      )}
+          <View style={styles.container}>
+            <TextInput
+              autoCapitalize="none"
+              value={searchValue}
+              autoCorrect={false}
+              onChangeText={onInputChange}
+              style={
+                theme == "light"
+                  ? styles.textInput_light
+                  : styles.textInput_dark
+              }
+              placeholder={"Search Friends"}
+              placeholderTextColor={colors.secondary}
+              underlineColorAndroid="transparent"
+            />
+            {searchValue !== "" ? (
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => onInputChange("")}
+              >
+                <Feather name="x" size={22} color={colors.secondary} />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => onInputChange("")}
+              >
+                <Feather name="search" size={22} color={colors.secondary} />
+              </TouchableOpacity>
+            )}
 
-      {loading && (
-        <ActivityIndicator
-          size="large"
-          color={colors.secondary}
-          style={styles.loading}
-        />
-      )}
-    </View>
+            {loading && (
+              <ActivityIndicator
+                size="large"
+                color={colors.secondary}
+                style={styles.loading}
+              />
+            )}
+          </View>
           <FlatList
+          style={styles.flatList}
             data={friendsList}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
             initialNumToRender={20}
             onEndReachedThreshold={0.5}
-            onEndReached={()=>handleFetchMoreUsers()}
+            onEndReached={() => handleFetchMoreUsers()}
           />
         </View>
       </View>
@@ -143,8 +156,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   modal_content: {
-    height: "60%",
+    height: "80%",
     backgroundColor: colors.settingsBlack,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   item: {
     flexDirection: "row",
@@ -229,6 +244,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     padding: 10,
+    marginTop:35,
   },
   textInput_light: {
     color: colors.secondary,
@@ -262,4 +278,7 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
   },
+  flatList:{
+    maxHeight: "80%"
+  }
 });

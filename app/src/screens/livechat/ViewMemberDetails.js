@@ -11,18 +11,15 @@ import {
   Image,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import VerifiedIcon from "../../components/common/VerifiedIcon";
 import { useTheme } from "../../theme/context";
 import colors from "../../../config/colors";
 import axios from "../../redux/apis/axiosDeclaration";
-import { LinearGradient } from "expo-linear-gradient";
 import ProfileStatsContainer from "../../components/profile/profileStats/ProfileStatsContainer";
 import * as SecureStore from "expo-secure-store";
 import { useAtom } from "jotai";
@@ -35,18 +32,16 @@ export default function RoomSettings({ partyMember, open, onClose }) {
   const [loggedInUserFollowingList, setLoggedInUserFollowingList] = useState(
     []
   );
-  useEffect(() => {
+  useEffect(async () => {
     getUserDetails();
+    setLoggedInUserFollowingList(await getCurrentUser());
   }, [partyMember]);
 
-  useEffect(async () => {
-    setLoggedInUserFollowingList(await getCurrentUser());
-  }, []);
-
   const getUserDetails = async () => {
-    const response = await axios.get(
-      `/api/creators/${partyMember?._id || partyMember?.id}`
-    );
+    const userId = partyMember?.user
+      ? partyMember?.user?.id
+      : partyMember?._id || partyMember?.id;
+    const response = await axios.get(`/api/creators/${userId}`);
     setUser(response.data);
   };
   const getCurrentUser = async () => {
@@ -68,7 +63,7 @@ export default function RoomSettings({ partyMember, open, onClose }) {
   const addUserToFollowingList = async (userId) => {
     let newList = [...loggedInUserFollowingList, userId];
     setLoggedInUserFollowingList(newList);
-    setIsFollowing(IsUserFollowing(newList))
+    setIsFollowing(IsUserFollowing(newList));
     await handlesSaveFollowingList(newList);
   };
   const removeUserToFollowingList = async (userId) => {
@@ -86,11 +81,12 @@ export default function RoomSettings({ partyMember, open, onClose }) {
       await axios.post(`/api/creators/follow/${currentUser._id}/${userId}`), {};
       await addUserToFollowingList(userId);
     }
- 
-  }; 
+  };
   const IsUserFollowing = (list) => {
-    let id = partyMember?._id || partyMember?.id;
-    if (list?.includes(id)) return true;
+    const userId = partyMember?.user
+      ? partyMember?.user?.id
+      : partyMember?._id || partyMember?.id;
+    if (list?.includes(userId)) return true;
 
     return false;
   };
@@ -112,177 +108,151 @@ export default function RoomSettings({ partyMember, open, onClose }) {
         <Pressable style={styles.pressedStyle} onPress={onClose} />
         <View style={styles.modal_content}>
           <View style={styles.container}>
-            <LinearGradient
-              colors={["#000000", "#f2f2f2"]}
-              start={{ x: 1.0, y: 3.0 }}
-              end={{ x: 1.0, y: 0.0 }}
-              locations={[1.0, 0.1]}
-              style={{
-                flex: 1,
-                borderTopLeftRadius: 25,
-                borderTopRightRadius: 25,
-              }}
-            >
-              <View style={styles.top}>
-                <Image source={{uri: user?.photo_url}} style={styles.avatar} />
+            <View style={styles.top}>
+              <Image source={{ uri: user?.photo_url }} style={styles.avatar} />
               <Text selectable={true} style={styles.username}>
                 {user?.username}
-                <View>
-                {user?.is_verified === 1 ?  <VerifiedIcon /> :null}
-                </View>
+                <View>{user?.is_verified === 1 ? <VerifiedIcon /> : null}</View>
               </Text>
-              {user ?   <ProfileStatsContainer user={{_id: user._id}}  disablePressEvents={true} /> : null }
-              <TouchableOpacity
-              style={styles.imageViewContainer}
-              onPress={() => followUser(partyMember?._id || partyMember?.id)}
-            >
-              <View
-                style={isFollowing ? styles.followingBtn : styles.followBtn}
-              >
-                <Text
-                  style={
-                    isFollowing
-                      ? styles.alertMessageFriendsText
-                      : styles.alertMessageFollowText
+              {user ? (
+                <ProfileStatsContainer
+                  user={{ _id: user._id }}
+                  disablePressEvents={true}
+                  chatModule = {true}
+                />
+              ) : null}
+              {currentUser?._id !==
+                (partyMember?.user?.id || partyMember?._id) && (
+                <TouchableOpacity
+                  style={styles.imageViewContainer}
+                  onPress={() =>
+                    followUser(partyMember?._id || partyMember?.id)
                   }
                 >
-                  {isFollowing ? (
-                    <AntDesign name="swap" size={20} color={colors.white} />
-                  ) : (
-                    <Feather name="user-plus" size={19} color={colors.white} />
-                  )}
-                </Text>
-              </View>
-            </TouchableOpacity>
-
-                {user?.pronouns !== "n/a" && user?.pronouns !== null && (
-                  <Text style={[styles.pronounsText, styles.pronounsIcon]}>
-                    {user?.pronouns}
-                  </Text>
-                )}
-
-                {user?.relationship_type !== "n/a" &&
-                  user?.relationship_type !== null && (
-                    <>
-                      <Text style={styles.statusText}>Relationship status</Text>
-                      <Text
-                        style={[
-                          styles.statusText,
-                          styles.relationshipStatusIcon,
-                        ]}
-                      >
-                        <Ionicons
-                          name="md-heart-sharp"
-                          size={12}
-                          color={colors.secondary}
-                        />{" "}
-                        {user?.relationship_type}
-                      </Text>
-                    </>
-                  )}
-                <View style={styles.linkRow}>
-                  <View style={styles.linkText}>
-                    <SimpleLineIcons
-                      onPress={
-                        user && user?.youtube_link
-                          ? () => Linking.openURL(user?.youtube_link)
-                          : null
+                  <View
+                    style={isFollowing ? styles.followingBtn : styles.followBtn}
+                  >
+                    <Text
+                      style={
+                        isFollowing
+                          ? styles.alertMessageFriendsText
+                          : styles.alertMessageFollowText
                       }
-                      name="social-youtube"
-                      size={20.5}
-                      color={
-                        user && user?.youtube_link ? colors.green : colors.white
-                      }
-                    />
-                  </View>
-                  <View style={styles.linkText}>
-                    <FontAwesome
-                      name="opencart"
-                      size={20}
-                      color={user && user?.link ? colors.green : colors.white}
-                      onPress={
-                        user && user?.link
-                          ? () => Linking.openURL(user?.link)
-                          : null
-                      }
-                    />
-                  </View>
-                  <View style={styles.linkText}>
-                    <Feather
-                      onPress={
-                        user && user?.instagram_link
-                          ? () => Linking.openURL(user?.instagram_link)
-                          : null
-                      }
-                      name="instagram"
-                      size={18}
-                      color={
-                        user && user?.instagram_link
-                          ? colors.green
-                          : colors.white
-                      }
-                    />
-                  </View>
-                </View>
-              </View>
-
-              <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.userInfoBox}>
-                  {user?.bio !== null && (
-                    <>
-                      <Text style={styles.aboutText}>
+                    >
+                      {isFollowing ? (
+                        <AntDesign name="swap" size={20} color={colors.white} />
+                      ) : (
                         <Feather
-                          style={styles.icons}
-                          name="user"
-                          color={colors.secondary}
-                        />{" "}
-                        Bio:
-                      </Text>
-                      <Text style={styles.bioText}>{user?.bio}</Text>
-
-                      <View style={styles.divider_light}></View>
-                    </>
-                  )}
-                </View>
-
-                <View style={styles.userInfoBox}>
-                  {user?.skills !== null && (
-                    <>
-                      <Text style={styles.aboutText}>
-                        <Feather
-                          style={styles.icons}
-                          name="award"
-                          color={colors.secondary}
-                        />{" "}
-                        Skills:
-                      </Text>
-                      <Text style={styles.bioText}>{user?.skills}</Text>
-                      {Platform.OS === "ios" && (
-                        <View style={styles.divider_light}></View>
+                          name="user-plus"
+                          size={19}
+                          color={colors.white}
+                        />
                       )}
-                      <View style={styles.divider_light}></View>
-                    </>
-                  )}
-                </View>
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
 
-                <View style={styles.userInfoBox}>
-                  {user?.education !== null && (
-                    <>
-                      <Text style={styles.aboutText}>
-                        <FontAwesome5
-                          style={styles.icons}
-                          name="user-graduate"
-                          color={colors.secondary}
-                        />{" "}
-                        Education:
-                      </Text>
-                      <Text style={styles.bioText}>{user?.education}</Text>
-                      <View style={styles.divider_light}></View>
-                    </>
-                  )}
+              {user?.pronouns !== "n/a" && user?.pronouns !== null && (
+                <Text style={[styles.pronounsText, styles.pronounsIcon]}>
+                  {user?.pronouns}
+                </Text>
+              )}
+
+              {user?.relationship_type !== "n/a" &&
+                user?.relationship_type !== null && (
+                  <>
+                    <Text style={styles.statusText}>Relationship status</Text>
+                    <Text
+                      style={[styles.statusText, styles.relationshipStatusIcon]}
+                    >
+                      <Ionicons
+                        name="md-heart-sharp"
+                        size={12}
+                        color={colors.secondary}
+                      />{" "}
+                      {user?.relationship_type}
+                    </Text>
+                  </>
+                )}
+              <View style={styles.linkRow}>
+                <View style={styles.linkText}>
+                  <SimpleLineIcons
+                    onPress={
+                      user && user?.youtube_link
+                        ? () => Linking.openURL(user?.youtube_link)
+                        : null
+                    }
+                    name="social-youtube"
+                    size={20.5}
+                    color={
+                      user && user?.youtube_link ? colors.green : colors.white
+                    }
+                  />
                 </View>
-              </ScrollView>
-            </LinearGradient>
+                <View style={styles.linkText}>
+                  <FontAwesome
+                    name="opencart"
+                    size={20}
+                    color={user && user?.link ? colors.green : colors.white}
+                    onPress={
+                      user && user?.link
+                        ? () => Linking.openURL(user?.link)
+                        : null
+                    }
+                  />
+                </View>
+                <View style={styles.linkText}>
+                  <Feather
+                    onPress={
+                      user && user?.instagram_link
+                        ? () => Linking.openURL(user?.instagram_link)
+                        : null
+                    }
+                    name="instagram"
+                    size={18}
+                    color={
+                      user && user?.instagram_link ? colors.green : colors.white
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.userInfoBox}>
+                {user?.bio !== null && (
+                  <>
+                    <Text style={styles.aboutText}>Bio:</Text>
+                    <Text style={styles.bioText}>{user?.bio}</Text>
+
+                    <View style={styles.divider_light}></View>
+                  </>
+                )}
+              </View>
+
+              <View style={styles.userInfoBox}>
+                {user?.skills !== null && (
+                  <>
+                    <Text style={styles.aboutText}>Skills:</Text>
+                    <Text style={styles.bioText}>{user?.skills}</Text>
+                    {Platform.OS === "ios" && (
+                      <View style={styles.divider_light}></View>
+                    )}
+                  </>
+                )}
+              </View>
+
+              <View style={styles.userInfoBox}>
+                {user?.education !== null && (
+                  <>
+                    <Text style={styles.aboutText}>Education:</Text>
+                    <Text style={styles.bioText}>{user?.education}</Text>
+                    <View style={styles.divider_light}></View>
+                  </>
+                )}
+              </View>
+            </ScrollView>
           </View>
         </View>
       </View>
@@ -305,11 +275,15 @@ const styles = StyleSheet.create({
   modal_content: {
     height: "80%",
     backgroundColor: colors.settingsBlack,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   container: {
     height: "100%",
     overflow: "hidden",
-  }, 
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
   top: {
     alignItems: "center",
     bottom: 10,
@@ -420,7 +394,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     top: 10,
     zIndex: 99999,
-    marginBottom:20,
+    marginBottom: 20,
   },
   imageOverlay: {
     backgroundColor: "rgba(0,0,0, 0.5)",
@@ -448,13 +422,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "DarkerGrotesque-Medium",
   },
-  avatar:{
-    marginTop:30,
+  avatar: {
+    marginTop: 30,
     backgroundColor: colors.primary,
     width: 80,
     height: 80,
-    borderRadius: 50, 
-  }, 
+    borderRadius: 50,
+  },
   followBtn: {
     width: 100,
     borderWidth: 1,

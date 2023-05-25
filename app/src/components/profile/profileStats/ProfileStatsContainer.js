@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomAlert from "../../Alerts/CustomAlert";
 import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import colors from "../../../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
@@ -11,7 +12,7 @@ import { getAllUserPostLikes, getCount} from "../../../services/user";
 import { numberFormatter } from "../../common/NumberFormatter";
 import routes from "../../../navigation/routes";
 
-function ProfileStatsContainer({ user,disablePressEvents = false,  isCurrentUser }) {
+function ProfileStatsContainer({ user,disablePressEvents = false,chatModule,  isCurrentUser }) {
   const isFocused = useIsFocused();
 
   const { theme, setTheme } = useTheme();
@@ -44,6 +45,21 @@ function ProfileStatsContainer({ user,disablePressEvents = false,  isCurrentUser
 
   followingCount = numberFormatter(following);
 
+  const getTextColor = () => {
+    if(chatModule){
+     return styles.counterNumberText_dark
+    }  else{
+     return  theme == "light" ? styles.counterNumberText_light  : styles.counterNumberText_dark
+    }
+  }
+  const getLabelColor = () =>{
+    if(chatModule){
+      return styles.counterLabelText_dark
+    }else{
+     return theme == "light"  ? styles.counterLabelTextStar_light : styles.counterLabelTextStar_dark
+    }
+  }
+
   return (
     <View style={styles.outerContainer}>
       <View style={styles.counterContainer}>
@@ -58,22 +74,14 @@ function ProfileStatsContainer({ user,disablePressEvents = false,  isCurrentUser
             }
           >
             <Text
-              style={
-                theme == "light"
-                  ? styles.counterNumberText_light
-                  : styles.counterNumberText_dark
-              }
+              style={ getTextColor()}
             >
               {numberFormatter(following)}
             </Text>
           </TouchableOpacity>
 
           <Text
-            style={
-              theme == "light"
-                ? styles.counterLabelText_light
-                : styles.counterLabelText_dark
-            }
+            style={getLabelColor() }
           >
             Following
           </Text>
@@ -91,43 +99,26 @@ function ProfileStatsContainer({ user,disablePressEvents = false,  isCurrentUser
             }
           >
             <Text
-              style={
-                theme == "light"
-                  ? styles.counterNumberText_light
-                  : styles.counterNumberText_dark
-              }
+             style={ getTextColor()}
             >
               {numberFormatter(friendsCount)}
             </Text>
           </TouchableOpacity>
           <Text
-            style={
-              theme == "light"
-                ? styles.counterLabelConnections_light
-                : styles.counterLabelConnections_dark
-            }
+           style={getLabelColor() }
           >
             Friends
           </Text>
         </View>
         <View style={styles.counterItemContainer}>
           <TouchableOpacity onPress={disablePressEvents ?()=>{} : () => setIsStar(true)}>
-            <Text
-              style={
-                theme == "light"
-                  ? styles.counterNumberText_light
-                  : styles.counterNumberText_dark
-              }
+            <Text style={ getTextColor()}
             >
               {starsCount}
             </Text>
           </TouchableOpacity>
           <Text
-            style={
-              theme == "light"
-                ? styles.counterLabelTextStar_light
-                : styles.counterLabelTextStar_dark
-            }
+           style={getLabelColor() }
           >
             Stars
           </Text>
@@ -160,9 +151,9 @@ function ProfileStatsContainer({ user,disablePressEvents = false,  isCurrentUser
       <CustomAlert
         alertTitle={
           <Text>
-            <MaterialCommunityIcons
+            <AntDesign
               color={colors.white}
-              size={24}
+              size={18}
               name="star"
             />
           </Text>

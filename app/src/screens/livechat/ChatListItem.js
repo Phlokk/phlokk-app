@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 50,
     borderWidth: 1.5,
-    borderColor: colors.green, // if it's not active (talking) then its colors.secondary or else green.
+     // if it's not active (talking) then its colors.secondary or else green.
   },
   usernameText: {
     marginTop: 15,

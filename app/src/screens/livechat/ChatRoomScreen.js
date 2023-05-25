@@ -12,7 +12,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-
+import uuid from "uuid-random";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import LiveChatRoomNav from "../../components/general/liveChatNav/LiveChatRoomNav";
@@ -28,33 +28,78 @@ import { fetchGetUser } from "../../redux/sagas/requests/fetchUser";
 import * as SecureStore from "expo-secure-store";
 import { apiUrlsNode } from "../../globals";
 import ChatModal from "./ChatModal";
+import VerifiedIcon from "../../components/common/VerifiedIcon";
+import RisingStar from "../../components/common/RisingStar";
+import { useTheme } from "../../theme/context";
+import io from "socket.io-client";
+import Alert from "./Alert";
+import { useToast } from "react-native-toast-notifications";
+
+
 const ChatRoomScreen = ({ route }) => {
+  const socket = io.connect(apiUrlsNode.BASE_URL2, {}, { autoConnect: false });
   const navigation = useNavigation();
+  const toast = useToast();
+  const { theme } = useTheme();
   const party = route.params?.party;
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [profileImage, setProfileImage] = useState(null);
   const [partyMembers, setPartyMembers] = useState([]);
   const [invitedMembers, setInvitedMembers] = useState([]);
+  const [visitedMembers, setVisitedMembers] =useState(0)
   const [member, setMember] = useState(null);
   const [viewMember, setViewMember] = useState(false);
   const [viewChat, setViewChat] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [reply, setReply] = useState(null);
+  const [hasHostLeft, setHasHostLeft] = useState(false);
+  const [userJoined, setUserJoined ] =useState(null)
+
+  useEffect(() => {
+    socket.emit("JOIN_ROOM", { user: currentUser, roomId: party._id });
+    socket.on("ROOM_JOINED", (data) => handleUserJoin(data));
+    socket.on("HOST_LEFT", () => handleNavigateBack() );
+    socket.on("USER_LEFT", ({userId}) =>  UserLeft(userId));
+    socket.on("MESSAGE_RECIEVED", (data) => handleUpdateComments(data))
+  }, []);
+
   useEffect(() => {
     getPartyInvitedMembers();
+    getPartyVisitedMembers()
     getPartyMembers();
     getChatsInParty();
 
     return () => {
+      // socket.emit("LEAVE_ROOM", { userId: currentUser._id, roomId: party._id });
+      socket.disconnect();
       // if (
       //   (currentUser._id || currentUser.id) ===
       //   (party.user.id || party.user._id)
       // )
       //   deleteParty();
     };
-  }, [viewChat]);
-
+  }, []);
+  const handleUserJoin = ({user}) =>{
+    let idx = partyMembers.map((e)=> e?.user?._id)
+     if(user?._id !== (party?.user?._id || party?.user?.id ) && 
+     !idx.includes(user?._id) &&
+      user._id !== currentUser._id){
+      setVisitedMembers(e=> e+1 )
+      setPartyMembers(e=> [...e, {user}]);
+      toast.show(`${user?.username} joined the party`, {
+        type: "success",
+      });
+     }   
+  }
+  const handleNavigateBack = () => {
+    if (currentUser?._id !== (party.user?._id || party.user.id)) {
+      setHasHostLeft(true);
+    }
+  };
+  const UserLeft = (userId) =>{
+    setPartyMembers([...partyMembers.filter((e)=> e.user?.id !== userId)])
+  }
   const handleUpdateProfileImage = async () => {
     let user = await SecureStore.getItemAsync("user");
     user = JSON.parse(user);
@@ -116,40 +161,71 @@ const ChatRoomScreen = ({ route }) => {
   const getPartyMembers = async () => {
     const response = await axios.get(`/api/room/member/${party?._id}?joined=1`);
     setPartyMembers(response.data.filter((e) => e.user.id !== party.user.id));
+  
+  };
+  const getPartyVisitedMembers = async () => {
+    const response = await axios.get(`/api/room/member/visited/${party?._id}`);
+    setVisitedMembers(response.data?.length);
+    
   };
   const getChatsInParty = async () => {
     const response = await axios.get(`/api/room/chat/${party._id || party.id}`);
-    setComments(response.data);
+    setComments(response.data.map(comment => ({
+      ...comment,
+      comment_replies: comment.comment_replies ? comment.comment_replies?.filter(reply => reply._id !== null) : null
+    })));
   };
   const deleteParty = async () =>
     await axios.post(`/api/rooms/delete/${party?._id}`);
 
   const handleAddComment = async () => {
     if (!reply) {
-      await axios.post(`/api/room/chat/add`, {
+      socket.emit("SEND_MESSAGE", {
         userId: currentUser._id || currentUser.id,
         roomId: party._id || party.id,
         message: comment,
-      });
+        _id: uuid().toString(),
+      })
     } else if (reply?.replyToCommentId) {
-      await axios.post(`/api/room/chat/add/reply-to-reply`, {
+      socket.emit("SEND_MESSAGE", {
         userId: currentUser._id || currentUser.id,
         roomId: party._id || party.id,
+        message: comment,
+        _id: uuid().toString(),
         commentId: reply?.commentId,
         repliedToCommentId: reply?.replyToCommentId,
-        message: comment,
-      });
+      })
     } else {
-      const response = await axios.post(`/api/room/chat/add/reply`, {
+      socket.emit("SEND_MESSAGE", {
         userId: currentUser._id || currentUser.id,
         roomId: party._id || party.id,
-        repliedToCommentId: reply?.commentId,
         message: comment,
-      });
+        _id: uuid().toString(),
+        commentId: reply?.commentId,
+        data: comments
+      })
     }
     setComment("");
     setReply(null);
   };
+  const handleUpdateComments = async (data) => {
+    // reply to reply is not working use backend to get updated array
+    if(data.repliedToCommentId){
+      const c = comments.find(e=> e._id === data.commentId)
+      const cr = c.comment_replies?.find((e)=> e._id ===  data.repliedToCommentId)
+      if(cr?.comment_replies){
+        cr.comment_replies.push(data)
+      }else{
+        cr.comment_replies = [data]
+      } 
+      setComments([ ...comments ])
+    }else if(data.commentId){
+      setComments([ ...data.updatedData.data ])
+    } else{
+      setComments(e=> [ data, ...e ])
+    }
+
+  }
 
   return (
     <View style={viewMember ? styles.blurred_container : styles.container}>
@@ -167,9 +243,9 @@ const ChatRoomScreen = ({ route }) => {
         <View style={styles.topicView}>
           <View style={styles.statsView}>
             <Text style={styles.topicText}>
-              <Feather name="user" size={15} color={colors.green} /> 4
+              <Feather name="user" size={15} color={colors.green} /> {visitedMembers}
             </Text>
-            <Text style={styles.topicText}> LIVE: 4</Text>
+            <Text style={styles.topicText}> LIVE: {partyMembers?.length}</Text>
           </View>
         </View>
         <View style={styles.chatIconRow}>
@@ -192,9 +268,36 @@ const ChatRoomScreen = ({ route }) => {
                 />
               </TouchableOpacity>
               <View style={styles.usernameView}>
-                <Text style={styles.usernameText} numberOfLines={1}>
-                  {party?.user?.username}
-                </Text>
+                {party?.user?.username !== null ? (
+                  <Text
+                    selectable={true}
+                    style={
+                      theme == "light"
+                        ? styles.username_light
+                        : styles.username_dark
+                    }
+                  >
+                    {party?.user?.username}
+                    <View>
+                      {party?.user && party?.user?.is_verified == 1 && (
+                        <VerifiedIcon />
+                      )}
+                    </View>
+                  </Text>
+                ) : (
+                  <Text
+                    style={
+                      theme == "light"
+                        ? styles.username_light
+                        : styles.username_dark
+                    }
+                  >
+                    @user
+                  </Text>
+                )}
+                <View style={styles.risingStarView}>
+                  {party?.user?.is_rising === 1 && <RisingStar />}
+                </View>
               </View>
               <View style={styles.partyTitleView}>
                 <Text style={styles.partyTitle} numberOfLines={2}>
@@ -262,7 +365,7 @@ const ChatRoomScreen = ({ route }) => {
           </View>
         </View>
         {/* below here will be rows of users in the live */}
-        
+
         <ChatListItem
           party={party}
           partyMembers={partyMembers}
@@ -284,6 +387,14 @@ const ChatRoomScreen = ({ route }) => {
         setComment={setComment}
         addComment={handleAddComment}
         setReply={setReply}
+      />
+      <Alert
+        open={hasHostLeft}
+        onClose={() => {
+          setHasHostLeft(false);
+          navigation.goBack();
+        }}
+        text={`Host has left the party`}
       />
     </View>
   );
@@ -339,7 +450,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 25,
+    marginBottom: 10,
     backgroundColor: colors.primary,
     width: 80,
     height: 80,
@@ -386,10 +497,6 @@ const styles = StyleSheet.create({
   countText: {
     color: colors.green,
   },
-  wavView: {
-    position: "absolute",
-    bottom: 2,
-  },
   partyTitle: {
     fontSize: 12,
     color: colors.secondary,
@@ -406,9 +513,23 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   usernameView: {
-    flex: 1,
-    position: "absolute",
-    top: 70,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: 5,
+  },
+  username_light: {
+    fontSize: 12,
+    color: colors.white,
+    marginBottom: 5,
+  },
+  username_dark: {
+    fontSize: 12,
+    color: colors.white,
+    marginBottom: 5,
+  },
+  risingStarView: {
+    right: 16,
+    top: 6,
   },
 });
 

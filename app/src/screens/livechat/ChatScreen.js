@@ -110,12 +110,18 @@ const ChatScreen = () => {
         <LiveChatNav parties={parties} setParties={setParties} />
       </View>
       <View style={{ flexDirection: "row" }}>
+        {parties.length === 0  ?
+        <View style={styles.helpTextContainer}>
+          <Text style={styles.helpText}>Create a room by tapping on the + button </Text>
+          </View>
+      : 
         <FlatList
           data={parties}
           renderItem={({ item, index }) => <PartyItem item={item} />}
           keyExtractor={(item) => item._id}
           numColumns={2}
         />
+}
       </View>
       <ViewRoom
         party={party}
@@ -197,6 +203,18 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  helpTextContainer:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height:"100%",
+  },
+  helpText:{
+    color: colors.white,
+    position: "absolute",
+    top:"50%"
+
+  }
 });
 
 export default ChatScreen;

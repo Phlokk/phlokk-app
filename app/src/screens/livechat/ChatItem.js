@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   username_light: {
     flex: 1,
-    color: colors.lightBlack,
+    color: colors.white,
     fontSize: 11,
   },
   username_dark: {
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   textComment_light: {
-    color: colors.lightBlack,
+    color: colors.white,
     paddingRight: 40,
     fontSize: 12,
     marginTop: 2,
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     opacity: 0.9,
   },
   textReplies_light: {
-    color: colors.lightBlack,
+    color: colors.secondary,
     paddingRight: 20,
     fontSize: 10,
     marginHorizontal: 5,
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   date_light: {
-    color: colors.lightBlack,
+    color: colors.secondary,
     fontSize: 9,
     opacity: 0.6,
   },

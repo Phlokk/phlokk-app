@@ -93,7 +93,9 @@ if(loading) return(
               : styles.blockColorContainer_dark
           }
         >
-          <Text style={styles.partyHeaderTitle}>Create your party!</Text>
+          <Text style={theme == "light"
+              ? styles.partyHeaderTitle_light
+              : styles.partyHeaderTitle_dark}>Create your party!</Text>
           <View style={styles.mainContainer}>
             
             
@@ -196,7 +198,7 @@ if(loading) return(
             <Text
               style={theme == "light" ? styles.party_text_light : styles.party_text_dark}
             >
-             <Text style={styles.emojii}>&#x1F389;</Text>  start a party
+             <Text style={styles.emojii}>&#x1F389;</Text>{" "}start a party
             </Text>
             
           </TouchableOpacity>
@@ -206,32 +208,23 @@ if(loading) return(
 };
 
 const styles = StyleSheet.create({
-  container_light: {
-    padding: 10,
-    justifyContent: "flex-end",
-    backgroundColor: colors.white,
-    height: "60%",
-  },
-  container_dark: {
-    padding: 10,
-    justifyContent: "flex-end",
-    backgroundColor: colors.black,
-  },
   safe_area_container_light: {
     flex: 1,
     backgroundColor: colors.white,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   safe_area_container_dark: {
     flex: 1,
     backgroundColor: colors.settingsBlack,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   container_light: {
-    flex: 1,
-    backgroundColor: colors.white,
+    flex: 1,  
   },
   container_dark: {
-    flex: 1,
-    backgroundColor: colors.primary,
+    flex: 1, 
   },
   mainContainer: {
     alignItems: "center",
@@ -319,7 +312,6 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   blockColorContainer_light: {
-    backgroundColor: colors.secondaryLight,
     borderRadius: 2,
     marginTop: 10,
     paddingBottom: 15,
@@ -368,7 +360,14 @@ const styles = StyleSheet.create({
   splash_dark: {
     color: colors.green,
   },
-  partyHeaderTitle: {
+  partyHeaderTitle_light: {
+    fontSize: 16,
+    marginTop: 20,
+    textAlign: "center",
+    color: colors.black,
+
+  },
+  partyHeaderTitle_dark: {
     fontSize: 16,
     marginTop: 20,
     textAlign: "center",

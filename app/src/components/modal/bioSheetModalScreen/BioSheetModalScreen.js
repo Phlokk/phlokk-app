@@ -7,17 +7,14 @@ import {
   Platform,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import colors from "../../../../config/colors";
 import { useState, useEffect } from "react";
 import VerifiedIcon from "../../common/VerifiedIcon";
-import { LinearGradient } from "expo-linear-gradient";
 import axios from "../../../redux/apis/axiosDeclaration";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../services/appStateAtoms";
@@ -50,7 +47,7 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
   const addUserToFollowingList = async (userId) => {
     let newList = [...loggedInUserFollowingList, userId];
     setLoggedInUserFollowingList(newList);
-    setIsFollowing(IsUserFollowing(newList))
+    setIsFollowing(IsUserFollowing(newList));
     await handlesSaveFollowingList(newList);
   };
   const removeUserToFollowingList = async (userId) => {
@@ -68,7 +65,6 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
       await axios.post(`/api/creators/follow/${currentUser._id}/${userId}`), {};
       await addUserToFollowingList(userId);
     }
- 
   };
 
   useEffect(async () => {
@@ -94,191 +90,142 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={["#000000", "#f2f2f2"]}
-        start={{ x: 1.0, y: 3.0 }}
-        end={{ x: 1.0, y: 0.0 }}
-        locations={[1.0, 0.1]}
-        style={{
-          flex: 1,
-          borderTopLeftRadius: 25,
-          borderTopRightRadius: 25,
-        }}
-      >
-        <View style={styles.top}>
-          <View>
-            {user.username !== null ? (
-              <Text selectable={true} style={styles.username}>
-                @{user.username}
-                <View>
-                  {user && user.is_verified === 1 && <VerifiedIcon />}
-                </View>
-              </Text>
-            ) : (
-              <Text style={styles.username}>@user</Text>
-            )}
-          </View>
+      <View style={styles.top}>
+        <View>
+          {user.username !== null ? (
+            <Text selectable={true} style={styles.username}>
+              {user.username}
+              <View>{user && user.is_verified === 1 && <VerifiedIcon />}</View>
+            </Text>
+          ) : (
+            <Text style={styles.username}>user</Text>
+          )}
+        </View>
 
-          {user.pronouns !== "n/a" && user.pronouns !== null && (
+        {user.pronouns !== "n/a" && user.pronouns !== null && (
+          <>
+            <Text style={[styles.pronounsText, styles.pronounsIcon]}>
+              {user.pronouns}
+            </Text>
+          </>
+        )}
+
+        {user.relationship_type !== "n/a" &&
+          user.relationship_type !== null && (
             <>
-              <Text style={[styles.pronounsText, styles.pronounsIcon]}>
-                {user.pronouns}
+              <Text style={styles.statusText}>Relationship status</Text>
+              <Text style={[styles.statusText, styles.relationshipStatusIcon]}>
+                <Ionicons
+                  name="md-heart-sharp"
+                  size={12}
+                  color={colors.secondary}
+                />{" "}
+                {user.relationship_type}
               </Text>
             </>
           )}
 
-          {user.relationship_type !== "n/a" &&
-            user.relationship_type !== null && (
-              <>
-                <Text style={styles.statusText}>Relationship status</Text>
-                <Text
-                  style={[styles.statusText, styles.relationshipStatusIcon]}
-                >
-                  <Ionicons
-                    name="md-heart-sharp"
-                    size={12}
-                    color={colors.secondary}
-                  />{" "}
-                  {user.relationship_type}
-                </Text>
-              </>
-            )}
-
-          {!isCurrentUser && (
-            <TouchableOpacity
-              style={styles.imageViewContainer}
-              onPress={() => followUser(user.id || user._id)}
-            >
-              <View
-                style={isFollowing ? styles.followingBtn : styles.followBtn}
+        {!isCurrentUser && (
+          <TouchableOpacity
+            style={styles.imageViewContainer}
+            onPress={() => followUser(user.id || user._id)}
+          >
+            <View style={isFollowing ? styles.followingBtn : styles.followBtn}>
+              <Text
+                style={
+                  isFollowing
+                    ? styles.alertMessageFriendsText
+                    : styles.alertMessageFollowText
+                }
               >
-                <Text
-                  style={
-                    isFollowing
-                      ? styles.alertMessageFriendsText
-                      : styles.alertMessageFollowText
-                  }
-                >
-                  {isFollowing ? (
-                    <AntDesign name="swap" size={20} color={colors.white} />
-                  ) : (
-                    <Feather name="user-plus" size={19} color={colors.white} />
-                  )}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          <View style={styles.linkRow}>
-            <View style={styles.linkText}>
-              <SimpleLineIcons
-                onPress={
-                  user && user.youtube_link
-                    ? () => Linking.openURL(user.youtube_link)
-                    : null
-                }
-                name="social-youtube"
-                size={20.5}
-                color={user && user.youtube_link ? colors.green : colors.white}
-              />
+                {isFollowing ? (
+                  <AntDesign name="swap" size={20} color={colors.white} />
+                ) : (
+                  <Feather name="user-plus" size={19} color={colors.white} />
+                )}
+              </Text>
             </View>
-            <View style={styles.linkText}>
-            <FontAwesome 
-                name="opencart" 
-                size={20} 
-                color={user && user.link ? colors.green : colors.white} 
-                onPress={
-                  user && user.link ? () => Linking.openURL(user.link) : null
-                }
-                />
-              {/* <Octicons
-                onPress={
-                  user && user.link ? () => Linking.openURL(user.link) : null
-                }
-                name="link-external"
-                size={21}
-                color={user && user.link ? colors.green : colors.white}
-              /> */}
-            </View>
-            <View style={styles.linkText}>
-              <Feather
-                onPress={
-                  user && user.instagram_link
-                    ? () => Linking.openURL(user.instagram_link)
-                    : null
-                }
-                name="instagram"
-                size={18}
-                color={
-                  user && user.instagram_link ? colors.green : colors.white
-                }
-              />
-            </View>
+          </TouchableOpacity>
+        )}
+        <View style={styles.linkRow}>
+          <View style={styles.linkText}>
+            <SimpleLineIcons
+              onPress={
+                user && user.youtube_link
+                  ? () => Linking.openURL(user.youtube_link)
+                  : null
+              }
+              name="social-youtube"
+              size={20.5}
+              color={user && user.youtube_link ? colors.green : colors.white}
+            />
+          </View>
+          <View style={styles.linkText}>
+            <FontAwesome
+              name="opencart"
+              size={20}
+              color={user && user.link ? colors.green : colors.white}
+              onPress={
+                user && user.link ? () => Linking.openURL(user.link) : null
+              }
+            />
+          </View>
+          <View style={styles.linkText}>
+            <Feather
+              onPress={
+                user && user.instagram_link
+                  ? () => Linking.openURL(user.instagram_link)
+                  : null
+              }
+              name="instagram"
+              size={18}
+              color={user && user.instagram_link ? colors.green : colors.white}
+            />
           </View>
         </View>
+      </View>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.userInfoBox}>
-            {user.bio !== null && (
-              <>
-                <Text style={styles.aboutText}>
-                  <Feather
-                    style={styles.icons}
-                    name="user"
-                    color={colors.secondary}
-                  />{" "}
-                  Bio:
-                </Text>
-                <Text style={styles.bioText}>{user.bio}</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.userInfoBox}>
+          {user.bio !== null && (
+            <>
+              <Text style={styles.aboutText}>Bio:</Text>
+              <Text style={styles.bioText}>{user.bio}</Text>
 
+              <View style={styles.divider_light}></View>
+            </>
+          )}
+        </View>
+
+        <View style={styles.userInfoBox}>
+          {user.skills !== null && (
+            <>
+              <Text style={styles.aboutText}>Skills:</Text>
+              <Text style={styles.bioText}>{user.skills}</Text>
+              {Platform.OS === "ios" && (
                 <View style={styles.divider_light}></View>
-              </>
-            )}
-          </View>
+              )}
+            </>
+          )}
+        </View>
 
-          <View style={styles.userInfoBox}>
-            {user.skills !== null && (
-              <>
-                <Text style={styles.aboutText}>
-                  <Feather
-                    style={styles.icons}
-                    name="award"
-                    color={colors.secondary}
-                  />{" "}
-                  Skills:
-                </Text>
-                <Text style={styles.bioText}>{user.skills}</Text>
-                {Platform.OS === "ios" && (
-                  <View style={styles.divider_light}></View>
-                )}
-                <View style={styles.divider_light}></View>
-              </>
-            )}
-          </View>
-
-          <View style={styles.userInfoBox}>
-            {user.education !== null && (
-              <>
-                <Text style={styles.aboutText}>
-                  <FontAwesome5
-                    style={styles.icons}
-                    name="user-graduate"
-                    color={colors.secondary}
-                  />{" "}
-                  Education:
-                </Text>
-                <Text style={styles.bioText}>{user.education}</Text>
-                <View style={styles.divider_light}></View>
-              </>
-            )}
-          </View>
-        </ScrollView>
-      </LinearGradient>
+        <View style={styles.userInfoBox}>
+          {user.education !== null && (
+            <>
+              <Text style={styles.aboutText}>Education:</Text>
+              <Text style={styles.bioText}>{user.education}</Text>
+              <View style={styles.divider_light}></View>
+            </>
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.settingsBlack,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     height: "80%",
@@ -286,6 +233,7 @@ const styles = StyleSheet.create({
   },
 
   top: {
+    marginTop: 35,
     alignItems: "center",
     bottom: 10,
     borderRadius: 25,
@@ -401,7 +349,6 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
   },
   userInfoBox: {
-    // backgroundColor: "rgba(0,0,0, 0.2)",
     margin: 10,
     padding: 5,
     borderRadius: 10,

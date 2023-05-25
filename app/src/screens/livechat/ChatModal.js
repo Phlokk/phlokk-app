@@ -57,7 +57,7 @@ export default function ChatModal({
               commentTextInputRef.current.focus();
             }}
           />
-          {item?.comment_replies && item?.comment_replies[0]?._id &&
+          {item?.comment_replies &&
             item?.comment_replies?.map((reply, kIndex) => (
               <View key={reply?._id} style={{ marginLeft: 40, marginTop: -10 }}>
                 <ChatItem
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   postCountText_light: {
     fontSize: 10,
     fontWeight: "bold",
-    color: colors.black,
+    color: colors.white,
     textAlign: "center",
     marginHorizontal: 15,
   },

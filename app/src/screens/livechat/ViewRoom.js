@@ -7,12 +7,17 @@ import {
   StyleSheet,
   Modal,
   FlatList,
+  Touchable,
+  TouchableOpacity
 } from "react-native";
 import colors from "../../../config/colors";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import ViewMemberDetails from "./ViewMemberDetails"
+import { useState } from "react";
 export default function ViewRoom({ open, onClose, party }) {
+  const [viewUserDetails, setViewUserDetails] = useState(false)
 
   const renderListeners = ({item})=>{
     return(
@@ -31,7 +36,7 @@ export default function ViewRoom({ open, onClose, party }) {
       <View style={styles.pressedModal}>
         <Pressable style={styles.pressedStyle} onPress={onClose} />
         <View style={styles.modal_content}>
-          <View style={styles.container}>
+          <TouchableOpacity style={styles.container} onPress={()=>setViewUserDetails(true)}>
             <Image
               style={styles.avatar}
               source={
@@ -50,7 +55,7 @@ export default function ViewRoom({ open, onClose, party }) {
             
             </View> 
             
-          </View>
+          </TouchableOpacity>
           <Text style={styles.description}>{party?.description}</Text>
           <View style={styles.party_details}>
             <Text style={styles.number_of_live_users}>
@@ -79,6 +84,11 @@ export default function ViewRoom({ open, onClose, party }) {
           
         </View>
       </View>
+      <ViewMemberDetails open={viewUserDetails} onClose={()=> setViewUserDetails(false)} 
+      partyMember={{user:{
+        id: party?.user?._id || party?.user?.id
+      }}}
+      />
     </Modal>
   );
 }
@@ -98,6 +108,8 @@ const styles = StyleSheet.create({
   modal_content: {
     height: "80%",
     backgroundColor: colors.settingsBlack,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   container: {
     flex: 1,
@@ -109,8 +121,8 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 50,
-    borderWidth: 1,
-    borderColor: colors.green
+
+
   },
   host:{
     color:colors.green 

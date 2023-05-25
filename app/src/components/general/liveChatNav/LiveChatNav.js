@@ -1,15 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-
 import { useTheme } from "../../../theme/context";
 import colors from "../../../../config/colors";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import EditProfileScreen from "../../../screens/profile/EditProfileScreen";
-import { Feather } from "@expo/vector-icons";
-import { NavigationContainer } from "@react-navigation/native";
 import { useState } from "react";
 import SettingsModal from "./RoomSettings";
 
@@ -68,7 +63,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   button_light: {
-    color: colors.primary,
+    color: colors.white,
   },
   button_dark: {
     color: colors.secondary,
@@ -77,7 +72,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     fontFamily: "Waterfall-Regular",
-    color: colors.black,
+    color: colors.green,
   },
   title_dark: {
     fontSize: 30,
@@ -89,7 +84,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   chevron_light: {
-    color: colors.black,
+    color: colors.secondary,
   },
   chevron_dark: {
     color: colors.white,
