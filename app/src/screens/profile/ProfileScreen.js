@@ -175,7 +175,7 @@ export default function ProfileScreen({ route }) {
           removeClippedSubviews
           nestedScrollEnabled={false}
           data={postsToDisplay}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id.toString()}
           ListHeaderComponent={ListHeader}
           renderItem={({ item, index }) => (
             !isUserBlocked &&  

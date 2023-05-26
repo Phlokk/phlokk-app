@@ -8,7 +8,7 @@ const SearchUsers = ({result = []}) => {
     <FlatList
         data={result}
         renderItem={({ item }) => <SearchUserItem item={item} />}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item._id.toString()}
         showsVerticalScrollIndicator={false}
       />
   )

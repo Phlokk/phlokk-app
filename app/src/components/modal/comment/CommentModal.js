@@ -369,14 +369,19 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "flex-end",
     backgroundColor: colors.white,
-    height: "60%",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    height: "80%",
   },
 
   container_dark: {
     padding: 10,
     justifyContent: "flex-end",
     backgroundColor: colors.black,
-    height: "60%",
+    borderWidth: 1.5,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    height: "80%",
   },
   disabledCommentWrapper_light: {
     backgroundColor: colors.white,

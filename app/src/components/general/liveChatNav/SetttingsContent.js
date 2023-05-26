@@ -216,7 +216,9 @@ const styles = StyleSheet.create({
   },
   safe_area_container_dark: {
     flex: 1,
-    backgroundColor: colors.settingsBlack,
+    backgroundColor: colors.black,
+    borderWidth: 1.5,
+    borderColor: colors.settingsBlack,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },
@@ -318,7 +320,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   blockColorContainer_dark: {
-    backgroundColor: colors.settingsBlack,
     borderRadius: 2,
     marginTop: 10,
     paddingBottom: 15,

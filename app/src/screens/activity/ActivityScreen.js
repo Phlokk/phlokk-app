@@ -98,11 +98,12 @@ export default function ActivityScreen({ navigation }) {
         </View>
       )}
       <FlatList
+      style={styles.flatListPad}
         data={notificationList}
         ItemSeparatorComponent={Separator}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item._id} 
+        keyExtractor={(item) => item._id.toString()} 
         onEndReached={(e)=>{ 
           console.log("End reached")
           if(pageNumber) getNotifs(parseInt( pageNumber ) + 1 ); 
@@ -117,6 +118,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.black,
     height: 400,
+  },
+  flatListPad: {
+    marginTop: 30,
   },
   container_light: {
     flex: 1,

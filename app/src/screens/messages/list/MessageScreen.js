@@ -1,31 +1,56 @@
-import React, { useState } from "react";
-import { FlatList, View, Text, StyleSheet, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { FlatList, View, Text, StyleSheet } from "react-native";
 import MessageListItem from "../../../components/messages/list/item/MessageListItem";
 import MessagesNavBar from "../../../components/general/messagesNav/MessagesNavBar";
-import { useSelector } from "react-redux";
-import { deleteMessageById } from "../../../services/posts";
-import { useQueryClient } from "react-query";
-
 import colors from "../../../../config/colors";
-
+import { useAtom } from "jotai";
+import { userAtom } from "../../../services/appStateAtoms";
+import axios from "../../../redux/apis/axiosDeclaration";
+import io from "socket.io-client";
+import { apiUrlsNode } from "../../../globals";
 const MessageScreen = () => {
-  const chats = useSelector((state) => state.chat.list);
+  const socket = io.connect(apiUrlsNode.BASE_URL2, {}, { autoConnect: false });
+  const [currentUser] = useAtom(userAtom);
+  const [chats, setChats] = useState([]);
+  useEffect(() => {
+    socket.emit("INSTANT_CHAT", { user: currentUser,}); 
 
-  const renderItem = ({ item }) => {
-    return <MessageListItem chat={item} />;
+    return () => {
+      socket.disconnect(); 
+    };
+  }, []);
+  useEffect(() => {
+    getUserChats();
+  }, []); 
+  const getUserChats = async () => {
+    const response = await axios.get(
+      `/api/instant-chat/${currentUser._id || currentUser.id}`
+    );
+    setChats(response.data);
   };
+  const handleDeleteChat = async(chatId) => {
+    await axios.delete(`/api/instant-chat/${chatId}`)
+    setChats([...chats.filter((e)=> e._id !== chatId)])
+  }; 
+  const renderItem = ({ item, index }) => (
+    <MessageListItem
+      chat={item}
+      index={index}
+      currentUser={currentUser}
+      handleDeleteChat={handleDeleteChat}
+      socket={socket}
+    />
+  ); 
 
   return (
     <View style={styles.container}>
-      <MessagesNavBar title={"Instant messages"} />
+      <MessagesNavBar title={"Instant messages"} socket={socket} />
       <FlatList
         data={chats}
         removeClippedSubviews
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id.toString()}
       />
-
-      <Text></Text>
     </View>
   );
 };

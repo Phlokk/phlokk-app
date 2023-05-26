@@ -63,7 +63,7 @@ const ChatListItem = ({ party, partyMembers, member, setMember, viewMember, setV
             <View style={styles.userRow}>
               <FlatList
                 data={partyMembers}
-                keyExtractor={(item) => item._id}
+                keyExtractor={(item) => item._id.toString()}
                 numColumns={3}
                 renderItem={PartyMember}
               />
@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     justifyContent: "space-between",
     alignItems: "center",
+    margin: 20,
   },
   avatarRow: {
     flexDirection: "row",

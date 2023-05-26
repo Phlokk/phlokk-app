@@ -211,7 +211,7 @@ const VideoFeed = ({ navigation, route }) => {
           initialNumToRender={5}
           maxToRenderPerBatch={2}
           removeClippedSubviews
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item) => item._id.toString()}
           pagingEnabled={true}
           onMomentumScrollEnd={(ev) => {
             const index = Math.round(

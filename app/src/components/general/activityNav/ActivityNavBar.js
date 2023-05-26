@@ -1,18 +1,17 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useState, useContext } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomAlert from "../../Alerts/CustomAlert";
 import colors from "../../../../config/colors";
 import { useTheme } from "../../../theme/context";
-
+import routes from "../../../navigation/routes";
+import axios from "../../../redux/apis/axiosDeclaration";
 export default function ActivityNavBar(props) {
-  const { theme, setTheme } = useTheme();
-
-  const navigation = useNavigation();
-
+  const { theme, setTheme } = useTheme(); 
+  const navigation = useNavigation(); 
   const [messages, setMessages] = useState(false);
 
   return (
@@ -28,7 +27,7 @@ export default function ActivityNavBar(props) {
 
       <Text style={theme == "light" ? styles.title_light : styles.title_dark}>
         {props.title}
-      </Text>
+      </Text> 
 
       <TouchableOpacity>
         <CustomAlert
@@ -43,14 +42,14 @@ export default function ActivityNavBar(props) {
           dismissAlert={setMessages}
           animationType="fade"
         />
-
-        <MaterialCommunityIcons
-          name="message-processing-outline"
-          size={26}
-          style={theme == "light" ? styles.message_light : styles.message_dark}
-          onPress={() => setMessages(true)}
+        <MaterialCommunityIcons 
+        name="message-processing-outline" 
+        size={26}
+        style={theme == "light" ? styles.message_light : styles.message_dark}
+        onPress={() => navigation.navigate(routes.MESSAGES)}  
         />
       </TouchableOpacity>
+      
     </SafeAreaView>
   );
 }
@@ -87,6 +86,6 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   message_dark: {
-    color: colors.white,
+    color: colors.green,
   },
 });

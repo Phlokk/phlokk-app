@@ -124,7 +124,7 @@ const ImageCarousel = ({
         pagingEnabled
         horizontal
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => index.toString()}
         onMomentumScrollEnd={({ nativeEvent }) => {
           const newIndex = Math.round(nativeEvent.contentOffset.x / imageWidth);
           setSelectedIndex(newIndex);

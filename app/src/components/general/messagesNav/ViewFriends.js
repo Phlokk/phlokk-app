@@ -16,30 +16,19 @@ import colors from "../../../../config/colors";
 import RisingStar from "../../common/RisingStar";
 import VerifiedIcon from "../../common/VerifiedIcon";
 import { Feather } from "@expo/vector-icons";
-export default function RoomSettings({
+export default function ViewFriends({
   friendsList,
-  partyMembers,
   open,
   onClose,
-  handleInviteUser,
-  handleFetchMoreUsers,
   searchValue,
-  onInputChange,
-  loading,
-  joinedMembers,
-  party,
+  onInputChange = ()=>{},
+  loading = false, 
+  handleStartChatting
+  
 }) {
   const { theme, setTheme } = useTheme();
 
-  const isUserInvited = (userId) => {
-    const joinedMember = joinedMembers?.find((e) => e.user?.id === userId);
-    const member = partyMembers.find((e) => e.user?.id === userId);
-    const host = (party.user?._id || party?.user?.id) === userId
-    if (member || joinedMember || host)  return true;
-    return false;
-  };
-  const renderItem = useCallback(({ item, index }) => {
-    const isMember = isUserInvited(item.user?._id || item?.user?.id);
+  const renderItem = useCallback(({ item, index }) => { 
     return (
       <View style={styles.item}>
         <View>
@@ -71,11 +60,11 @@ export default function RoomSettings({
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={isMember ? () => {} : () => handleInviteUser(item?.user)}
+            onPress={()=> handleStartChatting(item.user)}
             style={styles.friendView}
           >
-            <Text style={isMember ? styles.memberBtn : styles.friendBtn}>
-              {isMember ? "Invited" : "Invite"}{" "}
+            <Text style={ styles.friendBtn}>
+              Send Message
             </Text>
           </TouchableOpacity>
         </View>
@@ -128,14 +117,14 @@ export default function RoomSettings({
             )}
           </View>
           <FlatList
-          style={styles.flatList}
+           style={styles.flatList}
             data={friendsList}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
             initialNumToRender={20}
             onEndReachedThreshold={0.5}
-            onEndReached={() => handleFetchMoreUsers()}
+            onEndReached={() => {}}
           />
         </View>
       </View>
@@ -251,8 +240,8 @@ const styles = StyleSheet.create({
   textInput_light: {
     color: colors.secondary,
     borderColor: colors.secondary,
-    borderWidth: 0.3,
     borderRadius: 50,
+    borderWidth: 0.3,
     flexDirection: "row",
     width: "90%",
     padding: 10,

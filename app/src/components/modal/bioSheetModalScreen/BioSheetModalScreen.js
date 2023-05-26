@@ -225,7 +225,9 @@ function BioSheetModalScreen({ user, isCurrentUser }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.settingsBlack,
+    backgroundColor: colors.black,
+    borderWidth: 1.5,
+    borderColor: colors.settingsBlack,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     height: "80%",

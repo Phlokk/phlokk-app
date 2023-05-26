@@ -182,7 +182,9 @@ const styles = StyleSheet.create({
   },
   modal_content: {
     height: "80%",
-    backgroundColor: colors.black,
+    backgroundColor: colors.settingsBlack,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   containerInput: {
     padding: 20,

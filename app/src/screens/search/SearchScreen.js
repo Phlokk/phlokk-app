@@ -198,7 +198,7 @@ const SearchScreen = () => {
             renderItem={({ item }) => (
               <ItemRender name={item.name} navigateTo={item.navigateTo} />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => index.toString()}
             initialNumToRender={5}
             ItemSeparatorComponent={Separator}
             showsHorizontalScrollIndicator={false}

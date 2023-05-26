@@ -8,35 +8,41 @@ import {
   Modal,
   FlatList,
   Touchable,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import colors from "../../../config/colors";
 import { Feather } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome5 } from '@expo/vector-icons'; 
-import ViewMemberDetails from "./ViewMemberDetails"
+import { FontAwesome5 } from "@expo/vector-icons";
+import ViewMemberDetails from "./ViewMemberDetails";
 import { useState } from "react";
 export default function ViewRoom({ open, onClose, party }) {
-  const [viewUserDetails, setViewUserDetails] = useState(false)
+  const [viewUserDetails, setViewUserDetails] = useState(false);
 
-  const renderListeners = ({item})=>{
-    return(
-      <Text style={styles.username}> {item?.username || item} 
-        {" "}<Ionicons
-                  name="chatbox-ellipses-outline"
-                  size={15}
-                  color={colors.secondary}
-                />
+  const renderListeners = ({ item }) => {
+    return (
+      <Text style={styles.username}>
+        {" "}
+        {item?.username || item}{" "}
+        <Ionicons
+          name="chatbox-ellipses-outline"
+          size={15}
+          color={colors.secondary}
+        />
       </Text>
-    )
-  }
+    );
+  };
 
   return (
     <Modal animationType="slide" transparent={true} visible={open}>
       <View style={styles.pressedModal}>
         <Pressable style={styles.pressedStyle} onPress={onClose} />
         <View style={styles.modal_content}>
-          <TouchableOpacity style={styles.container} onPress={()=>setViewUserDetails(true)}>
+          <TouchableOpacity
+            style={styles.container}
+            onPress={() => setViewUserDetails(true)}
+          >
             <Image
               style={styles.avatar}
               source={
@@ -46,15 +52,14 @@ export default function ViewRoom({ open, onClose, party }) {
               }
             />
             <View>
-            <Text style={styles.party_title} numberOfLines={2}>
-              {party?.title}
-            </Text>
-            <Text style={styles.username} numberOfLines={2}><Text style={styles.host}>host: </Text>
-              {party?.user?.username} 
-            </Text>
-            
-            </View> 
-            
+              <Text style={styles.party_title} numberOfLines={2}>
+                {party?.title}
+              </Text>
+              <Text style={styles.username} numberOfLines={2}>
+                <Text style={styles.host}>host: </Text>
+                {party?.user?.username}
+              </Text>
+            </View>
           </TouchableOpacity>
           <Text style={styles.description}>{party?.description}</Text>
           <View style={styles.party_details}>
@@ -63,9 +68,9 @@ export default function ViewRoom({ open, onClose, party }) {
             </Text>
             <View style={styles.message_icon}>
               <Text style={styles.number_of_comments}>
-                <Ionicons
-                  name="chatbox-ellipses-outline"
-                  size={15}
+                <MaterialCommunityIcons
+                  name="message-processing-outline"
+                  size={14}
                   color={colors.secondary}
                 />{" "}
                 200
@@ -73,21 +78,30 @@ export default function ViewRoom({ open, onClose, party }) {
             </View>
           </View>
           <View style={styles.listener_container}>
-            <Text style={styles.listeners}><FontAwesome5 name="headphones" size={15} color={colors.secondary} />{" "}Listeners</Text>
+            <Text style={styles.listeners}>
+              <FontAwesome5
+                name="headphones"
+                size={15}
+                color={colors.secondary}
+              />{" "}
+              Listeners
+            </Text>
             <FlatList
-            data= {[ party?.user]}
-            keyExtractor={item=> item}
-            renderItem={renderListeners}
+              data={[party?.user]}
+              keyExtractor={(item) => item._id}
+              renderItem={renderListeners}
             />
-
           </View>
-          
         </View>
       </View>
-      <ViewMemberDetails open={viewUserDetails} onClose={()=> setViewUserDetails(false)} 
-      partyMember={{user:{
-        id: party?.user?._id || party?.user?.id
-      }}}
+      <ViewMemberDetails
+        open={viewUserDetails}
+        onClose={() => setViewUserDetails(false)}
+        partyMember={{
+          user: {
+            id: party?.user?._id || party?.user?.id,
+          },
+        }}
       />
     </Modal>
   );
@@ -121,27 +135,25 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 50,
-
-
   },
-  host:{
-    color:colors.green 
+  host: {
+    color: colors.green,
   },
-  username:{
+  username: {
     fontSize: 16,
-    color: colors.white, 
-    marginLeft: 10, 
-  },
-  listeners:{
-    fontSize: 16,
-    color: colors.white, 
+    color: colors.white,
     marginLeft: 10,
-    marginBottom: 20, 
   },
-  party_title:{
+  listeners: {
+    fontSize: 16,
+    color: colors.white,
+    marginLeft: 10,
+    marginBottom: 20,
+  },
+  party_title: {
     marginTop: 6,
     fontSize: 16,
-    color: colors.white, 
+    color: colors.white,
     marginLeft: 10,
   },
   party_details: {
@@ -153,24 +165,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   number_of_live_users: {
-    color: colors.secondary, 
+    color: colors.secondary,
   },
-  number_of_comments:{
-    color: colors.secondary, 
-    textAlign:"center"
+  number_of_comments: {
+    color: colors.secondary,
+    textAlign: "center",
   },
   message_icon: {
-    marginLeft: 10, 
+    marginLeft: 10,
   },
-  description:{
+  description: {
     color: colors.secondary,
     top: 100,
     position: "absolute",
-    padding:20
+    padding: 20,
   },
-  listener_container:{
+  listener_container: {
     top: 250,
     position: "absolute",
-    padding:20
-  }
+    padding: 20,
+  },
 });

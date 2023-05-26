@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
+  Platform,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import colors from "../../../config/colors";
@@ -175,9 +176,9 @@ const ChatRoomScreen = ({ route }) => {
       comment_replies: comment.comment_replies ? comment.comment_replies?.filter(reply => reply._id !== null) : null
     })));
   };
-  const deleteParty = async () =>
-    await axios.post(`/api/rooms/delete/${party?._id}`);
-
+  const deleteParty = async () => {
+    socket.emit("LEAVE_ROOM", { userId: currentUser._id, roomId: party._id });
+  }
   const handleAddComment = async () => {
     if (!reply) {
       socket.emit("SEND_MESSAGE", {
@@ -194,6 +195,7 @@ const ChatRoomScreen = ({ route }) => {
         _id: uuid().toString(),
         commentId: reply?.commentId,
         repliedToCommentId: reply?.replyToCommentId,
+        data: comments
       })
     } else {
       socket.emit("SEND_MESSAGE", {
@@ -209,16 +211,8 @@ const ChatRoomScreen = ({ route }) => {
     setReply(null);
   };
   const handleUpdateComments = async (data) => {
-    // reply to reply is not working use backend to get updated array
     if(data.repliedToCommentId){
-      const c = comments.find(e=> e._id === data.commentId)
-      const cr = c.comment_replies?.find((e)=> e._id ===  data.repliedToCommentId)
-      if(cr?.comment_replies){
-        cr.comment_replies.push(data)
-      }else{
-        cr.comment_replies = [data]
-      } 
-      setComments([ ...comments ])
+      setComments([...data.updatedData.data])
     }else if(data.commentId){
       setComments([ ...data.updatedData.data ])
     } else{
@@ -310,11 +304,12 @@ const ChatRoomScreen = ({ route }) => {
                   style={styles.iconView}
                   onPress={() => setViewChat(true)}
                 >
-                  <Ionicons
-                    name="chatbox-ellipses-outline"
-                    size={20}
-                    color={colors.secondary}
-                  />
+                  <MaterialCommunityIcons
+                  name="message-processing-outline"
+                  size={22}
+                  color={colors.secondary}
+                  // onPress={() => navigation.navigate(routes.MESSAGES)}
+                />
                 </TouchableOpacity>
                 {currentUser._id !== party.user.id && (
                   <>
@@ -357,9 +352,9 @@ const ChatRoomScreen = ({ route }) => {
                   />
                 </TouchableOpacity>
 
-                {/* <TouchableOpacity style={styles.iconView}>
+                <TouchableOpacity style={styles.iconView}>
                   <Feather name="flag" size={20} color={colors.secondary} />
-                </TouchableOpacity> */}
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -420,7 +415,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   navView: {
-    marginTop: 35,
+    marginTop: Platform.OS === "android" ? 0 : 35,
   },
   text: {
     color: colors.secondary,

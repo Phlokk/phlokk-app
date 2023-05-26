@@ -274,7 +274,9 @@ const styles = StyleSheet.create({
   },
   modal_content: {
     height: "80%",
-    backgroundColor: colors.settingsBlack,
+    backgroundColor: colors.black,
+    borderWidth: 1.5,
+    borderColor: colors.settingsBlack,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },

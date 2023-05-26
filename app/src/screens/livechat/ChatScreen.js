@@ -34,16 +34,19 @@ const ChatScreen = () => {
     setParties(response.data);
   };
   const handleNavigateToParty = async (party) => {
-    const currentUserId = currentUser._id || currentUser.id
+    const currentUserId = currentUser._id || currentUser.id;
     const partyUser = party.user._id || party.user.id;
-    if(currentUserId !== partyUser){
-     await joinUserToParty(currentUserId, party._id )
-     navigation.navigate(routes.ROOM, { party })
+    if (currentUserId !== partyUser) {
+      await joinUserToParty(currentUserId, party._id);
+      navigation.navigate(routes.ROOM, { party });
     }
-  }
-  const joinUserToParty = async(userId, roomId) =>{
-    const response =await axios.post(`/api/room/member/join`,{ userId, roomId })
-  }
+  };
+  const joinUserToParty = async (userId, roomId) => {
+    const response = await axios.post(`/api/room/member/join`, {
+      userId,
+      roomId,
+    });
+  };
 
   const PartyItem = ({ item }) => {
     return (
@@ -51,7 +54,7 @@ const ChatScreen = () => {
         <View style={styles.text}>
           <View style={styles.micRow}>
             <TouchableOpacity
-              onPress={()=>handleNavigateToParty(item)}
+              onPress={() => handleNavigateToParty(item)}
               onLongPress={() => {
                 setParty(item);
                 setViewParty(true);
@@ -74,10 +77,11 @@ const ChatScreen = () => {
 
             <View style={styles.optionView}>
               <TouchableOpacity style={styles.iconView}>
-                <Ionicons
-                  name="chatbox-ellipses-outline"
-                  size={20}
+                <MaterialCommunityIcons
+                  name="message-processing-outline"
+                  size={22}
                   color={colors.secondary}
+                  // onPress={() => navigation.navigate(routes.MESSAGES)}
                 />
               </TouchableOpacity>
 
@@ -110,18 +114,20 @@ const ChatScreen = () => {
         <LiveChatNav parties={parties} setParties={setParties} />
       </View>
       <View style={{ flexDirection: "row" }}>
-        {parties.length === 0  ?
-        <View style={styles.helpTextContainer}>
-          <Text style={styles.helpText}>Create a room by tapping on the + button </Text>
+        {parties.length === 0 ? (
+          <View style={styles.helpTextContainer}>
+            <Text style={styles.helpText}>
+              Create a room by tapping on the + button{" "}
+            </Text>
           </View>
-      : 
-        <FlatList
-          data={parties}
-          renderItem={({ item, index }) => <PartyItem item={item} />}
-          keyExtractor={(item) => item._id}
-          numColumns={2}
-        />
-}
+        ) : (
+          <FlatList
+            data={parties}
+            renderItem={({ item, index }) => <PartyItem item={item} />}
+            keyExtractor={(item) => item._id.toString()}
+            numColumns={2}
+          />
+        )}
       </View>
       <ViewRoom
         party={party}
@@ -154,7 +160,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   navView: {
-    marginTop: 35,
+    marginTop: Platform.OS === "android" ? 0 : 35,
   },
   text: {
     color: colors.secondary,
@@ -203,18 +209,17 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
-  helpTextContainer:{
+  helpTextContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height:"100%",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
   },
-  helpText:{
+  helpText: {
     color: colors.white,
     position: "absolute",
-    top:"50%"
-
-  }
+    top: "50%",
+  },
 });
 
 export default ChatScreen;

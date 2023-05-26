@@ -50,7 +50,7 @@ const RecentComments = ({ comments, visible, setIsVisible, setSelectedComment })
           <FlatList
             renderItem={renderComment}
             data={comments}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item) => item._id.toString()}
             numColumns={2}
           />
         </View>
