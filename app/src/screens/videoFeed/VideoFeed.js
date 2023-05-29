@@ -19,12 +19,12 @@ import LinearGradient from "react-native-linear-gradient";
 import { atom, useAtom } from "jotai";
 import { userAtom } from "../../services/appStateAtoms";
 import colors from "../../../config/colors";
-
+import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 import CustomAlert from "../../components/Alerts/CustomAlert";
 import { useIsFocused } from "@react-navigation/native";
 import { getAllNewsTickerData } from "../../services/newsTicker";
-
+import ProfileLoading from "../../components/profile/postList/ProfileLoading";
 export const newFeedItemAtom = atom("");
 export const forceRefreshAtom = atom(false);
 
@@ -46,6 +46,11 @@ const VideoFeed = ({ navigation, route }) => {
 
   const flatListRef = useRef();
   const dispatch = useDispatch();
+
+  useEffect(async()=>{
+    const CKT = await SecureStore.getItemAsync("ckt")
+    setCkt(CKT ? JSON.parse(CKT) : false )
+  },[])
 
   useEffect(() => {
     const newsTickerFeed = async () => {
@@ -84,6 +89,7 @@ const VideoFeed = ({ navigation, route }) => {
     refresh: refreshMainFeed,
   } = useVideoFeed({
     skip: preloadedPosts || profile,
+    ckt
   });
   const {
     posts: userPosts,
@@ -173,9 +179,7 @@ const VideoFeed = ({ navigation, route }) => {
       );
     },
     [currentVideoIndex, pageSize, areTabsShowing]
-  );
-
-
+  ); 
 
   return (
     <View
@@ -187,6 +191,7 @@ const VideoFeed = ({ navigation, route }) => {
         })
       }
     >
+      {loadingMainFeed && <ProfileLoading />}
       {/* only render the flatlist once we know the page size, it helps prevent sizing issues */}
       {pageSize && (
         <FlatList
@@ -293,12 +298,15 @@ const VideoFeed = ({ navigation, route }) => {
           top: Platform.OS === "android" ? 28 : 52,
           right: 18,
         }}
-        onPress={() => setCkt(true)}
+        onPress={async() => {
+          setCkt(!ckt);
+          await SecureStore.setItemAsync("ckt", JSON.stringify(!ckt))
+        }}
       >
-        <Octicons name="globe" size={25} color={colors.white} />
+        <Octicons name="globe" size={25} color={ckt ? colors.green : colors.white} />
       </TouchableOpacity>
 
-      <CustomAlert
+      {/* <CustomAlert
         alertTitle={
           <Text>
             <MaterialIcons name="info" size={24} color={colors.green} />
@@ -309,7 +317,7 @@ const VideoFeed = ({ navigation, route }) => {
         modalVisible={ckt}
         dismissAlert={setCkt}
         animationType="fade"
-      />
+      /> */}
     </View>
   );
 };

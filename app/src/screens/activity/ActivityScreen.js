@@ -20,12 +20,13 @@ export default function ActivityScreen({ navigation }) {
   const [notificationList, setNotificationList] = useState([]);
   const [isLoading, setIsLoading] = useState();
   const isFocused = useIsFocused();
-  const [pageNumber, setPageNumber] = useState(1)
+  const [page, setPage] = useState(1)
 
   const getNotifs = async (page) => {
     setIsLoading(true);
     const notifications = await getNotifications(page);
-    setPageNumber(notifications.pagination.currentPage)
+    console.log(notifications.pagination)
+    setPage(notifications.pagination)
     setNotificationList((e)=> [...e, ...notifications.data]);
     setIsLoading(false);
   };
@@ -65,11 +66,11 @@ export default function ActivityScreen({ navigation }) {
             autoPlay
             style={{
               alignItems: "center",
-              width: 200,
-              height: 200,
+              width: 25,
+              height: 25,
             }}
             // Find more Lottie files at https://lottiefiles.com/featured
-            source={require("../../../assets/animations/splashAnimation.json")}
+            source={require("../../../assets/animations/two_dots.json")}
           />
           <Text
             style={theme == "light" ? styles.splash_light : styles.splash_dark}
@@ -105,8 +106,7 @@ export default function ActivityScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item._id.toString()} 
         onEndReached={(e)=>{ 
-          console.log("End reached")
-          if(pageNumber) getNotifs(parseInt( pageNumber ) + 1 ); 
+          if(page?.nextPage) getNotifs(parseInt( page?.nextPage )); 
         }}
       />
     </View>
@@ -173,8 +173,10 @@ const styles = StyleSheet.create({
   },
   splash_light: {
     color: colors.lightBlack,
+    marginTop: 30,
   },
   splash_dark: {
     color: colors.green,
+    marginTop: 30,
   },
 });

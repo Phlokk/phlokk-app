@@ -63,7 +63,7 @@ const ChatListItem = ({ party, partyMembers, member, setMember, viewMember, setV
             <View style={styles.userRow}>
               <FlatList
                 data={partyMembers}
-                keyExtractor={(item) => item._id.toString()}
+                keyExtractor={(item) => item._id}
                 numColumns={3}
                 renderItem={PartyMember}
               />

@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    height: "80%",
+    height: "60%",
   },
 
   container_dark: {
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    height: "80%",
+    height: "60%",
   },
   disabledCommentWrapper_light: {
     backgroundColor: colors.white,

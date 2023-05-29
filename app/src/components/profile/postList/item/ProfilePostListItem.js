@@ -18,10 +18,12 @@ import { userAtom } from "../../../../services/appStateAtoms";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CustomAlert from "../../../../components/Alerts/CustomAlert";
-import CustomActivityIndicator from "../../../common/ActivityIndicator";
+import LottieView from "lottie-react-native";
 import { likeCountFormatter } from "../../../common/NumberFormatter";
-
+import { useTheme } from "../../../../theme/context";
+const animation = require("../../../../../assets/animations/two_dots.json");
 export default function ProfilePostListItem({ item, index, posts, setPosts }) {
+  const { theme, setTheme } = useTheme();
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -94,7 +96,20 @@ export default function ProfilePostListItem({ item, index, posts, setPosts }) {
               justifyContent: "center",
             }}
           >
-            <CustomActivityIndicator />
+            <View
+      style={theme == "light" ? styles.container_light : styles.container_dark}
+    >
+      <View style={styles.lottieView}>
+        <LottieView
+          autoPlay
+          style={{
+            width: 25,
+            height: 25,
+          }}
+          source={animation}
+        />
+      </View>
+    </View>
           </View>
         )}
 
@@ -183,5 +198,19 @@ const styles = StyleSheet.create({
   redBox: {
     backgroundColor: colors.red,
     borderRadius: 20,
+  },
+  lottieView: {
+    marginTop: 60,
+    alignItems: "center",
+  },
+  container_light: {
+    flex: 1,
+    backgroundColor: colors.white,
+    alignItems: "center",
+  },
+  container_dark: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: colors.black,
   },
 });

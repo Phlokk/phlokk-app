@@ -6,9 +6,13 @@ import colors from "../../../../../config/colors";
 import VerifiedIcon from "../../../common/VerifiedIcon";
 import CustomAlert from "../../../Alerts/CustomAlert";
 import { timeSince } from "../../../../services/posts";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../services/appStateAtoms";
 const MessageListItem = ({ chat, handleDeleteChat, socket }) => {
   const navigation = useNavigation();
   const [deleteChat, setDeleteChat] = useState(false);
+  const [currentUser] = useAtom(userAtom);
+  const user = currentUser?._id === chat?.user?._id ? chat?.host : chat?.user
 
   return (
     <TouchableOpacity
@@ -16,13 +20,13 @@ const MessageListItem = ({ chat, handleDeleteChat, socket }) => {
       onPress={() => navigation.navigate(routes.CHAT_SINGLE, { chat, socket })}
       onLongPress={() => setDeleteChat(true)}
     >
-      <Image style={styles.image} source={{ uri: chat?.user?.photo_url }} />
+      <Image style={styles.image} source={{ uri: user?.photo_url }} />
       <View style={{ flex: 1 }}>
         <View style={styles.verifiedRow}>
-          <Text style={styles.usernameText}>{chat?.user?.username}</Text>
-          {chat?.user?.is_verified ? <VerifiedIcon /> : null}
+          <Text style={styles.usernameText}>{user?.username}</Text>
+          {user?.is_verified ? <VerifiedIcon /> : null}
         </View>
-        <Text style={styles.lastMessage}>{chat?.last_message?.[0]?.message}</Text>
+        <Text style={styles.lastMessage} numberOfLines={2}>{chat?.last_message?.[0]?.message}</Text>
       </View>
       <Text style={styles.date}>
         {chat?.last_message?.[0]?.created_at

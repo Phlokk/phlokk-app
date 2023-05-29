@@ -52,10 +52,10 @@ if(loading) return(
         autoPlay
         style={{
           alignItems: "center",
-          width: 200,
-          height: 200,
+          width: 25,
+          height: 25,
         }} 
-        source={require("../../../../assets/animations/splashAnimation.json")}
+        source={require("../../../../assets/animations/two_dots.json")}
       />
       <Slider
         style={[styles.timelineSlider]}
@@ -356,9 +356,11 @@ const styles = StyleSheet.create({
     width: '90%'
   },
   splash_light: {
+    marginTop: 30,
     color: colors.lightBlack,
   },
   splash_dark: {
+    marginTop: 30,
     color: colors.green,
   },
   partyHeaderTitle_light: {

@@ -19,7 +19,7 @@ import CustomAlert from "../../Alerts/CustomAlert";
 import ResetCodeAlert from "../../Alerts/ResetCodeAlert";
 import { useTheme } from "../../../theme/context";
 import LottieView from "lottie-react-native";
-const animation = require("../../../../assets/animations/dots.json");
+const animation = require("../../../../assets/animations/two_dots.json");
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
 
@@ -57,8 +57,8 @@ export default function ResetPassword() {
         <LottieView
           autoPlay
           style={{
-            width: 200,
-            height: 200,
+            width: 25,
+            height: 25,
           }}
           source={animation}
         />
@@ -200,13 +200,15 @@ const styles = StyleSheet.create({
     width: 200,
   },
   lottieView: {
-    marginTop: 100,
+    marginTop: 400,
     alignItems: "center",
   },
   splash_light: {
+    marginTop: 30,
     color: colors.lightBlack,
   },
   splash_dark: {
+    marginTop: 30,
     color: colors.green,
   },
   container_light: {
@@ -214,6 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   container_dark: {
+    alignItems: "center",
     flex: 1,
     backgroundColor: colors.black,
   },

@@ -80,7 +80,8 @@ const SelectThumbnail = ({ route }) => {
           <FlatList
             data={thumbs}
             renderItem={({ item }) => <ImageItem item={item} />}
-            keyExtractor={(item) => item._id.toString()}
+            // keyExtractor={(item) => item._id}
+            keyExtractor={(item, index) => index.toString()}
             horizontal={true}
           />
         </View>

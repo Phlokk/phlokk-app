@@ -4,7 +4,7 @@ import colors from "../../../../config/colors";
 import LottieView from "lottie-react-native";
 import { useTheme } from "../../../theme/context";
 
-const animation = require("../../../../assets/animations/dots.json");
+const animation = require("../../../../assets/animations/two_dots.json");
 const ProfileLoading = () => {
   const { theme, setTheme } = useTheme();
   return (
@@ -16,16 +16,11 @@ const ProfileLoading = () => {
         <LottieView
           autoPlay
           style={{
-            width: 200,
-            height: 200,
+            width: 25,
+            height: 25,
           }}
           source={animation}
         />
-        <Text
-          style={theme == "light" ? styles.splash_light : styles.splash_dark}
-        >
-          Loading Profile...
-        </Text>
       </View>
     </View>
   );
@@ -35,26 +30,19 @@ const styles = StyleSheet.create({
   container_light: {
     flex: 1,
     backgroundColor: colors.white,
+    alignItems: "center",
   },
   container_dark: {
     flex: 1,
-    backgroundColor: colors.black,
-  },
-  text: {
-    marginTop: 30,
-    paddingHorizontal: 10,
     alignItems: "center",
+    backgroundColor: colors.black,
+    zIndex:9999
   },
   lottieView: {
-    marginTop: 100,
+    marginTop: 400,
     alignItems: "center",
   },
-  splash_light: {
-    color: colors.lightBlack,
-  },
-  splash_dark: {
-    color: colors.green,
-  },
+  
 });
 
 export default ProfileLoading;

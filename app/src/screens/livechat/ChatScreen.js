@@ -117,7 +117,7 @@ const ChatScreen = () => {
         {parties.length === 0 ? (
           <View style={styles.helpTextContainer}>
             <Text style={styles.helpText}>
-              Create a room by tapping on the + button{" "}
+              Create a party by tapping on the + button{" "}
             </Text>
           </View>
         ) : (

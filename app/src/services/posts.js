@@ -40,7 +40,7 @@ let result = null
       `/api/posts/usersPosts/${userId ?? user._id}?page=${page}`
     ); 
     result = response.data;
-    
+    console.log(result.data[0].user)
   } catch (e) {
     result = e.message
     setIsFeedConnected && setIsFeedConnected(true);
@@ -49,13 +49,13 @@ let result = null
 };
 
   // feed for all Users
- export const getFeedAsync = async (page, userId) => { 
+ export const getFeedAsync = async (page, ckt) => { 
     let user = JSON.parse(await SecureStore.getItemAsync("user"));
     const paramsObject = { page, limit: POSTS_PER_PAGE, userId: user._id };
     const params = querystring.stringify(paramsObject);
     let result = null
     try {
-        const response  = await axios.get(`/api/posts/?${params}`);
+        const response  = await axios.get(`/api/posts/${ckt}/?${params}`);
         result = response.data;
     } catch (e){
       result = e.message;
@@ -78,17 +78,19 @@ export const useVideoFeed = (options) => {
     });
   }
   const skip = options?.skip;
+  const ckt = options.ckt;
+
  
 
   useEffect(() => {
     if (!skip) {
-      getFeed();
+      getFeed(ckt);
     }
-  }, []);
+  }, [ckt]);
 
-  const getFeed = async () => {
+  const getFeed = async (ckt) => {
     setLoading(true);
-    const feed = await getFeedAsync();
+    const feed = await getFeedAsync(1, ckt);
     if(feed === "Request failed with status code 501"){
       handleNoTokenError();
       setLoading(false)
@@ -105,7 +107,7 @@ export const useVideoFeed = (options) => {
     }
 
     setLoading(true);
-    const feed = await getFeedAsync(nextPageNumber);
+    const feed = await getFeedAsync(nextPageNumber, ckt);
     if(feed === "Request failed with status code 501"){
       handleNoTokenError();
       setLoading(false)

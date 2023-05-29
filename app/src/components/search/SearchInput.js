@@ -200,6 +200,20 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
   },
+  lottieView: {
+    marginTop: 400,
+    alignItems: "center",
+  },
+  container_light: {
+    flex: 1,
+    backgroundColor: colors.white,
+    alignItems: "center",
+  },
+  container_dark: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: colors.black,
+  },
 });
 
 export default SearchInput;

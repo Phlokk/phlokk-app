@@ -98,7 +98,7 @@ const VideoSearch = () => {
       <FlatList
         data={searchUsers}
         renderItem={({ item }) => <SearchUserItem item={item} />}
-        keyExtractor={(item) => item._id.toString()}
+        keyExtractor={(item) => item._i}
         showsVerticalScrollIndicator={false}
       />
       </View>

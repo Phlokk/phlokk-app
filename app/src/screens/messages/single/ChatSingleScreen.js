@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   TouchableOpacity,
@@ -16,17 +16,21 @@ import colors from "../../../../config/colors";
 import { useAtom } from "jotai";
 import { userAtom } from "../../../services/appStateAtoms";
 import MessagesNavBar from "./MessageNavbar";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 import VerifiedIcon from "../../../components/common/VerifiedIcon";
 import axios from "../../../redux/apis/axiosDeclaration";
 import uuid from "uuid-random";
+import { MenuProvider } from "react-native-popup-menu";
 const ChatSingleScreen = ({ route }) => {
   const { chat, socket } = route.params;
+  const messagesRef = useRef();
   const [currentUser] = useAtom(userAtom);
+  const user = currentUser?._id === chat?.user?._id ? chat?.host : chat?.user;
   const [stats, setStats] = useState({});
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [pagination, settPagination] = useState({});
+  const [replyToMessage, setReplyToMessage] = useState(null);
   // TODOS:
   // 1: by default page should be at the bottom scrolled
   // 2: on scroll up fetch old messages (api already set page = 2)
@@ -46,7 +50,6 @@ const ChatSingleScreen = ({ route }) => {
     socket.on("INSTANT_MESSAGE_RECIEVED", (msg) => handleUpdateMessage(msg));
     getMessages();
   }, []);
-
   const getMessages = async () => {
     const response = await axios.get(`/api/instant-chat-message/${chat._id}`);
     setMessages(response.data.data);
@@ -54,12 +57,19 @@ const ChatSingleScreen = ({ route }) => {
   };
   const getUserStats = async () => {
     const response = await axios.get(
-      `/api/instant-chat/user/stats/${chat?.user?._id || chat?.user?.id}`
+      `/api/instant-chat/user/stats/${user?._id || user?.id}`
     );
     setStats(response.data);
   };
   const renderItem = ({ item, index }) => (
-    <ChatSingleItem item={item} chat={chat} user={currentUser} index={index} />
+    <ChatSingleItem
+      item={item}
+      chat={chat}
+      user={currentUser}
+      sender={user}
+      index={index}
+      setReplyToMessage={setReplyToMessage}
+    />
   );
   const sendMessage = async () => {
     if (message == "") return;
@@ -73,21 +83,25 @@ const ChatSingleScreen = ({ route }) => {
     socket.emit("INSTANT_MESSAGE_SENT", msgObject);
     setMessage("");
     setMessages((e) => [
-      ...e,
       { ...msgObject, created_at: new Date(), user_id: msgObject.userId },
+      ...e,
     ]);
+    scrollToBottom();
   };
   const handleUpdateMessage = (msg) => {
-    console.log("msg rec");
-    setMessages((e) => [...e, msg]);
+    const idx = messages.map((e) => e._id);
+    if (msg?._id && !idx.includes(msg?._id)) {
+      setMessages((e) => [msg, ...e]);
+      scrollToBottom();
+    }
   };
-  const FlatListHeader = (
+  const FlatListHeader = () => (
     <View style={styles.userProfile}>
-      <Image source={{ uri: chat?.user?.photo_url }} style={styles.avatar} />
+      <Image source={{ uri: user?.photo_url }} style={styles.avatar} />
       <View style={styles.user}>
-        <Text style={styles.username}>{chat?.user?.username}</Text>
+        <Text style={styles.username}>{user?.username}</Text>
         <View style={styles.verifiedIcon}>
-          {chat?.user?.is_verified ? <VerifiedIcon /> : null}
+          {user?.is_verified ? <VerifiedIcon /> : null}
         </View>
       </View>
       <Text style={styles.followers}>
@@ -96,24 +110,52 @@ const ChatSingleScreen = ({ route }) => {
       <Text style={styles.posts}>Videos posted - {stats?.numnberOfPosts}</Text>
     </View>
   );
+  const handleDeleteMessage = async (id) => {
+    await axios.delete(`/api/instant-chat-message/${id}`);
+    setMessages([...messages.filter((e) => e._id !== id)]);
+  };
+  const RenderReplyMessage = () => {
+    return (
+      <View style={ replyToMessage?.user_id === currentUser._id ? styles.replyContainer : styles.replyContainerOther }>
+       <View style={replyToMessage?.user_id === currentUser._id ? styles.replyGreenBubble : styles.replyPurpleBubble }>
+       <Text style={replyToMessage?.user_id === currentUser._id ? styles.replyText : styles.replyTextOther   } numberOfLines={3}>
+          {replyToMessage?.message}
+        </Text>
+       </View>
+        <TouchableOpacity
+          onPress={() => setReplyToMessage(null)}
+          style={styles.crossBtn}
+        >
+          <MaterialIcons name="send" size={25} style={styles.crossIconView} />
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   return (
     <>
       <View style={styles.container}>
-        <MessagesNavBar user={chat?.user} />
-
-        <FlatList
-          ListHeaderComponent={FlatListHeader}
-          data={messages}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id.toString()}
-          style={styles.messages}
-        />
+        <MessagesNavBar user={user} />
+        {/* <FlatListHeader /> */}
+        <MenuProvider>
+          <FlatList
+            ref={messagesRef}
+            data={messages}
+            renderItem={renderItem}
+            keyExtractor={(item) => item._id.toString()}
+            style={styles.messages}
+            initialNumToRender={1000}
+            onEndReached={() => console.log("end reached a")}
+            inverted
+          />
+        </MenuProvider>
+      </View>
+      <View style={styles.inputWrapper}>
+        {replyToMessage && <RenderReplyMessage />}
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <View style={styles.containerInput}>
-            <View style={styles.containerInputView}>
             <TextInput
               style={styles.input}
               placeholder="Message..."
@@ -123,14 +165,22 @@ const ChatSingleScreen = ({ route }) => {
               onChangeText={setMessage}
               maxLength={1200}
             />
-            
-            </View>
             <View style={styles.sendMailIconView}>
+              <TouchableOpacity onPress={sendMessage} style={styles.sendBtn}>
+                <MaterialIcons
+                  name="send"
+                  size={25}
+                  style={styles.messageIconView}
+                />
+              </TouchableOpacity>
               <TouchableOpacity onPress={sendMessage}>
-              <MaterialIcons name="send" size={30} color={colors.green} />
+                <Ionicons
+                  name="mic-outline"
+                  size={26}
+                  style={styles.messageIconView}
+                />
               </TouchableOpacity>
             </View>
-            
           </View>
         </KeyboardAvoidingView>
       </View>
@@ -142,30 +192,31 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "flex-end",
     flex: 1,
-    backgroundColor: colors.primary,
-    
+    backgroundColor: colors.black,
   },
   containerInput: {
+    backgroundColor: colors.settingsBlack,
     marginTop: 5,
-    bottom: 30,
-    padding: 20,
+    bottom: 20,
+    padding: 7,
     flexDirection: "row",
-    alignItems: "center",
+    width: "100%",
   },
   containerInputView: {
     flexDirection: "row",
     alignItems: "center",
+    width: "100%",
   },
   input: {
-    backgroundColor: colors.settingsBlack,
-    borderRadius: 50,
-    flex: 1,
+    backgroundColor: colors.black,
+    borderRadius: 12,
     padding: 15,
-    width: "100%",
+    width: "82%",
     color: colors.secondary,
     alignItems: "center",
     fontSize: 16,
     lineHeight: 23,
+    paddingRight: 10,
   },
   textComment: {
     color: colors.white,
@@ -188,7 +239,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   verifiedIcon: {
-    top: 24,
+    top: 21,
   },
   followers: {
     marginTop: 10,
@@ -202,7 +253,64 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sendMailIconView: {
-    right: 55,
+    flex: 1,
+    flexDirection: "row",
+    right: 0,
+    position: "absolute",
+    bottom: 15,
+  },
+  messageIconView: {
+    color: colors.green,
+    paddingHorizontal: 7,
+  },
+  sendBtn: {
+    backgroundColor: colors.settingsBlack,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50,
+    width: 30,
+    height: 30,
+  },
+  replyContainer: {
+    backgroundColor: colors.darkGrey,
+    justifyContent: "space-between",
+    flexDirection: "row",
+    padding: 10,
+  },
+  replyContainerOther:{
+    backgroundColor: colors.purpleTabs,
+    justifyContent: "space-between",
+    flexDirection: "row",
+    padding: 10,
+    borderBottomRightRadius: 12,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+  },
+  replyGreenBubble:{
+backgroundColor:colors.green,
+padding:10,
+borderBottomRightRadius: 12,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    width: "80%",
+  },
+  replyText: {
+    width: "80%",
+    // marginBottom: 30,
+    color: colors.black,
+  },
+  replyTextOther:{
+    marginBottom: 50,
+    color: colors.white,
+  },
+  crossBtn: {
+    // backgroundColor:colors.green
+  },
+  crossIconView: {
+    color: colors.white,
+  },
+  inputWrapper: {
+    backgroundColor: colors.settingsBlack,
   },
 });
 
