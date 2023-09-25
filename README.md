@@ -88,7 +88,7 @@ $ yarn start
 
 ## :memo: License ##
 
-This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
+This project is under the GNU General Public License v3.0 license. For more details, see the [LICENSE](LICENSE.md) file.
 
 
 Made with :heart: by <a href="https://github.com/wittyphantom333" target="_blank">Wittyphantom333</a>
